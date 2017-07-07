@@ -1,13 +1,16 @@
 <template>
-    <div id='app-root' class="container-fluid">
-        <div class="row">
-            <div class="col-sm-3">
-                <menu-component />
-            </div>
-            <div class="col-sm-9">
+    <div id='app-root'>
+        <yd-layout>
+            <yd-navbar slot="navbar" title="NavBar">
+                <router-link to="#" slot="left">
+                    <yd-navbar-back-icon></yd-navbar-back-icon>
+                </router-link>
+            </yd-navbar>
+            <div>
                 <router-view></router-view>
             </div>
-        </div>
+            <menu-component />
+        </yd-layout>
     </div>
 </template>
 

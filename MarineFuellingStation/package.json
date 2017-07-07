@@ -5,7 +5,6 @@
     "@types/requirejs": "^2.1.28",
     "aspnet-webpack": "^1.0.27",
     "awesome-typescript-loader": "^3.0.0",
-    "bootstrap": "^3.3.6",
     "css-loader": "^0.25.0",
     "event-source-polyfill": "^0.0.7",
     "extract-text-webpack-plugin": "^2.0.0-rc",

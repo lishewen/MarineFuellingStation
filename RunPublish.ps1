@@ -1,0 +1,1 @@
+dotnet publish MarineFuellingStation\MFS.csproj -c release

@@ -1,9 +1,11 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import YDUI from 'vue-ydui';
+import VueResource from 'vue-resource';
 
 Vue.use(YDUI);
 Vue.use(VueRouter);
+Vue.use(VueResource);
 
 const routes = [
     { path: '/report/oilstore', component: require('./components/report/oilstore/oilstore.vue.html') },

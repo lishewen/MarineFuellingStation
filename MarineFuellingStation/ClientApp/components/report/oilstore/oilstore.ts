@@ -1,5 +1,4 @@
 ﻿import Vue from 'vue';
-import { ProgressBar } from 'vue-ydui/dist/lib.rem/progressbar';
 
 export default {
     data() {

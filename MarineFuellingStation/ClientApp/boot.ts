@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import YDUI from 'vue-ydui';
+import 'vue-ydui/dist/ydui.rem.css';
 
 Vue.use(YDUI);
 Vue.use(VueRouter);

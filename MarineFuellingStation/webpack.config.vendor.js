@@ -16,7 +16,7 @@ module.exports = (env) => {
                 'jquery',
                 'vue',
                 'vue-router',
-                'vue-resource',
+                'axios',
                 'vue-ydui'
             ],
         },

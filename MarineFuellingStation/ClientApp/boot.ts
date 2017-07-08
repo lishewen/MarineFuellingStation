@@ -1,11 +1,9 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import YDUI from 'vue-ydui';
-import VueResource from 'vue-resource';
 
 Vue.use(YDUI);
 Vue.use(VueRouter);
-Vue.use(VueResource);
 
 const routes = [
     { path: '/report/oilstore', component: require('./components/report/oilstore/oilstore.vue.html') },
@@ -16,7 +14,7 @@ const routes = [
     { path: '/ydui', component: require('./components/ydui/ydui.vue.html') }
 ];
 
-new Vue({
+export var bus = new Vue({
     el: '#app-root',
     router: new VueRouter({ mode: 'history', routes: routes }),
     render: h => h(require('./components/app/app.vue.html'))

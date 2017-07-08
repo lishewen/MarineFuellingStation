@@ -6,7 +6,7 @@
                     <yd-navbar-back-icon></yd-navbar-back-icon>
                 </router-link>
             </yd-navbar>
-            <router-view />
+            <router-view @setTitle="setTitle" />
         </yd-layout>
     </div>
 </template>

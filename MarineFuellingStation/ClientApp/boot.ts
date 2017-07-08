@@ -14,7 +14,7 @@ const routes = [
     { path: '/ydui', component: require('./components/ydui/ydui.vue') }
 ];
 
-export var bus = new Vue({
+export default new Vue({
     el: '#app-root',
     router: new VueRouter({ mode: 'history', routes: routes }),
     render: h => h(require('./components/app/app.vue'))

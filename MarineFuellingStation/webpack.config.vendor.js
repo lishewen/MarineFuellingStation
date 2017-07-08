@@ -15,8 +15,7 @@ module.exports = (env) => {
                 'isomorphic-fetch',
                 'jquery',
                 'vue',
-                'vue-router',
-                'vue-ydui/dist/ydui.px.css'
+                'vue-router'
             ],
         },
         module: {

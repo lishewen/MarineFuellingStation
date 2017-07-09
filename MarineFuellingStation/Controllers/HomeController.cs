@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,6 +7,7 @@ using MFS.Models;
 using Senparc.Weixin.Work.Containers;
 using Senparc.Weixin.Work.AdvancedAPIs;
 using Microsoft.Extensions.Options;
+using System.Net;
 
 namespace MFS.Controllers
 {
@@ -27,7 +28,7 @@ namespace MFS.Controllers
         public IActionResult GetOpenId(string redirectUrl)
         {
 #if DEBUG
-            return Redirect($"/wxhub/�Ƽ�ҵ/{redirectUrl}");
+            return Redirect($"/wxhub/{WebUtility.UrlEncode("黄继业")}/{WebUtility.UrlEncode(redirectUrl)}");
 #else
             var state = Request.Query["state"];
             if (state != "car0774")
@@ -37,7 +38,7 @@ namespace MFS.Controllers
                 var code = Request.Query["code"];
                 var at = OAuth2Api.GetUserId(option.AccessToken, code);
                 var userinfo = MailListApi.GetMember(option.AccessToken, at.UserId);
-                return Redirect($"/wxhub/{userinfo.name}/{redirectUrl}");
+                return Redirect($"/wxhub/{WebUtility.UrlEncode(userinfo.name)}/{WebUtility.UrlEncode(redirectUrl)}");
             }
 #endif
         }

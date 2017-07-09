@@ -20,7 +20,7 @@ const mutations = {
     },
     setUserName: (state, amount) => {
         state.username = amount;
-        console.log(state.userid);
+        console.log(state.username);
     }
 };
 

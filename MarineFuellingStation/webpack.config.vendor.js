@@ -17,7 +17,8 @@ module.exports = (env) => {
                 'vue',
                 'vue-router',
                 'axios',
-                'vue-ydui'
+                'vue-ydui',
+                'vuex'
             ],
         },
         module: {

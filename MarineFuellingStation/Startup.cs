@@ -8,8 +8,9 @@ using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using MFS.Models;
 
-namespace VUE
+namespace MFS
 {
     public class Startup
     {
@@ -30,6 +31,8 @@ namespace VUE
         {
             // Add framework services.
             services.AddMvc();
+
+            services.Configure<WorkOption>(Configuration.GetSection("WorkOption"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

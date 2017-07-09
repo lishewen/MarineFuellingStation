@@ -6,6 +6,6 @@ export default class PlanComponent extends Vue {
     radio2: string = '1';
 
     mounted() {
-        this.$emit('setTitle', '计划开单');
+        this.$emit('setTitle', this.$store.state.username + ' 计划开单');
     }
 }

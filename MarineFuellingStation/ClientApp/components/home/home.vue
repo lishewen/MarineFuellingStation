@@ -3,3 +3,4 @@
         
     </div>
 </template>
+<script src="./home.ts"/>

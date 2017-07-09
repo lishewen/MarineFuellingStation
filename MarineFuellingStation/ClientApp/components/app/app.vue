@@ -7,6 +7,7 @@
                 </router-link>
             </yd-navbar>
             <router-view @setTitle="setTitle" />
+            <yd-backtop></yd-backtop>
         </yd-layout>
     </div>
 </template>

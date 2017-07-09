@@ -18,7 +18,8 @@ module.exports = (env) => {
                 'vue-router',
                 'axios',
                 'vue-ydui',
-                'vuex'
+                'vuex',
+                'vuex-router-sync'
             ],
         },
         module: {

@@ -3,7 +3,7 @@ import { Component } from 'vue-property-decorator';
 
 @Component
 export default class AppComponent extends Vue {
-    title: string = 'XXX油站管理系统';
+    title: string = this.$store.state.username + '正在登录中。。。';
 
     setTitle(title: string): void {
         this.title = title;

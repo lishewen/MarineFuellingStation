@@ -8,4 +8,9 @@ export default class PlanComponent extends Vue {
     mounted() {
         this.$emit('setTitle', this.$store.state.username + ' 计划开单');
     }
+
+    change(label: string, tabkey: string) {
+        console.log(label);
+        this.$emit('setTitle', this.$store.state.username + ' ' + label);
+    }
 }

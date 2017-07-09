@@ -1,6 +1,6 @@
 ﻿<template>
     <div id="root">
-        <yd-tab>
+        <yd-tab :change="change">
             <yd-tab-panel label="计划开单">
                 <yd-cell-group title="必填" style="padding-top: 20px">
                     <yd-cell-item>

@@ -27,13 +27,13 @@ const routes = [
 
 var router = new VueRouter({ mode: 'history', routes: routes });
 //在每次使用路由时对username进行校验，如果不存在则获取username到前端
-//router.beforeEach((to, from, next) => {
-    //console.log(store.state)
-    //if (store.state.username != "") {
-        //next();
-    //} else {
-        //console.log(to);
-        //window.location.href = "/home/GetOpenId?redirectUrl=" + encodeURIComponent(to.fullPath);
-    //}
-//});
+router.beforeEach((to, from, next) => {
+    console.log(store.state)
+    if (store.state.username != "") {
+        next();
+    } else {
+        console.log(to);
+        window.location.href = "/home/GetOpenId?redirectUrl=" + encodeURIComponent(to.fullPath);
+    }
+});
 export default router;

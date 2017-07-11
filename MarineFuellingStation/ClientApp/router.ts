@@ -33,7 +33,7 @@ router.beforeEach((to, from, next) => {
         next();
     } else {
         console.log(to);
-        window.location.href = "/home/GetOpenId?redirectUrl=" + encodeURIComponent(to.fullPath);
+        window.location.href = "/home/GetOpenId?id=" + encodeURIComponent(to.fullPath);
     }
 });
 export default router;

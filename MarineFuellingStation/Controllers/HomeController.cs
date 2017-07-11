@@ -24,21 +24,22 @@ namespace MFS.Controllers
         {
             return View();
         }
-
-        public IActionResult GetOpenId(string redirectUrl)
+        public IActionResult GetOpenId(string id)
         {
+            if (string.IsNullOrWhiteSpace(id))
+                id = "/";
 #if DEBUG
-            return Redirect($"/wxhub/{WebUtility.UrlEncode("黄继业")}/{WebUtility.UrlEncode(redirectUrl)}");
+            return Redirect($"/wxhub/{WebUtility.UrlEncode("黄继业")}/{WebUtility.UrlEncode(id)}");
 #else
             var state = Request.Query["state"];
             if (state != "car0774")
-                return Redirect(OAuth2Api.GetCode(option.CorpId, "http://" + Request.Host + Request.Path, "car0774"));
+                return Redirect(OAuth2Api.GetCode(option.CorpId, "http://" + Request.Host + Request.Path + Request.QueryString, "car0774"));
             else
             {
                 var code = Request.Query["code"];
                 var at = OAuth2Api.GetUserId(option.AccessToken, code);
                 var userinfo = MailListApi.GetMember(option.AccessToken, at.UserId);
-                return Redirect($"/wxhub/{WebUtility.UrlEncode(userinfo.name)}/{WebUtility.UrlEncode(redirectUrl)}");
+                return Redirect($"/wxhub/{WebUtility.UrlEncode(userinfo.name)}/{WebUtility.UrlEncode(id)}");
             }
 #endif
         }

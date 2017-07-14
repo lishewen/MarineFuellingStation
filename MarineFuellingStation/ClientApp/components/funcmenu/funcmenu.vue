@@ -1,14 +1,11 @@
 ﻿<template>
     <div>
         <yd-grids-group :rows="3" title="销售管理">
-            <yd-grids-item>
+            <yd-grids-item link="./sales/plan">
                 <p slot="text">销售计划</p>
             </yd-grids-item>
-            <yd-grids-item>
-                <p slot="text">水上销售</p>
-            </yd-grids-item>
-            <yd-grids-item>
-                <p slot="text">陆上销售</p>
+            <yd-grids-item link="./sales/order">
+                <p slot="text">销售单</p>
             </yd-grids-item>
             <yd-grids-item>
                 <p slot="text">我的订单</p>

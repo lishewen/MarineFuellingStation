@@ -7,6 +7,7 @@ Vue.use(VueRouter);
 const routes = [
     { path: '/report/oilstore', component: require('./components/oilstore/oilstore.vue') },
     { path: '/sales/plan', component: require('./components/sales/plan.vue') },
+    { path: '/sales/order', component: require('./components/sales/order.vue') },
     { path: '/funcmenu', component: require('./components/funcmenu/funcmenu.vue') },
     { path: '/', component: require('./components/home/home.vue') },
     { path: '/counter', component: require('./components/counter/counter.vue') },

@@ -4,7 +4,7 @@
             <yd-tab-panel label="计划开单">
                 <yd-cell-group title="必填" style="padding-top: 20px">
                     <yd-cell-item>
-                        <yd-radio-group slot="left" v-model="radio2" @click="changeunit">
+                        <yd-radio-group slot="left" v-model="radio2">
                             <yd-radio val="1">水上</yd-radio>
                             <yd-radio val="2">陆上</yd-radio>
                         </yd-radio-group>

@@ -5,8 +5,8 @@ import { Component } from 'vue-property-decorator';
 export default class PlanComponent extends Vue {
     radio2: string = '2';
     unit: string = '吨';
-    carNo: string = 'xxx';
-    switch1: boolean = true;
+    carNo: string = '';
+    isinvoice: boolean = false;
 
     mounted() {
         this.$emit('setTitle', this.$store.state.username + ' 销售计划开单');

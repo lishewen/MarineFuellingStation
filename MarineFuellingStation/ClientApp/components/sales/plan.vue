@@ -4,6 +4,13 @@
             <yd-tab-panel label="计划开单">
                 <yd-cell-group title="必填" style="padding-top: 20px">
                     <yd-cell-item>
+                        <yd-radio-group slot="left" v-model="radio2" @click="changeunit">
+                            <yd-radio val="1">水上</yd-radio>
+                            <yd-radio val="2">陆上</yd-radio>
+                        </yd-radio-group>
+                    </yd-cell-item>
+
+                    <yd-cell-item>
                         <span slot="left">船号：</span>
                         <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入您的船号"></yd-input>
                     </yd-cell-item>
@@ -20,12 +27,13 @@
 
                     <yd-cell-item>
                         <span slot="left">数量：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入加油数量"></yd-input>
+                        <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入加油数量" style="width:80%"></yd-input>
+                        <span slot="right"> 单位：{{unit}}</span>
                     </yd-cell-item>
 
                     <yd-cell-item>
                         <span slot="left">单价：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入加油数量"></yd-input>
+                        <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入单价"></yd-input>
                     </yd-cell-item>
 
                     <yd-cell-item>
@@ -50,10 +58,17 @@
                             <yd-switch v-model="switch1"></yd-switch>
                         </span>
                     </yd-cell-item>
-
                     <yd-cell-item>
                         <span slot="left">开票单位：</span>
                         <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入开票单位"></yd-input>
+                    </yd-cell-item>
+                    <yd-cell-item>
+                        <span slot="left">单价：</span>
+                        <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入开票单价，默认同上"></yd-input>
+                    </yd-cell-item>
+                    <yd-cell-item>
+                        <span slot="left">数量：</span>
+                        <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入开票，默认同上"></yd-input>
                     </yd-cell-item>
                 </yd-cell-group>
                 <div>

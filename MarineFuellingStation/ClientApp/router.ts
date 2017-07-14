@@ -5,8 +5,9 @@ import store from './store'
 Vue.use(VueRouter);
 
 const routes = [
-    { path: '/report/oilstore', component: require('./components/report/oilstore/oilstore.vue') },
-    { path: '/order/plan', component: require('./components/order/plan.vue') },
+    { path: '/report/oilstore', component: require('./components/oilstore/oilstore.vue') },
+    { path: '/sales/plan', component: require('./components/sales/plan.vue') },
+    { path: '/funcmenu', component: require('./components/funcmenu/funcmenu.vue') },
     { path: '/', component: require('./components/home/home.vue') },
     { path: '/counter', component: require('./components/counter/counter.vue') },
     { path: '/fetchdata', component: require('./components/fetchdata/fetchdata.vue') },

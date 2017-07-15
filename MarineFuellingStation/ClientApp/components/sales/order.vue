@@ -26,10 +26,10 @@
                             <span slot="left" style="color:lightgray;margin-left:10px">王五</span>
                             <span slot="right">07-07</span>
                         </yd-cell-item>
-                        <div style="padding:0px 10px 10px 10px">
-                            <yd-button size="large" type="primary" @click.native="emptyclick()">没有计划</yd-button>
-                        </div>
                     </yd-cell-group>
+                    <div style="text-align: center">
+                        <yd-button style="width:100px" type="primary" @click.native="emptyclick()">没有计划</yd-button>
+                    </div>
                 </yd-popup>
 
                 <yd-cell-group title="请选择">
@@ -205,13 +205,13 @@
                         <span slot="left">船0001</span>
                         <span slot="left" style="color:lightgray;margin-left:10px">93# 90L ￥3.42</span>
                         <span slot="right">2017-07-07</span>
-                        <span slot="right" style="color:red; padding-left:10px">已结算</span>
+                        <span slot="right" style="color:red; padding-left:10px">&#12288;已完成</span>
                     </yd-cell-item>
                     <yd-cell-item arrow>
                         <span slot="left">船0002</span>
                         <span slot="left" style="color:lightgray;margin-left:10px">93# 90L ￥3.42</span>
                         <span slot="right">2017-07-07</span>
-                        <span slot="right" style="color:green; padding-left:10px">装油中</span>
+                        <span slot="right" style="color:green; padding-left:10px">&#12288;装油中</span>
                     </yd-cell-item>
                     <yd-cell-item arrow>
                         <span slot="left">船0002</span>
@@ -223,7 +223,7 @@
                         <span slot="left">船0002</span>
                         <span slot="left" style="color:lightgray;margin-left:10px">93# 90L ￥3.42</span>
                         <span slot="right">2017-07-07</span>
-                        <span slot="right" style="color:blue; padding-left:10px">已开单</span>
+                        <span slot="right" style="color:blue; padding-left:10px">&#12288;已开单</span>
                     </yd-cell-item>
                 </yd-cell-group>
             </yd-tab-panel>

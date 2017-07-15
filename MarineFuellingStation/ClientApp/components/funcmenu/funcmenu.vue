@@ -7,10 +7,10 @@
             <yd-grids-item link="./sales/order">
                 <p slot="text">销售单</p>
             </yd-grids-item>
-            <yd-grids-item>
+            <yd-grids-item link="./sales/myorder">
                 <p slot="text">我的订单</p>
             </yd-grids-item>
-            <yd-grids-item>
+            <yd-grids-item link="./sales/myclient">
                 <p slot="text">我的客户</p>
             </yd-grids-item>
             <yd-grids-item>

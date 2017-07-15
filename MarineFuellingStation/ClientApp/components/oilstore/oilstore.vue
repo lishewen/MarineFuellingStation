@@ -14,7 +14,7 @@
                 <p slot="text" style="color: lightgray">总：xxxL</p>
             </yd-grids-item>
         </yd-grids-group>
-        <yd-cell-group title="船一">
+        <yd-cell-group title="船一" style="margin-top:20px">
             <yd-cell-item arrow type="link" href="#">
                 <div slot="left" style="width: 80px;height: 80px;padding:10px">
                     <yd-progressbar :progress="progress2"

@@ -188,6 +188,11 @@
                         <yd-input slot="right" v-model="carNo" regex="" placeholder="生产流程时录入，陆上装油才需要"></yd-input>
                     </yd-cell-item>
 
+                    <yd-cell-item>
+                        <span slot="left">●销售提成：</span>
+                        <yd-input slot="right" v-model="carNo" regex="" placeholder="结算后，按公式自动计算"></yd-input>
+                    </yd-cell-item>
+
                 </yd-cell-group>
                 <div>
                     <yd-button size="large" type="primary">提交</yd-button>

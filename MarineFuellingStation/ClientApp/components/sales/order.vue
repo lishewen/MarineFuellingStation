@@ -84,6 +84,11 @@
                         <span slot="left">总价：</span>
                         <yd-input slot="right" v-model="carNo" regex="" placeholder="单价 x 数量"></yd-input>
                     </yd-cell-item>
+
+                    <yd-cell-item>
+                        <span slot="left">销售员：</span>
+                        <yd-input slot="right" v-model="carNo" regex="" placeholder="默认开单员"></yd-input>
+                    </yd-cell-item>
                 </yd-cell-group>
                 <yd-cell-group title="选填">
                     <yd-cell-item>
@@ -121,11 +126,6 @@
                     <yd-cell-item>
                         <span slot="left">●开单员：</span>
                         <yd-input slot="right" v-model="carNo" regex="" placeholder="开单员"></yd-input>
-                    </yd-cell-item>
-
-                    <yd-cell-item>
-                        <span slot="left">●销售员：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="销售员"></yd-input>
                     </yd-cell-item>
 
                     <yd-cell-item>

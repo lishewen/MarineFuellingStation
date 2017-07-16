@@ -9,7 +9,6 @@ namespace MFS.Models
     /// <summary>
     /// 实体基类
     /// </summary>
-    /// <typeparam name="TKey">主键类型</typeparam>
     public abstract class EntityBase
     {
         /// <summary>

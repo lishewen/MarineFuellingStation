@@ -15,7 +15,6 @@ const routes = [
     { path: '/counter', component: require('./components/counter/counter.vue') },
     { path: '/fetchdata', component: require('./components/fetchdata/fetchdata.vue') },
     { path: '/ydui', component: require('./components/ydui/ydui.vue') },
-    { path: '/search', component: require('./components/weui-search/search.vue') },
     {
         //服务端一律跳转到这个URL上
         path: '/wxhub/:id/:redirectUrl', redirect: to => {

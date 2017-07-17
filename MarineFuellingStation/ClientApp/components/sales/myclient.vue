@@ -83,7 +83,6 @@
                 <div>
                     <yd-button size="large" type="primary">提交</yd-button>
                 </div>
-
             </yd-tab-panel>
             <yd-tab-panel label="客户列表">
                 <yd-grids-group :rows="4" style="margin-top:10px">

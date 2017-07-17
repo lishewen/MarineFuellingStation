@@ -1,47 +1,47 @@
 ﻿<template>
     <div>
         <yd-grids-group :rows="3" title="销售管理">
-            <yd-grids-item link="./sales/plan">
+            <yd-grids-item link="./sales/plan" style="background-color:lightcyan">
                 <p slot="text">销售计划</p>
             </yd-grids-item>
-            <yd-grids-item link="./sales/order">
+            <yd-grids-item link="./sales/order" style="background-color:lightcyan">
                 <p slot="text">销售单</p>
             </yd-grids-item>
-            <yd-grids-item link="./sales/myorder">
+            <yd-grids-item link="./sales/myorder" style="background-color:lightcyan">
                 <p slot="text">我的订单</p>
             </yd-grids-item>
-            <yd-grids-item link="./sales/myclient">
+            <yd-grids-item link="./sales/myclient" style="background-color:lightcyan">
                 <p slot="text">我的客户</p>
             </yd-grids-item>
-            <yd-grids-item link="./sales/boatclean">
+            <yd-grids-item link="./sales/boatclean" style="background-color:lightcyan">
                 <p slot="text">船舶清污开单</p>
             </yd-grids-item>
         </yd-grids-group>
         <yd-grids-group :rows="3" title="生产管理">
-            <yd-grids-item link="./produce/buyboard">
+            <yd-grids-item link="./produce/buyboard" style="background-color:lightcyan">
                 <p slot="text">采购计划看板</p>
             </yd-grids-item>
-            <yd-grids-item link="./produce/planboard">
+            <yd-grids-item link="./produce/planboard" style="background-color:lightcyan">
                 <p slot="text">销售计划看板</p>
             </yd-grids-item>
-            <yd-grids-item>
+            <yd-grids-item link="./produce/unload" style="background-color:lightcyan">
                 <p slot="text">陆上卸油</p>
             </yd-grids-item>
-            <yd-grids-item>
+            <yd-grids-item link="./produce/load" style="background-color:lightcyan">
                 <p slot="text">水上装油</p>
             </yd-grids-item>
             <yd-grids-item>
                 <p slot="text">生产（转仓）</p>
             </yd-grids-item>
-            <yd-grids-item link="./produce/assay">
+            <yd-grids-item link="./produce/assay" style="background-color:lightcyan">
                 <p slot="text">化验</p>
             </yd-grids-item>
-            <yd-grids-item link="./oilstore">
+            <yd-grids-item link="./oilstore" style="background-color:lightcyan">
                 <p slot="text">油仓情况</p>
             </yd-grids-item>
         </yd-grids-group>
         <yd-grids-group :rows="3" title="油仓管理">
-            <yd-grids-item>
+            <yd-grids-item link="./oilstore" style="background-color:lightcyan">
                 <p slot="text">油仓情况</p>
             </yd-grids-item>
             <yd-grids-item>

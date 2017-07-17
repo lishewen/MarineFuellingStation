@@ -32,7 +32,7 @@
             <yd-cell-item arrow>
                 <div slot="left">
                     <p>船0002</p>
-                    <p style="color:lightgray;font-size:12px">XS2017070700001</p>
+                    <p style="color:lightgray;font-size:12px">XS07070001</p>
                 </div>
                 <span slot="right" style="color:lightcoral;width:70px;text-align:left">提：￥1000</span>
                 <span slot="right" style="color:blue; padding-left:10px">已完成</span>
@@ -40,7 +40,7 @@
             <yd-cell-item arrow>
                 <div slot="left">
                     <p>船0002</p>
-                    <p style="color:lightgray;font-size:12px">XS2017070700001</p>
+                    <p style="color:lightgray;font-size:12px">XS07070001</p>
                 </div>
                 <span slot="right" style="color:lightcoral;width:70px;text-align:left">提：￥20</span>
                 <span slot="right" style="color:blue; padding-left:10px">已完成</span>
@@ -48,7 +48,7 @@
             <yd-cell-item arrow>
                 <div slot="left">
                     <p>船0002</p>
-                    <p style="color:lightgray;font-size:12px">XS2017070700001</p>
+                    <p style="color:lightgray;font-size:12px">XS07070001</p>
                 </div>
                 <span slot="right" style="color:lightcoral;width:70px;text-align:left">提：￥20</span>
                 <span slot="right" style="color:blue; padding-left:10px">已完成</span>

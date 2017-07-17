@@ -12,7 +12,7 @@
                         </yd-radio-group>
                     </yd-cell-item>
                 </yd-cell-group>
-                <yd-cell-group title="单号：JH2017070700001">
+                <yd-cell-group title="单号：JH07070001">
 
                     <yd-cell-item>
                         <span slot="left">船号：</span>

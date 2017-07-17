@@ -2,7 +2,7 @@
     <div id="root">
         <yd-tab :change="change">
             <yd-tab-panel label="开单">
-                <yd-cell-group title="单号：QW2017070700001" style="margin-top: 20px">
+                <yd-cell-group title="单号：QW07070001" style="margin-top: 20px">
 
                     <yd-cell-item>
                         <span slot="left">船号：</span>
@@ -105,19 +105,19 @@
                 <yd-cell-group>
                     <yd-cell-item arrow>
                         <span slot="left">船0001</span>
-                        <span slot="left" style="color:lightgray;margin-left:10px">QW2017070700001</span>
+                        <span slot="left" style="color:lightgray;margin-left:10px">QW07070001</span>
                         <span slot="right">2017-07-07</span>
                         <span slot="right" style="color:red; padding-left:10px">施工中</span>
                     </yd-cell-item>
                     <yd-cell-item arrow>
                         <span slot="left">船0002</span>
-                        <span slot="left" style="color:lightgray;margin-left:10px">QW2017070700001</span>
+                        <span slot="left" style="color:lightgray;margin-left:10px">QW07070001</span>
                         <span slot="right">2017-07-07</span>
                         <span slot="right" style="color:green; padding-left:10px">已开单</span>
                     </yd-cell-item>
                     <yd-cell-item arrow>
                         <span slot="left">船0002</span>
-                        <span slot="left" style="color:lightgray;margin-left:10px">QW2017070700001</span>
+                        <span slot="left" style="color:lightgray;margin-left:10px">QW07070001</span>
                         <span slot="right">2017-07-07</span>
                         <span slot="right" style="color:blue; padding-left:10px">已完成</span>
                     </yd-cell-item>

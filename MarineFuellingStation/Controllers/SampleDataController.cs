@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using MFS.Controllers.Attributes;
 
 namespace MFS.Controllers
 {
-    [Route("api/[controller]")]
-    public class SampleDataController : Controller
+    [Route("api/[controller]"), Axios]
+    public class SampleDataController : ControllerBase
     {
         private static string[] Summaries = new[]
         {
@@ -22,7 +23,7 @@ namespace MFS.Controllers
             {
                 DateFormatted = DateTime.Now.AddDays(index).ToString("d"),
                 TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
+                Summary = UserName
             });
         }
 

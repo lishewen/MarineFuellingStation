@@ -34,6 +34,7 @@ namespace MFS
             {
                 option.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]);
             });
+            services.AddSession();
             // Add framework services.
             services.AddMvc();
 
@@ -59,7 +60,7 @@ namespace MFS
             }
 
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

@@ -33,7 +33,7 @@
             <yd-grids-item>
                 <p slot="text">生产（转仓）</p>
             </yd-grids-item>
-            <yd-grids-item>
+            <yd-grids-item link="./produce/assay">
                 <p slot="text">化验</p>
             </yd-grids-item>
             <yd-grids-item link="./oilstore">

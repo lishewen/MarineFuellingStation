@@ -10,15 +10,11 @@ const routes = [
     { path: '/sales/order', component: require('./components/sales/order.vue') },
     { path: '/sales/myorder', component: require('./components/sales/myorder.vue') },
     { path: '/sales/myclient', component: require('./components/sales/myclient.vue') },
-    { path: '/sales/boatclean', component: require('./components/sales/boatclean.vue') },
-    { path: '/produce/planboard', component: require('./components/produce/planboard.vue') },
-    { path: '/produce/buyboard', component: require('./components/produce/buyboard.vue') },
     { path: '/funcmenu', component: require('./components/funcmenu/funcmenu.vue') },
     { path: '/', component: require('./components/home/home.vue') },
     { path: '/counter', component: require('./components/counter/counter.vue') },
     { path: '/fetchdata', component: require('./components/fetchdata/fetchdata.vue') },
     { path: '/ydui', component: require('./components/ydui/ydui.vue') },
-    { path: '/search', component: require('./components/weui-search/search.vue') },
     {
         //服务端一律跳转到这个URL上
         path: '/wxhub/:id/:redirectUrl', redirect: to => {

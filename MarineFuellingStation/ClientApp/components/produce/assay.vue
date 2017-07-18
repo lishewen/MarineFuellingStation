@@ -5,11 +5,6 @@
                 <yd-cell-group title="单号：HY07070001" style="margin-top:20px">
 
                     <yd-cell-item>
-                        <span slot="left">化验员：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="默认开单员"></yd-input>
-                    </yd-cell-item>
-
-                    <yd-cell-item>
                         <span slot="left">化验油仓：</span>
                         <select slot="right">
                             <option value="">请选择油仓</option>
@@ -113,6 +108,10 @@
                 </yd-cell-group>
 
                 <yd-cell-group title="不显示" style="margin-top:10px">
+                    <yd-cell-item>
+                        <span slot="left">化验员：</span>
+                        <yd-input slot="right" v-model="carNo" regex="" placeholder="默认开单员"></yd-input>
+                    </yd-cell-item>
                     <yd-cell-item>
                         <span slot="left">●开单员：</span>
                         <yd-input slot="right" v-model="carNo" regex="" placeholder="自动录入"></yd-input>

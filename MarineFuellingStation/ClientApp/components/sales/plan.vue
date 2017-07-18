@@ -50,11 +50,6 @@
                         <span slot="left">加油时间：</span>
                         <input slot="right" class="cell-input" type="date" value="2017-08-19" placeholder="">
                     </yd-cell-item>
-
-                    <yd-cell-item>
-                        <span slot="left">销售员：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="默认开单员"></yd-input>
-                    </yd-cell-item>
                 </yd-cell-group>
 
                 <yd-cell-group title="选填">
@@ -89,8 +84,8 @@
                     </yd-cell-item>
 
                     <yd-cell-item>
-                        <span slot="left">●开单员：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="自动计算，单价 x 数量"></yd-input>
+                        <span slot="left">●销售员：</span>
+                        <yd-input slot="right" v-model="carNo" regex="" placeholder="即开单员"></yd-input>
                     </yd-cell-item>
                 </yd-cell-group>
                 <div>

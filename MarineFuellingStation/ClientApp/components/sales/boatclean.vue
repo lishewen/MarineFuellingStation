@@ -13,11 +13,6 @@
                         <span slot="left">金额：</span>
                         <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入金额"></yd-input>
                     </yd-cell-item>
-
-                    <yd-cell-item>
-                        <span slot="left">销售员：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="默认是开单员"></yd-input>
-                    </yd-cell-item>
                 </yd-cell-group>
 
                 <yd-cell-group title="选填">

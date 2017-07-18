@@ -22,7 +22,16 @@ export default class MyOrderComponent extends Vue {
     saveclick3(): void {
         this.show3 = false;
     };
-    openConfrim(): void {
+    beginConfrim(): void {
+        (<any>this).$dialog.confirm({
+            title: '确认操作',
+            mes: '开始卸油？',
+            opts: () => {
+                (<any>this).$dialog.toast({ mes: '确认', timeout: 1000 });
+            }
+        })
+    };
+    endConfrim(): void {
         (<any>this).$dialog.confirm({
             title: '确认操作',
             mes: '卸油结束？',

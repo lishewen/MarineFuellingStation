@@ -8,8 +8,12 @@ export default class OrderComponent extends Vue {
     carNo: string = '';
     isinvoice: boolean = false;
     show4: boolean = false;
-    selectedplanNo: string = "";
+    show1: boolean = false;
+    show2: boolean = false;
+    selectedplanNo: string = "请选择";
+    selectedtransord: string = "";
     hasplan: boolean = false;
+    istrans: boolean = false;
     
     planitemclick(): void {
         this.selectedplanNo = "JH201707070001";
@@ -17,8 +21,13 @@ export default class OrderComponent extends Vue {
         this.hasplan = true;
     };
 
+    transitemclick(): void {
+        this.selectedtransord = "YS07070001";
+        this.show1 = false;
+    };
+
     emptyclick(): void {
-        this.selectedplanNo = "";
+        this.selectedplanNo = "散客";
         this.show4 = false;
         this.hasplan = false;
     };
@@ -31,12 +40,15 @@ export default class OrderComponent extends Vue {
             switch (v) {
                 case "1":
                     this.unit = '升';
+                    this.show2 = false;
                     break;
                 case "2":
                     this.unit = '吨';
+                    this.show2 = true;
                     break;
                 case "3":
                     this.unit = '桶';
+                    this.show2 = false;
                     break;
             }
         });

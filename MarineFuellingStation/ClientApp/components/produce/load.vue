@@ -4,36 +4,6 @@
 
             <yd-tab-panel label="施工">
                 <yd-cell-group>
-                    <yd-cell-item arrow @click.native="openConfrim()">
-                        <div slot="left">
-                            <p>XS07070001</p>
-                            <p style="color:lightgray;font-size:12px">桂平货0001</p>
-                        </div>
-                        <div slot="right" style="text-align: left;margin-right: 5px">
-                            <p style="color:gray">10#加油船669 / 35吨 / 柴油</p>
-                            <p style="color:darkseagreen;text-align:right">装油中</p>
-                        </div>
-                    </yd-cell-item>
-                    <yd-cell-item arrow @click.native="openConfrim()">
-                        <div slot="left">
-                            <p>XS07070001</p>
-                            <p style="color:lightgray;font-size:12px">桂平货0001</p>
-                        </div>
-                        <div slot="right" style="text-align: left;margin-right: 5px">
-                            <p style="color:gray">10#加油船669 / 35吨 / 柴油</p>
-                            <p style="color:darkseagreen;text-align:right">装油中</p>
-                        </div>
-                    </yd-cell-item>
-                    <yd-cell-item arrow @click.native="openConfrim()">
-                        <div slot="left">
-                            <p>XS07070001</p>
-                            <p style="color:lightgray;font-size:12px">桂平货0001</p>
-                        </div>
-                        <div slot="right" style="text-align: left;margin-right: 5px">
-                            <p style="color:gray">10#加油船669 / 35吨 / 柴油</p>
-                            <p style="color:darkseagreen;text-align:right">装油中</p>
-                        </div>
-                    </yd-cell-item>
                     <yd-cell-item arrow @click.native="show2 = true">
                         <div slot="left">
                             <p>XS07070001</p>
@@ -58,16 +28,6 @@
             </yd-tab-panel>
             <yd-tab-panel label="完工">
                 <yd-cell-group>
-                    <yd-cell-item arrow>
-                        <div slot="left">
-                            <p>XS07070001</p>
-                            <p style="color:lightgray;font-size:12px">桂DCT200 司机张三</p>
-                        </div>
-                        <div slot="right" style="text-align: left;margin-right: 5px">
-                            <p style="color:gray">1#地仓 / 35吨 / 柴油</p>
-                            <p style="color:red;text-align:right">已完成</p>
-                        </div>
-                    </yd-cell-item>
                     <yd-cell-item arrow>
                         <div slot="left">
                             <p>XS07070001</p>
@@ -131,7 +91,7 @@
                     </yd-cell-item>
                 </yd-cell-group>
                 <div style="text-align: center">
-                    <yd-button style="width:100px" type="primary" @click.native="saveclick2()">开始施工</yd-button>
+                    <yd-button style="width:100px" type="primary" @click.native="saveclick2()">施工结束</yd-button>
                 </div>
             </yd-popup>
         </yd-tab>

@@ -85,7 +85,7 @@
                 </div>
             </yd-tab-panel>
             <yd-tab-panel label="客户列表">
-                <yd-grids-group :rows="4" style="margin-top:10px">
+                <yd-grids-group :rows="4">
                     <yd-grids-item>
                         <p slot="text">全部</p>
                     </yd-grids-item>

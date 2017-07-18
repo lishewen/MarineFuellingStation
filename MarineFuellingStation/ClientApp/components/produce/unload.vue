@@ -41,7 +41,7 @@
                 <yd-cell-group>
                     <yd-cell-item arrow @click.native="show2 = true">
                         <div slot="left">
-                            <p>XY2017070700001</p>
+                            <p>CG07070001</p>
                             <p style="color:lightgray;font-size:12px">桂DCT200 司机张三</p>
                         </div>
                         <div slot="right" style="text-align: left;margin-right: 5px">
@@ -51,7 +51,7 @@
                     </yd-cell-item>
                     <yd-cell-item arrow @click.native="show2 = true">
                         <div slot="left">
-                            <p>XY2017070700001</p>
+                            <p>CG07070001</p>
                             <p style="color:lightgray;font-size:12px">桂DCT200 司机张三</p>
                         </div>
                         <div slot="right" style="text-align: left;margin-right: 5px">
@@ -61,7 +61,7 @@
                     </yd-cell-item>
                     <yd-cell-item arrow @click.native="show2 = true">
                         <div slot="left">
-                            <p>XY2017070700001</p>
+                            <p>CG07070001</p>
                             <p style="color:lightgray;font-size:12px">桂DCT200 司机张三</p>
                         </div>
                         <div slot="right" style="text-align: left;margin-right: 5px">
@@ -73,9 +73,9 @@
             </yd-tab-panel>
             <yd-tab-panel label="3-施工">
                 <yd-cell-group>
-                    <yd-cell-item arrow @click.native="openConfrim()">
+                    <yd-cell-item arrow @click.native="endConfrim()">
                         <div slot="left">
-                            <p>XY2017070700001</p>
+                            <p>CG07070001</p>
                             <p style="color:lightgray;font-size:12px">桂DCT200 司机张三</p>
                         </div>
                         <div slot="right" style="text-align: left;margin-right: 5px">
@@ -83,9 +83,9 @@
                             <p style="color:darkseagreen;text-align:right">卸油中</p>
                         </div>
                     </yd-cell-item>
-                    <yd-cell-item arrow @click.native="openConfrim()">
+                    <yd-cell-item arrow @click.native="beginConfrim()">
                         <div slot="left">
-                            <p>XY2017070700001</p>
+                            <p>CG07070001</p>
                             <p style="color:lightgray;font-size:12px">桂DCT200 司机张三</p>
                         </div>
                         <div slot="right" style="text-align: left;margin-right: 5px">
@@ -93,9 +93,9 @@
                             <p style="color:lightskyblue;text-align:right">已化验</p>
                         </div>
                     </yd-cell-item>
-                    <yd-cell-item arrow @click.native="openConfrim()">
+                    <yd-cell-item arrow @click.native="beginConfrim()">
                         <div slot="left">
-                            <p>XY2017070700001</p>
+                            <p>CG07070001</p>
                             <p style="color:lightgray;font-size:12px">桂DCT200 司机张三</p>
                         </div>
                         <div slot="right" style="text-align: left;margin-right: 5px">
@@ -109,7 +109,7 @@
                 <yd-cell-group>
                     <yd-cell-item arrow @click.native="show3 = true">
                         <div slot="left">
-                            <p>XY2017070700001</p>
+                            <p>CG07070001</p>
                             <p style="color:lightgray;font-size:12px">桂DCT200 司机张三</p>
                         </div>
                         <div slot="right" style="text-align: left;margin-right: 5px">
@@ -119,7 +119,7 @@
                     </yd-cell-item>
                     <yd-cell-item arrow @click.native="show3 = true">
                         <div slot="left">
-                            <p>XY2017070700001</p>
+                            <p>CG07070001</p>
                             <p style="color:lightgray;font-size:12px">桂DCT200 司机张三</p>
                         </div>
                         <div slot="right" style="text-align: left;margin-right: 5px">
@@ -129,7 +129,7 @@
                     </yd-cell-item>
                     <yd-cell-item arrow @click.native="show3 = true">
                         <div slot="left">
-                            <p>XY2017070700001</p>
+                            <p>CG07070001</p>
                             <p style="color:lightgray;font-size:12px">桂DCT200 司机张三</p>
                         </div>
                         <div slot="right" style="text-align: left;margin-right: 5px">
@@ -143,7 +143,7 @@
                 <yd-cell-group>
                     <yd-cell-item arrow>
                         <div slot="left">
-                            <p>XY2017070700006</p>
+                            <p>CG07070001</p>
                             <p style="color:lightgray;font-size:12px">桂DCT200 司机张三</p>
                         </div>
                         <div slot="right" style="text-align: left;margin-right: 5px">
@@ -153,7 +153,7 @@
                     </yd-cell-item>
                     <yd-cell-item arrow>
                         <div slot="left">
-                            <p>XY2017070700006</p>
+                            <p>CG07070001</p>
                             <p style="color:lightgray;font-size:12px">桂DCT200 司机张三</p>
                         </div>
                         <div slot="right" style="text-align: left;margin-right: 5px">
@@ -163,7 +163,7 @@
                     </yd-cell-item>
                     <yd-cell-item arrow>
                         <div slot="left">
-                            <p>XY2017070700006</p>
+                            <p>CG07070001</p>
                             <p style="color:lightgray;font-size:12px">桂DCT200 司机张三</p>
                         </div>
                         <div slot="right" style="text-align: left;margin-right: 5px">
@@ -173,7 +173,7 @@
                     </yd-cell-item>
                     <yd-cell-item arrow>
                         <div slot="left">
-                            <p>XY2017070700006</p>
+                            <p>CG07070001</p>
                             <p style="color:lightgray;font-size:12px">桂DCT200 司机张三</p>
                         </div>
                         <div slot="right" style="text-align: left;margin-right: 5px">

@@ -2,12 +2,6 @@
     <div id="root">
         <yd-tab :change="change">
             <yd-tab-panel label="销售开单">
-                <yd-cell-group title="请选择" style="padding-top: 20px">
-                    <yd-cell-item arrow @click.native="show4 = true">
-                        <span slot="left">计划单：</span>
-                        <span slot="right">{{selectedplanNo}}</span>
-                    </yd-cell-item>
-                </yd-cell-group>
 
                 <yd-popup v-model="show4" position="right">
                     <yd-cell-group>
@@ -28,11 +22,15 @@
                         </yd-cell-item>
                     </yd-cell-group>
                     <div style="text-align: center">
-                        <yd-button style="width:100px" type="primary" @click.native="emptyclick()">没有计划</yd-button>
+                        <yd-button style="width:100px" type="primary" @click.native="emptyclick()">散客</yd-button>
                     </div>
                 </yd-popup>
 
-                <yd-cell-group title="请选择">
+                <yd-cell-group title="单号：XS07070001" style="margin-top:20px">
+                    <yd-cell-item arrow @click.native="show4 = true">
+                        <span slot="left">计划单：</span>
+                        <span slot="right">{{selectedplanNo}}</span>
+                    </yd-cell-item>
                     <yd-cell-item>
                         <yd-radio-group slot="left" v-model="radio2">
                             <yd-radio val="1">水上</yd-radio>
@@ -40,9 +38,6 @@
                             <yd-radio val="3">机油</yd-radio>
                         </yd-radio-group>
                     </yd-cell-item>
-                </yd-cell-group>
-
-                <yd-cell-group title="单号：XS2017070700001">
                     <yd-cell-item>
                         <span slot="left">船号：</span>
                         <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入您的船号"></yd-input>
@@ -82,15 +77,8 @@
 
                     <yd-cell-item>
                         <span slot="left">总价：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="单价 x 数量"></yd-input>
+                        <yd-input slot="right" v-model="carNo" regex="" placeholder="自动计算，单价 x 数量" readonly></yd-input>
                     </yd-cell-item>
-
-                    <yd-cell-item>
-                        <span slot="left">销售员：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="默认开单员"></yd-input>
-                    </yd-cell-item>
-                </yd-cell-group>
-                <yd-cell-group title="选填">
                     <yd-cell-item>
                         <span slot="left">是否开票</span>
                         <span slot="right">
@@ -110,6 +98,34 @@
                         <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入开票，默认同上"></yd-input>
                     </yd-cell-item>
                 </yd-cell-group>
+                <yd-cell-group title="选填" v-show="show2">
+                    <yd-cell-item>
+                        <span slot="left">是否运输</span>
+                        <span slot="right">
+                            <yd-switch v-model="istrans"></yd-switch>
+                        </span>
+                    </yd-cell-item>
+                    <yd-cell-item arrow v-show="istrans" @click.native="show1 = true">
+                        <span slot="left">运输单：</span>
+                        <span slot="right">{{selectedtransord}}</span>
+                    </yd-cell-item>
+                </yd-cell-group>
+                <yd-popup v-model="show1" position="right">
+                    <yd-cell-group>
+                        <yd-cell-item arrow @click.native="transitemclick()">
+                            <span slot="left">YS07070001</span>
+                            <span slot="left" style="color:lightgray;margin-left:10px">李四</span>
+                        </yd-cell-item>
+                        <yd-cell-item arrow @click.native="transitemclick()">
+                            <span slot="left">YS07070001</span>
+                            <span slot="left" style="color:lightgray;margin-left:10px">张三</span>
+                        </yd-cell-item>
+                        <yd-cell-item arrow @click.native="transitemclick()">
+                            <span slot="left">YS07070001</span>
+                            <span slot="left" style="color:lightgray;margin-left:10px">王五</span>
+                        </yd-cell-item>
+                    </yd-cell-group>
+                </yd-popup>
 
                 <yd-cell-group title="不显示">
                     <yd-cell-item>
@@ -124,8 +140,8 @@
                     </yd-cell-item>
 
                     <yd-cell-item>
-                        <span slot="left">●开单员：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="开单员"></yd-input>
+                        <span slot="left">●销售员：</span>
+                        <yd-input slot="right" v-model="carNo" regex="" placeholder="即开单员"></yd-input>
                     </yd-cell-item>
 
                     <yd-cell-item>
@@ -191,6 +207,11 @@
                     <yd-cell-item>
                         <span slot="left">●销售提成：</span>
                         <yd-input slot="right" v-model="carNo" regex="" placeholder="结算后，按公式自动计算"></yd-input>
+                    </yd-cell-item>
+
+                    <yd-cell-item>
+                        <span slot="left">●运输单：</span>
+                        <yd-input slot="right" v-model="carNo" regex="" placeholder="陆上销售选择相对应的运输单"></yd-input>
                     </yd-cell-item>
 
                 </yd-cell-group>

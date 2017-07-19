@@ -16,6 +16,7 @@ const routes = [
     { path: '/produce/assay', component: require('./components/produce/assay.vue') },
     { path: '/produce/unload', component: require('./components/produce/unload.vue') },
     { path: '/produce/load', component: require('./components/produce/load.vue') },
+    { path: '/produce/landload', component: require('./components/produce/landload.vue') },
     { path: '/funcmenu', component: require('./components/funcmenu/funcmenu.vue') },
     { path: '/', component: require('./components/home/home.vue') },
     { path: '/counter', component: require('./components/counter/counter.vue') },

@@ -30,6 +30,9 @@
             <yd-grids-item link="./produce/load" style="background-color:lightcyan">
                 <p slot="text">水上装油</p>
             </yd-grids-item>
+            <yd-grids-item link="./produce/landload" style="background-color:lightcyan">
+                <p slot="text">陆上装油</p>
+            </yd-grids-item>
             <yd-grids-item>
                 <p slot="text">生产（转仓）</p>
             </yd-grids-item>

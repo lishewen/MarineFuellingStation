@@ -9,7 +9,7 @@ namespace MFS.Models
     /// <summary>
     /// 实体基类
     /// </summary>
-    public abstract class EntityBase
+    public abstract class EntityBase : ITrackable
     {
         /// <summary>
         /// 主键Id (主键类型根据继承时确定)
@@ -22,9 +22,9 @@ namespace MFS.Models
         [Display(Name = "名称")]
         [Required(ErrorMessage = "不能为空")]
         public string Name { get; set; }
-        /// <summary>
-        /// 创建时间
-        /// </summary>
-        public DateTime CreateTime { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime LastUpdatedAt { get; set; }
+        public string LastUpdatedBy { get; set; }
     }
 }

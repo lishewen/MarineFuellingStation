@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MFS.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ namespace MFS.Controllers
 {
     public class ControllerBase : Controller
     {
+        public EFContext db;
         public string UserName
         {
             get
@@ -19,7 +21,11 @@ namespace MFS.Controllers
             set
             {
                 string username = value ?? string.Empty;
-                HttpContext.Session.SetString("UserName", WebUtility.UrlDecode(username));
+                username = WebUtility.UrlDecode(username);
+                HttpContext.Session.SetString("UserName", username);
+                if (db != null)
+                    db.CurrentUser = username;
+
             }
         }
     }

@@ -5,7 +5,9 @@ declare module server {
 		id: number;
 		/** 名称 */
 		name: string;
-		/** 创建时间 */
-		createTime: Date;
+		createdAt: Date;
+		createdBy: string;
+		lastUpdatedAt: Date;
+		lastUpdatedBy: string;
 	}
 }

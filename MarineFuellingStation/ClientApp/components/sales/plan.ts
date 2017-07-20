@@ -1,5 +1,6 @@
 ﻿import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
+import axios from "axios";
 
 @Component
 export default class PlanComponent extends Vue {
@@ -7,9 +8,18 @@ export default class PlanComponent extends Vue {
     unit: string = '升';
     carNo: string = '';
     isinvoice: boolean = false;
+    username: string;
+    salesPlanNo: string;
+
+    constructor() {
+        super();
+
+        this.username = this.$store.state.username;
+        this.getSalesPlanNo();
+    }
 
     mounted() {
-        this.$emit('setTitle', this.$store.state.username + ' 销售计划');
+        this.$emit('setTitle', this.username + ' 销售计划');
         //观察者模式
         this.$watch('radio2', (v, ov) => {
             switch (v) {
@@ -25,9 +35,16 @@ export default class PlanComponent extends Vue {
             }
         });
     };
-
     change(label: string, tabkey: string) {
         console.log(label);
-        this.$emit('setTitle', this.$store.state.username + ' ' + label);
+        this.$emit('setTitle', this.username + ' ' + label);
+    }
+
+    getSalesPlanNo() {
+        axios.get('/api/SalesPlan/SalesPlanNo').then((res) => {
+            let jobj = res.data as server.resultJSON<string>;
+            if (jobj.code == 0)
+                this.salesPlanNo = jobj.data;
+        });
     }
 }

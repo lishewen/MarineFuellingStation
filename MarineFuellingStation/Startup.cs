@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using MFS.Models;
+using MFS.Repositorys;
 
 namespace MFS
 {
@@ -39,6 +40,8 @@ namespace MFS
             services.AddMvc();
 
             services.Configure<WorkOption>(Configuration.GetSection("WorkOption"));
+            //×¢Èë²Ö´¢Àà
+            services.AddScoped<SalesPlanRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

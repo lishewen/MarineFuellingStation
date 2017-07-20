@@ -12,8 +12,7 @@
                         </yd-radio-group>
                     </yd-cell-item>
                 </yd-cell-group>
-                <yd-cell-group title="单号：JH07070001">
-
+                <yd-cell-group :title="'单号：' + salesPlanNo">
                     <yd-cell-item>
                         <span slot="left">船号：</span>
                         <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入您的船号"></yd-input>
@@ -85,7 +84,7 @@
 
                     <yd-cell-item>
                         <span slot="left">●销售员：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="即开单员"></yd-input>
+                        <yd-input slot="right" v-model="username" regex="" placeholder="即开单员"></yd-input>
                     </yd-cell-item>
                 </yd-cell-group>
                 <div>

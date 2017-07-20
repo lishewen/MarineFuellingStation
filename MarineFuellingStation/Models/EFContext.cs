@@ -9,6 +9,10 @@ namespace MFS.Models
 {
     public class EFContext : DbContext
     {
+        /// <summary>
+        /// 销售计划
+        /// </summary>
+        public DbSet<SalesPlan> SalesPlans { get; set; }
         public EFContext(DbContextOptions<EFContext> options) : base(options) { }
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {

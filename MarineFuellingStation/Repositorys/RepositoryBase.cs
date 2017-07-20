@@ -4,8 +4,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
+using MFS.Models;
 
-namespace MFS.Models
+namespace MFS.Repositorys
 {
     /// <summary>
     /// 仓储基类
@@ -15,6 +16,18 @@ namespace MFS.Models
     {
         //定义数据访问上下文对象
         protected readonly EFContext _dbContext;
+
+        public string CurrentUser
+        {
+            get
+            {
+                return _dbContext.CurrentUser;
+            }
+            set
+            {
+                _dbContext.CurrentUser = value;
+            }
+        }
 
         /// <summary>
         /// 通过构造函数注入得到数据上下文对象实例

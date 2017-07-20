@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Linq.Expressions;
+using MFS.Models;
 
-namespace MFS.Models
+namespace MFS.Repositorys
 {
     /// <summary>
     /// 定义泛型仓储接口

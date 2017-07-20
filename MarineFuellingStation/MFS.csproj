@@ -30,9 +30,6 @@
     <None Update="Models\EntityBase.cs.d.ts">
       <DependentUpon>EntityBase.cs</DependentUpon>
     </None>
-    <None Update="Models\SalesPlan.cs.d.ts">
-      <DependentUpon>SalesPlan.cs</DependentUpon>
-    </None>
   </ItemGroup>
   <Target Name="RunWebpack" AfterTargets="ComputeFilesToPublish">
     <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->

@@ -41,6 +41,15 @@ namespace MFS.Models
         /// 开票数量
         /// </summary>
         public int BillingCount { get; set; }
+        public SalesPlanState State { get; set; }
+        /// <summary>
+        /// 审核人
+        /// </summary>
+        public string Auditor { get; set; }
+        /// <summary>
+        /// 审核时间
+        /// </summary>
+        public DateTime AuditTime { get; set; }
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public decimal TotalMoney
         {
@@ -56,5 +65,12 @@ namespace MFS.Models
         水上,
         陆上,
         机油
+    }
+
+    public enum SalesPlanState
+    {
+        未审批,
+        已审批,
+        已完成
     }
 }

@@ -19,11 +19,21 @@ declare module server {
 		billingPrice: number;
 		/** 开票数量 */
 		billingCount: number;
+		state: salesPlanState;
+		/** 审核人 */
+		auditor: string;
+		/** 审核时间 */
+		auditTime: Date;
 		totalMoney: number;
 	}
 	const enum salesPlanType {
 		水上,
 		陆上,
 		机油,
+	}
+	const enum salesPlanState {
+		未审批,
+		已审批,
+		已完成,
 	}
 }

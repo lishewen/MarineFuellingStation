@@ -25,7 +25,22 @@ namespace MFS.Models
         /// </summary>
         public decimal Remainder { get; set; }
         public DateTime OilDate { get; set; }
+        /// <summary>
+        /// 是否开票
+        /// </summary>
         public bool IsInvoice { get; set; }
+        /// <summary>
+        /// 开票单位
+        /// </summary>
+        public string BillingCompany { get; set; }
+        /// <summary>
+        /// 开票单价
+        /// </summary>
+        public decimal BillingPrice { get; set; }
+        /// <summary>
+        /// 开票数量
+        /// </summary>
+        public int BillingCount { get; set; }
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public decimal TotalMoney
         {

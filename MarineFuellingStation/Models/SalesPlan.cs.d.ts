@@ -11,7 +11,14 @@ declare module server {
 		/** 当前余油 */
 		remainder: number;
 		oilDate: Date;
+		/** 是否开票 */
 		isInvoice: boolean;
+		/** 开票单位 */
+		billingCompany: string;
+		/** 开票单价 */
+		billingPrice: number;
+		/** 开票数量 */
+		billingCount: number;
 		totalMoney: number;
 	}
 	const enum salesPlanType {

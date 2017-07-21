@@ -20,11 +20,9 @@
 
                     <yd-cell-item arrow>
                         <span slot="left">油品：</span>
-                        <select slot="right">
+                        <select slot="right" v-model="model.productId">
                             <option value="">请选择油品</option>
-                            <option value="1">93#</option>
-                            <option value="2">95#</option>
-                            <option value="3">97#</option>
+                            <option v-for="option in options" :value="option.id">{{option.name}}</option>
                         </select>
                     </yd-cell-item>
 

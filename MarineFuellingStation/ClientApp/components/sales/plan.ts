@@ -8,9 +8,12 @@ export default class PlanComponent extends Vue {
     username: string;
     model: server.salesPlan;
     oildate: string;
+    options: server.product[];
 
     constructor() {
         super();
+        (<any>this).$dialog.loading.open('很快加载好了');
+        this.options = (new Object()) as server.product[];
 
         this.model = (new Object()) as server.salesPlan;
         this.model.name = '';
@@ -24,11 +27,14 @@ export default class PlanComponent extends Vue {
         this.model.billingCompany = '';
         this.model.billingPrice = 0;
         this.model.billingCount = 0;
+        this.model.productId = 0;
 
         this.oildate = this.model.oilDate.getFullYear() + '-' + this.model.oilDate.getMonth() + '-' + this.model.oilDate.getDay();
 
         this.username = this.$store.state.username;
         this.getSalesPlanNo();
+        this.getOilProducts();
+        (<any>this).$dialog.loading.close();
     }
 
     mounted() {
@@ -69,6 +75,14 @@ export default class PlanComponent extends Vue {
             let jobj = res.data as server.resultJSON<string>;
             if (jobj.code == 0)
                 this.model.name = jobj.data;
+        });
+    }
+
+    getOilProducts() {
+        axios.get('/api/Product/OilProducts').then((res) => {
+            let jobj = res.data as server.resultJSON<server.product[]>;
+            if (jobj.code == 0)
+                this.options = jobj.data;
         });
     }
 

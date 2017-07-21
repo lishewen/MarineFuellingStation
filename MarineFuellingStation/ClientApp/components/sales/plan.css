@@ -1,3 +1,15 @@
 ﻿.tab-panel {
     background-color: #f5f5f5
 }
+.color_red {
+    color: red;
+}
+.color_green {
+    color: green;
+}
+.color_blue {
+    color: blue;
+}
+.color_lightgray {
+    color: lightgray;
+}

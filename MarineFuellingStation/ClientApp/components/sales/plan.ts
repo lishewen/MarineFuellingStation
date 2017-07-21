@@ -10,11 +10,15 @@ export default class PlanComponent extends Vue {
     model: server.salesPlan;
     oildate: string;
     options: server.product[];
+    salesplans: server.salesPlan[];
 
     constructor() {
         super();
+
         (<any>this).$dialog.loading.open('很快加载好了');
+
         this.options = (new Object()) as server.product[];
+        this.salesplans = (new Object()) as server.salesPlan[];
 
         this.model = (new Object()) as server.salesPlan;
         this.model.name = '';
@@ -36,6 +40,7 @@ export default class PlanComponent extends Vue {
         this.username = this.$store.state.username;
         this.getSalesPlanNo();
         this.getOilProducts();
+
         (<any>this).$dialog.loading.close();
     }
 
@@ -71,6 +76,9 @@ export default class PlanComponent extends Vue {
 
     change(label: string, tabkey: string) {
         this.$emit('setTitle', this.username + ' ' + label);
+
+        if (label == '单据记录')
+            this.getSalesPlans();
     }
 
     changeProduct(event) {
@@ -93,6 +101,21 @@ export default class PlanComponent extends Vue {
         this.postSalesPlan(this.model);
     }
 
+    formatDate(d: Date): string {
+        return moment(d).format('YYYY-MM-DD');
+    }
+
+    getStateName(s: server.salesPlanState): string {
+        switch (s) {
+            case server.salesPlanState.未审批:
+                return '未审批';
+            case server.salesPlanState.已审批:
+                return '已审批';
+            case server.salesPlanState.已完成:
+                return '已完成';
+        }
+    }
+
     toastError(msg: string) {
         (<any>this).$dialog.toast({
             mes: msg,
@@ -112,11 +135,30 @@ export default class PlanComponent extends Vue {
         return pro;
     }
 
+    classState(s: server.salesPlanState): any {
+        switch (s) {
+            case server.salesPlanState.未审批:
+                return { color_red: true }
+            case server.salesPlanState.已审批:
+                return { color_green: true }
+            case server.salesPlanState.已完成:
+                return { color_blue: true }
+        }
+    }
+
     getSalesPlanNo() {
         axios.get('/api/SalesPlan/SalesPlanNo').then((res) => {
             let jobj = res.data as server.resultJSON<string>;
             if (jobj.code == 0)
                 this.model.name = jobj.data;
+        });
+    }
+
+    getSalesPlans() {
+        axios.get('/api/SalesPlan').then((res) => {
+            let jobj = res.data as server.resultJSON<server.salesPlan[]>;
+            if (jobj.code == 0)
+                this.salesplans = jobj.data;
         });
     }
 

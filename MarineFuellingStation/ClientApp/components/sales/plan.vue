@@ -12,10 +12,10 @@
                         </yd-radio-group>
                     </yd-cell-item>
                 </yd-cell-group>
-                <yd-cell-group :title="'单号：' + salesPlanNo">
+                <yd-cell-group :title="'单号：' + model.name">
                     <yd-cell-item>
                         <span slot="left">船号：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入您的船号"></yd-input>
+                        <yd-input slot="right" v-model="model.carNo" regex="" placeholder="请输入您的船号"></yd-input>
                     </yd-cell-item>
 
                     <yd-cell-item arrow>
@@ -30,24 +30,23 @@
 
                     <yd-cell-item>
                         <span slot="left">计划单价：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入单价"></yd-input>
+                        <yd-input slot="right" v-model="model.price" regex="" placeholder="请输入单价"></yd-input>
                     </yd-cell-item>
 
                     <yd-cell-item>
                         <span slot="left">计划数量：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入加油数量"></yd-input>
-                        <span slot="right" style="width:70px">单位：{{unit}}</span>
+                        <yd-input slot="right" v-model="model.count" regex="" placeholder="请输入加油数量"></yd-input>
+                        <span slot="right" style="width:70px">单位：{{model.unit}}</span>
                     </yd-cell-item>
 
                     <yd-cell-item>
                         <span slot="left">当前余油：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入客户目前剩余油量"></yd-input>
-                        <span slot="right" style="width:70px">单位：{{unit}}</span>
+                        <yd-input slot="right" v-model="model.remainder" regex="" placeholder="请输入客户目前剩余油量"></yd-input>
+                        <span slot="right" style="width:70px">单位：{{model.unit}}</span>
                     </yd-cell-item>
-
-                    <yd-cell-item>
+                    <yd-cell-item arrow>
                         <span slot="left">加油时间：</span>
-                        <input slot="right" class="cell-input" type="date" value="2017-08-19" placeholder="">
+                        <yd-datetime type="date" v-model="oildate" slot="right"></yd-datetime>
                     </yd-cell-item>
                 </yd-cell-group>
 
@@ -55,23 +54,23 @@
                     <yd-cell-item>
                         <span slot="left">是否开票</span>
                         <span slot="right">
-                            <yd-switch v-model="isinvoice"></yd-switch>
+                            <yd-switch v-model="model.isInvoice"></yd-switch>
                         </span>
                     </yd-cell-item>
-                    <yd-cell-item v-show="isinvoice">
+                    <yd-cell-item v-show="model.isInvoice">
                         <span slot="left">开票单位：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入开票单位"></yd-input>
+                        <yd-input slot="right" v-model="model.billingCompany" regex="" placeholder="请输入开票单位"></yd-input>
                     </yd-cell-item>
-                    <yd-cell-item v-show="isinvoice">
+                    <yd-cell-item v-show="model.isInvoice">
                         <span slot="left">单价：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入开票单价，默认同上"></yd-input>
+                        <yd-input slot="right" v-model="model.billingPrice" regex="" placeholder="请输入开票单价，默认同上"></yd-input>
                     </yd-cell-item>
-                    <yd-cell-item v-show="isinvoice">
+                    <yd-cell-item v-show="model.isInvoice">
                         <span slot="left">数量：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入开票，默认同上"></yd-input>
+                        <yd-input slot="right" v-model="model.billingCount" regex="" placeholder="请输入开票，默认同上"></yd-input>
                     </yd-cell-item>
                 </yd-cell-group>
-                <yd-cell-group title="不显示">
+                <!--<yd-cell-group title="不显示">
                     <yd-cell-item>
                         <span slot="left">●开单时间：</span>
                         <input slot="right" class="cell-input" type="date" value="2017-07-19" placeholder="">
@@ -86,7 +85,7 @@
                         <span slot="left">●销售员：</span>
                         <yd-input slot="right" v-model="username" regex="" placeholder="即开单员"></yd-input>
                     </yd-cell-item>
-                </yd-cell-group>
+                </yd-cell-group>-->
                 <div>
                     <yd-button size="large" type="primary">提交</yd-button>
                 </div>

@@ -5,14 +5,27 @@ import axios from "axios";
 @Component
 export default class PlanComponent extends Vue {
     radio2: string = '1';
-    unit: string = '升';
-    carNo: string = '';
-    isinvoice: boolean = false;
     username: string;
-    salesPlanNo: string;
+    model: server.salesPlan;
+    oildate: string;
 
     constructor() {
         super();
+
+        this.model = (new Object()) as server.salesPlan;
+        this.model.name = '';
+        this.model.unit = '升';
+        this.model.isInvoice = false;
+        this.model.carNo = '';
+        this.model.price = 0;
+        this.model.count = 0;
+        this.model.remainder = 0;
+        this.model.oilDate = new Date();
+        this.model.billingCompany = '';
+        this.model.billingPrice = 0;
+        this.model.billingCount = 0;
+
+        this.oildate = this.model.oilDate.getFullYear() + '-' + this.model.oilDate.getMonth() + '-' + this.model.oilDate.getDay();
 
         this.username = this.$store.state.username;
         this.getSalesPlanNo();
@@ -24,19 +37,30 @@ export default class PlanComponent extends Vue {
         this.$watch('radio2', (v, ov) => {
             switch (v) {
                 case "1":
-                    this.unit = '升';
+                    this.model.unit = '升';
+                    this.model.salesPlanType = server.salesPlanType.水上;
                     break;
                 case "2":
-                    this.unit = '吨';
+                    this.model.unit = '吨';
+                    this.model.salesPlanType = server.salesPlanType.陆上;
                     break;
                 case "3":
-                    this.unit = '桶';
+                    this.model.unit = '桶';
+                    this.model.salesPlanType = server.salesPlanType.机油;
                     break;
             }
         });
+        this.$watch('model.price', (v, ov) => {
+            this.model.billingPrice = v;
+        });
+        this.$watch('model.count', (v, ov) => {
+            this.model.billingCount = v;
+        });
+        this.$watch('oildate', (v, ov) => {
+            this.model.oilDate = new Date(this.oildate);
+        });
     };
     change(label: string, tabkey: string) {
-        console.log(label);
         this.$emit('setTitle', this.username + ' ' + label);
     }
 
@@ -44,7 +68,19 @@ export default class PlanComponent extends Vue {
         axios.get('/api/SalesPlan/SalesPlanNo').then((res) => {
             let jobj = res.data as server.resultJSON<string>;
             if (jobj.code == 0)
-                this.salesPlanNo = jobj.data;
+                this.model.name = jobj.data;
+        });
+    }
+
+    postSalesPlan(model: server.salesPlan) {
+        axios.post('/api/SalesPlan', model).then((res) => {
+            let jobj = res.data as server.resultJSON<string>;
+            if (jobj.code == 0)
+                (<any>this).$dialog.toast({
+                    mes: jobj.msg,
+                    timeout: 1500,
+                    icon: 'success'
+                });
         });
     }
 }

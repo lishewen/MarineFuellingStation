@@ -27,5 +27,16 @@ namespace MFS.Controllers
                 Data = r.GetSerialNumber(r.GetLastSalesPlanNo())
             };
         }
+        [HttpPost]
+        public ResultJSON<SalesPlan> Post([FromBody]SalesPlan s)
+        {
+            r.CurrentUser = UserName;
+            var result = r.Insert(s);
+            return new ResultJSON<SalesPlan>
+            {
+                Code = 0,
+                Data = result
+            };
+        }
     }
 }

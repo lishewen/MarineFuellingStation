@@ -29,6 +29,7 @@ export default class PlanComponent extends Vue {
         this.model.billingPrice = 0;
         this.model.billingCount = 0;
         this.model.productId = 0;
+        this.model.oilName = '';
 
         this.oildate = moment(this.model.oilDate).format('YYYY-MM-DD');
 
@@ -67,8 +68,48 @@ export default class PlanComponent extends Vue {
             this.model.oilDate = new Date(this.oildate);
         });
     };
+
     change(label: string, tabkey: string) {
         this.$emit('setTitle', this.username + ' ' + label);
+    }
+
+    changeProduct(event) {
+        let pid = parseInt(event.target.value);
+        let p = this.getProduct(pid);
+        this.model.oilName = p.name;
+        this.model.price = p.minPrice;
+    }
+
+    buttonclick() {
+        //信息验证
+        if (this.model.carNo == '') {
+            this.toastError('车牌不能为空');
+            return;
+        }
+        if (this.model.count <= 0) {
+            this.toastError('数量必须大于1');
+            return;
+        }
+        this.postSalesPlan(this.model);
+    }
+
+    toastError(msg: string) {
+        (<any>this).$dialog.toast({
+            mes: msg,
+            timeout: 1500,
+            icon: 'error'
+        });
+    }
+
+    getProduct(id: number): server.product {
+        let pro: server.product;
+        this.options.forEach((p, i) => {
+            if (p.id == id) {
+                pro = p;
+                return;
+            }
+        });
+        return pro;
     }
 
     getSalesPlanNo() {

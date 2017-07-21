@@ -20,7 +20,7 @@
 
                     <yd-cell-item arrow>
                         <span slot="left">油品：</span>
-                        <select slot="right" v-model="model.productId">
+                        <select slot="right" v-model="model.productId" @change="changeProduct">
                             <option value="">请选择油品</option>
                             <option v-for="option in options" :value="option.id">{{option.name}}</option>
                         </select>
@@ -69,7 +69,7 @@
                     </yd-cell-item>
                 </yd-cell-group>
                 <div>
-                    <yd-button size="large" type="primary">提交</yd-button>
+                    <yd-button size="large" type="primary" @click.native="buttonclick">提交</yd-button>
                 </div>
             </yd-tab-panel>
 

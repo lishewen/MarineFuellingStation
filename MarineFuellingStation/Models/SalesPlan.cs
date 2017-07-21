@@ -14,6 +14,10 @@ namespace MFS.Models
         public SalesPlanType SalesPlanType { get; set; }
         public string CarNo { get; set; }
         public int ProductId { get; set; }
+        /// <summary>
+        /// 油品名
+        /// </summary>
+        public string OilName { get; set; }
         public decimal Price { get; set; }
         public int Count { get; set; }
         /// <summary>

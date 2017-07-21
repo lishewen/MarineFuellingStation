@@ -4,6 +4,8 @@ declare module server {
 		salesPlanType: salesPlanType;
 		carNo: string;
 		productId: number;
+		/** 油品名 */
+		oilName: string;
 		price: number;
 		count: number;
 		/** 单位 */

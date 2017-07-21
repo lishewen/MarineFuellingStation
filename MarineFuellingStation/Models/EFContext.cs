@@ -13,6 +13,11 @@ namespace MFS.Models
         /// 销售计划
         /// </summary>
         public DbSet<SalesPlan> SalesPlans { get; set; }
+        public DbSet<ProductType> ProductTypes { get; set; }
+        /// <summary>
+        /// 商品表
+        /// </summary>
+        public DbSet<Product> Products { get; set; }
         public EFContext(DbContextOptions<EFContext> options) : base(options) { }
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {

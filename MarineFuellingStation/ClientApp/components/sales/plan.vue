@@ -70,22 +70,6 @@
                         <yd-input slot="right" v-model="model.billingCount" regex="" placeholder="请输入开票，默认同上"></yd-input>
                     </yd-cell-item>
                 </yd-cell-group>
-                <!--<yd-cell-group title="不显示">
-                    <yd-cell-item>
-                        <span slot="left">●开单时间：</span>
-                        <input slot="right" class="cell-input" type="date" value="2017-07-19" placeholder="">
-                    </yd-cell-item>
-
-                    <yd-cell-item>
-                        <span slot="left">●总价：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="自动计算，单价 x 数量"></yd-input>
-                    </yd-cell-item>
-
-                    <yd-cell-item>
-                        <span slot="left">●销售员：</span>
-                        <yd-input slot="right" v-model="username" regex="" placeholder="即开单员"></yd-input>
-                    </yd-cell-item>
-                </yd-cell-group>-->
                 <div>
                     <yd-button size="large" type="primary">提交</yd-button>
                 </div>

@@ -15,7 +15,7 @@
                 <yd-cell-group :title="'单号：' + model.name">
                     <yd-cell-item>
                         <span slot="left">船号：</span>
-                        <yd-input slot="right" v-model="model.carNo" regex="" placeholder="请输入您的船号"></yd-input>
+                        <yd-input slot="right" v-model="model.carNo" required placeholder="请输入您的船号"></yd-input>
                     </yd-cell-item>
 
                     <yd-cell-item arrow>

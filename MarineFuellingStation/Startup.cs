@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -40,8 +40,9 @@ namespace MFS
             services.AddMvc();
 
             services.Configure<WorkOption>(Configuration.GetSection("WorkOption"));
-            //×¢Èë²Ö´¢Àà
+            //æ³¨å…¥ä»“å‚¨ç±»
             services.AddScoped<SalesPlanRepository>();
+            services.AddScoped<ProductRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -8,16 +8,19 @@ using Senparc.Weixin.Work.Containers;
 using Senparc.Weixin.Work.AdvancedAPIs;
 using Microsoft.Extensions.Options;
 using System.Net;
+using MFS.Repositorys;
 
 namespace MFS.Controllers
 {
     public class HomeController : Controller
     {
         WorkOption option;
-        public HomeController(IOptionsSnapshot<WorkOption> option)
+        ProductRepository r;
+        public HomeController(IOptionsSnapshot<WorkOption> option, ProductRepository productRepository)
         {
             this.option = option.Value;
             this.option.AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.Secret);
+            r = productRepository;
         }
 
         public IActionResult Index()
@@ -47,6 +50,12 @@ namespace MFS.Controllers
         public IActionResult Error()
         {
             return View();
+        }
+
+        public IActionResult Init()
+        {
+            //r.Init();
+            return Content("OK");
         }
     }
 }

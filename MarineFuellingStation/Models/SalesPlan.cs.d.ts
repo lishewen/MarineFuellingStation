@@ -25,7 +25,7 @@ declare module server {
 		/** 审核人 */
 		auditor: string;
 		/** 审核时间 */
-		auditTime: Date;
+		auditTime?: Date;
 		totalMoney: number;
 	}
 	const enum salesPlanType {

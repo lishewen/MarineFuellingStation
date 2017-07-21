@@ -53,7 +53,7 @@ namespace MFS.Models
         /// <summary>
         /// 审核时间
         /// </summary>
-        public DateTime AuditTime { get; set; }
+        public DateTime? AuditTime { get; set; }
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public decimal TotalMoney
         {

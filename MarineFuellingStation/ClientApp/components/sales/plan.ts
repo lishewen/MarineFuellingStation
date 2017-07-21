@@ -1,6 +1,7 @@
 ﻿import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import axios from "axios";
+import moment from "moment";
 
 @Component
 export default class PlanComponent extends Vue {
@@ -29,7 +30,7 @@ export default class PlanComponent extends Vue {
         this.model.billingCount = 0;
         this.model.productId = 0;
 
-        this.oildate = this.model.oilDate.getFullYear() + '-' + this.model.oilDate.getMonth() + '-' + this.model.oilDate.getDay();
+        this.oildate = moment(this.model.oilDate).format('YYYY-MM-DD');
 
         this.username = this.$store.state.username;
         this.getSalesPlanNo();

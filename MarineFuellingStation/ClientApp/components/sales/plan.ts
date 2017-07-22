@@ -9,16 +9,17 @@ export default class PlanComponent extends Vue {
     username: string;
     model: server.salesPlan;
     oildate: string;
-    options: server.product[];
     salesplans: server.salesPlan[];
+    oilshow: boolean = false;
+    oiloptions: ydui.actionSheetItem[];
 
     constructor() {
         super();
 
         (<any>this).$dialog.loading.open('很快加载好了');
 
-        this.options = (new Object()) as server.product[];
-        this.salesplans = (new Object()) as server.salesPlan[];
+        this.salesplans = (new Array()) as server.salesPlan[];
+        this.oiloptions = (new Array()) as ydui.actionSheetItem[];
 
         this.model = (new Object()) as server.salesPlan;
         this.model.name = '';
@@ -33,7 +34,7 @@ export default class PlanComponent extends Vue {
         this.model.billingPrice = 0;
         this.model.billingCount = 0;
         this.model.productId = 0;
-        this.model.oilName = '';
+        this.model.oilName = '请选择油品';
 
         this.oildate = moment(this.model.oilDate).format('YYYY-MM-DD');
 
@@ -81,13 +82,6 @@ export default class PlanComponent extends Vue {
             this.getSalesPlans();
     }
 
-    changeProduct(event) {
-        let pid = parseInt(event.target.value);
-        let p = this.getProduct(pid);
-        this.model.oilName = p.name;
-        this.model.price = p.minPrice;
-    }
-
     buttonclick() {
         //信息验证
         if (this.model.carNo == '') {
@@ -124,17 +118,6 @@ export default class PlanComponent extends Vue {
         });
     }
 
-    getProduct(id: number): server.product {
-        let pro: server.product;
-        this.options.forEach((p, i) => {
-            if (p.id == id) {
-                pro = p;
-                return;
-            }
-        });
-        return pro;
-    }
-
     classState(s: server.salesPlanState): any {
         switch (s) {
             case server.salesPlanState.未审批:
@@ -165,8 +148,17 @@ export default class PlanComponent extends Vue {
     getOilProducts() {
         axios.get('/api/Product/OilProducts').then((res) => {
             let jobj = res.data as server.resultJSON<server.product[]>;
-            if (jobj.code == 0)
-                this.options = jobj.data;
+            if (jobj.code == 0) {
+                jobj.data.forEach((o, i) => {
+                    this.oiloptions.push({
+                        label: o.name,
+                        method: () => {
+                            this.model.oilName = o.name;
+                            this.model.price = o.minPrice;
+                        }
+                    });
+                });
+            }
         });
     }
 

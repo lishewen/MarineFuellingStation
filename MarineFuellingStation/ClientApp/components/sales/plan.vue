@@ -18,12 +18,9 @@
                         <yd-input slot="right" v-model="model.carNo" required placeholder="请输入您的船号"></yd-input>
                     </yd-cell-item>
 
-                    <yd-cell-item arrow>
+                    <yd-cell-item arrow @click.native="oilshow = true">
                         <span slot="left">油品：</span>
-                        <select slot="right" v-model="model.productId" @change="changeProduct">
-                            <option value="">请选择油品</option>
-                            <option v-for="option in options" :value="option.id">{{option.name}}</option>
-                        </select>
+                        <span slot="right">{{model.oilName}}</span>                        
                     </yd-cell-item>
 
                     <yd-cell-item>
@@ -71,6 +68,8 @@
                 <div>
                     <yd-button size="large" type="primary" @click.native="buttonclick">提交</yd-button>
                 </div>
+
+                <yd-actionsheet :items="oiloptions" v-model="oilshow" cancel="取消"></yd-actionsheet>
             </yd-tab-panel>
 
             <yd-tab-panel label="单据记录">
@@ -88,4 +87,4 @@
 </template>
 
 <style src="./plan.css" />
-<script src="./plan.ts"/>
+<script src="./plan.ts" />

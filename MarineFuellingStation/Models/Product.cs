@@ -13,6 +13,11 @@ namespace MFS.Models
         /// </summary>
         public decimal MinPrice { get; set; }
         /// <summary>
+        /// 最后报价
+        /// </summary>
+        public decimal LastPrice { get; set; }
+        public bool IsUse { get; set; } = true;
+        /// <summary>
         /// 商品分类
         /// </summary>
         [JsonIgnore]

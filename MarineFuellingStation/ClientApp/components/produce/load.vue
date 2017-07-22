@@ -26,7 +26,7 @@
                     </yd-cell-item>
                 </yd-cell-group>
             </yd-tab-panel>
-            <yd-tab-panel label="完工">
+            <yd-tab-panel label="完工单">
                 <yd-cell-group>
                     <yd-cell-item arrow>
                         <div slot="left">

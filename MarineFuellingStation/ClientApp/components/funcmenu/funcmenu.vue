@@ -33,8 +33,11 @@
             <yd-grids-item link="./produce/landload" style="background-color:lightcyan">
                 <p slot="text">陆上装油</p>
             </yd-grids-item>
-            <yd-grids-item>
-                <p slot="text">生产（转仓）</p>
+            <yd-grids-item link="./produce/movestore" style="background-color:lightcyan">
+                <p slot="text">生产(转仓)开单</p>
+            </yd-grids-item>
+            <yd-grids-item link="./produce/movestoreact" style="background-color:lightcyan">
+                <p slot="text">生产施工</p>
             </yd-grids-item>
             <yd-grids-item link="./produce/assay" style="background-color:lightcyan">
                 <p slot="text">化验</p>
@@ -47,7 +50,7 @@
             <yd-grids-item link="./oilstore" style="background-color:lightcyan">
                 <p slot="text">油仓情况</p>
             </yd-grids-item>
-            <yd-grids-item>
+            <yd-grids-item link="./oilstore/inout" style="background-color:lightcyan">
                 <p slot="text">出入仓记录</p>
             </yd-grids-item>
             <yd-grids-item>

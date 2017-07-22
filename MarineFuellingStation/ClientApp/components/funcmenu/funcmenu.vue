@@ -53,15 +53,15 @@
             <yd-grids-item link="./oilstore/inout" style="background-color:lightcyan">
                 <p slot="text">出入仓记录</p>
             </yd-grids-item>
-            <yd-grids-item>
+            <yd-grids-item link="./oilstore/store" style="background-color:lightcyan">
                 <p slot="text">油仓和分类</p>
             </yd-grids-item>
-            <yd-grids-item>
+            <yd-grids-item link="./oilstore/product" style="background-color:lightcyan">
                 <p slot="text">商品和分类</p>
             </yd-grids-item>
         </yd-grids-group>
         <yd-grids-group :rows="3" title="客户管理">
-            <yd-grids-item>
+            <yd-grids-item link="./client/client" style="background-color:lightcyan">
                 <p slot="text">客户</p>
             </yd-grids-item>
             <yd-grids-item>

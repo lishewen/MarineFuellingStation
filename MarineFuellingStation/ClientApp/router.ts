@@ -5,12 +5,12 @@ import store from './store'
 Vue.use(VueRouter);
 
 const routes = [
-    { path: '/oilstore', component: require('./components/oilstore/oilstore.vue') },
     { path: '/sales/plan', component: require('./components/sales/plan.vue') },
     { path: '/sales/order', component: require('./components/sales/order.vue') },
     { path: '/sales/myorder', component: require('./components/sales/myorder.vue') },
     { path: '/sales/myclient', component: require('./components/sales/myclient.vue') },
     { path: '/sales/boatclean', component: require('./components/sales/boatclean.vue') },
+
     { path: '/produce/buyboard', component: require('./components/produce/buyboard.vue') },
     { path: '/produce/planboard', component: require('./components/produce/planboard.vue') },
     { path: '/produce/assay', component: require('./components/produce/assay.vue') },
@@ -19,7 +19,13 @@ const routes = [
     { path: '/produce/landload', component: require('./components/produce/landload.vue') },
     { path: '/produce/movestore', component: require('./components/produce/movestore.vue') },
     { path: '/produce/movestoreact', component: require('./components/produce/movestoreact.vue') },
+
     { path: '/oilstore/inout', component: require('./components/oilstore/inout.vue') },
+    { path: '/oilstore/store', component: require('./components/oilstore/store.vue') },
+    { path: '/oilstore/product', component: require('./components/oilstore/product.vue') },
+
+    { path: '/oilstore', component: require('./components/oilstore/oilstore.vue') },
+    { path: '/client/client', component: require('./components/client/client.vue') },
     { path: '/funcmenu', component: require('./components/funcmenu/funcmenu.vue') },
     { path: '/', component: require('./components/home/home.vue') },
     { path: '/counter', component: require('./components/counter/counter.vue') },

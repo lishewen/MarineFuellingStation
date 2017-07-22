@@ -92,6 +92,10 @@ export default class PlanComponent extends Vue {
             this.toastError('数量必须大于1');
             return;
         }
+        if (this.model.productId == 0) {
+            this.toastError('必须选择油品');
+            return;
+        }
         this.postSalesPlan(this.model);
     }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MFS.Models
 {
@@ -17,10 +18,11 @@ namespace MFS.Models
         /// </summary>
         public decimal LastPrice { get; set; }
         public bool IsUse { get; set; } = true;
+        public int ProductTypeId { get; set; }
         /// <summary>
         /// 商品分类
         /// </summary>
-        [JsonIgnore]
+        [JsonIgnore, ForeignKey("ProductTypeId")]
         public virtual ProductType ProductType { get; set; }
     }
 

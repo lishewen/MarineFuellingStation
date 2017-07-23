@@ -68,8 +68,6 @@
                 <div>
                     <yd-button size="large" type="primary" @click.native="buttonclick">提交</yd-button>
                 </div>
-
-                <yd-actionsheet :items="oiloptions" v-model="oilshow" cancel="取消"></yd-actionsheet>
             </yd-tab-panel>
 
             <yd-tab-panel label="单据记录">
@@ -83,6 +81,7 @@
                 </yd-cell-group>
             </yd-tab-panel>
         </yd-tab>
+        <yd-actionsheet :items="oiloptions" v-model="oilshow" cancel="取消"></yd-actionsheet>
     </div>
 </template>
 

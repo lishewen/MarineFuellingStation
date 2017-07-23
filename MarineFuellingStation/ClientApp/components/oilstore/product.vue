@@ -4,21 +4,9 @@
 
             <yd-tab-panel label="所有分类">
                 <yd-cell-group>
-                    <yd-cell-item arrow @click.native="show1 = true">
+                    <yd-cell-item arrow @click.native="ptClick(pt)"  v-for="pt in pts">
                         <div slot="left" style="margin: 10px 0 10px 0;line-height:22px">
-                            <p>柴油</p>
-                            <p style="color:lightgray;font-size:14px">XXXXXX</p>
-                        </div>
-                    </yd-cell-item>
-                    <yd-cell-item arrow @click.native="show1 = true">
-                        <div slot="left" style="margin: 10px 0 10px 0;line-height:22px">
-                            <p>循环油</p>
-                            <p style="color:lightgray;font-size:14px">XXXXXX</p>
-                        </div>
-                    </yd-cell-item>
-                    <yd-cell-item arrow @click.native="show1 = true">
-                        <div slot="left" style="margin: 10px 0 10px 0;line-height:22px">
-                            <p>机油</p>
+                            <p>{{pt.name}}</p>
                             <p style="color:lightgray;font-size:14px">XXXXXX</p>
                         </div>
                     </yd-cell-item>
@@ -26,14 +14,9 @@
             </yd-tab-panel>
             <yd-tab-panel label="添加">
                 <yd-cell-group>
-                    <yd-cell-item>
+                    <yd-cell-item @click.native="ptshow = true">
                         <span slot="left">所属分类：</span>
-                        <select slot="right">
-                            <option value="">请选择分类</option>
-                            <option value="1">柴油</option>
-                            <option value="2">循环油</option>
-                            <option value="3">机油</option>
-                        </select>
+                        <span slot="right">{{selectptname}}</span>
                         <span slot="right"><yd-button type="primary" @click.native="show2 = true">添加</yd-button></span>
                     </yd-cell-item>
                     <yd-cell-item>
@@ -63,24 +46,13 @@
                 </yd-cell-group>
             </yd-tab-panel>
         </yd-tab>
+        <yd-actionsheet :items="ptoptions" v-model="ptshow" cancel="取消"></yd-actionsheet>
         <yd-popup v-model="show1" position="right">
-            <yd-cell-group title="【柴油】">
-                <yd-cell-item>
-                    <div slot="left">国三</div>
+            <yd-cell-group :title="currentpt.name">
+                <yd-cell-item v-for="p in currentpt.products">
+                    <div slot="left">{{p.name}}</div>
                     <div slot="right">
-                        <p style="color:forestgreen; font-size: 14px">￥4.25/升</p>
-                    </div>
-                </yd-cell-item>
-                <yd-cell-item>
-                    <div slot="left">国四</div>
-                    <div slot="right">
-                        <p style="color:forestgreen; font-size: 14px">￥4.25/升</p>
-                    </div>
-                </yd-cell-item>
-                <yd-cell-item>
-                    <div slot="left">国五</div>
-                    <div slot="right">
-                        <p style="color:forestgreen; font-size: 14px">￥4.25/升</p>
+                        <p style="color:forestgreen; font-size: 14px">￥{{p.minPrice}}/升</p>
                     </div>
                 </yd-cell-item>
             </yd-cell-group>

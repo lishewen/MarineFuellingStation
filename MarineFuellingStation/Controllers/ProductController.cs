@@ -23,7 +23,7 @@ namespace MFS.Controllers
             return new ResultJSON<List<Product>>
             {
                 Code = 0,
-                Data = r.GetAllList((p) => p.ProductType.Name == "油品")
+                Data = r.GetAllList((p) => p.ProductType.Name == "油品" && p.IsUse)
             };
         }
     }

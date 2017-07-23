@@ -36,7 +36,7 @@ export default class PlanComponent extends Vue {
         this.model.productId = 0;
         this.model.oilName = '请选择油品';
 
-        this.oildate = moment(this.model.oilDate).format('YYYY-MM-DD');
+        this.oildate = this.formatDate(this.model.oilDate);
 
         this.username = this.$store.state.username;
         this.getSalesPlanNo();
@@ -158,7 +158,10 @@ export default class PlanComponent extends Vue {
                         label: o.name,
                         method: () => {
                             this.model.oilName = o.name;
-                            this.model.price = o.minPrice;
+                            if (o.lastPrice > 0)
+                                this.model.price = o.lastPrice;
+                            else
+                                this.model.price = o.minPrice;
                         }
                     });
                 });

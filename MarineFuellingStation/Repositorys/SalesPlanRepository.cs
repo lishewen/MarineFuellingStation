@@ -49,5 +49,18 @@ namespace MFS.Repositorys
             }
             return tag + DateTime.Now.ToString("yyMM") + "0001";
         }
+
+        /// <summary>
+        /// 新增实体
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="autoSave">是否立即执行保存</param>
+        /// <returns></returns>
+        public new SalesPlan Insert(SalesPlan entity, bool autoSave = true)
+        {
+            var p = _dbContext.Products.Find(entity.ProductId);
+            p.LastPrice = entity.Price;
+            return base.Insert(entity, autoSave);
+        }
     }
 }

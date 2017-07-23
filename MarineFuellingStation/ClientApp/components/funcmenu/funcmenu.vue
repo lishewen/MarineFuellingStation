@@ -64,9 +64,6 @@
             <yd-grids-item link="./client/client" style="background-color:lightcyan">
                 <p slot="text">客户</p>
             </yd-grids-item>
-            <yd-grids-item>
-                <p slot="text">公司</p>
-            </yd-grids-item>
         </yd-grids-group>
         <yd-grids-group :rows="3" title="商品采购">
             <yd-grids-item>

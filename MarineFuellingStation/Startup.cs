@@ -38,6 +38,7 @@ namespace MFS
             services.AddSession();
             // Add framework services.
             services.AddMvc();
+            services.AddSignalR();
 
             services.Configure<WorkOption>(Configuration.GetSection("WorkOption"));
             //注入仓储类
@@ -64,8 +65,11 @@ namespace MFS
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseStaticFiles();
             app.UseSession();
+            app.UseStaticFiles();
+            app.UseWebSockets();
+            app.UseSignalR();
+           
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

@@ -23,9 +23,16 @@ const routes = [
     { path: '/oilstore/inout', component: require('./components/oilstore/inout.vue') },
     { path: '/oilstore/store', component: require('./components/oilstore/store.vue') },
     { path: '/oilstore/product', component: require('./components/oilstore/product.vue') },
-
     { path: '/oilstore', component: require('./components/oilstore/oilstore.vue') },
+
+    { path: '/purchase/purchase', component: require('./components/purchase/purchase.vue') },
+    
     { path: '/client/client', component: require('./components/client/client.vue') },
+
+    { path: '/user/user', component: require('./components/user/user.vue') },
+
+    { path: '/finance/cashier', component: require('./components/finance/cashier.vue') },
+
     { path: '/funcmenu', component: require('./components/funcmenu/funcmenu.vue') },
     { path: '/', component: require('./components/home/home.vue') },
     { path: '/counter', component: require('./components/counter/counter.vue') },

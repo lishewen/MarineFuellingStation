@@ -66,8 +66,28 @@
             </yd-grids-item>
         </yd-grids-group>
         <yd-grids-group :rows="3" title="商品采购">
-            <yd-grids-item>
+            <yd-grids-item link="./purchase/purchase" style="background-color:lightcyan">
                 <p slot="text">采购计划</p>
+            </yd-grids-item>
+        </yd-grids-group>
+        <yd-grids-group :rows="3" title="人员管理">
+            <yd-grids-item link="./user/user" style="background-color:lightcyan">
+                <p slot="text">员工</p>
+            </yd-grids-item>
+        </yd-grids-group>
+        <yd-grids-group :rows="3" title="财务">
+            <yd-grids-item link="./finance/cashier" style="background-color:lightcyan">
+                <p slot="text">收银</p>
+            </yd-grids-item>
+        </yd-grids-group>
+        <yd-grids-group :rows="3" title="报表">
+            <yd-grids-item>
+                <p slot="text">经营统计</p>
+            </yd-grids-item>
+        </yd-grids-group>
+        <yd-grids-group :rows="3" title="运输管理">
+            <yd-grids-item>
+                <p slot="text">客户</p>
             </yd-grids-item>
         </yd-grids-group>
         <yd-grids-group :rows="3" title="单据打印">

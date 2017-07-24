@@ -1,7 +1,6 @@
 ﻿import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
-
-var VueECharts = require('vue-echarts')
+import VueECharts from 'vue-echarts';
 
 Vue.component('chart', VueECharts)
 

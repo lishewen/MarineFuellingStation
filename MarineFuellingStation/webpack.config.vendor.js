@@ -20,7 +20,8 @@ module.exports = (env) => {
                 'vue-ydui',
                 'vue-ydui/dist/ydui.rem.css',
                 'vuex',
-                'vuex-router-sync'
+                'vuex-router-sync',
+                'vue-echarts'
             ],
         },
         module: {

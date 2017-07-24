@@ -25,6 +25,7 @@
     "vuex-router-sync": "^4.2.0",
     "webpack": "^2.2.0",
     "webpack-hot-middleware": "^2.12.2",
-    "moment": "2.18.1"
+    "moment": "2.18.1",
+    "vue-echarts": "2.4.0"
   }
 }

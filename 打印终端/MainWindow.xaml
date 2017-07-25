@@ -1,0 +1,24 @@
+﻿<Window x:Class="打印终端.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:打印终端"
+        xmlns:models="clr-namespace:打印终端.Models"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
+        mc:Ignorable="d"
+        Title="打印终端" Height="350" Width="525" Loaded="Window_Loaded" Icon="printer.ico" ResizeMode="CanMinimize" Closing="Window_Closing">
+    <Grid>
+        <Grid.Resources>
+            <models:Log x:Key="log"/>
+        </Grid.Resources>
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="300" Margin="10,10,0,0" TextWrapping="Wrap" Text="{Binding Logs,Source={StaticResource log}}" VerticalAlignment="Top" Width="497" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" />
+        <tb:TaskbarIcon IconSource="printer.ico" ToolTipText="打印终端实用程序" Visibility="Visible" PopupActivation="LeftOrDoubleClick">
+            <tb:TaskbarIcon.TrayPopup>
+                <Border Background="White" BorderBrush="Orange" BorderThickness="2" CornerRadius="4" Width="160" Height="40">
+                    <Button Content="显示日志" HorizontalAlignment="Center" VerticalAlignment="Center" Click="Button_Click" />
+                </Border>
+            </tb:TaskbarIcon.TrayPopup>
+        </tb:TaskbarIcon>
+    </Grid>
+</Window>

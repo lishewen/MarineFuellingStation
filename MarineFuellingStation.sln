@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.14
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MFS", "MarineFuellingStation\MFS.csproj", "{914E655D-2093-44C9-A039-033D3D276096}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "打印终端", "打印终端\打印终端.csproj", "{6BF9008A-EC0D-4E8C-BB25-5D0D3FCEF4E0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{914E655D-2093-44C9-A039-033D3D276096}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{914E655D-2093-44C9-A039-033D3D276096}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{914E655D-2093-44C9-A039-033D3D276096}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BF9008A-EC0D-4E8C-BB25-5D0D3FCEF4E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BF9008A-EC0D-4E8C-BB25-5D0D3FCEF4E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BF9008A-EC0D-4E8C-BB25-5D0D3FCEF4E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BF9008A-EC0D-4E8C-BB25-5D0D3FCEF4E0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

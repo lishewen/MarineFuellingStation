@@ -81,7 +81,7 @@
             </yd-grids-item>
         </yd-grids-group>
         <yd-grids-group :rows="3" title="报表">
-            <yd-grids-item>
+            <yd-grids-item link="./report" style="background-color:lightcyan">
                 <p slot="text">经营统计</p>
             </yd-grids-item>
         </yd-grids-group>

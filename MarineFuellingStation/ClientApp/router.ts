@@ -33,6 +33,8 @@ const routes = [
 
     { path: '/finance/cashier', component: require('./components/finance/cashier.vue') },
 
+    { path: '/report', component: require('./components/report/report.vue') },
+
     { path: '/funcmenu', component: require('./components/funcmenu/funcmenu.vue') },
     { path: '/', component: require('./components/home/home.vue') },
     { path: '/counter', component: require('./components/counter/counter.vue') },

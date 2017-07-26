@@ -1,12 +1,17 @@
 ﻿import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 
-@Component
+@Component({
+    components: {
+        WeuiSearch: require('../weui-search/search.vue')
+    }
+})
 export default class PlanComponent extends Vue {
     radio2: string = '1';
     unit: string = '升';
     carNo: string = '';
     isinvoice: boolean = false;
+    sv: string = "";
 
     workplace: string = "广西梧州市云龙桥下游500米对开河边";
     workphone: string = "07742031178";

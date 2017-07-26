@@ -29,13 +29,18 @@
                         <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入船号"></yd-input>
                     </yd-cell-item>
 
+                    <yd-cell-item arrow @click.native="show5 = true">
+                        <span slot="left">跟进销售：</span>
+                        <span slot="right">请选择</span>
+                    </yd-cell-item>
+
                     <yd-cell-item v-show="!show3">
                         <span slot="left">车牌号：</span>
                         <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入车牌号"></yd-input>
                     </yd-cell-item>
 
                     <yd-cell-item>
-                        <span slot="left">默认商品/油品：</span>
+                        <span slot="left">默认商品：</span>
                         <select slot="right">
                             <option value="">请选择油品</option>
                             <option value="1">93#</option>
@@ -55,7 +60,6 @@
                     </yd-cell-item>
 
                 </yd-cell-group>
-
                 <yd-cell-group title="选填" style="margin-top:10px">
 
                     <yd-cell-item>
@@ -71,6 +75,15 @@
                     <yd-cell-item>
                         <span slot="left">固定电话：</span>
                         <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入固定电话"></yd-input>
+                    </yd-cell-item>
+
+                </yd-cell-group>
+
+                <yd-cell-group title="设置（选填）" style="margin-top:10px">
+
+                    <yd-cell-item>
+                        <span slot="left">最高挂账金额：</span>
+                        <yd-input slot="right" v-model="carNo" regex="" placeholder="0 - 不指定"></yd-input>
                     </yd-cell-item>
 
                 </yd-cell-group>
@@ -211,29 +224,41 @@
             <yd-cell-group title="必填">
                 <yd-cell-item>
                     <span slot="left">名称：</span>
-                    <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入名称"></yd-input>
+                    <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入"></yd-input>
                 </yd-cell-item>
             </yd-cell-group>
             <yd-cell-group title="选填">
-                <yd-cell-item>
-                    <span slot="left">地址：</span>
-                    <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入名称"></yd-input>
+                <yd-cell-item arrow>
+                    <span slot="left">票类：</span>
+                    <select slot="right">
+                        <option value="">请选择票类</option>
+                        <option value="1">普通票</option>
+                        <option value="2">专用票</option>
+                    </select>
                 </yd-cell-item>
                 <yd-cell-item>
-                    <span slot="left">电话：</span>
-                    <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入名称"></yd-input>
-                </yd-cell-item>
-                <yd-cell-item>
-                    <span slot="left">开票抬头：</span>
-                    <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入名称"></yd-input>
+                    <span slot="left">抬头：</span>
+                    <yd-input slot="right" v-model="carNo" regex="" placeholder="开票抬头"></yd-input>
                 </yd-cell-item>
                 <yd-cell-item>
                     <span slot="left">税号：</span>
-                    <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入名称"></yd-input>
+                    <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入"></yd-input>
                 </yd-cell-item>
                 <yd-cell-item>
-                    <span slot="left">对公账户：</span>
-                    <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入名称"></yd-input>
+                    <span slot="left">账户：</span>
+                    <yd-input slot="right" v-model="carNo" regex="" placeholder="对公账户"></yd-input>
+                </yd-cell-item>
+                <yd-cell-item>
+                    <span slot="left">银行：</span>
+                    <yd-input slot="right" v-model="carNo" regex="" placeholder="开户银行"></yd-input>
+                </yd-cell-item>
+                <yd-cell-item>
+                    <span slot="left">地址：</span>
+                    <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入"></yd-input>
+                </yd-cell-item>
+                <yd-cell-item>
+                    <span slot="left">电话：</span>
+                    <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入"></yd-input>
                 </yd-cell-item>
             </yd-cell-group>
             <yd-cell-group title="不显示">
@@ -253,13 +278,27 @@
                     <span slot="left">●总消费金额：</span>
                     <yd-input slot="right" v-model="carNo" regex="" placeholder="自动录入"></yd-input>
                 </yd-cell-item>
-                <yd-cell-item>
-                    <span slot="left">●跟进销售：</span>
-                    <yd-input slot="right" v-model="carNo" regex="" placeholder="自动录入"></yd-input>
-                </yd-cell-item>
             </yd-cell-group>
             <div style="text-align: center">
                 <yd-button style="width:100px" type="primary" @click.native="">提交</yd-button>
+            </div>
+        </yd-popup>
+        <yd-popup v-model="show5" position="right">
+            <yd-cell-group title="必填">
+                <yd-cell-item type="radio">
+                    <span slot="left">张三</span>
+                    <span slot="right" style="font-size:12px;color:lightgray">20个客户</span>
+                    <input slot="right" type="radio" value="Lili" v-model="picked" />
+                </yd-cell-item>
+
+                <yd-cell-item type="radio">
+                    <span slot="left">李四</span>
+                    <span slot="right" style="font-size:12px;color:lightgray">20个客户</span>
+                    <input slot="right" type="radio" value="Lucy" v-model="picked" />
+                </yd-cell-item>
+            </yd-cell-group>
+            <div style="text-align: center">
+                <yd-button style="width:100px" type="primary" @click.native="show5=false">提交</yd-button>
             </div>
         </yd-popup>
     </div>

@@ -3,8 +3,14 @@
         <yd-tab :change="change">
             <yd-tab-panel label="化验录入">
                 <yd-cell-group title="单号：HY07070001" style="margin-top:20px">
-
                     <yd-cell-item>
+                        <yd-radio-group slot="left" v-model="radio2">
+                            <yd-radio val="1">油仓化验</yd-radio>
+                            <yd-radio val="2">采购化验</yd-radio>
+                        </yd-radio-group>
+                    </yd-cell-item>
+
+                    <yd-cell-item v-show="show1">
                         <span slot="left">化验油仓：</span>
                         <select slot="right">
                             <option value="">请选择油仓</option>
@@ -14,7 +20,7 @@
                         </select>
                     </yd-cell-item>
 
-                    <yd-cell-item>
+                    <yd-cell-item v-show="!show1">
                         <span slot="left">采购来源：</span>
                         <select slot="right">
                             <option value="">请选择采购来源计划单</option>
@@ -120,6 +126,10 @@
                         <span slot="left">●开单时间：</span>
                         <yd-input slot="right" v-model="carNo" regex="" placeholder="自动录入"></yd-input>
                     </yd-cell-item>
+                    <yd-cell-item>
+                        <span slot="left">●是否已使用：</span>
+                        <yd-input slot="right" v-model="carNo" regex="" placeholder="卸油流程选择相应的化验单视为已使用"></yd-input>
+                    </yd-cell-item>
                 </yd-cell-group>
                 <div>
                     <yd-button size="large" type="primary">提交</yd-button>
@@ -127,7 +137,7 @@
 
             </yd-tab-panel>
             <yd-tab-panel label="记录">
-
+                <weui-search v-model="sv" />
                 <yd-cell-group>
                     <yd-cell-item arrow>
                         <div slot="left">

@@ -97,6 +97,7 @@
             </yd-tab-panel>
 
             <yd-tab-panel label="单据记录">
+                <weui-search v-model="sv" />
                 <yd-cell-group>
                     <yd-cell-item arrow>
                         <span slot="left">船0001</span>

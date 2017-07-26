@@ -3,7 +3,11 @@ import { Component } from 'vue-property-decorator';
 import axios from "axios";
 import moment from "moment";
 
-@Component
+@Component({
+    components: {
+        WeuiSearch: require('../weui-search/search.vue')
+    }
+})
 export default class PlanComponent extends Vue {
     radio2: string = '1';
     username: string;
@@ -12,6 +16,7 @@ export default class PlanComponent extends Vue {
     salesplans: server.salesPlan[];
     oilshow: boolean = false;
     oiloptions: ydui.actionSheetItem[];
+    sv: string = "";
 
     constructor() {
         super();

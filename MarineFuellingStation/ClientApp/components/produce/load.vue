@@ -61,7 +61,7 @@
                 </yd-cell-group>
             </yd-tab-panel>
             <yd-popup v-model="show2" position="right">
-                <yd-cell-group title="请选择转出油仓" style="margin-top: 20px">
+                <yd-cell-group title="请选择销售仓">
                     <yd-cell-item type="radio">
                         <div slot="left">
                             <p>1#加油船759</p>

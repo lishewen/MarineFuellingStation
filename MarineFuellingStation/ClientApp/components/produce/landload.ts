@@ -38,7 +38,7 @@ export default class MyOrderComponent extends Vue {
     };
    
     mounted() {
-        this.$emit('setTitle', this.$store.state.username + ' 陆上卸油');
+        this.$emit('setTitle', this.$store.state.username + ' 陆上装油');
         this.$watch('show1', (v, ov) => {
         });
     };

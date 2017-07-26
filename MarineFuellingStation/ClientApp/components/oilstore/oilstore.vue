@@ -15,81 +15,132 @@
             </yd-grids-item>
         </yd-grids-group>
         <yd-cell-group title="船一" style="margin-top:20px">
-            <yd-cell-item arrow type="link" href="#">
-                <div slot="left" style="width: 80px;height: 80px;padding:10px">
+            <yd-cell-item arrow @click.native="show1 = true">
+                <div slot="left" style="width: 60px;height: 60px;margin:15px 15px 15px -5px">
+                    <yd-progressbar :progress="progress1" trailWidth="4">10000</yd-progressbar>
+                </div>
+                <div slot="left" style="width: 60px;height: 60px;margin:10px 10px 10px 0px">
                     <yd-progressbar :progress="progress2"
                                     trailWidth="2"
                                     strokeWidth="4"
                                     strokeColor="#B2B2B2"
                                     trailColor="#FE5D51"
-                                    fillColor="#EAEAEA">{{progress1 * 100}}%</yd-progressbar>
+                                    fillColor="#EAEAEA">9999.9</yd-progressbar>
                 </div>
-                <div slot="left" style="font-size:18px;padding-left:10px">
-                    <p>1#仓</p>
-                    <p>300.99升</p>
+                <div slot="left" style="font-size:16px;width: 90px">
+                    <p style="color:gray;font-size:16px;">1#仓</p>
+                    <p style="color:lightgray;font-size:14px;">07-07 08:30 已测量</p>
                 </div>
-                <div slot="left" style="padding-left: 20px">
-                    <p style="color:gray">进： 今 <span style="color:red">+1000</span> 升</p>
-                    <p style="color:lightgray">出： 今 <span style="color:green">-800</span> 升</p>
+                <div slot="right">
+                    <div style="text-align: left">
+                        <p style="color:gray">今 <span style="color:red">+1000</span> 升</p>
+                        <p style="color:lightgray">今 <span style="color:green">-800</span> 升</p>
+                    </div>
                 </div>
             </yd-cell-item>
         </yd-cell-group>
         <yd-cell-group title="船二">
-            <yd-cell-item arrow type="link" href="#">
-                <div slot="left" style="width: 80px;height: 80px;padding:10px">
+            <yd-cell-item arrow>
+                <div slot="left" style="width: 60px;height: 60px;margin:15px 15px 15px -5px">
+                    <yd-progressbar :progress="progress1" trailWidth="4">10000</yd-progressbar>
+                </div>
+                <div slot="left" style="width: 60px;height: 60px;margin:10px 10px 10px 0px">
                     <yd-progressbar :progress="progress2"
                                     trailWidth="2"
                                     strokeWidth="4"
                                     strokeColor="#B2B2B2"
                                     trailColor="#FE5D51"
-                                    fillColor="#EAEAEA">{{progress2 * 100}}%</yd-progressbar>
+                                    fillColor="#EAEAEA">9999.9</yd-progressbar>
                 </div>
-                <div slot="left" style="font-size:18px;padding-left:10px">
-                    <p>1#仓</p>
-                    <p>300.99升</p>
+                <div slot="left" style="font-size:16px;width: 90px">
+                    <p style="color:gray;font-size:16px;">1#仓</p>
+                    <p style="color:lightgray;font-size:14px;">07-07 08:30 已测量</p>
                 </div>
-                <div slot="left" style="padding-left: 20px">
-                    <p style="color:gray">进： 今 <span style="color:red">+1000</span> 升</p>
-                    <p style="color:lightgray">出： 今 <span style="color:green">-800</span> 升</p>
+                <div slot="right">
+                    <div style="text-align: left">
+                        <p style="color:gray">今 <span style="color:red">+1000</span> 升</p>
+                        <p style="color:lightgray">今 <span style="color:green">-800</span> 升</p>
+                    </div>
                 </div>
             </yd-cell-item>
-            <yd-cell-item arrow type="link" href="#">
-                <div slot="left" style="width: 80px;height: 80px;padding:10px">
+            <yd-cell-item arrow>
+                <div slot="left" style="width: 60px;height: 60px;margin:15px 15px 15px -5px">
+                    <yd-progressbar :progress="progress1" trailWidth="4">10000</yd-progressbar>
+                </div>
+                <div slot="left" style="width: 60px;height: 60px;margin:10px 10px 10px 0px">
                     <yd-progressbar :progress="progress2"
                                     trailWidth="2"
                                     strokeWidth="4"
                                     strokeColor="#B2B2B2"
                                     trailColor="#FE5D51"
-                                    fillColor="#EAEAEA">{{progress1 * 100}}%</yd-progressbar>
+                                    fillColor="#EAEAEA">9999.9</yd-progressbar>
                 </div>
-                <div slot="left" style="font-size:18px;padding-left:10px">
-                    <p>1#仓</p>
-                    <p>300.99升</p>
+                <div slot="left" style="font-size:16px;width: 90px">
+                    <p style="color:gray;font-size:16px;">1#仓</p>
+                    <p style="color:lightgray;font-size:14px;">07-07 08:30 已测量</p>
                 </div>
-                <div slot="left" style="padding-left: 20px">
-                    <p style="color:gray">进： 今 <span style="color:red">+1000</span> 升</p>
-                    <p style="color:lightgray">出： 今 <span style="color:green">-800</span> 升</p>
+                <div slot="right">
+                    <div style="text-align: left">
+                        <p style="color:gray">今 <span style="color:red">+1000</span> 升</p>
+                        <p style="color:lightgray">今 <span style="color:green">-800</span> 升</p>
+                    </div>
                 </div>
             </yd-cell-item>
-            <yd-cell-item arrow type="link" href="#">
-                <div slot="left" style="width: 80px;height: 80px;padding:10px">
+            <yd-cell-item arrow>
+                <div slot="left" style="width: 60px;height: 60px;margin:15px 15px 15px -5px">
+                    <yd-progressbar :progress="progress1" trailWidth="4">10000</yd-progressbar>
+                </div>
+                <div slot="left" style="width: 60px;height: 60px;margin:10px 10px 10px 0px">
                     <yd-progressbar :progress="progress2"
                                     trailWidth="2"
                                     strokeWidth="4"
                                     strokeColor="#B2B2B2"
                                     trailColor="#FE5D51"
-                                    fillColor="#EAEAEA">{{progress2 * 100}}%</yd-progressbar>
+                                    fillColor="#EAEAEA">9999.9</yd-progressbar>
                 </div>
-                <div slot="left" style="font-size:18px;padding-left:10px">
-                    <p>1#仓</p>
-                    <p>300.99升</p>
+                <div slot="left" style="font-size:16px;width: 90px">
+                    <p style="color:gray;font-size:16px;">1#仓</p>
+                    <p style="color:lightgray;font-size:14px;">07-07 08:30 已测量</p>
                 </div>
-                <div slot="left" style="padding-left: 20px">
-                    <p style="color:gray">进： 今 <span style="color:red">+1000</span> 升</p>
-                    <p style="color:lightgray">出： 今 <span style="color:green">-800</span> 升</p>
+                <div slot="right">
+                    <div style="text-align: left">
+                        <p style="color:gray">今 <span style="color:red">+1000</span> 升</p>
+                        <p style="color:lightgray">今 <span style="color:green">-800</span> 升</p>
+                    </div>
                 </div>
             </yd-cell-item>
         </yd-cell-group>
+        <yd-popup v-model="show1" position="right">
+            <yd-cell-group title="测量">
+                <yd-cell-item>
+                    <span slot="left">油温：</span>
+                    <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入"></yd-input>
+                    <span slot="right">℃</span>
+                </yd-cell-item>
+                <yd-cell-item>
+                    <span slot="left">密度：</span>
+                    <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入"></yd-input>
+                </yd-cell-item>
+                <yd-cell-item>
+                    <span slot="left">油高：</span>
+                    <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入"></yd-input>
+                    <span slot="right">cm</span>
+                </yd-cell-item>
+            </yd-cell-group>
+            <yd-cell-group title="不显示">
+                <yd-cell-item>
+                    <span slot="left">●测量时间：</span>
+                    <yd-input slot="right" v-model="carNo" regex="" placeholder="自动录入"></yd-input>
+                </yd-cell-item>
+                <yd-cell-item>
+                    <span slot="left">●操作人：</span>
+                    <yd-input slot="right" v-model="carNo" regex="" placeholder="自动录入"></yd-input>
+                </yd-cell-item>
+            </yd-cell-group>
+            <div style="text-align: center">
+                <yd-button style="width:100px" type="primary" @click.native="">提交</yd-button>
+            </div>
+        </yd-popup>
     </div>
 </template>
 <script src="./oilstore.ts"></script>

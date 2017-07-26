@@ -12,8 +12,10 @@ export default class MyOrderComponent extends Vue {
     show2: boolean = false;
     show3: boolean = true;
     show4: boolean = false;
+    show5: boolean = false;
     carNo: string = "";
     sv: string = "";
+    picked: string = "";
     filterclick(): void {
         this.show2 = false;
     };

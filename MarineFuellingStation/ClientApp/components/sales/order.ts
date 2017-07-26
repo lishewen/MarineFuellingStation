@@ -1,7 +1,11 @@
 ﻿import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 
-@Component
+@Component({
+    components: {
+        WeuiSearch: require('../weui-search/search.vue')
+    }
+})
 export default class OrderComponent extends Vue {
     radio2: string = '1';
     unit: string = '升';
@@ -14,6 +18,7 @@ export default class OrderComponent extends Vue {
     selectedtransord: string = "";
     hasplan: boolean = false;
     istrans: boolean = false;
+    sv: string = "";
     
     planitemclick(): void {
         this.selectedplanNo = "JH201707070001";

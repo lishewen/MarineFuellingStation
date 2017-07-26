@@ -5,6 +5,10 @@
 
                 <yd-popup v-model="show4" position="right">
                     <yd-cell-group>
+                        <div style="text-align: center">
+                            <yd-button style="width:80%;margin:10px 0 10px 0" type="primary" @click.native="emptyclick()">散客</yd-button>
+                        </div>
+                        <weui-search v-model="sv" />
                         <yd-cell-item arrow @click.native="planitemclick()">
                             <span slot="left">船0001</span>
                             <span slot="left" style="color:lightgray;margin-left:10px">李四</span>
@@ -21,9 +25,6 @@
                             <span slot="right">07-07</span>
                         </yd-cell-item>
                     </yd-cell-group>
-                    <div style="text-align: center">
-                        <yd-button style="width:100px" type="primary" @click.native="emptyclick()">散客</yd-button>
-                    </div>
                 </yd-popup>
 
                 <yd-cell-group title="单号：XS07070001" style="margin-top:20px">
@@ -44,9 +45,9 @@
                     </yd-cell-item>
 
                     <yd-cell-item arrow>
-                        <span slot="left">油品：</span>
+                        <span slot="left">商品：</span>
                         <select slot="right">
-                            <option value="">请选择油品</option>
+                            <option value="">请选择商品</option>
                             <option value="1">93#</option>
                             <option value="2">95#</option>
                             <option value="3">97#</option>
@@ -84,6 +85,14 @@
                         <span slot="right">
                             <yd-switch v-model="isinvoice"></yd-switch>
                         </span>
+                    </yd-cell-item>
+                    <yd-cell-item arrow>
+                        <span slot="left">票类：</span>
+                        <select slot="right">
+                            <option value="">请选择票类</option>
+                            <option value="1">普通票</option>
+                            <option value="2">专用票</option>
+                        </select>
                     </yd-cell-item>
                     <yd-cell-item v-show="isinvoice">
                         <span slot="left">开票单位：</span>
@@ -221,6 +230,7 @@
             </yd-tab-panel>
 
             <yd-tab-panel label="单据记录">
+                <weui-search v-model="sv" />
                 <yd-cell-group>
                     <yd-cell-item arrow>
                         <span slot="left">船0001</span>

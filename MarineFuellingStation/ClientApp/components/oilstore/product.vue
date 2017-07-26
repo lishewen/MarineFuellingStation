@@ -64,11 +64,11 @@
             <yd-cell-group title="添加分类">
                 <yd-cell-item>
                     <span slot="left">分类名称：</span>
-                    <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入名称"></yd-input>
+                    <yd-input slot="right" v-model="ptName" required placeholder="请输入名称"></yd-input>
                 </yd-cell-item>
             </yd-cell-group>
             <div style="text-align: center">
-                <yd-button style="width:100px" type="primary" @click.native="">提交</yd-button>
+                <yd-button style="width:100px" type="primary" @click.native="postProductType()">提交</yd-button>
             </div>
         </yd-popup>
     </div>

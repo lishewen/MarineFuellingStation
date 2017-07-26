@@ -26,5 +26,15 @@ namespace MFS.Controllers
                 Data = r.GetAllList()
             };
         }
+        [HttpPost]
+        public ResultJSON<ProductType> Post([FromBody]string PTName)
+        {
+            r.CurrentUser = UserName;
+            return new ResultJSON<ProductType>
+            {
+                Code = 0,
+                Data = r.Insert(new ProductType { Name = PTName })
+            };
+        }
     }
 }

@@ -8,11 +8,13 @@ export default class ProductComponent extends Vue {
     show1: boolean = false;
     show2: boolean = false;
     ptshow: boolean = false;
+    /** 分类列表 */
     pts: server.productType[];
     currentpt: server.productType;
     ptoptions: ydui.actionSheetItem[];
     currentproduct: server.product;
     selectptname: string = '请选择分类';
+    ptName: string = '';
 
     constructor() {
         super();
@@ -54,6 +56,24 @@ export default class ProductComponent extends Vue {
                         }
                     });
                 });
+            }
+        });
+    }
+
+    postProductType() {
+        let name = this.ptName;
+        axios.post('/api/ProductType', name).then((res) => {
+            let jobj = res.data as server.resultJSON<server.productType>;
+            if (jobj.code == 0) {
+                (<any>this).$dialog.toast({
+                    mes: jobj.msg,
+                    timeout: 1500,
+                    icon: 'success'
+                });
+                //将新增的分类加入到列表中
+                this.pts.push(jobj.data);
+                //关闭popup
+                this.show2 = false;
             }
         });
     }

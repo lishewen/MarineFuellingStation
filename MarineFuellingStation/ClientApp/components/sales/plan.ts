@@ -78,6 +78,11 @@ export default class PlanComponent extends Vue {
         this.$watch('oildate', (v, ov) => {
             this.model.oilDate = new Date(this.oildate);
         });
+        this.$watch('sv', (v: string, ov) => {
+            //3个字符开始才执行请求操作，减少请求次数
+            if (v.length >= 3)
+                this.searchSalesPlans(v);
+        });
     };
 
     change(label: string, tabkey: string) {
@@ -148,6 +153,14 @@ export default class PlanComponent extends Vue {
 
     getSalesPlans() {
         axios.get('/api/SalesPlan').then((res) => {
+            let jobj = res.data as server.resultJSON<server.salesPlan[]>;
+            if (jobj.code == 0)
+                this.salesplans = jobj.data;
+        });
+    }
+
+    searchSalesPlans(sv: string) {
+        axios.get('/api/SalesPlan/' + sv).then((res) => {
             let jobj = res.data as server.resultJSON<server.salesPlan[]>;
             if (jobj.code == 0)
                 this.salesplans = jobj.data;

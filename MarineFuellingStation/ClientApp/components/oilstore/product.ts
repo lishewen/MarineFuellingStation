@@ -77,8 +77,10 @@ export default class ProductComponent extends Vue {
     }
 
     postProductType() {
-        if (this.ptName == '')
+        if (this.ptName == '') {
             this.toastError('分类名称不能为空');
+            return;
+        }
 
         let name = this.ptName;
         axios.post('/api/ProductType', name).then((res) => {
@@ -98,12 +100,18 @@ export default class ProductComponent extends Vue {
     }
 
     postProduct() {
-        if (this.currentproduct.name == '')
+        if (this.currentproduct.name == '') {
             this.toastError('商品名称不能为空');
-        if (this.currentproduct.minPrice <= 0)
+            return;
+        }
+        if (this.currentproduct.minPrice <= 0) {
             this.toastError('商品单价不能为0');
-        if (this.currentproduct.productTypeId <= 0)
+            return;
+        }
+        if (this.currentproduct.productTypeId <= 0) {
             this.toastError('商品必须选择分类');
+            return;
+        }
 
         axios.post('/api/Product', this.currentproduct).then((res) => {
             let jobj = res.data as server.resultJSON<server.product>;

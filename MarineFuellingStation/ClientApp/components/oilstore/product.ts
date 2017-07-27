@@ -52,6 +52,12 @@ export default class ProductComponent extends Vue {
         this.currentpt = pt;
     }
 
+    addpt(e: Event) {
+        this.show2 = true;
+        //取消父级事件相应
+        e.cancelBubble = true;
+    }
+
     getProductTypes() {
         axios.get('/api/ProductType').then((res) => {
             let jobj = res.data as server.resultJSON<server.productType[]>;

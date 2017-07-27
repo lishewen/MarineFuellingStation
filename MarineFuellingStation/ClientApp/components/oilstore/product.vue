@@ -17,7 +17,7 @@
                     <yd-cell-item @click.native="ptshow = true">
                         <span slot="left">所属分类：</span>
                         <span slot="right">{{selectptname}}</span>
-                        <span slot="right"><yd-button type="primary" @click.native="show2 = true">添加</yd-button></span>
+                        <span slot="right"><yd-button type="primary" @click.native="addpt($event)">添加</yd-button></span>
                     </yd-cell-item>
                     <yd-cell-item>
                         <span slot="left">名称：</span>

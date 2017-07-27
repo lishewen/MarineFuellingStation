@@ -26,4 +26,37 @@ declare namespace work {
         errmsg: string;
         department: department[];
     }
+
+    export interface attr {
+        name: string;
+        value: string;
+    }
+
+    export interface extattr {
+        attrs: attr[];
+    }
+
+    export interface userlist {
+        userid: string;
+        name: string;
+        department: number[];
+        order: number[];
+        position: string;
+        mobile: string;
+        gender: string;
+        email: string;
+        isleader: number;
+        avatar: string;
+        telephone: string;
+        english_name: string;
+        status: number;
+        extattr: extattr;
+    }
+
+    export interface departmentMemberInfoResult {
+        errcode: number;
+        errmsg: string;
+        userlist: userlist[];
+    }
+
 }

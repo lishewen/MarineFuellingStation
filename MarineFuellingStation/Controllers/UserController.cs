@@ -2,6 +2,7 @@
 using MFS.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Senparc.Weixin.Work.AdvancedAPIs;
 using Senparc.Weixin.Work.AdvancedAPIs.MailList;
 using Senparc.Weixin.Work.Containers;
 using System;
@@ -23,6 +24,12 @@ namespace MFS.Controllers
         {
             this.option = option.Value;
             this.option.AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.Secret);
+        }
+        [HttpGet]
+        public GetDepartmentMemberInfoResult Get()
+        {
+            var result = MailListApi.GetDepartmentMemberInfo(option.AccessToken, 9, 1);
+            return result;
         }
     }
 }

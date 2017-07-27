@@ -31,6 +31,14 @@ export default class ProductComponent extends Vue {
         this.$emit('setTitle', this.$store.state.username + ' 商品');
     };
 
+    toastError(msg: string) {
+        (<any>this).$dialog.toast({
+            mes: msg,
+            timeout: 1500,
+            icon: 'error'
+        });
+    }
+
     change(label: string, tabkey: string) {
         this.$emit('setTitle', this.$store.state.username + ' ' + label);
         if (label == '添加')
@@ -61,6 +69,9 @@ export default class ProductComponent extends Vue {
     }
 
     postProductType() {
+        if (this.ptName == '')
+            this.toastError('分类名称不能为空');
+
         let name = this.ptName;
         axios.post('/api/ProductType', name).then((res) => {
             let jobj = res.data as server.resultJSON<server.productType>;

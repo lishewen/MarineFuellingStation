@@ -15,6 +15,7 @@ namespace MFS.Controllers.Attributes
             if (string.IsNullOrWhiteSpace(c.UserName))
             {
                 c.UserName = c.Request.Headers["x-username"];
+                c.UserId = c.Request.Headers["x-userid"];
             }
             base.OnActionExecuting(context);
         }

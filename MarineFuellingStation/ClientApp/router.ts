@@ -43,12 +43,13 @@ const routes = [
     { path: '/ydui', component: require('./components/ydui/ydui.vue') },
     {
         //服务端一律跳转到这个URL上
-        path: '/wxhub/:id/:redirectUrl', redirect: to => {
+        path: '/wxhub/:id/:userid/:redirectUrl', redirect: to => {
             /**
             * 通过dispatch触发保存openid的action
             * 将URL上的OPENID保存到store中
             */
             store.commit('setUserName', decodeURI(to.params.id));
+            store.commit('setUserId', decodeURI(to.params.userid));
             //在回跳到需要来访的正确页面
             return decodeURI(to.params.redirectUrl);
         }

@@ -15,10 +15,11 @@
                         <span slot="left">部门：</span>
                         <select slot="right">
                             <option value="">请选择部门</option>
-                            <option value="1">销售部</option>
+                            <option value="9">油站</option>
+                            <!--<option value="1">销售部</option>
                             <option value="2">生产部</option>
                             <option value="3">总经办</option>
-                            <option value="4">后勤部</option>
+                            <option value="4">后勤部</option>-->
                         </select>
                     </yd-cell-item>
 

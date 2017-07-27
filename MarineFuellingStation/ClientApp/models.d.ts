@@ -12,3 +12,18 @@ declare namespace ydui {
         method: Function;
     }
 }
+
+declare namespace work {
+    export interface department {
+        id: number;
+        name: string;
+        parentid: number;
+        order: number;
+    }
+
+    export interface departmentListResult {
+        errcode: number;
+        errmsg: string;
+        department: department[];
+    }
+}

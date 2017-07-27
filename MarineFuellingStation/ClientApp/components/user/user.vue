@@ -52,6 +52,18 @@
                         <span slot="right">元</span>
                     </yd-cell-item>
 
+                    <yd-cell-item>
+                        <span slot="left">社保自付：</span>
+                        <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入社保自付金额"></yd-input>
+                        <span slot="right" style="width:50px">元 / 月</span>
+                    </yd-cell-item>
+
+                    <yd-cell-item>
+                        <span slot="left">安全保障：</span>
+                        <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入安全保障金"></yd-input>
+                        <span slot="right" style="width:50px">元 / 月</span>
+                    </yd-cell-item>
+
                 </yd-cell-group>
                 
                 <yd-cell-group title="其他资料（选填）">

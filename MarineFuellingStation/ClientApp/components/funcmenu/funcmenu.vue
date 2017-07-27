@@ -84,6 +84,9 @@
             <yd-grids-item link="./report" style="background-color:lightcyan">
                 <p slot="text">经营统计</p>
             </yd-grids-item>
+            <yd-grids-item link="./wages" style="background-color:lightcyan">
+                <p slot="text">工资</p>
+            </yd-grids-item>
         </yd-grids-group>
         <yd-grids-group :rows="3" title="运输管理">
             <yd-grids-item>

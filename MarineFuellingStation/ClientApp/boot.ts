@@ -12,6 +12,7 @@ sync(store, router) //路由状态同步组件.
 axios.interceptors.request.use(function (config) {    // 这里的config包含每次请求的内容
     if (store.state.username != "") {
         config.headers['x-username'] = encodeURIComponent(store.state.username);
+        config.headers['x-userid'] = encodeURIComponent(store.state.userid);
     }
     return config;
 }, function (err) {

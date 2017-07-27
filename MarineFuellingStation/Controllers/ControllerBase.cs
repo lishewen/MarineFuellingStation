@@ -28,5 +28,18 @@ namespace MFS.Controllers
 
             }
         }
+        public string UserId
+        {
+            get
+            {
+                return HttpContext.Session.GetString("UserId");
+            }
+            set
+            {
+                string userid = value ?? string.Empty;
+                userid = WebUtility.UrlDecode(userid);
+                HttpContext.Session.SetString("UserId", userid);
+            }
+        }
     }
 }

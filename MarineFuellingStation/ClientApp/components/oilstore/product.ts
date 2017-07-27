@@ -41,8 +41,10 @@ export default class ProductComponent extends Vue {
 
     change(label: string, tabkey: string) {
         this.$emit('setTitle', this.$store.state.username + ' ' + label);
-        if (label == '添加')
+        if (label == '添加') {
             this.currentproduct = (new Object()) as server.product;
+            this.selectptname = '请选择分类';
+        }
     }
 
     ptClick(pt: server.productType) {
@@ -85,6 +87,26 @@ export default class ProductComponent extends Vue {
                 this.pts.push(jobj.data);
                 //关闭popup
                 this.show2 = false;
+            }
+        });
+    }
+
+    postProduct() {
+        if (this.currentproduct.name == '')
+            this.toastError('商品名称不能为空');
+        if (this.currentproduct.minPrice <= 0)
+            this.toastError('商品单价不能为0');
+        if (this.currentproduct.productTypeId <= 0)
+            this.toastError('商品必须选择分类');
+
+        axios.post('/api/Product', this.currentproduct).then((res) => {
+            let jobj = res.data as server.resultJSON<server.product>;
+            if (jobj.code == 0) {
+                (<any>this).$dialog.toast({
+                    mes: jobj.msg,
+                    timeout: 1500,
+                    icon: 'success'
+                });
             }
         });
     }

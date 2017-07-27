@@ -26,5 +26,15 @@ namespace MFS.Controllers
                 Data = r.GetAllList((p) => p.ProductType.Name == "油品" && p.IsUse)
             };
         }
+        [HttpPost]
+        public ResultJSON<Product> Post(Product model)
+        {
+            r.CurrentUser = UserName;
+            return new ResultJSON<Product>
+            {
+                Code = 0,
+                Data = r.Insert(model)
+            };
+        }
     }
 }

@@ -21,29 +21,17 @@
                     </yd-cell-item>
                     <yd-cell-item>
                         <span slot="left">名称：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入名称"></yd-input>
+                        <yd-input slot="right" v-model="currentproduct.name" required placeholder="请输入名称"></yd-input>
                     </yd-cell-item>
                     <yd-cell-item>
                         <span slot="left">最新单价：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入单价"></yd-input>
+                        <yd-input slot="right" type="number" v-model="currentproduct.minPrice" placeholder="请输入单价"></yd-input>
                         <span slot="right" style="width: 60px">元 / 升</span>
                     </yd-cell-item>
                 </yd-cell-group>
-                <yd-cell-group title="不显示">
-                    <yd-cell-item>
-                        <span slot="left">创建/更新时间：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder=""></yd-input>
-                    </yd-cell-item>
-                    <yd-cell-item>
-                        <span slot="left">上次单价：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="上次更新前的单价"></yd-input>
-                        <span slot="right" style="width: 60px">元 / 升</span>
-                    </yd-cell-item>
-                    <yd-cell-item>
-                        <span slot="left">是否使用：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="布尔值"></yd-input>
-                    </yd-cell-item>
-                </yd-cell-group>
+                <div style="text-align: center">
+                    <yd-button style="width:100px" type="primary" @click.native="">添加</yd-button>
+                </div>
             </yd-tab-panel>
         </yd-tab>
         <yd-actionsheet :items="ptoptions" v-model="ptshow" cancel="取消"></yd-actionsheet>

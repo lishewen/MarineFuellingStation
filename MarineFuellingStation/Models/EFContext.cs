@@ -18,6 +18,8 @@ namespace MFS.Models
         /// 商品表
         /// </summary>
         public DbSet<Product> Products { get; set; }
+        public DbSet<Company> Companys { get; set; }
+        public DbSet<Client> Clients { get; set; }
         public EFContext(DbContextOptions<EFContext> options) : base(options) { }
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {

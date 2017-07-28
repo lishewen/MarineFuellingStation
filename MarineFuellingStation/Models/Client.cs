@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,7 +15,7 @@ namespace MFS.Models
         /// 跟进销售
         /// </summary>
         public string FollowSalesman { get; set; }
-        public int DefaultProductId { get; set; }
+        public int? DefaultProductId { get; set; }
         /// <summary>
         /// 联系人
         /// </summary>
@@ -31,10 +32,17 @@ namespace MFS.Models
         /// </summary>
         public decimal MaxOnAccount { get; set; }
         /// <summary>
+        /// 账户余额
+        /// </summary>
+        public decimal Balances { get; set; }
+        /// <summary>
         /// 总消费金额
         /// </summary>
         public decimal TotalAmount { get; set; }
-
+        [ForeignKey("CompanyId")]
+        public virtual Company Company { get; set; }
+        [ForeignKey("DefaultProductId")]
+        public virtual Product Product { get; set; }
     }
     public enum PlaceType
     {

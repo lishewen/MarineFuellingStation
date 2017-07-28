@@ -11,16 +11,9 @@
                         </yd-radio-group>
                     </yd-cell-item>
 
-                    <yd-cell-item>
+                    <yd-cell-item arrow @click.native="departmentshow = true">
                         <span slot="left">部门：</span>
-                        <select slot="right">
-                            <option value="">请选择部门</option>
-                            <option value="9">油站</option>
-                            <!--<option value="1">销售部</option>
-                            <option value="2">生产部</option>
-                            <option value="3">总经办</option>
-                            <option value="4">后勤部</option>-->
-                        </select>
+                        <span slot="right">{{selectdepartmentname}}</span>
                     </yd-cell-item>
 
                     <yd-cell-item>
@@ -117,13 +110,14 @@
                         </div>
                         <div slot="right" style="text-align: right;margin-right: 5px">
                             <p>
-                                <span style="color:gray; font-size: 18px">{{user.department[0]}}</span>
+                                <span style="color:gray; font-size: 18px">{{departmentdict[user.department[0]]}}</span>
                             </p>
                         </div>
                     </yd-cell-item>
                 </yd-cell-group>
             </yd-tab-panel>
         </yd-tab>
+        <yd-actionsheet :items="departmentoptions" v-model="departmentshow" cancel="取消"></yd-actionsheet>
         <yd-actionsheet :items="myItems1" v-model="show1" cancel="取消"></yd-actionsheet>
     </div>
 </template>

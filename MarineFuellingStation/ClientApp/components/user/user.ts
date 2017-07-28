@@ -13,6 +13,12 @@ export default class UserComponent extends Vue {
     carNo: string = "";
     sv: string = "";
     users: work.userlist[];
+    selectdepartmentname: string = '请选择部门';
+    departmentshow: boolean = false;
+    /** 部门字典 */
+    departmentdict: { [index: number]: string; } = {};
+    departmentoptions: ydui.actionSheetItem[];
+
     myItems1: object = [
         {
             label: '致电13907741118？',
@@ -28,6 +34,9 @@ export default class UserComponent extends Vue {
         super();
 
         this.users = new Array();
+        this.departmentoptions = new Array();
+
+        this.getDepartments();
     }
 
     mounted() {
@@ -46,6 +55,23 @@ export default class UserComponent extends Vue {
             let jobj = res.data as work.departmentMemberInfoResult;
             if (jobj.errcode == 0)
                 this.users = jobj.userlist;
+        });
+    }
+
+    getDepartments() {
+        axios.get('/api/Department').then((res) => {
+            let jobj = res.data as work.departmentListResult;
+            if (jobj.errcode == 0) {
+                jobj.department.forEach((o, i) => {
+                    this.departmentdict[o.id] = o.name;
+                    this.departmentoptions.push({
+                        label: o.name,
+                        method: () => {
+                            this.selectdepartmentname = o.name;
+                        }
+                    });
+                });
+            }
         });
     }
 }

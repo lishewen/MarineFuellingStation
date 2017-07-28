@@ -9,7 +9,7 @@ import axios from "axios";
 export default class UserComponent extends Vue {
     radio1: string = "1";
     radio2: string = "1";
-    show1: boolean = false;
+    usershow: boolean = false;
     carNo: string = "";
     sv: string = "";
     users: work.userlist[];
@@ -18,23 +18,14 @@ export default class UserComponent extends Vue {
     /** 部门字典 */
     departmentdict: { [index: number]: string; } = {};
     departmentoptions: ydui.actionSheetItem[];
-
-    myItems1: object = [
-        {
-            label: '致电13907741118？',
-            method: () => {
-                window.location.href = 'tel: 13907741118'
-            }
-        }, {
-            label: '详细资料'
-        }
-    ];
+    userItems: ydui.actionSheetItem[];
 
     constructor() {
         super();
 
         this.users = new Array();
         this.departmentoptions = new Array();
+        this.userItems = new Array();
 
         this.getDepartments();
     }
@@ -48,6 +39,21 @@ export default class UserComponent extends Vue {
         this.$emit('setTitle', this.$store.state.username + ' ' + label);
         if (label == '列表')
             this.getUsers();
+    }
+
+    userClick(user: work.userlist) {
+        this.userItems = [{
+            label: '致电' + user.mobile + '？',
+            method: () => {
+                window.location.href = 'tel: ' + user.mobile;
+            }
+        }, {
+            label: '详细资料',
+            method: () => {
+                alert(user.name + ' 详细资料页');
+            }
+        }];
+        this.usershow = true;
     }
 
     getUsers() {

@@ -11,6 +11,11 @@ Vue.component('chart', VueECharts)
 })
 export default class YDUIComponent extends Vue {
     sv: string = '';
+    datetime4: string = '2017-07-01';
+    yearFormat: string = '<span style="color:#F00;">{value}<i style="font-size: 12px;margin-left: 1px;">年</i></span>';
+    monthFormat: string = '<span style="color:#0BB20C;">{value}<i style="font-size: 12px;margin-left: 1px;">月</i></span>';
+    dayFormat: string = '';
+
     polar: any;
 
     constructor() {

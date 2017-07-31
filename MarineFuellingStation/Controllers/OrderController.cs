@@ -32,10 +32,10 @@ namespace MFS.Controllers
             };
         }
         [HttpPost]
-        public ResultJSON<Order> Post([FromBody]Order s)
+        public ResultJSON<Order> Post([FromBody]Order o)
         {
             r.CurrentUser = UserName;
-            var result = r.Insert(s);
+            var result = r.Insert(o);
 
             //推送打印指令
             _hub.Clients.All.printorder(result);

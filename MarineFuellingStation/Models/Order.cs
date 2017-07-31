@@ -106,5 +106,16 @@ namespace MFS.Models
         /// </summary>
         public decimal SalesCommission { get; set; }
         public int? TransportOrderId { get; set; }
+        /// <summary>
+        /// 订单状态
+        /// </summary>
+        public OrderState State { get; set; }
+    }
+    public enum OrderState
+    {
+        已开单,
+        装油中,
+        装油结束,
+        已完成
     }
 }

@@ -49,5 +49,13 @@ declare module server {
 		/** 销售提成 */
 		salesCommission: number;
 		transportOrderId?: number;
+		/** 订单状态 */
+		state: orderState;
+	}
+	const enum orderState {
+		已开单,
+		装油中,
+		装油结束,
+		已完成,
 	}
 }

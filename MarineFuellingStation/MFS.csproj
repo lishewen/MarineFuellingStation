@@ -35,6 +35,9 @@
     <None Update="Models\EntityBase.cs.d.ts">
       <DependentUpon>EntityBase.cs</DependentUpon>
     </None>
+    <None Update="Models\Order.cs.d.ts">
+      <DependentUpon>Order.cs</DependentUpon>
+    </None>
     <None Update="Models\Product.cs.d.ts">
       <DependentUpon>Product.cs</DependentUpon>
     </None>

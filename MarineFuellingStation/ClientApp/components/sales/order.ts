@@ -100,9 +100,11 @@ export default class OrderComponent extends Vue {
         });
 
         this.$watch('model.price', (v, ov) => {
+            this.model.billingPrice = v;
             this.model.totalMoney = v * this.model.count;
         });
         this.$watch('model.count', (v, ov) => {
+            this.model.billingCount = v;
             this.model.totalMoney = this.model.price * v;
         });
     };

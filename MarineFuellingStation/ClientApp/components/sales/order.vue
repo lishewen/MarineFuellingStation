@@ -73,7 +73,7 @@
                     </yd-cell-item>
                     <yd-cell-item arrow>
                         <span slot="left">票类：</span>
-                        <select slot="right">
+                        <select slot="right" v-model="model.ticketType">
                             <option value="">请选择票类</option>
                             <option value="1">普通票</option>
                             <option value="2">专用票</option>
@@ -81,15 +81,15 @@
                     </yd-cell-item>
                     <yd-cell-item v-show="isinvoice">
                         <span slot="left">开票单位：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入开票单位"></yd-input>
+                        <yd-input slot="right" v-model="model.billingCompany" placeholder="请输入开票单位"></yd-input>
                     </yd-cell-item>
                     <yd-cell-item v-show="isinvoice">
                         <span slot="left">单价：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入开票单价，默认同上"></yd-input>
+                        <yd-input slot="right" v-model="model.billingPrice" placeholder="请输入开票单价，默认同上"></yd-input>
                     </yd-cell-item>
                     <yd-cell-item v-show="isinvoice">
                         <span slot="left">数量：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入开票，默认同上"></yd-input>
+                        <yd-input slot="right" v-model="model.billingCount" placeholder="请输入开票，默认同上"></yd-input>
                     </yd-cell-item>
                 </yd-cell-group>
                 <yd-cell-group title="选填" v-show="show2">
@@ -121,94 +121,6 @@
                     </yd-cell-group>
                 </yd-popup>
 
-                <yd-cell-group title="不显示">
-                    <yd-cell-item>
-                        <span slot="left">●实际数量：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="生产流程时录入"></yd-input>
-                        <span slot="right" style="width:70px">单位：{{unit}}</span>
-                    </yd-cell-item>
-
-                    <yd-cell-item>
-                        <span slot="left">●开单时间：</span>
-                        <input slot="right" class="cell-input" type="date" value="2017-08-19" placeholder="">
-                    </yd-cell-item>
-
-                    <yd-cell-item>
-                        <span slot="left">●销售员：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="即开单员"></yd-input>
-                    </yd-cell-item>
-
-                    <yd-cell-item>
-                        <span slot="left">●生产员：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="多个，生产流程时录入"></yd-input>
-                    </yd-cell-item>
-
-                    <yd-cell-item>
-                        <span slot="left">●开始装油时间：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="生产流程时录入"></yd-input>
-                    </yd-cell-item>
-
-                    <yd-cell-item>
-                        <span slot="left">●结束装油时间：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="生产流程时录入"></yd-input>
-                    </yd-cell-item>
-
-                    <yd-cell-item>
-                        <span slot="left">●表1读数（升）：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="生产流程时录入"></yd-input>
-                    </yd-cell-item>
-
-                    <yd-cell-item>
-                        <span slot="left">●表2读数（升）：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="生产流程时录入"></yd-input>
-                    </yd-cell-item>
-
-                    <yd-cell-item>
-                        <span slot="left">●表3读数（升）：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="生产流程时录入"></yd-input>
-                    </yd-cell-item>
-
-                    <yd-cell-item>
-                        <span slot="left">●密度：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="生产流程时录入"></yd-input>
-                    </yd-cell-item>
-
-                    <yd-cell-item>
-                        <span slot="left">●油温（度）：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="生产流程时录入"></yd-input>
-                    </yd-cell-item>
-
-                    <yd-cell-item>
-                        <span slot="left">●实际与订单数量差值：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="生产流程时录入"></yd-input>
-                    </yd-cell-item>
-
-                    <yd-cell-item>
-                        <span slot="left">●空车过磅值（皮重）：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="生产流程时录入，陆上装油才需要"></yd-input>
-                    </yd-cell-item>
-
-                    <yd-cell-item>
-                        <span slot="left">●油车过磅值（毛重）：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="生产流程时录入，陆上装油才需要"></yd-input>
-                    </yd-cell-item>
-
-                    <yd-cell-item>
-                        <span slot="left">●过磅差值（油重）：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="生产流程时录入，陆上装油才需要"></yd-input>
-                    </yd-cell-item>
-
-                    <yd-cell-item>
-                        <span slot="left">●销售提成：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="结算后，按公式自动计算"></yd-input>
-                    </yd-cell-item>
-
-                    <yd-cell-item>
-                        <span slot="left">●运输单：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="陆上销售选择相对应的运输单"></yd-input>
-                    </yd-cell-item>
-
-                </yd-cell-group>
                 <div>
                     <yd-button size="large" type="primary">提交</yd-button>
                 </div>

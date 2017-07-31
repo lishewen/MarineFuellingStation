@@ -1,12 +1,12 @@
 declare module server {
 	/** 销售单 Name字段为单号 */
 	interface order extends entityBase {
-		salesPlanId?: number;
-		salesPlan: salesPlan;
-		orderType: salesPlanType;
+        salesPlanId?: number;
+        salesPlan: salesPlan;
+        orderType: salesPlanType;
 		carNo: string;
-		productId: number;
-		product: product;
+        productId: number;
+        product: product;
 		price: number;
 		count: number;
 		/** 单位 */
@@ -50,7 +50,10 @@ declare module server {
 		salesCommission: number;
 		transportOrderId?: number;
 		/** 订单状态 */
-		state: orderState;
+        state: orderState;
+        ticketType: ticketType;
+		/** 是否运输 */
+		isTrans: boolean;
 	}
 	const enum orderState {
 		已开单,

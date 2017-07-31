@@ -110,6 +110,11 @@ namespace MFS.Models
         /// 订单状态
         /// </summary>
         public OrderState State { get; set; }
+        public TicketType TicketType { get; set; }
+        /// <summary>
+        /// 是否运输
+        /// </summary>
+        public bool IsTrans { get; set; }
     }
     public enum OrderState
     {

@@ -1,5 +1,7 @@
 ﻿import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
+import axios from "axios";
+import moment from "moment";
 
 @Component({
     components: {
@@ -7,11 +9,14 @@ import { Component } from 'vue-property-decorator';
     }
 })
 export default class OrderComponent extends Vue {
+    salesplans: server.salesPlan[];
+    salesplanshow: boolean = false;
+
     radio2: string = '1';
     unit: string = '升';
     carNo: string = '';
     isinvoice: boolean = false;
-    show4: boolean = false;
+
     show1: boolean = false;
     show2: boolean = false;
     selectedplanNo: string = "请选择";
@@ -19,10 +24,25 @@ export default class OrderComponent extends Vue {
     hasplan: boolean = false;
     istrans: boolean = false;
     sv: string = "";
-    
+
+    constructor() {
+        super();
+
+        this.salesplans = new Array();
+    }
+
+    salesplanselect() {
+        this.getSalesPlans();
+        this.salesplanshow = true;
+    }
+
+    formatShortDate(d: Date): string {
+        return moment(d).format('MM-DD');
+    }
+
     planitemclick(): void {
         this.selectedplanNo = "JH201707070001";
-        this.show4 = false;
+        this.salesplanshow = false;
         this.hasplan = true;
     };
 
@@ -33,10 +53,10 @@ export default class OrderComponent extends Vue {
 
     emptyclick(): void {
         this.selectedplanNo = "散客";
-        this.show4 = false;
+        this.salesplanshow = false;
         this.hasplan = false;
     };
-   
+
     mounted() {
         this.$emit('setTitle', this.$store.state.username + ' 销售单');
 
@@ -62,5 +82,13 @@ export default class OrderComponent extends Vue {
     change(label: string, tabkey: string) {
         console.log(label);
         this.$emit('setTitle', this.$store.state.username + ' ' + label);
+    }
+
+    getSalesPlans() {
+        axios.get('/api/SalesPlan').then((res) => {
+            let jobj = res.data as server.resultJSON<server.salesPlan[]>;
+            if (jobj.code == 0)
+                this.salesplans = jobj.data;
+        });
     }
 }

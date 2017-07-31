@@ -3,32 +3,22 @@
         <yd-tab :change="change">
             <yd-tab-panel label="销售开单">
 
-                <yd-popup v-model="show4" position="right">
+                <yd-popup v-model="salesplanshow" position="right">
                     <yd-cell-group>
                         <div style="text-align: center">
                             <yd-button style="width:80%;margin:10px 0 10px 0" type="primary" @click.native="emptyclick()">散客</yd-button>
                         </div>
                         <weui-search v-model="sv" />
-                        <yd-cell-item arrow @click.native="planitemclick()">
-                            <span slot="left">船0001</span>
-                            <span slot="left" style="color:lightgray;margin-left:10px">李四</span>
-                            <span slot="right">07-07</span>
-                        </yd-cell-item>
-                        <yd-cell-item arrow @click.native="planitemclick()">
-                            <span slot="left">船0002</span>
-                            <span slot="left" style="color:lightgray;margin-left:10px">张三</span>
-                            <span slot="right">07-07</span>
-                        </yd-cell-item>
-                        <yd-cell-item arrow @click.native="planitemclick()">
-                            <span slot="left">船0002</span>
-                            <span slot="left" style="color:lightgray;margin-left:10px">王五</span>
-                            <span slot="right">07-07</span>
+                        <yd-cell-item arrow @click.native="planitemclick()" v-for="s in salesplans">
+                            <span slot="left">{{s.carNo}}</span>
+                            <span slot="left" style="color:lightgray;margin-left:10px">{{s.createdBy}}</span>
+                            <span slot="right">{{formatShortDate(s.oilDate)}}</span>
                         </yd-cell-item>
                     </yd-cell-group>
                 </yd-popup>
 
                 <yd-cell-group title="单号：XS07070001" style="margin-top:20px">
-                    <yd-cell-item arrow @click.native="show4 = true">
+                    <yd-cell-item arrow @click.native="salesplanselect">
                         <span slot="left">计划单：</span>
                         <span slot="right">{{selectedplanNo}}</span>
                     </yd-cell-item>
@@ -263,4 +253,4 @@
 </template>
 
 <style src="./plan.css" />
-<script src="./order.ts"/>
+<script src="./order.ts" />

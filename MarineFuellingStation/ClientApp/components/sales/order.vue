@@ -9,7 +9,7 @@
                             <yd-button style="width:80%;margin:10px 0 10px 0" type="primary" @click.native="emptyclick()">散客</yd-button>
                         </div>
                         <weui-search v-model="sv" />
-                        <yd-cell-item arrow @click.native="planitemclick()" v-for="s in salesplans">
+                        <yd-cell-item arrow @click.native="planitemclick(s)" v-for="s in salesplans">
                             <span slot="left">{{s.carNo}}</span>
                             <span slot="left" style="color:lightgray;margin-left:10px">{{s.createdBy}}</span>
                             <span slot="right">{{formatShortDate(s.oilDate)}}</span>
@@ -17,7 +17,7 @@
                     </yd-cell-group>
                 </yd-popup>
 
-                <yd-cell-group title="单号：XS07070001" style="margin-top:20px">
+                <yd-cell-group :title="'单号：' + model.name" style="margin-top:20px">
                     <yd-cell-item arrow @click.native="salesplanselect">
                         <span slot="left">计划单：</span>
                         <span slot="right">{{selectedplanNo}}</span>
@@ -31,49 +31,44 @@
                     </yd-cell-item>
                     <yd-cell-item>
                         <span slot="left">船号：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入您的船号"></yd-input>
+                        <yd-input slot="right" v-model="model.carNo" required placeholder="请输入您的船号"></yd-input>
                     </yd-cell-item>
 
-                    <yd-cell-item arrow>
+                    <yd-cell-item arrow @click.native="oilshow = true">
                         <span slot="left">商品：</span>
-                        <select slot="right">
-                            <option value="">请选择商品</option>
-                            <option value="1">93#</option>
-                            <option value="2">95#</option>
-                            <option value="3">97#</option>
-                        </select>
+                        <span slot="right">{{oilName}}</span> 
                     </yd-cell-item>
 
                     <yd-cell-item v-show="hasplan">
                         <span slot="left">计划单价：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入单价"></yd-input>
+                        <yd-input slot="right" v-model="model.price" readonly></yd-input>
                     </yd-cell-item>
 
                     <yd-cell-item>
                         <span slot="left">订单单价：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入单价"></yd-input>
+                        <yd-input slot="right" v-model="model.price" required placeholder="请输入单价"></yd-input>
                     </yd-cell-item>
 
                     <yd-cell-item v-show="hasplan">
                         <span slot="left">计划数量：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入加油数量"></yd-input>
+                        <yd-input slot="right" v-model="model.count" readonly></yd-input>
                         <span slot="right" style="width:70px">单位：{{unit}}</span>
                     </yd-cell-item>
 
                     <yd-cell-item>
                         <span slot="left">订单数量：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入加油数量"></yd-input>
+                        <yd-input slot="right" v-model="model.count" required placeholder="请输入加油数量"></yd-input>
                         <span slot="right" style="width:70px">单位：{{unit}}</span>
                     </yd-cell-item>
 
                     <yd-cell-item>
                         <span slot="left">总价：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="自动计算，单价 x 数量" readonly></yd-input>
+                        <yd-input slot="right" v-model="model.totalMoney" placeholder="自动计算，单价 x 数量" readonly></yd-input>
                     </yd-cell-item>
                     <yd-cell-item>
                         <span slot="left">是否开票</span>
                         <span slot="right">
-                            <yd-switch v-model="isinvoice"></yd-switch>
+                            <yd-switch v-model="model.isInvoice"></yd-switch>
                         </span>
                     </yd-cell-item>
                     <yd-cell-item arrow>
@@ -249,6 +244,7 @@
                 </yd-cell-group>
             </yd-tab-panel>
         </yd-tab>
+        <yd-actionsheet :items="oiloptions" v-model="oilshow" cancel="取消"></yd-actionsheet>
     </div>
 </template>
 

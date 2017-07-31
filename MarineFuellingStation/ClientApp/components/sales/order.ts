@@ -11,15 +11,19 @@ import moment from "moment";
 export default class OrderComponent extends Vue {
     salesplans: server.salesPlan[];
     salesplanshow: boolean = false;
+    model: server.order;
+    selectedplanNo: string = "请选择";
+    oiloptions: ydui.actionSheetItem[];
+    oilName: string = '';
+    oilshow: boolean = false;
 
     radio2: string = '1';
     unit: string = '升';
     carNo: string = '';
-    isinvoice: boolean = false;
 
     show1: boolean = false;
     show2: boolean = false;
-    selectedplanNo: string = "请选择";
+
     selectedtransord: string = "";
     hasplan: boolean = false;
     istrans: boolean = false;
@@ -29,6 +33,11 @@ export default class OrderComponent extends Vue {
         super();
 
         this.salesplans = new Array();
+        this.model = (new Object()) as server.order;
+        this.model.isInvoice = false;
+
+        this.getOrderNo();
+        this.getOilProducts();
     }
 
     salesplanselect() {
@@ -40,10 +49,16 @@ export default class OrderComponent extends Vue {
         return moment(d).format('MM-DD');
     }
 
-    planitemclick(): void {
-        this.selectedplanNo = "JH201707070001";
-        this.salesplanshow = false;
+    planitemclick(s: server.salesPlan): void {
+        this.selectedplanNo = s.name;
+        this.model.salesPlanId = s.id;
+        this.model.carNo = s.carNo;
+        this.model.price = s.price;
+        this.model.count = s.count;
+
         this.hasplan = true;
+
+        this.salesplanshow = false;
     };
 
     transitemclick(): void {
@@ -53,8 +68,11 @@ export default class OrderComponent extends Vue {
 
     emptyclick(): void {
         this.selectedplanNo = "散客";
-        this.salesplanshow = false;
+        this.model.salesPlanId = null;
+
         this.hasplan = false;
+
+        this.salesplanshow = false;
     };
 
     mounted() {
@@ -66,16 +84,26 @@ export default class OrderComponent extends Vue {
                 case "1":
                     this.unit = '升';
                     this.show2 = false;
+                    this.model.orderType = server.salesPlanType.水上;
                     break;
                 case "2":
                     this.unit = '吨';
                     this.show2 = true;
+                    this.model.orderType = server.salesPlanType.陆上;
                     break;
                 case "3":
                     this.unit = '桶';
                     this.show2 = false;
+                    this.model.orderType = server.salesPlanType.机油;
                     break;
             }
+        });
+
+        this.$watch('model.price', (v, ov) => {
+            this.model.totalMoney = v * this.model.count;
+        });
+        this.$watch('model.count', (v, ov) => {
+            this.model.totalMoney = this.model.price * v;
         });
     };
 
@@ -89,6 +117,35 @@ export default class OrderComponent extends Vue {
             let jobj = res.data as server.resultJSON<server.salesPlan[]>;
             if (jobj.code == 0)
                 this.salesplans = jobj.data;
+        });
+    }
+
+    getOrderNo() {
+        axios.get('/api/Order/OrderNo').then((res) => {
+            let jobj = res.data as server.resultJSON<string>;
+            if (jobj.code == 0)
+                this.model.name = jobj.data;
+        });
+    }
+
+    getOilProducts() {
+        axios.get('/api/Product/OilProducts').then((res) => {
+            let jobj = res.data as server.resultJSON<server.product[]>;
+            if (jobj.code == 0) {
+                jobj.data.forEach((o, i) => {
+                    this.oiloptions.push({
+                        label: o.name,
+                        method: () => {
+                            this.oilName = o.name;
+                            this.model.productId = o.id;
+                            if (o.lastPrice > 0)
+                                this.model.price = o.lastPrice;
+                            else
+                                this.model.price = o.minPrice;
+                        }
+                    });
+                });
+            }
         });
     }
 }

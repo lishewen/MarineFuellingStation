@@ -176,6 +176,7 @@ export default class PlanComponent extends Vue {
                         label: o.name,
                         method: () => {
                             this.model.oilName = o.name;
+                            this.model.productId = o.id;
                             if (o.lastPrice > 0)
                                 this.model.price = o.lastPrice;
                             else

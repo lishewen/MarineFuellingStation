@@ -11,7 +11,7 @@ namespace MFS.Repositorys
         const string tag = "XS";
         public OrderRepository(EFContext dbContext) : base(dbContext) { }
 
-        public string GetOrderPlanNo()
+        public string GetLastOrderNo()
         {
             try
             {

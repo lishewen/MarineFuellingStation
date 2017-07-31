@@ -15,5 +15,9 @@ namespace MFS.Hubs
         {
             Clients.All.printsalesplan(model);
         }
+        public void PrintOrder(Order model)
+        {
+            Clients.All.printorder(model);
+        }
     }
 }

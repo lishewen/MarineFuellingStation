@@ -29,6 +29,9 @@
     <Folder Include="wwwroot\dist\" />
   </ItemGroup>
   <ItemGroup>
+    <None Update="Models\Company.cs.d.ts">
+      <DependentUpon>Company.cs</DependentUpon>
+    </None>
     <None Update="Models\EntityBase.cs.d.ts">
       <DependentUpon>EntityBase.cs</DependentUpon>
     </None>

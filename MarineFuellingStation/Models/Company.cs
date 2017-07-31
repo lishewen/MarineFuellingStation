@@ -7,6 +7,10 @@ namespace MFS.Models
 {
     public class Company : EntityBase
     {
+        /// <summary>
+        /// 搜索用的关键字
+        /// </summary>
+        public string Keyword { get; set; }
         public TicketType TicketType { get; set; }
         /// <summary>
         /// 发票抬头

@@ -1,6 +1,8 @@
 declare module server {
 	interface company extends entityBase {
-        ticketType: ticketType;
+		/** 搜索用的关键字 */
+		keyword: string;
+		ticketType: ticketType;
 		/** 发票抬头 */
 		invoiceTitle: string;
 		/** 税号 */

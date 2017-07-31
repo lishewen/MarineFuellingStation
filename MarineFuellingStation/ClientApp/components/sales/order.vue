@@ -75,8 +75,8 @@
                         <span slot="left">票类：</span>
                         <select slot="right" v-model="model.ticketType">
                             <option value="">请选择票类</option>
-                            <option value="1">普通票</option>
-                            <option value="2">专用票</option>
+                            <option value="0">普通票</option>
+                            <option value="1">专用票</option>
                         </select>
                     </yd-cell-item>
                     <yd-cell-item v-show="isinvoice">
@@ -122,7 +122,7 @@
                 </yd-popup>
 
                 <div>
-                    <yd-button size="large" type="primary">提交</yd-button>
+                    <yd-button size="large" type="primary" @click.native="buttonclick">提交</yd-button>
                 </div>
             </yd-tab-panel>
 

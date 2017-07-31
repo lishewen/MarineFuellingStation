@@ -75,6 +75,31 @@ export default class OrderComponent extends Vue {
         this.salesplanshow = false;
     };
 
+    buttonclick() {
+        //信息验证
+        if (this.model.carNo == '') {
+            this.toastError('车牌不能为空');
+            return;
+        }
+        if (this.model.count <= 0) {
+            this.toastError('数量必须大于1');
+            return;
+        }
+        if (this.model.productId == 0) {
+            this.toastError('必须选择油品');
+            return;
+        }
+        this.postOrder(this.model);
+    }
+
+    toastError(msg: string) {
+        (<any>this).$dialog.toast({
+            mes: msg,
+            timeout: 1500,
+            icon: 'error'
+        });
+    }
+
     mounted() {
         this.$emit('setTitle', this.$store.state.username + ' 销售单');
 
@@ -148,6 +173,18 @@ export default class OrderComponent extends Vue {
                     });
                 });
             }
+        });
+    }
+
+    postOrder(model: server.order) {
+        axios.post('/api/Order', model).then((res) => {
+            let jobj = res.data as server.resultJSON<server.order>;
+            if (jobj.code == 0)
+                (<any>this).$dialog.toast({
+                    mes: jobj.msg,
+                    timeout: 1500,
+                    icon: 'success'
+                });
         });
     }
 }

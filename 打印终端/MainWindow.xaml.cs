@@ -42,9 +42,8 @@ namespace 打印终端
             Connection = new HubConnection(baseAddress);
             Connection.Closed += Connection_Closed;
             HubProxy = Connection.CreateHubProxy("print");
-            HubProxy.On<SalesPlan>("printsalesplan", (salesplan) =>
-                PrintSalesPlan(salesplan)
-            );
+            HubProxy.On<SalesPlan>("printsalesplan", (salesplan) => PrintSalesPlan(salesplan));
+            HubProxy.On<Order>("printorder", (order) => PrintOrder(order));
             try
             {
                 await Connection.Start();
@@ -54,6 +53,11 @@ namespace 打印终端
                 MessageBox.Show("网络不通");
             }
             textBox.AppendText($"Connected to server at {baseAddress}\r");
+        }
+
+        private void PrintOrder(Order order)
+        {
+            this.Dispatcher.Invoke(() => textBox.AppendText($"正在打印Order：{order.Name}\r"));
         }
 
         private void PrintSalesPlan(SalesPlan salesplan)

@@ -16,6 +16,7 @@ export default class OrderComponent extends Vue {
     oiloptions: ydui.actionSheetItem[];
     oilName: string = '';
     oilshow: boolean = false;
+    orders: server.order[];
 
     radio2: string = '1';
     unit: string = '升';
@@ -38,6 +39,7 @@ export default class OrderComponent extends Vue {
 
         this.getOrderNo();
         this.getOilProducts();
+        this.getOrders();
     }
 
     salesplanselect() {
@@ -47,6 +49,36 @@ export default class OrderComponent extends Vue {
 
     formatShortDate(d: Date): string {
         return moment(d).format('MM-DD');
+    }
+
+    formatDate(d: Date): string {
+        return moment(d).format('YYYY-MM-DD');
+    }
+
+    classState(s: server.orderState): any {
+        switch (s) {
+            case server.orderState.已完成:
+                return { color_red: true }
+            case server.orderState.装油中:
+                return { color_green: true }
+            case server.orderState.已开单:
+                return { color_darkorange: true }
+            case server.orderState.装油结束:
+                return { color_blue: true }
+        }
+    }
+
+    getStateName(s: server.orderState): string {
+        switch (s) {
+            case server.orderState.已完成:
+                return '已完成';
+            case server.orderState.装油中:
+                return '装油中';
+            case server.orderState.已开单:
+                return '已开单';
+            case server.orderState.装油结束:
+                return '装油结束';
+        }
     }
 
     planitemclick(s: server.salesPlan): void {
@@ -173,6 +205,14 @@ export default class OrderComponent extends Vue {
                     });
                 });
             }
+        });
+    }
+
+    getOrders() {
+        axios.get('/api/Order').then((res) => {
+            let jobj = res.data as server.resultJSON<server.order[]>;
+            if (jobj.code == 0)
+                this.orders = jobj.data;
         });
     }
 

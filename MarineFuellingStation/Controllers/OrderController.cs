@@ -46,5 +46,14 @@ namespace MFS.Controllers
                 Data = result
             };
         }
+        [HttpGet]
+        public ResultJSON<List<Order>> Get()
+        {
+            return new ResultJSON<List<Order>>
+            {
+                Code = 0,
+                Data = r.GetAllList()
+            };
+        }
     }
 }

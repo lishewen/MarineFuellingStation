@@ -129,29 +129,11 @@
             <yd-tab-panel label="单据记录">
                 <weui-search v-model="sv" />
                 <yd-cell-group>
-                    <yd-cell-item arrow>
-                        <span slot="left">船0001</span>
-                        <span slot="left" style="color:lightgray;margin-left:10px">93# 90L ￥3.42</span>
-                        <span slot="right">2017-07-07</span>
-                        <span slot="right" style="color:red; padding-left:10px">&#12288;已完成</span>
-                    </yd-cell-item>
-                    <yd-cell-item arrow>
-                        <span slot="left">船0002</span>
-                        <span slot="left" style="color:lightgray;margin-left:10px">93# 90L ￥3.42</span>
-                        <span slot="right">2017-07-07</span>
-                        <span slot="right" style="color:green; padding-left:10px">&#12288;装油中</span>
-                    </yd-cell-item>
-                    <yd-cell-item arrow>
-                        <span slot="left">船0002</span>
-                        <span slot="left" style="color:lightgray;margin-left:10px">93# 90L ￥3.42</span>
-                        <span slot="right">2017-07-07</span>
-                        <span slot="right" style="color:darkorange; padding-left:10px">装油结束</span>
-                    </yd-cell-item>
-                    <yd-cell-item arrow>
-                        <span slot="left">船0002</span>
-                        <span slot="left" style="color:lightgray;margin-left:10px">93# 90L ￥3.42</span>
-                        <span slot="right">2017-07-07</span>
-                        <span slot="right" style="color:blue; padding-left:10px">&#12288;已开单</span>
+                    <yd-cell-item arrow v-for="o in orders">
+                        <span slot="left">{{o.carNo}}</span>
+                        <span slot="left" class="color_lightgray" style="margin-left:10px">{{o.oilName}} {{o.count}}{{o.unit}} ￥{{o.totalMoney}}</span>
+                        <span slot="right">{{formatDate(o.oilDate)}}</span>
+                        <span slot="right" :class="classState(o.state)" style="padding-left:10px">{{getStateName(o.state)}}</span>
                     </yd-cell-item>
                 </yd-cell-group>
             </yd-tab-panel>

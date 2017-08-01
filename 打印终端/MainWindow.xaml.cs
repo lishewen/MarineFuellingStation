@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Word = Microsoft.Office.Interop.Word;
 
 namespace 打印终端
 {
@@ -26,6 +27,9 @@ namespace 打印终端
         public IHubProxy HubProxy { get; set; }
         public HubConnection Connection { get; set; }
         string baseAddress = Properties.Settings.Default.baseAddress;
+        private static Word._Document wDoc = null; //word文档
+        private static Word._Application wApp = null; //word进程
+        object missing = System.Reflection.Missing.Value;
         public MainWindow()
         {
             InitializeComponent();
@@ -34,6 +38,15 @@ namespace 打印终端
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             ConnectAsync();
+
+            //测试
+            //PrintOrder(new Order
+            //{
+            //    CarNo = "ct200",
+            //    CreatedAt = DateTime.Now,
+            //    Name = "20170801"
+            //});
+
             this.Hide();
         }
 
@@ -58,6 +71,48 @@ namespace 打印终端
         private void PrintOrder(Order order)
         {
             this.Dispatcher.Invoke(() => textBox.AppendText($"正在打印Order：{order.Name}\r"));
+
+            Word.Application thisApplication = new Word.ApplicationClass();
+            wApp = thisApplication;
+            string tmpDocFile = AppDomain.CurrentDomain.BaseDirectory + "调拨单.docx";
+            object templatefile = tmpDocFile;
+            wDoc = wApp.Documents.Add(ref templatefile, ref missing, ref missing, ref missing); //在现有进程内打开文档
+            wDoc.Activate(); //当前文档置前
+
+            //填充数据
+            WordReplace(wApp, "#CarNo#", order.CarNo);
+            WordReplace(wApp, "#CreateAt#", order.CreatedAt.ToString());
+            WordReplace(wApp, "#Name#", order.Name);
+
+            object background = false; //这个很重要，否则关闭的时候会提示请等待Word打印完毕后再退出，加上这个后可以使Word所有
+            object filename = AppDomain.CurrentDomain.BaseDirectory + order.Name + ".docx";
+            wDoc.SaveAs(ref filename, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref
+                missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing);
+            wDoc.PrintOut(ref background, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref
+               missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing,
+               ref missing);
+            object saveOption = Word.WdSaveOptions.wdSaveChanges;
+            wDoc.Close(ref saveOption, ref missing, ref missing); //关闭当前文档，如果有多个模版文件进行操作，则执行完这一步后接着执行打开Word文档的方法即可
+            saveOption = Word.WdSaveOptions.wdDoNotSaveChanges;
+            wApp.Quit(ref saveOption, ref missing, ref missing); //关闭Word进程
+        }
+
+        private void WordReplace(Word._Application wApp, string oldstr, string newstr)
+        {
+            //替换模版中的字符开始
+            object replaceAll = Word.WdReplace.wdReplaceAll; //替换所有
+            wApp.Selection.Find.ClearFormatting();
+            wApp.Selection.Find.Text = oldstr;        //替换的字符为#old#
+            wApp.Selection.Find.Format = false;
+            wApp.Selection.Find.Forward = true;    //向前查找
+            wApp.Selection.Find.MatchByte = true;
+            wApp.Selection.Find.Wrap = Word.WdFindWrap.wdFindAsk;
+            wApp.Selection.Find.Replacement.ClearFormatting();
+            wApp.Selection.Find.Replacement.Text = newstr; //替换后新字符
+            wApp.Selection.Find.Execute(
+             ref missing, ref missing, ref missing, ref missing, ref missing,
+             ref missing, ref missing, ref missing, ref missing, ref missing,
+             ref replaceAll, ref missing, ref missing, ref missing, ref missing);
         }
 
         private void PrintSalesPlan(SalesPlan salesplan)

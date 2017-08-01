@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,20 +11,17 @@ namespace MFS.Models
     public class Order : EntityBase
     {
         public int? SalesPlanId { get; set; }
-        [ForeignKey("SalesPlanId")]
         public virtual SalesPlan SalesPlan { get; set; }
         public SalesPlanType OrderType { get; set; }
         public string CarNo { get; set; }
         public int ProductId { get; set; }
-        [ForeignKey("ProductId")]
-        public virtual Product Product { get; set; }
+        //public virtual Product Product { get; set; }
         public decimal Price { get; set; }
         public int Count { get; set; }
         /// <summary>
         /// 单位
         /// </summary>
         public string Unit { get; set; }
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public decimal TotalMoney
         {
             get
@@ -110,7 +106,6 @@ namespace MFS.Models
         /// 订单状态
         /// </summary>
         public OrderState State { get; set; }
-        public TicketType TicketType { get; set; }
         /// <summary>
         /// 是否运输
         /// </summary>

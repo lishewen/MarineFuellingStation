@@ -4,7 +4,7 @@
 
             <yd-tab-panel label="所有分类">
                 <yd-cell-group>
-                    <yd-cell-item arrow @click.native="ptClick(pt)"  v-for="pt in pts">
+                    <yd-cell-item arrow @click.native="ptClick(pt)" v-for="pt in pts" :key="pt.id">
                         <div slot="left" style="margin: 10px 0 10px 0;line-height:22px">
                             <p>{{pt.name}}</p>
                             <p style="color:lightgray;font-size:14px">XXXXXX</p>
@@ -37,7 +37,7 @@
         <yd-actionsheet :items="ptoptions" v-model="ptshow" cancel="取消"></yd-actionsheet>
         <yd-popup v-model="show1" position="right">
             <yd-cell-group :title="currentpt.name">
-                <yd-cell-item v-for="p in currentpt.products">
+                <yd-cell-item v-for="p in currentpt.products" :key="p.id">
                     <div slot="left">{{p.name}}</div>
                     <div slot="right">
                         <p style="color:forestgreen; font-size: 14px">￥{{p.minPrice}}/升</p>

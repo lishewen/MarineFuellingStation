@@ -102,7 +102,7 @@
             <yd-tab-panel label="列表">
                 <yd-cell-group>
                     <weui-search v-model="sv" />
-                    <yd-cell-item arrow @click.native="userClick(user)" v-for="user in users">
+                    <yd-cell-item arrow @click.native="userClick(user)" v-for="user in users" :key="user.id">
                         <div slot="left">
                             <p>{{user.name}}</p>
                             <p style="color:lightgray;font-size:12px" v-show="user.isleader==0">普通职员</p>

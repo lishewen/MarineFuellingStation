@@ -9,7 +9,7 @@
                             <yd-button style="width:80%;margin:10px 0 10px 0" type="primary" @click.native="emptyclick()">散客</yd-button>
                         </div>
                         <weui-search v-model="sv" />
-                        <yd-cell-item arrow @click.native="planitemclick(s)" v-for="s in salesplans">
+                        <yd-cell-item arrow @click.native="planitemclick(s)" v-for="s in salesplans" :key="s.id">
                             <span slot="left">{{s.carNo}}</span>
                             <span slot="left" style="color:lightgray;margin-left:10px">{{s.createdBy}}</span>
                             <span slot="right">{{formatShortDate(s.oilDate)}}</span>
@@ -129,7 +129,7 @@
             <yd-tab-panel label="单据记录">
                 <weui-search v-model="sv" />
                 <yd-cell-group>
-                    <yd-cell-item arrow v-for="o in orders">
+                    <yd-cell-item arrow v-for="o in orders" :key="o.id">
                         <span slot="left">{{o.carNo}}</span>
                         <span slot="left" class="color_lightgray" style="margin-left:10px">{{o.oilName}} {{o.count}}{{o.unit}} ￥{{o.totalMoney}}</span>
                         <span slot="right">{{formatDate(o.oilDate)}}</span>

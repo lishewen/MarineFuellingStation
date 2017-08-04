@@ -3,20 +3,6 @@
         <yd-tab :change="change">
             <yd-tab-panel label="销售开单">
 
-                <yd-popup v-model="salesplanshow" position="right">
-                    <yd-cell-group>
-                        <div style="text-align: center">
-                            <yd-button style="width:80%;margin:10px 0 10px 0" type="primary" @click.native="emptyclick()">散客</yd-button>
-                        </div>
-                        <weui-search v-model="sv" />
-                        <yd-cell-item arrow @click.native="planitemclick(s)" v-for="s in salesplans">
-                            <span slot="left">{{s.carNo}}</span>
-                            <span slot="left" style="color:lightgray;margin-left:10px">{{s.createdBy}}</span>
-                            <span slot="right">{{formatShortDate(s.oilDate)}}</span>
-                        </yd-cell-item>
-                    </yd-cell-group>
-                </yd-popup>
-
                 <yd-cell-group :title="'单号：' + model.name" style="margin-top:20px">
                     <yd-cell-item arrow @click.native="salesplanselect">
                         <span slot="left">计划单：</span>
@@ -104,22 +90,6 @@
                         <span slot="right">{{selectedtransord}}</span>
                     </yd-cell-item>
                 </yd-cell-group>
-                <yd-popup v-model="show1" position="right">
-                    <yd-cell-group>
-                        <yd-cell-item arrow @click.native="transitemclick()">
-                            <span slot="left">YS07070001</span>
-                            <span slot="left" style="color:lightgray;margin-left:10px">李四</span>
-                        </yd-cell-item>
-                        <yd-cell-item arrow @click.native="transitemclick()">
-                            <span slot="left">YS07070001</span>
-                            <span slot="left" style="color:lightgray;margin-left:10px">张三</span>
-                        </yd-cell-item>
-                        <yd-cell-item arrow @click.native="transitemclick()">
-                            <span slot="left">YS07070001</span>
-                            <span slot="left" style="color:lightgray;margin-left:10px">王五</span>
-                        </yd-cell-item>
-                    </yd-cell-group>
-                </yd-popup>
 
                 <div>
                     <yd-button size="large" type="primary" @click.native="buttonclick">提交</yd-button>
@@ -139,6 +109,37 @@
             </yd-tab-panel>
         </yd-tab>
         <yd-actionsheet :items="oiloptions" v-model="oilshow" cancel="取消"></yd-actionsheet>
+        <!--右滑菜单-->
+        <yd-popup v-model="salesplanshow" position="right">
+            <yd-cell-group>
+                <div style="text-align: center">
+                    <yd-button style="width:80%;margin:10px 0 10px 0" type="primary" @click.native="emptyclick()">散客</yd-button>
+                </div>
+                <weui-search v-model="sv" />
+                <yd-cell-item arrow @click.native="planitemclick(s)" v-for="s in salesplans">
+                    <span slot="left">{{s.carNo}}</span>
+                    <span slot="left" style="color:lightgray;margin-left:10px">{{s.createdBy}}</span>
+                    <span slot="right">{{formatShortDate(s.oilDate)}}</span>
+                </yd-cell-item>
+            </yd-cell-group>
+        </yd-popup>
+        <yd-popup v-model="show1" position="right">
+            <yd-cell-group>
+                <yd-cell-item arrow @click.native="transitemclick()">
+                    <span slot="left">YS07070001</span>
+                    <span slot="left" style="color:lightgray;margin-left:10px">李四</span>
+                </yd-cell-item>
+                <yd-cell-item arrow @click.native="transitemclick()">
+                    <span slot="left">YS07070001</span>
+                    <span slot="left" style="color:lightgray;margin-left:10px">张三</span>
+                </yd-cell-item>
+                <yd-cell-item arrow @click.native="transitemclick()">
+                    <span slot="left">YS07070001</span>
+                    <span slot="left" style="color:lightgray;margin-left:10px">王五</span>
+                </yd-cell-item>
+            </yd-cell-group>
+        </yd-popup>
+        <!--右滑菜单 end-->
     </div>
 </template>
 

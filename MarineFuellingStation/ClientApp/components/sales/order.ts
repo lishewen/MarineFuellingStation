@@ -36,6 +36,8 @@ export default class OrderComponent extends Vue {
         this.salesplans = new Array();
         this.model = (new Object()) as server.order;
         this.model.isInvoice = false;
+        this.orders = new Array();
+        this.oiloptions = new Array();
 
         this.getOrderNo();
         this.getOilProducts();

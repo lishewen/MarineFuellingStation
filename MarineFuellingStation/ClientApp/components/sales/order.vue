@@ -60,7 +60,7 @@
                     <yd-cell-item arrow>
                         <span slot="left">票类：</span>
                         <select slot="right" v-model="model.ticketType">
-                            <option value="">请选择票类</option>
+                            <option value="-1">请选择票类</option>
                             <option value="0">普通票</option>
                             <option value="1">专用票</option>
                         </select>
@@ -116,7 +116,7 @@
                     <yd-button style="width:80%;margin:10px 0 10px 0" type="primary" @click.native="emptyclick()">散客</yd-button>
                 </div>
                 <weui-search v-model="sv" />
-                <yd-cell-item arrow @click.native="planitemclick(s)" v-for="s in salesplans">
+                <yd-cell-item arrow @click.native="planitemclick(s)" v-for="s in salesplans" :key="s.id">
                     <span slot="left">{{s.carNo}}</span>
                     <span slot="left" style="color:lightgray;margin-left:10px">{{s.createdBy}}</span>
                     <span slot="right">{{formatShortDate(s.oilDate)}}</span>

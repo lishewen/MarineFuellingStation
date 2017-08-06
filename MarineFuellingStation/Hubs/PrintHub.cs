@@ -19,5 +19,9 @@ namespace MFS.Hubs
         {
             Clients.All.printorder(model);
         }
+        public void Login(string username)
+        {
+            Clients.All.login(username);
+        }
     }
 }

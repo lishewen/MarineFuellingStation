@@ -66,6 +66,7 @@ namespace 打印终端
             HubProxy = Connection.CreateHubProxy("print");
             HubProxy.On<SalesPlan>("printsalesplan", (salesplan) => PrintSalesPlan(salesplan));
             HubProxy.On<Order>("printorder", (order) => PrintOrder(order));
+            HubProxy.On<string>("login", (username) => Dispatcher.Invoke(() => textBox.AppendText(username + " 已登录，正在执行操作\r")));
             try
             {
                 await Connection.Start();

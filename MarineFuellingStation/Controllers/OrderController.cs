@@ -21,6 +21,8 @@ namespace MFS.Controllers
         {
             r = repository;
             _hub = signalRConnectionManager.GetHubContext<PrintHub>();
+
+            _hub.Clients.All.login(UserName);
         }
         [HttpGet("[action]")]
         public ResultJSON<string> OrderNo()

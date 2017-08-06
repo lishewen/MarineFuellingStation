@@ -14,12 +14,11 @@ export default class OrderComponent extends Vue {
     model: server.order;
     selectedplanNo: string = "请选择";
     oiloptions: ydui.actionSheetItem[];
-    oilName: string = '';
+    oilName: string = '请选择';
     oilshow: boolean = false;
     orders: server.order[];
 
     radio2: string = '1';
-    unit: string = '升';
     carNo: string = '';
 
     show1: boolean = false;
@@ -41,6 +40,7 @@ export default class OrderComponent extends Vue {
         this.model.count = 0;
         this.model.totalMoney = 0;
         this.model.ticketType = -1;
+        this.model.unit = '升';
 
         this.orders = new Array();
         this.oiloptions = new Array();
@@ -95,6 +95,9 @@ export default class OrderComponent extends Vue {
         this.model.carNo = s.carNo;
         this.model.price = s.price;
         this.model.count = s.count;
+        this.oilName = s.oilName;
+        this.model.productId = s.productId;
+        this.radio2 = (s.salesPlanType + 1).toString();
 
         this.hasplan = true;
 
@@ -147,17 +150,17 @@ export default class OrderComponent extends Vue {
         this.$watch('radio2', (v, ov) => {
             switch (v) {
                 case "1":
-                    this.unit = '升';
+                    this.model.unit = '升';
                     this.show2 = false;
                     this.model.orderType = server.salesPlanType.水上;
                     break;
                 case "2":
-                    this.unit = '吨';
+                    this.model.unit = '吨';
                     this.show2 = true;
                     this.model.orderType = server.salesPlanType.陆上;
                     break;
                 case "3":
-                    this.unit = '桶';
+                    this.model.unit = '桶';
                     this.show2 = false;
                     this.model.orderType = server.salesPlanType.机油;
                     break;

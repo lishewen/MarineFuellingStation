@@ -38,13 +38,13 @@
                     <yd-cell-item v-show="hasplan">
                         <span slot="left">计划数量：</span>
                         <yd-input slot="right" v-model="model.count" readonly></yd-input>
-                        <span slot="right" style="width:70px">单位：{{unit}}</span>
+                        <span slot="right" style="width:70px">单位：{{model.unit}}</span>
                     </yd-cell-item>
 
                     <yd-cell-item>
                         <span slot="left">订单数量：</span>
                         <yd-input slot="right" v-model="model.count" required placeholder="请输入加油数量"></yd-input>
-                        <span slot="right" style="width:70px">单位：{{unit}}</span>
+                        <span slot="right" style="width:70px">单位：{{model.unit}}</span>
                     </yd-cell-item>
 
                     <yd-cell-item>
@@ -57,7 +57,7 @@
                             <yd-switch v-model="model.isInvoice"></yd-switch>
                         </span>
                     </yd-cell-item>
-                    <yd-cell-item arrow>
+                    <yd-cell-item arrow v-show="model.isInvoice">
                         <span slot="left">票类：</span>
                         <select slot="right" v-model="model.ticketType">
                             <option value="-1">请选择票类</option>

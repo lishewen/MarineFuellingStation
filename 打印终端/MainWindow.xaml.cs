@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -30,6 +31,14 @@ namespace 打印终端
         private static Word._Document wDoc = null; //word文档
         private static Word._Application wApp = null; //word进程
         object missing = System.Reflection.Missing.Value;
+
+        static string ConvertToChinese(decimal x)
+        {
+            string s = x.ToString("#L#E#D#C#K#E#D#C#J#E#D#C#I#E#D#C#H#E#D#C#G#E#D#C#F#E#D#C#.0B0A");
+            string d = Regex.Replace(s, @"((?<=-|^)[^1-9]*)|((?'z'0)[0A-E]*((?=[1-9])|(?'-z'(?=[F-L\.]|$))))|((?'b'[F-L])(?'z'0)[0A-L]*((?=[1-9])|(?'-z'(?=[\.]|$))))", "${b}${z}");
+            return Regex.Replace(d, ".", m => "负元空零壹贰叁肆伍陆柒捌玖空空空空空空空分角拾佰仟萬億兆京垓秭穰"[m.Value[0] - '-'].ToString());
+        }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -83,6 +92,12 @@ namespace 打印终端
             WordReplace(wApp, "#CarNo#", order.CarNo);
             WordReplace(wApp, "#CreateAt#", order.CreatedAt.ToString());
             WordReplace(wApp, "#Name#", order.Name);
+            WordReplace(wApp, "#ProductName#", order.Product.Name);
+            WordReplace(wApp, "#ProductCount#", order.Count.ToString());
+            WordReplace(wApp, "#ProductPrice#", order.Price.ToString());
+            WordReplace(wApp, "#TotalMoney#", order.TotalMoney.ToString());
+            WordReplace(wApp, "#CreateBy#", order.CreatedBy);
+            WordReplace(wApp, "#CNMoney#", ConvertToChinese(order.TotalMoney));
 
             object background = false; //这个很重要，否则关闭的时候会提示请等待Word打印完毕后再退出，加上这个后可以使Word所有
             object filename = AppDomain.CurrentDomain.BaseDirectory + order.Name + ".docx";

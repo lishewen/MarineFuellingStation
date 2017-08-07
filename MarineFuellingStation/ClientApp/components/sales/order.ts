@@ -143,6 +143,10 @@ export default class OrderComponent extends Vue {
         });
     }
 
+    godetail(id: number) {
+        this.$router.push('/sales/order/' + id);
+    }
+
     mounted() {
         this.$emit('setTitle', this.$store.state.username + ' 销售单');
 

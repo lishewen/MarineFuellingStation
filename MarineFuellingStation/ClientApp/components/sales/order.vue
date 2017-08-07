@@ -99,7 +99,7 @@
             <yd-tab-panel label="单据记录">
                 <weui-search v-model="sv" />
                 <yd-cell-group>
-                    <yd-cell-item arrow v-for="o in orders" :key="o.id">
+                    <yd-cell-item arrow v-for="o in orders" :key="o.id" @click.native="godetail(o.id)">
                         <span slot="left">{{o.carNo}}</span>
                         <span slot="left" class="color_lightgray" style="margin-left:10px">{{o.oilName}} {{o.count}}{{o.unit}} ￥{{o.totalMoney}}</span>
                         <span slot="right">{{formatDate(o.oilDate)}}</span>

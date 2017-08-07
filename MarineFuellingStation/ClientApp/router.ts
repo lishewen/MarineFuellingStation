@@ -4,9 +4,10 @@ import store from './store'
 
 Vue.use(VueRouter);
 
-const routes = [
+const routes: VueRouter.RouteConfig[] = [
     { path: '/sales/plan', component: require('./components/sales/plan.vue') },
     { path: '/sales/order', component: require('./components/sales/order.vue') },
+    { path: '/sales/order/:id', component: require('./components/sales/orderdetail.vue') },
     { path: '/sales/myorder', component: require('./components/sales/myorder.vue') },
     { path: '/sales/myclient', component: require('./components/sales/myclient.vue') },
     { path: '/sales/boatclean', component: require('./components/sales/boatclean.vue') },
@@ -26,7 +27,7 @@ const routes = [
     { path: '/oilstore', component: require('./components/oilstore/oilstore.vue') },
 
     { path: '/purchase/purchase', component: require('./components/purchase/purchase.vue') },
-    
+
     { path: '/client/client', component: require('./components/client/client.vue') },
 
     { path: '/user/user', component: require('./components/user/user.vue') },

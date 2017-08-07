@@ -9,5 +9,6 @@ export default class AppComponent extends Vue {
     setTitle(title: string, url: string = '#'): void {
         this.title = title;
         this.backUrl = url;
+        document.title = title;
     }
 }

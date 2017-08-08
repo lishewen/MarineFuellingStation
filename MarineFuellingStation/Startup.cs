@@ -46,6 +46,7 @@ namespace MFS
             services.AddScoped<ProductRepository>();
             services.AddScoped<ProductTypeRepository>();
             services.AddScoped<OrderRepository>();
+            services.AddScoped<StoreTypeRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -21,6 +21,8 @@ namespace MFS.Models
         public DbSet<Company> Companys { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<Store> Stores { get; set; }
+        public DbSet<StoreType> StoreTypes { get; set; }
         public EFContext(DbContextOptions<EFContext> options) : base(options) { }
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {

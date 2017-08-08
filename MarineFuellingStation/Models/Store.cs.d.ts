@@ -19,6 +19,6 @@ declare module server {
 		存储仓,
 	}
 	interface storeType extends entityBase {
-		stores: any[];
+		stores: store[];
 	}
 }

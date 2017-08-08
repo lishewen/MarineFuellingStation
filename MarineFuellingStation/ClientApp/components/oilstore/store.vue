@@ -46,8 +46,8 @@
                     </yd-cell-item>
                     <yd-cell-item>
                         <span slot="left">所属分类：</span>
-                        <select slot="right">
-                            <option value="">请选择分类</option>
+                        <select slot="right" v-model="model.storeTypeId">
+                            <option value="-1">请选择分类</option>
                             <option v-for="st in sts" :key="st.id" :value="st.id">{{st.name}}</option>
                         </select>
                         <span slot="right">
@@ -56,11 +56,11 @@
                     </yd-cell-item>
                     <yd-cell-item>
                         <span slot="left">名称：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入名称"></yd-input>
+                        <yd-input slot="right" v-model="model.name" required placeholder="请输入名称"></yd-input>
                     </yd-cell-item>
                     <yd-cell-item>
                         <span slot="left">容量：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入容量"></yd-input>
+                        <yd-input type="number" slot="right" v-model="model.volume" required placeholder="请输入容量"></yd-input>
                         <span slot="right">升</span>
                     </yd-cell-item>
                 </yd-cell-group>

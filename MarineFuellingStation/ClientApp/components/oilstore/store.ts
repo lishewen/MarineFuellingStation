@@ -15,7 +15,6 @@ export default class StoreComponent extends Vue {
     constructor() {
         super();
 
-        this.model = (new Object()) as server.store;
         this.sts = new Array();
 
         this.getStoreTypes();
@@ -83,7 +82,12 @@ export default class StoreComponent extends Vue {
     };
 
     change(label: string, tabkey: string) {
-        console.log(label);
         this.$emit('setTitle', this.$store.state.username + ' ' + label);
+        if (label == '添加') {
+            this.model = (new Object()) as server.store;
+            this.model.name = '';
+            this.model.volume = 0;
+            this.model.storeTypeId = -1;
+        }
     }
 }

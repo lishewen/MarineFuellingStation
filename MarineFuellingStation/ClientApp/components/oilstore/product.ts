@@ -23,6 +23,7 @@ export default class ProductComponent extends Vue {
         this.ptoptions = new Array();
         this.currentpt = (new Object()) as server.productType;
         this.currentproduct = (new Object()) as server.product;
+        this.currentproduct.name = '';
 
         this.getProductTypes();
     }

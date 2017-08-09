@@ -5,17 +5,19 @@ import axios from "axios";
 @Component
 export default class StoreComponent extends Vue {
     carNo: string = "";
-    show1: boolean = false;
+    stshow: boolean = false;
     newstshow: boolean = false;
     radio1: string = "1";
     model: server.store;
     stName: string = '';
     sts: server.storeType[];
+    currentst: server.storeType;
 
     constructor() {
         super();
 
         this.sts = new Array();
+        this.currentst = new Object() as server.storeType;
 
         this.getStoreTypes();
     }
@@ -26,6 +28,35 @@ export default class StoreComponent extends Vue {
             timeout: 1500,
             icon: 'error'
         });
+    }
+
+    stClick(st: server.storeType) {
+        this.currentst = st;
+        this.stshow = true;
+    }
+
+    sumVolume(st: server.storeType): number {
+        let result: number = 0;
+        st.stores.forEach((s) => {
+            result += s.volume;
+        });
+        return result;
+    }
+
+    sumValue(st: server.storeType): number {
+        let result: number = 0;
+        st.stores.forEach((s) => {
+            result += s.value;
+        });
+        return result;
+    }
+
+    sumCost(st: server.storeType): number {
+        let result: number = 0;
+        st.stores.forEach((s) => {
+            result += s.cost;
+        });
+        return result;
     }
 
     newstShowClick() {

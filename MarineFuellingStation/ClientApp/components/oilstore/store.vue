@@ -4,34 +4,14 @@
     
             <yd-tab-panel label="所有分类">
                 <yd-cell-group>
-                    <yd-cell-item arrow @click.native="show1 = true">
+                    <yd-cell-item arrow @click.native="stClick(st)" v-for="st in sts">
                         <div slot="left" style="margin: 10px 0 10px 0;line-height:22px">
-                            <p>【地仓】- 6个仓</p>
-                            <p style="color:lightgray;font-size:14px">总容量：20000升</p>
+                            <p>【{{st.name}}】- {{st.stores.length}}个仓</p>
+                            <p style="color:lightgray;font-size:14px">总容量：{{sumVolume(st)}}升</p>
                         </div>
                         <div slot="right" style="text-align: right;margin: 10px 0 10px 0">
-                            <p style="color:forestgreen; font-size: 16px">1000升</p>
-                            <p style="color:lightcoral; font-size: 16px">￥180000</p>
-                        </div>
-                    </yd-cell-item>
-                    <yd-cell-item arrow @click.native="show1 = true">
-                        <div slot="left" style="margin: 10px 0 10px 0">
-                            <p>【船758】- 6个仓</p>
-                            <p style="color:lightgray;font-size:14px">总容量：20000升</p>
-                        </div>
-                        <div slot="right" style="text-align: right;margin: 10px 0 10px 0">
-                            <p style="color:forestgreen; font-size: 16px">80升</p>
-                            <p style="color:lightcoral; font-size: 16px">￥180000</p>
-                        </div>
-                    </yd-cell-item>
-                    <yd-cell-item arrow @click.native="show1 = true">
-                        <div slot="left" style="margin: 10px 0 10px 0">
-                            <p>【船229】- 6个仓</p>
-                            <p style="color:lightgray;font-size:14px">总容量：20000升</p>
-                        </div>
-                        <div slot="right" style="text-align: right;margin: 10px 0 10px 0">
-                            <p style="color:forestgreen; font-size: 16px">400升</p>
-                            <p style="color:lightcoral; font-size: 16px">￥180000</p>
+                            <p style="color:forestgreen; font-size: 16px">{{sumValue(st)}}升</p>
+                            <p style="color:lightcoral; font-size: 16px">￥{{sumCost(st)}}</p>
                         </div>
                     </yd-cell-item>
                 </yd-cell-group>
@@ -64,35 +44,21 @@
                         <span slot="right">升</span>
                     </yd-cell-item>
                 </yd-cell-group>
+                <div style="text-align: center">
+                    <yd-button style="width:100px" type="primary" @click.native="">添加</yd-button>
+                </div>
             </yd-tab-panel>
         </yd-tab>
-        <yd-popup v-model="show1" position="right">
-            <yd-cell-group title="【地仓】">
-                <yd-cell-item>
-                    <div slot="left">1#仓</div>
+        <yd-popup v-model="stshow" position="right">
+            <yd-cell-group :title="'【' + currentst.name + '】'">
+                <yd-cell-item v-for="s in currentst.stores">
+                    <div slot="left">{{s.name}}</div>
                     <div slot="right">
-                        <p style="color:forestgreen; font-size: 14px">80升</p>
-                        <p style="color:lightcoral; font-size: 14px">￥180000</p>
-                    </div>
-                </yd-cell-item>
-                <yd-cell-item>
-                    <div slot="left">2#仓</div>
-                    <div slot="right">
-                        <p style="color:forestgreen; font-size: 14px">80升</p>
-                        <p style="color:lightcoral; font-size: 14px">￥180000</p>
-                    </div>
-                </yd-cell-item>
-                <yd-cell-item>
-                    <div slot="left">3#仓</div>
-                    <div slot="right">
-                        <p style="color:forestgreen; font-size: 14px">80升</p>
-                        <p style="color:lightcoral; font-size: 14px">￥180000</p>
+                        <p style="color:forestgreen; font-size: 14px">{{s.value}}升</p>
+                        <p style="color:lightcoral; font-size: 14px">￥{{s.cost}}</p>
                     </div>
                 </yd-cell-item>
             </yd-cell-group>
-            <div style="text-align: center">
-                <yd-button style="width:100px" type="primary" @click.native="">添加</yd-button>
-            </div>
         </yd-popup>
         <yd-popup v-model="newstshow" position="right">
             <yd-cell-group title="添加分类">

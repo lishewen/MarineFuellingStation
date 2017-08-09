@@ -46,6 +46,7 @@ namespace MFS
             services.AddScoped<ProductRepository>();
             services.AddScoped<ProductTypeRepository>();
             services.AddScoped<OrderRepository>();
+            services.AddScoped<StoreRepository>();
             services.AddScoped<StoreTypeRepository>();
         }
 

@@ -35,6 +35,23 @@ export default class StoreComponent extends Vue {
         this.stshow = true;
     }
 
+    buttonclick() {
+        //信息验证
+        if (this.model.name == '') {
+            this.toastError('名称不能为空');
+            return;
+        }
+        if (this.model.volume <= 0) {
+            this.toastError('请输入容量');
+            return;
+        }
+        if (this.model.storeTypeId <= 0) {
+            this.toastError('必须选择分类');
+            return;
+        }
+        this.postStore(this.model);
+    }
+
     sumVolume(st: server.storeType): number {
         let result: number = 0;
         st.stores.forEach((s) => {
@@ -93,6 +110,19 @@ export default class StoreComponent extends Vue {
                 this.sts.push(jobj.data);
                 //关闭popup
                 this.newstshow = false;
+            }
+        });
+    }
+
+    postStore(model: server.store) {
+        axios.post('/api/Store', model).then((res) => {
+            let jobj = res.data as server.resultJSON<server.store>;
+            if (jobj.code == 0) {
+                (<any>this).$dialog.toast({
+                    mes: jobj.msg,
+                    timeout: 1500,
+                    icon: 'success'
+                });
             }
         });
     }

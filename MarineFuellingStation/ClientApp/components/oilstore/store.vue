@@ -45,7 +45,7 @@
                     </yd-cell-item>
                 </yd-cell-group>
                 <div style="text-align: center">
-                    <yd-button style="width:100px" type="primary" @click.native="">添加</yd-button>
+                    <yd-button style="width:100px" type="primary" @click.native="buttonclick">添加</yd-button>
                 </div>
             </yd-tab-panel>
         </yd-tab>

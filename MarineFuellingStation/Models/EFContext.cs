@@ -23,6 +23,10 @@ namespace MFS.Models
         public DbSet<Order> Orders { get; set; }
         public DbSet<Store> Stores { get; set; }
         public DbSet<StoreType> StoreTypes { get; set; }
+        /// <summary>
+        /// 采购计划
+        /// </summary>
+        public DbSet<Purchase> Purchases { get; set; }
         public EFContext(DbContextOptions<EFContext> options) : base(options) { }
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {

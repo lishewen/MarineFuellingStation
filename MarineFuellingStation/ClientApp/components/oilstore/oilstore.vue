@@ -19,7 +19,7 @@
                 <div slot="left" style="width: 60px;height: 60px;margin:15px 15px 15px -5px">
                     <yd-progressbar :progress="progress1" trailWidth="4">10000</yd-progressbar>
                 </div>
-                <div slot="left" style="width: 60px;height: 60px;margin:10px 10px 10px 0px">
+                <div slot="left" style="width: 60px;height: 60px;margin:10px 10px 10px -5px">
                     <yd-progressbar :progress="progress2"
                                     trailWidth="2"
                                     strokeWidth="4"
@@ -29,7 +29,7 @@
                 </div>
                 <div slot="left" style="font-size:16px;width: 90px">
                     <p style="color:gray;font-size:16px;">1#仓</p>
-                    <p style="color:lightgray;font-size:14px;">07-07 08:30 已测量</p>
+                    <p style="color:lightgray;font-size:14px;">07-07 08:30 已测</p>
                 </div>
                 <div slot="right">
                     <div style="text-align: left">
@@ -44,7 +44,7 @@
                 <div slot="left" style="width: 60px;height: 60px;margin:15px 15px 15px -5px">
                     <yd-progressbar :progress="progress1" trailWidth="4">10000</yd-progressbar>
                 </div>
-                <div slot="left" style="width: 60px;height: 60px;margin:10px 10px 10px 0px">
+                <div slot="left" style="width: 60px;height: 60px;margin:10px 10px 10px -5px">
                     <yd-progressbar :progress="progress2"
                                     trailWidth="2"
                                     strokeWidth="4"
@@ -54,7 +54,7 @@
                 </div>
                 <div slot="left" style="font-size:16px;width: 90px">
                     <p style="color:gray;font-size:16px;">1#仓</p>
-                    <p style="color:lightgray;font-size:14px;">07-07 08:30 已测量</p>
+                    <p style="color:lightgray;font-size:14px;">07-07 08:30 已测</p>
                 </div>
                 <div slot="right">
                     <div style="text-align: left">
@@ -67,7 +67,7 @@
                 <div slot="left" style="width: 60px;height: 60px;margin:15px 15px 15px -5px">
                     <yd-progressbar :progress="progress1" trailWidth="4">10000</yd-progressbar>
                 </div>
-                <div slot="left" style="width: 60px;height: 60px;margin:10px 10px 10px 0px">
+                <div slot="left" style="width: 60px;height: 60px;margin:10px 10px 10px -5px">
                     <yd-progressbar :progress="progress2"
                                     trailWidth="2"
                                     strokeWidth="4"
@@ -77,7 +77,7 @@
                 </div>
                 <div slot="left" style="font-size:16px;width: 90px">
                     <p style="color:gray;font-size:16px;">1#仓</p>
-                    <p style="color:lightgray;font-size:14px;">07-07 08:30 已测量</p>
+                    <p style="color:lightgray;font-size:14px;">07-07 08:30 已测</p>
                 </div>
                 <div slot="right">
                     <div style="text-align: left">
@@ -90,7 +90,7 @@
                 <div slot="left" style="width: 60px;height: 60px;margin:15px 15px 15px -5px">
                     <yd-progressbar :progress="progress1" trailWidth="4">10000</yd-progressbar>
                 </div>
-                <div slot="left" style="width: 60px;height: 60px;margin:10px 10px 10px 0px">
+                <div slot="left" style="width: 60px;height: 60px;margin:10px 10px 10px -5px">
                     <yd-progressbar :progress="progress2"
                                     trailWidth="2"
                                     strokeWidth="4"
@@ -100,7 +100,7 @@
                 </div>
                 <div slot="left" style="font-size:16px;width: 90px">
                     <p style="color:gray;font-size:16px;">1#仓</p>
-                    <p style="color:lightgray;font-size:14px;">07-07 08:30 已测量</p>
+                    <p style="color:lightgray;font-size:14px;">07-07 08:30 已测</p>
                 </div>
                 <div slot="right">
                     <div style="text-align: left">

@@ -9,7 +9,7 @@ import { Component } from 'vue-property-decorator';
 export default class MyOrderComponent extends Vue {
     radio2: string = "1";
     carNo: string = "";
-    show1: boolean = false;
+    show1: boolean = true;
     sv: string = "";
     filterclick(): void {
     };

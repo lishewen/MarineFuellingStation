@@ -110,8 +110,8 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="调拨单.docx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="dbd.docx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>

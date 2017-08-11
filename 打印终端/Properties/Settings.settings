@@ -5,5 +5,8 @@
     <Setting Name="baseAddress" Type="System.String" Scope="User">
       <Value Profile="(Default)">http://vue.car0774.com/signalr</Value>
     </Setting>
+    <Setting Name="PrintOrderDocx" Type="System.String" Scope="User">
+      <Value Profile="(Default)">dbd.docx</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

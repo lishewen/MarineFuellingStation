@@ -34,5 +34,17 @@ namespace 打印终端.Properties {
                 this["baseAddress"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("dbd.docx")]
+        public string PrintOrderDocx {
+            get {
+                return ((string)(this["PrintOrderDocx"]));
+            }
+            set {
+                this["PrintOrderDocx"] = value;
+            }
+        }
     }
 }

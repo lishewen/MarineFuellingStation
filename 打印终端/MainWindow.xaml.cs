@@ -90,7 +90,7 @@ namespace 打印终端
 
             Word.Application thisApplication = new Word.ApplicationClass();
             wApp = thisApplication;
-            string tmpDocFile = AppDomain.CurrentDomain.BaseDirectory + "调拨单.docx";
+            string tmpDocFile = AppDomain.CurrentDomain.BaseDirectory + Properties.Settings.Default.PrintOrderDocx;
             object templatefile = tmpDocFile;
             wDoc = wApp.Documents.Add(ref templatefile, ref missing, ref missing, ref missing); //在现有进程内打开文档
             wDoc.Activate(); //当前文档置前

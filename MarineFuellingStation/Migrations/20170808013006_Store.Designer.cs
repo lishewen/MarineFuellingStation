@@ -8,9 +8,10 @@ using MFS.Models;
 namespace MFS.Migrations
 {
     [DbContext(typeof(EFContext))]
-    partial class EFContextModelSnapshot : ModelSnapshot
+    [Migration("20170808013006_Store")]
+    partial class Store
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -296,64 +297,6 @@ namespace MFS.Migrations
                     b.ToTable("SalesPlans");
                 });
 
-            modelBuilder.Entity("MFS.Models.Store", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<decimal>("AvgPrice");
-
-                    b.Property<DateTime>("CreatedAt");
-
-                    b.Property<string>("CreatedBy");
-
-                    b.Property<bool>("IsUse");
-
-                    b.Property<DateTime>("LastUpdatedAt");
-
-                    b.Property<string>("LastUpdatedBy");
-
-                    b.Property<decimal>("LastValue");
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.Property<int>("StoreClass");
-
-                    b.Property<int>("StoreTypeId");
-
-                    b.Property<decimal>("Value");
-
-                    b.Property<decimal>("Volume");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("StoreTypeId");
-
-                    b.ToTable("Stores");
-                });
-
-            modelBuilder.Entity("MFS.Models.StoreType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreatedAt");
-
-                    b.Property<string>("CreatedBy");
-
-                    b.Property<DateTime>("LastUpdatedAt");
-
-                    b.Property<string>("LastUpdatedBy");
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.ToTable("StoreTypes");
-                });
-
             modelBuilder.Entity("MFS.Models.Client", b =>
                 {
                     b.HasOne("MFS.Models.Company", "Company")
@@ -382,14 +325,6 @@ namespace MFS.Migrations
                     b.HasOne("MFS.Models.ProductType", "ProductType")
                         .WithMany("Products")
                         .HasForeignKey("ProductTypeId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("MFS.Models.Store", b =>
-                {
-                    b.HasOne("MFS.Models.StoreType", "StoreType")
-                        .WithMany("Stores")
-                        .HasForeignKey("StoreTypeId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
         }

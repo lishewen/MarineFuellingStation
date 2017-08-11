@@ -234,12 +234,14 @@ export default class OrderComponent extends Vue {
     postOrder(model: server.order) {
         axios.post('/api/Order', model).then((res) => {
             let jobj = res.data as server.resultJSON<server.order>;
-            if (jobj.code == 0)
+            if (jobj.code == 0) {
+                this.getOrderNo();
                 (<any>this).$dialog.toast({
                     mes: jobj.msg,
                     timeout: 1500,
                     icon: 'success'
                 });
+            }
         });
     }
 }

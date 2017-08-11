@@ -23,6 +23,7 @@ export default class ProductComponent extends Vue {
         this.ptoptions = new Array();
         this.currentpt = (new Object()) as server.productType;
         this.currentproduct = (new Object()) as server.product;
+        this.currentproduct.name = '';
 
         this.getProductTypes();
     }
@@ -82,8 +83,9 @@ export default class ProductComponent extends Vue {
             return;
         }
 
-        let name = this.ptName;
-        axios.post('/api/ProductType', name).then((res) => {
+        let model = (new Object()) as server.productType;
+        model.name = this.ptName;
+        axios.post('/api/ProductType', model).then((res) => {
             let jobj = res.data as server.resultJSON<server.productType>;
             if (jobj.code == 0) {
                 (<any>this).$dialog.toast({

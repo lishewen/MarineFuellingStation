@@ -191,12 +191,14 @@ export default class PlanComponent extends Vue {
     postSalesPlan(model: server.salesPlan) {
         axios.post('/api/SalesPlan', model).then((res) => {
             let jobj = res.data as server.resultJSON<server.salesPlan>;
-            if (jobj.code == 0)
+            if (jobj.code == 0) {
+                this.getSalesPlanNo();
                 (<any>this).$dialog.toast({
                     mes: jobj.msg,
                     timeout: 1500,
                     icon: 'success'
                 });
+            }
         });
     }
 }

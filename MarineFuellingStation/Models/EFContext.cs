@@ -48,6 +48,10 @@ namespace MFS.Models
         /// 化验单
         /// </summary>
         public DbSet<Assay> Assays { get; set; }
+        /// <summary>
+        /// 转仓单
+        /// </summary>
+        public DbSet<MoveStore> MoveStores { get; set; }
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {
             OnBeforeSaving();

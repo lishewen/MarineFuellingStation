@@ -4,11 +4,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Threading;
+using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Configuration;
 
 namespace MFS.Models
 {
+#if DEBUG
+    public class EFContextFactory : IDesignTimeDbContextFactory<EFContext>
+    {
+        const string connstr = "data source=120.24.88.129;initial catalog=MFS;persist security info=True;user id=yisuo;password=hr!2027055;MultipleActiveResultSets=True;";
+        public EFContext CreateDbContext(string[] args)
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<EFContext>();
+
+            optionsBuilder.UseSqlServer(connstr);
+
+            return new EFContext(optionsBuilder.Options);
+        }
+    }
+#endif
     public class EFContext : DbContext
     {
+        public EFContext(DbContextOptions<EFContext> options) : base(options) { }
         /// <summary>
         /// 销售计划
         /// </summary>
@@ -27,7 +44,10 @@ namespace MFS.Models
         /// 采购计划
         /// </summary>
         public DbSet<Purchase> Purchases { get; set; }
-        public EFContext(DbContextOptions<EFContext> options) : base(options) { }
+        /// <summary>
+        /// 化验单
+        /// </summary>
+        public DbSet<Assay> Assays { get; set; }
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {
             OnBeforeSaving();

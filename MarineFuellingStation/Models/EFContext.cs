@@ -52,6 +52,10 @@ namespace MFS.Models
         /// 转仓单
         /// </summary>
         public DbSet<MoveStore> MoveStores { get; set; }
+        /// <summary>
+        /// 船舶清污单
+        /// </summary>
+        public DbSet<BoatClean> BoatCleans { get; set; }
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {
             OnBeforeSaving();

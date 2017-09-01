@@ -48,6 +48,10 @@ namespace MFS
             services.AddScoped<OrderRepository>();
             services.AddScoped<StoreRepository>();
             services.AddScoped<StoreTypeRepository>();
+            services.AddScoped<PurchaseRepository>();
+            services.AddScoped<AssayRepository>();
+            services.AddScoped<MoveStoreRepository>();
+            services.AddScoped<BoatCleanRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,7 +63,8 @@ namespace MFS
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions {
+                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
+                {
                     HotModuleReplacement = true
                 });
             }
@@ -72,7 +77,7 @@ namespace MFS
             app.UseStaticFiles();
             app.UseWebSockets();
             app.UseSignalR();
-           
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

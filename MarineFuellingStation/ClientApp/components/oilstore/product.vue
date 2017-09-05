@@ -52,7 +52,9 @@
             <yd-cell-group title="添加分类">
                 <yd-cell-item>
                     <span slot="left">分类名称：</span>
-                    <yd-input slot="right" v-model="ptName" required placeholder="请输入名称"></yd-input>
+                </yd-cell-item>
+                <yd-cell-item>
+                    <yd-input slot="left" v-model="ptName" required placeholder="请输入名称"></yd-input>
                 </yd-cell-item>
             </yd-cell-group>
             <div style="text-align: center">

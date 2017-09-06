@@ -24,7 +24,7 @@ namespace MFS.Controllers
         [HttpGet]
         public GetDepartmentListResult Get()
         {
-            var result = MailListApi.GetDepartmentList(option.AccessToken, 9);
+            var result = MailListApi.GetDepartmentList(option.AccessToken);
             if (result.errcode == 0)
                 UserController.DepartmentList = result.department;
             return result;

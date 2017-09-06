@@ -28,7 +28,7 @@ namespace MFS.Controllers
         [HttpGet]
         public GetDepartmentMemberInfoResult Get()
         {
-            var result = MailListApi.GetDepartmentMemberInfo(option.AccessToken, 9, 1);
+            var result = MailListApi.GetDepartmentMemberInfo(option.AccessToken, 1, 1);
             return result;
         }
     }

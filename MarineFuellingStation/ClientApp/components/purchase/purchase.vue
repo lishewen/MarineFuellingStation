@@ -2,8 +2,7 @@
     <div id="root">
         <yd-tab :change="change">
             <yd-tab-panel label="计划开单">
-                <yd-cell-group title="单号：CG17070001" style="margin-top:20px">
-
+                <yd-cell-group :title="'单号：' + model.name" style="margin-top:20px">
                     <yd-cell-item>
                         <span slot="left">商品：</span>
                         <select slot="right">

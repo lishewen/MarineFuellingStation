@@ -7,14 +7,19 @@ import { Component } from 'vue-property-decorator';
     }
 })
 export default class MyOrderComponent extends Vue {
+    model: server.client;
     modelCompany: server.company;
     companys: server.company[];
     products: server.product[];
+    carsOrBoats: Array<Object>;
+
     sales: Object[] = [
         { id: 1, name: '张三', clientcount:20 },
         { id: 2, name: '李四', clientcount: 21 },
         { id: 3, name: '王五', clientcount: 22 }
     ];
+    companyName: string;
+    salesName: string;
 
     oiloptions: ydui.actionSheetItem[];
     oilName: string = '请选择';
@@ -30,21 +35,33 @@ export default class MyOrderComponent extends Vue {
     showaddcompany: boolean = false;
     showsales: boolean = false;
     carNo: string = "";
+    boatNo: Array<string>;
     sv: string = "";
-    picked: string = "";
-    filterclick(): void {
-        this.show2 = false;
-    };
-
+    
     constructor() {
         super();
 
         this.oiloptions = new Array();
 
+        this.model = (new Object()) as server.client;
         this.modelCompany = (new Object()) as server.company;
+        this.model.placeType = server.placeType.水上;
+        this.model.clientType = server.clientType.个人;
+
         this.getOilProducts();
-        this.picked = '';
+        this.salesName = '请选择';
+        this.companyName = '请选择';
+        //测试公司数据
+        this.companys = new Array<server.company>();
+        this.companys.push({ id: 1, name: 'XXXX有限公司' });
+        this.companys.push({ id: 2, name: 'AAAA有限公司' });
+
+        this.carsOrBoats = new Array<Object>();
     }
+
+    filterclick(): void {
+        this.show2 = false;
+    };
 
     toastError(msg: string) {
         (<any>this).$dialog.toast({
@@ -63,22 +80,22 @@ export default class MyOrderComponent extends Vue {
    
     mounted() {
         this.$emit('setTitle', this.$store.state.username + ' 的客户');
-        this.$watch('radio2', (v, ov) => {
+        this.$watch('model.clientType', (v, ov) => {
             switch (v) {
-                case "1":
+                case "0":
                     this.show1 = false;
                     break;
-                case "2":
+                case "1":
                     this.show1 = true;
                     break;
             }
         });
-        this.$watch('radio1', (v, ov) => {
+        this.$watch('model.placeType', (v, ov) => {
             switch (v) {
-                case "1":
+                case "0":
                     this.show3 = false;
                     break;
-                case "2":
+                case "1":
                     this.show3 = true;
                     break;
             }
@@ -94,6 +111,10 @@ export default class MyOrderComponent extends Vue {
                 //this.getCompanys();
         });
     };
+
+    addNo() {
+
+    }
 
     switchaddcompany() {
         this.showcompany = false;
@@ -112,8 +133,13 @@ export default class MyOrderComponent extends Vue {
         this.postCompany(this.modelCompany);
     }
 
+    selectcompanyclick(company: server.company) {
+        this.companyName = company.name;
+        this.showcompany = false;
+    }
+
     selectsalesclick(sales: Object) {
-        console.log(sales);
+        this.salesName = sales.name;
         this.showsales = false;
     }
 

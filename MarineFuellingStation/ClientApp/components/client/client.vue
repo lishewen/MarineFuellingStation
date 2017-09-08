@@ -5,37 +5,41 @@
                 <yd-cell-group title="必填" style="margin-top:20px">
 
                     <yd-cell-item>
-                        <yd-radio-group slot="left" v-model="radio1">
-                            <yd-radio val="1">陆上</yd-radio>
-                            <yd-radio val="2">水上</yd-radio>
+                        <yd-radio-group slot="left" v-model="model.placeType">
+                            <yd-radio val="0">陆上</yd-radio>
+                            <yd-radio val="1">水上</yd-radio>
                         </yd-radio-group>
                     </yd-cell-item>
 
                     <yd-cell-item>
-                        <yd-radio-group slot="left" v-model="radio2">
-                            <yd-radio val="1">个人</yd-radio>
-                            <yd-radio val="2">公司</yd-radio>
+                        <yd-radio-group slot="left" v-model="model.clientType">
+                            <yd-radio val="0">个人</yd-radio>
+                            <yd-radio val="1">公司</yd-radio>
                         </yd-radio-group>
                     </yd-cell-item>
 
                     <yd-cell-item v-show="show1" arrow @click.native="showcompany = true">
                         <span slot="left">所属公司：</span>
-                        <span slot="right">请选择</span>
+                        <span slot="right">{{companyName}}</span>
                     </yd-cell-item>
 
-                    <yd-cell-item v-show="show3">
+                    <yd-cell-item v-show="show3" arrow>
                         <span slot="left">船号：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入船号"></yd-input>
+                        <input slot="right" type="text" placeholder="请输入" v-model="boatNo"/>
+                        <span slot="right"><a @click.native="addNo">增加</a></span>
+                    </yd-cell-item>
+
+                    <yd-cell-items>
+                        <span slot="right" v-for="b in boatNos"><yd-button type="warning">{{b}}</yd-button></span>
+                    </yd-cell-items>
+
+                    <yd-cell-item v-show="!show3">
+                        <span slot="left">车牌号：</span>
                     </yd-cell-item>
 
                     <yd-cell-item arrow @click.native="showsales = true">
                         <span slot="left">跟进销售：</span>
-                        <span slot="right">请选择</span>
-                    </yd-cell-item>
-
-                    <yd-cell-item v-show="!show3">
-                        <span slot="left">车牌号：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入车牌号"></yd-input>
+                        <span slot="right">{{salesName}}</span>
                     </yd-cell-item>
 
                     <yd-cell-item arrow @click.native="oilshow = true">
@@ -234,27 +238,27 @@
                 </yd-cell-item>
                 <yd-cell-item>
                     <span slot="left">抬头：</span>
-                    <yd-input slot="right" v-model="carNo" regex="" placeholder="开票抬头"></yd-input>
+                    <yd-input slot="right" v-model="modelCompany.invoiceTitle" regex="" placeholder="开票抬头"></yd-input>
                 </yd-cell-item>
                 <yd-cell-item>
                     <span slot="left">税号：</span>
-                    <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入"></yd-input>
+                    <yd-input slot="right" v-model="modelCompany.taxFileNumber" regex="" placeholder="请输入"></yd-input>
                 </yd-cell-item>
                 <yd-cell-item>
                     <span slot="left">账户：</span>
-                    <yd-input slot="right" v-model="carNo" regex="" placeholder="对公账户"></yd-input>
+                    <yd-input slot="right" v-model="modelCompany.businessAccount" regex="" placeholder="对公账户"></yd-input>
                 </yd-cell-item>
                 <yd-cell-item>
                     <span slot="left">银行：</span>
-                    <yd-input slot="right" v-model="carNo" regex="" placeholder="开户银行"></yd-input>
+                    <yd-input slot="right" v-model="modelCompany.bank" regex="" placeholder="开户银行"></yd-input>
                 </yd-cell-item>
                 <yd-cell-item>
                     <span slot="left">地址：</span>
-                    <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入"></yd-input>
+                    <yd-input slot="right" v-model="modelCompany.address" regex="" placeholder="请输入"></yd-input>
                 </yd-cell-item>
                 <yd-cell-item>
                     <span slot="left">电话：</span>
-                    <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入"></yd-input>
+                    <yd-input slot="right" v-model="modelCompany.phone" regex="" placeholder="请输入"></yd-input>
                 </yd-cell-item>
             </yd-cell-group>
             <div style="text-align: center">
@@ -266,31 +270,20 @@
             <yd-cell-group>
                 <div style="text-align: center;"><yd-button type="primary" style="width: 90%" @click.native="switchaddcompany">新增</yd-button></div>
                 <weui-search v-model="sv" />
-                <yd-cell-item type="radio">
-                    <span slot="left">XXXXX有限公司</span>
-                    <input slot="right" type="radio" value="Lili" v-model="picked" />
-                </yd-cell-item>
-
-                <yd-cell-item type="radio">
-                    <span slot="left">XXXXX有限公司</span>
-                    <input slot="right" type="radio" value="Lucy" v-model="picked" />
+                <yd-cell-item arrow type="radio" v-for="co in companys" :key="co.id" @click.native="selectcompanyclick(co)">
+                    <span slot="left">{{co.name}}</span>
                 </yd-cell-item>
             </yd-cell-group>
-            <div style="text-align: center">
-                <yd-button style="width:90%" type="primary" @click.native="">确定</yd-button>
-            </div>
         </yd-popup>
         <!--popup销售列表-->
         <yd-popup v-model="showsales" position="right">
             <yd-cell-group title="必填">
+                <weui-search v-model="sv" />
                 <yd-cell-item arrow type="radio" v-for="s in sales" :key="s.id" @click.native="selectsalesclick(s)">
                     <span slot="left">{{s.name}}</span>
-                    <span slot="right" style="font-size:12px;color:lightgray">{{s.clientcount}}</span>
+                    <span slot="right" style="font-size:12px;color:lightgray">{{s.clientcount}}客户</span>
                 </yd-cell-item>
             </yd-cell-group>
-            <div style="text-align: center">
-                <yd-button style="width:100px" type="primary" @click.native="">提交</yd-button>
-            </div>
         </yd-popup>
     </div>
 </template>

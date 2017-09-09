@@ -22,6 +22,8 @@ export default class PurchaseComponent extends Vue {
 
         this.model = (new Object()) as server.purchase;
         this.model.name = '';
+
+        this.getPurchaseNo();
     }
 
     mounted() {

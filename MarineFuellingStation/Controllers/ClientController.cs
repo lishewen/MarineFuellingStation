@@ -21,8 +21,6 @@ namespace MFS.Controllers
         public ResultJSON<Client> Post([FromBody]Client model)
         {
             r.CurrentUser = UserName;
-            model.CreatedBy = UserName;
-            model.CreatedAt = DateTime.Now;
             return new ResultJSON<Client>
             {
                 Code = 0,

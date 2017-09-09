@@ -15,7 +15,7 @@ namespace MFS.Models
         /// 跟进销售
         /// </summary>
         public string FollowSalesman { get; set; }
-        public string carNo { get; set; }
+        public string CarNo { get; set; }
         public int? DefaultProductId { get; set; }
         /// <summary>
         /// 联系人

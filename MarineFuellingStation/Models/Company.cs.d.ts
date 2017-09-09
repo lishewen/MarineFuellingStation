@@ -1,5 +1,5 @@
 declare module server {
-	interface company extends entityBase {
+    interface company extends entityBase {
 		/** 搜索用的关键字 */
 		keyword: string;
 		ticketType: ticketType;

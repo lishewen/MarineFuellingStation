@@ -30,6 +30,9 @@
     <Folder Include="wwwroot\dist\" />
   </ItemGroup>
   <ItemGroup>
+    <None Update="Models\Client.cs.d.ts">
+      <DependentUpon>Client.cs</DependentUpon>
+    </None>
     <None Update="Models\Company.cs.d.ts">
       <DependentUpon>Company.cs</DependentUpon>
     </None>

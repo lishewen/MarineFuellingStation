@@ -26,6 +26,11 @@ namespace MFS.Controllers
                 Data = r.GetAllList((p) => p.ProductType.Name == "油品" && p.IsUse)
             };
         }
+        /// <summary>
+        /// 新增POST
+        /// </summary>
+        /// <param name="model">实体</param>
+        /// <returns></returns>
         [HttpPost]
         public ResultJSON<Product> Post(Product model)
         {

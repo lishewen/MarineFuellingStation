@@ -71,11 +71,11 @@
                     </yd-cell-item>
                     <yd-cell-item v-show="model.isInvoice">
                         <span slot="left">单价：</span>
-                        <yd-input slot="right" v-model="model.billingPrice" placeholder="请输入开票单价，默认同上"></yd-input>
+                        <yd-input slot="right" v-model="model.billingPrice" type="number" placeholder="请输入开票单价，默认同上"></yd-input>
                     </yd-cell-item>
                     <yd-cell-item v-show="model.isInvoice">
                         <span slot="left">数量：</span>
-                        <yd-input slot="right" v-model="model.billingCount" placeholder="请输入开票，默认同上"></yd-input>
+                        <yd-input slot="right" v-model="model.billingCount" type="number" placeholder="请输入开票，默认同上"></yd-input>
                     </yd-cell-item>
                 </yd-cell-group>
                 <yd-cell-group title="选填" v-show="show2">

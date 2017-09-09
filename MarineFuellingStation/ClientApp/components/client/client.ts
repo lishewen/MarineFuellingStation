@@ -10,8 +10,8 @@ export default class MyOrderComponent extends Vue {
     model: server.client;
     modelCompany: server.company;
     companys: server.company[];
+    clients: server.client[];
     products: server.product[];
-    carsOrBoats: Array<Object>;
 
     sales: Object[] = [
         { id: 1, name: '张三', clientcount:20 },
@@ -19,7 +19,6 @@ export default class MyOrderComponent extends Vue {
         { id: 3, name: '王五', clientcount: 22 }
     ];
     companyName: string;
-    salesName: string;
 
     oiloptions: ydui.actionSheetItem[];
     oilName: string = '请选择';
@@ -30,12 +29,11 @@ export default class MyOrderComponent extends Vue {
     nonshow: boolean = false;
     show1: boolean = false;
     show2: boolean = false;
-    show3: boolean = true;
+    iswater: boolean = true;
     showcompany: boolean = false;
     showaddcompany: boolean = false;
     showsales: boolean = false;
-    carNo: string = "";
-    boatNo: Array<string>;
+    labelBoatOrCar: string = "";
     sv: string = "";
     
     constructor() {
@@ -45,18 +43,18 @@ export default class MyOrderComponent extends Vue {
 
         this.model = (new Object()) as server.client;
         this.modelCompany = (new Object()) as server.company;
+        this.clients = new Array<server.client>();
+        this.companys = new Array<server.company>();
         this.model.placeType = server.placeType.水上;
         this.model.clientType = server.clientType.个人;
-
+        this.model.followSalesman = '请选择';
+        this.model.maxOnAccount = 0;
+        
+        this.labelBoatOrCar = "船号";
         this.getOilProducts();
-        this.salesName = '请选择';
         this.companyName = '请选择';
-        //测试公司数据
-        this.companys = new Array<server.company>();
-        this.companys.push({ id: 1, name: 'XXXX有限公司' });
-        this.companys.push({ id: 2, name: 'AAAA有限公司' });
-
-        this.carsOrBoats = new Array<Object>();
+        this.getCompanys('');
+        
     }
 
     filterclick(): void {
@@ -93,29 +91,20 @@ export default class MyOrderComponent extends Vue {
         this.$watch('model.placeType', (v, ov) => {
             switch (v) {
                 case "0":
-                    this.show3 = false;
+                    this.labelBoatOrCar = "车牌号"
                     break;
                 case "1":
-                    this.show3 = true;
+                    this.labelBoatOrCar = "船号"
                     break;
             }
         });
-        this.$watch('showcompany', (v, ov) => {
-            if (v)
-                console.log('打开公司列表popup')
-                //this.getCompanys();
-        });
-        this.$watch('showsales', (v, ov) => {
-            if (v)
-                console.log('打开公司列表popup')
-                //this.getCompanys();
+        this.$watch('sv', (v: string, ov) => {
+            //3个字符开始才执行请求操作，减少请求次数
+            if (v.length >= 3)
+                this.getCompanys(v);
         });
     };
-
-    addNo() {
-
-    }
-
+    
     switchaddcompany() {
         this.showcompany = false;
         this.showaddcompany = true;
@@ -135,12 +124,17 @@ export default class MyOrderComponent extends Vue {
 
     selectcompanyclick(company: server.company) {
         this.companyName = company.name;
+        this.model.companyId = company.id;
         this.showcompany = false;
     }
 
     selectsalesclick(sales: Object) {
-        this.salesName = sales.name;
+        this.model.followSalesman = sales.name;
         this.showsales = false;
+    }
+    //提交新增客户
+    addclientclick() {
+        console.log(this.model)
     }
 
     //后台提交
@@ -156,9 +150,20 @@ export default class MyOrderComponent extends Vue {
                 this.toastError(jobj.msg);
         });
     }
+    //新增客户
+    postClient(model: server.client) {
+        axios.post('/api/Client', model).then((res) => {
+            let jobj = res.data as server.resultJSON<server.client>;
+            if (jobj.code == 0) {
+                this.toastSuccess('操作成功')
+            }
+            else
+                this.toastError(jobj.msg);
+        });
+    }
     //获得公司列表
     getCompanys(kw: string) {
-        axios.get('/api/Company?kw=' + kw).then((res) => {
+        axios.get('/api/Company/' + kw).then((res) => {
             let jobj = res.data as server.resultJSON<server.company[]>;
             if (jobj.code == 0)
                 this.companys = jobj.data;
@@ -176,10 +181,21 @@ export default class MyOrderComponent extends Vue {
                         label: o.name,
                         method: () => {
                             this.oilName = o.name;
+                            this.model.defaultProductId = o.id;
                         }
                     });
                 });
             }
+        });
+    }
+    //获得客户列表
+    getClients(kw: string) {
+        axios.get('/api/Client?kw=' + kw).then((res) => {
+            let jobj = res.data as server.resultJSON<server.company[]>;
+            if (jobj.code == 0)
+                this.companys = jobj.data;
+            else
+                this.toastError('无法获取公司数据，请重试')
         });
     }
     //获得销售员

@@ -34,7 +34,10 @@ export default class MyOrderComponent extends Vue {
     showaddcompany: boolean = false;
     showsales: boolean = false;
     labelBoatOrCar: string = "";
-    sv: string = "";
+    svCompany: string = "";
+    svCompany1: string = "";
+    svClient: string = "";
+    svSales: string = "";
     
     constructor() {
         super();
@@ -54,6 +57,7 @@ export default class MyOrderComponent extends Vue {
         this.getOilProducts();
         this.companyName = '请选择';
         this.getCompanys('');
+        this.getClients('');
         
     }
 
@@ -79,26 +83,27 @@ export default class MyOrderComponent extends Vue {
     mounted() {
         this.$emit('setTitle', this.$store.state.username + ' 的客户');
         this.$watch('model.clientType', (v, ov) => {
-            switch (v) {
-                case "0":
+            switch (parseInt(v)) {
+                case server.clientType.个人:
+                    this.companyName = "";
                     this.show1 = false;
                     break;
-                case "1":
+                case server.clientType.公司:
                     this.show1 = true;
                     break;
             }
         });
         this.$watch('model.placeType', (v, ov) => {
-            switch (v) {
-                case "0":
+            switch (parseInt(v)) {
+                case server.placeType.陆上:
                     this.labelBoatOrCar = "车牌号"
                     break;
-                case "1":
+                case server.placeType.水上:
                     this.labelBoatOrCar = "船号"
                     break;
             }
         });
-        this.$watch('sv', (v: string, ov) => {
+        this.$watch('svCompany', (v: string, ov) => {
             //3个字符开始才执行请求操作，减少请求次数
             if (v.length >= 3)
                 this.getCompanys(v);
@@ -115,13 +120,6 @@ export default class MyOrderComponent extends Vue {
         this.$emit('setTitle', this.$store.state.username + ' ' + label);
     }
 
-    addcompanyclick() {
-        if (this.modelCompany.name == '') {
-            this.toastError("名称不能为空")
-        }
-        this.postCompany(this.modelCompany);
-    }
-
     selectcompanyclick(company: server.company) {
         this.companyName = company.name;
         this.model.companyId = company.id;
@@ -132,9 +130,40 @@ export default class MyOrderComponent extends Vue {
         this.model.followSalesman = sales.name;
         this.showsales = false;
     }
+    //提交新增公司
+    addcompanyclick() {
+        if (this.modelCompany.name == '') {
+            this.toastError("名称不能为空")
+        }
+        this.postCompany(this.modelCompany);
+    }
     //提交新增客户
     addclientclick() {
-        console.log(this.model)
+        let $model = this.model;
+        if ($model.carNo == "" || $model.carNo == null) {
+            this.toastError("请输入" + this.labelBoatOrCar);
+            return;
+        }
+        if ($model.followSalesman == "请选择" || $model.followSalesman == null) {
+            this.toastError("请选择跟进销售人员");
+            return;
+        }
+        if ($model.defaultProductId == 0 || $model.defaultProductId == null) {
+            this.toastError("请选择默认商品");
+            return;
+        }
+        if ($model.contact == "" || $model.contact == null) {
+            this.toastError("请输入联系人");
+            return;
+        }
+        if ($model.mobile == "" || $model.mobile == null) {
+            this.toastError("请输入联系电话");
+            return;
+        }
+        if ($model.maxOnAccount == "")
+            $model.maxOnAccount = 0;
+        console.log($model);
+        this.postClient($model);
     }
 
     //后台提交
@@ -190,12 +219,12 @@ export default class MyOrderComponent extends Vue {
     }
     //获得客户列表
     getClients(kw: string) {
-        axios.get('/api/Client?kw=' + kw).then((res) => {
-            let jobj = res.data as server.resultJSON<server.company[]>;
+        axios.get('/api/Client/' + kw).then((res) => {
+            let jobj = res.data as server.resultJSON<server.client[]>;
             if (jobj.code == 0)
-                this.companys = jobj.data;
+                this.clients = jobj.data;
             else
-                this.toastError('无法获取公司数据，请重试')
+                this.toastError('无法获取客户数据，请重试')
         });
     }
     //获得销售员

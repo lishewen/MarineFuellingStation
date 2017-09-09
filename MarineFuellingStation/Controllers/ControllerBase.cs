@@ -25,7 +25,6 @@ namespace MFS.Controllers
                 HttpContext.Session.SetString("UserName", username);
                 if (db != null)
                     db.CurrentUser = username;
-
             }
         }
         public string UserId

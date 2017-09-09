@@ -72,7 +72,7 @@
 
                     <yd-cell-item>
                         <span slot="left">最高挂账金额：</span>
-                        <yd-input slot="right" v-model="model.maxOnAccount" regex="" placeholder="0 - 不指定"></yd-input>
+                        <yd-input slot="right" v-model="model.maxOnAccount" regex="" placeholder="0 - 不指定" type="number"></yd-input>
                     </yd-cell-item>
 
                 </yd-cell-group>
@@ -121,7 +121,7 @@
                 </yd-grids-group>
 
                 <yd-cell-group>
-                    <weui-search v-model="sv" />
+                    <weui-search v-model="svClient" />
                     <yd-cell-item arrow v-for="c in clients" :key="c.id">
                         <div slot="left">
                             <p>{{c.carNo}} - {{c.contact}}</p>
@@ -166,7 +166,7 @@
             </yd-tab-panel>
             <yd-tab-panel label="公司列表">
                 <yd-cell-group>
-                    <weui-search v-model="sv" />
+                    <weui-search v-model="svCompany" />
                     <yd-cell-item arrow>
                         <div slot="left">
                             <p>广西XXXX有限公司</p>
@@ -270,7 +270,7 @@
         <yd-popup v-model="showcompany" position="right" width ="70%">
             <yd-cell-group>
                 <div style="text-align: center;"><yd-button type="primary" style="width: 90%" @click.native="switchaddcompany">新增</yd-button></div>
-                <weui-search v-model="sv" />
+                <weui-search v-model="svCompany1" />
                 <yd-cell-item arrow type="radio" v-for="co in companys" :key="co.id" @click.native="selectcompanyclick(co)">
                     <span slot="left">{{co.name}}</span>
                 </yd-cell-item>
@@ -279,7 +279,7 @@
         <!--popup销售列表-->
         <yd-popup v-model="showsales" position="right">
             <yd-cell-group title="必填">
-                <weui-search v-model="sv" />
+                <weui-search v-model="svSales" />
                 <yd-cell-item arrow type="radio" v-for="s in sales" :key="s.id" @click.native="selectsalesclick(s)">
                     <span slot="left">{{s.name}}</span>
                     <span slot="right" style="font-size:12px;color:lightgray">{{s.clientcount}}客户</span>

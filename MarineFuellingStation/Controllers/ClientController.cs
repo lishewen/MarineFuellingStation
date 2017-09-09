@@ -33,7 +33,7 @@ namespace MFS.Controllers
             return new ResultJSON<List<Client>>
             {
                 Code = 0,
-                Data = r.GetAllList(s => s.carNo.Contains(sv) 
+                Data = r.GetAllList(s => s.CarNo.Contains(sv) 
                     || s.Company.Name.Contains(sv) 
                     || s.Contact.Contains(sv))
             };

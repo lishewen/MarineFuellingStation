@@ -27,16 +27,34 @@ namespace MFS.Controllers
             };
         }
         [HttpPost]
-        public ResultJSON<Assay> Post([FromBody]Assay p)
+        public ResultJSON<Assay> Post([FromBody]Assay a)
         {
             r.CurrentUser = UserName;
-            p.Assayer = UserName;
-            var result = r.Insert(p);
+            a.Assayer = UserName;
+            var result = r.Insert(a);
 
             return new ResultJSON<Assay>
             {
                 Code = 0,
                 Data = result
+            };
+        }
+        [HttpGet]
+        public ResultJSON<List<Assay>> Get()
+        {
+            return new ResultJSON<List<Assay>>
+            {
+                Code = 0,
+                Data = r.GetAllList()
+            };
+        }
+        [HttpGet("{sv}")]
+        public ResultJSON<List<Assay>> Get(string sv)
+        {
+            return new ResultJSON<List<Assay>>
+            {
+                Code = 0,
+                Data = r.GetAllList(s => s.Name.Contains(sv))
             };
         }
     }

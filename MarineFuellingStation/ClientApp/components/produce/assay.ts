@@ -13,6 +13,7 @@ export default class AssayComponent extends Vue {
     purchase: server.purchase[];
     selectedStore: number | string = '';
     selectedPurchase: number | string = '';
+    list: server.assay[];
 
     radio2: string = "1";
     carNo: string = "";
@@ -29,12 +30,18 @@ export default class AssayComponent extends Vue {
 
         this.getAssayNo();
         this.getStore();
+        this.getAssays();
     }
 
     mounted() {
         this.$emit('setTitle', this.$store.state.username + ' 化验');
         this.$watch('radio2', (v, ov) => {
             this.show1 = (v == "1") ? true : false;
+        });
+        this.$watch('sv', (v: string, ov) => {
+            //3个字符开始才执行请求操作，减少请求次数
+            if (v.length >= 3)
+                this.searchAssays(v);
         });
     };
 
@@ -70,6 +77,22 @@ export default class AssayComponent extends Vue {
             let jobj = res.data as server.resultJSON<server.purchase[]>;
             if (jobj.code == 0)
                 this.purchase = jobj.data;
+        });
+    }
+
+    getAssays() {
+        axios.get('/api/Assay').then((res) => {
+            let jobj = res.data as server.resultJSON<server.assay[]>;
+            if (jobj.code == 0)
+                this.list = jobj.data;
+        });
+    }
+
+    searchAssays(sv: string) {
+        axios.get('/api/Assay/' + sv).then((res) => {
+            let jobj = res.data as server.resultJSON<server.assay[]>;
+            if (jobj.code == 0)
+                this.list = jobj.data;
         });
     }
 

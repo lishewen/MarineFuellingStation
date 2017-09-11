@@ -115,28 +115,10 @@
             <yd-tab-panel label="记录">
                 <weui-search v-model="sv" />
                 <yd-cell-group>
-                    <yd-cell-item arrow>
+                    <yd-cell-item arrow v-for="s in list" :key="s.id">
                         <div slot="left">
-                            <p>HY07070001</p>
-                            <p style="color:lightgray;font-size:12px">张三</p>
-                        </div>
-                        <div slot="right" style="text-align: left;margin-right: 5px">
-                            <p style="color:gray">1#地仓 / 35吨 / 柴油</p>
-                        </div>
-                    </yd-cell-item>
-                    <yd-cell-item arrow>
-                        <div slot="left">
-                            <p>HY07070001</p>
-                            <p style="color:lightgray;font-size:12px">张三</p>
-                        </div>
-                        <div slot="right" style="text-align: left;margin-right: 5px">
-                            <p style="color:gray">1#地仓 / 35吨 / 柴油</p>
-                        </div>
-                    </yd-cell-item>
-                    <yd-cell-item arrow>
-                        <div slot="left">
-                            <p>HY07070001</p>
-                            <p style="color:lightgray;font-size:12px">张三</p>
+                            <p>{{s.name}}</p>
+                            <p style="color:lightgray;font-size:12px">{{s.assayer}}</p>
                         </div>
                         <div slot="right" style="text-align: left;margin-right: 5px">
                             <p style="color:gray">1#地仓 / 35吨 / 柴油</p>

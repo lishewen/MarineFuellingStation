@@ -1,49 +1,22 @@
 ﻿<template>
     <div id="root">
-        <yd-grids-group :rows="4">
-            <yd-grids-item>
-                <p slot="text">全部</p>
-            </yd-grids-item>
-            <yd-grids-item>
-                <p slot="text">个人</p>
-            </yd-grids-item>
-            <yd-grids-item>
-                <p slot="text">公司</p>
-            </yd-grids-item>
-            <yd-grids-item @click.native="show2 = true">
-                <p slot="text">筛选</p>
-            </yd-grids-item>
-        </yd-grids-group>
 
         <yd-cell-group>
-            <yd-cell-item arrow>
+            <div style="text-align: center;padding: 10px 0 10px">
+                <span v-for="f in filterBtns">
+                    <yd-button type="warning" v-if="f.actived" @click.native="switchBtn(f)">{{f.name}}</yd-button>
+                    <yd-button type="hollow" v-if="!f.actived" @click.native="switchBtn(f)">{{f.name}}</yd-button>
+                </span>
+                <span><yd-button type="hollow" @click.native="show2 = true">筛选</yd-button></span>
+            </div>
+            <yd-cell-item arrow v-for="c in clients" :key="c.id">
                 <div slot="left">
-                    <p>船0002 【张三】</p>
-                    <p style="color:lightgray;font-size:12px">广西XXXX有限公司</p>
+                    <p>{{c.carNo}} - {{c.contact}}</p>
+                    <p style="color:lightgray;font-size:12px">{{c.company.name}}</p>
                 </div>
                 <div slot="right" style="text-align: left;margin-right: 5px">
-                    <p style="color:gray">余额：￥20000</p>
-                    <p style="color:lightcoral;line-height: 25px">最近：2017-07-07</p>
-                </div>
-            </yd-cell-item>
-            <yd-cell-item arrow>
-                <div slot="left">
-                    <p>船0002 【张三】</p>
-                    <p style="color:lightgray;font-size:12px">个人</p>
-                </div>
-                <div slot="right" style="text-align: left;margin-right: 5px">
-                    <p style="color:lightgray">无余额</p>
-                    <p style="color:lightcoral;line-height: 25px">最近：2017-07-07</p>
-                </div>
-            </yd-cell-item>
-            <yd-cell-item arrow>
-                <div slot="left">
-                    <p>船0002 【张三】</p>
-                    <p style="color:lightgray;font-size:12px">个人</p>
-                </div>
-                <div slot="right" style="text-align: left;margin-right: 5px">
-                    <p style="color:gray">余额：￥156</p>
-                    <p style="color:lightcoral;line-height: 25px">最近：2017-07-07</p>
+                    <p style="color:gray">余额：￥{{c.company.balances}}</p>
+                    <p style="color:lightcoral;line-height: 25px">最近：{{formatDate(c.lastUpdatedAt)}}</p>
                 </div>
             </yd-cell-item>
         </yd-cell-group>

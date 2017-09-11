@@ -25,14 +25,14 @@
                         <yd-input slot="right" v-model="model.origin" regex="" placeholder="请输入始发地"></yd-input>
                     </yd-cell-item>
 
-                    <yd-cell-item>
+                    <yd-cell-item arrow>
                         <span slot="left">出发时间：</span>
-                        <yd-input slot="right" v-model="model.startTime" regex="" placeholder="请输入出发时间，选填"></yd-input>
+                        <yd-datetime v-model="model.startTime" type="datetime" slot="right"></yd-datetime>
                     </yd-cell-item>
 
-                    <yd-cell-item>
-                        <span slot="left">预计到达时间：</span>
-                        <yd-input slot="right" v-model="model.arrivalTime" regex="" placeholder="请输入预计到达时间，选填"></yd-input>
+                    <yd-cell-item arrow>
+                        <span slot="left">预计到达：</span>
+                        <yd-datetime v-model="model.arrivalTime" type="datetime" slot="right"></yd-datetime>
                     </yd-cell-item>
 
                 </yd-cell-group>
@@ -90,7 +90,7 @@
                                 <span style="color:forestgreen;">{{s.product.name}}</span>
                                 <span style="color:gray; font-size: 22px" s>{{s.count}}吨</span>
                             </p>
-                            <p style="color:lightcoral;line-height: 25px">到达：{{s.arrivalTime}}</p>
+                            <p style="color:lightcoral;line-height: 25px">到达：{{formatDate(s.arrivalTime)}}</p>
                         </div>
                     </yd-cell-item>
                 </yd-cell-group>

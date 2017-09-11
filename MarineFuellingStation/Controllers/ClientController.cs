@@ -43,9 +43,19 @@ namespace MFS.Controllers
             return new ResultJSON<List<Client>>
             {
                 Code = 0,
-                Data = r.GetAllList(s => s.CarNo.Contains(sv) 
-                    || s.Company.Name.Contains(sv) 
-                    || s.Contact.Contains(sv))
+                Data = r.GetIncludeCompany().Where(s => s.CarNo.Contains(sv)
+                    || s.Company.Name.Contains(sv)
+                    || s.Contact.Contains(sv)).ToList()
+            };
+        }
+        [HttpGet("[action]")]
+        public ResultJSON<List<Client>> GetMyClients()
+        {
+            r.CurrentUser = UserName;
+            return new ResultJSON<List<Client>>
+            {
+                Code = 0,
+                Data = r.GetMyClients()
             };
         }
     }

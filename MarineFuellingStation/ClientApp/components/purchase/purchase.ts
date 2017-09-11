@@ -1,6 +1,7 @@
 ﻿import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import axios from "axios";
+import moment from "moment";
 
 @Component({
     components: {
@@ -25,15 +26,18 @@ export default class PurchaseComponent extends Vue {
         super();
 
         this.oiloptions = (new Array()) as ydui.actionSheetItem[];
+        this.list = new Array<server.purchase>();
 
         this.model = (new Object()) as server.purchase;
         this.model.name = '';
         this.model.price = 0;
         this.model.count = 0;
         this.model.origin = '';
-
+        this.model.startTime = this.formatDate(new Date());
+        this.model.arrivalTime = this.formatDate(new Date());
         this.getPurchaseNo();
         this.getPurchases();
+        this.getOilProducts();
     }
 
     mounted() {
@@ -83,6 +87,10 @@ export default class PurchaseComponent extends Vue {
             timeout: 1500,
             icon: 'error'
         });
+    }
+
+    formatDate(d: Date): string {
+        return moment(d).format('YYYY-MM-DD hh:mm');
     }
 
     getPurchaseNo() {

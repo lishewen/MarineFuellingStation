@@ -105,23 +105,15 @@
             </yd-tab-panel>
             <yd-actionsheet :items="oiloptions" v-model="oilshow" cancel="取消"></yd-actionsheet>
             <yd-tab-panel label="客户列表">
-                <yd-grids-group :rows="4">
-                    <yd-grids-item style="padding: .14rem 0">
-                        <p slot="text">全部</p>
-                    </yd-grids-item>
-                    <yd-grids-item style="padding: .14rem 0">
-                        <p slot="text">个人</p>
-                    </yd-grids-item>
-                    <yd-grids-item style="padding: .14rem 0">
-                        <p slot="text">公司</p>
-                    </yd-grids-item>
-                    <yd-grids-item @click.native="show2 = true" style="padding: .14rem 0">
-                        <p slot="text">筛选</p>
-                    </yd-grids-item>
-                </yd-grids-group>
-
                 <yd-cell-group>
                     <weui-search v-model="svClient" />
+                    <div style="text-align: center;padding: 10px 0 10px">
+                        <span v-for="f in filterBtns">
+                            <yd-button type="warning" v-if="f.actived" @click.native="switchBtn(f)">{{f.name}}</yd-button>
+                            <yd-button type="hollow" v-if="!f.actived" @click.native="switchBtn(f)">{{f.name}}</yd-button>
+                        </span>
+                        <span><yd-button type="hollow" @click.native="show2 = true">筛选</yd-button></span>
+                    </div>
                     <yd-cell-item arrow v-for="c in clients" :key="c.id">
                         <div slot="left">
                             <p>{{c.carNo}} - {{c.contact}}</p>

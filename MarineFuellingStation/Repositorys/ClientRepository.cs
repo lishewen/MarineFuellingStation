@@ -14,5 +14,9 @@ namespace MFS.Repositorys
         {
             return _dbContext.Clients.Include("Company").ToList();
         }
+        public List<Client> GetMyClients()
+        {
+            return _dbContext.Clients.Include("Company").Where(c => c.FollowSalesman == CurrentUser).ToList();
+        }
     }
 }

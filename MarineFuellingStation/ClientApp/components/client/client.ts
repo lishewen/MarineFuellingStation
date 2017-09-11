@@ -36,6 +36,9 @@ export default class ClientComponent extends Vue {
     svClient: string = "";
     svSales: string = "";
 
+    filterBtns: Array<helper.filterBtn>;
+    activedBtnId: number;
+
     constructor() {
         super();
 
@@ -57,6 +60,13 @@ export default class ClientComponent extends Vue {
         this.getCompanys('');
         this.getClients('');
         this.getSales();
+
+        this.filterBtns = [
+            { id: 0, name: '全部', actived: true },
+            { id: 1,name: '个人', actived: false },
+            { id: 2,name: '公司', actived: false }
+        ];
+        this.activedBtnId = 0;
     }
 
     filterclick(): void {
@@ -76,6 +86,13 @@ export default class ClientComponent extends Vue {
             timeout: 1500,
             icon: 'success'
         });
+    }
+    switchBtn(o: any) {
+        if (o.id != this.activedBtnId){
+            o.actived = true;
+            this.filterBtns[this.activedBtnId].actived = false;
+            this.activedBtnId = o.id;
+        }
     }
 
     mounted() {

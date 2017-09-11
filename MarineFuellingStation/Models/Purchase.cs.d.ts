@@ -7,9 +7,9 @@ declare module server {
 		count: number;
 		/** 始发地 */
 		origin: string;
-		startTime?: Date;
+		startTime?: string;
 		/** 预计到达时间 */
-		arrivalTime?: Date;
+		arrivalTime?: string;
 		carNo: string;
 		/** 挂车号 */
 		trailerNo: string;

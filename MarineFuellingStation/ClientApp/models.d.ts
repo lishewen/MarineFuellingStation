@@ -13,6 +13,14 @@ declare namespace ydui {
     }
 }
 
+declare namespace helper {
+    export class filterBtn {
+        id: number;
+        name: string;
+        actived: boolean;
+    }
+}
+
 declare namespace work {
     export interface department {
         id: number;
@@ -67,4 +75,5 @@ declare namespace work {
         errmsg: string;
         p2PData?: any;
     }
+
 }

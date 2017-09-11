@@ -37,5 +37,13 @@ namespace MFS.Controllers
             var tagid = listresult.taglist.FirstOrDefault(t => t.tagname == "销售").tagid;
             return MailListApi.GetTagMember(option.AccessToken, Convert.ToInt32(tagid));
         }
+
+        [HttpGet("[action]")]
+        public GetTagMemberResult Manufacturer()
+        {
+            var listresult = MailListApi.GetTagList(option.AccessToken);
+            var tagid = listresult.taglist.FirstOrDefault(t => t.tagname == "生成员").tagid;
+            return MailListApi.GetTagMember(option.AccessToken, Convert.ToInt32(tagid));
+        }
     }
 }

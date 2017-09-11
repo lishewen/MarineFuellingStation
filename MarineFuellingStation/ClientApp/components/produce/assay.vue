@@ -12,64 +12,60 @@
 
                     <yd-cell-item v-show="show1">
                         <span slot="left">化验油仓：</span>
-                        <select slot="right">
+                        <select slot="right" v-model="selectedStore">
                             <option value="">请选择油仓</option>
-                            <option value="1">1#船759</option>
-                            <option value="2">2#地仓</option>
-                            <option value="3">3#船759</option>
+                            <option v-for="s in store" :key="s.id" :value="s.id">{{s.name}}</option>
                         </select>
                     </yd-cell-item>
 
                     <yd-cell-item v-show="!show1">
                         <span slot="left">采购来源：</span>
-                        <select slot="right">
+                        <select slot="right" v-model="selectedPurchase">
                             <option value="">请选择采购来源计划单</option>
-                            <option value="1">CG07070001#35吨#柴油</option>
-                            <option value="2">CG07070001#35吨#柴油</option>
-                            <option value="3">CG07070001#35吨#柴油</option>
+                            <option v-for="p in purchase" :key="p.id" :value="p.id">{{p.name}}</option>
                         </select>
                     </yd-cell-item>
 
                     <yd-cell-item>
                         <span slot="left">视密：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="参考值：0.835"></yd-input>
+                        <yd-input slot="right" v-model="model.视密" regex="" placeholder="参考值：0.835"></yd-input>
                     </yd-cell-item>
 
                     <yd-cell-item>
                         <span slot="left">标密：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入标密"></yd-input>
+                        <yd-input slot="right" v-model="model.标密" regex="" placeholder="请输入标密"></yd-input>
                     </yd-cell-item>
 
                     <yd-cell-item>
                         <span slot="left">闭口闪点：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="参考值：>=61℃"></yd-input>
+                        <yd-input slot="right" v-model="model.闭口闪点" regex="" placeholder="参考值：>=61℃"></yd-input>
                         <span slot="right">℃</span>
                     </yd-cell-item>
 
                     <yd-cell-item>
                         <span slot="left">油温：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入油温"></yd-input>
+                        <yd-input slot="right" v-model="model.temperature" regex="" placeholder="请输入油温"></yd-input>
                         <span slot="right">℃</span>
                     </yd-cell-item>
 
                     <yd-cell-item>
                         <span slot="left">味道：</span>
-                        <select slot="right">
+                        <select slot="right" v-model="model.smellType">
                             <option value="">请选择</option>
-                            <option value="1">一般刺鼻</option>
-                            <option value="2">刺鼻</option>
-                            <option value="3">不刺鼻</option>
+                            <option value="0">一般刺鼻</option>
+                            <option value="1">刺鼻</option>
+                            <option value="2">不刺鼻</option>
                         </select>
                     </yd-cell-item>
 
                     <yd-cell-item>
                         <span slot="left">混水反应：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="参考值：油水迅速分离，不出现絮状物"></yd-input>
+                        <yd-input slot="right" v-model="model.混水反应" regex="" placeholder="参考值：油水迅速分离，不出现絮状物"></yd-input>
                     </yd-cell-item>
 
                     <yd-cell-item>
                         <span slot="left">十六烷值：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入标密"></yd-input>
+                        <yd-input slot="right" v-model="model.十六烷值" regex="" placeholder="请输入标密"></yd-input>
                     </yd-cell-item>
 
                 </yd-cell-group>
@@ -77,62 +73,42 @@
 
                     <yd-cell-item>
                         <span slot="left">初硫：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="参考值：160-180℃"></yd-input>
+                        <yd-input slot="right" v-model="model.初硫" regex="" placeholder="参考值：160-180℃"></yd-input>
                         <span slot="right">℃</span>
                     </yd-cell-item>
 
                     <yd-cell-item>
                         <span slot="left">10%：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="参考值："></yd-input>
+                        <yd-input slot="right" v-model="model.percentage10" regex="" placeholder="参考值："></yd-input>
                         <span slot="right">℃</span>
                     </yd-cell-item>
 
                     <yd-cell-item>
                         <span slot="left">50%：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="参考值：220-280℃"></yd-input>
+                        <yd-input slot="right" v-model="model.percentage50" regex="" placeholder="参考值：220-280℃"></yd-input>
                         <span slot="right">℃</span>
                     </yd-cell-item>
 
                     <yd-cell-item>
                         <span slot="left">90%：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="参考值：300-345℃"></yd-input>
+                        <yd-input slot="right" v-model="model.percentage90" regex="" placeholder="参考值：300-345℃"></yd-input>
                         <span slot="right">℃</span>
                     </yd-cell-item>
 
                     <yd-cell-item>
                         <span slot="left">回流：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder=""></yd-input>
+                        <yd-input slot="right" v-model="model.回流" regex="" placeholder=""></yd-input>
                         <span slot="right">%</span>
                     </yd-cell-item>
 
                     <yd-cell-item>
                         <span slot="left">干点：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="参考值："></yd-input>
+                        <yd-input slot="right" v-model="model.干点" regex="" placeholder="参考值："></yd-input>
                         <span slot="right">℃</span>
-                    </yd-cell-item>
-
-                </yd-cell-group>
-
-                <yd-cell-group title="不显示" style="margin-top:10px">
-                    <yd-cell-item>
-                        <span slot="left">化验员：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="默认开单员"></yd-input>
-                    </yd-cell-item>
-                    <yd-cell-item>
-                        <span slot="left">●开单员：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="自动录入"></yd-input>
-                    </yd-cell-item>
-                    <yd-cell-item>
-                        <span slot="left">●开单时间：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="自动录入"></yd-input>
-                    </yd-cell-item>
-                    <yd-cell-item>
-                        <span slot="left">●是否已使用：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="卸油流程选择相应的化验单视为已使用"></yd-input>
                     </yd-cell-item>
                 </yd-cell-group>
                 <div>
-                    <yd-button size="large" type="primary">提交</yd-button>
+                    <yd-button size="large" type="primary" @click.native="buttonclick">提交</yd-button>
                 </div>
 
             </yd-tab-panel>

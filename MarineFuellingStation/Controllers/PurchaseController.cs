@@ -17,6 +17,15 @@ namespace MFS.Controllers
         {
             r = repository;
         }
+        [HttpGet]
+        public ResultJSON<List<Purchase>> Get()
+        {
+            return new ResultJSON<List<Purchase>>
+            {
+                Code = 0,
+                Data = r.GetAllList()
+            };
+        }
         [HttpGet("[action]")]
         public ResultJSON<string> PurchaseNo()
         {

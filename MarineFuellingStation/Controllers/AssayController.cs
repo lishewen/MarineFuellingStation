@@ -30,6 +30,7 @@ namespace MFS.Controllers
         public ResultJSON<Assay> Post([FromBody]Assay p)
         {
             r.CurrentUser = UserName;
+            p.Assayer = UserName;
             var result = r.Insert(p);
 
             return new ResultJSON<Assay>

@@ -17,6 +17,15 @@ namespace MFS.Controllers
         {
             r = repository;
         }
+        [HttpGet]
+        public ResultJSON<List<Store>> Get()
+        {
+            return new ResultJSON<List<Store>>
+            {
+                Code = 0,
+                Data = r.GetAllList()
+            };
+        }
         [HttpPost]
         public ResultJSON<Store> Post([FromBody]Store model)
         {

@@ -9,6 +9,10 @@ import axios from "axios";
 })
 export default class AssayComponent extends Vue {
     model: server.assay;
+    store: server.store[];
+    purchase: server.purchase[];
+    selectedStore: number | string = '';
+    selectedPurchase: number | string = '';
 
     radio2: string = "1";
     carNo: string = "";
@@ -24,6 +28,7 @@ export default class AssayComponent extends Vue {
         this.model.name = '';
 
         this.getAssayNo();
+        this.getStore();
     }
 
     mounted() {
@@ -38,11 +43,47 @@ export default class AssayComponent extends Vue {
         this.$emit('setTitle', this.$store.state.username + ' ' + label);
     }
 
+    buttonclick() {
+        //信息验证
+
+        this.postAssay(this.model);
+    }
+
     getAssayNo() {
         axios.get('/api/Assay/AssayNo').then((res) => {
             let jobj = res.data as server.resultJSON<string>;
             if (jobj.code == 0)
                 this.model.name = jobj.data;
+        });
+    }
+
+    getStore() {
+        axios.get('/api/Store').then((res) => {
+            let jobj = res.data as server.resultJSON<server.store[]>;
+            if (jobj.code == 0)
+                this.store = jobj.data;
+        });
+    }
+
+    getPurchase() {
+        axios.get('/api/Purchase').then((res) => {
+            let jobj = res.data as server.resultJSON<server.purchase[]>;
+            if (jobj.code == 0)
+                this.purchase = jobj.data;
+        });
+    }
+
+    postAssay(model: server.assay) {
+        axios.post('/api/Assay', model).then((res) => {
+            let jobj = res.data as server.resultJSON<server.assay>;
+            if (jobj.code == 0) {
+                this.getAssayNo();
+                (<any>this).$dialog.toast({
+                    mes: jobj.msg,
+                    timeout: 1500,
+                    icon: 'success'
+                });
+            }
         });
     }
 }

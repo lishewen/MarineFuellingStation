@@ -26,6 +26,15 @@ namespace MFS.Controllers
                 Data = r.GetAllList()
             };
         }
+        [HttpGet("{sv}")]
+        public ResultJSON<List<Purchase>> Get(string sv)
+        {
+            return new ResultJSON<List<Purchase>>
+            {
+                Code = 0,
+                Data = r.GetAllList(s => s.CarNo.Contains(sv))
+            };
+        }
         [HttpGet("[action]")]
         public ResultJSON<string> PurchaseNo()
         {

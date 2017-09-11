@@ -80,30 +80,17 @@
 
                 <yd-cell-group>
                     <weui-search v-model="sv" />
-                    <yd-cell-item arrow>
+                    <yd-cell-item arrow v-for="s in list" :key="s.id">
                         <div slot="left">
-                            <p>广州黄埔港</p>
-                            <p style="color:lightgray;font-size:12px">桂DCT200 桂CDD222</p>
+                            <p>{{s.origin}}</p>
+                            <p style="color:lightgray;font-size:12px">{{s.carNo}} {{s.trailerNo}}</p>
                         </div>
                         <div slot="right" style="text-align: right;margin-right: 5px">
                             <p>
-                                <span style="color:forestgreen;">柴油</span>
-                                <span style="color:gray; font-size: 22px" s>35吨</span>
+                                <span style="color:forestgreen;">{{s.product.name}}</span>
+                                <span style="color:gray; font-size: 22px" s>{{s.count}}吨</span>
                             </p>
-                            <p style="color:lightcoral;line-height: 25px">到达：07-07 08:30</p>
-                        </div>
-                    </yd-cell-item>
-                    <yd-cell-item arrow>
-                        <div slot="left">
-                            <p>广西贵港</p>
-                            <p style="color:lightgray;font-size:12px">桂DCT200 桂CDD222</p>
-                        </div>
-                        <div slot="right" style="text-align: right;margin-right: 5px">
-                            <p>
-                                <span style="color:forestgreen;">循环油</span>
-                                <span style="color:gray; font-size: 22px" s>35吨</span>
-                            </p>
-                            <p style="color:lightcoral;line-height: 25px">到达：07-07 08:30</p>
+                            <p style="color:lightcoral;line-height: 25px">到达：{{s.arrivalTime}}</p>
                         </div>
                     </yd-cell-item>
                 </yd-cell-group>

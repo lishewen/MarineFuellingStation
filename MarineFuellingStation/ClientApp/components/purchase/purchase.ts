@@ -9,6 +9,7 @@ import axios from "axios";
 })
 export default class PurchaseComponent extends Vue {
     model: server.purchase;
+    list: server.purchase[];
     oilshow: boolean = false;
     oiloptions: ydui.actionSheetItem[];
     oilName: string = '';
@@ -29,9 +30,10 @@ export default class PurchaseComponent extends Vue {
         this.model.name = '';
         this.model.price = 0;
         this.model.count = 0;
-        this.model.origin='';
+        this.model.origin = '';
 
         this.getPurchaseNo();
+        this.getPurchases();
     }
 
     mounted() {
@@ -45,6 +47,11 @@ export default class PurchaseComponent extends Vue {
                     this.show2 = true;
                     break;
             }
+        });
+        this.$watch('sv', (v: string, ov) => {
+            //3个字符开始才执行请求操作，减少请求次数
+            if (v.length >= 3)
+                this.searchPurchases(v);
         });
     };
 
@@ -83,6 +90,22 @@ export default class PurchaseComponent extends Vue {
             let jobj = res.data as server.resultJSON<string>;
             if (jobj.code == 0)
                 this.model.name = jobj.data;
+        });
+    }
+
+    getPurchases() {
+        axios.get('/api/Purchase').then((res) => {
+            let jobj = res.data as server.resultJSON<server.purchase[]>;
+            if (jobj.code == 0)
+                this.list = jobj.data;
+        });
+    }
+
+    searchPurchases(sv: string) {
+        axios.get('/api/Purchase/' + sv).then((res) => {
+            let jobj = res.data as server.resultJSON<server.purchase[]>;
+            if (jobj.code == 0)
+                this.list = jobj.data;
         });
     }
 

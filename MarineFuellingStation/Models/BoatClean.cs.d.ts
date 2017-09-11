@@ -29,5 +29,11 @@ declare module server {
 		startTime: Date;
 		/** 完成时间 */
 		endTime: Date;
+		state: boatCleanState;
+	}
+	const enum boatCleanState {
+		已开单,
+		施工中,
+		已完成,
 	}
 }

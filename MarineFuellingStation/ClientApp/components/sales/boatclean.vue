@@ -75,23 +75,11 @@
             <yd-tab-panel label="单据记录">
                 <weui-search v-model="sv" />
                 <yd-cell-group>
-                    <yd-cell-item arrow>
-                        <span slot="left">船0001</span>
-                        <span slot="left" style="color:lightgray;margin-left:10px">QW07070001</span>
-                        <span slot="right">2017-07-07</span>
-                        <span slot="right" style="color:red; padding-left:10px">施工中</span>
-                    </yd-cell-item>
-                    <yd-cell-item arrow>
-                        <span slot="left">船0002</span>
-                        <span slot="left" style="color:lightgray;margin-left:10px">QW07070001</span>
-                        <span slot="right">2017-07-07</span>
-                        <span slot="right" style="color:green; padding-left:10px">已开单</span>
-                    </yd-cell-item>
-                    <yd-cell-item arrow>
-                        <span slot="left">船0002</span>
-                        <span slot="left" style="color:lightgray;margin-left:10px">QW07070001</span>
-                        <span slot="right">2017-07-07</span>
-                        <span slot="right" style="color:blue; padding-left:10px">已完成</span>
+                    <yd-cell-item arrow v-for="s in list" :key="s.id">
+                        <span slot="left">{{s.carNo}}</span>
+                        <span slot="left" style="color:lightgray;margin-left:10px">{{s.name}}</span>
+                        <span slot="right">{{formatDate(s.oilDate)}}</span>
+                        <span slot="right" :class="classState(s.state)" style="padding-left:10px">{{getStateName(s.state)}}</span>
                     </yd-cell-item>
                 </yd-cell-group>
             </yd-tab-panel>

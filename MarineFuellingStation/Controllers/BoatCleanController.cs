@@ -38,5 +38,23 @@ namespace MFS.Controllers
                 Data = result
             };
         }
+        [HttpGet]
+        public ResultJSON<List<BoatClean>> Get()
+        {
+            return new ResultJSON<List<BoatClean>>
+            {
+                Code = 0,
+                Data = r.GetAllList()
+            };
+        }
+        [HttpGet("{sv}")]
+        public ResultJSON<List<BoatClean>> Get(string sv)
+        {
+            return new ResultJSON<List<BoatClean>>
+            {
+                Code = 0,
+                Data = r.GetAllList(s => s.CarNo.Contains(sv))
+            };
+        }
     }
 }

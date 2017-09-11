@@ -1,6 +1,7 @@
 ﻿import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import axios from "axios";
+import moment from "moment";
 
 @Component({
     components: {
@@ -9,6 +10,7 @@ import axios from "axios";
 })
 export default class BoatCleanComponent extends Vue {
     model: server.boatClean;
+    list: server.boatClean[];
 
     radio2: string = '1';
     unit: string = '升';
@@ -27,6 +29,33 @@ export default class BoatCleanComponent extends Vue {
         this.model.isInvoice = false;
 
         this.getBoatCleanNo();
+        this.getBoatCleans();
+    }
+
+    formatDate(d: Date): string {
+        return moment(d).format('YYYY-MM-DD');
+    }
+
+    getStateName(s: server.boatCleanState): string {
+        switch (s) {
+            case server.boatCleanState.已开单:
+                return '已开单';
+            case server.boatCleanState.施工中:
+                return '施工中';
+            case server.boatCleanState.已完成:
+                return '已完成';
+        }
+    }
+
+    classState(s: server.boatCleanState): any {
+        switch (s) {
+            case server.boatCleanState.已开单:
+                return { color_red: true }
+            case server.boatCleanState.施工中:
+                return { color_green: true }
+            case server.boatCleanState.已完成:
+                return { color_blue: true }
+        }
     }
 
     mounted() {
@@ -44,6 +73,11 @@ export default class BoatCleanComponent extends Vue {
                     this.unit = '桶';
                     break;
             }
+        });
+        this.$watch('sv', (v: string, ov) => {
+            //3个字符开始才执行请求操作，减少请求次数
+            if (v.length >= 3)
+                this.searchBoatCleans(v);
         });
     };
 
@@ -63,6 +97,22 @@ export default class BoatCleanComponent extends Vue {
             let jobj = res.data as server.resultJSON<string>;
             if (jobj.code == 0)
                 this.model.name = jobj.data;
+        });
+    }
+
+    getBoatCleans() {
+        axios.get('/api/BoatClean').then((res) => {
+            let jobj = res.data as server.resultJSON<server.boatClean[]>;
+            if (jobj.code == 0)
+                this.list = jobj.data;
+        });
+    }
+
+    searchBoatCleans(sv: string) {
+        axios.get('/api/BoatClean/' + sv).then((res) => {
+            let jobj = res.data as server.resultJSON<server.boatClean[]>;
+            if (jobj.code == 0)
+                this.list = jobj.data;
         });
     }
 

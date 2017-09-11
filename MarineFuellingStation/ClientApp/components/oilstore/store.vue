@@ -4,7 +4,7 @@
     
             <yd-tab-panel label="所有分类">
                 <yd-cell-group>
-                    <yd-cell-item arrow @click.native="stClick(st)" v-for="st in sts">
+                    <yd-cell-item arrow @click.native="stClick(st)" v-for="st in sts" :key="st.id">
                         <div slot="left" style="margin: 10px 0 10px 0;line-height:22px">
                             <p>【{{st.name}}】- {{st.stores.length}}个仓</p>
                             <p style="color:lightgray;font-size:14px">总容量：{{sumVolume(st)}}升</p>

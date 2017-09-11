@@ -16,7 +16,7 @@ export default class StoreComponent extends Vue {
     constructor() {
         super();
 
-        this.sts = new Array();
+        this.sts = new Array<server.storeType>();
         this.currentst = new Object() as server.storeType;
 
         this.getStoreTypes();

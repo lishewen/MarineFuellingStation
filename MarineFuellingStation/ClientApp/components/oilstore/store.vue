@@ -51,7 +51,7 @@
         </yd-tab>
         <yd-popup v-model="stshow" position="right">
             <yd-cell-group :title="'【' + currentst.name + '】'">
-                <yd-cell-item v-for="s in currentst.stores">
+                <yd-cell-item v-for="s in currentst.stores" :key="s.id">
                     <div slot="left">{{s.name}}</div>
                     <div slot="right">
                         <p style="color:forestgreen; font-size: 14px">{{s.value}}升</p>

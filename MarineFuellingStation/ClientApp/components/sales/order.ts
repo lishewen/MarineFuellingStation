@@ -212,10 +212,7 @@ export default class OrderComponent extends Vue {
                         method: () => {
                             this.oilName = o.name;
                             this.model.productId = o.id;
-                            if (o.lastPrice > 0)
-                                this.model.price = o.lastPrice;
-                            else
-                                this.model.price = o.minPrice;
+                            this.model.price = o.lastPrice;
                         }
                     });
                 });

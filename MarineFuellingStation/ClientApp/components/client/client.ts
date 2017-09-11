@@ -126,7 +126,7 @@ export default class MyOrderComponent extends Vue {
         this.showcompany = false;
     }
 
-    selectsalesclick(sales: Object) {
+    selectsalesclick(sales: any) {
         this.model.followSalesman = sales.name;
         this.showsales = false;
     }

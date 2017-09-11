@@ -14,8 +14,8 @@ declare module server {
 		address: string;
 		/** 固定电话 */
 		phone: string;
-		/** 最高挂账金额 */
-		maxOnAccount: number;
+        /** 最高挂账金额 */
+        maxOnAccount: number | string;
 		/** 账户余额 */
 		balances: number;
 		/** 总消费金额 */

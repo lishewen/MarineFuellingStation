@@ -2,16 +2,16 @@
     <div id="root">
         <yd-tab :change="change">
             <yd-tab-panel label="开单">
-                <yd-cell-group title="单号：QW07070001" style="margin-top: 20px">
+                <yd-cell-group :title="'单号：' + model.name" style="margin-top: 20px">
 
                     <yd-cell-item>
                         <span slot="left">船号：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入您的船号"></yd-input>
+                        <yd-input slot="right" v-model="model.carNo" regex="" placeholder="请输入您的船号"></yd-input>
                     </yd-cell-item>
 
                     <yd-cell-item>
                         <span slot="left">金额：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入金额"></yd-input>
+                        <yd-input slot="right" v-model="model.money" regex="" placeholder="请输入金额"></yd-input>
                     </yd-cell-item>
                 </yd-cell-group>
 
@@ -19,80 +19,56 @@
 
                     <yd-cell-item>
                         <span slot="left">航次：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入航次"></yd-input>
+                        <yd-input slot="right" v-model="model.voyage" regex="" placeholder="请输入航次"></yd-input>
                     </yd-cell-item>
 
                     <yd-cell-item>
                         <span slot="left">船舶总吨：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入船舶总吨"></yd-input>
+                        <yd-input slot="right" v-model="model.tonnage" regex="" placeholder="请输入船舶总吨"></yd-input>
                     </yd-cell-item>
 
                     <yd-cell-item>
                         <span slot="left">批准书文号：</span>
-                        <yd-input slot="right" v-model="allowNo" regex="" placeholder="请输入批准书文号"></yd-input>
+                        <yd-input slot="right" v-model="model.responseId" regex="" placeholder="请输入批准书文号"></yd-input>
                     </yd-cell-item>
 
                     <yd-cell-item>
                         <span slot="left">作业地点：</span>
-                        <yd-input slot="right" v-model="workplace" regex="" placeholder="请输入作业地点"></yd-input>
+                        <yd-input slot="right" v-model="model.address" regex="" placeholder="请输入作业地点"></yd-input>
                     </yd-cell-item>
 
                     <yd-cell-item>
                         <span slot="left">作业单位：</span>
-                        <yd-input slot="right" v-model="workcompany" regex="" placeholder="请输入批准书文号"></yd-input>
+                        <yd-input slot="right" v-model="model.company" regex="" placeholder="请输入批准书文号"></yd-input>
                     </yd-cell-item>
 
                     <yd-cell-item>
                         <span slot="left">联系电话：</span>
-                        <yd-input slot="right" v-model="workphone" regex="" placeholder="请输入联系电话"></yd-input>
+                        <yd-input slot="right" v-model="model.phone" regex="" placeholder="请输入联系电话"></yd-input>
                     </yd-cell-item>
 
                     <yd-cell-item>
                         <span slot="left">是否开票</span>
                         <span slot="right">
-                            <yd-switch v-model="isinvoice"></yd-switch>
+                            <yd-switch v-model="model.isinvoice"></yd-switch>
                         </span>
                     </yd-cell-item>
                     <yd-cell-item v-show="isinvoice">
                         <span slot="left">开票单位：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入开票单位"></yd-input>
+                        <yd-input slot="right" v-model="model.billingCompany" regex="" placeholder="请输入开票单位"></yd-input>
                     </yd-cell-item>
                     <yd-cell-item v-show="isinvoice">
                         <span slot="left">单价：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入开票单价，默认同上"></yd-input>
+                        <yd-input slot="right" v-model="model.billingPrice" regex="" placeholder="请输入开票单价，默认同上"></yd-input>
                     </yd-cell-item>
                     <yd-cell-item v-show="isinvoice">
                         <span slot="left">数量：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入开票，默认同上"></yd-input>
+                        <yd-input slot="right" v-model="model.billingCount" regex="" placeholder="请输入开票，默认同上"></yd-input>
                     </yd-cell-item>
 
-                </yd-cell-group>
-                <yd-cell-group title="不显示">
-                    <yd-cell-item>
-                        <span slot="left">●开单时间：</span>
-                        <input slot="right" class="cell-input" type="date" value="2017-07-19" placeholder="">
-                    </yd-cell-item>
-
-                    <yd-cell-item>
-                        <span slot="left">●总价：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="单价 x 数量"></yd-input>
-                    </yd-cell-item>
-
-                    <yd-cell-item>
-                        <span slot="left">●作业时间：</span>
-                        <input slot="right" class="cell-input" type="date" placeholder="生产流程中录入">
-                    </yd-cell-item>
-                    <yd-cell-item>
-                        <span slot="left">●完工时间：</span>
-                        <input slot="right" class="cell-input" type="date" placeholder="生产流程中录入">
-                    </yd-cell-item>
-                    <yd-cell-item>
-                        <span slot="left">●开单员：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="自动录入"></yd-input>
-                    </yd-cell-item>
                 </yd-cell-group>
                 <div>
-                    <yd-button size="large" type="primary">提交</yd-button>
+                    <yd-button size="large" type="primary" @click.native="buttonclick">提交</yd-button>
                 </div>
             </yd-tab-panel>
 

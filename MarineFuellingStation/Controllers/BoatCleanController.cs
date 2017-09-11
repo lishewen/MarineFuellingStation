@@ -10,51 +10,50 @@ using System.Threading.Tasks;
 namespace MFS.Controllers
 {
     [Route("api/[controller]"), Axios]
-    public class AssayController : ControllerBase
+    public class BoatCleanController:ControllerBase
     {
-        private readonly AssayRepository r;
-        public AssayController(AssayRepository repository)
+        private readonly BoatCleanRepository r;
+        public BoatCleanController(BoatCleanRepository repository)
         {
             r = repository;
         }
         [HttpGet("[action]")]
-        public ResultJSON<string> AssayNo()
+        public ResultJSON<string> BoatCleanNo()
         {
             return new ResultJSON<string>
             {
                 Code = 0,
-                Data = r.GetSerialNumber(r.GetLastAssayNo())
+                Data = r.GetSerialNumber(r.GetLastBoatCleanNo())
             };
         }
         [HttpPost]
-        public ResultJSON<Assay> Post([FromBody]Assay a)
+        public ResultJSON<BoatClean> Post([FromBody]BoatClean b)
         {
             r.CurrentUser = UserName;
-            a.Assayer = UserName;
-            var result = r.Insert(a);
+            var result = r.Insert(b);
 
-            return new ResultJSON<Assay>
+            return new ResultJSON<BoatClean>
             {
                 Code = 0,
                 Data = result
             };
         }
         [HttpGet]
-        public ResultJSON<List<Assay>> Get()
+        public ResultJSON<List<BoatClean>> Get()
         {
-            return new ResultJSON<List<Assay>>
+            return new ResultJSON<List<BoatClean>>
             {
                 Code = 0,
                 Data = r.GetAllList()
             };
         }
         [HttpGet("{sv}")]
-        public ResultJSON<List<Assay>> Get(string sv)
+        public ResultJSON<List<BoatClean>> Get(string sv)
         {
-            return new ResultJSON<List<Assay>>
+            return new ResultJSON<List<BoatClean>>
             {
                 Code = 0,
-                Data = r.GetAllList(s => s.Name.Contains(sv))
+                Data = r.GetAllList(s => s.CarNo.Contains(sv))
             };
         }
     }

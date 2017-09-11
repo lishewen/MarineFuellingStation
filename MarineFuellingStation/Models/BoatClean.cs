@@ -66,5 +66,13 @@ namespace MFS.Models
         /// 完成时间
         /// </summary>
         public DateTime EndTime { get; set; }
+        public BoatCleanState State { get; set; } = BoatCleanState.已开单;
+    }
+
+    public enum BoatCleanState
+    {
+        已开单,
+        施工中,
+        已完成
     }
 }

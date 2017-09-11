@@ -1,22 +1,62 @@
 ﻿import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
+import axios from "axios";
+import moment from "moment";
 
 @Component({
     components: {
         WeuiSearch: require('../weui-search/search.vue')
     }
 })
-export default class PlanComponent extends Vue {
+export default class BoatCleanComponent extends Vue {
+    model: server.boatClean;
+    list: server.boatClean[];
+
     radio2: string = '1';
     unit: string = '升';
     carNo: string = '';
-    isinvoice: boolean = false;
     sv: string = "";
 
-    workplace: string = "广西梧州市云龙桥下游500米对开河边";
-    workphone: string = "07742031178";
-    workcompany: string = "广西梧州市汇保源防污有限公司";
-    allowNo: string = "梧海事清油（      ）第      号";
+    constructor() {
+        super();
+
+        this.model = (new Object()) as server.boatClean;
+        this.model.name = '';
+        this.model.responseId = "梧海事清油（      ）第      号";
+        this.model.address = "广西梧州市云龙桥下游500米对开河边";
+        this.model.company = "广西梧州市汇保源防污有限公司";
+        this.model.phone = "07742031178";
+        this.model.isInvoice = false;
+
+        this.getBoatCleanNo();
+        this.getBoatCleans();
+    }
+
+    formatDate(d: Date): string {
+        return moment(d).format('YYYY-MM-DD');
+    }
+
+    getStateName(s: server.boatCleanState): string {
+        switch (s) {
+            case server.boatCleanState.已开单:
+                return '已开单';
+            case server.boatCleanState.施工中:
+                return '施工中';
+            case server.boatCleanState.已完成:
+                return '已完成';
+        }
+    }
+
+    classState(s: server.boatCleanState): any {
+        switch (s) {
+            case server.boatCleanState.已开单:
+                return { color_red: true }
+            case server.boatCleanState.施工中:
+                return { color_green: true }
+            case server.boatCleanState.已完成:
+                return { color_blue: true }
+        }
+    }
 
     mounted() {
         this.$emit('setTitle', this.$store.state.username + ' 船舶清污');
@@ -34,10 +74,59 @@ export default class PlanComponent extends Vue {
                     break;
             }
         });
+        this.$watch('sv', (v: string, ov) => {
+            //3个字符开始才执行请求操作，减少请求次数
+            if (v.length >= 3)
+                this.searchBoatCleans(v);
+        });
     };
+
+    buttonclick() {
+        //信息验证
+
+        this.postBoatClean(this.model);
+    }
 
     change(label: string, tabkey: string) {
         console.log(label);
         this.$emit('setTitle', this.$store.state.username + ' ' + label);
+    }
+
+    getBoatCleanNo() {
+        axios.get('/api/BoatClean/BoatCleanNo').then((res) => {
+            let jobj = res.data as server.resultJSON<string>;
+            if (jobj.code == 0)
+                this.model.name = jobj.data;
+        });
+    }
+
+    getBoatCleans() {
+        axios.get('/api/BoatClean').then((res) => {
+            let jobj = res.data as server.resultJSON<server.boatClean[]>;
+            if (jobj.code == 0)
+                this.list = jobj.data;
+        });
+    }
+
+    searchBoatCleans(sv: string) {
+        axios.get('/api/BoatClean/' + sv).then((res) => {
+            let jobj = res.data as server.resultJSON<server.boatClean[]>;
+            if (jobj.code == 0)
+                this.list = jobj.data;
+        });
+    }
+
+    postBoatClean(model: server.boatClean) {
+        axios.post('/api/BoatClean', model).then((res) => {
+            let jobj = res.data as server.resultJSON<server.boatClean>;
+            if (jobj.code == 0) {
+                this.getBoatCleanNo();
+                (<any>this).$dialog.toast({
+                    mes: jobj.msg,
+                    timeout: 1500,
+                    icon: 'success'
+                });
+            }
+        });
     }
 }

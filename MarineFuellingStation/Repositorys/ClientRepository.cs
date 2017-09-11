@@ -10,7 +10,7 @@ namespace MFS.Repositorys
     public class ClientRepository : RepositoryBase<Client>
     {
         public ClientRepository(EFContext dbContext) : base(dbContext) { }
-        public new List<Client> GetIncludeCompany()
+        public List<Client> GetIncludeCompany()
         {
             return _dbContext.Clients.Include("Company").ToList();
         }

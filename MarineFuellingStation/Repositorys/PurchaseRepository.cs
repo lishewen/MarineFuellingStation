@@ -1,4 +1,5 @@
 ﻿using MFS.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,6 +39,14 @@ namespace MFS.Repositorys
                 }
             }
             return tag + DateTime.Now.ToString("yyMM") + "0001";
+        }
+        /// <summary>
+        /// 获取实体集合
+        /// </summary>
+        /// <returns></returns>
+        public List<Purchase> GetIncludeProduct()
+        {
+            return _dbContext.Purchases.Include(p => p.Product).ToList();
         }
     }
 }

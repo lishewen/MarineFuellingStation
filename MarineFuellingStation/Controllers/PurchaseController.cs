@@ -23,7 +23,7 @@ namespace MFS.Controllers
             return new ResultJSON<List<Purchase>>
             {
                 Code = 0,
-                Data = r.GetAllList()
+                Data = r.GetIncludeProduct()
             };
         }
         [HttpGet("{sv}")]
@@ -32,7 +32,7 @@ namespace MFS.Controllers
             return new ResultJSON<List<Purchase>>
             {
                 Code = 0,
-                Data = r.GetAllList(s => s.CarNo.Contains(sv))
+                Data = r.GetIncludeProduct().Where(s => s.CarNo.Contains(sv)).ToList()
             };
         }
         [HttpGet("[action]")]

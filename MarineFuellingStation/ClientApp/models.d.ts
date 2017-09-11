@@ -59,4 +59,12 @@ declare namespace work {
         userlist: userlist[];
     }
 
+    export interface tagMemberResult {
+        userlist: userlist[];
+        partylist: any[];
+        errcode: number;
+        errorCodeValue: number;
+        errmsg: string;
+        p2PData?: any;
+    }
 }

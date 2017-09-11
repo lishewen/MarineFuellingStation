@@ -280,7 +280,7 @@
         <yd-popup v-model="showsales" position="right">
             <yd-cell-group title="必填">
                 <weui-search v-model="svSales" />
-                <yd-cell-item arrow type="radio" v-for="s in sales" :key="s.id" @click.native="selectsalesclick(s)">
+                <yd-cell-item arrow type="radio" v-for="s in sales" :key="s.userid" @click.native="selectsalesclick(s)">
                     <span slot="left">{{s.name}}</span>
                     <span slot="right" style="font-size:12px;color:lightgray">{{s.clientcount}}客户</span>
                 </yd-cell-item>

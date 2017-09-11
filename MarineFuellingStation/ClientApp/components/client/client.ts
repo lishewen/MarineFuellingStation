@@ -6,18 +6,14 @@ import { Component } from 'vue-property-decorator';
         WeuiSearch: require('../weui-search/search.vue')
     }
 })
-export default class MyOrderComponent extends Vue {
+export default class ClientComponent extends Vue {
     model: server.client;
     modelCompany: server.company;
     companys: server.company[];
     clients: server.client[];
     products: server.product[];
 
-    sales: Object[] = [
-        { id: 1, name: '张三', clientcount:20 },
-        { id: 2, name: '李四', clientcount: 21 },
-        { id: 3, name: '王五', clientcount: 22 }
-    ];
+    sales: work.userlist[];
     companyName: string;
 
     oiloptions: ydui.actionSheetItem[];
@@ -38,7 +34,7 @@ export default class MyOrderComponent extends Vue {
     svCompany1: string = "";
     svClient: string = "";
     svSales: string = "";
-    
+
     constructor() {
         super();
 
@@ -52,13 +48,13 @@ export default class MyOrderComponent extends Vue {
         this.model.clientType = server.clientType.个人;
         this.model.followSalesman = '请选择';
         this.model.maxOnAccount = 0;
-        
+
         this.labelBoatOrCar = "船号";
         this.getOilProducts();
         this.companyName = '请选择';
         this.getCompanys('');
         this.getClients('');
-        
+        this.getSales();
     }
 
     filterclick(): void {
@@ -79,7 +75,7 @@ export default class MyOrderComponent extends Vue {
             icon: 'success'
         });
     }
-   
+
     mounted() {
         this.$emit('setTitle', this.$store.state.username + ' 的客户');
         this.$watch('model.clientType', (v, ov) => {
@@ -109,7 +105,7 @@ export default class MyOrderComponent extends Vue {
                 this.getCompanys(v);
         });
     };
-    
+
     switchaddcompany() {
         this.showcompany = false;
         this.showaddcompany = true;
@@ -126,7 +122,7 @@ export default class MyOrderComponent extends Vue {
         this.showcompany = false;
     }
 
-    selectsalesclick(sales: any) {
+    selectsalesclick(sales: work.userlist) {
         this.model.followSalesman = sales.name;
         this.showsales = false;
     }
@@ -229,11 +225,10 @@ export default class MyOrderComponent extends Vue {
     }
     //获得销售员
     getSales() {
-        axios.get('/api/User').then((res) => {
-            let jobj = res.data as server.resultJSON<server.salesPlan[]>;
-            if (jobj.code == 0)
-                //this.salesplans = jobj.data;
-                console.log('获取销售员成功')
+        axios.get('/api/User/Salesman').then((res) => {
+            let jobj = res.data as work.tagMemberResult;
+            if (jobj.errcode == 0)
+                this.sales = jobj.userlist;
         });
     }
 }

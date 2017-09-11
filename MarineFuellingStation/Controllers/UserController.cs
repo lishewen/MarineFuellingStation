@@ -28,8 +28,14 @@ namespace MFS.Controllers
         [HttpGet]
         public GetDepartmentMemberInfoResult Get()
         {
-            var result = MailListApi.GetDepartmentMemberInfo(option.AccessToken, 1, 1);
-            return result;
+            return MailListApi.GetDepartmentMemberInfo(option.AccessToken, 1, 1);
+        }
+        [HttpGet("[action]")]
+        public GetTagMemberResult Salesman()
+        {
+            var listresult= MailListApi.GetTagList(option.AccessToken);
+            var tagid = listresult.taglist.FirstOrDefault(t => t.tagname == "销售").tagid;
+            return MailListApi.GetTagMember(option.AccessToken, Convert.ToInt32(tagid));
         }
     }
 }

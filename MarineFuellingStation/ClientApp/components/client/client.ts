@@ -1,5 +1,6 @@
 ﻿import Vue from 'vue';
 import axios from "axios";
+import moment from "moment";
 import { Component } from 'vue-property-decorator';
 @Component({
     components: {
@@ -44,11 +45,12 @@ export default class ClientComponent extends Vue {
         this.modelCompany = (new Object()) as server.company;
         this.clients = new Array<server.client>();
         this.companys = new Array<server.company>();
+        this.sales = new Array<work.userlist>();
         this.model.placeType = server.placeType.水上;
         this.model.clientType = server.clientType.个人;
         this.model.followSalesman = '请选择';
         this.model.maxOnAccount = 0;
-
+        
         this.labelBoatOrCar = "船号";
         this.getOilProducts();
         this.companyName = '请选择';
@@ -99,9 +101,17 @@ export default class ClientComponent extends Vue {
                     break;
             }
         });
-        this.$watch('svCompany', (v: string, ov) => {
-            //3个字符开始才执行请求操作，减少请求次数
-            if (v.length >= 3)
+        this.$watch("svClient", (v: string, ov) => {
+            //2个字符开始才执行请求操作，减少请求次数
+            if (v.length >= 2)
+                this.getClients(v);
+        });
+        this.$watch("svCompany", (v: string, ov) => {
+            if (v.length >= 2)
+                this.getCompanys(v);
+        });
+        this.$watch("svCompany1", (v: string, ov) => {
+            if (v.length >= 2)
                 this.getCompanys(v);
         });
     };
@@ -125,6 +135,10 @@ export default class ClientComponent extends Vue {
     selectsalesclick(sales: work.userlist) {
         this.model.followSalesman = sales.name;
         this.showsales = false;
+    }
+
+    formatDate(d: Date): string {
+        return moment(d).format('YYYY-MM-DD');
     }
     //提交新增公司
     addcompanyclick() {
@@ -158,6 +172,7 @@ export default class ClientComponent extends Vue {
         }
         if ($model.maxOnAccount == "")
             $model.maxOnAccount = 0;
+        $model.name = $model.clientType == server.clientType.公司 ? "个人" : this.companyName;
         console.log($model);
         this.postClient($model);
     }
@@ -217,8 +232,9 @@ export default class ClientComponent extends Vue {
     getClients(kw: string) {
         axios.get('/api/Client/' + kw).then((res) => {
             let jobj = res.data as server.resultJSON<server.client[]>;
-            if (jobj.code == 0)
+            if (jobj.code == 0) {
                 this.clients = jobj.data;
+            }   
             else
                 this.toastError('无法获取客户数据，请重试')
         });

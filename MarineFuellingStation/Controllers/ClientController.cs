@@ -27,6 +27,16 @@ namespace MFS.Controllers
                 Data = r.Insert(model)
             };
         }
+        [HttpGet]
+        public ResultJSON<List<Client>> Get()
+        {
+            List<Client> ls = r.GetIncludeCompany();
+            return new ResultJSON<List<Client>>
+            {
+                Code = 0,
+                Data = ls
+            };
+        }
         [HttpGet("{sv}")]
         public ResultJSON<List<Client>> Get(string sv)
         {

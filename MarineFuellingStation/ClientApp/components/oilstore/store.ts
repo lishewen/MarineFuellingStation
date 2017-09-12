@@ -18,8 +18,10 @@ export default class StoreComponent extends Vue {
 
         this.sts = new Array<server.storeType>();
         this.currentst = new Object() as server.storeType;
+        this.model = new Object() as server.store;
 
         this.getStoreTypes();
+        
     }
 
     toastError(msg: string) {

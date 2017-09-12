@@ -23,7 +23,27 @@ namespace MFS.Controllers
             return new ResultJSON<List<Product>>
             {
                 Code = 0,
-                Data = r.GetAllList((p) => p.ProductType.Name == "油品" && p.IsUse)
+                Data = r.GetAllList((p) => p.ProductType.Name == "销售油" && p.IsUse)
+            };
+        }
+        [HttpGet("{id}")]
+        public ResultJSON<Product> Get(int id)
+        {
+            Product s = r.Get(id);
+            return new ResultJSON<Product>
+            {
+                Code = 0,
+                Data = s
+            };
+        }
+        [HttpPut]
+        public ResultJSON<Product> Put([FromBody]Product model)
+        {
+            r.CurrentUser = UserName;
+            return new ResultJSON<Product>
+            {
+                Code = 0,
+                Data = r.InsertOrUpdate(model)
             };
         }
         /// <summary>
@@ -32,7 +52,7 @@ namespace MFS.Controllers
         /// <param name="model">实体</param>
         /// <returns></returns>
         [HttpPost]
-        public ResultJSON<Product> Post(Product model)
+        public ResultJSON<Product> Post([FromBody]Product model)
         {
             r.CurrentUser = UserName;
             return new ResultJSON<Product>

@@ -1,7 +1,6 @@
 ﻿<template>
     <div id="root">
         <yd-tab :change="change">
-
             <yd-tab-panel label="所有分类">
                 <yd-cell-group>
                     <yd-cell-item arrow @click.native="ptClick(pt)" v-for="pt in pts" :key="pt.id">
@@ -12,11 +11,11 @@
                     </yd-cell-item>
                 </yd-cell-group>
             </yd-tab-panel>
-            <yd-tab-panel label="添加">
+            <yd-tab-panel :label="isAddProduct?'添加':'编辑'" :active="isAddProduct?false:true">
                 <yd-cell-group>
                     <yd-cell-item @click.native="ptshow = true">
                         <span slot="left">所属分类：</span>
-                        <span slot="right">{{selectptname}}</span>
+                        <span slot="left">{{selectptname}}</span>
                         <span slot="right"><yd-button type="primary" @click.native="addpt($event)">添加</yd-button></span>
                     </yd-cell-item>
                     <yd-cell-item>
@@ -24,41 +23,42 @@
                         <yd-input slot="right" v-model="currentproduct.name" required placeholder="请输入名称"></yd-input>
                     </yd-cell-item>
                     <yd-cell-item>
-                        <span slot="left">最新单价：</span>
+                        <span slot="left">单价：</span>
                         <yd-input slot="right" type="number" v-model="currentproduct.minPrice" placeholder="请输入单价"></yd-input>
                         <span slot="right" style="width: 60px">元 / 升</span>
                     </yd-cell-item>
                 </yd-cell-group>
                 <div style="text-align: center">
-                    <yd-button style="width:100px" type="primary" @click.native="">添加</yd-button>
+                    <yd-button v-show="isAddProduct" style="width:90%" type="primary" @click.native="postProductclick">提交</yd-button>
+                    <yd-button v-show="!isAddProduct" style="width:90%" type="primary" @click.native="saveProductclick">保存</yd-button>
                 </div>
             </yd-tab-panel>
         </yd-tab>
         <yd-actionsheet :items="ptoptions" v-model="ptshow" cancel="取消"></yd-actionsheet>
         <yd-popup v-model="show1" position="right">
             <yd-cell-group :title="currentpt.name">
-                <yd-cell-item v-for="p in currentpt.products" :key="p.id">
+                <yd-cell-item arrow v-for="p in currentpt.products" :key="p.id" @click.native="editProductclick(p)">
                     <div slot="left">{{p.name}}</div>
                     <div slot="right">
-                        <p style="color:forestgreen; font-size: 14px">￥{{p.minPrice}}/升</p>
+                        <p style="color:forestgreen; font-size: 14px">￥{{p.minPrice}} / 升</p>
                     </div>
                 </yd-cell-item>
             </yd-cell-group>
             <div style="text-align: center">
-                <yd-button style="width:100px" type="primary" @click.native="">添加</yd-button>
+                <yd-button style="width:80%" type="primary" @click.native="editProductTypeclick">编辑分类</yd-button>
             </div>
         </yd-popup>
-        <yd-popup v-model="show2" position="right">
-            <yd-cell-group title="添加分类">
+        <!--popup添加编辑分类-->
+        <yd-popup v-model="show2" position="right" width="70%">
+            <yd-cell-group :title="isAddType?'添加分类':'编辑分类'">
                 <yd-cell-item>
                     <span slot="left">分类名称：</span>
-                </yd-cell-item>
-                <yd-cell-item>
                     <yd-input slot="left" v-model="ptName" required placeholder="请输入名称"></yd-input>
                 </yd-cell-item>
             </yd-cell-group>
             <div style="text-align: center">
-                <yd-button style="width:100px" type="primary" @click.native="postProductType()">提交</yd-button>
+                <yd-button v-show="isAddType" style="width: 80%" type="primary" @click.native="postProductTypeclick()">提交</yd-button>
+                <yd-button v-show="!isAddType" style="width:80%" type="primary" @click.native="saveProductTypeclick">保存</yd-button>
             </div>
         </yd-popup>
     </div>

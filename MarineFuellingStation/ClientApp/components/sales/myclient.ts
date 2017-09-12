@@ -1,10 +1,10 @@
-﻿import Vue from 'vue';
+﻿import ComponentBase from "../../componentbase";
 import axios from "axios";
 import moment from "moment";
 import { Component } from 'vue-property-decorator';
 
 @Component
-export default class MyOrderComponent extends Vue {
+export default class MyClientComponent extends ComponentBase {
     clients: server.client[];
     radio2: string = "1";
     show1: boolean = false;
@@ -33,9 +33,7 @@ export default class MyOrderComponent extends Vue {
             this.activedBtnId = o.id;
         }
     }
-    formatDate(d: Date): string {
-        return moment(d).format('YYYY-MM-DD');
-    }
+
     filterclick(): void {
         this.show2 = false;
     };

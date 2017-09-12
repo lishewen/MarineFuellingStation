@@ -1,13 +1,14 @@
-﻿import Vue from 'vue';
+﻿import ComponentBase from "../../componentbase";
 import axios from "axios";
 import moment from "moment";
 import { Component } from 'vue-property-decorator';
+
 @Component({
     components: {
         WeuiSearch: require('../weui-search/search.vue')
     }
 })
-export default class ClientComponent extends Vue {
+export default class ClientComponent extends ComponentBase {
     model: server.client;
     modelCompany: server.company;
     companys: server.company[];
@@ -53,6 +54,10 @@ export default class ClientComponent extends Vue {
         this.model.clientType = server.clientType.个人;
         this.model.followSalesman = '请选择';
         this.model.maxOnAccount = 0;
+        this.model.carNo = '';
+        this.model.contact = '';
+        this.model.phone = '';
+        this.model.mobile = '';
         
         this.labelBoatOrCar = "船号";
         this.getOilProducts();
@@ -73,20 +78,6 @@ export default class ClientComponent extends Vue {
         this.show2 = false;
     };
 
-    toastError(msg: string) {
-        (<any>this).$dialog.toast({
-            mes: msg,
-            timeout: 1500,
-            icon: 'error'
-        });
-    }
-    toastSuccess(msg: string) {
-        (<any>this).$dialog.toast({
-            mes: msg,
-            timeout: 1500,
-            icon: 'success'
-        });
-    }
     switchBtn(o: any) {
         if (o.id != this.activedBtnId){
             o.actived = true;
@@ -154,9 +145,6 @@ export default class ClientComponent extends Vue {
         this.showsales = false;
     }
 
-    formatDate(d: Date): string {
-        return moment(d).format('YYYY-MM-DD');
-    }
     //提交新增公司
     addcompanyclick() {
         if (this.modelCompany.name == '') {

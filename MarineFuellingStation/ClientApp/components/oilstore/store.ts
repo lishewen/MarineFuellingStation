@@ -26,14 +26,6 @@ export default class StoreComponent extends ComponentBase {
         this.getStoreTypes();
     }
 
-    toastError(msg: string) {
-        (<any>this).$dialog.toast({
-            mes: msg,
-            timeout: 1500,
-            icon: 'error'
-        });
-    }
-
     stClick(st: server.storeType) {
         this.currentst = st;
         this.stshow = true;
@@ -105,11 +97,7 @@ export default class StoreComponent extends ComponentBase {
         axios.post('/api/StoreType', stmodel).then((res) => {
             let jobj = res.data as server.resultJSON<server.storeType>;
             if (jobj.code == 0) {
-                (<any>this).$dialog.toast({
-                    mes: jobj.msg,
-                    timeout: 1500,
-                    icon: 'success'
-                });
+                this.toastSuccess(jobj.msg);
                 //将新增的分类加入到列表中
                 this.sts.push(jobj.data);
                 //关闭popup
@@ -122,11 +110,7 @@ export default class StoreComponent extends ComponentBase {
         axios.post('/api/Store', model).then((res) => {
             let jobj = res.data as server.resultJSON<server.store>;
             if (jobj.code == 0) {
-                (<any>this).$dialog.toast({
-                    mes: jobj.msg,
-                    timeout: 1500,
-                    icon: 'success'
-                });
+                this.toastSuccess(jobj.msg);
             }
         });
     }

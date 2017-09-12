@@ -1,23 +1,15 @@
 ﻿<template>
     <div>
-        <yd-grids-group :rows="2" title="2017-07-07 汇总">
-            <yd-grids-item>
-                <p slot="text">93#油</p>
-                <p slot="text" style="color: lightgray">总：xxxL</p>
-            </yd-grids-item>
-            <yd-grids-item>
-                <p slot="text">95#油</p>
-                <p slot="text" style="color: lightgray">总：xxxL</p>
-            </yd-grids-item>
-            <yd-grids-item>
-                <p slot="text">97#油</p>
+        <yd-grids-group :rows="2" title="2017-07-07 出仓汇总">
+            <yd-grids-item v-for="s in salesSts" :key="s.id">
+                <p slot="text">{{s.name}}</p>
                 <p slot="text" style="color: lightgray">总：xxxL</p>
             </yd-grids-item>
         </yd-grids-group>
-        <yd-cell-group title="船一" style="margin-top:20px">
-            <yd-cell-item arrow @click.native="show1 = true">
+        <yd-cell-group :title="st.name" style="margin-top:20px" v-for="st in sts" :key="st.id">
+            <yd-cell-item arrow @click.native="show1 = true" v-for="s in st.stores" :key="s.id">
                 <div slot="left" style="width: 60px;height: 60px;margin:15px 15px 15px -5px">
-                    <yd-progressbar :progress="progress1" trailWidth="4">10000</yd-progressbar>
+                    <yd-progressbar :progress="getPercent(s.value, s.volume)" trailWidth="4">{{s.value}}</yd-progressbar>
                 </div>
                 <div slot="left" style="width: 60px;height: 60px;margin:10px 10px 10px -5px">
                     <yd-progressbar :progress="progress2"
@@ -25,81 +17,10 @@
                                     strokeWidth="4"
                                     strokeColor="#B2B2B2"
                                     trailColor="#FE5D51"
-                                    fillColor="#EAEAEA">9999.9</yd-progressbar>
+                                    fillColor="#EAEAEA">{{s.volume - s.value}}</yd-progressbar>
                 </div>
                 <div slot="left" style="font-size:16px;width: 90px">
-                    <p style="color:gray;font-size:16px;">1#仓</p>
-                    <p style="color:lightgray;font-size:14px;">07-07 08:30 已测</p>
-                </div>
-                <div slot="right">
-                    <div style="text-align: left">
-                        <p style="color:gray">今 <span style="color:red">+1000</span> 升</p>
-                        <p style="color:lightgray">今 <span style="color:green">-800</span> 升</p>
-                    </div>
-                </div>
-            </yd-cell-item>
-        </yd-cell-group>
-        <yd-cell-group title="船二">
-            <yd-cell-item arrow>
-                <div slot="left" style="width: 60px;height: 60px;margin:15px 15px 15px -5px">
-                    <yd-progressbar :progress="progress1" trailWidth="4">10000</yd-progressbar>
-                </div>
-                <div slot="left" style="width: 60px;height: 60px;margin:10px 10px 10px -5px">
-                    <yd-progressbar :progress="progress2"
-                                    trailWidth="2"
-                                    strokeWidth="4"
-                                    strokeColor="#B2B2B2"
-                                    trailColor="#FE5D51"
-                                    fillColor="#EAEAEA">9999.9</yd-progressbar>
-                </div>
-                <div slot="left" style="font-size:16px;width: 90px">
-                    <p style="color:gray;font-size:16px;">1#仓</p>
-                    <p style="color:lightgray;font-size:14px;">07-07 08:30 已测</p>
-                </div>
-                <div slot="right">
-                    <div style="text-align: left">
-                        <p style="color:gray">今 <span style="color:red">+1000</span> 升</p>
-                        <p style="color:lightgray">今 <span style="color:green">-800</span> 升</p>
-                    </div>
-                </div>
-            </yd-cell-item>
-            <yd-cell-item arrow>
-                <div slot="left" style="width: 60px;height: 60px;margin:15px 15px 15px -5px">
-                    <yd-progressbar :progress="progress1" trailWidth="4">10000</yd-progressbar>
-                </div>
-                <div slot="left" style="width: 60px;height: 60px;margin:10px 10px 10px -5px">
-                    <yd-progressbar :progress="progress2"
-                                    trailWidth="2"
-                                    strokeWidth="4"
-                                    strokeColor="#B2B2B2"
-                                    trailColor="#FE5D51"
-                                    fillColor="#EAEAEA">9999.9</yd-progressbar>
-                </div>
-                <div slot="left" style="font-size:16px;width: 90px">
-                    <p style="color:gray;font-size:16px;">1#仓</p>
-                    <p style="color:lightgray;font-size:14px;">07-07 08:30 已测</p>
-                </div>
-                <div slot="right">
-                    <div style="text-align: left">
-                        <p style="color:gray">今 <span style="color:red">+1000</span> 升</p>
-                        <p style="color:lightgray">今 <span style="color:green">-800</span> 升</p>
-                    </div>
-                </div>
-            </yd-cell-item>
-            <yd-cell-item arrow>
-                <div slot="left" style="width: 60px;height: 60px;margin:15px 15px 15px -5px">
-                    <yd-progressbar :progress="progress1" trailWidth="4">10000</yd-progressbar>
-                </div>
-                <div slot="left" style="width: 60px;height: 60px;margin:10px 10px 10px -5px">
-                    <yd-progressbar :progress="progress2"
-                                    trailWidth="2"
-                                    strokeWidth="4"
-                                    strokeColor="#B2B2B2"
-                                    trailColor="#FE5D51"
-                                    fillColor="#EAEAEA">9999.9</yd-progressbar>
-                </div>
-                <div slot="left" style="font-size:16px;width: 90px">
-                    <p style="color:gray;font-size:16px;">1#仓</p>
+                    <p style="color:gray;font-size:16px;">{{s.name}}</p>
                     <p style="color:lightgray;font-size:14px;">07-07 08:30 已测</p>
                 </div>
                 <div slot="right">

@@ -1,6 +1,6 @@
 ﻿<template>
     <div id="root">
-        <yd-tab :callback="change">
+        <yd-tab :change="change">
     
             <yd-tab-panel label="所有分类">
                 <yd-cell-group>
@@ -52,7 +52,7 @@
         </yd-tab>
         <yd-popup v-model="stshow" position="right" width="70%">
             <yd-cell-group :title="'【' + currentst.name + '】'">
-                <yd-cell-item v-for="s in currentst.stores" :key="s.id">
+                <yd-cell-item arrow v-for="s in currentst.stores" :key="s.id" @click.native="editStoreclick(s)">
                     <div slot="left">{{s.name}}</div>
                     <div slot="right">
                         <p style="color:forestgreen; font-size: 14px">{{s.value}}升</p>

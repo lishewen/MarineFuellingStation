@@ -34,26 +34,14 @@ export default class StoreComponent extends ComponentBase {
     }
 
     addStoreclick() {
-        //信息验证
-        if (this.model.name == '') {
-            this.toastError('名称不能为空');
-            return;
-        }
-        if (this.model.volume <= 0) {
-            this.toastError('请输入容量');
-            return;
-        }
-        if (this.model.storeTypeId <= 0) {
-            this.toastError('必须选择分类');
-            return;
-        }
+        if (!this.validate()) return;
         this.postStore(this.model);
     }
 
-    editStoreclick() {
+    editStoreclick(st: server.store) {
         this.isAddStore = false;
         this.stshow = false;
-        //this.getStore(this.currentst.id);
+        this.getStore(st.id);
     }
 
     editStoreTypeclick() {
@@ -63,21 +51,26 @@ export default class StoreComponent extends ComponentBase {
         this.getStoreType(this.currentst.id);
     }
 
-    saveStoreclick() {
+    validate() {
         //信息验证
         if (this.model.name == '') {
             this.toastError('名称不能为空');
-            return;
+            return false;
         }
         if (this.model.volume <= 0) {
             this.toastError('请输入容量');
-            return;
+            return false;
         }
         if (this.model.storeTypeId <= 0) {
             this.toastError('必须选择分类');
-            return;
+            return false;
         }
-        this.postStore(this.model);
+        return true;
+    }
+
+    saveStoreclick() {
+        if (!this.validate()) return;
+        this.putStore(this.model);
     }
     saveStoreTypeclick() {
         let stmodel = (new Object()) as server.storeType;
@@ -214,5 +207,8 @@ export default class StoreComponent extends ComponentBase {
             this.model.volume = 0;
             this.model.storeTypeId = -1;
         }
+        if (label == '所有分类')
+            this.isAddStore = true;
+        console.log(label)
     }
 }

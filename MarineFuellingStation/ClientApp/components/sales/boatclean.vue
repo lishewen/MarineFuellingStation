@@ -6,12 +6,12 @@
 
                     <yd-cell-item>
                         <span slot="left">船号：</span>
-                        <yd-input slot="right" v-model="model.carNo" regex="" placeholder="请输入您的船号"></yd-input>
+                        <yd-input slot="right" v-model="model.carNo" required placeholder="请输入您的船号"></yd-input>
                     </yd-cell-item>
 
                     <yd-cell-item>
                         <span slot="left">金额：</span>
-                        <yd-input slot="right" v-model="model.money" regex="" placeholder="请输入金额"></yd-input>
+                        <yd-input slot="right" v-model="model.money" required placeholder="请输入金额"></yd-input>
                     </yd-cell-item>
                 </yd-cell-group>
 

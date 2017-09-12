@@ -1,4 +1,4 @@
-﻿import Vue from 'vue';
+﻿import ComponentBase from "../../componentbase";
 import { Component } from 'vue-property-decorator';
 import axios from "axios";
 import moment from "moment";
@@ -8,7 +8,7 @@ import moment from "moment";
         WeuiSearch: require('../weui-search/search.vue')
     }
 })
-export default class BoatCleanComponent extends Vue {
+export default class BoatCleanComponent extends ComponentBase {
     model: server.boatClean;
     list: server.boatClean[];
 
@@ -22,6 +22,8 @@ export default class BoatCleanComponent extends Vue {
 
         this.model = (new Object()) as server.boatClean;
         this.model.name = '';
+        this.model.carNo = '';
+        this.model.money = 0;
         this.model.responseId = "梧海事清油（      ）第      号";
         this.model.address = "广西梧州市云龙桥下游500米对开河边";
         this.model.company = "广西梧州市汇保源防污有限公司";
@@ -30,10 +32,6 @@ export default class BoatCleanComponent extends Vue {
 
         this.getBoatCleanNo();
         this.getBoatCleans();
-    }
-
-    formatDate(d: Date): string {
-        return moment(d).format('YYYY-MM-DD');
     }
 
     getStateName(s: server.boatCleanState): string {
@@ -121,11 +119,7 @@ export default class BoatCleanComponent extends Vue {
             let jobj = res.data as server.resultJSON<server.boatClean>;
             if (jobj.code == 0) {
                 this.getBoatCleanNo();
-                (<any>this).$dialog.toast({
-                    mes: jobj.msg,
-                    timeout: 1500,
-                    icon: 'success'
-                });
+                this.toastSuccess(jobj.msg);
             }
         });
     }

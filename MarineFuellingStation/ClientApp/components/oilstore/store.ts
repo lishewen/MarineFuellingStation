@@ -1,9 +1,9 @@
-﻿import Vue from 'vue';
+﻿import ComponentBase from "../../componentbase";
 import { Component } from 'vue-property-decorator';
 import axios from "axios";
 
 @Component
-export default class StoreComponent extends Vue {
+export default class StoreComponent extends ComponentBase {
     carNo: string = "";
     stshow: boolean = false;
     newstshow: boolean = false;
@@ -18,6 +18,10 @@ export default class StoreComponent extends Vue {
 
         this.sts = new Array<server.storeType>();
         this.currentst = new Object() as server.storeType;
+        this.model = new Object() as server.store;
+        this.model.name = '';
+        this.model.volume = 0;
+        this.model.storeTypeId = -1;
 
         this.getStoreTypes();
     }

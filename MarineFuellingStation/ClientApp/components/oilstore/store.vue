@@ -1,6 +1,6 @@
 ﻿<template>
     <div id="root">
-        <yd-tab :change="change">
+        <yd-tab :callback="change">
     
             <yd-tab-panel label="所有分类">
                 <yd-cell-group>

@@ -8,6 +8,8 @@ export default class StoreComponent extends ComponentBase {
     stshow: boolean = false;
     newstshow: boolean = false;
     radio1: string = "1";
+    isAddStore: boolean = true;
+    isAddStoreType: boolean = true;
     model: server.store;
     stName: string = '';
     sts: server.storeType[];
@@ -31,7 +33,7 @@ export default class StoreComponent extends ComponentBase {
         this.stshow = true;
     }
 
-    buttonclick() {
+    addStoreclick() {
         //信息验证
         if (this.model.name == '') {
             this.toastError('名称不能为空');
@@ -46,6 +48,42 @@ export default class StoreComponent extends ComponentBase {
             return;
         }
         this.postStore(this.model);
+    }
+
+    editStoreclick() {
+        this.isAddStore = false;
+        this.stshow = false;
+        //this.getStore(this.currentst.id);
+    }
+
+    editStoreTypeclick() {
+        this.isAddStoreType = false;
+        this.stshow = false;
+        this.newstshow = true;
+        this.getStoreType(this.currentst.id);
+    }
+
+    saveStoreclick() {
+        //信息验证
+        if (this.model.name == '') {
+            this.toastError('名称不能为空');
+            return;
+        }
+        if (this.model.volume <= 0) {
+            this.toastError('请输入容量');
+            return;
+        }
+        if (this.model.storeTypeId <= 0) {
+            this.toastError('必须选择分类');
+            return;
+        }
+        this.postStore(this.model);
+    }
+    saveStoreTypeclick() {
+        let stmodel = (new Object()) as server.storeType;
+        stmodel.id = this.currentst.id;
+        stmodel.name = this.stName;
+        this.putStoreType(stmodel);
     }
 
     sumVolume(st: server.storeType): number {
@@ -75,6 +113,25 @@ export default class StoreComponent extends ComponentBase {
     newstShowClick() {
         this.stName = '';
         this.newstshow = true;
+        this.isAddStoreType = true;
+    }
+
+    getStore(id: number) {
+        axios.get('/api/Store/' + id.toString()).then((res) => {
+            let jobj = res.data as server.resultJSON<server.store>;
+            if (jobj.code == 0) {
+                this.model = jobj.data;
+            }
+        });
+    }
+
+    getStoreType(id: number) {
+        axios.get('/api/StoreType/' + id.toString()).then((res) => {
+            let jobj = res.data as server.resultJSON<server.store>;
+            if (jobj.code == 0) {
+                this.stName = jobj.data.name;
+            }
+        });
     }
 
     getStoreTypes() {
@@ -111,6 +168,25 @@ export default class StoreComponent extends ComponentBase {
             let jobj = res.data as server.resultJSON<server.store>;
             if (jobj.code == 0) {
                 this.toastSuccess(jobj.msg);
+            }
+        });
+    }
+
+    putStore(model: server.store) {
+        axios.put('/api/Store', model).then((res) => {
+            let jobj = res.data as server.resultJSON<server.store>;
+            if (jobj.code == 0) {
+                this.toastSuccess(jobj.msg);
+            }
+        });
+    }
+
+    putStoreType(model: server.storeType) {
+        axios.put('/api/StoreType', model).then((res) => {
+            let jobj = res.data as server.resultJSON<server.storeType>;
+            if (jobj.code == 0) {
+                this.toastSuccess(jobj.msg);
+                this.getStoreTypes();
             }
         });
     }

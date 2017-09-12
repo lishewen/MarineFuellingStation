@@ -16,7 +16,7 @@
                     </yd-cell-item>
                 </yd-cell-group>
             </yd-tab-panel>
-            <yd-tab-panel label="添加">
+            <yd-tab-panel :label="isAddStore?'添加':'编辑'" :active="isAddStore?false:true">
                 <yd-cell-group>
                     <yd-cell-item>
                         <yd-radio-group v-model="radio1" slot="left">
@@ -45,11 +45,12 @@
                     </yd-cell-item>
                 </yd-cell-group>
                 <div style="text-align: center">
-                    <yd-button style="width:100px" type="primary" @click.native="buttonclick">添加</yd-button>
+                    <yd-button v-show="isAddStore" style="width:90%" type="primary" @click.native="addStoreclick">提交</yd-button>
+                    <yd-button v-show="!isAddStore" style="width:90%" type="primary" @click.native="saveStoreclick">保存</yd-button>
                 </div>
             </yd-tab-panel>
         </yd-tab>
-        <yd-popup v-model="stshow" position="right">
+        <yd-popup v-model="stshow" position="right" width="70%">
             <yd-cell-group :title="'【' + currentst.name + '】'">
                 <yd-cell-item v-for="s in currentst.stores" :key="s.id">
                     <div slot="left">{{s.name}}</div>
@@ -59,16 +60,20 @@
                     </div>
                 </yd-cell-item>
             </yd-cell-group>
+            <div style="text-align: center">
+                <yd-button style="width:80%" type="primary" @click.native="editStoreTypeclick">编辑分类</yd-button>
+            </div>
         </yd-popup>
-        <yd-popup v-model="newstshow" position="right">
-            <yd-cell-group title="添加分类">
+        <yd-popup v-model="newstshow" position="right" width="70%">
+            <yd-cell-group :title="isAddStoreType?'添加分类':'编辑分类'">
                 <yd-cell-item>
                     <span slot="left">分类名称：</span>
-                    <yd-input slot="right" v-model="stName" required placeholder="请输入名称"></yd-input>
+                    <yd-input slot="right" v-model="stName" required placeholder="请输入"></yd-input>
                 </yd-cell-item>
             </yd-cell-group>
             <div style="text-align: center">
-                <yd-button style="width:100px" type="primary" @click.native="postStoreType">提交</yd-button>
+                <yd-button v-show="isAddStoreType" style="width:80%" type="primary" @click.native="postStoreType">提交</yd-button>
+                <yd-button v-show="!isAddStoreType" style="width:80%" type="primary" @click.native="saveStoreTypeclick">保存</yd-button>
             </div>
         </yd-popup>
     </div>

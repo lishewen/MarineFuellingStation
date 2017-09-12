@@ -26,6 +26,25 @@ namespace MFS.Controllers
                 Data = r.GetAllList()
             };
         }
+        [HttpGet("{id}")]
+        public ResultJSON<StoreType> Get(int id)
+        {
+            StoreType s = r.Get(id);
+            return new ResultJSON<StoreType>
+            {
+                Code = 0,
+                Data = s
+            };
+        }
+        [HttpPut]
+        public ResultJSON<StoreType> Put([FromBody]StoreType model)
+        {
+            return new ResultJSON<StoreType>
+            {
+                Code = 0,
+                Data = r.InsertOrUpdate(model)
+            };
+        }
         [HttpPost]
         public ResultJSON<StoreType> Post([FromBody]StoreType model)
         {

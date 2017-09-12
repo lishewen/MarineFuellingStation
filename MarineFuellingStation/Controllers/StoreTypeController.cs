@@ -39,6 +39,7 @@ namespace MFS.Controllers
         [HttpPut]
         public ResultJSON<StoreType> Put([FromBody]StoreType model)
         {
+            r.CurrentUser = UserName;
             return new ResultJSON<StoreType>
             {
                 Code = 0,

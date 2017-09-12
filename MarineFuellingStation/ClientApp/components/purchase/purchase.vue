@@ -10,13 +10,13 @@
 
                     <yd-cell-item>
                         <span slot="left">单价：</span>
-                        <yd-input slot="right" v-model="model.price" regex="" placeholder="请输入单价"></yd-input>
+                        <yd-input slot="right" v-model="model.price" required placeholder="请输入单价"></yd-input>
                         <span slot="right" style="width: 50px">元 / 吨</span>
                     </yd-cell-item>
 
                     <yd-cell-item>
                         <span slot="left">数量：</span>
-                        <yd-input slot="right" v-model="model.count" regex="" placeholder="请输入数量"></yd-input>
+                        <yd-input slot="right" v-model="model.count" required placeholder="请输入数量"></yd-input>
                         <span slot="right">吨</span>
                     </yd-cell-item>
 
@@ -40,7 +40,7 @@
                 <yd-cell-group title="运输">
                     <yd-cell-item>
                         <span slot="left">车牌号一：</span>
-                        <yd-input slot="right" v-model="model.carNo" regex="" placeholder="请输入车牌号"></yd-input>
+                        <yd-input slot="right" v-model="model.carNo" required placeholder="请输入车牌号"></yd-input>
                     </yd-cell-item>
                     <yd-cell-item>
                         <span slot="left">挂车号：</span>

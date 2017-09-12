@@ -36,6 +36,7 @@ export default class PurchaseComponent extends ComponentBase {
         this.model.price = 0;
         this.model.count = 0;
         this.model.origin = '';
+        this.model.carNo = '';
         this.model.startTime = this.formatDate(new Date());
         this.model.arrivalTime = this.formatDate(new Date());
 

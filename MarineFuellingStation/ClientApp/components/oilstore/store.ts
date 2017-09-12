@@ -1,9 +1,9 @@
-﻿import Vue from 'vue';
+﻿import ComponentBase from "../../componentbase";
 import { Component } from 'vue-property-decorator';
 import axios from "axios";
 
 @Component
-export default class StoreComponent extends Vue {
+export default class StoreComponent extends ComponentBase {
     carNo: string = "";
     stshow: boolean = false;
     newstshow: boolean = false;
@@ -19,17 +19,11 @@ export default class StoreComponent extends Vue {
         this.sts = new Array<server.storeType>();
         this.currentst = new Object() as server.storeType;
         this.model = new Object() as server.store;
+        this.model.name = '';
+        this.model.volume = 0;
+        this.model.storeTypeId = -1;
 
         this.getStoreTypes();
-        
-    }
-
-    toastError(msg: string) {
-        (<any>this).$dialog.toast({
-            mes: msg,
-            timeout: 1500,
-            icon: 'error'
-        });
     }
 
     stClick(st: server.storeType) {
@@ -103,11 +97,7 @@ export default class StoreComponent extends Vue {
         axios.post('/api/StoreType', stmodel).then((res) => {
             let jobj = res.data as server.resultJSON<server.storeType>;
             if (jobj.code == 0) {
-                (<any>this).$dialog.toast({
-                    mes: jobj.msg,
-                    timeout: 1500,
-                    icon: 'success'
-                });
+                this.toastSuccess(jobj.msg);
                 //将新增的分类加入到列表中
                 this.sts.push(jobj.data);
                 //关闭popup
@@ -120,11 +110,7 @@ export default class StoreComponent extends Vue {
         axios.post('/api/Store', model).then((res) => {
             let jobj = res.data as server.resultJSON<server.store>;
             if (jobj.code == 0) {
-                (<any>this).$dialog.toast({
-                    mes: jobj.msg,
-                    timeout: 1500,
-                    icon: 'success'
-                });
+                this.toastSuccess(jobj.msg);
             }
         });
     }

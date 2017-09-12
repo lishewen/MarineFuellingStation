@@ -26,6 +26,7 @@
     "webpack": "^2.2.0",
     "webpack-hot-middleware": "^2.12.2",
     "moment": "2.18.1",
-    "vue-echarts": "2.4.0"
+    "vue-echarts": "2.4.0",
+    "ydui-district": "1.0.0"
   }
 }

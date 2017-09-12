@@ -1,6 +1,6 @@
 ﻿<template>
     <div id="root">
-        <yd-tab :change="change">
+        <yd-tab :callback="change">
             <yd-tab-panel label="计划开单">
                 <yd-cell-group :title="'单号：' + model.name" style="margin-top:20px">
                     <yd-cell-item arrow @click.native="oilshow = true">
@@ -20,9 +20,9 @@
                         <span slot="right">吨</span>
                     </yd-cell-item>
 
-                    <yd-cell-item>
+                    <yd-cell-item arrow>
                         <span slot="left">始发地：</span>
-                        <yd-input slot="right" v-model="model.origin" regex="" placeholder="请输入始发地"></yd-input>
+                        <input slot="right" type="text" @click.stop="originshow = true" v-model="model.origin" readonly placeholder="请选择始发地"/>
                     </yd-cell-item>
 
                     <yd-cell-item arrow>
@@ -97,6 +97,7 @@
             </yd-tab-panel>
         </yd-tab>
         <yd-actionsheet :items="oiloptions" v-model="oilshow" cancel="取消"></yd-actionsheet>
+        <yd-cityselect v-model="originshow" :callback="origincallback" :items="district"></yd-cityselect>
     </div>
 </template>
 

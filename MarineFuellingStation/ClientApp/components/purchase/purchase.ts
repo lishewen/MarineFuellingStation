@@ -1,19 +1,22 @@
-﻿import Vue from 'vue';
+﻿import ComponentBase from "../../componentbase";
 import { Component } from 'vue-property-decorator';
 import axios from "axios";
 import moment from "moment";
+import District from 'ydui-district/dist/gov_province_city_area_id';
 
 @Component({
     components: {
         WeuiSearch: require('../weui-search/search.vue')
     }
 })
-export default class PurchaseComponent extends Vue {
+export default class PurchaseComponent extends ComponentBase {
     model: server.purchase;
     list: server.purchase[];
     oilshow: boolean = false;
     oiloptions: ydui.actionSheetItem[];
     oilName: string = '';
+    originshow: boolean = false;
+    district: District = District;
 
     radio1: string = "2";
     show2: boolean = false;
@@ -35,6 +38,7 @@ export default class PurchaseComponent extends Vue {
         this.model.origin = '';
         this.model.startTime = this.formatDate(new Date());
         this.model.arrivalTime = this.formatDate(new Date());
+
         this.getPurchaseNo();
         this.getPurchases();
         this.getOilProducts();
@@ -59,6 +63,10 @@ export default class PurchaseComponent extends Vue {
         });
     };
 
+    origincallback(ret) {
+        this.model.origin = ret.itemName1 + ' ' + ret.itemName2 + ' ' + ret.itemName3;
+    }
+
     change(label: string, tabkey: string) {
         console.log(label);
         this.$emit('setTitle', this.$store.state.username + ' ' + label);
@@ -79,14 +87,6 @@ export default class PurchaseComponent extends Vue {
             return;
         }
         this.postPurchase(this.model);
-    }
-
-    toastError(msg: string) {
-        (<any>this).$dialog.toast({
-            mes: msg,
-            timeout: 1500,
-            icon: 'error'
-        });
     }
 
     formatDate(d: Date): string {
@@ -140,11 +140,7 @@ export default class PurchaseComponent extends Vue {
             let jobj = res.data as server.resultJSON<server.purchase>;
             if (jobj.code == 0) {
                 this.getPurchaseNo();
-                (<any>this).$dialog.toast({
-                    mes: jobj.msg,
-                    timeout: 1500,
-                    icon: 'success'
-                });
+                this.toastSuccess(jobj.msg);
             }
         });
     }

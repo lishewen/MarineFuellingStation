@@ -77,28 +77,6 @@
 
                 </yd-cell-group>
 
-                <yd-cell-group title="不显示" style="margin-top:10px" v-show="nonshow">
-                    <yd-cell-item>
-                        <span slot="left">●账户金额：</span>
-                        <yd-input slot="right" regex="" placeholder="收银流程充值自动计算"></yd-input>
-                    </yd-cell-item>
-                    <yd-cell-item>
-                        <span slot="left">●登记时间：</span>
-                        <yd-input slot="right" regex="" placeholder="自动录入"></yd-input>
-                    </yd-cell-item>
-                    <yd-cell-item>
-                        <span slot="left">●最近消费时间：</span>
-                        <yd-input slot="right" regex="" placeholder="自动录入"></yd-input>
-                    </yd-cell-item>
-                    <yd-cell-item>
-                        <span slot="left">●总消费金额：</span>
-                        <yd-input slot="right" regex="" placeholder="自动录入"></yd-input>
-                    </yd-cell-item>
-                    <yd-cell-item>
-                        <span slot="left">●跟进销售：</span>
-                        <yd-input slot="right" regex="" placeholder="自动录入"></yd-input>
-                    </yd-cell-item>
-                </yd-cell-group>
                 <div>
                     <yd-button size="large" type="primary" @click.native="addclientclick">提交</yd-button>
                 </div>

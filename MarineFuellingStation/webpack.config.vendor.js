@@ -19,6 +19,7 @@ module.exports = (env) => {
                 'axios',
                 'vue-ydui',
                 'vue-ydui/dist/ydui.rem.css',
+                'ydui-district/dist/gov_province_city_area_id',
                 'vuex',
                 'vuex-router-sync',
                 'vue-echarts'

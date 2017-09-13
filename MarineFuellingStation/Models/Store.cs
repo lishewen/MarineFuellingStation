@@ -41,7 +41,6 @@ namespace MFS.Models
         public int StoreTypeId { get; set; }
         [JsonIgnore, ForeignKey("StoreTypeId")]
         public virtual StoreType StoreType { get; set; }
-        public virtual ICollection<InAndOutLog> InAndOutLogs { get; set; }
     }
     public enum StoreClass
     {

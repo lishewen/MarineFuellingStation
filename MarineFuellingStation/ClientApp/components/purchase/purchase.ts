@@ -65,6 +65,7 @@ export default class PurchaseComponent extends ComponentBase {
     };
 
     origincallback(ret) {
+        //console.log(ret);
         this.model.origin = ret.itemName1 + ' ' + ret.itemName2 + ' ' + ret.itemName3;
     }
 
@@ -119,7 +120,7 @@ export default class PurchaseComponent extends ComponentBase {
     }
 
     getOilProducts() {
-        axios.get('/api/Product/OilProducts').then((res) => {
+        axios.get('/api/Product/PurchaseOilProducts').then((res) => {
             let jobj = res.data as server.resultJSON<server.product[]>;
             if (jobj.code == 0) {
                 jobj.data.forEach((o, i) => {

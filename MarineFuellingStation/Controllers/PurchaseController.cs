@@ -23,7 +23,16 @@ namespace MFS.Controllers
             return new ResultJSON<List<Purchase>>
             {
                 Code = 0,
-                Data = r.GetIncludeProduct()
+                Data = r.GetIncludeProduct().OrderByDescending(p => p.Id).ToList()
+            };
+        }
+        [HttpGet("[action]/{n}")]
+        public ResultJSON<List<Purchase>> GetTopN(int n)
+        {
+            return new ResultJSON<List<Purchase>>
+            {
+                Code = 0,
+                Data = r.GetTopNPurchases(n)
             };
         }
         [HttpGet("{sv}")]

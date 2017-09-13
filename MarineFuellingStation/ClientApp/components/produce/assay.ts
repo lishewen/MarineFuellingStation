@@ -1,4 +1,4 @@
-﻿import Vue from 'vue';
+﻿import ComponentBase from "../../componentbase";
 import { Component } from 'vue-property-decorator';
 import axios from "axios";
 
@@ -7,8 +7,9 @@ import axios from "axios";
         WeuiSearch: require('../weui-search/search.vue')
     }
 })
-export default class AssayComponent extends Vue {
+export default class AssayComponent extends ComponentBase {
     model: server.assay;
+    assay: server.assay;
     store: server.store[];
     purchase: server.purchase[];
     selectedStore: number | string = '';
@@ -18,6 +19,7 @@ export default class AssayComponent extends Vue {
     radio2: string = "1";
     carNo: string = "";
     show1: boolean = true;
+    showDetail: boolean = false;
     sv: string = "";
     filterclick(): void {
     };
@@ -26,6 +28,10 @@ export default class AssayComponent extends Vue {
         super();
 
         this.model = (new Object()) as server.assay;
+        this.assay = (new Object()) as server.assay;
+        this.store = new Array<server.store>();
+        this.purchase = new Array<server.purchase>();
+        this.list = new Array<server.assay>();
         this.model.name = '';
 
         this.getAssayNo();
@@ -36,7 +42,15 @@ export default class AssayComponent extends Vue {
     mounted() {
         this.$emit('setTitle', this.$store.state.username + ' 化验');
         this.$watch('radio2', (v, ov) => {
-            this.show1 = (v == "1") ? true : false;
+            if (v == "2") {
+                this.show1 = false;
+                this.getPurchase(10);
+                this.model.assayType = server.assayType.采购化验;
+            }
+            else {
+                this.show1 = true;
+                this.model.assayType = server.assayType.油舱化验;
+            }
         });
         this.$watch('sv', (v: string, ov) => {
             //3个字符开始才执行请求操作，减少请求次数
@@ -49,10 +63,16 @@ export default class AssayComponent extends Vue {
         console.log(label);
         this.$emit('setTitle', this.$store.state.username + ' ' + label);
     }
+    /**
+     * 显示化验单详细
+     */
+    assayclick(as: server.assay) {
+        this.assay = as;
+        this.showDetail = true;
+    }
 
     buttonclick() {
         //信息验证
-
         this.postAssay(this.model);
     }
 
@@ -72,19 +92,30 @@ export default class AssayComponent extends Vue {
         });
     }
 
-    getPurchase() {
-        axios.get('/api/Purchase').then((res) => {
+    getPurchase(n: number) {
+        axios.get('/api/Purchase/GetTopN/' + n.toString()).then((res) => {
             let jobj = res.data as server.resultJSON<server.purchase[]>;
-            if (jobj.code == 0)
+            if (jobj.code == 0){
                 this.purchase = jobj.data;
+            }
         });
     }
 
+    initlist(ls: server.assay[]) {
+        ls.forEach((as, index) => {
+            if (as.store == null) as.store = new Object() as server.store;
+            if (as.purchase == null) as.purchase = new Object() as server.purchase;
+        });
+        this.list = ls;
+    }
+
     getAssays() {
-        axios.get('/api/Assay').then((res) => {
+        axios.get('/api/Assay/GetWithStANDPur').then((res) => {
             let jobj = res.data as server.resultJSON<server.assay[]>;
-            if (jobj.code == 0)
-                this.list = jobj.data;
+            if (jobj.code == 0) {
+                console.log(this.list);
+                this.initlist(jobj.data);
+            }
         });
     }
 
@@ -92,20 +123,18 @@ export default class AssayComponent extends Vue {
         axios.get('/api/Assay/' + sv).then((res) => {
             let jobj = res.data as server.resultJSON<server.assay[]>;
             if (jobj.code == 0)
-                this.list = jobj.data;
+                this.initlist(jobj.data);
         });
     }
 
     postAssay(model: server.assay) {
+        model.storeId = this.selectedStore;
+        model.purchaseId = this.selectedPurchase;
         axios.post('/api/Assay', model).then((res) => {
             let jobj = res.data as server.resultJSON<server.assay>;
             if (jobj.code == 0) {
                 this.getAssayNo();
-                (<any>this).$dialog.toast({
-                    mes: jobj.msg,
-                    timeout: 1500,
-                    icon: 'success'
-                });
+                this.toastSuccess(jobj.msg)
             }
         });
     }

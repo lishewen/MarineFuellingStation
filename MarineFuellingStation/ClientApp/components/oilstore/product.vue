@@ -6,7 +6,7 @@
                     <yd-cell-item arrow @click.native="ptClick(pt)" v-for="pt in pts" :key="pt.id">
                         <div slot="left" style="margin: 10px 0 10px 0;line-height:22px">
                             <p>{{pt.name}}</p>
-                            <p style="color:lightgray;font-size:14px">XXXXXX</p>
+                            <p style="color:lightgray;font-size:14px">{{pt.products.length}}个商品</p>
                         </div>
                     </yd-cell-item>
                 </yd-cell-group>
@@ -35,7 +35,7 @@
             </yd-tab-panel>
         </yd-tab>
         <yd-actionsheet :items="ptoptions" v-model="ptshow" cancel="取消"></yd-actionsheet>
-        <yd-popup v-model="show1" position="right">
+        <yd-popup v-model="show1" position="right" width="70%">
             <yd-cell-group :title="currentpt.name">
                 <yd-cell-item arrow v-for="p in currentpt.products" :key="p.id" @click.native="editProductclick(p)">
                     <div slot="left">{{p.name}}</div>

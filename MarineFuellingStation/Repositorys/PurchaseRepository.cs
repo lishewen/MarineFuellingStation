@@ -48,5 +48,15 @@ namespace MFS.Repositorys
         {
             return _dbContext.Purchases.Include(p => p.Product).ToList();
         }
+        /// <summary>
+        /// 获取最近top n个采购单
+        /// </summary>
+        /// <param name="n">top n?</param>
+        /// <returns></returns>
+        public List<Purchase> GetTopNPurchases(int n)
+        {
+            return _dbContext.Purchases.OrderByDescending(p => p.Id).Take(n).ToList();
+        }
+        
     }
 }

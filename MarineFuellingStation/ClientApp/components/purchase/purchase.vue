@@ -1,8 +1,8 @@
 ﻿<template>
-    <div id="root">
+    <div>
         <yd-tab :callback="change">
             <yd-tab-panel label="计划开单">
-                <yd-cell-group :title="'单号：' + model.name" style="margin-top:20px">
+                <yd-cell-group :title="'单号：' + model.name">
                     <yd-cell-item arrow @click.native="oilshow = true">
                         <span slot="left">油品：</span>
                         <span slot="right">{{oilName}}</span>
@@ -85,7 +85,7 @@
                             <p>{{s.origin}}</p>
                             <p style="color:lightgray;font-size:12px">{{s.carNo}} {{s.trailerNo}}</p>
                         </div>
-                        <div slot="right" style="text-align: right;margin-right: 5px">
+                        <div slot="right" style="text-align: right;margin-right: .2rem;padding: .2rem 0 .2rem">
                             <p>
                                 <span style="color:forestgreen;">{{s.product.name}}</span>
                                 <span style="color:gray; font-size: 22px" s>{{s.count}}吨</span>

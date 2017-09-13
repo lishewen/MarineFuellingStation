@@ -120,7 +120,8 @@ export default class ProductComponent extends ComponentBase {
             let jobj = res.data as server.resultJSON<server.productType[]>;
             if (jobj.code == 0) {
                 this.pts = jobj.data;
-                console.log(this.pts);
+                //防止再次操作陆续push
+                this.ptoptions = new Array<ydui.actionSheetItem>();
                 jobj.data.forEach((o, i) => {
                     this.ptoptions.push({
                         label: o.name,

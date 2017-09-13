@@ -115,18 +115,89 @@
             <yd-tab-panel label="记录">
                 <weui-search v-model="sv" />
                 <yd-cell-group>
-                    <yd-cell-item arrow v-for="s in list" :key="s.id">
+                    <yd-cell-item arrow v-for="s in list" :key="s.id" @click.native="assayclick(s)">
                         <div slot="left">
                             <p>{{s.name}}</p>
-                            <p style="color:lightgray;font-size:12px">{{s.assayer}}</p>
+                            <p style="color:lightgray">{{s.assayer}}</p>
                         </div>
                         <div slot="right" style="text-align: left;margin-right: 5px">
-                            <p style="color:gray">1#地仓 / 35吨 / 柴油</p>
+                            <p v-show="s.assayType == 0" style="color:darkgreen">{{s.store}}仓</p>
+                            <p v-show="s.assayType == 1" style="color:lightcoral">{{s.purchase.carNo}} / {{s.purchase.count}}吨</p>
                         </div>
                     </yd-cell-item>
                 </yd-cell-group>
             </yd-tab-panel>
         </yd-tab>
+        <yd-popup v-model="showDetail" position="right" width="70%">
+            <yd-cell-group :title="assay.name">
+                <yd-cell-item>
+                    <span slot="left">视密：</span>
+                    <span slot="right">{{assay.视密}}</span>
+                </yd-cell-item>
+
+                <yd-cell-item>
+                    <span slot="left">标密：</span>
+                    <span slot="right">{{assay.标密}}</span>
+                </yd-cell-item>
+
+                <yd-cell-item>
+                    <span slot="left">闭口闪点：</span>
+                    <span slot="right">{{assay.闭口闪点}}℃</span>
+                </yd-cell-item>
+
+                <yd-cell-item>
+                    <span slot="left">油温：</span>
+                    <span slot="right">{{assay.temperature}}℃</span>
+                </yd-cell-item>
+
+                <yd-cell-item>
+                    <span slot="left">味道：</span>
+                    <span v-show="assay.smellType == 0" slot="right">一般刺鼻</span>
+                    <span v-show="assay.smellType == 1" slot="right">刺鼻</span>
+                    <span v-show="assay.smellType == 2" slot="right">不刺鼻</span>
+                </yd-cell-item>
+
+                <yd-cell-item>
+                    <span slot="left">混水反应：</span>
+                    <span slot="right">{{assay.混水反应}}℃</span>
+                </yd-cell-item>
+
+                <yd-cell-item>
+                    <span slot="left">十六烷值：</span>
+                    <span slot="right">{{assay.十六烷值}}℃</span>
+                </yd-cell-item>
+
+                <yd-cell-item>
+                    <span slot="left">初硫：</span>
+                    <span slot="right">{{assay.初硫}}℃</span>
+                </yd-cell-item>
+
+                <yd-cell-item>
+                    <span slot="left">10%：</span>
+                    <span slot="right">{{assay.percentage10}}℃</span>
+                </yd-cell-item>
+
+                <yd-cell-item>
+                    <span slot="left">50%：</span>
+                    <span slot="right">{{assay.percentage50}}℃</span>
+                </yd-cell-item>
+
+                <yd-cell-item>
+                    <span slot="left">90%：</span>
+                    <span slot="right">{{assay.percentage90}}℃</span>
+                </yd-cell-item>
+
+                <yd-cell-item>
+                    <span slot="left">回流：</span>
+                    <span slot="right">{{assay.回流}}%</span>
+                </yd-cell-item>
+
+                <yd-cell-item>
+                    <span slot="left">干点：</span>
+                    <span slot="right">{{assay.干点}}℃</span>
+                </yd-cell-item>
+            </yd-cell-group>
+        </yd-popup>
     </div>
 </template>
 

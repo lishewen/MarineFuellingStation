@@ -45,7 +45,16 @@ namespace MFS.Controllers
             return new ResultJSON<List<Assay>>
             {
                 Code = 0,
-                Data = r.GetAllList()
+                Data = r.GetAllList().OrderByDescending(a => a.Id).ToList()
+            };
+        }
+        [HttpGet("[action]")]
+        public ResultJSON<List<Assay>> GetWithStANDPur()
+        {
+            return new ResultJSON<List<Assay>>
+            {
+                Code = 0,
+                Data = r.GetAllWithStANDPur().OrderByDescending(a => a.Id).ToList()
             };
         }
         [HttpGet("{sv}")]
@@ -54,7 +63,7 @@ namespace MFS.Controllers
             return new ResultJSON<List<Assay>>
             {
                 Code = 0,
-                Data = r.GetAllList(s => s.Name.Contains(sv))
+                Data = r.GetAllWithStANDPur(sv).OrderByDescending(a => a.Id).ToList()
             };
         }
     }

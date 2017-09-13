@@ -32,14 +32,6 @@ export default class ProductComponent extends ComponentBase {
         this.$emit('setTitle', this.$store.state.username + ' 商品');
     };
 
-    toastError(msg: string) {
-        (<any>this).$dialog.toast({
-            mes: msg,
-            timeout: 1500,
-            icon: 'error'
-        });
-    }
-
     change(label: string, tabkey: string) {
         this.$emit('setTitle', this.$store.state.username + ' ' + label);
         if (label == '添加') {
@@ -173,13 +165,17 @@ export default class ProductComponent extends ComponentBase {
         axios.post('/api/ProductType', model).then((res) => {
             let jobj = res.data as server.resultJSON<server.productType>;
             if (jobj.code == 0) {
-                (<any>this).$dialog.toast({
-                    mes: jobj.msg,
-                    timeout: 1500,
-                    icon: 'success'
-                });
+                this.toastSuccess(jobj.msg);
                 //将新增的分类加入到列表中
                 this.pts.push(jobj.data);
+                //新增actionSheetItem项
+                this.ptoptions.push({
+                    label: jobj.data.name,
+                    method: () => {
+                        this.currentproduct.productTypeId = jobj.data.id;
+                        this.selectptname = jobj.data.name;
+                    }
+                });
                 //关闭popup
                 this.show2 = false;
                 this.selectptname = model.name;
@@ -192,11 +188,7 @@ export default class ProductComponent extends ComponentBase {
         axios.post('/api/Product', this.currentproduct).then((res) => {
             let jobj = res.data as server.resultJSON<server.product>;
             if (jobj.code == 0) {
-                (<any>this).$dialog.toast({
-                    mes: jobj.msg,
-                    timeout: 1500,
-                    icon: 'success'
-                });
+                this.toastSuccess(jobj.msg);
             }
         });
     }

@@ -26,6 +26,15 @@ namespace MFS.Controllers
                 Data = r.GetAllList((p) => p.ProductType.Name == "销售油" && p.IsUse)
             };
         }
+        [HttpGet("[action]")]
+        public ResultJSON<List<Product>> PurchaseOilProducts()
+        {
+            return new ResultJSON<List<Product>>
+            {
+                Code = 0,
+                Data = r.GetAllList((p) => p.ProductType.Name == "采购油" && p.IsUse)
+            };
+        }
         [HttpGet("{id}")]
         public ResultJSON<Product> Get(int id)
         {

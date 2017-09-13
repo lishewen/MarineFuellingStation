@@ -1,4 +1,5 @@
 ﻿using MFS.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,6 +39,22 @@ namespace MFS.Repositorys
                 }
             }
             return tag + DateTime.Now.ToString("yyMM") + "0001";
+        }
+        /// <summary>
+        /// 获取包含store和purchase对象的集合
+        /// </summary>
+        /// <returns></returns>
+        public List<Assay> GetAllWithStANDPur()
+        {
+            return _dbContext.Assays.Include(a => a.Store).Include(a => a.Purchase).ToList();
+        }
+        /// <summary>
+        /// 搜索关键字获取包含store和purchase对象的集合
+        /// </summary>
+        /// <returns></returns>
+        public List<Assay> GetAllWithStANDPur(string sv)
+        {
+            return _dbContext.Assays.Where(a => a.Name.Contains(sv)).Include(a => a.Store).Include(a => a.Purchase).ToList();
         }
     }
 }

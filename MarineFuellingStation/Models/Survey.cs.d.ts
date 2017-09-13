@@ -1,6 +1,8 @@
 declare module server {
 	/** 测量记录 */
-	interface survey extends EntityBase {
+	interface survey extends entityBase {
+        storeId: number;
+        store: store;
 		/** 油温 */
 		temperature: number;
 		/** 密度 */

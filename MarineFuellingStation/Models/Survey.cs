@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,6 +11,9 @@ namespace MFS.Models
     /// </summary>
     public class Survey : EntityBase
     {
+        public int StoreId { get; set; }
+        [ForeignKey("StoreId")]
+        public virtual Store Store { get; set; }
         /// <summary>
         /// 油温
         /// </summary>

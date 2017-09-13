@@ -56,6 +56,14 @@ namespace MFS.Models
         /// 船舶清污单
         /// </summary>
         public DbSet<BoatClean> BoatCleans { get; set; }
+        /// <summary>
+        /// 测量表
+        /// </summary>
+        public DbSet<Survey> Surveys { get; set; }
+        /// <summary>
+        /// 出入仓记录表
+        /// </summary>
+        public DbSet<InAndOutLog> InAndOutLogs { get; set; }
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {
             OnBeforeSaving();

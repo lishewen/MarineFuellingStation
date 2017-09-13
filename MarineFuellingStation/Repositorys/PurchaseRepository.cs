@@ -55,8 +55,7 @@ namespace MFS.Repositorys
         /// <returns></returns>
         public List<Purchase> GetTopNPurchases(int n)
         {
-            return _dbContext.Purchases.OrderByDescending(p => p.Id).Take(n).ToList();
-        }
-        
+            return LoadPageList(1, n, out int rowcount, true).ToList();
+        }        
     }
 }

@@ -165,19 +165,30 @@ namespace MFS.Repositorys
         /// <param name="startPage">页码</param>
         /// <param name="pageSize">单页数据数</param>
         /// <param name="rowCount">行数</param>
+        /// <param name="desc">升序/降序</param>
         /// <param name="where">条件</param>
         /// <param name="order">排序</param>
         /// <returns></returns>
-        public IQueryable<TEntity> LoadPageList(int startPage, int pageSize, out int rowCount, Expression<Func<TEntity, bool>> where = null, Expression<Func<TEntity, object>> order = null)
+        public IQueryable<TEntity> LoadPageList(int startPage, int pageSize, out int rowCount, bool desc = false, Expression<Func<TEntity, bool>> where = null, Expression<Func<TEntity, object>> order = null)
         {
             var result = from p in _dbContext.Set<TEntity>()
                          select p;
             if (where != null)
                 result = result.Where(where);
-            if (order != null)
-                result = result.OrderBy(order);
+            if (desc)
+            {
+                if (order != null)
+                    result = result.OrderByDescending(order);
+                else
+                    result = result.OrderByDescending(m => m.Id);
+            }
             else
-                result = result.OrderBy(m => m.Id);
+            {
+                if (order != null)
+                    result = result.OrderBy(order);
+                else
+                    result = result.OrderBy(m => m.Id);
+            }
             rowCount = result.Count();
             return result.Skip((startPage - 1) * pageSize).Take(pageSize);
         }

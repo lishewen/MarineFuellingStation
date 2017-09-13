@@ -1,6 +1,6 @@
 ﻿<template>
     <div id="root">
-        <yd-tab :change="change">
+        <yd-tab :callback="change">
             <yd-tab-panel label="添加客户">
                 <yd-cell-group title="必填" style="margin-top:20px">
 

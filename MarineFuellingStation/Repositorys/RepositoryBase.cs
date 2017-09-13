@@ -108,7 +108,8 @@ namespace MFS.Repositorys
         {
             foreach (var mItem in typeof(T).GetProperties())
             {
-                mItem.SetValue(pTargetObjDest, mItem.GetValue(pTargetObjSrc, new object[] { }), null);
+                if (mItem.CanWrite)
+                    mItem.SetValue(pTargetObjDest, mItem.GetValue(pTargetObjSrc, new object[] { }), null);
             }
         }
         /// <summary>

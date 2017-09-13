@@ -9,6 +9,7 @@ export default class OilStoreComponent extends ComponentBase {
     progress2: number = 0.4;
     show1: boolean = false;
 
+    survey: server.survey;
     sts: server.storeType[];
     salesSts: server.store[];
 
@@ -17,6 +18,7 @@ export default class OilStoreComponent extends ComponentBase {
 
         this.sts = new Array<server.storeType>();
         this.salesSts = new Array<server.store>();
+        this.survey = new Object() as server.survey;
         this.getStoreTypes();
     }
     
@@ -42,6 +44,32 @@ export default class OilStoreComponent extends ComponentBase {
                     });
                 })
                 console.log(this.sts);
+            }
+        });
+    }
+
+    validate() {
+        if (this.survey.temperature == '') {
+            this.toastError('油温不能为空');
+            return false;
+        }
+        if (this.survey.density == '') {
+            this.toastError('密度不能为空');
+            return false;
+        }
+        if (this.survey.height == '') {
+            this.toastError('油高不能为空');
+            return false;
+        }
+        return true;
+    }
+
+    postSurveyclick() {
+        if (!this.validate()) return;
+        axios.post('/api/Survey', this.currentproduct).then((res) => {
+            let jobj = res.data as server.resultJSON<server.survey>;
+            if (jobj.code == 0) {
+                this.toastSuccess(jobj.msg);
             }
         });
     }

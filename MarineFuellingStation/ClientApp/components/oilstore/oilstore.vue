@@ -35,31 +35,21 @@
             <yd-cell-group title="测量">
                 <yd-cell-item>
                     <span slot="left">油温：</span>
-                    <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入"></yd-input>
+                    <yd-input type="number" slot="right" v-model="survey.temperature" placeholder="请输入" required></yd-input>
                     <span slot="right">℃</span>
                 </yd-cell-item>
                 <yd-cell-item>
                     <span slot="left">密度：</span>
-                    <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入"></yd-input>
+                    <yd-input type="number" slot="right" v-model="survey.density" placeholder="请输入" required></yd-input>
                 </yd-cell-item>
                 <yd-cell-item>
                     <span slot="left">油高：</span>
-                    <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入"></yd-input>
+                    <yd-input type="number" slot="right" v-model="survey.height" placeholder="请输入" required></yd-input>
                     <span slot="right">cm</span>
                 </yd-cell-item>
             </yd-cell-group>
-            <yd-cell-group title="不显示">
-                <yd-cell-item>
-                    <span slot="left">●测量时间：</span>
-                    <yd-input slot="right" v-model="carNo" regex="" placeholder="自动录入"></yd-input>
-                </yd-cell-item>
-                <yd-cell-item>
-                    <span slot="left">●操作人：</span>
-                    <yd-input slot="right" v-model="carNo" regex="" placeholder="自动录入"></yd-input>
-                </yd-cell-item>
-            </yd-cell-group>
             <div style="text-align: center">
-                <yd-button style="width:100px" type="primary" @click.native="">提交</yd-button>
+                <yd-button style="width:80%" type="primary" @click.native="postSurveyclick">提交</yd-button>
             </div>
         </yd-popup>
     </div>

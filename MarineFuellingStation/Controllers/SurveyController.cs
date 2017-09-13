@@ -24,9 +24,8 @@ namespace MFS.Controllers
             return new ResultJSON<Survey>
             {
                 Code = 0,
-                Data = r.InsertAndUpdatestore(model)
+                Data = r.Insert(model)
             };
-
         }
         [HttpGet]
         public ResultJSON<List<Survey>> Get()

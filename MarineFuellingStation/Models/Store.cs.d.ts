@@ -14,7 +14,7 @@ declare module server {
 		isUse: boolean;
         storeTypeId: number;
         /** 最后测量时间 */
-        LastSurveyAt: string;
+        lastSurveyAt: string;
 	}
 	const enum storeClass {
 		销售仓,

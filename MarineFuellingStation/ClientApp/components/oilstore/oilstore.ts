@@ -1,6 +1,7 @@
 ﻿import ComponentBase from "../../componentbase";
 import { Component } from 'vue-property-decorator';
 import axios from "axios";
+import moment from "moment";
 
 @Component
 export default class OilStoreComponent extends ComponentBase {
@@ -10,14 +11,18 @@ export default class OilStoreComponent extends ComponentBase {
     show1: boolean = false;
 
     survey: server.survey;
+    surveys: server.survey[];
     sts: server.storeType[];
     salesSts: server.store[];
-
+    selectStore: server.store;
+    
     constructor() {
         super();
 
         this.sts = new Array<server.storeType>();
         this.salesSts = new Array<server.store>();
+        this.surveys = new Array<server.survey>();
+        this.selectStore = new Object() as server.store;
         this.survey = new Object() as server.survey;
         this.getStoreTypes();
     }
@@ -25,6 +30,18 @@ export default class OilStoreComponent extends ComponentBase {
     mounted() {
         this.$emit('setTitle', this.$store.state.username + ' 油仓情况');
     };
+
+    /**
+     * 添加测量记录
+     */
+    storeclick(st: server.store) {
+        this.show1 = true;
+        this.survey.storeId = st.id;
+        this.survey.name = st.name;
+        this.selectStore = st;
+        this.getSurveys(st.id);
+    }
+
     /**
      * 当前数量百分比
      */
@@ -48,16 +65,29 @@ export default class OilStoreComponent extends ComponentBase {
         });
     }
 
+    formatDate(d: Date): string {
+        return moment(d).format('MM-DD hh:mm');
+    }
+
+    getSurveys(stid: number) {
+        axios.get('/api/Survey/GetTop10/' + stid.toString()).then((res) => {
+            let jobj = res.data as server.resultJSON<server.survey[]>;
+            if (jobj.code == 0) {
+                this.surveys = jobj.data;
+            }
+        });
+    }
+
     validate() {
-        if (this.survey.temperature == '') {
+        if (this.survey.temperature == null || this.survey.temperature == '') {
             this.toastError('油温不能为空');
             return false;
         }
-        if (this.survey.density == '') {
+        if (this.survey.density == null || this.survey.density == '') {
             this.toastError('密度不能为空');
             return false;
         }
-        if (this.survey.height == '') {
+        if (this.survey.height == null || this.survey.height == '') {
             this.toastError('油高不能为空');
             return false;
         }
@@ -66,7 +96,7 @@ export default class OilStoreComponent extends ComponentBase {
 
     postSurveyclick() {
         if (!this.validate()) return;
-        axios.post('/api/Survey', this.currentproduct).then((res) => {
+        axios.post('/api/Survey', this.survey).then((res) => {
             let jobj = res.data as server.resultJSON<server.survey>;
             if (jobj.code == 0) {
                 this.toastSuccess(jobj.msg);

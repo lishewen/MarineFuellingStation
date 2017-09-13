@@ -24,8 +24,9 @@ namespace MFS.Controllers
             return new ResultJSON<Survey>
             {
                 Code = 0,
-                Data = r.Insert(model)
+                Data = r.InsertAndUpdatestore(model)
             };
+
         }
         [HttpGet]
         public ResultJSON<List<Survey>> Get()
@@ -43,6 +44,15 @@ namespace MFS.Controllers
             {
                 Code = 0,
                 Data = r.GetAllList(s => s.Name.Contains(sv))
+            };
+        }
+        [HttpGet("[action]/{stid}")]
+        public ResultJSON<List<Survey>> GetTop10(int stid)
+        {
+            return new ResultJSON<List<Survey>>
+            {
+                Code = 0,
+                Data = r.Top10(stid)
             };
         }
     }

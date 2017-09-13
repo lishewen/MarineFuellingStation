@@ -12,7 +12,9 @@ declare module server {
 		/** 当前价值 */
 		cost: number;
 		isUse: boolean;
-		storeTypeId: number;
+        storeTypeId: number;
+        /** 最后测量时间 */
+        LastSurveyAt: string;
 	}
 	const enum storeClass {
 		销售仓,

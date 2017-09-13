@@ -36,6 +36,9 @@
     <TypeScriptCompile Include="ClientApp\components\produce\buyboard.ts" />
   </ItemGroup>
   <ItemGroup>
+    <None Update="Migrations\20170913124707_Store_LastSurveyAt.cs.d.ts">
+      <DependentUpon>20170913124707_Store_LastSurveyAt.cs</DependentUpon>
+    </None>
     <None Update="Models\BoatClean.cs.d.ts">
       <DependentUpon>BoatClean.cs</DependentUpon>
     </None>
@@ -56,6 +59,9 @@
     </None>
     <None Update="Models\Survey.cs.d.ts">
       <DependentUpon>Survey.cs</DependentUpon>
+    </None>
+    <None Update="Repositorys\SurveyRepository.cs.d.ts">
+      <DependentUpon>SurveyRepository.cs</DependentUpon>
     </None>
   </ItemGroup>
   <Target Name="RunWebpack" AfterTargets="ComputeFilesToPublish">

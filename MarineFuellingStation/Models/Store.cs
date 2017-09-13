@@ -27,6 +27,10 @@ namespace MFS.Models
         /// </summary>
         public decimal Value { get; set; }
         /// <summary>
+        /// 最近测量时间
+        /// </summary>
+        public DateTime LastSurveyAt { get; set; }
+        /// <summary>
         /// 当前价值
         /// </summary>
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]

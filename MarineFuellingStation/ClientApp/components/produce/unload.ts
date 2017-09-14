@@ -1,14 +1,25 @@
-﻿import Vue from 'vue';
+﻿import ComponentBase from "../../componentbase";
 import { Component } from 'vue-property-decorator';
+import axios from "axios";
 
 @Component
-export default class MyOrderComponent extends Vue {
+export default class MyOrderComponent extends ComponentBase {
     radio2: string = "1";
     carNo: string = "";
     show1: boolean = false;
     show2: boolean = false;
     show3: boolean = false;
     picked: string = "Lucy";
+
+    purchases: server.purchase[];
+
+    constructor() {
+        super();
+
+        this.purchases = new Array<server.purchase>();
+        this.getPurchases();
+    }
+
     showclick(): void {
         this.show1 = true;
     };
@@ -50,5 +61,13 @@ export default class MyOrderComponent extends Vue {
     change(label: string, tabkey: string) {
         console.log(label);
         this.$emit('setTitle', this.$store.state.username + ' ' + label);
+    }
+
+    getPurchases() {
+        axios.get('/api/Purchase').then((res) => {
+            let jobj = res.data as server.resultJSON<server.purchase[]>;
+            if (jobj.code == 0)
+                this.purchases = jobj.data;
+        });
     }
 }

@@ -39,6 +39,9 @@
     <None Update="Migrations\20170913124707_Store_LastSurveyAt.cs.d.ts">
       <DependentUpon>20170913124707_Store_LastSurveyAt.cs</DependentUpon>
     </None>
+    <None Update="Models\Assay.cs.d.ts">
+      <DependentUpon>Assay.cs</DependentUpon>
+    </None>
     <None Update="Models\BoatClean.cs.d.ts">
       <DependentUpon>BoatClean.cs</DependentUpon>
     </None>

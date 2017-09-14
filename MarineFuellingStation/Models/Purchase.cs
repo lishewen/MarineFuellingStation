@@ -36,6 +36,53 @@ namespace MFS.Models
         public string Driver2 { get; set; }
         public string IdCard2 { get; set; }
         public string Phone2 { get; set; }
+
+        //陆上卸油用到的字段
+
+        /// <summary>
+        /// 油车磅秤数
+        /// </summary>
+        public float ScaleWithCar { get; set; } = 0;
+
+        /// <summary>
+        /// 油车磅秤图片地址
+        /// </summary>
+        public string ScaleWithCarPic { get; set; }
+
+        /// <summary>
+        /// 空车磅秤数
+        /// </summary>
+        public float Scale { get; set; } = 0;
+
+        /// <summary>
+        /// 油车磅秤图片地址
+        /// </summary>
+        public string ScalePic { get; set; }
+
+        /// <summary>
+        /// 化验单
+        /// </summary>
+        [ForeignKey("AssayId")]
+        public virtual Assay Assay { get; set; }
+
+        /// <summary>
+        /// 状态
+        /// </summary>
+        public UnloadState State { get; set; } = UnloadState.已开单;
+
+        public enum UnloadState
+        {
+            已开单,
+            已到达,
+            已油车过磅,
+            已化验,
+            卸油中,
+            卸油结束,
+            已空车过磅,
+            完工
+        }
+
+
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public decimal TotalMoney
         {

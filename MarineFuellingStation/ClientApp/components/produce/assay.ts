@@ -102,10 +102,6 @@ export default class AssayComponent extends ComponentBase {
     }
 
     initlist(ls: server.assay[]) {
-        ls.forEach((as, index) => {
-            if (as.store == null) as.store = new Object() as server.store;
-            if (as.purchase == null) as.purchase = new Object() as server.purchase;
-        });
         this.list = ls;
     }
 
@@ -113,8 +109,7 @@ export default class AssayComponent extends ComponentBase {
         axios.get('/api/Assay/GetWithStANDPur').then((res) => {
             let jobj = res.data as server.resultJSON<server.assay[]>;
             if (jobj.code == 0) {
-                console.log(this.list);
-                this.initlist(jobj.data);
+                this.list = jobj.data;
             }
         });
     }
@@ -123,7 +118,7 @@ export default class AssayComponent extends ComponentBase {
         axios.get('/api/Assay/' + sv).then((res) => {
             let jobj = res.data as server.resultJSON<server.assay[]>;
             if (jobj.code == 0)
-                this.initlist(jobj.data);
+                this.list = jobj.data;
         });
     }
 

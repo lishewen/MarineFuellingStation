@@ -4,34 +4,13 @@
 
             <yd-tab-panel label="1-油车过磅">
                 <yd-cell-group>
-                    <yd-cell-item arrow @click.native="show1 = true">
+                    <yd-cell-item arrow @click.native="show1 = true" v-for="p in purchases" :key="p.id">
                         <div slot="left">
-                            <p>CG07070001</p>
-                            <p style="color:lightgray;font-size:12px">桂DCT200 司机张三</p>
+                            <p>{{p.name}}</p>
+                            <p style="color:lightgray;font-size:12px">{{p.carNo}} - {{p.trailerNo}} {{p.driver1}} {{p.driver2}}</p>
                         </div>
                         <div slot="right" style="text-align: left;margin-right: 5px">
-                            <p style="color:gray">1#地仓 / 35吨 / 柴油</p>
-                            <p style="color:blue;text-align:right">已开单</p>
-                        </div>
-                    </yd-cell-item>
-                    <yd-cell-item arrow @click.native="show1 = true">
-                        <div slot="left">
-                            <p>CG07070001</p>
-                            <p style="color:lightgray;font-size:12px">桂DCT200 司机张三</p>
-                        </div>
-                        <div slot="right" style="text-align: left;margin-right: 5px">
-                            <p style="color:gray">1#地仓 / 35吨 / 柴油</p>
-                            <p style="color:blue;text-align:right">已开单</p>
-                        </div>
-                    </yd-cell-item>
-                    <yd-cell-item arrow @click.native="show1 = true">
-                        <div slot="left">
-                            <p>CG07070001</p>
-                            <p style="color:lightgray;font-size:12px">桂DCT200 司机张三</p>
-                        </div>
-                        <div slot="right" style="text-align: left;margin-right: 5px">
-                            <p style="color:gray">1#地仓 / 35吨 / 柴油</p>
-                            <p style="color:blue;text-align:right">已开单</p>
+                            <p style="color:gray">{{p.count}}吨 / {{p.product.name}}</p>
                         </div>
                     </yd-cell-item>
                 </yd-cell-group>
@@ -183,11 +162,11 @@
                     </yd-cell-item>
                 </yd-cell-group>
             </yd-tab-panel>
-            <yd-popup v-model="show1" position="right">
+            <yd-popup v-model="show1" position="right" width="70%">
                 <yd-cell-group title="请输入">
                     <yd-cell-item>
                         <span slot="left">磅秤数：</span>
-                        <yd-input slot="right" v-model="carNo" regex="" placeholder="请输入磅秤数"></yd-input>
+                        <yd-input slot="right" v-model="carNo" required placeholder="请输入磅秤数"></yd-input>
                         <span slot="right">吨</span>
                     </yd-cell-item>
                     <yd-cell-item>
@@ -240,7 +219,7 @@
                     </yd-cell-item>
                 </yd-cell-group>
                 <div style="text-align: center">
-                    <yd-button style="width:100px" type="primary" @click.native="saveclick3()">保存</yd-button>
+                    <yd-button style="width:80%" type="primary" @click.native="saveclick3()">保存</yd-button>
                 </div>
             </yd-popup>
         </yd-tab>

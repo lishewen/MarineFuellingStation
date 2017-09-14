@@ -83,7 +83,7 @@ namespace MFS.Controllers
                 return new ResultJSON<string>
                 {
                     Code = 0,
-                    Data = $"https://{Request.Host.Value.ToLower()}/upload/{fileName}"
+                    Data = $"/upload/{fileName}"
                 };
             }
             else

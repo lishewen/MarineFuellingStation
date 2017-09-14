@@ -5,7 +5,6 @@ declare module server {
 		油车过磅,
 		化验,
 		卸油中,
-		卸油结束,
 		空车过磅,
 		完工,
 	}

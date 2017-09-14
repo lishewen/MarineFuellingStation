@@ -7,7 +7,7 @@ export default class MyOrderComponent extends ComponentBase {
     radio2: string = "1";
     carNo: string = "";
     showPurchases: boolean = false;
-    picked: string = "Lucy";
+    currStep: number = -1;
 
     purchases: server.purchase[];
     purchase: server.purchase;
@@ -16,26 +16,39 @@ export default class MyOrderComponent extends ComponentBase {
         super();
 
         this.purchases = new Array<server.purchase>();
-        this.purchase = new Object as server.puchase;
+        this.purchase = new Object as server.purchase;
         this.getPurchases();
     }
 
     purchaseclick(pu: server.purchase) {
+        console.log(pu);
         this.purchase = pu;
         this.showPurchases = false;
-        this.purchase.state = 0
+        this.currStep = this.purchase.state;
     }
 
-    changeState(state: server.unloadState) {
-        if (state == server.unloadState.油车过磅) {
+    changeState(nextState: server.unloadState) {
+        if (this.currStep == server.unloadState.油车过磅) {
             if (this.purchase.scaleWithCar == 0 || !this.purchase.scaleWithCar) {
-                this.toastError("磅秤数据不能为空")
+                this.toastError("磅秤数据不能为空或0")
+                return;
+            }
+            if (!this.purchase.scaleWithCarPic) {
+                this.toastError("请上传油车过磅数据图片");
                 return;
             }
         }
-        console.log(this.purchase);
-        console.log(state);
-        this.putState(state);
+        if (this.currStep == server.unloadState.空车过磅) {
+            if (this.purchase.scale == 0 || !this.purchase.scale) {
+                this.toastError("磅秤数据不能为空或0")
+                return;
+            }
+            if (!this.purchase.scalePic) {
+                this.toastError("请上传空车过磅数据图片");
+                return;
+            }
+        }
+        this.putState(nextState);
     }
 
     mounted() {
@@ -58,7 +71,11 @@ export default class MyOrderComponent extends ComponentBase {
         axios.post('/api/Purchase/UploadFile', param, config).then((res) => {
             let jobj = res.data as server.resultJSON<string>;
             if (jobj.code == 0) {
-                alert('上传成功！' + jobj.data);
+                this.toastSuccess('上传成功！');
+                if (this.currStep == server.unloadState.空车过磅)
+                    this.purchase.scalePic = jobj.data;
+                if (this.currStep == server.unloadState.油车过磅)
+                    this.purchase.scaleWithCarPic = jobj.data;
             }
             else
                 this.toastError(jobj.msg);
@@ -78,12 +95,14 @@ export default class MyOrderComponent extends ComponentBase {
     }
 
     putState(state: server.unloadState) {
-        let model = this.purchase;
-        model.state = state;
-        axios.put('/api/Purchase/ChangeState', model).then((res) => {
+        this.purchase.state = state;
+        axios.put('/api/Purchase/ChangeState', this.purchase).then((res) => {
             let jobj = res.data as server.resultJSON<server.purchase>;
             if (jobj.code == 0) {
                 this.purchase = jobj.data;
+                this.currStep = this.purchase.state;
+                if (this.currStep == server.unloadState.完工)
+                    this.getPurchases();
             }
             else
                 this.toastError(jobj.msg);

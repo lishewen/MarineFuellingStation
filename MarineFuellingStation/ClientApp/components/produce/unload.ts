@@ -6,51 +6,37 @@ import axios from "axios";
 export default class MyOrderComponent extends ComponentBase {
     radio2: string = "1";
     carNo: string = "";
-    show1: boolean = false;
-    show2: boolean = false;
-    show3: boolean = false;
+    showPurchases: boolean = false;
     picked: string = "Lucy";
 
     purchases: server.purchase[];
+    purchase: server.purchase;
 
     constructor() {
         super();
 
         this.purchases = new Array<server.purchase>();
+        this.purchase = new Object as server.puchase;
         this.getPurchases();
     }
 
-    showclick(): void {
-        this.show1 = true;
-    };
+    purchaseclick(pu: server.purchase){
+        this.purchase = pu;
+        this.showPurchases = false;
+        this.purchase.state = 0
+    }
 
-    saveclick1(): void {
-        this.show1 = false;
-    };
-    saveclick2(): void {
-        this.show2 = false;
-    };
-    saveclick3(): void {
-        this.show3 = false;
-    };
-    beginConfrim(): void {
-        (<any>this).$dialog.confirm({
-            title: '确认操作',
-            mes: '开始卸油？',
-            opts: () => {
-                (<any>this).$dialog.toast({ mes: '确认', timeout: 1000 });
+    changeState(state: server.unloadState) {
+        if (state == server.unloadState.油车过磅) {
+            if (this.purchase.scaleWithCar == 0 || !this.purchase.scaleWithCar) {
+                this.toastError("磅秤数据不能为空")
+                return;
             }
-        })
-    };
-    endConfrim(): void {
-        (<any>this).$dialog.confirm({
-            title: '确认操作',
-            mes: '卸油结束？',
-            opts: () => {
-                (<any>this).$dialog.toast({ mes: '确认', timeout: 1000 });
-            }
-        })
-    };
+        }
+        console.log(this.purchase);
+        console.log(state);
+        this.putState(state);
+    }
    
     mounted() {
         this.$emit('setTitle', this.$store.state.username + ' 陆上卸油');
@@ -68,6 +54,19 @@ export default class MyOrderComponent extends ComponentBase {
             let jobj = res.data as server.resultJSON<server.purchase[]>;
             if (jobj.code == 0)
                 this.purchases = jobj.data;
+        });
+    }
+
+    putState(state: server.unloadState) {
+        let model = this.purchase;
+        model.state = state;
+        axios.put('/api/Purchase/ChangeState', model).then((res) => {
+            let jobj = res.data as server.resultJSON<server.purchase>;
+            if (jobj.code == 0) {
+                this.purchase = jobj.data;
+            }
+            else
+                this.toastError(jobj.msg);
         });
     }
 }

@@ -53,6 +53,16 @@ namespace MFS.Controllers
                 Data = r.GetSerialNumber(r.GetLastPurchaseNo())
             };
         }
+        [HttpPut("[action]")]
+        public ResultJSON<Purchase> ChangeState([FromBody]Purchase p)
+        {
+            r.CurrentUser = UserName;
+            return new ResultJSON<Purchase>
+            {
+                Code = 0,
+                Data = r.InsertOrUpdate(p)
+            };
+        }
         [HttpPost]
         public ResultJSON<Purchase> Post([FromBody]Purchase p)
         {

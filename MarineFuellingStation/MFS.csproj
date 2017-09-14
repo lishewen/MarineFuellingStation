@@ -60,6 +60,9 @@
     <None Update="Models\Product.cs.d.ts">
       <DependentUpon>Product.cs</DependentUpon>
     </None>
+    <None Update="Models\Purchase.cs.d.ts">
+      <DependentUpon>Purchase.cs</DependentUpon>
+    </None>
     <None Update="Models\Survey.cs.d.ts">
       <DependentUpon>Survey.cs</DependentUpon>
     </None>

@@ -89,10 +89,11 @@ namespace MFS.Repositorys
         /// <param name="startPage">起始页</param>
         /// <param name="pageSize">页面条目</param>
         /// <param name="rowCount">数据总数</param>
+        /// <param name="desc">升序/降序</param>
         /// <param name="where">查询条件</param>
         /// <param name="order">排序</param>
         /// <returns></returns>
-        IQueryable<TEntity> LoadPageList(int startPage, int pageSize, out int rowCount, Expression<Func<TEntity, bool>> where, Expression<Func<TEntity, object>> order);
+        IQueryable<TEntity> LoadPageList(int startPage, int pageSize, out int rowCount, bool desc, Expression<Func<TEntity, bool>> where, Expression<Func<TEntity, object>> order);
 
         void Save();
 

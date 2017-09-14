@@ -60,7 +60,7 @@ namespace MFS.Controllers
             return new ResultJSON<Purchase>
             {
                 Code = 0,
-                Data = r.InsertOrUpdate(p)
+                Data = r.Update(p)
             };
         }
         [HttpPost]

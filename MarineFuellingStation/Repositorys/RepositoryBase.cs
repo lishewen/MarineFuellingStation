@@ -108,7 +108,7 @@ namespace MFS.Repositorys
         {
             foreach (var mItem in typeof(T).GetProperties())
             {
-                if (mItem.CanWrite)
+                if (mItem.CanWrite && !mItem.PropertyType.IsSubclassOf(typeof(EntityBase)))
                     mItem.SetValue(pTargetObjDest, mItem.GetValue(pTargetObjSrc, new object[] { }), null);
             }
         }

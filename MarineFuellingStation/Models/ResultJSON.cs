@@ -18,6 +18,9 @@ namespace MFS.Models
             {
                 switch (value)
                 {
+                    case 1:
+                        Msg = "文件没有内容";
+                        break;
                     case 0:
                         Msg = "请求成功";
                         break;

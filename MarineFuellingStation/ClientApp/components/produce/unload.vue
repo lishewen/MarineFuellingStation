@@ -39,7 +39,7 @@
             </yd-cell-item>
             <yd-cell-item>
                 <span slot="left">图片上传：</span>
-                <input slot="left" type="file" value="选择图片" />
+                <input slot="left" type="file" value="选择图片" accept="image/png,image/gif,image/jpeg" @change="uploadfile" />
             </yd-cell-item>
             <div class="center">
                 <yd-button style="width:90%" type="primary" @click.native="changeState(3)">前往化验</yd-button>

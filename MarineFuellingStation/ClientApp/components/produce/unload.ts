@@ -20,7 +20,7 @@ export default class MyOrderComponent extends ComponentBase {
         this.getPurchases();
     }
 
-    purchaseclick(pu: server.purchase){
+    purchaseclick(pu: server.purchase) {
         this.purchase = pu;
         this.showPurchases = false;
         this.purchase.state = 0
@@ -37,13 +37,33 @@ export default class MyOrderComponent extends ComponentBase {
         console.log(state);
         this.putState(state);
     }
-   
+
     mounted() {
         this.$emit('setTitle', this.$store.state.username + ' 陆上卸油');
         this.$watch('show1', (v, ov) => {
         });
     };
+    uploadfile(e) {
+        let file = e.target.files[0];
+        let param = new FormData(); //创建form对象
+        param.append('file', file, file.name);//通过append向form对象添加数据
 
+        let config = {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'x-username': encodeURIComponent(this.$store.state.username),
+                'x-userid': encodeURIComponent(this.$store.state.userid)
+            }
+        };  //添加请求头
+        axios.post('/api/Purchase/UploadFile', param, config).then((res) => {
+            let jobj = res.data as server.resultJSON<string>;
+            if (jobj.code == 0) {
+                alert('上传成功！' + jobj.data);
+            }
+            else
+                this.toastError(jobj.msg);
+        });
+    }
     change(label: string, tabkey: string) {
         console.log(label);
         this.$emit('setTitle', this.$store.state.username + ' ' + label);

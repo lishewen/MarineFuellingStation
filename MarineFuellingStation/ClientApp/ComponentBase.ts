@@ -6,14 +6,14 @@ export default class ComponentBase extends Vue {
         return moment(d).format('YYYY-MM-DD');
     }
     toastError(msg: string) {
-        (<any>this).$dialog.toast({
+        this.$dialog.toast({
             mes: msg,
             timeout: 1500,
             icon: 'error'
         });
     }
     toastSuccess(msg: string) {
-        (<any>this).$dialog.toast({
+        this.$dialog.toast({
             mes: msg,
             timeout: 1500,
             icon: 'success'

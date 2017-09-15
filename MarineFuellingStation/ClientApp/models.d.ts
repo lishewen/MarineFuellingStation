@@ -75,5 +75,4 @@ declare namespace work {
         errmsg: string;
         p2PData?: any;
     }
-
 }

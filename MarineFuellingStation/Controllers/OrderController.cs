@@ -4,7 +4,6 @@ using MFS.Models;
 using MFS.Repositorys;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.AspNetCore.SignalR.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,16 +15,16 @@ namespace MFS.Controllers
     public class OrderController : ControllerBase
     {
         private readonly OrderRepository r;
-        private readonly IHubContext _hub;
-        public OrderController(OrderRepository repository, IConnectionManager signalRConnectionManager)
+        private readonly IHubContext<PrintHub> _hub;
+        public OrderController(OrderRepository repository, IHubContext<PrintHub> hub)
         {
             r = repository;
-            _hub = signalRConnectionManager.GetHubContext<PrintHub>();
+            _hub = hub;
         }
         [HttpGet("[action]")]
-        public ResultJSON<string> OrderNo()
+        public async Task<ResultJSON<string>> OrderNo()
         {
-            _hub.Clients.All.login(UserName);
+            await _hub.Clients.All.InvokeAsync("login", UserName);
 
             return new ResultJSON<string>
             {
@@ -34,13 +33,13 @@ namespace MFS.Controllers
             };
         }
         [HttpPost]
-        public ResultJSON<Order> Post([FromBody]Order o)
+        public async Task<ResultJSON<Order>> Post([FromBody]Order o)
         {
             r.CurrentUser = UserName;
             var result = r.Insert(o);
 
             //推送打印指令
-            _hub.Clients.All.printorder(result);
+            await _hub.Clients.All.InvokeAsync("printorder", result);
 
             return new ResultJSON<Order>
             {

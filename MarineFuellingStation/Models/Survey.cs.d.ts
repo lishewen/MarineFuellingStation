@@ -1,13 +1,13 @@
 declare module server {
 	/** 测量记录 */
 	interface survey extends entityBase {
-        storeId: number;
-        store: store;
+		storeId: number;
+		store: store;
 		/** 油温 */
-		temperature: number;
+		temperature: number | string;
 		/** 密度 */
-		density: number;
+		density: number | string;
 		/** 油高 */
-		height: number;
+		height: number | string;
 	}
 }

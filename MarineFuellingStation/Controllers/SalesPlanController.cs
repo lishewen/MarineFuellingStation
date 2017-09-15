@@ -4,7 +4,6 @@ using MFS.Models;
 using MFS.Repositorys;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.AspNetCore.SignalR.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,11 +15,11 @@ namespace MFS.Controllers
     public class SalesPlanController : ControllerBase
     {
         private readonly SalesPlanRepository r;
-        private readonly IHubContext _hub;
-        public SalesPlanController(SalesPlanRepository repository, IConnectionManager signalRConnectionManager)
+        private readonly IHubContext<PrintHub> _hub;
+        public SalesPlanController(SalesPlanRepository repository, IHubContext<PrintHub> hub)
         {
             r = repository;
-            _hub = signalRConnectionManager.GetHubContext<PrintHub>();
+            _hub = hub;
         }
 
         [HttpGet("[action]")]
@@ -33,13 +32,13 @@ namespace MFS.Controllers
             };
         }
         [HttpPost]
-        public ResultJSON<SalesPlan> Post([FromBody]SalesPlan s)
+        public async Task<ResultJSON<SalesPlan>> Post([FromBody]SalesPlan s)
         {
             r.CurrentUser = UserName;
             var result = r.Insert(s);
 
             //推送打印指令
-            _hub.Clients.All.printsalesplan(result);
+            await _hub.Clients.All.InvokeAsync("printsalesplan", result);
 
             return new ResultJSON<SalesPlan>
             {

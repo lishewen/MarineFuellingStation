@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using MFS.Models;
 using MFS.Repositorys;
+using MFS.Hubs;
 
 namespace MFS
 {
@@ -80,7 +81,9 @@ namespace MFS
             app.UseSession();
             app.UseStaticFiles();
             app.UseWebSockets();
-            app.UseSignalR();
+            app.UseSignalR(routes=> {
+                routes.MapHub<PrintHub>("hubs/print");
+            });
 
             app.UseMvc(routes =>
             {

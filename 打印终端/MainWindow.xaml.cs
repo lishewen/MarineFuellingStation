@@ -1,5 +1,6 @@
 ﻿using MFS.Models;
-using Microsoft.AspNet.SignalR.Client;
+using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -25,7 +26,6 @@ namespace 打印终端
     /// </summary>
     public partial class MainWindow : Window
     {
-        public IHubProxy HubProxy { get; set; }
         public HubConnection Connection { get; set; }
         string baseAddress = Properties.Settings.Default.baseAddress;
         private static Word._Document wDoc = null; //word文档
@@ -61,27 +61,19 @@ namespace 打印终端
 
         private async void ConnectAsync()
         {
-            Connection = new HubConnection(baseAddress);
+            textBox.AppendText($"Connecting to {baseAddress}\r");
+            Connection = await ConnectAsync(baseAddress);
+            textBox.AppendText($"Connected to server at {baseAddress}\r");
             Connection.Closed += Connection_Closed;
-            HubProxy = Connection.CreateHubProxy("print");
-            HubProxy.On<SalesPlan>("printsalesplan", (salesplan) =>
+            Connection.On<SalesPlan>("printsalesplan", (salesplan) =>
             {
                 PrintSalesPlan(salesplan);
             });
-            HubProxy.On<Order>("printorder", (order) =>
+            Connection.On<Order>("printorder", (order) =>
             {
                 PrintOrder(order);
             });
-            HubProxy.On<string>("login", (username) => Dispatcher.Invoke(() => textBox.AppendText(username + " 已登录，正在执行操作\r")));
-            try
-            {
-                await Connection.Start();
-            }
-            catch (HttpClientException)
-            {
-                MessageBox.Show("网络不通");
-            }
-            textBox.AppendText($"Connected to server at {baseAddress}\r");
+            Connection.On<string>("login", (username) => Dispatcher.Invoke(() => textBox.AppendText(username + " 已登录，正在执行操作\r")));
         }
 
         private void PrintOrder(Order order)
@@ -142,13 +134,14 @@ namespace 打印终端
             this.Dispatcher.Invoke(() => textBox.AppendText($"正在打印SalesPlan：{salesplan.Name}\r"));
         }
 
-        private void Connection_Closed()
+        private Task Connection_Closed(Exception e)
         {
             //Hide chat UI; show login UI
             var dispatcher = Application.Current.Dispatcher;
             dispatcher.Invoke(() => textBox.AppendText("连接已经断开\r"));
             //断线重连
             ConnectAsync();
+            return Task.CompletedTask;
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)
@@ -170,5 +163,25 @@ namespace 打印终端
             this.Show();
         }
 
+        private async Task<HubConnection> ConnectAsync(string baseUrl)
+        {
+            // Keep trying to until we can start
+            while (true)
+            {
+                var connection = new HubConnectionBuilder()
+                                .WithUrl(baseUrl)
+                                .WithConsoleLogger(LogLevel.Trace)
+                                .Build();
+                try
+                {
+                    await connection.StartAsync();
+                    return connection;
+                }
+                catch (Exception)
+                {
+                    await Task.Delay(1000);
+                }
+            }
+        }
     }
 }

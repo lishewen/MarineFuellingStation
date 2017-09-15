@@ -9,7 +9,7 @@
     <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.Server" Version="0.2.2" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.0.0-alpha1-final" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.WebSockets" Version="2.0.0" />
@@ -37,9 +37,6 @@
     <TypeScriptCompile Include="ClientApp\components\produce\buyboard.ts" />
   </ItemGroup>
   <ItemGroup>
-    <None Update="Migrations\20170913124707_Store_LastSurveyAt.cs.d.ts">
-      <DependentUpon>20170913124707_Store_LastSurveyAt.cs</DependentUpon>
-    </None>
     <None Update="Models\Assay.cs.d.ts">
       <DependentUpon>Assay.cs</DependentUpon>
     </None>

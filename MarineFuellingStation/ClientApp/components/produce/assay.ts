@@ -123,8 +123,8 @@ export default class AssayComponent extends ComponentBase {
     }
 
     postAssay(model: server.assay) {
-        model.storeId = this.selectedStore;
-        model.purchaseId = this.selectedPurchase;
+        model.storeId = this.selectedStore as number;
+        model.purchaseId = this.selectedPurchase as number;
         axios.post('/api/Assay', model).then((res) => {
             let jobj = res.data as server.resultJSON<server.assay>;
             if (jobj.code == 0) {

@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="baseAddress" Type="System.String" Scope="User">
-      <Value Profile="(Default)">http://vue.car0774.com/signalr</Value>
+      <Value Profile="(Default)">http://vue.car0774.com/hubs/print</Value>
     </Setting>
     <Setting Name="PrintOrderDocx" Type="System.String" Scope="User">
       <Value Profile="(Default)">dbd.docx</Value>

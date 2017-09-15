@@ -1,4 +1,4 @@
-﻿import Vue from 'vue';
+﻿import ComponentBase from "../../componentbase";
 import { Component } from 'vue-property-decorator';
 import axios from "axios";
 import moment from "moment";
@@ -8,7 +8,7 @@ import moment from "moment";
         WeuiSearch: require('../weui-search/search.vue')
     }
 })
-export default class PlanComponent extends Vue {
+export default class PlanComponent extends ComponentBase {
     radio2: string = '1';
     username: string;
     model: server.salesPlan;
@@ -21,7 +21,7 @@ export default class PlanComponent extends Vue {
     constructor() {
         super();
 
-        (<any>this).$dialog.loading.open('很快加载好了');
+        this.$dialog.loading.open('很快加载好了');
 
         this.salesplans = (new Array()) as server.salesPlan[];
         this.oiloptions = (new Array()) as ydui.actionSheetItem[];
@@ -47,7 +47,7 @@ export default class PlanComponent extends Vue {
         this.getSalesPlanNo();
         this.getOilProducts();
 
-        (<any>this).$dialog.loading.close();
+        this.$dialog.loading.close();
     }
 
     mounted() {
@@ -124,14 +124,6 @@ export default class PlanComponent extends Vue {
         }
     }
 
-    toastError(msg: string) {
-        (<any>this).$dialog.toast({
-            mes: msg,
-            timeout: 1500,
-            icon: 'error'
-        });
-    }
-
     classState(s: server.salesPlanState): any {
         switch (s) {
             case server.salesPlanState.未审批:
@@ -193,11 +185,7 @@ export default class PlanComponent extends Vue {
             let jobj = res.data as server.resultJSON<server.salesPlan>;
             if (jobj.code == 0) {
                 this.getSalesPlanNo();
-                (<any>this).$dialog.toast({
-                    mes: jobj.msg,
-                    timeout: 1500,
-                    icon: 'success'
-                });
+                this.toastSuccess(jobj.msg);
             }
         });
     }

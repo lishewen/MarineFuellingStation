@@ -74,9 +74,6 @@
     <None Update="Models\Survey.cs.d.ts">
       <DependentUpon>Survey.cs</DependentUpon>
     </None>
-    <None Update="Repositorys\RepositoryBase.cs.d.ts">
-      <DependentUpon>RepositoryBase.cs</DependentUpon>
-    </None>
   </ItemGroup>
   <Target Name="RunWebpack" AfterTargets="ComputeFilesToPublish">
     <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->

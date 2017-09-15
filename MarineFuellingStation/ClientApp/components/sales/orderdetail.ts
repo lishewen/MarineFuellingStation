@@ -1,9 +1,9 @@
-import Vue from 'vue';
+import ComponentBase from "../../componentbase";
 import { Component } from 'vue-property-decorator';
 import axios from "axios";
 
 @Component
-export default class OrderDetailComponent extends Vue {
+export default class OrderDetailComponent extends ComponentBase {
     model: server.order;
 
     constructor() {

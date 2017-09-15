@@ -1,4 +1,4 @@
-﻿import Vue from 'vue';
+﻿import ComponentBase from "../../componentbase";
 import { Component } from 'vue-property-decorator';
 import axios from "axios";
 import moment from "moment";
@@ -8,7 +8,7 @@ import moment from "moment";
         WeuiSearch: require('../weui-search/search.vue')
     }
 })
-export default class OrderComponent extends Vue {
+export default class OrderComponent extends ComponentBase {
     salesplans: server.salesPlan[];
     salesplanshow: boolean = false;
     model: server.order;
@@ -131,14 +131,6 @@ export default class OrderComponent extends Vue {
         this.postOrder(this.model);
     }
 
-    toastError(msg: string) {
-        (<any>this).$dialog.toast({
-            mes: msg,
-            timeout: 1500,
-            icon: 'error'
-        });
-    }
-
     godetail(id: number) {
         this.$router.push('/sales/order/' + id);
     }
@@ -229,11 +221,7 @@ export default class OrderComponent extends Vue {
             let jobj = res.data as server.resultJSON<server.order>;
             if (jobj.code == 0) {
                 this.getOrderNo();
-                (<any>this).$dialog.toast({
-                    mes: jobj.msg,
-                    timeout: 1500,
-                    icon: 'success'
-                });
+                this.toastSuccess(jobj.msg);
             }
         });
     }

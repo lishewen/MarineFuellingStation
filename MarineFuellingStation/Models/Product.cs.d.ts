@@ -8,6 +8,6 @@ declare module server {
 		productTypeId: number;
 	}
 	interface productType extends entityBase {
-        products: product[];
+		products: product[];
 	}
 }

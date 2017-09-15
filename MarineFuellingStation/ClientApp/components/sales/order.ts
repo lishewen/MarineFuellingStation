@@ -71,8 +71,6 @@ export default class OrderComponent extends Vue {
                 return { color_green: true }
             case server.orderState.已开单:
                 return { color_darkorange: true }
-            case server.orderState.装油结束:
-                return { color_blue: true }
         }
     }
 
@@ -84,8 +82,6 @@ export default class OrderComponent extends Vue {
                 return '装油中';
             case server.orderState.已开单:
                 return '已开单';
-            case server.orderState.装油结束:
-                return '装油结束';
         }
     }
 

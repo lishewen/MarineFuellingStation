@@ -45,7 +45,7 @@
 
                     <yd-cell-item>
                         <span slot="left">联系电话：</span>
-                        <yd-input slot="right" v-model="model.mobile" regex="" placeholder="请输入联系电话" required></yd-input>
+                        <yd-input slot="right" v-model="model.mobile" type="number" placeholder="请输入联系电话" required></yd-input>
                     </yd-cell-item>
 
                 </yd-cell-group>
@@ -95,10 +95,10 @@
                     <yd-cell-item arrow v-for="c in clients" :key="c.id">
                         <div slot="left">
                             <p>{{c.carNo}} - {{c.contact}}</p>
-                            <p style="color:lightgray;font-size:12px">{{c.company.name}}</p>
+                            <p v-if="c.company != null" style="color:lightgray;font-size:12px">{{c.company.name}}</p>
                         </div>
                         <div slot="right" style="text-align: left;margin-right: 5px">
-                            <p style="color:gray">余额：￥{{c.company.balances}}</p>
+                            <p v-if="c.company != null" style="color:gray">余额：￥{{c.company.balances}}</p>
                             <p style="color:lightcoral;line-height: 25px">最近：{{formatDate(c.lastUpdatedAt)}}</p>
                         </div>
                     </yd-cell-item>

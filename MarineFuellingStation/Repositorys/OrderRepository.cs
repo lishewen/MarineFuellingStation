@@ -53,9 +53,9 @@ namespace MFS.Repositorys
             p.LastPrice = entity.Price;
             return base.Insert(entity, autoSave);
         }
-        public List<Order> GetIncludeProduct(int startPage, int pageSize)
+        public List<Order> GetIncludeProduct(SalesPlanType orderType,int startPage, int pageSize)
         {
-            return LoadPageList(startPage, pageSize, out int count, true).Include(o => o.Product).ToList();
+            return LoadPageList(startPage, pageSize, out int count, true, (o => o.OrderType == orderType)).Include(o => o.Product).ToList();
         }
     }
 }

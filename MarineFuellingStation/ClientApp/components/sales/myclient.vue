@@ -49,7 +49,7 @@
                 </yd-flexbox>
             </yd-cell-group>
             <div style="text-align: center">
-                <yd-button style="width:100px" type="primary" @click.native="filterclick()">提交</yd-button>
+                <yd-button style="width:90%" type="primary" @click.native="filterclick()">提交</yd-button>
             </div>
         </yd-popup>
     </div>

@@ -92,7 +92,8 @@ export default class LandloadComponent extends ComponentBase {
 
     getOrders() {
         if (this.page == null) this.page = 1;
-        axios.get('/api/Order/GetIncludeProduct?page=' + this.page.toString()).then((res) => {
+        axios.get('/api/Order/GetIncludeProduct/' + server.salesPlanType.陆上.toString() + '?page=' + this.page.toString())
+            .then((res) => {
             let jobj = res.data as server.resultJSON<server.order[]>;
             if (jobj.code == 0){
                 this.orders = jobj.data;

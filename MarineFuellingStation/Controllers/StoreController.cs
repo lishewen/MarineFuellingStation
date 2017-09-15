@@ -36,6 +36,20 @@ namespace MFS.Controllers
                 Data = s
             };
         }
+        /// <summary>
+        /// 根据油仓类型获取数据
+        /// </summary>
+        /// <param name="sc">销售仓/仓储仓</param>
+        /// <returns></returns>
+        [HttpGet("[action]")]
+        public ResultJSON<List<Store>> GetByClass(StoreClass sc)
+        {
+            return new ResultJSON<List<Store>>
+            {
+                Code = 0,
+                Data = r.GetAllList((s => s.StoreClass == sc))
+            };
+        }
         [HttpPost]
         public ResultJSON<Store> Post([FromBody]Store model)
         {

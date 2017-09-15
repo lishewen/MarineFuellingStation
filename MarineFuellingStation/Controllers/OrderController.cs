@@ -101,16 +101,18 @@ namespace MFS.Controllers
             };
         }
         /// <summary>
-        /// 获取分页数据，并且包含Product对象
+        /// 获取水上或陆上分页数据，并且包含Product对象
         /// </summary>
+        /// <param name="orderType">水上/陆上/机油</param>
+        /// <param name="page">第n页</param>
         /// <returns></returns>
-        [HttpGet("[action]")]
-        public ResultJSON<List<Order>> GetIncludeProduct(int page)
+        [HttpGet("[action]/{ordertype}")]
+        public ResultJSON<List<Order>> GetIncludeProduct(SalesPlanType orderType, int page)
         {
             return new ResultJSON<List<Order>>
             {
                 Code = 0,
-                Data = r.GetIncludeProduct(page, 30)//每页30条记录
+                Data = r.GetIncludeProduct(orderType, page, 30)//每页30条记录
             };
         }
         #endregion

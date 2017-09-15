@@ -127,13 +127,15 @@ namespace MFS.Models
         /// <summary>
         /// 销售仓Id 陆上加油
         /// </summary>
-        [JsonIgnore, ForeignKey("StoreId")]
+        public int? StoreId { get; set; }
+        [ForeignKey("StoreId")]
         public virtual Store Store { get; set; }
 
     }
     public enum OrderState
     {
         已开单,
+        选择销售仓,
         空车过磅,
         装油中,
         油车过磅,

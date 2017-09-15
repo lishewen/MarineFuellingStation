@@ -239,6 +239,7 @@ export default class ClientComponent extends ComponentBase {
             let jobj = res.data as server.resultJSON<server.client[]>;
             if (jobj.code == 0) {
                 this.clients = jobj.data;
+                console.log(this.clients)
             }   
             else
                 this.toastError('无法获取客户数据，请重试')

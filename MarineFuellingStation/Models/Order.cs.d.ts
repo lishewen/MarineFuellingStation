@@ -3,7 +3,7 @@ declare module server {
 	interface order extends entityBase {
         salesPlanId?: number;
         salesPlan: salesPlan;
-		orderType: any;
+        orderType: salesPlanType;
 		carNo: string;
         productId: number;
         product: product;
@@ -60,9 +60,12 @@ declare module server {
         emptyCarWeightPic: string;
         /** 销售仓 */
         store: store;
+        /** 销售仓Id */
+        storeId?: number;
 	}
 	const enum orderState {
-		已开单,
+        已开单,
+        选择销售仓,
 		空车过磅,
         装油中,
         油车过磅,

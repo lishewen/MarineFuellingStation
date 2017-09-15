@@ -35,11 +35,11 @@
             </yd-cell-item>
         </yd-cell-group>
         <div class="center" v-show="currStep == 1">
-            <yd-button style="width:90%" type="primary" @click.native="changeState(2)">前往加油</yd-button>
+            <yd-button style="width:90%" type="primary" @click.native="changeState(3)">前往加油</yd-button>
         </div>
         <!--2-加油-->
         <div class="center" v-show="currStep == 2">
-            <yd-button style="width:90%" type="primary" @click.native="changeState(3)">加油完毕，前往过磅</yd-button>
+            <yd-button style="width:90%" type="primary" @click.native="changeState(4)">加油完毕，前往过磅</yd-button>
         </div>
         <!--3-油车过磅-->
         <yd-cell-group title="油车过磅" v-show="currStep == 3">
@@ -54,7 +54,7 @@
             </yd-cell-item>
         </yd-cell-group>
         <div class="center" v-show="currStep == 3">
-            <yd-button style="width:90%" type="primary" @click.native="changeState(4)">完工确认</yd-button>
+            <yd-button style="width:90%" type="primary" @click.native="changeState(5)">完工确认</yd-button>
         </div>
         <!--popup订单选择-->
         <yd-popup v-model="showOrders" position="right" width="70%">

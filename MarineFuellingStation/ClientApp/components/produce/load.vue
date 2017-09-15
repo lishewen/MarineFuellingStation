@@ -1,98 +1,56 @@
 ﻿<template>
     <div id="root">
         <yd-tab :change="change">
+            <div style="text-align: center; margin-top: .4rem">
+                <yd-button style="width:90%" type="primary" @click.native="showOrders = true">销售单{{order.name? '：' + order.name : ''}}</yd-button>
+            </div>
+            <yd-step :current="currStep" style="margin: .4rem 0 .4rem">
+                <yd-step-item>
+                    <span slot="bottom">选择销售仓</span>
+                </yd-step-item>
+                <yd-step-item>
+                    <span slot="bottom">加油</span>
+                </yd-step-item>
+                <yd-step-item>
+                    <span slot="bottom">完工</span>
+                </yd-step-item>
+            </yd-step>
+            <div class="center" v-show="currStep == 1">
+                <yd-button style="width:90%" type="primary" @click.native="showStores = true">选择销售仓</yd-button>
+            </div>
+            <div class="center" v-show="currStep == 2">
+                <yd-button style="width:90%" type="primary" @click.native="changeState(5)">完工确认</yd-button>
+            </div>
 
-            <yd-tab-panel label="施工">
-                <yd-cell-group>
-                    <yd-cell-item arrow @click.native="show2 = true">
-                        <div slot="left">
-                            <p>XS07070001</p>
-                            <p style="color:lightgray;font-size:12px">桂平货0001</p>
-                        </div>
-                        <div slot="right" style="text-align: left;margin-right: 5px">
-                            <p style="color:gray">{{selectedstore}} 35吨 / 柴油</p>
-                            <p style="color:blue;text-align:right">已开单</p>
-                        </div>
-                    </yd-cell-item>
-                    <yd-cell-item arrow @click.native="show2 = true">
-                        <div slot="left">
-                            <p>XS07070001</p>
-                            <p style="color:lightgray;font-size:12px">桂平货0001</p>
-                        </div>
-                        <div slot="right" style="text-align: left;margin-right: 5px">
-                            <p style="color:gray">{{selectedstore}} 35吨 / 柴油</p>
-                            <p style="color:blue;text-align:right">已开单</p>
-                        </div>
-                    </yd-cell-item>
-                </yd-cell-group>
-            </yd-tab-panel>
-            <yd-tab-panel label="完工单">
-                <yd-cell-group>
-                    <yd-cell-item arrow>
-                        <div slot="left">
-                            <p>XS07070001</p>
-                            <p style="color:lightgray;font-size:12px">桂DCT200 司机张三</p>
-                        </div>
-                        <div slot="right" style="text-align: left;margin-right: 5px">
-                            <p style="color:gray">1#地仓 / 35吨 / 柴油</p>
-                            <p style="color:red;text-align:right">已完成</p>
-                        </div>
-                    </yd-cell-item>
-                    <yd-cell-item arrow>
-                        <div slot="left">
-                            <p>XS07070001</p>
-                            <p style="color:lightgray;font-size:12px">桂DCT200 司机张三</p>
-                        </div>
-                        <div slot="right" style="text-align: left;margin-right: 5px">
-                            <p style="color:gray">1#地仓 / 35吨 / 柴油</p>
-                            <p style="color:red;text-align:right">已完成</p>
-                        </div>
-                    </yd-cell-item>
-                    <yd-cell-item arrow>
-                        <div slot="left">
-                            <p>XS07070001</p>
-                            <p style="color:lightgray;font-size:12px">桂DCT200 司机张三</p>
-                        </div>
-                        <div slot="right" style="text-align: left;margin-right: 5px">
-                            <p style="color:gray">1#地仓 / 35吨 / 柴油</p>
-                            <p style="color:red;text-align:right">已完成</p>
-                        </div>
-                    </yd-cell-item>
-                </yd-cell-group>
-            </yd-tab-panel>
-            <yd-popup v-model="show2" position="right">
+            <!--popup订单选择-->
+            <yd-popup v-model="showOrders" position="right" width="70%">
+                <yd-pullrefresh :callback="getOrders">
+                    <yd-cell-group>
+                        <yd-cell-item v-for="o in orders" v-show="o.state != 5" :key="o.id" @click.native="orderclick(o)" arrow>
+                            <div slot="left" style="padding:.2rem 0 .2rem">
+                                <p>{{o.carNo}}</p>
+                                <p style="color:lightgray">{{o.name}}</p>
+                            </div>
+                            <div slot="right" style="text-align: left;margin-right: 5px">
+                                <p style="color:gray"></p>
+                                <p style="color:gray">{{o.count}}升</p>
+                            </div>
+                        </yd-cell-item>
+                    </yd-cell-group>
+                </yd-pullrefresh>
+            </yd-popup>
+            <!--popup销售仓选择-->
+            <yd-popup v-model="showStores" position="right">
                 <yd-cell-group title="请选择销售仓">
-                    <yd-cell-item type="radio">
+                    <yd-cell-item v-for="s in stores" :key="s.id" @click.native="storeclick(s)">
                         <div slot="left">
-                            <p>1#加油船759</p>
+                            <p>{{s.name}}</p>
                         </div>
                         <div slot="right">
-                            <p style="color:lightgray">500升</p>
+                            <p style="color:lightgray">{{s.value}}</p>
                         </div>
-                        <input slot="right" type="radio" value="Lili" v-model="picked" />
-                    </yd-cell-item>
-                    <yd-cell-item type="radio">
-                        <div slot="left">
-                            <p>2#加油船759</p>
-                        </div>
-                        <div slot="right">
-                            <p style="color:lightgray">500升</p>
-                        </div>
-                        <input slot="right" type="radio" value="Lucy" v-model="picked" />
-                    </yd-cell-item>
-                    <yd-cell-item type="radio">
-                        <div slot="left">
-                            <p>10#加油船669</p>
-                        </div>
-                        <div slot="right">
-                            <p style="color:lightgray">500升</p>
-                        </div>
-                        <input slot="right" type="radio" value="Jack" v-model="picked" />
                     </yd-cell-item>
                 </yd-cell-group>
-                <div style="text-align: center">
-                    <yd-button style="width:100px" type="primary" @click.native="saveclick2()">施工结束</yd-button>
-                </div>
             </yd-popup>
         </yd-tab>
     </div>

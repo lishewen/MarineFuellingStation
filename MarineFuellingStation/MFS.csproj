@@ -68,8 +68,14 @@
     <None Update="Models\Purchase.cs.d.ts">
       <DependentUpon>Purchase.cs</DependentUpon>
     </None>
+    <None Update="Models\Store.cs.d.ts">
+      <DependentUpon>Store.cs</DependentUpon>
+    </None>
     <None Update="Models\Survey.cs.d.ts">
       <DependentUpon>Survey.cs</DependentUpon>
+    </None>
+    <None Update="Repositorys\RepositoryBase.cs.d.ts">
+      <DependentUpon>RepositoryBase.cs</DependentUpon>
     </None>
   </ItemGroup>
   <Target Name="RunWebpack" AfterTargets="ComputeFilesToPublish">

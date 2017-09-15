@@ -1,9 +1,13 @@
 ﻿using MFS.Controllers.Attributes;
+using MFS.Helper;
 using MFS.Hubs;
 using MFS.Models;
 using MFS.Repositorys;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Net.Http.Headers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,22 +20,14 @@ namespace MFS.Controllers
     {
         private readonly OrderRepository r;
         private readonly IHubContext<PrintHub> _hub;
-        public OrderController(OrderRepository repository, IHubContext<PrintHub> hub)
+        private readonly IHostingEnvironment _hostingEnvironment;
+        public OrderController(OrderRepository repository, IHubContext<PrintHub> hub, IHostingEnvironment env)
         {
             r = repository;
             _hub = hub;
+            _hostingEnvironment = env;
         }
-        [HttpGet("[action]")]
-        public async Task<ResultJSON<string>> OrderNo()
-        {
-            await _hub.Clients.All.InvokeAsync("login", UserName);
-
-            return new ResultJSON<string>
-            {
-                Code = 0,
-                Data = r.GetSerialNumber(r.GetLastOrderNo())
-            };
-        }
+        #region Post方法
         [HttpPost]
         public async Task<ResultJSON<Order>> Post([FromBody]Order o)
         {
@@ -45,6 +41,45 @@ namespace MFS.Controllers
             {
                 Code = 0,
                 Data = result
+            };
+        }
+        [HttpPost("[action]")]
+        public async Task<ResultJSON<string>> UploadFile([FromForm]IFormFile file)
+        {
+            if (file != null)
+            {
+                var extName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.ToString().Trim('"');
+                int i = extName.LastIndexOf('.');
+                extName = extName.Substring(i);
+                string fileName = Guid.NewGuid() + extName;
+                var filePath = _hostingEnvironment.WebRootPath + @"\upload\" + fileName;
+                await file.SaveAsAsync(filePath);
+                return new ResultJSON<string>
+                {
+                    Code = 0,
+                    Data = $"/upload/{fileName}"
+                };
+            }
+            else
+            {
+                return new ResultJSON<string>
+                {
+                    Code = 1
+                };
+            }
+        }
+        #endregion
+        #region GET方法
+
+        [HttpGet("[action]")]
+        public async Task<ResultJSON<string>> OrderNo()
+        {
+            await _hub.Clients.All.InvokeAsync("login", UserName);
+
+            return new ResultJSON<string>
+            {
+                Code = 0,
+                Data = r.GetSerialNumber(r.GetLastOrderNo())
             };
         }
         [HttpGet]
@@ -65,5 +100,35 @@ namespace MFS.Controllers
                 Data = r.Get(id)
             };
         }
+        /// <summary>
+        /// 获取分页数据，并且包含Product对象
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("[action]")]
+        public ResultJSON<List<Order>> GetIncludeProduct(int page)
+        {
+            return new ResultJSON<List<Order>>
+            {
+                Code = 0,
+                Data = r.GetIncludeProduct(page, 30)//每页30条记录
+            };
+        }
+        #endregion
+        #region Put方法
+        /// <summary>
+        /// 施工过程切换状态
+        /// </summary>
+        /// <returns></returns>
+        [HttpPut("[action]")]
+        public ResultJSON<Order> ChangeState([FromBody]Order o)
+        {
+            r.CurrentUser = UserName;
+            return new ResultJSON<Order>
+            {
+                Code = 0,
+                Data = r.Update(o)
+            };
+        }
+        #endregion
     }
 }

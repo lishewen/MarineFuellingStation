@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace MFS.Repositorys
 {
@@ -51,6 +52,10 @@ namespace MFS.Repositorys
             var p = _dbContext.Products.Find(entity.ProductId);
             p.LastPrice = entity.Price;
             return base.Insert(entity, autoSave);
+        }
+        public List<Order> GetIncludeProduct(int startPage, int pageSize)
+        {
+            return LoadPageList(startPage, pageSize, out int count, true).Include(o => o.Product).ToList();
         }
     }
 }

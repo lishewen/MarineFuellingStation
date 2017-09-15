@@ -3,7 +3,7 @@ declare module server {
 	interface order extends entityBase {
         salesPlanId?: number;
         salesPlan: salesPlan;
-        orderType: salesPlanType;
+		orderType: any;
 		carNo: string;
         productId: number;
         product: product;
@@ -40,25 +40,32 @@ declare module server {
 		oilTemperature: number;
 		/** 实际与订单差 */
 		diffOil: number;
-		/** 皮重 陆上 */
+		/** 皮重 陆上（空车） */
 		emptyCarWeight: number;
-		/** 毛重 陆上 */
+		/** 毛重 陆上 (油 + 车) */
 		oilCarWeight: number;
 		/** 油重 陆上 */
 		diffWeight: number;
 		/** 销售提成 */
 		salesCommission: number;
 		transportOrderId?: number;
-		/** 订单状态 */
+        /** 订单状态 */
         state: orderState;
-        ticketType: ticketType;
+		ticketType: any;
 		/** 是否运输 */
 		isTrans: boolean;
+		/** 油车磅秤图片地址 */
+        oilCarWeightPic: string;
+		/** 油车磅秤图片地址 */
+        emptyCarWeightPic: string;
+        /** 销售仓 */
+        store: store;
 	}
 	const enum orderState {
 		已开单,
-		装油中,
-		装油结束,
+		空车过磅,
+        装油中,
+        油车过磅,
 		已完成,
 	}
 }

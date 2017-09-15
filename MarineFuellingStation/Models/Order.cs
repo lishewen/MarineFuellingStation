@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -90,11 +91,11 @@ namespace MFS.Models
         /// </summary>
         public decimal DiffOil { get; set; }
         /// <summary>
-        /// 皮重 陆上
+        /// 皮重 陆上（空车）
         /// </summary>
         public decimal EmptyCarWeight { get; set; }
         /// <summary>
-        /// 毛重 陆上
+        /// 毛重 陆上(油 + 车)
         /// </summary>
         public decimal OilCarWeight { get; set; }
         /// <summary>
@@ -109,18 +110,33 @@ namespace MFS.Models
         /// <summary>
         /// 订单状态
         /// </summary>
-        public OrderState State { get; set; }
+        public OrderState State { get; set; } = OrderState.已开单;
         public TicketType TicketType { get; set; }
         /// <summary>
         /// 是否运输
         /// </summary>
         public bool IsTrans { get; set; }
+        /// <summary>
+        /// 油车磅秤图片地址 陆上加油
+        /// </summary>
+        public string OilCarWeightPic { get; set; }
+        /// <summary>
+        /// 空车车磅秤图片地址 陆上加油
+        /// </summary>
+        public string EmptyCarWeightPic { get; set; }
+        /// <summary>
+        /// 销售仓Id 陆上加油
+        /// </summary>
+        [JsonIgnore, ForeignKey("StoreId")]
+        public virtual Store Store { get; set; }
+
     }
     public enum OrderState
     {
         已开单,
+        空车过磅,
         装油中,
-        装油结束,
+        油车过磅,
         已完成
     }
 }

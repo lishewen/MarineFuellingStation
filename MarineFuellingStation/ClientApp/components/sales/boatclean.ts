@@ -20,6 +20,7 @@ export default class BoatCleanComponent extends ComponentBase {
     constructor() {
         super();
 
+        this.list = new Array<server.boatClean>();
         this.model = (new Object()) as server.boatClean;
         this.model.name = '';
         this.model.carNo = '';

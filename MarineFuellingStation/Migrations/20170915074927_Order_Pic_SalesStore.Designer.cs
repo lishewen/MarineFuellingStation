@@ -11,9 +11,10 @@ using System;
 namespace MFS.Migrations
 {
     [DbContext(typeof(EFContext))]
-    partial class EFContextModelSnapshot : ModelSnapshot
+    [Migration("20170915074927_Order_Pic_SalesStore")]
+    partial class Order_Pic_SalesStore
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -360,9 +361,9 @@ namespace MFS.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<decimal>("OilCarWeight");
+                    b.Property<string>("OilCarPic");
 
-                    b.Property<string>("OilCarWeightPic");
+                    b.Property<decimal>("OilCarWeight");
 
                     b.Property<decimal>("OilCount");
 

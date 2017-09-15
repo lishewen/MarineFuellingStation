@@ -1,6 +1,6 @@
 declare module server {
 	interface store extends entityBase {
-		storeClass: any;
+		storeClass: storeClass;
 		/** 容量 */
 		volume: number;
 		/** 平均单价成本 */
@@ -21,6 +21,6 @@ declare module server {
 		存储仓,
 	}
 	interface storeType extends entityBase {
-		stores: any[];
+		stores: store[];
 	}
 }

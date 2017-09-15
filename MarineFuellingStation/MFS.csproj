@@ -36,7 +36,6 @@
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\componentbase.ts" />
     <TypeScriptCompile Include="ClientApp\components\produce\buyboard.ts" />
-    <TypeScriptCompile Include="ClientApp\ydui.d..ts" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Helper\FileHelper.cs.d.ts">

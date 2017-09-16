@@ -52,7 +52,7 @@
                 <yd-button style="width:80%" type="primary" @click.native="postSurveyclick">提交新数据</yd-button>
             </div>
             <yd-cell-group title="最近十次测量" style="margin-top: 20px">
-                <yd-cell-item v-for="su in surveys">
+                <yd-cell-item v-for="su in surveys" :key="su.id">
                     <div slot="left">{{formatDate(su.createdAt)}}</div>
                     <div slot="right" style="text-align: left;padding: .2rem 0 .2rem">
                         <p>油温：{{su.temperature}}℃</p>

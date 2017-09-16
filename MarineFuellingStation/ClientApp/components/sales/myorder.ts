@@ -5,7 +5,7 @@ import axios from "axios";
 
 @Component
 export default class MyOrderComponent extends ComponentBase {
-    
+
     show4: boolean = false;
     filterBtns: Array<helper.filterBtn>;
     activedBtnId: number;
@@ -13,7 +13,7 @@ export default class MyOrderComponent extends ComponentBase {
     endDate: string;
     orders: server.order[];
     page: number = 1;
-    
+
     timesubmit(): void {
         this.show4 = false;
     };
@@ -37,7 +37,7 @@ export default class MyOrderComponent extends ComponentBase {
         this.getOrders();
     }
     switchBtn(o: any) {
-        if (o.id != this.activedBtnId){
+        if (o.id != this.activedBtnId) {
             o.actived = true;
             this.filterBtns[this.activedBtnId].actived = false;
             this.activedBtnId = o.id;
@@ -53,16 +53,16 @@ export default class MyOrderComponent extends ComponentBase {
                 this.endDate = today;
                 break;
             case '昨日':
-                this.startDate = this.formatDate(moment(today).add(-1));
+                this.startDate = this.formatDate(moment(today).add(-1).toDate());
                 this.endDate = this.startDate;
                 break;
             case '本周':
-                this.startDate = this.formatDate(moment().weekday(1));
-                this.endDate = this.formatDate(moment().weekday(7));
+                this.startDate = this.formatDate(moment().weekday(1).toDate());
+                this.endDate = this.formatDate(moment().weekday(7).toDate());
                 break;
             case '本月':
-                this.startDate = this.formatDate(moment().startOf('month'));
-                this.endDate = this.formatDate(moment().endOf('month'));
+                this.startDate = this.formatDate(moment().startOf('month').toDate());
+                this.endDate = this.formatDate(moment().endOf('month').toDate());
                 break;
         }
         this.refresh();
@@ -76,7 +76,7 @@ export default class MyOrderComponent extends ComponentBase {
     formatDate(d: Date) {
         return moment(d).format('YYYY-MM-DD');
     }
-   
+
     mounted() {
         this.$emit('setTitle', this.$store.state.username + ' 的销售单');
     };

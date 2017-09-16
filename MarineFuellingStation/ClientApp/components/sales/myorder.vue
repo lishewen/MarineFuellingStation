@@ -16,13 +16,13 @@
                 </div>
             </div>
             <div style="text-align: center;padding: 10px 0 10px">
-                <div v-for="f in filterBtns" style="display: inline-block">
+                <div v-for="f in filterBtns" style="display: inline-block" :key="f.id">
                     <yd-button class="navBtn" type="warning" v-if="f.actived" @click.native="switchBtn(f)">{{f.name}}</yd-button>
                     <yd-button class="navBtn" type="hollow" v-if="!f.actived" @click.native="switchBtn(f)">{{f.name}}</yd-button>
                 </div>
             </div>
             <yd-cell-group title="总提：￥140" style="margin-top:10px">
-                <yd-cell-item arrow v-for="o in orders">
+                <yd-cell-item arrow v-for="o in orders" :key="o.id">
                     <div slot="left">
                         <p>{{o.carNo}}</p>
                         <p style="color:lightgray;font-size:12px">{{o.name}}</p>

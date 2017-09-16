@@ -3,7 +3,7 @@
 
         <yd-cell-group>
             <div style="text-align: center;padding: 10px 0 10px">
-                <span v-for="f in filterCType">
+                <span v-for="f in filterCType" :key="f.id">
                     <yd-button type="warning" v-if="f.actived" @click.native="switchBtn(f)">{{f.name}}</yd-button>
                     <yd-button type="hollow" v-if="!f.actived" @click.native="switchBtn(f)">{{f.name}}</yd-button>
                 </span>
@@ -24,7 +24,7 @@
         <yd-popup v-model="show2" position="right" width="70%">
             <yd-cell-group title="单选：计划单" style="margin-top:20px">
                 <div style="text-align: center; padding: .2rem 0 .2rem">
-                    <span v-for="f in filterPType" style="margin: .2rem .2rem .2rem 0">
+                    <span v-for="f in filterPType" style="margin: .2rem .2rem .2rem 0" :key="f.id">
                         <yd-button type="warning" v-if="f.actived" @click.native="switchBtn(f)">{{f.name}}</yd-button>
                         <yd-button type="hollow" v-if="!f.actived" @click.native="switchBtn(f)">{{f.name}}</yd-button>
                     </span>
@@ -32,14 +32,14 @@
             </yd-cell-group>
             <yd-cell-group title="单选：账户余额">
                 <div style="text-align: center; padding: .2rem 0 .2rem">
-                    <span v-for="f in filterBalances" style="margin: .2rem .2rem .2rem 0">
+                    <span v-for="f in filterBalances" style="margin: .2rem .2rem .2rem 0" :key="f.id">
                         <yd-button type="warning" v-if="f.actived" @click.native="switchBtn(f)">{{f.name}}</yd-button>
                         <yd-button type="hollow" v-if="!f.actived" @click.native="switchBtn(f)">{{f.name}}</yd-button>
                     </span>
                 </div>
             </yd-cell-group>
             <yd-grids-group :rows="2" title="单选：周期">
-                <yd-grids-item  v-for="f in filterCycle" style="position: static">
+                <yd-grids-item  v-for="f in filterCycle" style="position: static" :key="f.id">
                     <span slot="text">
                         <yd-button type="warning" v-if="f.actived" @click.native="switchBtn(f)">{{f.name}}</yd-button>
                         <yd-button type="hollow" v-if="!f.actived" @click.native="switchBtn(f)">{{f.name}}</yd-button>

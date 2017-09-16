@@ -109,7 +109,7 @@ export default class LandloadComponent extends ComponentBase {
             if (jobj.code == 0) {
                 this.order = jobj.data;
                 this.currStep = this.order.state;
-                if (this.currStep == server.orderState.完工)
+                if (this.currStep == server.orderState.已完成)
                     this.getOrders();
             }
             else

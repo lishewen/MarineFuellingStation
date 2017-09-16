@@ -100,6 +100,15 @@ namespace MFS.Controllers
                 Data = r.Get(id)
             };
         }
+        [HttpGet("[action]")]
+        public ResultJSON<List<Order>> GetMyOrders(int page, int size, DateTime startDate, DateTime endDate)
+        {
+            return new ResultJSON<List<Order>>
+            {
+                Code = 0,
+                Data = r.LoadPageList(page, size, out int cnt, true, o => o.CreatedBy == UserName && o.CreatedAt >= startDate && o.CreatedAt < endDate).ToList()
+            };
+        }
         /// <summary>
         /// 获取水上或陆上分页数据，并且包含Product对象
         /// </summary>

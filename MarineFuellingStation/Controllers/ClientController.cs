@@ -49,13 +49,13 @@ namespace MFS.Controllers
             };
         }
         [HttpGet("[action]")]
-        public ResultJSON<List<Client>> GetMyClients()
+        public ResultJSON<List<Client>> GetMyClients(ClientType ctype)
         {
             r.CurrentUser = UserName;
             return new ResultJSON<List<Client>>
             {
                 Code = 0,
-                Data = r.GetMyClients()
+                Data = r.GetMyClients(ctype)
             };
         }
     }

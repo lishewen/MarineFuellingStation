@@ -65,11 +65,11 @@ export default class ClientComponent extends ComponentBase {
         this.getCompanys('');
         this.getClients('');
         this.getSales();
-
+        
         this.filterBtns = [
             { id: 0, name: '全部', actived: true },
-            { id: 1,name: '个人', actived: false },
-            { id: 2,name: '公司', actived: false }
+            { id: 1, name: '个人', actived: false },
+            { id: 2, name: '公司', actived: false }
         ];
         this.activedBtnId = 0;
     }

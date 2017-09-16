@@ -53,6 +53,7 @@ namespace MFS.Models
     public enum ClientType
     {
         个人,
-        公司
+        公司,
+        全部
     }
 }

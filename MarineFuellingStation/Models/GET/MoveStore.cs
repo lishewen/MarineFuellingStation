@@ -13,5 +13,7 @@ namespace MFS.Models.GET
         public string InStoreName { get; set; }
         public string StateName { get; set; }
         public decimal OutPlan { get; set; }
+        public string Name { get; set; }
+        public DateTime LastUpdatedAt { get; set; }
     }
 }

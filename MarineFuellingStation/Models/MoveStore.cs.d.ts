@@ -40,6 +40,8 @@ declare module server {
         inStoreName: string;
         stateName: string;
         outPlan: number;
+        name: string;
+        lastUpdateAt: string;
     }
     enum moveStoreState {
         已开单,

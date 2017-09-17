@@ -70,6 +70,8 @@ namespace MFS.Repositorys
                     OutStoreTypeName = _dbContext.StoreTypes.FirstOrDefault(st => st.Id == m.OutStoreTypeId).Name,
                     InStoreName = _dbContext.Stores.FirstOrDefault(s => s.Id == m.InStoreId).Name,
                     InStoreTypeName = _dbContext.StoreTypes.FirstOrDefault(st => st.Id == m.InStoreTypeId).Name,
+                    LastUpdatedAt = m.LastUpdatedAt,
+                    Name = m.Name
                 });
             }
             return newlist;

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Linq.Expressions;
 
 namespace MFS.Repositorys
 {
@@ -17,14 +18,32 @@ namespace MFS.Repositorys
         public List<Client> GetMyClients(ClientType ctype, int ptype, int balances, int cycle)
         {
             List<Client> list;
+
+            Expression<Func<Client, bool>> clientwhere = c => c.FollowSalesman == CurrentUser;
+
+            if (ptype > 0)
+            {
+                var sts = (SalesPlanState)ptype;
+                var clist = _dbContext.SalesPlans.Where(s => s.State == sts).Select(s => s.CarNo);
+                clientwhere = clientwhere.And(c => clist.Contains(c.CarNo));
+            }
+
+            if (balances > 0)
+                clientwhere.And(c => c.Balances < balances);
+
+            if (cycle > 0)
+            {
+                var cylist = _dbContext.SalesPlans.Where(s => (s.LastUpdatedAt - DateTime.Now).Days > cycle).Select(s => s.CarNo);
+                clientwhere = clientwhere.And(c => cylist.Contains(c.CarNo));
+            }
+
             if (ctype == ClientType.全部)
-                list = _dbContext.Clients.Include("Company").Where(c => c.FollowSalesman == CurrentUser && (c.ClientType == ClientType.个人 || c.ClientType == ClientType.公司)).ToList();
+                clientwhere.And(c => (c.ClientType == ClientType.个人 || c.ClientType == ClientType.公司));
             else
-                list = _dbContext.Clients.Include("Company").Where(c => c.FollowSalesman == CurrentUser && c.ClientType == ctype).ToList();
-            //if(ptype != -1)
-            //{
-            //    list = list.Join(;
-            //}
+                clientwhere.And(c => c.ClientType == ctype);
+
+            list = _dbContext.Clients.Include("Company").Where(clientwhere).ToList();
+
             return list;
         }
     }

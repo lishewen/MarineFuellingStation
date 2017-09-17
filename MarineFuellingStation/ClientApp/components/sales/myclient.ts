@@ -11,11 +11,11 @@ export default class MyClientComponent extends ComponentBase {
     show2: boolean = false;
     carNo: string = "";
 
-    filterCType: Array<helper.filterBtn>;filterPType: Array<helper.filterBtn>;filterBalances: Array<helper.filterBtn>;filterCycle: Array<helper.filterBtn>;
-    
+    filterCType: Array<helper.filterBtn>; filterPType: Array<helper.filterBtn>; filterBalances: Array<helper.filterBtn>; filterCycle: Array<helper.filterBtn>;
+
     actBtnId: number; actBtnId1: number; actBtnId2: number; actBtnId3: number;//当前激活状态的条件button
     ctype: server.clientType; ptype: server.salesPlanState; balances: number; cycle: number;
-    
+
     constructor() {
         super();
 
@@ -49,14 +49,14 @@ export default class MyClientComponent extends ComponentBase {
             case "客户类型":
                 if (idx != this.actBtnId) {
                     o.actived = true;
-                    this.ctype = o.value;
+                    this.ctype = <server.clientType>o.value;
                     this.filterCType[this.actBtnId].actived = false;
                     this.actBtnId = idx;
                 }
                 break;
             case "计划单":
                 o.actived = true;
-                this.ptype = o.value;
+                this.ptype = <server.salesPlanState>o.value;
                 if (idx != this.actBtnId1 && this.actBtnId1 != -1) {
                     this.filterPType[this.actBtnId1].actived = false;
                     this.actBtnId1 = idx;
@@ -66,7 +66,7 @@ export default class MyClientComponent extends ComponentBase {
                 break;
             case "账户余额":
                 o.actived = true;
-                this.balances = o.value;
+                this.balances = <number>o.value;
                 if (idx != this.actBtnId2 && this.actBtnId2 != -1) {
                     this.filterBalances[this.actBtnId2].actived = false;
                     this.actBtnId2 = idx;
@@ -76,7 +76,7 @@ export default class MyClientComponent extends ComponentBase {
                 break;
             case "周期":
                 o.actived = true;
-                this.cycle = o.value;
+                this.cycle = <number>o.value;
                 if (idx != this.actBtnId3 && this.actBtnId3 != -1) {
                     this.filterCycle[this.actBtnId3].actived = false;
                     this.actBtnId3 = idx;
@@ -90,7 +90,7 @@ export default class MyClientComponent extends ComponentBase {
     filterclick(): void {
         this.show2 = false;
     };
-   
+
     mounted() {
         this.$emit('setTitle', this.$store.state.username + ' 的客户');
         this.$watch('radio2', (v, ov) => {

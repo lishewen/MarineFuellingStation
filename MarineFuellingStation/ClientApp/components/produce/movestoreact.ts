@@ -3,7 +3,7 @@ import { Component } from 'vue-property-decorator';
 import axios from "axios";
 
 @Component
-export default class MyOrderComponent extends ComponentBase {
+export default class MoveStoreActComponent extends ComponentBase {
     carNo: string = "";
     show2: boolean = false;
     actBtnId: number; actBtnId1: number;

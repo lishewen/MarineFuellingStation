@@ -13,8 +13,8 @@ export default class MyClientComponent extends ComponentBase {
 
     filterCType: Array<helper.filterBtn>;filterPType: Array<helper.filterBtn>;filterBalances: Array<helper.filterBtn>;filterCycle: Array<helper.filterBtn>;
     
-    activedBtnId: number;
-
+    actBtnId: number; actBtnId1: number; actBtnId2: number; actBtnId3: number;//当前激活状态的条件button
+    
     constructor() {
         super();
 
@@ -25,36 +25,71 @@ export default class MyClientComponent extends ComponentBase {
             { id: 2, name: '公司', actived: false }
         ];
         this.filterPType = [
-            { id: 0, name: '已计划', actived: true },
-            { id: 1, name: '已完成', actived: false },
-            { id: 2, name: '已审批', actived: false }
+            { name: '已计划', actived: false },
+            { name: '已完成', actived: false },
+            { name: '已审批', actived: false }
         ];
         this.filterBalances = [
-            { id: 0, name: '少于1000', actived: true },
-            { id: 1, name: '少于10000', actived: false }
+            { name: '少于1000', actived: false },
+            { name: '少于10000', actived: false }
         ]
         this.filterCycle = [
-            { id: 0, name: '7天不计划', actived: true },
-            { id: 1, name: '15天不计划', actived: false },
-            { id: 2, name: '30天不计划', actived: false },
-            { id: 3, name: '90天不计划', actived: false }
+            { name: '7天不计划', actived: false },
+            { name: '15天不计划', actived: false },
+            { name: '30天不计划', actived: false },
+            { name: '90天不计划', actived: false }
         ]
-        this.activedBtnId = 0;
+        this.actBtnId = 0; this.actBtnId1 = -1; this.actBtnId2 = -1; this.actBtnId3 = -1;
         this.getClients(server.clientType.全部);
     }
 
-    switchBtn(o: any) {
-        if (o.id != this.activedBtnId){
-            o.actived = true;
-            this.filterCType[this.activedBtnId].actived = false;
-            this.activedBtnId = o.id;
+    switchBtn(o: helper.filterBtn, idx: number, group: string) {
+        switch (group) {
+            case "客户类型":
+                if (idx != this.actBtnId) {
+                    o.actived = true;
+                    this.filterCType[this.actBtnId].actived = false;
+                    this.actBtnId = idx;
+                }
+                if (o.name == '全部')
+                    this.getClients(server.clientType.全部)
+                else if (o.name == '个人')
+                    this.getClients(server.clientType.个人)
+                else if (o.name == '公司')
+                    this.getClients(server.clientType.公司)
+                break;
+            case "计划单":
+                o.actived = true;
+                if (idx != this.actBtnId1 && this.actBtnId1 != -1) {
+                    this.filterPType[this.actBtnId1].actived = false;
+                    this.actBtnId1 = idx;
+                }
+                else
+                    this.actBtnId1 = idx;
+                break;
+            case "账户余额":
+                o.actived = true;
+                if (idx != this.actBtnId2 && this.actBtnId2 != -1) {
+                    this.filterBalances[this.actBtnId2].actived = false;
+                    this.actBtnId2 = idx;
+                }
+                else
+                    this.actBtnId2 = idx;
+                break;
+            case "周期":
+                o.actived = true;
+                if (idx != this.actBtnId3 && this.actBtnId3 != -1) {
+                    this.filterCycle[this.actBtnId3].actived = false;
+                    this.actBtnId3 = idx;
+                }
+                else
+                    this.actBtnId3 = idx;
+                break;
         }
-        if (o.name == '全部')
-            this.getClients(server.clientType.全部)
-        else if (o.name == '个人')
-            this.getClients(server.clientType.个人)
-        else if (o.name == '公司')
-            this.getClients(server.clientType.公司)
+    }
+
+    setActived() {
+
     }
 
     filterclick(): void {

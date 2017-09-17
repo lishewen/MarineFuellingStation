@@ -1,20 +1,18 @@
-﻿import Vue from 'vue';
+﻿import ComponentBase from "../../componentbase";
 import { Component } from 'vue-property-decorator';
+import axios from "axios";
 
 @Component
-export default class MyOrderComponent extends Vue {
+export default class MyOrderComponent extends ComponentBase {
     carNo: string = "";
     show2: boolean = false;
+    actBtnId: number; actBtnId1: number;
+
+    constructor() {
+        super();
+        
+    }
     
-    actConfrim(): void {
-        (<any>this).$dialog.confirm({
-            title: '确认操作',
-            mes: '开始施工？',
-            opts: () => {
-                (<any>this).$dialog.toast({ mes: '确认', timeout: 1000 });
-            }
-        })
-    };
     saveclick2(): void {
         this.show2 = false;
     }
@@ -27,4 +25,5 @@ export default class MyOrderComponent extends Vue {
         console.log(label);
         this.$emit('setTitle', this.$store.state.username + ' ' + label);
     }
+    
 }

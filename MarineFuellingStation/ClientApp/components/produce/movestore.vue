@@ -13,10 +13,10 @@
             <yd-cell-item>
                 <span slot="left">分类：</span>
                 <span slot="left">
-                    <yd-button type="warning">地仓</yd-button>
-                    <yd-button type="hollow">船759仓</yd-button>
-                    <yd-button type="hollow">船228仓</yd-button>
-                    <yd-button type="hollow">大船888仓</yd-button>
+                    <span v-for="(f, index) in stypeFrom">
+                        <yd-button type="warning" v-if="f.actived" @click.native="switchBtn(f, index, '转出仓')">{{f.name}}</yd-button>
+                        <yd-button type="hollow" v-if="!f.actived" @click.native="switchBtn(f, index, '转出仓')">{{f.name}}</yd-button>
+                    </span>
                 </span>
             </yd-cell-item>
 
@@ -30,24 +30,24 @@
 
             <yd-cell-item>
                 <span slot="left">密度：</span>
-                <yd-input slot="right" v-model="model.outDensity" regex="" placeholder="请输入密度"></yd-input>
+                <yd-input slot="right" v-model="model.outDensity" type="number" placeholder="请输入密度"></yd-input>
             </yd-cell-item>
 
             <yd-cell-item>
                 <span slot="left">油温：</span>
-                <yd-input slot="right" v-model="model.outTemperature" regex="" placeholder="请输入油温"></yd-input>
+                <yd-input slot="right" v-model="model.outTemperature" type="number" placeholder="请输入油温"></yd-input>
                 <span slot="right">℃</span>
             </yd-cell-item>
 
             <yd-cell-item>
                 <span slot="left">安排转出：</span>
-                <yd-input slot="right" v-model="model.outPlan" regex="" placeholder="请输入安排转出升数"></yd-input>
+                <yd-input slot="right" v-model="model.outPlan" type="number" placeholder="请输入安排转出升数"></yd-input>
                 <span slot="right">升</span>
             </yd-cell-item>
 
             <yd-cell-item>
                 <span slot="left">实际转出：</span>
-                <yd-input slot="right" v-model="model.outFact" regex="" placeholder="请输入实际转出升数"></yd-input>
+                <yd-input slot="right" v-model="model.outFact" type="number" placeholder="请输入实际转出升数"></yd-input>
                 <span slot="right">升</span>
             </yd-cell-item>
 
@@ -57,10 +57,10 @@
             <yd-cell-item>
                 <span slot="left">分类：</span>
                 <span slot="left">
-                    <yd-button type="hollow">地仓</yd-button>
-                    <yd-button type="hollow">船759仓</yd-button>
-                    <yd-button type="hollow">船228仓</yd-button>
-                    <yd-button type="warning">大船888仓</yd-button>
+                    <span v-for="(ff, index) in stypeTo">
+                        <yd-button type="warning" v-if="ff.actived" @click.native="switchBtn(ff, index, '转入仓')">{{ff.name}}</yd-button>
+                        <yd-button type="hollow" v-if="!ff.actived" @click.native="switchBtn(ff, index, '转入仓')">{{ff.name}}</yd-button>
+                    </span>
                 </span>
             </yd-cell-item>
 
@@ -74,18 +74,18 @@
 
             <yd-cell-item>
                 <span slot="left">密度：</span>
-                <yd-input slot="right" v-model="model.inDensity" regex="" placeholder="请输入密度"></yd-input>
+                <yd-input slot="right" v-model="model.inDensity" type="number" placeholder="请输入密度"></yd-input>
             </yd-cell-item>
 
             <yd-cell-item>
                 <span slot="left">油温：</span>
-                <yd-input slot="right" v-model="model.inTemperature" regex="" placeholder="请输入油温"></yd-input>
+                <yd-input slot="right" v-model="model.inTemperature" type="number" placeholder="请输入油温"></yd-input>
                 <span slot="right">℃</span>
             </yd-cell-item>
 
             <yd-cell-item>
                 <span slot="left">实际转入：</span>
-                <yd-input slot="right" v-model="model.inFact" regex="" placeholder="请输入实际转入升数"></yd-input>
+                <yd-input slot="right" v-model="model.inFact" type="number" placeholder="请输入实际转入升数"></yd-input>
                 <span slot="right">升</span>
             </yd-cell-item>
         </yd-cell-group>

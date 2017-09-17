@@ -14,33 +14,34 @@ export default class MyClientComponent extends ComponentBase {
     filterCType: Array<helper.filterBtn>;filterPType: Array<helper.filterBtn>;filterBalances: Array<helper.filterBtn>;filterCycle: Array<helper.filterBtn>;
     
     actBtnId: number; actBtnId1: number; actBtnId2: number; actBtnId3: number;//当前激活状态的条件button
+    ctype: server.clientType; ptype: server.salesPlanState; balances: number; cycle: number;
     
     constructor() {
         super();
 
         this.clients = new Array<server.client>();
         this.filterCType = [
-            { id: 0, name: '全部', actived: true },
-            { id: 1, name: '个人', actived: false },
-            { id: 2, name: '公司', actived: false }
+            { id: 0, name: '全部', value: server.clientType.全部, actived: true },
+            { id: 1, name: '个人', value: server.clientType.个人, actived: false },
+            { id: 2, name: '公司', value: server.clientType.公司, actived: false }
         ];
         this.filterPType = [
-            { name: '已计划', actived: false },
-            { name: '已完成', actived: false },
-            { name: '已审批', actived: false }
+            { name: '已计划', value: server.salesPlanState.未审批, actived: false },
+            { name: '已完成', value: server.salesPlanState.已完成, actived: false },
+            { name: '已审批', value: server.salesPlanState.已审批, actived: false }
         ];
         this.filterBalances = [
-            { name: '少于1000', actived: false },
-            { name: '少于10000', actived: false }
+            { name: '少于1000', value: 1000, actived: false },
+            { name: '少于10000', value: 10000, actived: false }
         ]
         this.filterCycle = [
-            { name: '7天不计划', actived: false },
-            { name: '15天不计划', actived: false },
-            { name: '30天不计划', actived: false },
-            { name: '90天不计划', actived: false }
+            { name: '7天不计划', value: 7, actived: false },
+            { name: '15天不计划', value: 15, actived: false },
+            { name: '30天不计划', value: 30, actived: false },
+            { name: '90天不计划', value: 90, actived: false }
         ]
         this.actBtnId = 0; this.actBtnId1 = -1; this.actBtnId2 = -1; this.actBtnId3 = -1;
-        this.getClients(server.clientType.全部);
+        this.getClients();
     }
 
     switchBtn(o: helper.filterBtn, idx: number, group: string) {
@@ -48,18 +49,14 @@ export default class MyClientComponent extends ComponentBase {
             case "客户类型":
                 if (idx != this.actBtnId) {
                     o.actived = true;
+                    this.ctype = o.value;
                     this.filterCType[this.actBtnId].actived = false;
                     this.actBtnId = idx;
                 }
-                if (o.name == '全部')
-                    this.getClients(server.clientType.全部)
-                else if (o.name == '个人')
-                    this.getClients(server.clientType.个人)
-                else if (o.name == '公司')
-                    this.getClients(server.clientType.公司)
                 break;
             case "计划单":
                 o.actived = true;
+                this.ptype = o.value;
                 if (idx != this.actBtnId1 && this.actBtnId1 != -1) {
                     this.filterPType[this.actBtnId1].actived = false;
                     this.actBtnId1 = idx;
@@ -69,6 +66,7 @@ export default class MyClientComponent extends ComponentBase {
                 break;
             case "账户余额":
                 o.actived = true;
+                this.balances = o.value;
                 if (idx != this.actBtnId2 && this.actBtnId2 != -1) {
                     this.filterBalances[this.actBtnId2].actived = false;
                     this.actBtnId2 = idx;
@@ -78,6 +76,7 @@ export default class MyClientComponent extends ComponentBase {
                 break;
             case "周期":
                 o.actived = true;
+                this.cycle = o.value;
                 if (idx != this.actBtnId3 && this.actBtnId3 != -1) {
                     this.filterCycle[this.actBtnId3].actived = false;
                     this.actBtnId3 = idx;
@@ -86,10 +85,6 @@ export default class MyClientComponent extends ComponentBase {
                     this.actBtnId3 = idx;
                 break;
         }
-    }
-
-    setActived() {
-
     }
 
     filterclick(): void {
@@ -116,8 +111,17 @@ export default class MyClientComponent extends ComponentBase {
     }
 
     //获得我的客户列表
-    getClients(ctype: server.clientType) {
-        axios.get('/api/Client/GetMyClients?ctype=' + ctype.toString()).then((res) => {
+    getClients() {
+        if (!this.ctype) this.ctype = server.clientType.全部;
+        if (!this.ptype) this.ptype = -1;//-1标识没有选择任何项
+        if (!this.balances) this.balances = -1;
+        if (!this.cycle) this.cycle = -1;
+        axios.get('/api/Client/GetMyClients'
+            + '?ctype=' + this.ctype.toString()
+            + '&ptype=' + this.ptype.toString()
+            + '&balances=' + this.balances.toString()
+            + '&cycle=' + this.cycle.toString()
+        ).then((res) => {
             let jobj = res.data as server.resultJSON<server.client[]>;
             if (jobj.code == 0) {
                 this.clients = jobj.data;

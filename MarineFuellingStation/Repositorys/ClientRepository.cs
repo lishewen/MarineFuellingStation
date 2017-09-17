@@ -21,17 +21,17 @@ namespace MFS.Repositorys
 
             Expression<Func<Client, bool>> clientwhere = c => c.FollowSalesman == CurrentUser;
 
-            if (ptype > 0)
+            if (ptype > 0)//计划状态
             {
                 var sts = (SalesPlanState)ptype;
                 var clist = _dbContext.SalesPlans.Where(s => s.State == sts).Select(s => s.CarNo);
                 clientwhere = clientwhere.And(c => clist.Contains(c.CarNo));
             }
 
-            if (balances > 0)
+            if (balances > 0)//余额
                 clientwhere.And(c => c.Balances < balances);
 
-            if (cycle > 0)
+            if (cycle > 0)//周期
             {
                 var cylist = _dbContext.SalesPlans.Where(s => (s.LastUpdatedAt - DateTime.Now).Days > cycle).Select(s => s.CarNo);
                 clientwhere = clientwhere.And(c => cylist.Contains(c.CarNo));

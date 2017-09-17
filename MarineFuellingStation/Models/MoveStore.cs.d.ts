@@ -13,8 +13,8 @@ declare module server {
 		outPlan: number;
 		/** 实际转出 */
 		outFact: number;
-		inStoreTypeId: number;
-		inStoreId: number;
+		inStoreTypeId?: number | string;
+		inStoreId?: number | string;
 		/** 密度 */
 		inDensity: number;
 		/** 油温 */
@@ -26,8 +26,24 @@ declare module server {
 		startTime: Date;
 		endTime?: Date;
 		/** 耗时（分钟） */
-		elapsed: number;
+        elapsed: number;
+        /** 误差 */
+        state: moveStoreState;
 		/** 误差 */
 		deviation: number;
-	}
+    }
+    /** 用于GET的model */
+    interface moveStoreGET {
+        outStoreTypeName: string;
+        inStoreTypeName: string;
+        outStoreName: string;
+        inStoreName: string;
+        stateName: string;
+        outPlan: number;
+    }
+    enum moveStoreState {
+        已开单,
+        施工中,
+        已完成
+    }
 }

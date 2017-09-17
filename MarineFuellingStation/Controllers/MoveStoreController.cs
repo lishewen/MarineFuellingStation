@@ -26,6 +26,15 @@ namespace MFS.Controllers
                 Data = r.GetSerialNumber(r.GetLastMoveStoreNo())
             };
         }
+        [HttpGet]
+        public ResultJSON<List<Models.GET.MoveStore>> Get(bool isFinished)
+        {
+            return new ResultJSON<List<Models.GET.MoveStore>>()
+            {
+                Code = 0,
+                Data = r.GetForIsFinished(isFinished)
+            };
+        }
         [HttpPost]
         public ResultJSON<MoveStore> Post([FromBody]MoveStore m)
         {

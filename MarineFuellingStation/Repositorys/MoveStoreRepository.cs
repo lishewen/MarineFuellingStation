@@ -39,5 +39,40 @@ namespace MFS.Repositorys
             }
             return tag + DateTime.Now.ToString("yyMM") + "0001";
         }
+        public List<Models.GET.MoveStore> GetForIsFinished(bool isFinished)
+        {
+            List<MoveStore> list;
+            if(isFinished)
+                list = GetAllList(m => m.State == MoveStoreState.已完成);
+            else
+                list = GetAllList(m => m.State == MoveStoreState.已开单 || m.State == MoveStoreState.施工中);
+            List<Models.GET.MoveStore> newlist = new List<Models.GET.MoveStore>();
+            foreach (MoveStore m in list)
+            {
+                string stateName = "";
+                switch (m.State)
+                {
+                    case MoveStoreState.已开单:
+                        stateName = "已开单";
+                        break;
+                    case MoveStoreState.施工中:
+                        stateName = "施工中";
+                        break;
+                    case MoveStoreState.已完成:
+                        stateName = "已完成";
+                        break;
+                }
+                newlist.Add(new Models.GET.MoveStore
+                {
+                    StateName = stateName,
+                    OutPlan = m.OutPlan,
+                    OutStoreName = _dbContext.Stores.FirstOrDefault(s => s.Id == m.OutStoreId).Name,
+                    OutStoreTypeName = _dbContext.StoreTypes.FirstOrDefault(st => st.Id == m.OutStoreTypeId).Name,
+                    InStoreName = _dbContext.Stores.FirstOrDefault(s => s.Id == m.InStoreId).Name,
+                    InStoreTypeName = _dbContext.StoreTypes.FirstOrDefault(st => st.Id == m.InStoreTypeId).Name,
+                });
+            }
+            return newlist;
+        }
     }
 }

@@ -17,7 +17,9 @@ namespace MFS.Models
         /// </summary>
         public string Manufacturer { get; set; }
         #region 转出
+
         public int OutStoreTypeId { get; set; }
+
         public int OutStoreId { get; set; }
         /// <summary>
         /// 密度
@@ -63,6 +65,10 @@ namespace MFS.Models
         /// </summary>
         public int Elapsed { get; set; }
         /// <summary>
+        /// 生产单状态
+        /// </summary>
+        public MoveStoreState State { get; set; } = MoveStoreState.已开单;
+        /// <summary>
         /// 误差
         /// </summary>
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
@@ -73,5 +79,11 @@ namespace MFS.Models
                 return OutPlan - InFact;
             }
         }
+    }
+    public enum MoveStoreState
+    {
+        已开单,
+        施工中,
+        已完成
     }
 }

@@ -24,7 +24,7 @@
                 <span slot="left">油仓：</span>
                 <select slot="right" v-model="selectedOutStore">
                     <option value="">请选择油仓</option>
-                    <option v-for="s in store" :key="s.id" :value="s.id">{{s.name}}</option>
+                    <option v-for="s in outStores" :key="s.id" :value="s.id">{{s.name}}</option>
                 </select>
             </yd-cell-item>
 
@@ -68,7 +68,7 @@
                 <span slot="left">油仓：</span>
                 <select slot="right" v-model="selectedInStore">
                     <option value="">请选择油仓</option>
-                    <option v-for="s in store" :key="s.id" :value="s.id">{{s.name}}</option>
+                    <option v-for="s in inStores" :key="s.id" :value="s.id">{{s.name}}</option>
                 </select>
             </yd-cell-item>
 

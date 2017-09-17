@@ -4,33 +4,19 @@
 
             <yd-tab-panel label="施工">
                 <yd-cell-group>
-                    <yd-cell-item arrow @click.native="show2 = true">
+                    <yd-cell-item arrow @click.native="show2 = true" v-for="m in movestores" :key="m.id">
                         <div slot="left" style="line-height: 22px;margin: 10px 0 10px 0">
                             <p>
-                                <span style="color:forestgreen">出：</span><span>【地仓】 - 1#仓</span>
+                                <span style="color:forestgreen">出：</span><span>{{m.outStoreTypeName}} - {{m.outStoreName}}</span>
                             </p>
                             <p>
-                                <span style="color:red">入：</span><span>【船785仓】 - 2#仓</span>
+                                <span style="color:red">入：</span><span>{{m.inStoreTypeName}} - {{m.inStoreName}}</span>
                             </p>
-                            <p style="color:lightgray;font-size:12px">ZC07070001</p>
+                            <p style="color:lightgray;font-size:12px">{{m.name}}</p>
                         </div>
                         <div slot="right" style="text-align: left;margin-right: 5px">
-                            <p style="color:gray; font-size: 22px">1000升</p>
-                            <p style="color:red; font-size: 14px">施工中</p>
-                        </div>
-                    </yd-cell-item>
-                    <yd-cell-item arrow @click.native="actConfrim()">
-                        <div slot="left" style="line-height: 22px;margin: 10px 0 10px 0">
-                            <p>
-                                <span style="color:forestgreen">出：</span><span>【地仓】 - 1#仓</span>
-                            </p>
-                            <p>
-                                <span style="color:red">入：</span><span>【船785仓】 - 2#仓</span>
-                            </p>
-                            <p style="color:lightgray;font-size:12px">ZC07070001</p>
-                        </div>
-                        <div slot="right" style="text-align: left;margin-right: 5px">
-                            <p style="color:gray; font-size: 22px">1000升</p>
+                            <p style="color:gray; font-size: 22px">{{m.outPlan}}升</p>
+                            <p style="color:red; font-size: 14px">{{m.stateName}}</p>
                         </div>
                     </yd-cell-item>
                     <yd-cell-item arrow @click.native="actConfrim()">

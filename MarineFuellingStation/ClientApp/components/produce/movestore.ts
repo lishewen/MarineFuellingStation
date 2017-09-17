@@ -1,13 +1,14 @@
-﻿import Vue from 'vue';
+﻿import ComponentBase from "../../componentbase";
 import { Component } from 'vue-property-decorator';
 import axios from "axios";
 
 @Component
-export default class MoveStoreComponent extends Vue {
+export default class MoveStoreComponent extends ComponentBase {
     model: server.moveStore;
     manufacturer: work.userlist[];
     picked: string[];
-    store: server.store[];
+    outStores: server.store[];
+    inStores: server.store[];
     selectedOutStore: number | string = '';
     selectedInStore: number | string = '';
 
@@ -34,7 +35,8 @@ export default class MoveStoreComponent extends Vue {
         this.model = (new Object()) as server.moveStore;
         this.model.name = '';
         this.model.manufacturer = '';
-        this.store = new Array<server.store>();
+        this.inStores = new Array<server.store>();
+        this.outStores = new Array<server.store>();
         this.manufacturer = new Array<work.userlist>();
 
         this.stypeFrom = new Array<helper.filterBtn>();
@@ -46,7 +48,6 @@ export default class MoveStoreComponent extends Vue {
 
         this.getMoveStoreNo();
         this.getManufacturer();
-        this.getStore();
     }
 
     buttonclick() {
@@ -67,11 +68,11 @@ export default class MoveStoreComponent extends Vue {
     }
 
     switchBtn(o: helper.filterBtn, idx: number, group: string) {
-        
         switch (group) {
             case "转出仓":
+                if (o.value) this.getOutStores(parseInt(o.value.toString()));
                 o.actived = true;
-                this.model.outStoreId = parseInt(o.value.toString());
+                this.model.outStoreTypeId = parseInt(o.value.toString());
                 if (idx != this.actBtnId && this.actBtnId != -1) {
                     this.stypeFrom[this.actBtnId].actived = false;
                     this.actBtnId = idx;
@@ -80,8 +81,9 @@ export default class MoveStoreComponent extends Vue {
                     this.actBtnId = idx;
                 break;
             case "转入仓":
+                if (o.value) this.getInStores(parseInt(o.value.toString()));
                 o.actived = true;
-                this.model.inStoreId = parseInt(o.value.toString());
+                this.model.inStoreTypeId = parseInt(o.value.toString());
                 if (idx != this.actBtnId1 && this.actBtnId1 != -1) {
                     this.stypeTo[this.actBtnId1].actived = false;
                     this.actBtnId1 = idx;
@@ -108,11 +110,19 @@ export default class MoveStoreComponent extends Vue {
         });
     }
 
-    getStore() {
-        axios.get('/api/Store').then((res) => {
+    getOutStores(stype: number) {
+        axios.get('/api/Store/GetByStoreType?stypeId=' + stype.toString()).then((res) => {
             let jobj = res.data as server.resultJSON<server.store[]>;
             if (jobj.code == 0)
-                this.store = jobj.data;
+                this.outStores = jobj.data;
+        });
+    }
+
+    getInStores(stype: number) {
+        axios.get('/api/Store/GetByStoreType?stypeId=' + stype.toString()).then((res) => {
+            let jobj = res.data as server.resultJSON<server.store[]>;
+            if (jobj.code == 0)
+                this.inStores = jobj.data;
         });
     }
 
@@ -134,12 +144,13 @@ export default class MoveStoreComponent extends Vue {
                         actived: false
                     });
                 });
-                console.log(this.stypeFrom);
             }
         });
     }
 
     postMoveStore(model: server.moveStore) {
+        model.inStoreId = this.selectedInStore;
+        model.outStoreId = this.selectedOutStore;
         axios.post('/api/MoveStore', model).then((res) => {
             let jobj = res.data as server.resultJSON<server.moveStore>;
             if (jobj.code == 0) {

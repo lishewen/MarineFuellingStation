@@ -42,6 +42,8 @@ declare module server {
         outPlan: number;
         name: string;
         lastUpdateAt: string;
+        id: number;
+        state: moveStoreState;
     }
     enum moveStoreState {
         已开单,

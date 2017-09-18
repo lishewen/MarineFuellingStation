@@ -35,6 +35,35 @@ namespace MFS.Controllers
                 Data = r.GetForIsFinished(isFinished)
             };
         }
+        /// <summary>
+        /// 生产过程切换状态
+        /// </summary>
+        /// <returns></returns>
+        [HttpPut("[action]")]
+        public ResultJSON<MoveStore> ChangeState([FromBody]MoveStore m)
+        {
+            r.CurrentUser = UserName;
+            return new ResultJSON<MoveStore>
+            {
+                Code = 0,
+                Data = r.UpdateState(m)
+            };
+        }
+        
+        /// <summary>
+        /// 更新实际转入和实际转出
+        /// </summary>
+        /// <returns></returns>
+        [HttpPut("[action]")]
+        public ResultJSON<MoveStore> UpdateInOutFact([FromBody]MoveStore m)
+        {
+            r.CurrentUser = UserName;
+            return new ResultJSON<MoveStore>
+            {
+                Code = 0,
+                Data = r.UpdateInOutFact(m)
+            };
+        }
         [HttpPost]
         public ResultJSON<MoveStore> Post([FromBody]MoveStore m)
         {

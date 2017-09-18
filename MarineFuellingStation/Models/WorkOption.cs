@@ -13,5 +13,8 @@ namespace MFS.Models
         public string Secret { get; set; }
         public string AccessToken { get; set; }
         public string AgentId { get; set; }
+        public string 销售计划AgentId { get; set; }
+        public string 销售计划Secret { get; set; }
+        public string 销售计划AccessToken { get; set; }
     }
 }

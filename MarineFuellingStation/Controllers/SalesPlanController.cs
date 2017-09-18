@@ -4,6 +4,9 @@ using MFS.Models;
 using MFS.Repositorys;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Options;
+using Senparc.Weixin.Work.AdvancedAPIs;
+using Senparc.Weixin.Work.Containers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,10 +19,14 @@ namespace MFS.Controllers
     {
         private readonly SalesPlanRepository r;
         private readonly IHubContext<PrintHub> _hub;
-        public SalesPlanController(SalesPlanRepository repository, IHubContext<PrintHub> hub)
+        WorkOption option;
+        public SalesPlanController(SalesPlanRepository repository, IHubContext<PrintHub> hub, IOptionsSnapshot<WorkOption> option)
         {
             r = repository;
             _hub = hub;
+            //获取 销售计划 企业微信应用的AccessToken
+            this.option = option.Value;
+            this.option.销售计划AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.销售计划Secret);
         }
 
         [HttpGet("[action]")]
@@ -39,6 +46,8 @@ namespace MFS.Controllers
 
             //推送打印指令
             await _hub.Clients.All.InvokeAsync("printsalesplan", result);
+            //推送企业微信消息
+            MassApi.SendText(option.销售计划AccessToken, option.销售计划AgentId, $"{UserName}指定销售计划成功！", "@all");
 
             return new ResultJSON<SalesPlan>
             {

@@ -59,6 +59,9 @@
     <None Update="Models\InAndOutLog.cs.d.ts">
       <DependentUpon>InAndOutLog.cs</DependentUpon>
     </None>
+    <None Update="Models\MoveStore.cs.d.ts">
+      <DependentUpon>MoveStore.cs</DependentUpon>
+    </None>
     <None Update="Models\Order.cs.d.ts">
       <DependentUpon>Order.cs</DependentUpon>
     </None>

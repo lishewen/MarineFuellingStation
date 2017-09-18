@@ -1,6 +1,6 @@
 declare module server {
 	/** 转仓单 */
-	interface moveStore extends entityBase {
+	interface moveStore extends EntityBase {
 		/** 生产员 */
 		manufacturer: string;
 		outStoreTypeId: number;
@@ -13,8 +13,8 @@ declare module server {
 		outPlan: number;
 		/** 实际转出 */
 		outFact: number;
-		inStoreTypeId?: number | string;
-		inStoreId?: number | string;
+		inStoreTypeId: number;
+		inStoreId: number;
 		/** 密度 */
 		inDensity: number;
 		/** 油温 */
@@ -26,28 +26,15 @@ declare module server {
 		startTime: Date;
 		endTime?: Date;
 		/** 耗时（分钟） */
-        elapsed: number;
-        /** 误差 */
-        state: moveStoreState;
+		elapsed: number;
+		/** 生产单状态 */
+		state: any;
 		/** 误差 */
 		deviation: number;
-    }
-    /** 用于GET的model */
-    interface moveStoreGET {
-        outStoreTypeName: string;
-        inStoreTypeName: string;
-        outStoreName: string;
-        inStoreName: string;
-        stateName: string;
-        outPlan: number;
-        name: string;
-        lastUpdateAt: string;
-        id: number;
-        state: moveStoreState;
-    }
-    enum moveStoreState {
-        已开单,
-        施工中,
-        已完成
-    }
+	}
+	const enum moveStoreState {
+		已开单,
+		施工中,
+		已完成,
+	}
 }

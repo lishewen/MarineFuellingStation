@@ -16,10 +16,16 @@ namespace MFS.Models
         [ForeignKey("SalesPlanId")]
         public virtual SalesPlan SalesPlan { get; set; }
         public SalesPlanType OrderType { get; set; }
+        /// <summary>
+        /// 船号/车号
+        /// </summary>
         public string CarNo { get; set; }
         public int ProductId { get; set; }
         [ForeignKey("ProductId")]
         public virtual Product Product { get; set; }
+        /// <summary>
+        /// 商品单价
+        /// </summary>
         public decimal Price { get; set; }
         public int Count { get; set; }
         /// <summary>
@@ -139,6 +145,19 @@ namespace MFS.Models
         空车过磅,
         装油中,
         油车过磅,
-        已完成
+        已完成,
+        已结算,
+        挂账
+    }
+    public enum OrderPayType
+    {
+        现金,
+        微信,
+        支付宝,
+        刷卡一,
+        刷卡二,
+        刷卡三,
+        已结算,
+        挂账
     }
 }

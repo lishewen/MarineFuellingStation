@@ -171,7 +171,7 @@ export default class MoveStoreComponent extends ComponentBase {
     postMoveStore(model: server.moveStore) {
 
         model.inStoreId = this.selectedInStore;
-        model.outStoreId = this.selectedOutStore;
+        model.outStoreId = <number>this.selectedOutStore;
         axios.post('/api/MoveStore', model).then((res) => {
             let jobj = res.data as server.resultJSON<server.moveStore>;
             if (jobj.code == 0) {

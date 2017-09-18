@@ -30,26 +30,26 @@
 
             <yd-cell-item>
                 <span slot="left">密度：</span>
-                <yd-input slot="right" v-model="model.outDensity" type="number" placeholder="请输入密度"></yd-input>
+                <yd-input slot="right" v-model="model.outDensity" type="number" placeholder="请输入密度" required></yd-input>
             </yd-cell-item>
 
             <yd-cell-item>
                 <span slot="left">油温：</span>
-                <yd-input slot="right" v-model="model.outTemperature" type="number" placeholder="请输入油温"></yd-input>
+                <yd-input slot="right" v-model="model.outTemperature" type="number" placeholder="请输入油温" required></yd-input>
                 <span slot="right">℃</span>
             </yd-cell-item>
 
             <yd-cell-item>
                 <span slot="left">安排转出：</span>
-                <yd-input slot="right" v-model="model.outPlan" type="number" placeholder="请输入安排转出升数"></yd-input>
+                <yd-input slot="right" v-model="model.outPlan" type="number" placeholder="请输入安排转出升数" required></yd-input>
                 <span slot="right">升</span>
             </yd-cell-item>
 
-            <yd-cell-item>
+            <!--<yd-cell-item>
                 <span slot="left">实际转出：</span>
                 <yd-input slot="right" v-model="model.outFact" type="number" placeholder="请输入实际转出升数"></yd-input>
                 <span slot="right">升</span>
-            </yd-cell-item>
+            </yd-cell-item>-->
 
         </yd-cell-group>
         <yd-cell-group title="转入仓">
@@ -74,20 +74,20 @@
 
             <yd-cell-item>
                 <span slot="left">密度：</span>
-                <yd-input slot="right" v-model="model.inDensity" type="number" placeholder="请输入密度"></yd-input>
+                <yd-input slot="right" v-model="model.inDensity" type="number" placeholder="请输入密度" required></yd-input>
             </yd-cell-item>
 
             <yd-cell-item>
                 <span slot="left">油温：</span>
-                <yd-input slot="right" v-model="model.inTemperature" type="number" placeholder="请输入油温"></yd-input>
+                <yd-input slot="right" v-model="model.inTemperature" type="number" placeholder="请输入油温" required></yd-input>
                 <span slot="right">℃</span>
             </yd-cell-item>
 
-            <yd-cell-item>
+            <!--<yd-cell-item>
                 <span slot="left">实际转入：</span>
                 <yd-input slot="right" v-model="model.inFact" type="number" placeholder="请输入实际转入升数"></yd-input>
                 <span slot="right">升</span>
-            </yd-cell-item>
+            </yd-cell-item>-->
         </yd-cell-group>
 
         <div>
@@ -102,7 +102,7 @@
                 </yd-cell-item>
             </yd-cell-group>
             <div style="text-align: center">
-                <yd-button style="width:100px" type="primary" @click.native="selectproducerclick()">保存</yd-button>
+                <yd-button style="width:100px" type="primary" @click.native="selectproducerclick()">确定</yd-button>
             </div>
         </yd-popup>
     </div>

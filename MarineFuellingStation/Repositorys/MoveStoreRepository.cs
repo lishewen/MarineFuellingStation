@@ -71,10 +71,29 @@ namespace MFS.Repositorys
                     InStoreName = _dbContext.Stores.FirstOrDefault(s => s.Id == m.InStoreId).Name,
                     InStoreTypeName = _dbContext.StoreTypes.FirstOrDefault(st => st.Id == m.InStoreTypeId).Name,
                     LastUpdatedAt = m.LastUpdatedAt,
-                    Name = m.Name
+                    Name = m.Name,
+                    Id = m.Id,
+                    State = m.State
                 });
             }
             return newlist;
         }
+        public MoveStore UpdateState(MoveStore m)
+        {
+            MoveStore ms = _dbContext.MoveStores.Find(m.Id);
+            ms.State = m.State;
+            _dbContext.SaveChanges();
+            return ms;
+        }
+        public MoveStore UpdateInOutFact(MoveStore m)
+        {
+            MoveStore ms = _dbContext.MoveStores.Find(m.Id);
+            ms.InFact = m.InFact;
+            ms.OutFact = m.OutFact;
+            ms.State = MoveStoreState.已完成;
+            _dbContext.SaveChanges();
+            return ms;
+        }
+        
     }
 }

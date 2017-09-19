@@ -53,9 +53,26 @@ namespace MFS.Repositorys
             p.LastPrice = entity.Price;
             return base.Insert(entity, autoSave);
         }
+        /// <summary>
+        /// 获取所有订单列表
+        /// </summary>
+        /// <param name="orderType">订单类型，水上/陆上/机油</param>
+        /// <param name="startPage">第N页</param>
+        /// <param name="pageSize">每页记录</param>
+        /// <returns></returns>
         public List<Order> GetIncludeProduct(SalesPlanType orderType,int startPage, int pageSize)
         {
             return LoadPageList(startPage, pageSize, out int count, true, (o => o.OrderType == orderType)).Include(o => o.Product).ToList();
+        }
+        /// <summary>
+        /// 获取所有订单列表
+        /// </summary>
+        /// <param name="startPage">第N页</param>
+        /// <param name="pageSize">每页记录</param>
+        /// <returns></returns>
+        public List<Order> GetIncludeProduct(int startPage, int pageSize)
+        {
+            return LoadPageList(startPage, pageSize, out int count, true).Include(o => o.Product).ToList();
         }
     }
 }

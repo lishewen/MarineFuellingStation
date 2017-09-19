@@ -18,11 +18,13 @@ namespace MFS.Controllers
     public class SalesPlanController : ControllerBase
     {
         private readonly SalesPlanRepository r;
+        private readonly ClientRepository cr;
         private readonly IHubContext<PrintHub> _hub;
         WorkOption option;
-        public SalesPlanController(SalesPlanRepository repository, IHubContext<PrintHub> hub, IOptionsSnapshot<WorkOption> option)
+        public SalesPlanController(SalesPlanRepository repository, IHubContext<PrintHub> hub, IOptionsSnapshot<WorkOption> option, ClientRepository clientRepository)
         {
             r = repository;
+            cr = clientRepository;
             _hub = hub;
             //获取 销售计划 企业微信应用的AccessToken
             this.option = option.Value;
@@ -43,6 +45,14 @@ namespace MFS.Controllers
         {
             r.CurrentUser = UserName;
             var result = r.Insert(s);
+
+            //当车号/船号没有对应的客户资料时，自动新增客户资料，以便我的客户中的关联查找
+            if (!cr.Has(c => c.CarNo == s.CarNo))
+                cr.Insert(new Client
+                {
+                    CarNo = s.CarNo,
+                    FollowSalesman = UserName
+                });
 
             //推送打印指令
             await _hub.Clients.All.InvokeAsync("printsalesplan", result);

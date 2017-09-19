@@ -58,6 +58,16 @@ namespace MFS.Repositorys
         }
 
         /// <summary>
+        /// 判断时候存在条件的实体
+        /// </summary>
+        /// <param name="predicate">lambda表达式条件</param>
+        /// <returns></returns>
+        public bool Has(Expression<Func<TEntity, bool>> predicate)
+        {
+            return _dbContext.Set<TEntity>().Any(predicate);
+        }
+
+        /// <summary>
         /// 根据主键获取实体
         /// </summary>
         /// <param name="id">实体主键</param>

@@ -27,6 +27,13 @@ namespace MFS.Repositorys
         List<TEntity> GetAllList(Expression<Func<TEntity, bool>> predicate);
 
         /// <summary>
+        /// 判断时候存在条件的实体
+        /// </summary>
+        /// <param name="predicate">lambda表达式条件</param>
+        /// <returns></returns>
+        bool Has(Expression<Func<TEntity, bool>> predicate);
+
+        /// <summary>
         /// 根据主键获取实体
         /// </summary>
         /// <param name="id">实体主键</param>

@@ -97,32 +97,32 @@
                 </yd-cell-item>
                 <yd-cell-item v-show="!lastshow">
                     <span slot="left">实收：</span>
-                    <span slot="right">￥18000.00元</span>
+                    <span slot="right">￥{{getTotalPayMoney()}}元</span>
                 </yd-cell-item>
                 <yd-cell-item v-show="!lastshow">
                     <span slot="left">找零：</span>
-                    <span slot="right">￥2000.00元</span>
+                    <span slot="right">￥{{selectedOrder.totalMoney - payInfact}}元</span>
                 </yd-cell-item>
             </yd-cell-group>
             <yd-cell-group title="输入金额" v-show="!lastshow">
                 <yd-cell-item v-show="showInputs[0]">
                     <span slot="left">现金：</span>
-                    <yd-input slot="right" v-model="orderPayMoneys[0]" placeholder=""></yd-input>
+                    <yd-input slot="right" v-model="orderPayMoneys[0]"></yd-input>
                     <span slot="right">元</span>
                 </yd-cell-item>
                 <yd-cell-item v-show="showInputs[1]">
                     <span slot="left">微信：</span>
-                    <yd-input slot="right" v-model="orderPayMoneys[1]" placeholder=""></yd-input>
+                    <yd-input slot="right" v-model="orderPayMoneys[1]"></yd-input>
                     <span slot="right">元</span>
                 </yd-cell-item>
                 <yd-cell-item v-show="showInputs[2]">
                     <span slot="left">支付宝：</span>
-                    <yd-input slot="right" v-model="orderPayMoneys[2]" placeholder=""></yd-input>
+                    <yd-input slot="right" v-model="orderPayMoneys[2]"></yd-input>
                     <span slot="right">元</span>
                 </yd-cell-item>
                 <yd-cell-item v-show="showInputs[3]">
                     <span slot="left">刷卡一：</span>
-                    <yd-input slot="right" v-model="orderPayMoneys[3]" placeholder=""></yd-input>
+                    <yd-input slot="right" v-model="orderPayMoneys[3]"></yd-input>
                     <span slot="right">元</span>
                 </yd-cell-item>
                 <yd-cell-item v-show="showInputs[4]">
@@ -148,10 +148,10 @@
                 <yd-button style="width:80%;margin-top:10px" type="primary" @click.native="" v-show="lastshow">挂账</yd-button>
             </div>
             <div style="text-align: center">
-                <yd-button style="width:80%;margin-top:10px" type="warning" @click.native="lastclick()" v-show="!lastshow">上一步</yd-button>
+                <yd-button style="width:80%" type="warning" @click.native="lastclick()" v-show="!lastshow">上一步</yd-button>
             </div>
             <div style="text-align: center">
-                <yd-button style="width:80%" type="primary" @click.native="postPay()" v-show="!lastshow">结账</yd-button>
+                <yd-button style="width:80%;margin-top:10px" type="primary" @click.native="postPay()" v-show="!lastshow">结账</yd-button>
             </div>
         </yd-popup>
     </div>

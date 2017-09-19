@@ -9,14 +9,10 @@ import moment from "moment";
     }
 })
 export default class CashierComponent extends ComponentBase {
-    radio1: string = "2";
-    radio2: string = "1";
-    show1: boolean = false;
     show2: boolean = false;
     lastshow: boolean = true;
-    carNo: string = "";
     sv: string = "";
-    checkbox2: object = ["1"];
+    payInfact: number = 0;//实收金额
 
     orderPayTypes: Array<string>;
     orderPayMoneys: Array<number>;
@@ -37,12 +33,26 @@ export default class CashierComponent extends ComponentBase {
         this.orderPayMoneys = new Array<number>();
         this.showInputs = new Array<boolean>(false, false, false, false, false, false, false);
         this.orders = new Object() as server.order;
+
         this.getOrders();
     }
 
     orderclick(o: server.order) {
         this.selectedOrder = o;
         this.show2 = true;
+        this.lastshow = true;
+    }
+
+    getTotalPayMoney() {
+        let infact = 0;
+        if (this.orderPayTypes){
+            this.orderPayTypes.forEach((pt, idx) => {
+                if (this.orderPayMoneys[parseInt(pt)])
+                    infact += parseFloat(this.orderPayMoneys[parseInt(pt)].toString());
+            })
+        }
+        this.payInfact = infact;
+        return infact
     }
 
     nextclick(): void{
@@ -51,10 +61,11 @@ export default class CashierComponent extends ComponentBase {
         this.orderPayTypes.forEach((p, idx) => {
             this.showInputs[p] = true;
         });
-        console.log(this.orderPayTypes);
     };
     lastclick(): void {
         this.lastshow = true;
+        //清空所有input的值
+        this.orderPayMoneys = new Array<number>();
     };
 
     getDiff(d: Date) {
@@ -63,7 +74,11 @@ export default class CashierComponent extends ComponentBase {
 
     mounted() {
         this.$emit('setTitle', this.$store.state.username + ' 结算');
-        
+        this.$watch("show2", (v, ov) => {
+            //初始化
+            this.orderPayTypes = ["0"];
+            this.orderPayMoneys = new Array<number>();
+        })
     };
 
     change(label: string, tabkey: string) {

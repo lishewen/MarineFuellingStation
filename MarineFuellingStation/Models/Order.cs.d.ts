@@ -62,6 +62,8 @@ declare module server {
         store: store;
         /** 销售仓Id */
         storeId?: number;
+        /** 付款方式与金额的表 */
+        paymentId?: number;
 	}
 	const enum orderState {
         已开单,

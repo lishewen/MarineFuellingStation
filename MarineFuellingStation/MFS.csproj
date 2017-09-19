@@ -38,6 +38,9 @@
     <TypeScriptCompile Include="ClientApp\components\produce\buyboard.ts" />
   </ItemGroup>
   <ItemGroup>
+    <None Update="Controllers\OrderController.cs.d.ts">
+      <DependentUpon>OrderController.cs</DependentUpon>
+    </None>
     <None Update="Helper\FileHelper.cs.d.ts">
       <DependentUpon>FileHelper.cs</DependentUpon>
     </None>
@@ -64,6 +67,9 @@
     </None>
     <None Update="Models\Order.cs.d.ts">
       <DependentUpon>Order.cs</DependentUpon>
+    </None>
+    <None Update="Models\Payment.cs.d.ts">
+      <DependentUpon>Payment.cs</DependentUpon>
     </None>
     <None Update="Models\Product.cs.d.ts">
       <DependentUpon>Product.cs</DependentUpon>

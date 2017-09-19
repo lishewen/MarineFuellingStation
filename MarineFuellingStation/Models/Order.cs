@@ -134,8 +134,11 @@ namespace MFS.Models
         /// 销售仓Id 陆上加油
         /// </summary>
         public int? StoreId { get; set; }
+        public int? PaymentId { get; set; }
         [ForeignKey("StoreId")]
         public virtual Store Store { get; set; }
+        [ForeignKey("PaymentId")]
+        public virtual Payment Payment { get; set; }
 
     }
     public enum OrderState

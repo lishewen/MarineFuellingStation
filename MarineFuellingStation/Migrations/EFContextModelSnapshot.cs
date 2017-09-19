@@ -372,8 +372,6 @@ namespace MFS.Migrations
 
                     b.Property<int>("OrderType");
 
-                    b.Property<int?>("PaymentId");
-
                     b.Property<decimal>("Price");
 
                     b.Property<int>("ProductId");
@@ -397,8 +395,6 @@ namespace MFS.Migrations
                     b.Property<string>("Worker");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PaymentId");
 
                     b.HasIndex("ProductId");
 
@@ -427,9 +423,13 @@ namespace MFS.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
+                    b.Property<int?>("OrderId");
+
                     b.Property<int>("PayTypeId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
 
                     b.ToTable("Payment");
                 });
@@ -729,10 +729,6 @@ namespace MFS.Migrations
 
             modelBuilder.Entity("MFS.Models.Order", b =>
                 {
-                    b.HasOne("MFS.Models.Payment", "Payment")
-                        .WithMany()
-                        .HasForeignKey("PaymentId");
-
                     b.HasOne("MFS.Models.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
@@ -745,6 +741,13 @@ namespace MFS.Migrations
                     b.HasOne("MFS.Models.Store", "Store")
                         .WithMany()
                         .HasForeignKey("StoreId");
+                });
+
+            modelBuilder.Entity("MFS.Models.Payment", b =>
+                {
+                    b.HasOne("MFS.Models.Order", "Order")
+                        .WithMany("Payments")
+                        .HasForeignKey("OrderId");
                 });
 
             modelBuilder.Entity("MFS.Models.Product", b =>

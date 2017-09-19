@@ -9,12 +9,6 @@ namespace MFS.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<int>(
-                name: "PaymentId",
-                table: "Orders",
-                type: "int",
-                nullable: true);
-
             migrationBuilder.CreateTable(
                 name: "Payment",
                 columns: table => new
@@ -27,43 +21,30 @@ namespace MFS.Migrations
                     LastUpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Money = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OrderId = table.Column<int>(type: "int", nullable: true),
                     PayTypeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Payment", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Payment_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_PaymentId",
-                table: "Orders",
-                column: "PaymentId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Orders_Payment_PaymentId",
-                table: "Orders",
-                column: "PaymentId",
-                principalTable: "Payment",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
+                name: "IX_Payment_OrderId",
+                table: "Payment",
+                column: "OrderId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Orders_Payment_PaymentId",
-                table: "Orders");
-
             migrationBuilder.DropTable(
                 name: "Payment");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Orders_PaymentId",
-                table: "Orders");
-
-            migrationBuilder.DropColumn(
-                name: "PaymentId",
-                table: "Orders");
         }
     }
 }

@@ -32,7 +32,7 @@ export default class CashierComponent extends ComponentBase {
         this.orderPayTypes = ["0"];
         this.orderPayMoneys = new Array<number>();
         this.showInputs = new Array<boolean>(false, false, false, false, false, false, false);
-        this.orders = new Object() as server.order;
+        this.orders = new Array<server.order>();
 
         this.getOrders();
     }
@@ -45,7 +45,7 @@ export default class CashierComponent extends ComponentBase {
 
     getTotalPayMoney() {
         let infact = 0;
-        if (this.orderPayTypes){
+        if (this.orderPayTypes) {
             this.orderPayTypes.forEach((pt, idx) => {
                 if (this.orderPayMoneys[parseInt(pt)])
                     infact += parseFloat(this.orderPayMoneys[parseInt(pt)].toString());
@@ -55,7 +55,7 @@ export default class CashierComponent extends ComponentBase {
         return infact
     }
 
-    nextclick(): void{
+    nextclick(): void {
         this.lastshow = false;
         this.showInputs = new Array<boolean>(false, false, false, false, false, false, false);
         this.orderPayTypes.forEach((p, idx) => {
@@ -97,9 +97,10 @@ export default class CashierComponent extends ComponentBase {
 
     postPay() {
         this.orderPayTypes.forEach((p, idx) => {
-            this.payments.push(
-                { payTypeId: parseInt(p), money: this.orderPayMoneys[parseInt(p)] }
-            );
+            let payment = new Object as server.payment;
+            payment.payTypeId = parseInt(p);
+            payment.money = this.orderPayMoneys[parseInt(p)];
+            this.payments.push(payment);
         });
         console.log(this.payments)
     }

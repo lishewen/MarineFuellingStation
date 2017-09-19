@@ -4,7 +4,7 @@
             <yd-tab-panel label="待结算">
                 <yd-cell-group>
                     <weui-search v-model="sv" />
-                    <yd-cell-item arrow @click.native="orderclick(o)" v-for="o in orders" v-show="o.state == 5">
+                    <yd-cell-item arrow @click.native="orderclick(o)" v-for="o in orders" v-show="o.state == 5" :key="o.id">
                         <div slot="left">
                             <p style="font-size: 18px">{{o.carNo}}</p>
                             <p style="color:lightgray;font-size:14px">{{o.name}}</p>
@@ -20,7 +20,7 @@
                 
                 <yd-cell-group>
                     <weui-search v-model="sv" />
-                    <yd-cell-item arrow @click.native="" v-for="o in orders" v-show="o.state == 6">
+                    <yd-cell-item arrow v-for="o in orders" v-show="o.state == 6" :key="o.id">
                         <div slot="left">
                             <p style="font-size: 18px">{{o.carNo}}</p>
                             <p style="color:lightgray;font-size:14px">{{o.name}}</p>
@@ -35,7 +35,7 @@
             <yd-tab-panel label="挂账">
                 <yd-cell-group>
                     <weui-search v-model="sv" />
-                    <yd-cell-item arrow @click.native="" v-for="o in orders" v-show="o.state == 7">
+                    <yd-cell-item arrow v-for="o in orders" v-show="o.state == 7" :key="o.id">
                         <div slot="left">
                             <p style="font-size: 18px">{{o.carNo}}</p>
                             <p style="color:lightgray;font-size:14px">{{o.name}}</p>
@@ -145,7 +145,7 @@
                 <yd-button style="width:80%" type="warning" @click.native="nextclick()" v-show="lastshow">下一步</yd-button>
             </div>
             <div style="text-align: center">
-                <yd-button style="width:80%;margin-top:10px" type="primary" @click.native="" v-show="lastshow">挂账</yd-button>
+                <yd-button style="width:80%;margin-top:10px" type="primary" v-show="lastshow">挂账</yd-button>
             </div>
             <div style="text-align: center">
                 <yd-button style="width:80%" type="warning" @click.native="lastclick()" v-show="!lastshow">上一步</yd-button>

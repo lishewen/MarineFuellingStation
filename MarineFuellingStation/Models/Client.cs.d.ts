@@ -1,7 +1,7 @@
 declare module server {
-	interface client extends EntityBase {
-		placeType: any;
-		clientType: any;
+	interface client extends entityBase {
+		placeType: placeType;
+		clientType: clientType;
 		companyId?: number;
 		/** 跟进销售 */
 		followSalesman: string;
@@ -15,32 +15,13 @@ declare module server {
 		/** 固定电话 */
 		phone: string;
 		/** 最高挂账金额 */
-		maxOnAccount: number;
+		maxOnAccount: number | string;
 		/** 账户余额 */
 		balances: number;
 		/** 总消费金额 */
 		totalAmount: number;
-		company: {
-			keyword: string;
-			ticketType: any;
-			invoiceTitle: string;
-			taxFileNumber: string;
-			businessAccount: string;
-			bank: string;
-			address: string;
-			phone: string;
-			balances: number;
-			totalAmount: number;
-		};
-		product: {
-			minPrice: number;
-			lastPrice: number;
-			isUse: boolean;
-			productTypeId: number;
-			productType: {
-				products: any[];
-			};
-		};
+		company: company;
+		product: product;
 	}
 	const enum placeType {
 		陆上,

@@ -1,5 +1,5 @@
 declare module server {
-	interface product extends EntityBase {
+	interface product extends entityBase {
 		/** 底价 */
 		minPrice: number;
 		/** 最后报价 */
@@ -7,7 +7,7 @@ declare module server {
 		isUse: boolean;
 		productTypeId: number;
 	}
-	interface productType extends EntityBase {
-		products: any[];
+    interface productType extends entityBase {
+        products: product[];
 	}
 }

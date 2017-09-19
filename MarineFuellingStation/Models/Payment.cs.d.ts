@@ -4,6 +4,8 @@ declare module server {
 		/** 支付方式 */
 		payTypeId: any;
 		/** 金额 */
-		money: number;
+        money: number;
+        /** 订单Id */
+        orderId: number;
 	}
 }

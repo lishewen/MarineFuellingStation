@@ -20,5 +20,11 @@ namespace MFS.Models
         /// 金额
         /// </summary>
         public decimal Money { get; set; }
+        /// <summary>
+        /// 订单Id
+        /// </summary>
+        public int? OrderId { get; set; }
+        [JsonIgnore,ForeignKey("OrderId")]
+        public virtual Order Order { get; set; }
     }
 }

@@ -41,6 +41,9 @@
     <None Update="Controllers\OrderController.cs.d.ts">
       <DependentUpon>OrderController.cs</DependentUpon>
     </None>
+    <None Update="Controllers\ProductController.cs.d.ts">
+      <DependentUpon>ProductController.cs</DependentUpon>
+    </None>
     <None Update="Helper\FileHelper.cs.d.ts">
       <DependentUpon>FileHelper.cs</DependentUpon>
     </None>

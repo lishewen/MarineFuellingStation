@@ -16,18 +16,17 @@ namespace MFS.Models
             }
             set
             {
-                switch (value)
-                {
-                    case 1:
-                        Msg = "文件没有内容";
-                        break;
-                    case 0:
-                        Msg = "请求成功";
-                        break;
-                    case -1:
-                        Msg = "系统繁忙";
-                        break;
-                }
+                //统一错误代号提示
+                Dictionary<int, string> dict = new Dictionary<int, string> {
+                    { 1, "文件没有内容" },
+                    { 0, "请求成功" },
+                    { -1, "系统繁忙" },
+                    { 500, "扣减金额必须少于或等于账户余额" }
+                };
+
+                if (dict.Keys.Contains(value))
+                    Msg = dict[value];
+
                 _code = value;
             }
         }

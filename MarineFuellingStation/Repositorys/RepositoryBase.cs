@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
 using MFS.Models;
+using Z.EntityFramework.Plus;
 
 namespace MFS.Repositorys
 {
@@ -114,11 +115,20 @@ namespace MFS.Repositorys
                 Save();
             return entity;
         }
+        /// <summary>
+        /// 批量更新实体的部分属性(返回成功更新条数)
+        /// </summary>
+        /// <param name="predicate">where表达式</param>
+        /// <param name="entity">实体</param>
+        public int Update(Expression<Func<TEntity, bool>> predicate, TEntity entity)
+        {
+            return _dbContext.Set<TEntity>().Where(predicate).Update(e => entity);
+        }
         private void EntityToEntity<T>(T pTargetObjSrc, T pTargetObjDest)
         {
             foreach (var mItem in typeof(T).GetProperties())
             {
-                if (mItem.CanWrite && !mItem.PropertyType.IsSubclassOf(typeof(EntityBase)))
+                if (mItem.CanWrite && !mItem.PropertyType.IsSubclassOf(typeof(EntityBase)) && !mItem.PropertyType.IsSubclassOf(typeof(ICollection<EntityBase>)))
                     mItem.SetValue(pTargetObjDest, mItem.GetValue(pTargetObjSrc, new object[] { }), null);
             }
         }
@@ -163,11 +173,9 @@ namespace MFS.Repositorys
         /// </summary>
         /// <param name="where">lambda表达式</param>
         /// <param name="autoSave">是否自动保存</param>
-        public void Delete(Expression<Func<TEntity, bool>> where, bool autoSave = true)
+        public int Delete(Expression<Func<TEntity, bool>> where)
         {
-            _dbContext.Set<TEntity>().Where(where).ToList().ForEach(it => _dbContext.Set<TEntity>().Remove(it));
-            if (autoSave)
-                Save();
+            return _dbContext.Set<TEntity>().Where(where).Delete();
         }
         /// <summary>
         /// 分页查询

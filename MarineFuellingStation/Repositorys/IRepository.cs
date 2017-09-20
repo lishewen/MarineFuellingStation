@@ -63,6 +63,13 @@ namespace MFS.Repositorys
         TEntity Update(TEntity entity, bool autoSave = true);
 
         /// <summary>
+        /// 批量更新实体的部分属性(返回成功更新条数)
+        /// </summary>
+        /// <param name="predicate">where表达式</param>
+        /// <param name="entity">实体</param>
+        int Update(Expression<Func<TEntity, bool>> predicate, TEntity entity);
+
+        /// <summary>
         /// 新增或更新实体
         /// </summary>
         /// <param name="entity">实体</param>
@@ -88,7 +95,7 @@ namespace MFS.Repositorys
         /// </summary>
         /// <param name="where">lambda表达式</param>
         /// <param name="autoSave">是否自动保存</param>
-        void Delete(Expression<Func<TEntity, bool>> where, bool autoSave = true);
+        int Delete(Expression<Func<TEntity, bool>> where);
 
         /// <summary>
         /// 分页获取数据

@@ -4,7 +4,7 @@
             <yd-tab-panel label="待结算">
                 <yd-cell-group>
                     <weui-search v-model="sv" />
-                    <yd-cell-item arrow @click.native="orderclick(o)" v-for="o in orders" v-show="o.state == 5" :key="o.id">
+                    <yd-cell-item arrow @click.native="orderclick(o)" v-for="o in orders" v-show="o.payState == 0" :key="o.id">
                         <div slot="left">
                             <p style="font-size: 18px">{{o.carNo}}</p>
                             <p style="color:lightgray;font-size:14px">{{o.name}}</p>
@@ -12,6 +12,7 @@
                         <div slot="right" style="text-align: right;margin:10px 5px 10px 0px;line-height: 18px">
                             <p style="color:gray;font-size:22px">￥{{o.totalMoney}}</p>
                             <p style="color:lightgray;font-size:14px;margin-top:5px">{{o.product.name}} / {{o.count}}{{o.unit}} / {{o.price}}</p>
+                            <p style="color: lightcoral" v-show="o.client.balances > 0">余额：￥{{o.client.balances}}</p>
                         </div>
                     </yd-cell-item>
                 </yd-cell-group>
@@ -20,7 +21,7 @@
                 
                 <yd-cell-group>
                     <weui-search v-model="sv" />
-                    <yd-cell-item arrow v-for="o in orders" v-show="o.state == 6" :key="o.id">
+                    <yd-cell-item arrow v-for="o in orders" v-show="o.payState == 1" :key="o.id">
                         <div slot="left">
                             <p style="font-size: 18px">{{o.carNo}}</p>
                             <p style="color:lightgray;font-size:14px">{{o.name}}</p>
@@ -35,7 +36,7 @@
             <yd-tab-panel label="挂账">
                 <yd-cell-group>
                     <weui-search v-model="sv" />
-                    <yd-cell-item arrow v-for="o in orders" v-show="o.state == 7" :key="o.id">
+                    <yd-cell-item arrow v-for="o in orders" v-show="o.payState == 2" :key="o.id">
                         <div slot="left">
                             <p style="font-size: 18px">{{o.carNo}}</p>
                             <p style="color:lightgray;font-size:14px">{{o.name}}</p>
@@ -84,7 +85,7 @@
                 <yd-cell-item type="checkbox">
                     <div slot="left">
                         <p> 账户余额</p>
-                        <p style="color:red;font-size:12px">￥200000.00</p>
+                        <p style="color:red;font-size:12px">￥{{selectedOrder.client.balances}}</p>
                     </div>
                     <input slot="right" type="checkbox" value="6" v-model="orderPayTypes" />
                 </yd-cell-item>
@@ -145,13 +146,13 @@
                 <yd-button style="width:80%" type="warning" @click.native="nextclick()" v-show="lastshow">下一步</yd-button>
             </div>
             <div style="text-align: center">
-                <yd-button style="width:80%;margin-top:10px" type="primary" v-show="lastshow">挂账</yd-button>
+                <yd-button style="width:80%;margin-top:10px" type="primary" v-show="lastshow" @click.native="putPayOnCredit()">挂账</yd-button>
             </div>
             <div style="text-align: center">
                 <yd-button style="width:80%" type="warning" @click.native="lastclick()" v-show="!lastshow">上一步</yd-button>
             </div>
             <div style="text-align: center">
-                <yd-button style="width:80%;margin-top:10px" type="primary" @click.native="postPay()" v-show="!lastshow">结账</yd-button>
+                <yd-button style="width:80%;margin-top:10px" type="primary" @click.native="validateMoney()" v-show="!lastshow">结账</yd-button>
             </div>
         </yd-popup>
     </div>

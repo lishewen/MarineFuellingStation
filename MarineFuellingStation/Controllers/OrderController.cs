@@ -68,6 +68,7 @@ namespace MFS.Controllers
                 };
             }
         }
+        
         #endregion
         #region GET方法
 
@@ -158,6 +159,33 @@ namespace MFS.Controllers
             {
                 Code = 0,
                 Data = r.Update(o)
+            };
+        }
+        /// <summary>
+        /// 订单结算
+        /// </summary>
+        /// <param name="model">包含需要更改内容的model</param>
+        /// <returns></returns>
+        [HttpPut("[action]")]
+        public ResultJSON<Order> Pay([FromBody] Order model)
+        {
+            r.CurrentUser = UserName;
+            return r.Pay(model);
+        }
+
+        /// <summary>
+        /// 挂账
+        /// </summary>
+        /// <param name="model">包含需要更改内容的model</param>
+        /// <returns></returns>
+        [HttpPut("[action]")]
+        public ResultJSON<Order> PayOnCredit([FromBody] Order model)
+        {
+            r.CurrentUser = UserName;
+            return new ResultJSON<Order>
+            {
+                Code = 0,
+                Data = r.ChangePayState(model)
             };
         }
         #endregion

@@ -72,7 +72,55 @@ namespace MFS.Repositorys
         /// <returns></returns>
         public List<Order> GetIncludeProduct(int startPage, int pageSize)
         {
-            return LoadPageList(startPage, pageSize, out int count, true).Include(o => o.Product).ToList();
+            return LoadPageList(startPage, pageSize, out int count, true).Include(o => o.Product).Include(o => o.Client).ToList();
+        }
+        /// <summary>
+        /// 结算订单
+        /// </summary>
+        /// <param name="model">Model</param>
+        /// <returns></returns>
+        public ResultJSON<Order> Pay(Order model)
+        {
+            ResultJSON<Order> ret = new ResultJSON<Order> { Code = 0 };
+            Order o = _dbContext.Orders.Find(model.Id);
+            o.PayState = model.PayState;
+            //新增付款记录Payment
+            foreach(Payment p in model.Payments)
+            {
+                //要加载order下才会关联OrderId，直接加在db下不会反应关联关系
+                o.Payments.Add(p);
+                if(p.PayTypeId == OrderPayType.账户扣减)
+                {
+                    //扣减账户余额
+                    var client = _dbContext.Clients.FirstOrDefault(c => c.CarNo == model.CarNo);
+                    if (client.Balances >= p.Money)
+                        client.Balances -= p.Money;
+                    else
+                    {
+                        ret.Code = 500;
+                        ret.Msg = "扣减金额必须少于或等于账户余额";
+                    }                        
+                }
+            }
+            o.LastUpdatedAt = DateTime.Now;
+            if (ret.Code == 0) {
+                Save();
+                ret.Data = o;
+            }
+            return ret;
+        }
+        /// <summary>
+        /// 更改订单结算状态
+        /// </summary>
+        /// <param name="model">Model</param>
+        /// <returns></returns>
+        public Order ChangePayState(Order model)
+        {
+            Order o = _dbContext.Orders.Find(model.Id);
+            o.PayState = model.PayState;
+            o.LastUpdatedAt = DateTime.Now;
+            Save();
+            return o;
         }
     }
 }

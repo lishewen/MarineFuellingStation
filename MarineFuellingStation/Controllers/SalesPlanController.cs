@@ -31,7 +31,7 @@ namespace MFS.Controllers
             this.option.销售计划AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.销售计划Secret);
         }
 
-        [HttpGet("[action]")]
+        [HttpGet("SalesPlanNo")]
         public ResultJSON<string> SalesPlanNo()
         {
             return new ResultJSON<string>

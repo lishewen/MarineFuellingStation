@@ -11,9 +11,10 @@ using System;
 namespace MFS.Migrations
 {
     [DbContext(typeof(EFContext))]
-    partial class EFContextModelSnapshot : ModelSnapshot
+    [Migration("20170920062611_Order_PayState")]
+    partial class Order_PayState
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -327,8 +328,6 @@ namespace MFS.Migrations
 
                     b.Property<string>("CarNo");
 
-                    b.Property<int?>("ClientId");
-
                     b.Property<int>("Count");
 
                     b.Property<DateTime>("CreatedAt");
@@ -399,8 +398,6 @@ namespace MFS.Migrations
                     b.Property<string>("Worker");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ClientId");
 
                     b.HasIndex("ProductId");
 
@@ -735,10 +732,6 @@ namespace MFS.Migrations
 
             modelBuilder.Entity("MFS.Models.Order", b =>
                 {
-                    b.HasOne("MFS.Models.Client", "Client")
-                        .WithMany()
-                        .HasForeignKey("ClientId");
-
                     b.HasOne("MFS.Models.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")

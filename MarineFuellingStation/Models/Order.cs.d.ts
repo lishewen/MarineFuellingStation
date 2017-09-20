@@ -4,7 +4,8 @@ declare module server {
         salesPlanId?: number;
         salesPlan: salesPlan;
         orderType: salesPlanType;
-		carNo: string;
+        carNo: string;
+        client: client;
         productId: number;
         product: product;
 		price: number;
@@ -51,6 +52,8 @@ declare module server {
 		transportOrderId?: number;
         /** 订单状态 */
         state: orderState;
+        /** 订单支付状态 */
+        payState: payState;
 		ticketType: any;
 		/** 是否运输 */
 		isTrans: boolean;
@@ -63,7 +66,7 @@ declare module server {
         /** 销售仓Id */
         storeId?: number;
         /** 订单对应的付款记录 */
-        payments: payment;
+        payments: payment[];
 	}
 	const enum orderState {
         已开单,
@@ -81,6 +84,12 @@ declare module server {
         支付宝,
         刷卡一,
         刷卡二,
-        刷卡三
+        刷卡三,
+        账户扣减
+    }
+    const enum payState {
+        未结算,
+        已结算,
+        挂账
     }
 }

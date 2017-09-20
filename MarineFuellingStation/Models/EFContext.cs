@@ -64,6 +64,10 @@ namespace MFS.Models
         /// 出入仓记录表
         /// </summary>
         public DbSet<InAndOutLog> InAndOutLogs { get; set; }
+        /// <summary>
+        /// 付款记录表
+        /// </summary>
+        public DbSet<Payment> Payments { get; set; }
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {
             OnBeforeSaving();

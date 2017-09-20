@@ -12,6 +12,11 @@ namespace MFS.Models
     /// </summary>
     public class Order : EntityBase
     {
+        public Order()
+        {
+            if (Payments == null)
+                Payments = new List<Payment>();
+        }
         public int? SalesPlanId { get; set; }
         [ForeignKey("SalesPlanId")]
         public virtual SalesPlan SalesPlan { get; set; }
@@ -20,6 +25,12 @@ namespace MFS.Models
         /// 船号/车号
         /// </summary>
         public string CarNo { get; set; }
+        /// <summary>
+        /// 客户
+        /// </summary>
+        public int? ClientId { get; set; }
+        [ForeignKey("ClientId")]
+        public virtual Client Client { get; set; }
         public int ProductId { get; set; }
         [ForeignKey("ProductId")]
         public virtual Product Product { get; set; }
@@ -117,6 +128,10 @@ namespace MFS.Models
         /// 订单状态
         /// </summary>
         public OrderState State { get; set; } = OrderState.已开单;
+        /// <summary>
+        /// 订单支付状态
+        /// </summary>
+        public PayState PayState { get; set; } = PayState.未结算;
         public TicketType TicketType { get; set; }
         /// <summary>
         /// 是否运输
@@ -149,7 +164,11 @@ namespace MFS.Models
         空车过磅,
         装油中,
         油车过磅,
-        已完成,
+        已完成
+    }
+    public enum PayState
+    {
+        未结算,
         已结算,
         挂账
     }
@@ -160,6 +179,7 @@ namespace MFS.Models
         支付宝,
         刷卡一,
         刷卡二,
-        刷卡三
+        刷卡三,
+        账户扣减
     }
 }

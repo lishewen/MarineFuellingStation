@@ -8,7 +8,13 @@ namespace MFS.Models
 {
     public class Client : EntityBase
     {
+        /// <summary>
+        /// 陆上?水上?
+        /// </summary>
         public PlaceType PlaceType { get; set; }
+        /// <summary>
+        /// 客户类型（个人、公司)
+        /// </summary>
         public ClientType ClientType { get; set; }
         public int? CompanyId { get; set; }
         /// <summary>

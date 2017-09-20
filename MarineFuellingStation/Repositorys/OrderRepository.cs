@@ -93,13 +93,17 @@ namespace MFS.Repositorys
                 {
                     //扣减账户余额
                     var client = _dbContext.Clients.FirstOrDefault(c => c.CarNo == model.CarNo);
-                    if (client.Balances >= p.Money)
-                        client.Balances -= p.Money;
-                    else
+                    if (client != null)
                     {
-                        ret.Code = 500;
-                        ret.Msg = "扣减金额必须少于或等于账户余额";
-                    }                        
+                        if (client.Balances >= p.Money)
+                            client.Balances -= p.Money;
+                        else
+                        {
+                            ret.Code = 500;
+                            ret.Msg = "扣减金额必须少于或等于账户余额";
+                            break;
+                        }
+                    }                       
                 }
             }
             o.LastUpdatedAt = DateTime.Now;

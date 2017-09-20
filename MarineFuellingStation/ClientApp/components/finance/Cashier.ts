@@ -30,7 +30,8 @@ export default class CashierComponent extends ComponentBase {
         this.payments = new Array<server.payment>();
         this.selectedOrder = new Object() as server.order;
         this.selectedOrder.client = new Object() as server.client;
-        this.orderPayTypes = ["0"];
+        this.selectedOrder.client.balances = 0;
+        this.orderPayTypes = [server.orderPayType.现金.toString()];//默认支付方式“现金”
         this.orderPayMoneys = new Array<number>();
         this.showInputs = new Array<boolean>(false, false, false, false, false, false, false);
         this.orders = new Array<server.order>();
@@ -99,21 +100,35 @@ export default class CashierComponent extends ComponentBase {
     }
     //验证输入的账户扣减金额是否大于账户余额
     validateMoney() {
-        console.log(this.orderPayMoneys);
-        console.log(this.orderPayTypes);
+        if (this.payInfact - this.selectedOrder.totalMoney < 0) {
+            this.toastError("实收金额应大于等于应收金额")
+            return;
+        }
+
         let flag = true;
+        let isNull = false;
+
         this.orderPayTypes.forEach((p, idx) => {
-            //console.log(parseInt(p));
+            if (!this.orderPayMoneys[parseInt(p)]) {
+                isNull = true;
+                return;
+            }
             if (parseInt(p) == server.orderPayType.账户扣减) {
                 if (this.orderPayMoneys[parseInt(p)] > this.selectedOrder.client.balances) {
-                    //console.log(this.orderPayMoneys[parseInt(p)])
-                    this.toastError("输入的扣减金额不能大于账户余额")
                     flag = false;
                 }   
             }
         });
+        if (!flag) {
+            this.toastError("输入的扣减金额不能大于账户余额");
+            return;
+        }
+        if (isNull) {
+            this.toastError("请输入金额");
+            return;
+        }
 
-        //if (flag) this.putPay();
+        this.putPay();
     }
 
     //结账

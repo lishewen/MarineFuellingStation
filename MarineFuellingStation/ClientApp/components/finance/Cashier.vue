@@ -12,7 +12,7 @@
                         <div slot="right" style="text-align: right;margin:10px 5px 10px 0px;line-height: 18px">
                             <p style="color:gray;font-size:22px">￥{{o.totalMoney}}</p>
                             <p style="color:lightgray;font-size:14px;margin-top:5px">{{o.product.name}} / {{o.count}}{{o.unit}} / {{o.price}}</p>
-                            <p style="color: lightcoral" v-show="o.client.balances > 0">余额：￥{{o.client.balances}}</p>
+                            <p style="color: lightcoral" v-if="o.client != null">余额：￥{{o.client == null ? 0 : o.client.balances}}</p>
                         </div>
                     </yd-cell-item>
                 </yd-cell-group>
@@ -82,10 +82,10 @@
                     <input slot="right" type="checkbox" value="5" v-model="orderPayTypes" />
                 </yd-cell-item>
 
-                <yd-cell-item type="checkbox">
+                <yd-cell-item type="checkbox" v-show="selectedOrder.client != null">
                     <div slot="left">
                         <p> 账户余额</p>
-                        <p style="color:red;font-size:12px">￥{{selectedOrder.client.balances}}</p>
+                        <p style="color:red;font-size:12px">￥{{selectedOrder.client == null? 0 : selectedOrder.client.balances}}</p>
                     </div>
                     <input slot="right" type="checkbox" value="6" v-model="orderPayTypes" />
                 </yd-cell-item>
@@ -102,7 +102,7 @@
                 </yd-cell-item>
                 <yd-cell-item v-show="!lastshow">
                     <span slot="left">找零：</span>
-                    <span slot="right">￥{{selectedOrder.totalMoney - payInfact}}元</span>
+                    <span slot="right">￥{{payInfact - selectedOrder.totalMoney}}元</span>
                 </yd-cell-item>
             </yd-cell-group>
             <yd-cell-group title="输入金额" v-show="!lastshow">

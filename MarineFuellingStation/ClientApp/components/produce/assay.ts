@@ -18,6 +18,7 @@ export default class AssayComponent extends ComponentBase {
 
     radio2: string = "1";
     carNo: string = "";
+    isPrevent: boolean = true;
     show1: boolean = true;
     showDetail: boolean = false;
     sv: string = "";
@@ -79,8 +80,11 @@ export default class AssayComponent extends ComponentBase {
     getAssayNo() {
         axios.get('/api/Assay/AssayNo').then((res) => {
             let jobj = res.data as server.resultJSON<string>;
-            if (jobj.code == 0)
+            if (jobj.code == 0) {
                 this.model.name = jobj.data;
+                this.isPrevent = false;
+            }
+                
         });
     }
 

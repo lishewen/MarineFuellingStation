@@ -32,6 +32,15 @@ namespace MFS.Controllers
                 Data = r.GetIncludeProduct().OrderByDescending(p => p.Id).ToList()
             };
         }
+        [HttpGet("[action]/{id}")]
+        public ResultJSON<Purchase> GetDetail(int id)
+        {
+            return new ResultJSON<Purchase>
+            {
+                Code = 0,
+                Data = r.GetDetail(id)
+            };
+        }
         [HttpGet("[action]/{n}")]
         public ResultJSON<List<Purchase>> GetTopN(int n)
         {

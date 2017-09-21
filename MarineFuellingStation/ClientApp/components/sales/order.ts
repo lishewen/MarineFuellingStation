@@ -11,6 +11,7 @@ import moment from "moment";
 export default class OrderComponent extends ComponentBase {
     salesplans: server.salesPlan[];
     salesplanshow: boolean = false;
+    isPrevent: boolean = true;
     model: server.order;
     selectedplanNo: string = "请选择";
     oiloptions: ydui.actionSheetItem[];
@@ -132,7 +133,7 @@ export default class OrderComponent extends ComponentBase {
     }
 
     godetail(id: number) {
-        this.$router.push('/sales/order/' + id);
+        this.$router.push('/sales/order/' + id + '/order');
     }
 
     mounted() {
@@ -185,8 +186,10 @@ export default class OrderComponent extends ComponentBase {
     getOrderNo() {
         axios.get('/api/Order/OrderNo').then((res) => {
             let jobj = res.data as server.resultJSON<string>;
-            if (jobj.code == 0)
+            if (jobj.code == 0) {
                 this.model.name = jobj.data;
+                this.isPrevent = false;
+            }   
         });
     }
 

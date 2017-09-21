@@ -19,6 +19,7 @@ export default class MoveStoreComponent extends ComponentBase {
     radio2: string = "1";
     carNo: string = "";
     show1: boolean = false;
+    isPrevent: boolean = true;
 
     filterclick(): void {
     };
@@ -117,8 +118,11 @@ export default class MoveStoreComponent extends ComponentBase {
     getMoveStoreNo() {
         axios.get('/api/MoveStore/MoveStoreNo').then((res) => {
             let jobj = res.data as server.resultJSON<string>;
-            if (jobj.code == 0)
+            if (jobj.code == 0) {
                 this.model.name = jobj.data;
+                this.isPrevent = false;
+            }
+                
         });
     }
     //** 获得生产员 */

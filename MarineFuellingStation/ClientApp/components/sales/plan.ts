@@ -11,6 +11,7 @@ import moment from "moment";
 export default class PlanComponent extends ComponentBase {
     radio2: string = '1';
     username: string;
+    isPrevent: boolean = true;
     model: server.salesPlan;
     oildate: string;
     salesplans: server.salesPlan[];
@@ -138,8 +139,10 @@ export default class PlanComponent extends ComponentBase {
     getSalesPlanNo() {
         axios.get('/api/SalesPlan/SalesPlanNo').then((res) => {
             let jobj = res.data as server.resultJSON<string>;
-            if (jobj.code == 0)
+            if (jobj.code == 0){
                 this.model.name = jobj.data;
+                this.isPrevent = false;//允许提交
+            }
         });
     }
 

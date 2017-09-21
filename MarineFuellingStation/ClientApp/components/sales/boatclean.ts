@@ -16,6 +16,7 @@ export default class BoatCleanComponent extends ComponentBase {
     unit: string = '升';
     carNo: string = '';
     sv: string = "";
+    isPrevent: boolean = true;
 
     constructor() {
         super();
@@ -94,8 +95,11 @@ export default class BoatCleanComponent extends ComponentBase {
     getBoatCleanNo() {
         axios.get('/api/BoatClean/BoatCleanNo').then((res) => {
             let jobj = res.data as server.resultJSON<string>;
-            if (jobj.code == 0)
+            if (jobj.code == 0) {
                 this.model.name = jobj.data;
+                this.isPrevent = false;
+            }
+                
         });
     }
 

@@ -27,6 +27,15 @@ namespace MFS.Controllers
                 Data = r.Insert(model)
             };
         }
+        [HttpGet("[action]/{id}")]
+        public ResultJSON<Client> GetDetail(int id)
+        {
+            return new ResultJSON<Client>
+            {
+                Code = 0,
+                Data = r.GetDetail(id)
+            };
+        }
         [HttpGet]
         public ResultJSON<List<Client>> Get()
         {

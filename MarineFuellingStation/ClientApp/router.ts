@@ -31,6 +31,7 @@ const routes: VueRouter.RouteConfig[] = [
     { path: '/client/client', component: require('./components/client/client.vue') },
 
     { path: '/user/user', component: require('./components/user/user.vue') },
+    { path: '/user/user/:id', component: require('./components/user/userdetail.vue') },
 
     { path: '/finance/cashier', component: require('./components/finance/cashier.vue') },
 

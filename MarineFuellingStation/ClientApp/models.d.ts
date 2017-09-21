@@ -76,4 +76,25 @@ declare namespace work {
         errmsg: string;
         p2PData?: any;
     }
+
+    export interface memberResult {
+        userid: string;
+        name: string;
+        department: number[];
+        order: number[];
+        position: string;
+        mobile: string;
+        gender: number;
+        email: string;
+        isleader: number;
+        avatar: string;
+        status: number;
+        telephone: string;
+        english_name: string;
+        extattr: {
+            attrs: any[];
+        };
+        enable: number;
+        wxplugin_status: string;
+    }
 }

@@ -1,4 +1,4 @@
-﻿import Vue from 'vue';
+﻿import ComponentBase from "../../componentbase";
 import { Component } from 'vue-property-decorator';
 import axios from "axios";
 @Component({
@@ -6,7 +6,7 @@ import axios from "axios";
         WeuiSearch: require('../weui-search/search.vue')
     }
 })
-export default class UserComponent extends Vue {
+export default class UserComponent extends ComponentBase {
     radio1: string = "1";
     radio2: string = "1";
     usershow: boolean = false;
@@ -50,7 +50,7 @@ export default class UserComponent extends Vue {
         }, {
             label: '详细资料',
             method: () => {
-                alert(user.name + ' 详细资料页');
+                this.$router.push('/user/user/' + user.userid)
             }
         }];
         this.usershow = true;

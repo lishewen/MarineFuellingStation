@@ -6,7 +6,7 @@ Vue.use(VueRouter);
 
 const routes: VueRouter.RouteConfig[] = [
     { path: '/sales/plan', component: require('./components/sales/plan.vue') },
-    { path: '/sales/plan/:id', component: require('./components/sales/plandetail.vue') },
+    { path: '/sales/plan/:id/:from', component: require('./components/sales/plandetail.vue') },
     { path: '/sales/order', component: require('./components/sales/order.vue') },
     { path: '/sales/order/:id/:from', component: require('./components/sales/orderdetail.vue') },
     { path: '/sales/myorder', component: require('./components/sales/myorder.vue') },
@@ -16,6 +16,7 @@ const routes: VueRouter.RouteConfig[] = [
 
     { path: '/produce/buyboard', component: require('./components/produce/buyboard.vue') },
     { path: '/produce/planboard', component: require('./components/produce/planboard.vue') },
+    { path: '/produce/planboard/:id/:from', component: require('./components/sales/plandetail.vue') },
     { path: '/produce/assay', component: require('./components/produce/assay.vue') },
     { path: '/produce/unload', component: require('./components/produce/unload.vue') },
     { path: '/produce/load', component: require('./components/produce/load.vue') },

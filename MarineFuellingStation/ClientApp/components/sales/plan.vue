@@ -73,7 +73,7 @@
             <yd-tab-panel label="单据记录">
                 <weui-search v-model="sv" />
                 <yd-cell-group>
-                    <yd-cell-item arrow v-for="s in salesplans" :key="s.id">
+                    <yd-cell-item arrow v-for="s in salesplans" :key="s.id" @click.native="godetail(s.id)">
                         <span slot="left">{{s.carNo}}</span>
                         <span slot="left" class="color_lightgray" style="margin-left:10px">{{s.oilName}} {{s.count}}{{s.unit}} ￥{{s.totalMoney}}</span>
                         <span slot="right">{{formatDate(s.oilDate)}}</span>

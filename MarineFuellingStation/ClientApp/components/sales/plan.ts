@@ -114,6 +114,10 @@ export default class PlanComponent extends ComponentBase {
         return moment(d).format('YYYY-MM-DD');
     }
 
+    godetail(id) {
+        this.$router.push('/sales/plan/' + id + '/plan')
+    }
+
     getStateName(s: server.salesPlanState): string {
         switch (s) {
             case server.salesPlanState.未审批:

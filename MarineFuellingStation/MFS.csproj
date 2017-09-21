@@ -27,6 +27,7 @@
     <!-- Files not to show in IDE -->
     <None Remove="ClientApp\ComponentBase.ts" />
     <None Remove="ClientApp\components\produce\buyboard.ts" />
+    <None Remove="ClientApp\components\produce\planboard.ts" />
     <None Remove="ClientApp\ydui.d..ts" />
     <None Remove="yarn.lock" />
   </ItemGroup>
@@ -37,6 +38,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\componentbase.ts" />
     <TypeScriptCompile Include="ClientApp\components\produce\buyboard.ts" />
+    <TypeScriptCompile Include="ClientApp\components\produce\planboard.ts" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Controllers\ProductController.cs.d.ts">

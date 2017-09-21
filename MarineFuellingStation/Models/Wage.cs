@@ -9,6 +9,7 @@ namespace MFS.Models
     {
         public int 年月 { get; set; }
         public string 职务 { get; set; }
+        public int DepartmentId { get; set; }
         public decimal 基本 { get; set; }
         public decimal 出勤天数 { get; set; }
         public decimal 提成 { get; set; }

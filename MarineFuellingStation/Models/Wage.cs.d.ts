@@ -2,6 +2,7 @@ declare module server {
 	interface wage extends entityBase {
 		年月: number;
 		职务: string;
+		departmentId: number;
 		基本: number;
 		出勤天数: number;
 		提成: number;

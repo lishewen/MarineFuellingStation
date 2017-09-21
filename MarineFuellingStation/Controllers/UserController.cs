@@ -16,10 +16,6 @@ namespace MFS.Controllers
     [Route("api/[controller]"), Axios]
     public class UserController : ControllerBase
     {
-        /// <summary>
-        /// 缓存部门列表
-        /// </summary>
-        public static List<DepartmentList> DepartmentList { get; set; }
         WorkOption option;
         private readonly UserRepository r;
         public UserController(IOptionsSnapshot<WorkOption> option, UserRepository repository)

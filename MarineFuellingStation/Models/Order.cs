@@ -155,7 +155,10 @@ namespace MFS.Models
         [ForeignKey("StoreId")]
         public virtual Store Store { get; set; }
         public virtual ICollection<Payment> Payments { get; set; }
-
+        /// <summary>
+        /// 底价
+        /// </summary>
+        public decimal MinPrice { get; set; }
     }
     public enum OrderState
     {

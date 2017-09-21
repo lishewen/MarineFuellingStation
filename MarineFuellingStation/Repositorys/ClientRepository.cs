@@ -29,7 +29,7 @@ namespace MFS.Repositorys
             }
 
             if (balances > 0)//余额
-                clientwhere.And(c => c.Balances < balances);
+                clientwhere = clientwhere.And(c => c.Balances < balances);
 
             if (cycle > 0)//周期
             {
@@ -38,9 +38,9 @@ namespace MFS.Repositorys
             }
 
             if (ctype == ClientType.全部)
-                clientwhere.And(c => (c.ClientType == ClientType.个人 || c.ClientType == ClientType.公司));
+                clientwhere = clientwhere.And(c => (c.ClientType == ClientType.个人 || c.ClientType == ClientType.公司));
             else
-                clientwhere.And(c => c.ClientType == ctype);
+                clientwhere = clientwhere.And(c => c.ClientType == ctype);
 
             list = _dbContext.Clients.Include("Company").Where(clientwhere).ToList();
 

@@ -11,7 +11,7 @@
                     上月
                 </div>
             </yd-grids-item>
-            <yd-grids-item style="padding:10px" @click.native="show2 = true">
+            <yd-grids-item style="padding:10px" @click.native="departshow = true">
                 <p slot="text">筛选</p>
             </yd-grids-item>
         </yd-grids-group>
@@ -118,33 +118,15 @@
                 <yd-button style="width:100px" type="primary" @click.native="saveWage">保存</yd-button>
             </div>
         </yd-popup>
-        <yd-popup v-model="show2" position="right">
-            <yd-cell-group title="请选择生产员">
-                <yd-cell-item type="checkbox">
-                    <span slot="left">生产部</span>
-                    <input slot="right" type="checkbox" value="生产部" v-model="picked" />
-                </yd-cell-item>
-
-                <yd-cell-item type="checkbox">
-                    <span slot="left">销售部</span>
-                    <input slot="right" type="checkbox" value="销售部" v-model="picked" />
-                </yd-cell-item>
-
-                <yd-cell-item type="checkbox">
-                    <span slot="left">后勤部</span>
-                    <input slot="right" type="checkbox" value="后勤部" v-model="picked" />
-                </yd-cell-item>
-                <yd-cell-item type="checkbox">
-                    <span slot="left">财务部</span>
-                    <input slot="right" type="checkbox" value="财务部" v-model="picked" />
-                </yd-cell-item>
-                <yd-cell-item type="checkbox">
-                    <span slot="left">总经办</span>
-                    <input slot="right" type="checkbox" value="总经办" v-model="picked" />
+        <yd-popup v-model="departshow" position="right">
+            <yd-cell-group title="请选择部门">
+                <yd-cell-item type="checkbox" v-for="d in departments" :key="d.id">
+                    <span slot="left">{{d.name}}</span>
+                    <input slot="right" type="checkbox" :value="d.id" v-model="picked" />
                 </yd-cell-item>
             </yd-cell-group>
             <div style="text-align: center">
-                <yd-button style="width:100px" type="primary" @click.native="">提交</yd-button>
+                <yd-button style="width:100px" type="primary" @click.native="clickDepart">提交</yd-button>
             </div>
         </yd-popup>
     </div>

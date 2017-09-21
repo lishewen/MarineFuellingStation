@@ -13,6 +13,7 @@ export default class WageComponent extends ComponentBase {
     model: server.wage;
     /** 部门字典 */
     departmentdict: { [index: number]: string; } = {};
+    departments: work.department[];
     sumwage: number;
     showwage: boolean = false;
     selecteddate: string = moment(new Date()).format('YYYY-MM-DD');
@@ -22,14 +23,15 @@ export default class WageComponent extends ComponentBase {
     lend: number = 0;
     security: number = 0;
     sv: string = "";
-    show2: boolean = false;
-
-    picked: object = ['生产部'];
+    departshow: boolean = false;
+    picked: string[];
 
     constructor() {
         super();
 
+        this.picked = new Array<string>();
         this.list = new Array<server.wage>();
+        this.departments = new Array<work.department>();
         this.model = new Object as server.wage;
         this.sumwage = 0;
 
@@ -75,6 +77,11 @@ export default class WageComponent extends ComponentBase {
         this.showwage = true;
     }
 
+    clickDepart() {
+        let ids = this.picked.join('|');
+        this.getWageByDepart(this.sdate, ids);
+    }
+
     saveWage() {
         //TODO: 验证操作
 
@@ -100,6 +107,16 @@ export default class WageComponent extends ComponentBase {
         });
     }
 
+    getWageByDepart(ym: string, departids: string) {
+        axios.get('/api/Wage/GetByDepart/' + ym + '/' + departids).then((res) => {
+            let jobj = res.data as server.resultJSON<server.wage[]>;
+            if (jobj.code == 0) {
+                this.list = jobj.data;
+                this.sumWage();
+            }
+        });
+    }
+
     postWage(model: server.wage) {
         axios.post('/api/Wage', model).then((res) => {
             let jobj = res.data as server.resultJSON<server.wage>;
@@ -115,6 +132,7 @@ export default class WageComponent extends ComponentBase {
         axios.get('/api/Department').then((res) => {
             let jobj = res.data as work.departmentListResult;
             if (jobj.errcode == 0) {
+                this.departments = jobj.department;
                 jobj.department.forEach((o, i) => {
                     this.departmentdict[o.id] = o.name;
                 });

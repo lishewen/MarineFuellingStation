@@ -28,6 +28,23 @@ namespace MFS.Controllers
             this.option = option.Value;
             this.option.AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.Secret);
         }
+        [HttpGet("[action]/{ym}/{departid}")]
+        public ResultJSON<List<Wage>> GetByDepart(string ym, string departid)
+        {
+            int d = Convert.ToInt32(ym);
+
+            var ids = departid.Split('|');
+
+            List<int> items = new List<int>();
+            foreach (var id in ids)
+                items.Add(Convert.ToInt32(id));
+
+            return new ResultJSON<List<Wage>>
+            {
+                Code = 0,
+                Data = wr.GetAllList(w => w.年月 == d && items.Contains(w.DepartmentId))
+            };
+        }
         [HttpGet("{ym?}")]
         public async Task<ResultJSON<List<Wage>>> Get(string ym)
         {

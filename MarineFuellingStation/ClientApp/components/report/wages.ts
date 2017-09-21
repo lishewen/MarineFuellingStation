@@ -68,6 +68,10 @@ export default class WageComponent extends ComponentBase {
 
     clickWage(wage: server.wage) {
         this.model = wage;
+        this.traffic = this.model.交通;
+        this.security = this.model.安全保障金;
+        this.lend = this.model.借支;
+        this.qingjia = this.model.请假;
         this.showwage = true;
     }
 

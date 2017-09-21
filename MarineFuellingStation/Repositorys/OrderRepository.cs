@@ -51,6 +51,7 @@ namespace MFS.Repositorys
         {
             var p = _dbContext.Products.Find(entity.ProductId);
             p.LastPrice = entity.Price;
+            entity.MinPrice = p.MinPrice;
             return base.Insert(entity, autoSave);
         }
         /// <summary>
@@ -60,7 +61,7 @@ namespace MFS.Repositorys
         /// <param name="startPage">第N页</param>
         /// <param name="pageSize">每页记录</param>
         /// <returns></returns>
-        public List<Order> GetIncludeProduct(SalesPlanType orderType,int startPage, int pageSize)
+        public List<Order> GetIncludeProduct(SalesPlanType orderType, int startPage, int pageSize)
         {
             return LoadPageList(startPage, pageSize, out int count, true, (o => o.OrderType == orderType)).Include(o => o.Product).ToList();
         }
@@ -84,12 +85,17 @@ namespace MFS.Repositorys
             ResultJSON<Order> ret = new ResultJSON<Order> { Code = 0 };
             Order o = _dbContext.Orders.Find(model.Id);
             o.PayState = model.PayState;
+            //计算订单销售提成
+            if (model.PayState == PayState.已结算)
+            {
+                o.SalesCommission = (o.Price - o.MinPrice) * o.Count * 0.2M;
+            }
             //新增付款记录Payment
-            foreach(Payment p in model.Payments)
+            foreach (Payment p in model.Payments)
             {
                 //要加载order下才会关联OrderId，直接加在db下不会反应关联关系
                 o.Payments.Add(p);
-                if(p.PayTypeId == OrderPayType.账户扣减)
+                if (p.PayTypeId == OrderPayType.账户扣减)
                 {
                     //扣减账户余额
                     var client = _dbContext.Clients.FirstOrDefault(c => c.CarNo == model.CarNo);
@@ -103,11 +109,12 @@ namespace MFS.Repositorys
                             ret.Msg = "扣减金额必须少于或等于账户余额";
                             break;
                         }
-                    }                       
+                    }
                 }
             }
             o.LastUpdatedAt = DateTime.Now;
-            if (ret.Code == 0) {
+            if (ret.Code == 0)
+            {
                 Save();
                 ret.Data = o;
             }

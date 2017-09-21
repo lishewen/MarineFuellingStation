@@ -1,5 +1,6 @@
 declare module server {
 	interface wage extends entityBase {
+		年月: number;
 		职务: string;
 		基本: number;
 		出勤天数: number;

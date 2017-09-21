@@ -7,6 +7,7 @@ namespace MFS.Models
 {
     public class Wage : EntityBase
     {
+        public int 年月 { get; set; }
         public string 职务 { get; set; }
         public decimal 基本 { get; set; }
         public decimal 出勤天数 { get; set; }

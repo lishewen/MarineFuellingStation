@@ -1,12 +1,13 @@
 declare module server {
 	const enum unloadState {
 		已开单,
-		已到达,
+        已到达,
+        选择油仓,
 		油车过磅,
 		化验,
 		卸油中,
 		空车过磅,
-		完工,
+        完工
 	}
 	/** 采购计划 */
 	interface purchase extends entityBase {
@@ -27,7 +28,11 @@ declare module server {
 		phone1: string;
 		driver2: string;
 		idCard2: string;
-		phone2: string;
+        phone2: string;
+        /** 卸油用油仓id */
+        storeId?: number;
+        /** 卸油油仓 */
+        store: number;
 		/** 油车磅秤数 */
 		scaleWithCar: number;
 		/** 油车磅秤图片地址 */

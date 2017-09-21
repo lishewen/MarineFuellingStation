@@ -54,7 +54,7 @@ export default class LoadComponent extends ComponentBase {
     }
 
     changeState(nextState: server.orderState) {
-        if (this.currStep == server.orderState.选择销售仓) {
+        if (this.currStep == server.orderState.选择油仓) {
             if (this.store == null) {
                 this.toastError("请选择销售仓")
                 return;

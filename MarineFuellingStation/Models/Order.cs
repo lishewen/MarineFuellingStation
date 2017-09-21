@@ -163,7 +163,7 @@ namespace MFS.Models
     public enum OrderState
     {
         已开单,
-        选择销售仓,
+        选择油仓,
         空车过磅,
         装油中,
         油车过磅,

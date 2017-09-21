@@ -92,6 +92,9 @@
     <None Update="Models\Wage.cs.d.ts">
       <DependentUpon>Wage.cs</DependentUpon>
     </None>
+    <None Update="Repositorys\PurchaseRepository.cs.d.ts">
+      <DependentUpon>PurchaseRepository.cs</DependentUpon>
+    </None>
   </ItemGroup>
   <Target Name="RunWebpack" AfterTargets="ComputeFilesToPublish">
     <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->

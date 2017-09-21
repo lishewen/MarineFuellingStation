@@ -36,6 +36,9 @@ namespace MFS.Models
         public string Driver2 { get; set; }
         public string IdCard2 { get; set; }
         public string Phone2 { get; set; }
+        public int? StoreId { get; set; }
+        [ForeignKey("StoreId")]
+        public Store Store { get; set; }
 
         //陆上卸油用到的字段
 
@@ -74,11 +77,12 @@ namespace MFS.Models
         {
             已开单,
             已到达,
+            选择油仓,
             油车过磅,
             化验,
             卸油中,
             空车过磅,
-            完工,
+            完工
         }
 
 

@@ -62,5 +62,9 @@ namespace MFS.Repositorys
             p.LastPrice = entity.Price;
             return base.Insert(entity, autoSave);
         }
+        public SalesPlan GetDetail(int id)
+        {
+            return _dbContext.SalesPlans.FirstOrDefault(s => s.Id == id);
+        }
     }
 }

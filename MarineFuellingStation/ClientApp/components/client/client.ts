@@ -145,6 +145,10 @@ export default class ClientComponent extends ComponentBase {
         this.showsales = false;
     }
 
+    godetail(id: number) {
+        this.$router.push('/client/client/' + id);
+    }
+
     //提交新增公司
     addcompanyclick() {
         if (this.modelCompany.name == '') {

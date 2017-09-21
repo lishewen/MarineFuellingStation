@@ -15,6 +15,10 @@ namespace MFS.Repositorys
         {
             return _dbContext.Clients.Include("Company").ToList();
         }
+        public Client GetDetail(int id)
+        {
+            return _dbContext.Clients.Include("Company").Include("Product").FirstOrDefault(c => c.Id == id);
+        }
         public List<Client> GetMyClients(ClientType ctype, int ptype, int balances, int cycle)
         {
             List<Client> list;

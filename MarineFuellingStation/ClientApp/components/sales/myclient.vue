@@ -8,7 +8,7 @@
                 </span>
                 <span><yd-button type="hollow" @click.native="show2 = true">筛选</yd-button></span>
             </div>
-            <yd-cell-item arrow v-for="c in clients" :key="c.id">
+            <yd-cell-item arrow v-for="c in clients" :key="c.id" @click.native="godetail(c.id)">
                 <div slot="left">
                     <p>{{c.carNo}} - {{c.contact}}</p>
                     <p v-if="c.company != null" style="color:lightgray;font-size:12px">{{c.company.name}}</p>

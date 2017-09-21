@@ -68,7 +68,7 @@
 
                 </yd-cell-group>
                 <div>
-                    <yd-button size="large" type="primary" @click.native="buttonclick">提交</yd-button>
+                    <yd-button size="large" type="primary" @click.native="buttonclick" :disabled="isPrevent">提交</yd-button>
                 </div>
             </yd-tab-panel>
 

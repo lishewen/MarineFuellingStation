@@ -74,6 +74,24 @@ namespace MFS.Controllers
                 Data = r.GetAllList()
             };
         }
+        [HttpGet("[action]/{id}")]
+        public ResultJSON<SalesPlan> GetDetail(int id)
+        {
+            return new ResultJSON<SalesPlan>
+            {
+                Code = 0,
+                Data = r.GetDetail(id)
+            };
+        }
+        [HttpGet("[action]")]
+        public ResultJSON<List<SalesPlan>> GetHasFinish()
+        {
+            return new ResultJSON<List<SalesPlan>>
+            {
+                Code = 0,
+                Data = r.GetAllList(s => s.State == SalesPlanState.已审批 || s.State == SalesPlanState.未审批)
+            };
+        }
         [HttpGet("{sv}")]
         public ResultJSON<List<SalesPlan>> Get(string sv)
         {

@@ -45,7 +45,7 @@ namespace MFS.Repositorys
         /// <returns></returns>
         public List<TEntity> GetAllList()
         {
-            return _dbContext.Set<TEntity>().ToList();
+            return _dbContext.Set<TEntity>().OrderByDescending(n => n.Id).ToList();
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace MFS.Repositorys
         /// <returns></returns>
         public List<TEntity> GetAllList(Expression<Func<TEntity, bool>> predicate)
         {
-            return _dbContext.Set<TEntity>().Where(predicate).ToList();
+            return _dbContext.Set<TEntity>().Where(predicate).OrderByDescending(n => n.Id).ToList();
         }
 
         /// <summary>

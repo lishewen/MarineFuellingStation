@@ -112,7 +112,16 @@ namespace MFS.Repositorys
                     }
                 }
             }
+
+            //更新计划状态为“已完成”
+            if(o.SalesPlanId != null)
+            {
+                var sp = _dbContext.SalesPlans.Where(s => s.Id == o.SalesPlanId).FirstOrDefault();
+                sp.State = SalesPlanState.已完成;
+            }
+
             o.LastUpdatedAt = DateTime.Now;
+
             if (ret.Code == 0)
             {
                 Save();

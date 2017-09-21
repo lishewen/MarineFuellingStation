@@ -73,14 +73,14 @@
                 </yd-cell-group>
 
                 <div>
-                    <yd-button size="large" type="primary" @click.native="buttonclick">提交</yd-button>
+                    <yd-button size="large" type="primary" @click.native="buttonclick" :disabled="isPrevent">提交</yd-button>
                 </div>
             </yd-tab-panel>
             <yd-tab-panel label="列表">
 
                 <yd-cell-group>
                     <weui-search v-model="sv" />
-                    <yd-cell-item arrow v-for="s in list" :key="s.id">
+                    <yd-cell-item arrow v-for="s in list" :key="s.id" @click.native="godetail(s.id)">
                         <div slot="left">
                             <p>{{s.origin}}</p>
                             <p style="color:lightgray;font-size:12px">{{s.carNo}} {{s.trailerNo}}</p>

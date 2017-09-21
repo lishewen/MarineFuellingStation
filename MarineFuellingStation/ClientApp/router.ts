@@ -6,14 +6,17 @@ Vue.use(VueRouter);
 
 const routes: VueRouter.RouteConfig[] = [
     { path: '/sales/plan', component: require('./components/sales/plan.vue') },
+    { path: '/sales/plan/:id/:from', component: require('./components/sales/plandetail.vue') },
     { path: '/sales/order', component: require('./components/sales/order.vue') },
-    { path: '/sales/order/:id', component: require('./components/sales/orderdetail.vue') },
+    { path: '/sales/order/:id/:from', component: require('./components/sales/orderdetail.vue') },
     { path: '/sales/myorder', component: require('./components/sales/myorder.vue') },
     { path: '/sales/myclient', component: require('./components/sales/myclient.vue') },
+    { path: '/sales/myclient/:id', component: require('./components/sales/myclientdetail.vue') },
     { path: '/sales/boatclean', component: require('./components/sales/boatclean.vue') },
 
     { path: '/produce/buyboard', component: require('./components/produce/buyboard.vue') },
     { path: '/produce/planboard', component: require('./components/produce/planboard.vue') },
+    { path: '/produce/planboard/:id/:from', component: require('./components/sales/plandetail.vue') },
     { path: '/produce/assay', component: require('./components/produce/assay.vue') },
     { path: '/produce/unload', component: require('./components/produce/unload.vue') },
     { path: '/produce/load', component: require('./components/produce/load.vue') },
@@ -27,8 +30,10 @@ const routes: VueRouter.RouteConfig[] = [
     { path: '/oilstore', component: require('./components/oilstore/oilstore.vue') },
 
     { path: '/purchase/purchase', component: require('./components/purchase/purchase.vue') },
+    { path: '/purchase/purchase/:id', component: require('./components/purchase/purchasedetail.vue') },
 
     { path: '/client/client', component: require('./components/client/client.vue') },
+    { path: '/client/client/:id', component: require('./components/client/clientdetail.vue') },
 
     { path: '/user/user', component: require('./components/user/user.vue') },
     { path: '/user/user/:id', component: require('./components/user/userdetail.vue') },

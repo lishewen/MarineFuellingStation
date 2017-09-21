@@ -66,14 +66,14 @@
                     </yd-cell-item>
                 </yd-cell-group>
                 <div>
-                    <yd-button size="large" type="primary" @click.native="buttonclick">提交</yd-button>
+                    <yd-button size="large" type="primary" @click.native="buttonclick" :disabled="isPrevent">提交</yd-button>
                 </div>
             </yd-tab-panel>
 
             <yd-tab-panel label="单据记录">
                 <weui-search v-model="sv" />
                 <yd-cell-group>
-                    <yd-cell-item arrow v-for="s in salesplans" :key="s.id">
+                    <yd-cell-item arrow v-for="s in salesplans" :key="s.id" @click.native="godetail(s.id)">
                         <span slot="left">{{s.carNo}}</span>
                         <span slot="left" class="color_lightgray" style="margin-left:10px">{{s.oilName}} {{s.count}}{{s.unit}} ￥{{s.totalMoney}}</span>
                         <span slot="right">{{formatDate(s.oilDate)}}</span>

@@ -36,12 +36,16 @@ export default class MyOrderComponent extends ComponentBase {
 
         this.getOrders();
     }
-    switchBtn(o: any) {
-        if (o.id != this.activedBtnId) {
+    switchBtn(o: any, idx: number) {
+        if (o.id != this.activedBtnId && this.activedBtnId != -1) {
             o.actived = true;
             this.filterBtns[this.activedBtnId].actived = false;
             this.activedBtnId = o.id;
         }
+        if (this.activedBtnId == -1) {
+            o.actived = true;
+            this.activedBtnId = o.id;
+        }   
         this.matchDate(o);
     }
 
@@ -65,6 +69,17 @@ export default class MyOrderComponent extends ComponentBase {
                 this.endDate = this.formatDate(moment().endOf('month').toDate());
                 break;
         }
+        this.refresh();
+    }
+
+    godetail(id: number) {
+        this.$router.push('/sales/order/' + id + '/myorder');
+    }
+
+    query() {
+        if (this.activedBtnId != -1)
+            this.filterBtns[this.activedBtnId].actived = false;
+        this.activedBtnId = -1;
         this.refresh();
     }
 

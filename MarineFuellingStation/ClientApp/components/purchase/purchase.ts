@@ -17,6 +17,7 @@ export default class PurchaseComponent extends ComponentBase {
     oilName: string = '';
     originshow: boolean = false;
     district: District = District;
+    isPrevent: boolean = true;
 
     radio1: string = "2";
     show2: boolean = false;
@@ -74,6 +75,10 @@ export default class PurchaseComponent extends ComponentBase {
         this.$emit('setTitle', this.$store.state.username + ' ' + label);
     }
 
+    godetail(id: number) {
+        this.$router.push('/purchase/purchase/' + id);
+    }
+
     buttonclick() {
         //信息验证
         if (this.model.carNo == '') {
@@ -98,8 +103,11 @@ export default class PurchaseComponent extends ComponentBase {
     getPurchaseNo() {
         axios.get('/api/Purchase/PurchaseNo').then((res) => {
             let jobj = res.data as server.resultJSON<string>;
-            if (jobj.code == 0)
+            if (jobj.code == 0) {
                 this.model.name = jobj.data;
+                this.isPrevent = false;
+            }
+                
         });
     }
 

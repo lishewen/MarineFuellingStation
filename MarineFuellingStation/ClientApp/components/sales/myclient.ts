@@ -85,10 +85,12 @@ export default class MyClientComponent extends ComponentBase {
                     this.actBtnId3 = idx;
                 break;
         }
+        this.getClients();
     }
 
     filterclick(): void {
         this.show2 = false;
+        this.getClients();
     };
 
     mounted() {
@@ -109,13 +111,17 @@ export default class MyClientComponent extends ComponentBase {
         console.log(label);
         this.$emit('setTitle', this.$store.state.username + ' ' + label);
     }
+    godetail(id: number) {
+        this.$router.push('/sales/myclient/' + id);
+    }
 
     //获得我的客户列表
     getClients() {
-        if (!this.ctype) this.ctype = server.clientType.全部;
-        if (!this.ptype) this.ptype = -1;//-1标识没有选择任何项
-        if (!this.balances) this.balances = -1;
-        if (!this.cycle) this.cycle = -1;
+        if (this.ctype == null) this.ctype = server.clientType.全部;
+        if (this.ptype == null) this.ptype = -1;//-1标识没有选择任何项
+        if (this.balances == null) this.balances = -1;
+        if (this.cycle == null) this.cycle = -1;
+
         axios.get('/api/Client/GetMyClients'
             + '?ctype=' + this.ctype.toString()
             + '&ptype=' + this.ptype.toString()

@@ -56,6 +56,10 @@ namespace MFS.Repositorys
         public List<Purchase> GetTopNPurchases(int n)
         {
             return LoadPageList(1, n, out int rowcount, true).ToList();
-        }        
+        }
+        public Purchase GetDetail(int id)
+        {
+            return _dbContext.Purchases.Include("Product").FirstOrDefault(p => p.Id == id);
+        }
     }
 }

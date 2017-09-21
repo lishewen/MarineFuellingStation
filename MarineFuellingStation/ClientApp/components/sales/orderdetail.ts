@@ -39,11 +39,17 @@ export default class OrderDetailComponent extends ComponentBase {
     }
 
     getIsInvoice(isInv: boolean) {
-        if (isInv) return "开票" else return "不开票";
+        if (isInv)
+            return "开票";
+        else
+            return "不开票";
     }
 
     getTicketType(tt: server.ticketType) {
-        if (tt == server.ticketType.普通票) return "普通票" else return "专用票";
+        if (tt == server.ticketType.普通票)
+            return "普通票";
+        else
+            return "专用票";
     }
 
     getOrder(id: string, callback: Function) {

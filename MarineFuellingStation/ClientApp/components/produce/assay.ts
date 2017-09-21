@@ -11,9 +11,10 @@ export default class AssayComponent extends ComponentBase {
     model: server.assay;
     assay: server.assay;
     store: server.store[];
-    purchase: server.purchase[];
+    purchases: server.purchase[];
     selectedStore: number | string = '';
     selectedPurchase: number | string = '';
+    selectedPName: string = "";
     list: server.assay[];
 
     radio2: string = "1";
@@ -22,6 +23,8 @@ export default class AssayComponent extends ComponentBase {
     show1: boolean = true;
     showDetail: boolean = false;
     sv: string = "";
+    showPurchases: boolean = false;
+
     filterclick(): void {
     };
 
@@ -31,7 +34,7 @@ export default class AssayComponent extends ComponentBase {
         this.model = (new Object()) as server.assay;
         this.assay = (new Object()) as server.assay;
         this.store = new Array<server.store>();
-        this.purchase = new Array<server.purchase>();
+        this.purchases = new Array<server.purchase>();
         this.list = new Array<server.assay>();
         this.model.name = '';
 
@@ -77,14 +80,19 @@ export default class AssayComponent extends ComponentBase {
         this.postAssay(this.model);
     }
 
+    purchaseclick(p: server.purchase) {
+        this.selectedPurchase = p.id;
+        this.selectedPName = p.name;
+        this.showPurchases = false;
+    }
+
     getAssayNo() {
         axios.get('/api/Assay/AssayNo').then((res) => {
             let jobj = res.data as server.resultJSON<string>;
             if (jobj.code == 0) {
                 this.model.name = jobj.data;
                 this.isPrevent = false;
-            }
-                
+            }  
         });
     }
 
@@ -100,7 +108,7 @@ export default class AssayComponent extends ComponentBase {
         axios.get('/api/Purchase/GetTopN/' + n.toString()).then((res) => {
             let jobj = res.data as server.resultJSON<server.purchase[]>;
             if (jobj.code == 0){
-                this.purchase = jobj.data;
+                this.purchases = jobj.data;
             }
         });
     }

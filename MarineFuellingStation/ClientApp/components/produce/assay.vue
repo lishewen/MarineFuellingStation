@@ -18,12 +18,13 @@
                         </select>
                     </yd-cell-item>
 
-                    <yd-cell-item v-show="!show1">
+                    <yd-cell-item v-show="!show1" @click.native="showPurchases = true">
                         <span slot="left">采购来源：</span>
-                        <select slot="right" v-model="selectedPurchase">
+                        <!--<select slot="right" v-model="selectedPurchase">
                             <option value="">请选择采购来源计划单</option>
                             <option v-for="p in purchase" :key="p.id" :value="p.id">{{p.name}}</option>
-                        </select>
+                        </select>-->
+                        <span slot="right">{{selectedPName}}</span>
                     </yd-cell-item>
 
                     <yd-cell-item>
@@ -128,6 +129,20 @@
                 </yd-cell-group>
             </yd-tab-panel>
         </yd-tab>
+        <!--采购单选择-->
+        <yd-popup v-model="showPurchases" width="70%" position="right">
+            <yd-cell-group title="选择采购单">
+                <weui-search v-model="sv" />
+                <yd-cell-item v-for="p in purchases" :key="p.id" @click.native="purchaseclick(p)">
+                    <div slot="left">
+                        <p>{{p.carNo}}</p>
+                        <p style="color:lightgray">{{p.name}}</p>
+                    </div>
+                    <div slot="right" style="color:lightgray">{{p.count}}吨</div>
+                </yd-cell-item>
+            </yd-cell-group>
+        </yd-popup>
+        <!--化验单详细-->
         <yd-popup v-model="showDetail" position="right" width="70%">
             <yd-cell-group :title="assay.name">
                 <yd-cell-item>

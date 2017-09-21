@@ -109,7 +109,7 @@
             </yd-tab-panel>
         </yd-tab>
         <yd-actionsheet :items="oiloptions" v-model="oilshow" cancel="取消"></yd-actionsheet>
-        <!--右滑菜单-->
+        <!--选择计划单-->
         <yd-popup v-model="salesplanshow" position="right">
             <yd-cell-group>
                 <div style="text-align: center">
@@ -123,7 +123,7 @@
                 </yd-cell-item>
             </yd-cell-group>
         </yd-popup>
-        <yd-popup v-model="show1" position="right">
+        <yd-popup v-model="show1" position="right" width="70%">
             <yd-cell-group>
                 <yd-cell-item arrow @click.native="transitemclick()">
                     <span slot="left">YS07070001</span>

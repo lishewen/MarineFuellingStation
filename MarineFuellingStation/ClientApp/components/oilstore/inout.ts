@@ -6,14 +6,20 @@ import moment from "moment";
 @Component
 export default class InAndOutLogComponent extends ComponentBase {
     inAndOutLogs: server.inAndOutLog[];
+    inLogs: server.inAndOutLog[];
+    outLogs: server.inAndOutLog[];
     storeTypes: server.storeType[];
     logType: server.logType;
-    page: number;
+    page: number;//第N页
+    pSize: number = 10;//分页中每页显示的记录数
+    scrollRef: any;
 
     constructor() {
         super();
 
         this.inAndOutLogs = new Array<server.inAndOutLog>();
+        this.inLogs = new Array<server.inAndOutLog>();
+        this.outLogs = new Array<server.inAndOutLog>();
         this.storeTypes = new Array<server.storeType>();
 
         this.getStoreTypes();
@@ -55,7 +61,6 @@ export default class InAndOutLogComponent extends ComponentBase {
         console.log(label);
         this.$emit('setTitle', this.$store.state.username + ' ' + label);
 
-        this.page = 1;
         switch (label) {
             case "所有":
                 this.logType = server.logType.全部;
@@ -67,7 +72,11 @@ export default class InAndOutLogComponent extends ComponentBase {
                 this.logType = server.logType.入仓;
                 break;
         }
-        this.inAndOutLogs = null;
+        (<any>this).$refs.infinitescroll.$emit('ydui.infinitescroll.reInit');
+        (<any>this).$refs.infinitescroll1.$emit('ydui.infinitescroll.reInit');
+        (<any>this).$refs.infinitescroll2.$emit('ydui.infinitescroll.reInit');
+        this.inAndOutLogs = null; this.outLogs = null; this.inLogs = null;
+        this.page = 1;
         this.getInAndOutLogs();
     }
 
@@ -77,40 +86,60 @@ export default class InAndOutLogComponent extends ComponentBase {
 
     loadList() {
         this.getInAndOutLogs((list: server.inAndOutLog[]) => {
-            if (this.page > 1){
-                //叠加新内容进inAndOutLogs
-                this.inAndOutLogs = [...this.inAndOutLogs, ...list];
+            let scroll: string;
+            switch (this.logType) {
+                case server.logType.全部:
+                    this.inAndOutLogs = this.page > 1 ? [...this.inAndOutLogs, ...list] : this.inAndOutLogs;
+                    this.scrollRef = (<any>this).$refs.infinitescroll;
+                    break;
+                case server.logType.出仓:
+                    this.outLogs = this.page > 1 ? [...this.outLogs, ...list] : this.outLogs;
+                    this.scrollRef = (<any>this).$refs.infinitescroll1;
+                    break;
+                case server.logType.入仓:
+                    this.inLogs = this.page > 1 ? [...this.inLogs, ...list] : this.inLogs;
+                    this.scrollRef = (<any>this).$refs.infinitescroll2;
+                    break;
             }
-            else
-                this.inAndOutLogs = list;
-
-            if (list.length < 30){
-            //通知控件刷新完成
-                (<any>this.$refs.infinitescroll).$emit('ydui.infinitescroll.loadedDone');
+            if (list.length < this.pSize) {
+                this.scrollRef.$emit("ydui.infinitescroll.loadedDone");
                 return;
             }
-            /* 单次请求数据完毕 */
-            this.$refs.infinitescrollDemo.$emit('ydui.infinitescroll.finishLoad');
 
-            //如果有内容则page+1，否则则把page重置为1
+            //通知加载数据完毕
+            (<any>this).$refs.infinitescroll.$emit("ydui.infinitescroll.finishLoad");
+            
             if (list.length > 0)
                 this.page++;
             else
                 this.page = 1;
+            console.log("page = " + this.page)
         });
     }
 
     getInAndOutLogs(callback?: Function) {
-        if (!this.page) this.page = 1;
-        if (this.logType == null) this.logType = server.logType.全部
-        axios.get("/api/InAndOutLog/GetIncludeStore?page=" + this.page + "&type=" + this.logType).then((res) => {
+        if (this.page == null) this.page = 1;
+        axios.get("/api/InAndOutLog/GetIncludeStore?"
+            + "page=" + this.page
+            + "&type=" + this.logType
+            ).then((res) => {
             let jobj = res.data as server.resultJSON<server.inAndOutLog[]>;
             if (jobj.code == 0) {
                 if (callback){
                     callback(jobj.data);
                 }
                 else {
-                    this.inAndOutLogs = jobj.data;
+                    switch (this.logType) {
+                        case server.logType.全部:
+                            this.inAndOutLogs = jobj.data;
+                            break;
+                        case server.logType.出仓:
+                            this.outLogs = jobj.data;
+                            break;
+                        case server.logType.入仓:
+                            this.inLogs = jobj.data;
+                            break;
+                    }
                     this.page++;
                 }
             }

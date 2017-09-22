@@ -27,13 +27,14 @@ namespace MFS.Controllers
                 Data = r.Insert(model)
             };
         }
-        [HttpGet]
-        public ResultJSON<List<InAndOutLog>> Get()
+        [HttpGet("[action]")]
+        public ResultJSON<List<InAndOutLog>> GetIncludeStore(LogType type = LogType.全部 ,int page = 1)
         {
+
             return new ResultJSON<List<InAndOutLog>>
             {
                 Code = 0,
-                Data = r.GetAllList()
+                Data = r.GetIncludeStore(type,page)
             };
         }
         [HttpGet("{sv}")]

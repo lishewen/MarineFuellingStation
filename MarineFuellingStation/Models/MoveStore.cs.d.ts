@@ -36,8 +36,10 @@ declare module server {
 	interface moveStoreGET {
 		outStoreTypeName: string;
 		inStoreTypeName: string;
-		outStoreName: string;
-		inStoreName: string;
+        outStoreName: string;
+        outStoreId: number;
+        inStoreName: string;
+        inStoreId: number;
 		stateName: string;
 		outPlan: number;
 		name: string;

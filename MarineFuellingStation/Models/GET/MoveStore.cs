@@ -11,7 +11,9 @@ namespace MFS.Models.GET
         public string OutStoreTypeName { get; set; }
         public string InStoreTypeName { get; set; }
         public string OutStoreName { get; set; }
+        public int OutStoreId { get; set; }
         public string InStoreName { get; set; }
+        public int InStoreId { get; set; }
         public MoveStoreState State { get; set; }
         public string StateName { get; set; }
         public decimal OutPlan { get; set; }

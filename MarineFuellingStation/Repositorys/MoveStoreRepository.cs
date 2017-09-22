@@ -73,7 +73,9 @@ namespace MFS.Repositorys
                     LastUpdatedAt = m.LastUpdatedAt,
                     Name = m.Name,
                     Id = m.Id,
-                    State = m.State
+                    State = m.State,
+                    InStoreId = m.InStoreId,
+                    OutStoreId = m.OutStoreId
                 });
             }
             return newlist;
@@ -91,7 +93,30 @@ namespace MFS.Repositorys
             ms.InFact = m.InFact;
             ms.OutFact = m.OutFact;
             ms.State = MoveStoreState.已完成;
-            _dbContext.SaveChanges();
+            //增加入仓记录
+            var inLog = new InAndOutLog
+            {
+                Name = "生产转仓",
+                StoreId = m.InStoreId,
+                Value = m.InFact,
+                Operators = CurrentUser,
+                Unit = "升",
+                Type = LogType.入仓
+            };
+            _dbContext.InAndOutLogs.Add(inLog);
+            //增加出仓记录
+            var outLog = new InAndOutLog
+            {
+                Name = "生产转仓",
+                StoreId = m.OutStoreId,
+                Value = m.OutFact,
+                Operators = CurrentUser,
+                Unit = "升",
+                Type = LogType.出仓
+            };
+            _dbContext.InAndOutLogs.Add(outLog);
+
+            Save();
             return ms;
         }
         

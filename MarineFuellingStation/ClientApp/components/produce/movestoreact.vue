@@ -10,7 +10,7 @@
                                 <span style="color:forestgreen">出：</span><span>【{{m.outStoreTypeName}}】 - {{m.outStoreName}}</span>
                             </p>
                             <p>
-                                <span style="color:red">入：</span><span>{{m.inStoreTypeName}} - {{m.inStoreName}}</span>
+                                <span style="color:red">入：</span><span>【{{m.inStoreTypeName}}】 - {{m.inStoreName}}</span>
                             </p>
                             <p style="color:lightgray;font-size:12px">{{m.name}} - {{formatDate(m.lastUpdateAt)}}</p>
                         </div>
@@ -29,7 +29,7 @@
                                 <span style="color:forestgreen">出：</span><span>【{{f.outStoreTypeName}}】 - {{f.outStoreName}}</span>
                             </p>
                             <p>
-                                <span style="color:red">入：</span><span>{{f.inStoreTypeName}} - {{f.inStoreName}}</span>
+                                <span style="color:red">入：</span><span>【{{f.inStoreTypeName}}】 - {{f.inStoreName}}</span>
                             </p>
                             <p style="color:lightgray;font-size:12px">{{f.name}} - {{formatDate(f.lastUpdateAt)}}</p>
                         </div>

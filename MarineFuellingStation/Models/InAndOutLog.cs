@@ -32,6 +32,7 @@ namespace MFS.Models
     public enum LogType
     {
         出仓,
-        入仓
+        入仓,
+        全部
     }
 }

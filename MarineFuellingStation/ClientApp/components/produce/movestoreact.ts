@@ -35,6 +35,8 @@ export default class MoveStoreActComponent extends ComponentBase {
         else if (m.stateName == "施工中") {
             this.show2 = true;
             this.model.id = m.id;
+            this.model.inStoreId = m.inStoreId;
+            this.model.outStoreId = m.outStoreId;
         }
     };
     overclick() {

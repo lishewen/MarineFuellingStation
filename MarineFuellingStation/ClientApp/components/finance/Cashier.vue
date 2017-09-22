@@ -4,7 +4,7 @@
             <yd-tab-panel label="待结算">
                 <yd-cell-group>
                     <weui-search v-model="sv" />
-                    <yd-pullrefresh :callback="loadList" ref="orderpullrefresh">
+                    <yd-infinitescroll :callback="loadList" ref="orderinfinitescroll1">
                         <yd-cell-item arrow @click.native="orderclick(o)" v-for="o in orders" v-show="o.payState == 0" :key="o.id">
                             <div slot="left">
                                 <p style="font-size: 18px">{{o.carNo}}</p>
@@ -16,13 +16,19 @@
                                 <p style="color: lightcoral" v-if="o.client != null">余额：￥{{o.client == null ? 0 : o.client.balances}}</p>
                             </div>
                         </yd-cell-item>
-                    </yd-pullrefresh>
+
+                        <!-- 数据全部加载完毕显示 -->
+                        <span slot="doneTip">我们是有底线的~</span>
+
+                        <!-- 加载中提示，不指定，将显示默认加载中图标 -->
+                        <img slot="loadingTip" src="http://static.ydcss.com/uploads/ydui/loading/loading10.svg" />
+                    </yd-infinitescroll>
                 </yd-cell-group>
             </yd-tab-panel>
             <yd-tab-panel label="已结算">
                 <yd-cell-group>
                     <weui-search v-model="sv" />
-                    <yd-pullrefresh :callback="loadList1" ref="orderpullrefresh1">
+                    <yd-infinitescroll :callback="loadList" ref="orderinfinitescroll2">
                         <yd-cell-item arrow v-for="o in orders" v-show="o.payState == 1" :key="o.id">
                             <div slot="left">
                                 <p style="font-size: 18px">{{o.carNo}}</p>
@@ -33,13 +39,19 @@
                                 <p style="color:lightgray;font-size:14px;margin-top:5px">{{o.product.name}} / {{o.count}}{{o.unit}} / {{o.price}}</p>
                             </div>
                         </yd-cell-item>
-                    </yd-pullrefresh>
+
+                        <!-- 数据全部加载完毕显示 -->
+                        <span slot="doneTip">我们是有底线的~</span>
+
+                        <!-- 加载中提示，不指定，将显示默认加载中图标 -->
+                        <img slot="loadingTip" src="http://static.ydcss.com/uploads/ydui/loading/loading10.svg" />
+                    </yd-infinitescroll>
                 </yd-cell-group>
             </yd-tab-panel>
             <yd-tab-panel label="挂账">
                 <yd-cell-group>
                     <weui-search v-model="sv" />
-                    <yd-pullrefresh :callback="loadList2" ref="orderpullrefresh2">
+                    <yd-infinitescroll :callback="loadList" ref="orderinfinitescroll3">
                         <yd-cell-item arrow v-for="o in orders" v-show="o.payState == 2" :key="o.id">
                             <div slot="left">
                                 <p style="font-size: 18px">{{o.carNo}}</p>
@@ -51,7 +63,13 @@
                                 <p style="color:lightgray;font-size:14px;margin-top:5px">{{o.product.name}} / {{o.count}}{{o.unit}} / {{o.price}}</p>
                             </div>
                         </yd-cell-item>
-                    </yd-pullrefresh>
+
+                        <!-- 数据全部加载完毕显示 -->
+                        <span slot="doneTip">我们是有底线的~</span>
+
+                        <!-- 加载中提示，不指定，将显示默认加载中图标 -->
+                        <img slot="loadingTip" src="http://static.ydcss.com/uploads/ydui/loading/loading10.svg" />
+                    </yd-infinitescroll>
                 </yd-cell-group>
             </yd-tab-panel>
         </yd-tab>

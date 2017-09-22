@@ -91,58 +91,21 @@ export default class CashierComponent extends ComponentBase {
             else
                 this.orders = list;
 
-            this.toastSuccess(list.length > 0 ? '为您更新了' + list.length + '条内容' : '已是最新内容');
-
-            //通知控件刷新完成
-            (<any>this.$refs.logpullrefresh).$emit('ydui.pullrefresh.finishLoad');
-
             //如果有内容则page+1，否则则把page重置为1
-            if (list.length > 0)
+            if (list.length > 0) {
+                /* 单次请求数据完毕 */
+                (<any>this.$refs.orderinfinitescroll1).$emit('ydui.infinitescroll.finishLoad');
+                (<any>this.$refs.orderinfinitescroll2).$emit('ydui.infinitescroll.finishLoad');
+                (<any>this.$refs.orderinfinitescroll3).$emit('ydui.infinitescroll.finishLoad');
                 this.page++;
-            else
+            }
+            else {
+                /* 所有数据加载完毕 */
+                (<any>this.$refs.orderinfinitescroll1).$emit('ydui.infinitescroll.loadedDone');
+                (<any>this.$refs.orderinfinitescroll2).$emit('ydui.infinitescroll.loadedDone');
+                (<any>this.$refs.orderinfinitescroll3).$emit('ydui.infinitescroll.loadedDone');
                 this.page = 1;
-        });
-    }
-
-    loadList1() {
-        this.getOrders((list: server.order[]) => {
-            if (this.page > 1)
-                //叠加新内容进orders
-                this.orders = [...list, ...this.orders];
-            else
-                this.orders = list;
-
-            this.toastSuccess(list.length > 0 ? '为您更新了' + list.length + '条内容' : '已是最新内容');
-
-            //通知控件刷新完成
-            (<any>this.$refs.orderpullrefresh1).$emit('ydui.pullrefresh.finishLoad');
-
-            //如果有内容则page+1，否则则把page重置为1
-            if (list.length > 0)
-                this.page++;
-            else
-                this.page = 1;
-        });
-    }
-
-    loadList2() {
-        this.getOrders((list: server.order[]) => {
-            if (this.page > 1)
-                //叠加新内容进orders
-                this.orders = [...list, ...this.orders];
-            else
-                this.orders = list;
-
-            this.toastSuccess(list.length > 0 ? '为您更新了' + list.length + '条内容' : '已是最新内容');
-
-            //通知控件刷新完成
-            (<any>this.$refs.orderpullrefresh2).$emit('ydui.pullrefresh.finishLoad');
-
-            //如果有内容则page+1，否则则把page重置为1
-            if (list.length > 0)
-                this.page++;
-            else
-                this.page = 1;
+            }
         });
     }
 

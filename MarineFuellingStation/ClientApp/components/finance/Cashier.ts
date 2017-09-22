@@ -94,7 +94,7 @@ export default class CashierComponent extends ComponentBase {
             this.toastSuccess(list.length > 0 ? '为您更新了' + list.length + '条内容' : '已是最新内容');
 
             //通知控件刷新完成
-            (<any>this.$refs.orderpullrefresh).$emit('ydui.pullrefresh.finishLoad');
+            (<any>this.$refs.logpullrefresh).$emit('ydui.pullrefresh.finishLoad');
 
             //如果有内容则page+1，否则则把page重置为1
             if (list.length > 0)

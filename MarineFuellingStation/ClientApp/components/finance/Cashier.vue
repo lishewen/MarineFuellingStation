@@ -4,49 +4,54 @@
             <yd-tab-panel label="待结算">
                 <yd-cell-group>
                     <weui-search v-model="sv" />
-                    <yd-cell-item arrow @click.native="orderclick(o)" v-for="o in orders" v-show="o.payState == 0" :key="o.id">
-                        <div slot="left">
-                            <p style="font-size: 18px">{{o.carNo}}</p>
-                            <p style="color:lightgray;font-size:14px">{{o.name}}</p>
-                        </div>
-                        <div slot="right" style="text-align: right;margin:10px 5px 10px 0px;line-height: 18px">
-                            <p style="color:gray;font-size:22px">￥{{o.totalMoney}}</p>
-                            <p style="color:lightgray;font-size:14px;margin-top:5px">{{o.product.name}} / {{o.count}}{{o.unit}} / {{o.price}}</p>
-                            <p style="color: lightcoral" v-if="o.client != null">余额：￥{{o.client == null ? 0 : o.client.balances}}</p>
-                        </div>
-                    </yd-cell-item>
+                    <yd-pullrefresh :callback="loadList" ref="orderpullrefresh">
+                        <yd-cell-item arrow @click.native="orderclick(o)" v-for="o in orders" v-show="o.payState == 0" :key="o.id">
+                            <div slot="left">
+                                <p style="font-size: 18px">{{o.carNo}}</p>
+                                <p style="color:lightgray;font-size:14px">{{o.name}}</p>
+                            </div>
+                            <div slot="right" style="text-align: right;margin:10px 5px 10px 0px;line-height: 18px">
+                                <p style="color:gray;font-size:22px">￥{{o.totalMoney}}</p>
+                                <p style="color:lightgray;font-size:14px;margin-top:5px">{{o.product.name}} / {{o.count}}{{o.unit}} / {{o.price}}</p>
+                                <p style="color: lightcoral" v-if="o.client != null">余额：￥{{o.client == null ? 0 : o.client.balances}}</p>
+                            </div>
+                        </yd-cell-item>
+                    </yd-pullrefresh>
                 </yd-cell-group>
             </yd-tab-panel>
             <yd-tab-panel label="已结算">
-                
                 <yd-cell-group>
                     <weui-search v-model="sv" />
-                    <yd-cell-item arrow v-for="o in orders" v-show="o.payState == 1" :key="o.id">
-                        <div slot="left">
-                            <p style="font-size: 18px">{{o.carNo}}</p>
-                            <p style="color:lightgray;font-size:14px">{{o.name}}</p>
-                        </div>
-                        <div slot="right" style="text-align: right;margin:10px 5px 10px 0px;line-height: 18px">
-                            <p style="color:gray;font-size:22px">￥{{o.totalMoney}}</p>
-                            <p style="color:lightgray;font-size:14px;margin-top:5px">{{o.product.name}} / {{o.count}}{{o.unit}} / {{o.price}}</p>
-                        </div>
-                    </yd-cell-item>
+                    <yd-pullrefresh :callback="loadList1" ref="orderpullrefresh1">
+                        <yd-cell-item arrow v-for="o in orders" v-show="o.payState == 1" :key="o.id">
+                            <div slot="left">
+                                <p style="font-size: 18px">{{o.carNo}}</p>
+                                <p style="color:lightgray;font-size:14px">{{o.name}}</p>
+                            </div>
+                            <div slot="right" style="text-align: right;margin:10px 5px 10px 0px;line-height: 18px">
+                                <p style="color:gray;font-size:22px">￥{{o.totalMoney}}</p>
+                                <p style="color:lightgray;font-size:14px;margin-top:5px">{{o.product.name}} / {{o.count}}{{o.unit}} / {{o.price}}</p>
+                            </div>
+                        </yd-cell-item>
+                    </yd-pullrefresh>
                 </yd-cell-group>
             </yd-tab-panel>
             <yd-tab-panel label="挂账">
                 <yd-cell-group>
                     <weui-search v-model="sv" />
-                    <yd-cell-item arrow v-for="o in orders" v-show="o.payState == 2" :key="o.id">
-                        <div slot="left">
-                            <p style="font-size: 18px">{{o.carNo}}</p>
-                            <p style="color:lightgray;font-size:14px">{{o.name}}</p>
-                        </div>
-                        <div slot="right" style="text-align: right;margin:10px 5px 10px 0px;line-height: 18px">
-                            <p style="color:gray;font-size:22px">￥{{o.totalMoney}}</p>
-                            <p style="color:forestgreen;font-size:14px;margin-top:5px">{{getDiff(o.createdAt)}}</p>
-                            <p style="color:lightgray;font-size:14px;margin-top:5px">{{o.product.name}} / {{o.count}}{{o.unit}} / {{o.price}}</p>
-                        </div>
-                    </yd-cell-item>
+                    <yd-pullrefresh :callback="loadList2" ref="orderpullrefresh2">
+                        <yd-cell-item arrow v-for="o in orders" v-show="o.payState == 2" :key="o.id">
+                            <div slot="left">
+                                <p style="font-size: 18px">{{o.carNo}}</p>
+                                <p style="color:lightgray;font-size:14px">{{o.name}}</p>
+                            </div>
+                            <div slot="right" style="text-align: right;margin:10px 5px 10px 0px;line-height: 18px">
+                                <p style="color:gray;font-size:22px">￥{{o.totalMoney}}</p>
+                                <p style="color:forestgreen;font-size:14px;margin-top:5px">{{getDiff(o.createdAt)}}</p>
+                                <p style="color:lightgray;font-size:14px;margin-top:5px">{{o.product.name}} / {{o.count}}{{o.unit}} / {{o.price}}</p>
+                            </div>
+                        </yd-cell-item>
+                    </yd-pullrefresh>
                 </yd-cell-group>
             </yd-tab-panel>
         </yd-tab>

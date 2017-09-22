@@ -83,19 +83,86 @@ export default class CashierComponent extends ComponentBase {
         })
     };
 
+    loadList() {
+        this.getOrders((list: server.order[]) => {
+            if (this.page > 1)
+                //叠加新内容进orders
+                this.orders = [...list, ...this.orders];
+            else
+                this.orders = list;
+
+            this.toastSuccess(list.length > 0 ? '为您更新了' + list.length + '条内容' : '已是最新内容');
+
+            //通知控件刷新完成
+            (<any>this.$refs.orderpullrefresh).$emit('ydui.pullrefresh.finishLoad');
+
+            //如果有内容则page+1，否则则把page重置为1
+            if (list.length > 0)
+                this.page++;
+            else
+                this.page = 1;
+        });
+    }
+
+    loadList1() {
+        this.getOrders((list: server.order[]) => {
+            if (this.page > 1)
+                //叠加新内容进orders
+                this.orders = [...list, ...this.orders];
+            else
+                this.orders = list;
+
+            this.toastSuccess(list.length > 0 ? '为您更新了' + list.length + '条内容' : '已是最新内容');
+
+            //通知控件刷新完成
+            (<any>this.$refs.orderpullrefresh1).$emit('ydui.pullrefresh.finishLoad');
+
+            //如果有内容则page+1，否则则把page重置为1
+            if (list.length > 0)
+                this.page++;
+            else
+                this.page = 1;
+        });
+    }
+
+    loadList2() {
+        this.getOrders((list: server.order[]) => {
+            if (this.page > 1)
+                //叠加新内容进orders
+                this.orders = [...list, ...this.orders];
+            else
+                this.orders = list;
+
+            this.toastSuccess(list.length > 0 ? '为您更新了' + list.length + '条内容' : '已是最新内容');
+
+            //通知控件刷新完成
+            (<any>this.$refs.orderpullrefresh2).$emit('ydui.pullrefresh.finishLoad');
+
+            //如果有内容则page+1，否则则把page重置为1
+            if (list.length > 0)
+                this.page++;
+            else
+                this.page = 1;
+        });
+    }
+
     change(label: string, tabkey: string) {
         console.log(label);
         this.$emit('setTitle', this.$store.state.username + ' ' + label);
     }
 
-    getOrders() {
+    getOrders(callback?: Function) {
         if (!this.page) this.page = 1;
         axios.get('/api/Order/GetIncludeProduct?page=' + this.page.toString()).then((res) => {
             let jobj = res.data as server.resultJSON<server.order[]>;
             if (jobj.code == 0) {
-                this.orders = jobj.data;
-                this.page += 1;
-            }   
+                if (callback)
+                    callback(jobj.data);
+                else {
+                    this.orders = jobj.data;
+                    this.page++;
+                }
+            }
         });
     }
     //验证输入的账户扣减金额是否大于账户余额
@@ -116,7 +183,7 @@ export default class CashierComponent extends ComponentBase {
             if (parseInt(p) == server.orderPayType.账户扣减) {
                 if (this.orderPayMoneys[parseInt(p)] > this.selectedOrder.client.balances) {
                     flag = false;
-                }   
+                }
             }
         });
         if (!flag) {

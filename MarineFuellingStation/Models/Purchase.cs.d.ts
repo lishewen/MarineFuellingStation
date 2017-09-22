@@ -32,7 +32,7 @@ declare module server {
         /** 卸油用油仓id */
         storeId?: number;
         /** 卸油油仓 */
-        store: number;
+        store: store;
 		/** 油车磅秤数 */
 		scaleWithCar: number;
 		/** 油车磅秤图片地址 */

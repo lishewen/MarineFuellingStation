@@ -6,8 +6,6 @@ import moment from "moment";
 @Component
 export default class OilStoreComponent extends ComponentBase {
     datestr: string = "";
-    progress1: number = 0.4;
-    progress2: number = 0.4;
     show1: boolean = false;
 
     survey: server.survey;

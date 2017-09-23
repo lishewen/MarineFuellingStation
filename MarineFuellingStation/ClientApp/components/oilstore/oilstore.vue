@@ -9,10 +9,10 @@
         <yd-cell-group :title="st.name" style="margin-top:20px" v-for="st in sts" :key="st.id">
             <yd-cell-item arrow @click.native="storeclick(s)" v-for="s in st.stores" :key="s.id">
                 <div slot="left" style="width: 60px;height: 60px;margin:15px 15px 15px -5px">
-                    <yd-progressbar :progress="getPercent(s.value, s.volume)" trailWidth="4">{{s.value}}</yd-progressbar>
+                    <yd-progressbar :progress="getPercent(s.sumInValue, s.sumInValue+s.sumOutValue)" trailWidth="4">{{s.sumInValue}}</yd-progressbar>
                 </div>
                 <div slot="left" style="width: 60px;height: 60px;margin:10px 10px 10px -5px">
-                    <yd-progressbar :progress="progress2"
+                    <yd-progressbar :progress="getPercent(s.value,s.volume)"
                                     trailWidth="2"
                                     strokeWidth="4"
                                     strokeColor="#B2B2B2"

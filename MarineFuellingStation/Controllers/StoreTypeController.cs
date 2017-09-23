@@ -14,7 +14,7 @@ namespace MFS.Controllers
     {
         private readonly StoreTypeRepository r;
         private readonly InAndOutLogRepository lr;
-        public StoreTypeController(StoreTypeRepository repository,InAndOutLogRepository logRepository)
+        public StoreTypeController(StoreTypeRepository repository, InAndOutLogRepository logRepository)
         {
             r = repository;
             lr = logRepository;
@@ -25,7 +25,7 @@ namespace MFS.Controllers
             var list = r.GetAllList();
             foreach (var st in list)
             {
-                foreach(var s in st.Stores)
+                foreach (var s in st.Stores)
                 {
                     s.SumOutValue = lr.GetStoreSumValue(s.Id, LogType.出仓, DateTime.Now);
                     s.SumInValue = lr.GetStoreSumValue(s.Id, LogType.入仓, DateTime.Now);

@@ -1,18 +1,18 @@
 ﻿<template>
     <div>
-        <yd-grids-group :rows="2" title="2017-07-07 出仓汇总">
+        <yd-grids-group rows="2" :title="datestr + ' 出仓汇总'">
             <yd-grids-item v-for="s in salesSts" :key="s.id">
                 <p slot="text">{{s.name}}</p>
-                <p slot="text" style="color: lightgray">总：xxxL</p>
+                <p slot="text" style="color: lightgray">总：{{s.sumOutValue}}L</p>
             </yd-grids-item>
         </yd-grids-group>
         <yd-cell-group :title="st.name" style="margin-top:20px" v-for="st in sts" :key="st.id">
             <yd-cell-item arrow @click.native="storeclick(s)" v-for="s in st.stores" :key="s.id">
                 <div slot="left" style="width: 60px;height: 60px;margin:15px 15px 15px -5px">
-                    <yd-progressbar :progress="getPercent(s.value, s.volume)" trailWidth="4">{{s.value}}</yd-progressbar>
+                    <yd-progressbar :progress="getPercent(s.sumInValue, s.sumInValue+s.sumOutValue)" trailWidth="4">{{s.sumInValue}}</yd-progressbar>
                 </div>
                 <div slot="left" style="width: 60px;height: 60px;margin:10px 10px 10px -5px">
-                    <yd-progressbar :progress="progress2"
+                    <yd-progressbar :progress="getPercent(s.value,s.volume)"
                                     trailWidth="2"
                                     strokeWidth="4"
                                     strokeColor="#B2B2B2"
@@ -25,8 +25,8 @@
                 </div>
                 <div slot="right">
                     <div style="text-align: left">
-                        <p style="color:gray">今 <span style="color:red">+1000</span> 升</p>
-                        <p style="color:lightgray">今 <span style="color:green">-800</span> 升</p>
+                        <p style="color:gray">今 <span style="color:red">+{{s.sumInValue}}</span> 升</p>
+                        <p style="color:lightgray">今 <span style="color:green">-{{s.sumOutValue}}</span> 升</p>
                     </div>
                 </div>
             </yd-cell-item>

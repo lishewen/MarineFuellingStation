@@ -13,17 +13,29 @@ namespace MFS.Controllers
     public class StoreTypeController : ControllerBase
     {
         private readonly StoreTypeRepository r;
-        public StoreTypeController(StoreTypeRepository repository)
+        private readonly InAndOutLogRepository lr;
+        public StoreTypeController(StoreTypeRepository repository, InAndOutLogRepository logRepository)
         {
             r = repository;
+            lr = logRepository;
         }
         [HttpGet]
         public ResultJSON<List<StoreType>> Get()
         {
+            var list = r.GetAllList();
+            foreach (var st in list)
+            {
+                foreach (var s in st.Stores)
+                {
+                    s.SumOutValue = lr.GetStoreSumValue(s.Id, LogType.出仓, DateTime.Now);
+                    s.SumInValue = lr.GetStoreSumValue(s.Id, LogType.入仓, DateTime.Now);
+                }
+            }
+
             return new ResultJSON<List<StoreType>>
             {
                 Code = 0,
-                Data = r.GetAllList()
+                Data = list
             };
         }
         [HttpGet("{id}")]

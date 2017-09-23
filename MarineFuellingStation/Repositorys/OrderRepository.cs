@@ -142,5 +142,35 @@ namespace MFS.Repositorys
             Save();
             return o;
         }
+        /// <summary>
+        /// 更改订单状态
+        /// </summary>
+        /// <param name="model">Model</param>
+        /// <returns></returns>
+        public Order ChangeState(Order modelWithChanges)
+        {
+            //更新对应销售仓的数量
+            if(modelWithChanges.State == OrderState.已完成)
+            {
+                StoreRepository st_r = new StoreRepository(_dbContext);
+                //更新油仓数量
+                bool isUpdateStore = st_r.UpdateOil(int.Parse(modelWithChanges.StoreId.ToString()), modelWithChanges.Count, false);
+                if (isUpdateStore)
+                {
+                    //增加出仓记录
+                    InAndOutLogRepository io_r = new InAndOutLogRepository(_dbContext);
+                    io_r.Insert(new InAndOutLog
+                    {
+                        Name = "订单加油",
+                        StoreId = int.Parse(modelWithChanges.StoreId.ToString()),
+                        Value = modelWithChanges.Count,
+                        Operators = CurrentUser,
+                        Unit = "升",
+                        Type = LogType.出仓
+                    });
+                }   
+            }
+            return Update(modelWithChanges);//更改状态
+        }
     }
 }

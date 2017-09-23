@@ -158,7 +158,7 @@ namespace MFS.Controllers
             return new ResultJSON<Order>
             {
                 Code = 0,
-                Data = r.Update(o)
+                Data = r.ChangeState(o)
             };
         }
         /// <summary>

@@ -93,36 +93,33 @@ namespace MFS.Repositorys
             ms.InFact = m.InFact;
             ms.OutFact = m.OutFact;
             ms.State = MoveStoreState.已完成;
-            //增加入仓记录
-            var inLog = new InAndOutLog
-            {
-                Name = "生产转仓",
-                StoreId = m.InStoreId,
-                Value = m.InFact,
-                Operators = CurrentUser,
-                Unit = "升",
-                Type = LogType.入仓
-            };
-            _dbContext.InAndOutLogs.Add(inLog);
-            //增加出仓记录
-            var outLog = new InAndOutLog
-            {
-                Name = "生产转仓",
-                StoreId = m.OutStoreId,
-                Value = m.OutFact,
-                Operators = CurrentUser,
-                Unit = "升",
-                Type = LogType.出仓
-            };
-            _dbContext.InAndOutLogs.Add(outLog);
 
             //更新油仓数量
-            var st_in = _dbContext.Stores.Find(m.InStoreId);
-            var st_out = _dbContext.Stores.Find(m.OutStoreId);
-            st_in.Value += m.InFact;
-            st_out.Value -= m.OutFact;
+            StoreRepository st_r = new StoreRepository(_dbContext);
+            bool isSucc = st_r.UpdateOil(m.InStoreId, m.OutStoreId, m.InFact, m.OutFact);
+            if (isSucc)
+            {
+                //增加出入仓记录
+                InAndOutLogRepository io_r = new InAndOutLogRepository(_dbContext);
+                InAndOutLog io_in = io_r.Insert(new InAndOutLog {
+                    Name = "生产转仓",
+                    StoreId = m.InStoreId,
+                    Value = m.InFact,
+                    Operators = CurrentUser,
+                    Unit = "升",
+                    Type = LogType.入仓
+                });
+                InAndOutLog io_out = io_r.Insert(new InAndOutLog {
+                    Name = "生产转仓",
+                    StoreId = m.OutStoreId,
+                    Value = m.OutFact,
+                    Operators = CurrentUser,
+                    Unit = "升",
+                    Type = LogType.出仓
+                });
 
-            Save();
+                Save();
+            }
             return ms;
         }
         

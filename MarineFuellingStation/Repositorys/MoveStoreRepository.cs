@@ -116,6 +116,12 @@ namespace MFS.Repositorys
             };
             _dbContext.InAndOutLogs.Add(outLog);
 
+            //更新油仓数量
+            var st_in = _dbContext.Stores.Find(m.InStoreId);
+            var st_out = _dbContext.Stores.Find(m.OutStoreId);
+            st_in.Value += m.InFact;
+            st_out.Value -= m.OutFact;
+
             Save();
             return ms;
         }

@@ -5,7 +5,7 @@ import moment from "moment";
 
 @Component
 export default class OilStoreComponent extends ComponentBase {
-    carNo: string = "";
+    datestr: string = "";
     progress1: number = 0.4;
     progress2: number = 0.4;
     show1: boolean = false;
@@ -19,6 +19,7 @@ export default class OilStoreComponent extends ComponentBase {
     constructor() {
         super();
 
+        this.datestr = this.formatDate(new Date());
         this.sts = new Array<server.storeType>();
         this.salesSts = new Array<server.store>();
         this.surveys = new Array<server.survey>();
@@ -28,7 +29,7 @@ export default class OilStoreComponent extends ComponentBase {
     }
     
     mounted() {
-        this.$emit('setTitle', this.$store.state.username + ' 油仓情况');
+        this.$emit('今日油仓情况');
     };
 
     /**
@@ -102,9 +103,5 @@ export default class OilStoreComponent extends ComponentBase {
                 this.toastSuccess(jobj.msg);
             }
         });
-    }
-
-    change(label: string, tabkey: string) {
-        this.$emit('setTitle', this.$store.state.username + ' ' + label);
     }
 }

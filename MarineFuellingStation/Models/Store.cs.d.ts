@@ -1,6 +1,6 @@
 declare module server {
 	interface store extends entityBase {
-		storeClass: storeClass;
+        storeClass: storeClass;
 		/** 容量 */
 		volume: number;
 		/** 平均单价成本 */
@@ -15,12 +15,14 @@ declare module server {
 		cost: number;
 		isUse: boolean;
 		storeTypeId: number;
+        sumOutValue: number;
+        sumInValue: number;
 	}
 	const enum storeClass {
 		销售仓,
 		存储仓,
 	}
 	interface storeType extends entityBase {
-		stores: store[];
+        stores: store[];
 	}
 }

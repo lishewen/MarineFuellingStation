@@ -45,6 +45,10 @@ namespace MFS.Models
         public int StoreTypeId { get; set; }
         [JsonIgnore, ForeignKey("StoreTypeId")]
         public virtual StoreType StoreType { get; set; }
+        [NotMapped]
+        public decimal SumOutValue { get; set; }
+        [NotMapped]
+        public decimal SumInValue { get; set; }
     }
     public enum StoreClass
     {

@@ -72,6 +72,14 @@ export default class MyOrderComponent extends ComponentBase {
         this.refresh();
     }
 
+    getTotalSalesComm() {
+        let sum = 0;
+        this.orders.forEach((o, idx) => {
+            sum += o.salesCommission;
+        });
+        return "总提：￥" + sum;
+    }
+
     godetail(id: number) {
         this.$router.push('/sales/order/' + id + '/myorder');
     }
@@ -105,6 +113,19 @@ export default class MyOrderComponent extends ComponentBase {
                 return "装油中";
             case server.orderState.已完成:
                 return "已完成"
+        }
+        return;
+    }
+
+    strPayState(o: server.order) {
+        let sta = o.payState;
+        switch (sta) {
+            case server.payState.未结算:
+                return "未结算";
+            case server.payState.挂账:
+                return "挂账";
+            case server.payState.已结算:
+                return "已结算"
         }
         return;
     }

@@ -1,7 +1,7 @@
 ﻿<template>
     <div>
         <yd-grids-group :rows="2" title="已计划">
-            <yd-grids-item v-for="p in list" :key="p.id">
+            <yd-grids-item v-for="p in list" :key="p.id" @click.native="godetail(p.id)">
                 <div slot="text" style="line-height:25px">
                     <p style="color:lightcoral;font-size: 14px">【{{p.name}}】</p>
                     <p style="color: forestgreen">{{formatDate(p.arrivalTime)}} 到</p>

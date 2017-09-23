@@ -11,7 +11,6 @@ export default class UserComponent extends ComponentBase {
     radio2: string = "1";
     usershow: boolean = false;
     carNo: string = "";
-    sv: string = "";
     users: work.userlist[];
     selectdepartmentname: string = '请选择部门';
     departmentshow: boolean = false;
@@ -28,18 +27,19 @@ export default class UserComponent extends ComponentBase {
         this.userItems = new Array();
 
         this.getDepartments();
+        this.getUsers();
     }
 
     mounted() {
         this.$emit('setTitle', this.$store.state.username + ' 员工资料');
     };
 
-    change(label: string, tabkey: string) {
-        console.log(label);
-        this.$emit('setTitle', this.$store.state.username + ' ' + label);
-        if (label == '列表')
-            this.getUsers();
-    }
+    //change(label: string, tabkey: string) {
+    //    console.log(label);
+    //    this.$emit('setTitle', this.$store.state.username + ' ' + label);
+    //    if (label == '列表')
+    //        this.getUsers();
+    //}
 
     userClick(user: work.userlist) {
         this.userItems = [{

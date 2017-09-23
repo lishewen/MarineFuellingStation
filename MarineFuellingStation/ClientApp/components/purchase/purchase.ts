@@ -97,7 +97,7 @@ export default class PurchaseComponent extends ComponentBase {
     }
 
     formatDate(d: Date): string {
-        return moment(d).format('YYYY-MM-DD hh:mm');
+        return moment(d).format('MM-DD hh:mm');
     }
 
     getPurchaseNo() {

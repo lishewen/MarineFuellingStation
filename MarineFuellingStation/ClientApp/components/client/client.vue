@@ -86,9 +86,9 @@
                 <yd-cell-group>
                     <weui-search v-model="svClient" />
                     <div style="text-align: center;padding: 10px 0 10px">
-                        <span v-for="f in filterBtns">
-                            <yd-button type="warning" v-if="f.actived" @click.native="switchBtn(f)">{{f.name}}</yd-button>
-                            <yd-button type="hollow" v-if="!f.actived" @click.native="switchBtn(f)">{{f.name}}</yd-button>
+                        <span v-for="(f, index) in filterCType">
+                            <yd-button type="warning" v-if="f.actived" @click.native="switchBtn(f, index, '客户类型')">{{f.name}}</yd-button>
+                            <yd-button type="hollow" v-if="!f.actived" @click.native="switchBtn(f, index, '客户类型')">{{f.name}}</yd-button>
                         </span>
                         <span><yd-button type="hollow" @click.native="show2 = true">筛选</yd-button></span>
                     </div>
@@ -120,35 +120,33 @@
             </yd-tab-panel>
         </yd-tab>
 
-        <yd-popup v-model="show2" position="right">
-            <yd-cell-group title="单选：计划单" style="margin-top:20px">
-                <yd-flexbox style="line-height: 60px">
-                    <yd-flexbox-item style="text-align: center"><yd-button type="warning">已计划</yd-button></yd-flexbox-item>
-                    <yd-flexbox-item style="text-align: center"><yd-button type="hollow">已完成</yd-button></yd-flexbox-item>
-                </yd-flexbox>
-                <yd-flexbox>
-                    <yd-flexbox-item style="text-align: center; margin-bottom: 20px"><yd-button type="hollow">已审批</yd-button></yd-flexbox-item>
-                    <yd-flexbox-item style="text-align: center; margin-bottom: 20px"></yd-flexbox-item>
-                </yd-flexbox>
-            </yd-cell-group>
-            <yd-cell-group title="单选：账户余额">
-                <yd-flexbox style="line-height: 60px">
-                    <yd-flexbox-item style="text-align: center"><yd-button type="warning">少于1000</yd-button></yd-flexbox-item>
-                    <yd-flexbox-item style="text-align: center"><yd-button type="hollow">少于10000</yd-button></yd-flexbox-item>
-                </yd-flexbox>
-            </yd-cell-group>
-            <yd-cell-group title="单选：周期">
-                <yd-flexbox style="line-height: 60px">
-                    <yd-flexbox-item style="text-align: center"><yd-button type="warning">7天不计划</yd-button></yd-flexbox-item>
-                    <yd-flexbox-item style="text-align: center"><yd-button type="hollow">15天不计划</yd-button></yd-flexbox-item>
-                </yd-flexbox>
-                <yd-flexbox>
-                    <yd-flexbox-item style="text-align: center; margin-bottom: 20px"><yd-button type="hollow">30天不计划</yd-button></yd-flexbox-item>
-                    <yd-flexbox-item style="text-align: center; margin-bottom: 20px"><yd-button type="hollow">90天不计划</yd-button></yd-flexbox-item>
-                </yd-flexbox>
-            </yd-cell-group>
-            <div style="text-align: center">
-                <yd-button style="width:100px" type="primary" @click.native="filterclick()">提交</yd-button>
+        <yd-popup v-model="show2" position="right" width="75%">
+            <yd-grids-group :rows="3" title="单选：计划单">
+                <yd-grids-item v-for="(f, index) in filterPType" :key="f.id" style="position: static; padding: .2rem">
+                    <span slot="text">
+                        <yd-button type="warning" v-if="f.actived" @click.native="switchBtn(f, index, '计划单')">{{f.name}}</yd-button>
+                        <yd-button type="hollow" v-if="!f.actived" @click.native="switchBtn(f, index, '计划单')">{{f.name}}</yd-button>
+                    </span>
+                </yd-grids-item>
+            </yd-grids-group>
+            <yd-grids-group :rows="2" title="单选：账户余额">
+                <yd-grids-item v-for="(f, index) in filterBalances" :key="f.id" style="position: static; padding: .2rem">
+                    <span slot="text">
+                        <yd-button type="warning" v-if="f.actived" @click.native="switchBtn(f, index, '账户余额')">{{f.name}}</yd-button>
+                        <yd-button type="hollow" v-if="!f.actived" @click.native="switchBtn(f, index, '账户余额')">{{f.name}}</yd-button>
+                    </span>
+                </yd-grids-item>
+            </yd-grids-group>
+            <yd-grids-group :rows="2" title="单选：周期">
+                <yd-grids-item v-for="(f, index) in filterCycle" :key="f.id" style="position: static; padding: .2rem">
+                    <span slot="text">
+                        <yd-button style="box-sizing: inherit" type="warning" v-if="f.actived" @click.native="switchBtn(f, index, '周期')">{{f.name}}</yd-button>
+                        <yd-button style="box-sizing: inherit" type="hollow" v-if="!f.actived" @click.native="switchBtn(f, index, '周期')">{{f.name}}</yd-button>
+                    </span>
+                </yd-grids-item>
+            </yd-grids-group>
+            <div style="text-align: center;margin-top: .2rem">
+                <yd-button style="width:90%" type="primary" @click.native="filterclick()">提交</yd-button>
             </div>
         </yd-popup>
         <!--popup新增公司-->

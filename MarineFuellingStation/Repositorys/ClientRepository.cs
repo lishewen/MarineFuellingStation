@@ -19,11 +19,13 @@ namespace MFS.Repositorys
         {
             return _dbContext.Clients.Include("Company").Include("Product").FirstOrDefault(c => c.Id == id);
         }
-        public List<Client> GetMyClients(ClientType ctype, int ptype, int balances, int cycle)
+        public List<Client> GetMyClients(ClientType ctype, int ptype, int balances, int cycle, string kw, bool isMy)
         {
             List<Client> list;
 
-            Expression<Func<Client, bool>> clientwhere = c => c.FollowSalesman == CurrentUser;
+            Expression<Func<Client, bool>> clientwhere = c => 1 == 1;
+            if(isMy)
+                clientwhere = c => c.FollowSalesman == CurrentUser;
 
             if (ptype > 0)//计划状态
             {
@@ -40,11 +42,14 @@ namespace MFS.Repositorys
                 var cylist = _dbContext.SalesPlans.Where(s => (s.LastUpdatedAt - DateTime.Now).Days > cycle).Select(s => s.CarNo);
                 clientwhere = clientwhere.And(c => cylist.Contains(c.CarNo));
             }
-
+            //客户类型：个人，公司，全部
             if (ctype == ClientType.全部)
                 clientwhere = clientwhere.And(c => (c.ClientType == ClientType.个人 || c.ClientType == ClientType.公司));
             else
                 clientwhere = clientwhere.And(c => c.ClientType == ctype);
+
+            if (!string.IsNullOrEmpty(kw))
+                clientwhere = clientwhere.And(c => c.CarNo.Contains(kw));
 
             list = _dbContext.Clients.Include("Company").Where(clientwhere).ToList();
 

@@ -31,40 +31,44 @@
         <div class="center" v-show="currStep == 1">
             <yd-button style="width:90%" type="primary" @click.native="showStores = true">选择油仓</yd-button>
         </div>
-        <yd-cell-group title="油车过磅" v-show="currStep == 2">
-            <yd-cell-item>
-                <span slot="left">磅秤数：</span>
-                <yd-input slot="right" v-model="purchase.scaleWithCar" type="number" required placeholder="请输入磅秤数"></yd-input>
-                <span slot="right">吨</span>
-            </yd-cell-item>
-            <yd-cell-item>
-                <span slot="left">图片上传：</span>
-                <input slot="left" type="file" value="选择图片" accept="image/png,image/gif,image/jpeg" @change="uploadfile" />
-            </yd-cell-item>
+        <div v-show="currStep == 2">
+            <yd-cell-group title="油车过磅">
+                <yd-cell-item>
+                    <span slot="left">磅秤数：</span>
+                    <yd-input slot="right" v-model="purchase.scaleWithCar" type="number" required placeholder="请输入磅秤数"></yd-input>
+                    <span slot="right">吨</span>
+                </yd-cell-item>
+                <yd-cell-item>
+                    <span slot="left">图片上传：</span>
+                    <input slot="left" type="file" value="选择图片" accept="image/png,image/gif,image/jpeg" @change="uploadfile" />
+                </yd-cell-item>
+            </yd-cell-group>
             <div class="center">
-                <yd-button style="width:90%" type="primary" @click.native="goNext" :disabled ="isPrevent">前往化验</yd-button>
+                <yd-button style="width:90%" type="primary" @click.native="goNext" :disabled="isPrevent">前往化验</yd-button>
             </div>
-        </yd-cell-group>
+        </div>
         <div class="center" v-show="currStep == 3">
             <yd-button style="width:90%" type="primary" @click.native="goNext">已化验，前往施工</yd-button>
         </div>
         <div class="center" v-show="currStep == 4">
             <yd-button style="width:90%" type="primary" @click.native="goNext">卸油结束，前往过磅</yd-button>
         </div>
-        <yd-cell-group title="空车过磅" v-show="currStep == 5">
-            <yd-cell-item>
-                <span slot="left">磅秤数：</span>
-                <yd-input slot="right" v-model="purchase.scale" type="number" required placeholder="请输入磅秤数"></yd-input>
-                <span slot="right">吨</span>
-            </yd-cell-item>
-            <yd-cell-item>
-                <span slot="left">图片上传：</span>
-                <input slot="left" type="file" value="选择图片" accept="image/png,image/gif,image/jpeg" @change="uploadfile" />
-            </yd-cell-item>
+        <div v-show="currStep == 5">
+            <yd-cell-group title="空车过磅">
+                <yd-cell-item>
+                    <span slot="left">磅秤数：</span>
+                    <yd-input slot="right" v-model="purchase.scale" type="number" required placeholder="请输入磅秤数"></yd-input>
+                    <span slot="right">吨</span>
+                </yd-cell-item>
+                <yd-cell-item>
+                    <span slot="left">图片上传：</span>
+                    <input slot="left" type="file" value="选择图片" accept="image/png,image/gif,image/jpeg" @change="uploadfile" />
+                </yd-cell-item>
+            </yd-cell-group>
             <div class="center">
-                <yd-button style="width:90%" type="primary" @click.native="goNext" :disabled ="isPrevent1">完工确认</yd-button>
+                <yd-button style="width:90%" type="primary" @click.native="goNext" :disabled="isPrevent1">完工确认</yd-button>
             </div>
-        </yd-cell-group>
+        </div>
         <yd-popup v-model="showPurchases" position="right" width="70%">
             <yd-cell-group>
                 <yd-cell-item v-for="p in purchases" v-show="p.state != 7" :key="p.id" @click.native="purchaseclick(p)" arrow>

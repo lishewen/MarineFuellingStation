@@ -33,7 +33,7 @@
                 </div>
             </yd-cell-item>
         </yd-cell-group>
-        <yd-popup v-model="showwage" position="right">
+        <yd-popup v-model="showwage" position="right" width="70%">
             <div style="font-size: 16px;line-height:30px;margin:0px 12px 0px 12px">
                 <yd-flexbox>
                     <yd-flexbox-item>姓名：</yd-flexbox-item>
@@ -115,10 +115,10 @@
                 </yd-flexbox>
             </div>
             <div style="text-align: center;margin-top:20px">
-                <yd-button style="width:100px" type="primary" @click.native="saveWage">保存</yd-button>
+                <yd-button style="width:80%" type="primary" @click.native="saveWage">保存</yd-button>
             </div>
         </yd-popup>
-        <yd-popup v-model="departshow" position="right">
+        <yd-popup v-model="departshow" position="right" width="70%">
             <yd-cell-group title="请选择部门">
                 <yd-cell-item type="checkbox" v-for="d in departments" :key="d.id">
                     <span slot="left">{{d.name}}</span>
@@ -126,7 +126,7 @@
                 </yd-cell-item>
             </yd-cell-group>
             <div style="text-align: center">
-                <yd-button style="width:100px" type="primary" @click.native="clickDepart">提交</yd-button>
+                <yd-button style="width:80%" type="primary" @click.native="clickDepart">提交</yd-button>
             </div>
         </yd-popup>
     </div>

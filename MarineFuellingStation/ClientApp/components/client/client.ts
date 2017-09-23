@@ -37,7 +37,10 @@ export default class ClientComponent extends ComponentBase {
     svClient: string = "";
     svSales: string = "";
 
-    filterBtns: Array<helper.filterBtn>;
+    actBtnId: number; actBtnId1: number; actBtnId2: number; actBtnId3: number;//当前激活状态的条件button
+    ctype: server.clientType; ptype: server.salesPlanState; balances: number; cycle: number;
+
+    filterCType: Array<helper.filterBtn>; filterPType: Array<helper.filterBtn>; filterBalances: Array<helper.filterBtn>; filterCycle: Array<helper.filterBtn>;
     activedBtnId: number;
 
     constructor() {
@@ -63,28 +66,80 @@ export default class ClientComponent extends ComponentBase {
         this.getOilProducts();
         this.companyName = '请选择';
         this.getCompanys('');
-        this.getClients('');
         this.getSales();
         
-        this.filterBtns = [
-            { id: 0, name: '全部', actived: true },
-            { id: 1, name: '个人', actived: false },
-            { id: 2, name: '公司', actived: false }
+        this.filterCType = [
+            { id: 0, name: '全部', value: server.clientType.全部, actived: true },
+            { id: 1, name: '个人', value: server.clientType.个人, actived: false },
+            { id: 2, name: '公司', value: server.clientType.公司, actived: false }
         ];
-        this.activedBtnId = 0;
+        this.filterPType = [
+            { name: '已计划', value: server.salesPlanState.未审批, actived: false },
+            { name: '已完成', value: server.salesPlanState.已完成, actived: false },
+            { name: '已审批', value: server.salesPlanState.已审批, actived: false }
+        ];
+        this.filterBalances = [
+            { name: '少于1000', value: 1000, actived: false },
+            { name: '少于10000', value: 10000, actived: false }
+        ]
+        this.filterCycle = [
+            { name: '7天不计划', value: 7, actived: false },
+            { name: '15天不计划', value: 15, actived: false },
+            { name: '30天不计划', value: 30, actived: false },
+            { name: '90天不计划', value: 90, actived: false }
+        ]
+        this.actBtnId = 0; this.actBtnId1 = -1; this.actBtnId2 = -1; this.actBtnId3 = -1;
+        this.getClients();
+    }
+
+    switchBtn(o: helper.filterBtn, idx: number, group: string) {
+        switch (group) {
+            case "客户类型":
+                if (idx != this.actBtnId) {
+                    o.actived = true;
+                    this.ctype = <server.clientType>o.value;
+                    this.filterCType[this.actBtnId].actived = false;
+                    this.actBtnId = idx;
+                }
+                break;
+            case "计划单":
+                o.actived = !o.actived;
+                this.ptype = <server.salesPlanState>o.value;
+                if (idx != this.actBtnId1 && this.actBtnId1 != -1) {
+                    this.filterPType[this.actBtnId1].actived = false;
+                    this.actBtnId1 = idx;
+                }
+                else
+                    this.actBtnId1 = idx;
+                break;
+            case "账户余额":
+                o.actived = !o.actived;
+                this.balances = <number>o.value;
+                if (idx != this.actBtnId2 && this.actBtnId2 != -1) {
+                    this.filterBalances[this.actBtnId2].actived = false;
+                    this.actBtnId2 = idx;
+                }
+                else
+                    this.actBtnId2 = idx;
+                break;
+            case "周期":
+                o.actived = !o.actived;
+                this.cycle = <number>o.value;
+                if (idx != this.actBtnId3 && this.actBtnId3 != -1) {
+                    this.filterCycle[this.actBtnId3].actived = false;
+                    this.actBtnId3 = idx;
+                }
+                else
+                    this.actBtnId3 = idx;
+                break;
+        }
+        if (o.actived) this.getClients();
     }
 
     filterclick(): void {
         this.show2 = false;
+        this.getClients();
     };
-
-    switchBtn(o: any) {
-        if (o.id != this.activedBtnId){
-            o.actived = true;
-            this.filterBtns[this.activedBtnId].actived = false;
-            this.activedBtnId = o.id;
-        }
-    }
 
     mounted() {
         this.$emit('setTitle', this.$store.state.username + ' 的客户');
@@ -111,8 +166,8 @@ export default class ClientComponent extends ComponentBase {
         });
         this.$watch("svClient", (v: string, ov) => {
             //2个字符开始才执行请求操作，减少请求次数
-            if (v.length >= 2)
-                this.getClients(v);
+            if (v.length >= 2 || v.length == 0)
+                this.getClients();
         });
         this.$watch("svCompany", (v: string, ov) => {
             if (v.length >= 2)
@@ -237,14 +292,26 @@ export default class ClientComponent extends ComponentBase {
             }
         });
     }
-    //获得客户列表
-    getClients(kw: string) {
-        axios.get('/api/Client/' + kw).then((res) => {
+    //获得我的客户列表
+    getClients() {
+        if (this.ctype == null) this.ctype = server.clientType.全部;
+        if (this.ptype == null) this.ptype = -1;//-1标识没有选择任何项
+        if (this.balances == null) this.balances = -1;
+        if (this.cycle == null) this.cycle = -1;
+        if (this.svClient == null) this.svClient = "";
+
+        axios.get('/api/Client/GetClients'
+            + '?ctype=' + this.ctype.toString()
+            + '&ptype=' + this.ptype.toString()
+            + '&balances=' + this.balances.toString()
+            + '&cycle=' + this.cycle.toString()
+            + '&kw=' + this.svClient
+            +'&isMy=false'
+        ).then((res) => {
             let jobj = res.data as server.resultJSON<server.client[]>;
             if (jobj.code == 0) {
                 this.clients = jobj.data;
-                console.log(this.clients)
-            }   
+            }
             else
                 this.toastError('无法获取客户数据，请重试')
         });

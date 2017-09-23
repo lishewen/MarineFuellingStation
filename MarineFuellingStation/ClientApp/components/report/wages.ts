@@ -80,6 +80,7 @@ export default class WageComponent extends ComponentBase {
     clickDepart() {
         let ids = this.picked.join('|');
         this.getWageByDepart(this.sdate, ids);
+        this.departshow = false;
     }
 
     saveWage() {
@@ -89,6 +90,7 @@ export default class WageComponent extends ComponentBase {
     }
 
     sumWage() {
+        this.sumwage = 0;
         this.list.forEach(w => { this.sumwage += w.实发 });
     }
 

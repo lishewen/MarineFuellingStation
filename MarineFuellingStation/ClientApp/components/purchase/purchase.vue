@@ -82,6 +82,7 @@
                     <weui-search v-model="sv" />
                     <yd-cell-item arrow v-for="s in list" :key="s.id" @click.native="godetail(s.id)">
                         <div slot="left">
+                            <p>{{s.name}}</p>
                             <p>{{s.origin}}</p>
                             <p style="color:lightgray;font-size:12px">{{s.carNo}} {{s.trailerNo}}</p>
                         </div>
@@ -90,7 +91,8 @@
                                 <span style="color:forestgreen;">{{s.product.name}}</span>
                                 <span style="color:gray; font-size: 22px" s>{{s.count}}吨</span>
                             </p>
-                            <p style="color:lightcoral;line-height: 25px">到达：{{formatDate(s.arrivalTime)}}</p>
+                            <p style="color:lightcoral;">预计到达：{{formatDate(s.arrivalTime)}}</p>
+                            <p style="color:gray;" v-show="s.state != 0">实际到达：{{formatDate(s.updateAt)}}</p>
                         </div>
                     </yd-cell-item>
                 </yd-cell-group>

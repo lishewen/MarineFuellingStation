@@ -58,20 +58,21 @@ namespace MFS.Controllers
             };
         }
         /// <summary>
-        /// 根据所条件查询数据
+        /// 根据条件查询数据
         /// </summary>
         /// <param name="ctype">客户类型</param>
         /// <param name="ptype">计划状态</param>
         /// <param name="balances">余额条件</param>
         /// <param name="cycle">周期条件</param>
+        /// <param name="kw">搜索关键字</param>
         [HttpGet("[action]")]
-        public ResultJSON<List<Client>> GetMyClients(ClientType ctype, int ptype, int balances, int cycle)
+        public ResultJSON<List<Client>> GetClients(ClientType ctype, int ptype, int balances, int cycle, string kw, bool isMy)
         {
             r.CurrentUser = UserName;
             return new ResultJSON<List<Client>>
             {
                 Code = 0,
-                Data = r.GetMyClients(ctype, ptype, balances, cycle)
+                Data = r.GetMyClients(ctype, ptype, balances, cycle, kw, isMy)
             };
         }
     }

@@ -55,7 +55,7 @@ export default class MyClientComponent extends ComponentBase {
                 }
                 break;
             case "计划单":
-                o.actived = true;
+                o.actived = !o.actived;
                 this.ptype = <server.salesPlanState>o.value;
                 if (idx != this.actBtnId1 && this.actBtnId1 != -1) {
                     this.filterPType[this.actBtnId1].actived = false;
@@ -65,7 +65,7 @@ export default class MyClientComponent extends ComponentBase {
                     this.actBtnId1 = idx;
                 break;
             case "账户余额":
-                o.actived = true;
+                o.actived = !o.actived;
                 this.balances = <number>o.value;
                 if (idx != this.actBtnId2 && this.actBtnId2 != -1) {
                     this.filterBalances[this.actBtnId2].actived = false;
@@ -75,7 +75,7 @@ export default class MyClientComponent extends ComponentBase {
                     this.actBtnId2 = idx;
                 break;
             case "周期":
-                o.actived = true;
+                o.actived = !o.actived;
                 this.cycle = <number>o.value;
                 if (idx != this.actBtnId3 && this.actBtnId3 != -1) {
                     this.filterCycle[this.actBtnId3].actived = false;
@@ -85,7 +85,7 @@ export default class MyClientComponent extends ComponentBase {
                     this.actBtnId3 = idx;
                 break;
         }
-        this.getClients();
+        if (o.actived) this.getClients();
     }
 
     filterclick(): void {
@@ -121,12 +121,14 @@ export default class MyClientComponent extends ComponentBase {
         if (this.ptype == null) this.ptype = -1;//-1标识没有选择任何项
         if (this.balances == null) this.balances = -1;
         if (this.cycle == null) this.cycle = -1;
-
-        axios.get('/api/Client/GetMyClients'
+        
+        axios.get('/api/Client/GetClients'
             + '?ctype=' + this.ctype.toString()
             + '&ptype=' + this.ptype.toString()
             + '&balances=' + this.balances.toString()
             + '&cycle=' + this.cycle.toString()
+            + '&kw='
+            + '&isMy=true'
         ).then((res) => {
             let jobj = res.data as server.resultJSON<server.client[]>;
             if (jobj.code == 0) {

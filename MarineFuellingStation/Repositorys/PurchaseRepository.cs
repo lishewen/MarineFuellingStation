@@ -70,7 +70,7 @@ namespace MFS.Repositorys
                 bool isUpdateStore = st_r.UpdateOil(int.Parse(modelWithChanges.StoreId.ToString()), modelWithChanges.Count, true);
                 //更新平均单价
                 bool isUpdateAvgPrice = st_r.UpdateAvgPrice(int.Parse(modelWithChanges.StoreId.ToString()),modelWithChanges.Price);
-                if (isUpdateStore)
+                if (isUpdateStore && isUpdateAvgPrice)
                 {
                     //增加入仓记录
                     InAndOutLogRepository io_r = new InAndOutLogRepository(_dbContext);

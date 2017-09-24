@@ -30,7 +30,7 @@ const routes: VueRouter.RouteConfig[] = [
     { path: '/oilstore', component: require('./components/oilstore/oilstore.vue') },
 
     { path: '/purchase/purchase', component: require('./components/purchase/purchase.vue') },
-    { path: '/purchase/purchase/:id', component: require('./components/purchase/purchasedetail.vue') },
+    { path: '/purchase/purchase/:id/:from', component: require('./components/purchase/purchasedetail.vue') },
 
     { path: '/client/client', component: require('./components/client/client.vue') },
     { path: '/client/client/:id', component: require('./components/client/clientdetail.vue') },

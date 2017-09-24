@@ -91,7 +91,7 @@
                                 <span style="color:forestgreen;">{{s.product.name}}</span>
                                 <span style="color:gray; font-size: 22px" s>{{s.count}}吨</span>
                             </p>
-                            <p style="color:lightcoral;">预计到达：{{formatDate(s.arrivalTime)}}</p>
+                            <p style="color:lightcoral;">预计到达：{{formatDate(s.arrivalTime, 'MM-DD hh:mm')}}</p>
                             <p style="color:gray;" v-show="s.state != 0">实际到达：{{formatDate(s.updateAt)}}</p>
                         </div>
                     </yd-cell-item>

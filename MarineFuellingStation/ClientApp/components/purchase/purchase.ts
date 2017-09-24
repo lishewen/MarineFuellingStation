@@ -38,8 +38,8 @@ export default class PurchaseComponent extends ComponentBase {
         this.model.count = 0;
         this.model.origin = '';
         this.model.carNo = '';
-        this.model.startTime = this.formatDate(new Date());
-        this.model.arrivalTime = this.formatDate(new Date());
+        this.model.startTime = this.formatDate(new Date(), 'YYYY-MM-DD hh:mm');
+        this.model.arrivalTime = this.formatDate(new Date(), 'YYYY-MM-DD hh:mm');
 
         this.getPurchaseNo();
         this.getPurchases();
@@ -76,7 +76,7 @@ export default class PurchaseComponent extends ComponentBase {
     }
 
     godetail(id: number) {
-        this.$router.push('/purchase/purchase/' + id);
+        this.$router.push('/purchase/purchase/' + id + '/purchase');
     }
 
     buttonclick() {
@@ -96,8 +96,8 @@ export default class PurchaseComponent extends ComponentBase {
         this.postPurchase(this.model);
     }
 
-    formatDate(d: Date): string {
-        return moment(d).format('MM-DD hh:mm');
+    formatDate(d: Date, f: string): string {
+        return moment(d).format(f);
     }
 
     getPurchaseNo() {

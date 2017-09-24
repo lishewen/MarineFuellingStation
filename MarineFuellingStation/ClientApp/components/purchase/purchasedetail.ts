@@ -19,9 +19,14 @@ export default class PurchaseDetailComponent extends ComponentBase {
 
     mounted() {
         let id = this.$route.params.id;
+        let from = this.$route.params.from;
+        if (from == 'purchase')
+            from = '/purchase/purchase'
+        else if (from == 'board')
+            from = '/produce/buyboard'
         this.getPurchase(id, () => {
             //设置返回键的连接
-            this.$emit('setTitle', this.model.name + ' 采购单明细', '/purchase/purchase');
+            this.$emit('setTitle', this.model.name + ' 采购单明细', from);
         });
     }
     

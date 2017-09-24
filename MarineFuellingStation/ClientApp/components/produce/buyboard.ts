@@ -24,7 +24,7 @@ export default class BuyboardComponent extends Vue {
     }
 
     godetail(id: number) {
-        this.$router.push('/purchase/purchase/' + id);
+        this.$router.push('/purchase/purchase/' + id + '/board');
     }
     formatDate(d: Date): string {
         return moment(d).format('MM-DD hh:mm');

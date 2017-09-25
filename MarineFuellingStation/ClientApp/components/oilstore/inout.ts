@@ -86,7 +86,6 @@ export default class InAndOutLogComponent extends ComponentBase {
 
     loadList() {
         this.getInAndOutLogs((list: server.inAndOutLog[]) => {
-            let scroll: string;
             switch (this.logType) {
                 case server.logType.全部:
                     this.inAndOutLogs = this.page > 1 ? [...this.inAndOutLogs, ...list] : this.inAndOutLogs;

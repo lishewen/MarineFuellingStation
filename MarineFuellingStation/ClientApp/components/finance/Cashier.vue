@@ -5,7 +5,7 @@
                 <yd-cell-group>
                     <weui-search v-model="sv" />
                     <yd-infinitescroll :callback="loadList" ref="orderinfinitescroll1">
-                        <yd-cell-item arrow @click.native="orderclick(o)" v-for="o in orders" v-show="o.payState == 0" :key="o.id">
+                        <yd-cell-item slot="list" arrow @click.native="orderclick(o)" v-for="o in readypayorders" :key="o.id">
                             <div slot="left">
                                 <p style="font-size: 18px">{{o.carNo}}</p>
                                 <p style="color:lightgray;font-size:14px">{{o.name}}</p>
@@ -18,8 +18,7 @@
                         </yd-cell-item>
 
                         <!-- 数据全部加载完毕显示 -->
-                        <span slot="doneTip">我们是有底线的~</span>
-
+                        <span slot="doneTip">没有数据啦~</span>
                         <!-- 加载中提示，不指定，将显示默认加载中图标 -->
                         <img slot="loadingTip" src="http://static.ydcss.com/uploads/ydui/loading/loading10.svg" />
                     </yd-infinitescroll>
@@ -29,7 +28,7 @@
                 <yd-cell-group>
                     <weui-search v-model="sv" />
                     <yd-infinitescroll :callback="loadList" ref="orderinfinitescroll2">
-                        <yd-cell-item arrow v-for="o in orders" v-show="o.payState == 1" :key="o.id">
+                        <yd-cell-item slot="list" arrow v-for="o in haspayorders" :key="o.id">
                             <div slot="left">
                                 <p style="font-size: 18px">{{o.carNo}}</p>
                                 <p style="color:lightgray;font-size:14px">{{o.name}}</p>
@@ -41,7 +40,7 @@
                         </yd-cell-item>
 
                         <!-- 数据全部加载完毕显示 -->
-                        <span slot="doneTip">我们是有底线的~</span>
+                        <span slot="doneTip">没有数据啦~</span>
 
                         <!-- 加载中提示，不指定，将显示默认加载中图标 -->
                         <img slot="loadingTip" src="http://static.ydcss.com/uploads/ydui/loading/loading10.svg" />
@@ -52,7 +51,7 @@
                 <yd-cell-group>
                     <weui-search v-model="sv" />
                     <yd-infinitescroll :callback="loadList" ref="orderinfinitescroll3">
-                        <yd-cell-item arrow v-for="o in orders" v-show="o.payState == 2" :key="o.id">
+                        <yd-cell-item slot="list" arrow v-for="o in nopayorders" :key="o.id">
                             <div slot="left">
                                 <p style="font-size: 18px">{{o.carNo}}</p>
                                 <p style="color:lightgray;font-size:14px">{{o.name}}</p>
@@ -65,7 +64,7 @@
                         </yd-cell-item>
 
                         <!-- 数据全部加载完毕显示 -->
-                        <span slot="doneTip">我们是有底线的~</span>
+                        <span slot="doneTip">没有数据啦~</span>
 
                         <!-- 加载中提示，不指定，将显示默认加载中图标 -->
                         <img slot="loadingTip" src="http://static.ydcss.com/uploads/ydui/loading/loading10.svg" />

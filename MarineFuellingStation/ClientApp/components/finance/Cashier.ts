@@ -13,6 +13,9 @@ export default class CashierComponent extends ComponentBase {
     lastshow: boolean = true;
     sv: string = "";
     payInfact: number = 0;//实收金额
+    payState: server.payState;
+    scrollRef: any;
+    pSize: number = 30;//分页每页显示记录
 
     orderPayTypes: Array<string>;
     orderPayMoneys: Array<number>;
@@ -21,7 +24,9 @@ export default class CashierComponent extends ComponentBase {
     payments: Array<server.payment>;
     selectedOrder: server.order;
 
-    orders: server.order[];
+    readypayorders: server.order[];
+    haspayorders: server.order[];
+    nopayorders: server.order[];
     page: number;
 
     constructor() {
@@ -34,9 +39,10 @@ export default class CashierComponent extends ComponentBase {
         this.orderPayTypes = [server.orderPayType.现金.toString()];//默认支付方式“现金”
         this.orderPayMoneys = new Array<number>();
         this.showInputs = new Array<boolean>(false, false, false, false, false, false, false);
-        this.orders = new Array<server.order>();
 
-        this.getOrders();
+        this.readypayorders = new Array<server.order>();
+        this.haspayorders = new Array<server.order>();
+        this.nopayorders = new Array<server.order>();
     }
 
     orderclick(o: server.order) {
@@ -75,54 +81,93 @@ export default class CashierComponent extends ComponentBase {
     }
 
     mounted() {
-        this.$emit('setTitle', this.$store.state.username + ' 结算');
-        this.$watch("show2", (v, ov) => {
+        (<any>this).$emit('setTitle', (<any>this).$store.state.username + ' 结算');
+        (<any>this).$watch("show2", (v, ov) => {
             //初始化
             this.orderPayTypes = ["0"];
             this.orderPayMoneys = new Array<number>();
-        })
+        });
     };
 
     loadList() {
         this.getOrders((list: server.order[]) => {
-            if (this.page > 1)
-                //叠加新内容进orders
-                this.orders = [...list, ...this.orders];
-            else
-                this.orders = list;
+            switch (this.payState) {
+                case server.payState.未结算:
+                    this.readypayorders = this.page > 1 ? [...this.readypayorders, ...list] : this.readypayorders;
+                    this.scrollRef = (<any>this).$refs.orderinfinitescroll1;
+                    break;
+                case server.payState.已结算:
+                    this.haspayorders = this.page > 1 ? [...this.haspayorders, ...list] : this.haspayorders;
+                    this.scrollRef = (<any>this).$refs.orderinfinitescroll2;
+                    break;
+                case server.payState.挂账:
+                    this.nopayorders = this.page > 1 ? [...this.nopayorders, ...list] : this.nopayorders;
+                    this.scrollRef = (<any>this).$refs.orderinfinitescroll3;
+                    break;
+            }
+            if (list.length < this.pSize) {
+                this.scrollRef.$emit("ydui.infinitescroll.loadedDone");
+                return;
+            }
 
-            //如果有内容则page+1，否则则把page重置为1
-            if (list.length > 0) {
-                /* 单次请求数据完毕 */
-                (<any>this.$refs.orderinfinitescroll1).$emit('ydui.infinitescroll.finishLoad');
-                (<any>this.$refs.orderinfinitescroll2).$emit('ydui.infinitescroll.finishLoad');
-                (<any>this.$refs.orderinfinitescroll3).$emit('ydui.infinitescroll.finishLoad');
+            //通知加载数据完毕
+            (<any>this).$refs.infinitescroll.$emit("ydui.infinitescroll.finishLoad");
+
+            if (list.length > 0)
                 this.page++;
-            }
-            else {
-                /* 所有数据加载完毕 */
-                (<any>this.$refs.orderinfinitescroll1).$emit('ydui.infinitescroll.loadedDone');
-                (<any>this.$refs.orderinfinitescroll2).$emit('ydui.infinitescroll.loadedDone');
-                (<any>this.$refs.orderinfinitescroll3).$emit('ydui.infinitescroll.loadedDone');
+            else
                 this.page = 1;
-            }
+            console.log("page = " + this.page)
         });
     }
 
     change(label: string, tabkey: string) {
         console.log(label);
-        this.$emit('setTitle', this.$store.state.username + ' ' + label);
+        (<any>this).$emit('setTitle', (<any>this).$store.state.username + ' ' + label);
+
+        switch (label) {
+            case "待结算":
+                this.payState = server.payState.未结算;
+                break;
+            case "已结算":
+                this.payState = server.payState.已结算;
+                break;
+            case "挂账":
+                this.payState = server.payState.挂账;
+                break;
+        }
+        (<any>this).$refs.orderinfinitescroll1.$emit('ydui.infinitescroll.reInit');
+        (<any>this).$refs.orderinfinitescroll2.$emit('ydui.infinitescroll.reInit');
+        (<any>this).$refs.orderinfinitescroll3.$emit('ydui.infinitescroll.reInit');
+        this.readypayorders = null; this.haspayorders = null; this.nopayorders = null;
+        this.page = 1;
+        this.getOrders();
     }
 
     getOrders(callback?: Function) {
-        if (!this.page) this.page = 1;
-        axios.get('/api/Order/GetIncludeProduct?page=' + this.page.toString()).then((res) => {
+        if (this.page == null) this.page = 1;
+        axios.get('/api/Order/GetByPayState?'
+            + 'paystate=' + this.payState
+            + '&page=' + this.page.toString()
+            + '&pagesize=' + this.pSize)
+            .then((res) => {
             let jobj = res.data as server.resultJSON<server.order[]>;
             if (jobj.code == 0) {
                 if (callback)
                     callback(jobj.data);
                 else {
-                    this.orders = jobj.data;
+                    switch (this.payState) {
+                        case server.payState.未结算:
+                            this.readypayorders = jobj.data;
+                            break;
+                        case server.payState.已结算:
+                            this.haspayorders = jobj.data;
+                            break;
+                        case server.payState.挂账:
+                            this.nopayorders = jobj.data;
+                            break;
+                    }
+                    console.log(this.readypayorders);
                     this.page++;
                 }
             }

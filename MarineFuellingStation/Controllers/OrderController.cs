@@ -161,6 +161,22 @@ namespace MFS.Controllers
                 Data = r.GetIncludeProduct(orderType, page, 30, isFinished)//每页30条记录
             };
         }
+        /// <summary>
+        /// 根据付款状态获取分页数据，并且包含Product、Client对象
+        /// </summary>
+        /// <param name="payState">付款状态</param>
+        /// <param name="page">第n页</param>
+        /// <param name="pageSize">分页记录数</param>
+        /// <returns></returns>
+        [HttpGet("[action]")]
+        public ResultJSON<List<Order>> GetByPayState(PayState payState, int page, int pageSize)
+        {
+            return new ResultJSON<List<Order>>
+            {
+                Code = 0,
+                Data = r.GetByPayState(payState, page, pageSize)//每页30条记录
+            };
+        }
         #endregion
         #region Put方法
         /// <summary>

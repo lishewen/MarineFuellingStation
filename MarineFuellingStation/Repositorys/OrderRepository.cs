@@ -104,6 +104,17 @@ namespace MFS.Repositorys
                 return LoadPageList(startPage, pageSize, out int count, true, o => o.State != OrderState.已完成 && o.OrderType == orderType).Include(o => o.Product).Include(o => o.Client).ToList();
         }
         /// <summary>
+        /// 根据PayState获取分页数据，并且包含Product、Client对象
+        /// </summary>
+        /// <param name="payState">付款状态</param>
+        /// <param name="startPage">第N页</param>
+        /// <param name="pageSize">每页记录</param>
+        /// <returns></returns>
+        public List<Order> GetByPayState(PayState payState, int startPage, int pageSize)
+        {
+            return LoadPageList(startPage, pageSize, out int count, true, o=>o.PayState == payState).Include(o => o.Product).Include(o => o.Client).ToList();
+        }
+        /// <summary>
         /// 结算订单
         /// </summary>
         /// <param name="model">Model</param>

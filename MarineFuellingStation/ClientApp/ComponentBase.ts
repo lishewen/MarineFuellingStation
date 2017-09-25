@@ -2,8 +2,8 @@
 import moment from "moment";
 
 export default class ComponentBase extends Vue {
-    formatDate(d: Date): string {
-        return moment(d).format('YYYY-MM-DD');
+    formatDate(d: Date, f: string = 'YYYY-MM-DD'): string {
+        return moment(d).format(f);
     }
     toastError(msg: string) {
         this.$dialog.toast({

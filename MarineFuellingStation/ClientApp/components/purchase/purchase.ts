@@ -96,18 +96,13 @@ export default class PurchaseComponent extends ComponentBase {
         this.postPurchase(this.model);
     }
 
-    formatDate(d: Date, f: string): string {
-        return moment(d).format(f);
-    }
-
     getPurchaseNo() {
         axios.get('/api/Purchase/PurchaseNo').then((res) => {
             let jobj = res.data as server.resultJSON<string>;
             if (jobj.code == 0) {
                 this.model.name = jobj.data;
                 this.isPrevent = false;
-            }
-                
+            }            
         });
     }
 

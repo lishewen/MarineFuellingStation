@@ -66,10 +66,6 @@ export default class OrderComponent extends ComponentBase {
         return moment(d).format('MM-DD');
     }
 
-    formatDate(d: Date): string {
-        return moment(d).format('YYYY-MM-DD');
-    }
-
     classState(s: server.orderState): any {
         switch (s) {
             case server.orderState.已完成:

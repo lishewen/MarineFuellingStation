@@ -56,8 +56,13 @@ namespace MFS.Controllers
 
             //推送打印指令
             await _hub.Clients.All.InvokeAsync("printsalesplan", result);
-            //推送企业微信消息
-            MassApi.SendText(option.销售计划AccessToken, option.销售计划AgentId, $"{UserName}指定销售计划成功！", "@all");
+            //推送企业微信卡片消息（最多5行，128个字符）
+            MassApi.SendTextCard(option.销售计划AccessToken, option.销售计划AgentId, "制定销售计划成功"
+                     , $"<div class=\"gray\">单号：{result.Name}</div>" +
+                     $"<div class=\"normal\">制定人：{UserName}</div>" +
+                     $"<div class=\"normal\">船号/车号：{result.CarNo}</div>" +
+                     $"<div class=\"normal\">油品：{result.OilName}</div>"
+                     , $"http://vue.car0774.com/#/sales/plan/{result.Id}/plan", toUser: "@all");
 
             return new ResultJSON<SalesPlan>
             {

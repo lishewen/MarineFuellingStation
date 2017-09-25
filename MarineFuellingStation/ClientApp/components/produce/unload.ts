@@ -84,12 +84,29 @@ export default class UnloadComponent extends ComponentBase {
                     this.toastError("请上传油车过磅数据图片");
                     return;
                 }
+                if (this.purchase.density <= 0) {
+                    this.toastError('请输入测量密度');
+                    return;
+                }
                 break;
             case 3:
                 nextState = server.unloadState.卸油中;
                 break;
             case 4:
                 nextState = server.unloadState.空车过磅;
+
+                if (this.purchase.instrument1 <= 0) {
+                    this.toastError("请填写表数1");
+                    return;
+                }
+                if (this.purchase.instrument2 <= 0) {
+                    this.toastError("请填写表数2");
+                    return;
+                }
+                if (this.purchase.instrument3 <= 0) {
+                    this.toastError("请填写表数3");
+                    return;
+                }
                 break;
             case 5:
                 nextState = server.unloadState.完工;

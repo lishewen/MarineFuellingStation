@@ -2,7 +2,7 @@
     <div id="root">
         <yd-tab :change="change">
             <div style="text-align: center; margin-top: .4rem">
-                <yd-button style="width:90%" type="primary" @click.native="showOrders = true">销售单{{order.name? '：' + order.name : ''}}</yd-button>
+                <yd-button style="width:90%" type="primary" @click.native="showOrdersclick">销售单{{order.name? '：' + order.name : ''}}</yd-button>
             </div>
             <yd-step :current="currStep" style="margin: .4rem 0 .4rem">
                 <yd-step-item>
@@ -26,7 +26,7 @@
             <yd-popup v-model="showOrders" position="right" width="70%">
                 <yd-pullrefresh :callback="getOrders">
                     <yd-cell-group>
-                        <yd-cell-item v-for="o in orders" v-show="o.state != 5" :key="o.id" @click.native="orderclick(o)" arrow>
+                        <yd-cell-item v-for="o in orders" :key="o.id" @click.native="orderclick(o)" arrow>
                             <div slot="left" style="padding:.2rem 0 .2rem">
                                 <p>{{o.carNo}}</p>
                                 <p style="color:lightgray">{{o.name}}</p>

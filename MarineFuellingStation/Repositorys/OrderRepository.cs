@@ -76,6 +76,34 @@ namespace MFS.Repositorys
             return LoadPageList(startPage, pageSize, out int count, true).Include(o => o.Product).Include(o => o.Client).ToList();
         }
         /// <summary>
+        /// 获取是否完工状态的所有订单列表
+        /// </summary>
+        /// <param name="startPage">第N页</param>
+        /// <param name="pageSize">每页记录</param>
+        /// <param name="isFinished">是否已施工完成</param>
+        /// <returns></returns>
+        public List<Order> GetIncludeProduct(int startPage, int pageSize, bool isFinished)
+        {
+            if (isFinished)
+                return LoadPageList(startPage, pageSize, out int count, true, o => o.State == OrderState.已完成).Include(o => o.Product).Include(o => o.Client).ToList();
+            else
+                return LoadPageList(startPage, pageSize, out int count, true, o => o.State != OrderState.已完成).Include(o => o.Product).Include(o => o.Client).ToList();
+        }
+        /// <summary>
+        /// 获取是否完工状态的获取水上或陆上订单列表
+        /// </summary>
+        /// <param name="startPage">第N页</param>
+        /// <param name="pageSize">每页记录</param>
+        /// <param name="isFinished">是否已施工完成</param>
+        /// <returns></returns>
+        public List<Order> GetIncludeProduct(SalesPlanType orderType, int startPage, int pageSize, bool isFinished)
+        {
+            if (isFinished)
+                return LoadPageList(startPage, pageSize, out int count, true, o => o.State == OrderState.已完成 && o.OrderType == orderType).Include(o => o.Product).Include(o => o.Client).ToList();
+            else
+                return LoadPageList(startPage, pageSize, out int count, true, o => o.State != OrderState.已完成 && o.OrderType == orderType).Include(o => o.Product).Include(o => o.Client).ToList();
+        }
+        /// <summary>
         /// 结算订单
         /// </summary>
         /// <param name="model">Model</param>

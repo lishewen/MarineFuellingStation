@@ -1,79 +1,16 @@
 declare module server {
 	/** 销售单 Name字段为单号 */
-	interface order extends EntityBase {
-		salesPlanId?: number;
-		salesPlan: {
-			salesPlanType: any;
-			carNo: string;
-			productId: number;
-			oilName: string;
-			price: number;
-			count: number;
-			unit: string;
-			remainder: number;
-			oilDate: Date;
-			isInvoice: boolean;
-			ticketType: any;
-			billingCompany: string;
-			billingPrice: number;
-			billingCount: number;
-			state: any;
-			auditor: string;
-			auditTime?: Date;
-			totalMoney: number;
-		};
+	interface order extends entityBase {
+        salesPlanId?: number;
+        salesPlan: salesPlan;
 		orderType: any;
 		/** 船号/车号 */
 		carNo: string;
 		/** 客户 */
-		clientId?: number;
-		client: {
-			placeType: any;
-			clientType: any;
-			companyId?: number;
-			followSalesman: string;
-			carNo: string;
-			defaultProductId?: number;
-			contact: string;
-			mobile: string;
-			idCard: string;
-			address: string;
-			phone: string;
-			maxOnAccount: number;
-			balances: number;
-			totalAmount: number;
-			company: {
-				keyword: string;
-				ticketType: any;
-				invoiceTitle: string;
-				taxFileNumber: string;
-				businessAccount: string;
-				bank: string;
-				address: string;
-				phone: string;
-				balances: number;
-				totalAmount: number;
-			};
-			product: {
-				minPrice: number;
-				lastPrice: number;
-				isUse: boolean;
-				productTypeId: number;
-				productType: {
-					products: any[];
-				};
-			};
-		};
-		productId: number;
-		product: {
-			minPrice: number;
-			lastPrice: number;
-			isUse: boolean;
-			productTypeId: number;
-			productType: {
-				products: any[];
-			};
-		};
+        clientId?: number;
+        client: client;
+        productId: number;
+        product: product;
 		/** 商品单价 */
 		price: number;
 		count: number;
@@ -130,23 +67,8 @@ declare module server {
 		emptyCarWeightPic: string;
 		/** 销售仓Id 陆上加油 */
 		storeId?: number;
-		/** 对应油仓 */
-		store: {
-			storeClass: any;
-			volume: number;
-			avgPrice: number;
-			lastValue: number;
-			value: number;
-			lastSurveyAt: Date;
-			cost: number;
-			isUse: boolean;
-			storeTypeId: number;
-			storeType: {
-				stores: any[];
-			};
-			sumOutValue: number;
-			sumInValue: number;
-		};
+        /** 对应油仓 */
+        store: store;
 		payments: any[];
 		/** 底价 */
 		minPrice: number;

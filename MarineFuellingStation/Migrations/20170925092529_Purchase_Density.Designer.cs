@@ -11,9 +11,10 @@ using System;
 namespace MFS.Migrations
 {
     [DbContext(typeof(EFContext))]
-    partial class EFContextModelSnapshot : ModelSnapshot
+    [Migration("20170925092529_Purchase_Density")]
+    partial class Purchase_Density
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -520,12 +521,6 @@ namespace MFS.Migrations
                     b.Property<string>("IdCard1");
 
                     b.Property<string>("IdCard2");
-
-                    b.Property<decimal>("Instrument1");
-
-                    b.Property<decimal>("Instrument2");
-
-                    b.Property<decimal>("Instrument3");
 
                     b.Property<DateTime>("LastUpdatedAt");
 

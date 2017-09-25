@@ -131,18 +131,34 @@ namespace MFS.Controllers
             };
         }
         /// <summary>
-        /// 获取水上或陆上分页数据，并且包含Product对象
+        /// 根据是否施工完成获取记录分页数据，并且包含Product对象
         /// </summary>
-        /// <param name="orderType">水上/陆上/机油</param>
         /// <param name="page">第n页</param>
+        /// <param name="isFinished">是否完成状态</param>
         /// <returns></returns>
-        [HttpGet("[action]/{ordertype}")]
-        public ResultJSON<List<Order>> GetIncludeProduct(SalesPlanType orderType, int page)
+        [HttpGet("[action]")]
+        public ResultJSON<List<Order>> GetByIsFinished(int page, bool isFinished)
         {
             return new ResultJSON<List<Order>>
             {
                 Code = 0,
-                Data = r.GetIncludeProduct(orderType, page, 30)//每页30条记录
+                Data = r.GetIncludeProduct(page, 30, isFinished)//每页30条记录
+            };
+        }
+        /// <summary>
+        /// 根据是否完工获取水上或陆上分页数据，并且包含Product对象
+        /// </summary>
+        /// <param name="orderType">水上/陆上/机油</param>
+        /// <param name="page">第n页</param>
+        /// <param name="isFinished">是否完成状态</param>
+        /// <returns></returns>
+        [HttpGet("[action]/{ordertype}")]
+        public ResultJSON<List<Order>> GetByIsFinished(SalesPlanType orderType, int page, bool isFinished)
+        {
+            return new ResultJSON<List<Order>>
+            {
+                Code = 0,
+                Data = r.GetIncludeProduct(orderType, page, 30, isFinished)//每页30条记录
             };
         }
         #endregion

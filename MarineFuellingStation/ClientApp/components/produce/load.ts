@@ -23,8 +23,7 @@ export default class LoadComponent extends ComponentBase {
         this.orders = new Array<server.order>();
         this.store = new Object as server.store;
         this.stores = new Array<server.store>();
-
-        this.getOrders();
+        
         this.getStores();
     }
     
@@ -32,10 +31,15 @@ export default class LoadComponent extends ComponentBase {
         this.$emit('setTitle', this.$store.state.username + ' 水上装油');
     };
 
+    showOrdersclick() {
+        this.showOrders = true;
+        this.getOrders(1);
+    }
+
     orderclick(o: server.order) {
         this.order = o;
         this.showOrders = false;
-        console.log(this.order);
+        //console.log(this.order);
         this.matchCurrStep();
         
     }
@@ -47,15 +51,16 @@ export default class LoadComponent extends ComponentBase {
 
     storeclick(st: server.store) {
         this.store = st;
+        this.order.storeId = st.id;
         this.order.store = st;
         this.showStores = false;
         this.changeState(server.orderState.装油中);
-        console.log(this.store);
+        console.log(st.id);
     }
 
     changeState(nextState: server.orderState) {
         if (this.currStep == server.orderState.选择油仓) {
-            if (this.store == null) {
+            if (this.order.store == null || this.order.storeId == null) {
                 this.toastError("请选择销售仓")
                 return;
             }
@@ -68,14 +73,21 @@ export default class LoadComponent extends ComponentBase {
         this.$emit('setTitle', this.$store.state.username + ' ' + label);
     }
 
-    getOrders() {
+    getOrders(toPage?: number) {
         if (this.page == null) this.page = 1;
-        axios.get('/api/Order/GetIncludeProduct/' + server.salesPlanType.水上.toString() + '?page=' + this.page.toString())
+        if (toPage != null) this.page = toPage;
+        axios.get('/api/Order/GetByIsFinished/' + server.salesPlanType.水上.toString()
+            + '?page=' + this.page.toString()
+            +'&isFinished=false')
             .then((res) => {
                 let jobj = res.data as server.resultJSON<server.order[]>;
-                if (jobj.code == 0) {
+                if (jobj.code == 0 && jobj.data.length > 0) {
                     this.orders = jobj.data;
                     this.page++;
+                }
+                else {
+                    this.toastError("没有相关数据");
+                    this.showOrders = false;
                 }
             });
     }
@@ -89,13 +101,13 @@ export default class LoadComponent extends ComponentBase {
     }
 
     putState(state: server.orderState) {
+        //console.log(this.order.storeId);
         this.order.state = state;
         axios.put('/api/Order/ChangeState', this.order).then((res) => {
             let jobj = res.data as server.resultJSON<server.order>;
             if (jobj.code == 0) {
                 this.order = jobj.data;
                 this.matchCurrStep();
-                if (this.order.state == server.orderState.已完成) this.getOrders();
             }
             else
                 this.toastError(jobj.msg);

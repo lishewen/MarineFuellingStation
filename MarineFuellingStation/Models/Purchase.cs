@@ -40,8 +40,24 @@ namespace MFS.Models
         [ForeignKey("StoreId")]
         public Store Store { get; set; }
 
-        //陆上卸油用到的字段
-
+        ///陆上卸油用到的字段
+        ///
+        /// <summary>
+        /// 表1
+        /// </summary>
+        public decimal Instrument1 { get; set; }
+        /// <summary>
+        /// 表2
+        /// </summary>
+        public decimal Instrument2 { get; set; }
+        /// <summary>
+        /// 表3
+        /// </summary>
+        public decimal Instrument3 { get; set; }
+        /// <summary>
+        /// 卸车时需要测量的密度
+        /// </summary>
+        public decimal Density { get; set; } = 0;
         /// <summary>
         /// 油车磅秤数
         /// </summary>

@@ -34,6 +34,10 @@
         <div v-show="currStep == 2">
             <yd-cell-group title="油车过磅">
                 <yd-cell-item>
+                    <span slot="left">测量密度：</span>
+                    <yd-input slot="right" v-model="purchase.density" type="number" required placeholder="请输入测量密度"></yd-input>
+                </yd-cell-item>
+                <yd-cell-item>
                     <span slot="left">磅秤数：</span>
                     <yd-input slot="right" v-model="purchase.scaleWithCar" type="number" required placeholder="请输入磅秤数"></yd-input>
                     <span slot="right">吨</span>
@@ -51,6 +55,18 @@
             <yd-button style="width:90%" type="primary" @click.native="goNext">已化验，前往施工</yd-button>
         </div>
         <div class="center" v-show="currStep == 4">
+            <yd-cell-item>
+                <span slot="left">卸油后表数1：</span>
+                <yd-input slot="right" v-model="purchase.instrument1" type="number" required placeholder="请输入卸油表数1"></yd-input>
+            </yd-cell-item>
+            <yd-cell-item>
+                <span slot="left">卸油后表数2：</span>
+                <yd-input slot="right" v-model="purchase.instrument2" type="number" required placeholder="请输入卸油表数2"></yd-input>
+            </yd-cell-item>
+            <yd-cell-item>
+                <span slot="left">卸油后表数3：</span>
+                <yd-input slot="right" v-model="purchase.instrument3" type="number" required placeholder="请输入卸油表数3"></yd-input>
+            </yd-cell-item>
             <yd-button style="width:90%" type="primary" @click.native="goNext">卸油结束，前往过磅</yd-button>
         </div>
         <div v-show="currStep == 5">

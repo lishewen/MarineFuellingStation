@@ -29,10 +29,18 @@ declare module server {
 		driver2: string;
 		idCard2: string;
         phone2: string;
+        /** 卸油表表数1 */
+        instrument1: number;
+        /** 卸油表表数2 */
+        instrument2: number;
+        /** 卸油表表数3 */
+        instrument3: number;
         /** 卸油用油仓id */
         storeId?: number;
         /** 卸油油仓 */
         store: store;
+        /** 卸车时需要测量的密度 */
+        density: number;
 		/** 油车磅秤数 */
 		scaleWithCar: number;
 		/** 油车磅秤图片地址 */

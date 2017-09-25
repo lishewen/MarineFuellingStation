@@ -96,6 +96,11 @@ export default class OrderComponent extends ComponentBase {
         this.model.carNo = s.carNo;
         this.model.price = s.price;
         this.model.count = s.count;
+        this.model.isInvoice = s.isInvoice;
+        this.model.ticketType = s.ticketType;
+        this.model.billingCompany = s.billingCompany;
+        this.model.billingPrice = s.billingPrice;
+        this.model.billingCount = s.billingCount;
         this.oilName = s.oilName;
         this.model.productId = s.productId;
         this.radio2 = (s.salesPlanType + 1).toString();

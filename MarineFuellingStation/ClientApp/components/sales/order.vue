@@ -111,7 +111,7 @@
         </yd-tab>
         <yd-actionsheet :items="oiloptions" v-model="oilshow" cancel="取消"></yd-actionsheet>
         <!--选择计划单-->
-        <yd-popup v-model="salesplanshow" position="right">
+        <yd-popup v-model="salesplanshow" position="right" width="70%">
             <yd-cell-group>
                 <div style="text-align: center">
                     <yd-button style="width:80%;margin:10px 0 10px 0" type="primary" @click.native="emptyclick()">散客</yd-button>

@@ -14,7 +14,9 @@ declare module server {
 		remainder: number;
 		oilDate: Date;
 		/** 是否开票 */
-		isInvoice: boolean;
+        isInvoice: boolean;
+        /** 开票类型 */
+        ticketType: ticketType;
 		/** 开票单位 */
 		billingCompany: string;
 		/** 开票单价 */

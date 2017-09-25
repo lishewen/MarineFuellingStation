@@ -17,6 +17,7 @@ export default class PlanComponent extends ComponentBase {
     salesplans: server.salesPlan[];
     oilshow: boolean = false;
     oiloptions: ydui.actionSheetItem[];
+    clients: server.client[];
     sv: string = "";
 
     constructor() {
@@ -155,6 +156,26 @@ export default class PlanComponent extends ComponentBase {
             let jobj = res.data as server.resultJSON<server.salesPlan[]>;
             if (jobj.code == 0)
                 this.salesplans = jobj.data;
+        });
+    }
+
+    getClients() {
+        let carNo = this.model.carNo;
+        if (carNo == "" || carNo == null) {
+            this.toastError("请输入船号或车号");
+            return;
+        }
+        axios.get('/api/Client/' + carNo).then((res) => {
+            let jobj = res.data as server.resultJSON<server.client[]>;
+            if (jobj.code == 0) {
+                this.clients = jobj.data;
+                if (this.clients.length > 0) {
+                    this.model.billingCompany = this.clients[0].company.name;
+                    this.model.ticketType = this.clients[0].company.ticketType;
+                }
+                else
+                    this.toastError('没有找到' + carNo + '相关数据，请手动输入');
+            }
         });
     }
 

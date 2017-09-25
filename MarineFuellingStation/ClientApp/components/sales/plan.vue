@@ -52,9 +52,18 @@
                             <yd-switch v-model="model.isInvoice"></yd-switch>
                         </span>
                     </yd-cell-item>
+                    <yd-cell-item arrow v-show="model.isInvoice">
+                        <span slot="left">票类：</span>
+                        <select slot="right" v-model="model.ticketType">
+                            <option value="-1">请选择票类</option>
+                            <option value="0">普通票</option>
+                            <option value="1">专用票</option>
+                        </select>
+                    </yd-cell-item>
                     <yd-cell-item v-show="model.isInvoice">
                         <span slot="left">开票单位：</span>
                         <yd-input slot="right" v-model="model.billingCompany" regex="" placeholder="请输入开票单位"></yd-input>
+                        <span slot="right" style="width: 1.2rem"><yd-button type="warning" @click.native="getClients">导入</yd-button></span>
                     </yd-cell-item>
                     <yd-cell-item v-show="model.isInvoice">
                         <span slot="left">单价：</span>

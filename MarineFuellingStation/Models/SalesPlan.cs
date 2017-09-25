@@ -33,6 +33,7 @@ namespace MFS.Models
         /// 是否开票
         /// </summary>
         public bool IsInvoice { get; set; }
+        public TicketType TicketType { get; set; }
         /// <summary>
         /// 开票单位
         /// </summary>

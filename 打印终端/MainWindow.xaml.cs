@@ -91,7 +91,7 @@ namespace 打印终端
             WordReplace(wApp, "#CarNo#", order.CarNo);
             WordReplace(wApp, "#CreateAt#", order.CreatedAt.ToString());
             WordReplace(wApp, "#Name#", order.Name);
-            WordReplace(wApp, "#ProductName#", order.Product.Name);
+            WordReplace(wApp, "#ProductName#", "石化油");
             WordReplace(wApp, "#ProductCount#", order.Count.ToString());
             WordReplace(wApp, "#ProductPrice#", order.Price.ToString());
             WordReplace(wApp, "#TotalMoney#", order.TotalMoney.ToString());

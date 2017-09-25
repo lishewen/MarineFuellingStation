@@ -10,6 +10,7 @@ import moment from "moment";
 })
 export default class OrderComponent extends ComponentBase {
     salesplans: server.salesPlan[];
+    salesplan: server.salesPlan;
     salesplanshow: boolean = false;
     isPrevent: boolean = true;
     model: server.order;
@@ -35,6 +36,7 @@ export default class OrderComponent extends ComponentBase {
         super();
 
         this.salesplans = new Array();
+        this.salesplan = new Object() as server.salesPlan;
         this.model = (new Object()) as server.order;
         this.model.isInvoice = false;
         this.model.carNo = '';
@@ -89,6 +91,7 @@ export default class OrderComponent extends ComponentBase {
     }
 
     planitemclick(s: server.salesPlan): void {
+        this.salesplan = s;
         this.selectedplanNo = s.name;
         this.model.salesPlanId = s.id;
         this.model.carNo = s.carNo;

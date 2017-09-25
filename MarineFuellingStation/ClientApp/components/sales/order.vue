@@ -2,7 +2,18 @@
     <div id="root">
         <yd-tab :change="change">
             <yd-tab-panel label="销售开单">
+                <yd-cell-group title="计划" v-show="hasplan">
+                    <yd-cell-item v-show="hasplan">
+                        <span slot="left">计划单价：</span>
+                        <yd-input slot="right" v-model="salesplan.price" readonly></yd-input>
+                    </yd-cell-item>
 
+                    <yd-cell-item v-show="hasplan">
+                        <span slot="left">计划数量：</span>
+                        <yd-input slot="right" v-model="salesplan.count" readonly></yd-input>
+                        <span slot="right" style="width:70px">单位：{{model.unit}}</span>
+                    </yd-cell-item>
+                </yd-cell-group>
                 <yd-cell-group :title="'单号：' + model.name" style="margin-top:20px">
                     <yd-cell-item arrow @click.native="salesplanselect">
                         <span slot="left">计划单：</span>
@@ -25,20 +36,9 @@
                         <span slot="right">{{oilName}}</span> 
                     </yd-cell-item>
 
-                    <yd-cell-item v-show="hasplan">
-                        <span slot="left">计划单价：</span>
-                        <yd-input slot="right" v-model="model.price" readonly></yd-input>
-                    </yd-cell-item>
-
                     <yd-cell-item>
                         <span slot="left">订单单价：</span>
                         <yd-input slot="right" v-model="model.price" required placeholder="请输入单价"></yd-input>
-                    </yd-cell-item>
-
-                    <yd-cell-item v-show="hasplan">
-                        <span slot="left">计划数量：</span>
-                        <yd-input slot="right" v-model="model.count" readonly></yd-input>
-                        <span slot="right" style="width:70px">单位：{{model.unit}}</span>
                     </yd-cell-item>
 
                     <yd-cell-item>

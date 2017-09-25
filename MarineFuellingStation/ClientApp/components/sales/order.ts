@@ -18,6 +18,7 @@ export default class OrderComponent extends ComponentBase {
     oilName: string = '请选择';
     oilshow: boolean = false;
     orders: server.order[];
+    clients: server.client[];
 
     radio2: string = '1';
     carNo: string = '';
@@ -42,6 +43,9 @@ export default class OrderComponent extends ComponentBase {
         this.model.totalMoney = 0;
         this.model.ticketType = -1;
         this.model.unit = '升';
+        this.model.billingCompany = '';
+
+        this.clients = new Array<server.client>();
 
         this.orders = new Array();
         this.oiloptions = new Array();
@@ -161,8 +165,9 @@ export default class OrderComponent extends ComponentBase {
         });
 
         this.$watch('model.price', (v, ov) => {
+            console.log(v);
             this.model.billingPrice = v;
-            this.model.totalMoney = v * this.model.count;
+            this.model.totalMoney = this.model.price * this.model.count;
         });
         this.$watch('model.count', (v, ov) => {
             this.model.billingCount = v;
@@ -190,6 +195,26 @@ export default class OrderComponent extends ComponentBase {
                 this.model.name = jobj.data;
                 this.isPrevent = false;
             }   
+        });
+    }
+
+    getClients() {
+        let carNo = this.model.carNo;
+        if (carNo == "" || carNo == null) {
+            this.toastError("请输入船号或车号");
+            return;
+        }
+        axios.get('/api/Client/' + carNo).then((res) => {
+            let jobj = res.data as server.resultJSON<server.client[]>;
+            if (jobj.code == 0) {
+                this.clients = jobj.data;
+                if (this.clients.length > 0) {
+                    this.model.billingCompany = this.clients[0].company.name;
+                    this.model.ticketType = this.clients[0].company.ticketType;
+                }
+                else
+                    this.toastError('没有找到' + carNo + '相关数据，请手动输入');
+            }
         });
     }
 

@@ -15,6 +15,12 @@ namespace MFS.Repositorys
         {
             return _dbContext.Clients.Include("Company").ToList();
         }
+        public List<Client> GetIncludeCompany(string sv)
+        {
+            return _dbContext.Clients.Include("Company").Where(s => s.CarNo.Contains(sv)
+                    || s.Company.Name.Contains(sv)
+                    || s.Contact.Contains(sv)).ToList();
+        }
         public Client GetDetail(int id)
         {
             return _dbContext.Clients.Include("Company").Include("Product").FirstOrDefault(c => c.Id == id);

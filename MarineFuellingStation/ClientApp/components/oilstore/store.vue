@@ -11,7 +11,7 @@
                         </div>
                         <div slot="right" style="text-align: right;margin: 10px 0 10px 0">
                             <p style="color:forestgreen; font-size: 16px">{{sumValue(st)}}升</p>
-                            <p style="color:lightcoral; font-size: 16px">￥{{sumCost(st)}}</p>
+                            <!--<p style="color:lightcoral; font-size: 16px">￥{{sumCost(st)}}</p>-->
                         </div>
                     </yd-cell-item>
                 </yd-cell-group>
@@ -55,8 +55,7 @@
                 <yd-cell-item arrow v-for="s in currentst.stores" :key="s.id" @click.native="editStoreclick(s)">
                     <div slot="left">{{s.name}}</div>
                     <div slot="right">
-                        <p style="color:forestgreen; font-size: 14px">{{s.value}}升</p>
-                        <p style="color:lightcoral; font-size: 14px">￥{{s.cost}}</p>
+                        <p style="color:forestgreen; font-size: 14px">{{s.value}} / {{s.volume}}升</p>
                     </div>
                 </yd-cell-item>
             </yd-cell-group>

@@ -49,12 +49,11 @@ namespace MFS.Controllers
         [HttpGet("{sv}")]
         public ResultJSON<List<Client>> Get(string sv)
         {
+            List<Client> ls = r.GetIncludeCompany(sv);
             return new ResultJSON<List<Client>>
             {
                 Code = 0,
-                Data = r.GetIncludeCompany().Where(s => s.CarNo.Contains(sv)
-                    || s.Company.Name.Contains(sv)
-                    || s.Contact.Contains(sv)).ToList()
+                Data = ls
             };
         }
         /// <summary>

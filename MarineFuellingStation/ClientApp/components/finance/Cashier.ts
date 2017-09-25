@@ -77,6 +77,7 @@ export default class CashierComponent extends ComponentBase {
     };
 
     getDiff(d: Date) {
+        moment.locale('zh-cn');
         return moment(d).startOf('day').fromNow();
     }
 

@@ -1,6 +1,6 @@
 ﻿<template>
     <div id="root">
-        <yd-tab :change="change">
+        <yd-tab :callback="change">
             <yd-tab-panel label="待结算">
                 <yd-cell-group>
                     <weui-search v-model="sv" />

@@ -1,8 +1,17 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-
-<div id='app-root'>Loading...</div>
+@section css{ 
+    <link href="~/css/pace.min.css" rel="stylesheet" />
+}
+<div id='app-root'>
+    <div class="pace pace-active">
+        <div class="pace-progress" data-progress="50" data-progress-text="50%" style="-webkit-transform: translate3d(50%, 0px, 0px); -ms-transform: translate3d(50%, 0px, 0px); transform: translate3d(50%, 0px, 0px);">
+            <div class="pace-progress-inner"></div>
+        </div>
+        <div class="pace-activity"></div>
+    </div>
+</div>
 
 @section scripts {
     <script src="~/dist/main.js" asp-append-version="true"></script>

@@ -39,7 +39,9 @@ export default class OrderComponent extends ComponentBase {
         this.model.isInvoice = false;
         this.model.carNo = '';
         this.model.price = 0;
+        this.model.billingPrice = 0;
         this.model.count = 0;
+        this.model.billingCount = 0;
         this.model.totalMoney = 0;
         this.model.ticketType = -1;
         this.model.unit = '升';
@@ -62,10 +64,6 @@ export default class OrderComponent extends ComponentBase {
 
     formatShortDate(d: Date): string {
         return moment(d).format('MM-DD');
-    }
-
-    formatDate(d: Date): string {
-        return moment(d).format('YYYY-MM-DD');
     }
 
     classState(s: server.orderState): any {
@@ -199,7 +197,7 @@ export default class OrderComponent extends ComponentBase {
             if (jobj.code == 0) {
                 this.model.name = jobj.data;
                 this.isPrevent = false;
-            }   
+            }
         });
     }
 

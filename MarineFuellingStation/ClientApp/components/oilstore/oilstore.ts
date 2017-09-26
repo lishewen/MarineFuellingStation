@@ -13,7 +13,7 @@ export default class OilStoreComponent extends ComponentBase {
     sts: server.storeType[];
     salesSts: server.store[];
     selectStore: server.store;
-    
+
     constructor() {
         super();
 
@@ -25,7 +25,7 @@ export default class OilStoreComponent extends ComponentBase {
         this.survey = new Object() as server.survey;
         this.getStoreTypes();
     }
-    
+
     mounted() {
         this.$emit('今日油仓情况');
     };
@@ -44,8 +44,19 @@ export default class OilStoreComponent extends ComponentBase {
     /**
      * 当前数量百分比
      */
-    getPercent(val: number, vol: number) {
-        return Math.round(val / vol * 10) / 10;
+    getPercent(val: number, vol: number): number {
+        //分母为0的情况
+        if (vol === 0)
+            return 0;
+
+        let percent = Math.round(val / vol * 10) / 10;
+        //出现负数按0计算
+        if (percent < 0)
+            percent = 0;
+        //超过100的按100算
+        if (percent > 100)
+            percent = 100;
+        return percent
     }
 
     getStoreTypes() {

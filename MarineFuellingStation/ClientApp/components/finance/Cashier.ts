@@ -77,12 +77,13 @@ export default class CashierComponent extends ComponentBase {
     };
 
     getDiff(d: Date) {
+        moment.locale('zh-cn');
         return moment(d).startOf('day').fromNow();
     }
 
     mounted() {
-        (<any>this).$emit('setTitle', (<any>this).$store.state.username + ' 结算');
-        (<any>this).$watch("show2", (v, ov) => {
+        this.$emit('setTitle', this.$store.state.username + ' 结算');
+        this.$watch("show2", (v, ov) => {
             //初始化
             this.orderPayTypes = ["0"];
             this.orderPayMoneys = new Array<number>();
@@ -94,15 +95,15 @@ export default class CashierComponent extends ComponentBase {
             switch (this.payState) {
                 case server.payState.未结算:
                     this.readypayorders = this.page > 1 ? [...this.readypayorders, ...list] : this.readypayorders;
-                    this.scrollRef = (<any>this).$refs.orderinfinitescroll1;
+                    this.scrollRef = this.$refs.orderinfinitescroll1;
                     break;
                 case server.payState.已结算:
                     this.haspayorders = this.page > 1 ? [...this.haspayorders, ...list] : this.haspayorders;
-                    this.scrollRef = (<any>this).$refs.orderinfinitescroll2;
+                    this.scrollRef = this.$refs.orderinfinitescroll2;
                     break;
                 case server.payState.挂账:
                     this.nopayorders = this.page > 1 ? [...this.nopayorders, ...list] : this.nopayorders;
-                    this.scrollRef = (<any>this).$refs.orderinfinitescroll3;
+                    this.scrollRef = this.$refs.orderinfinitescroll3;
                     break;
             }
             if (list.length < this.pSize) {
@@ -123,7 +124,7 @@ export default class CashierComponent extends ComponentBase {
 
     change(label: string, tabkey: string) {
         console.log(label);
-        (<any>this).$emit('setTitle', (<any>this).$store.state.username + ' ' + label);
+        this.$emit('setTitle', this.$store.state.username + ' ' + label);
 
         switch (label) {
             case "待结算":
@@ -151,27 +152,27 @@ export default class CashierComponent extends ComponentBase {
             + '&page=' + this.page.toString()
             + '&pagesize=' + this.pSize)
             .then((res) => {
-            let jobj = res.data as server.resultJSON<server.order[]>;
-            if (jobj.code == 0) {
-                if (callback)
-                    callback(jobj.data);
-                else {
-                    switch (this.payState) {
-                        case server.payState.未结算:
-                            this.readypayorders = jobj.data;
-                            break;
-                        case server.payState.已结算:
-                            this.haspayorders = jobj.data;
-                            break;
-                        case server.payState.挂账:
-                            this.nopayorders = jobj.data;
-                            break;
+                let jobj = res.data as server.resultJSON<server.order[]>;
+                if (jobj.code == 0) {
+                    if (callback)
+                        callback(jobj.data);
+                    else {
+                        switch (this.payState) {
+                            case server.payState.未结算:
+                                this.readypayorders = jobj.data;
+                                break;
+                            case server.payState.已结算:
+                                this.haspayorders = jobj.data;
+                                break;
+                            case server.payState.挂账:
+                                this.nopayorders = jobj.data;
+                                break;
+                        }
+                        console.log(this.readypayorders);
+                        this.page++;
                     }
-                    console.log(this.readypayorders);
-                    this.page++;
                 }
-            }
-        });
+            });
     }
     //验证输入的账户扣减金额是否大于账户余额
     validateMoney() {

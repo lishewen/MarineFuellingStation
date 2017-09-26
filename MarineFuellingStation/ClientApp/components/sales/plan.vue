@@ -82,12 +82,23 @@
             <yd-tab-panel label="单据记录">
                 <weui-search v-model="sv" />
                 <yd-cell-group>
-                    <yd-cell-item arrow v-for="s in salesplans" :key="s.id" @click.native="godetail(s.id)">
-                        <span slot="left">{{s.carNo}}</span>
-                        <span slot="left" class="color_lightgray" style="margin-left:10px">{{s.oilName}} {{s.count}}{{s.unit}} ￥{{s.totalMoney}}</span>
-                        <span slot="right">{{formatDate(s.oilDate)}}</span>
-                        <span slot="right" :class="classState(s.state)" style="padding-left:10px">{{getStateName(s.state)}}</span>
-                    </yd-cell-item>
+                    <yd-infinitescroll :callback="loadList" ref="infinitescroll">
+                        <yd-cell-item slot="list" arrow v-for="s in salesplans" :key="s.id" @click.native="godetail(s.id)">
+                            <div slot="left" style="line-height: .4rem;margin: 10px 0">
+                                <p>{{s.carNo}} - <span style="color:forestgreen">￥{{s.totalMoney}}</span></p>
+                                <p class="color_lightgray">{{s.oilName}}</p>
+                                <p class="color_lightgray">{{s.price}} x {{s.count}}{{s.unit}}</p>
+                            </div>
+                            <div slot="right">
+                                <p :class="classState(s.state)" style="padding-left:10px">{{getStateName(s.state)}}</p>
+                                <p>{{formatDate(s.oilDate)}}</p>
+                            </div>
+                        </yd-cell-item>
+                        <!-- 数据全部加载完毕显示 -->
+                        <span slot="doneTip">没有数据啦~~</span>
+                        <!-- 加载中提示，不指定，将显示默认加载中图标 -->
+                        <img slot="loadingTip" src="http://static.ydcss.com/uploads/ydui/loading/loading10.svg" />
+                    </yd-infinitescroll>
                 </yd-cell-group>
             </yd-tab-panel>
         </yd-tab>

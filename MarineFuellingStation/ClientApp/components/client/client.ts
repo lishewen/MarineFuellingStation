@@ -88,6 +88,8 @@ export default class ClientComponent extends ComponentBase {
             { name: '30天不计划', value: 30, actived: false },
             { name: '90天不计划', value: 90, actived: false }
         ]
+
+        
         this.actBtnId = 0; this.actBtnId1 = -1; this.actBtnId2 = -1; this.actBtnId3 = -1;
         this.getClients();
     }

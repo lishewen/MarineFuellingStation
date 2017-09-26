@@ -79,6 +79,21 @@ namespace MFS.Controllers
                 Data = r.GetAllList()
             };
         }
+        /// <summary>
+        /// 分页显示数据
+        /// </summary>
+        /// <param name="page">第N页</param>
+        /// <param name="pageSize">页记录数</param>
+        /// <returns></returns>
+        [HttpGet("[action]")]
+        public ResultJSON<List<SalesPlan>> GetByPager(int page, int pageSize)
+        {
+            return new ResultJSON<List<SalesPlan>>
+            {
+                Code = 0,
+                Data = r.LoadPageList(page, pageSize, out int rCount, true).OrderByDescending(s => s.Id).ToList()
+            };
+        }
         [HttpGet("[action]/{id}")]
         public ResultJSON<SalesPlan> GetDetail(int id)
         {

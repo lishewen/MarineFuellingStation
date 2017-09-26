@@ -6,10 +6,15 @@ import { Component } from 'vue-property-decorator';
 @Component
 export default class MyClientComponent extends ComponentBase {
     clients: server.client[];
+    client: server.client;
     radio2: string = "1";
     show1: boolean = false;
     show2: boolean = false;
+    showAct: boolean = false;
+    showRemark: boolean = false;
+    remark: string = "";
     carNo: string = "";
+    actItems: ydui.actionSheetItem[];
 
     filterCType: Array<helper.filterBtn>; filterPType: Array<helper.filterBtn>; filterBalances: Array<helper.filterBtn>; filterCycle: Array<helper.filterBtn>;
 
@@ -40,6 +45,9 @@ export default class MyClientComponent extends ComponentBase {
             { name: '30天不计划', value: 30, actived: false },
             { name: '90天不计划', value: 90, actived: false }
         ]
+
+        this.actItems = new Array();
+
         this.actBtnId = 0; this.actBtnId1 = -1; this.actBtnId2 = -1; this.actBtnId3 = -1;
         this.getClients();
     }
@@ -93,6 +101,60 @@ export default class MyClientComponent extends ComponentBase {
         this.getClients();
     };
 
+    //显示actionsheet
+    clientclick(c: server.client) {
+        console.log(c);
+        let elseActItems = new Array();
+        this.client = c;
+        if (c.remark != null) this.remark = c.remark;
+        this.showAct = true;
+        //actionsheet
+        this.actItems = new Array();
+        if (c.isMark)
+            this.actItems.push(
+                {
+                    label: '取消标记',
+                    method: () => {
+                        this.putMark(c, false);
+                    }
+                },
+            );
+        else
+            this.actItems.push(
+                {
+                    label: '标记',
+                    method: () => {
+                        this.putMark(c, true);
+                    }
+                },
+            );
+        elseActItems = [
+            {
+                label: '详细信息',
+                method: () => {
+                    this.godetail(c.id);
+                }
+            },
+            {
+                label: '备注',
+                method: () => {
+                    this.showRemark = true;
+                }
+            },
+            {
+                label: '清空所有标记',
+                method: () => {
+                    this.putClearAllMark();
+                }
+            }
+        ];
+        this.actItems = [...this.actItems, ...elseActItems];
+    }
+
+    classMark(isMark: boolean) {
+        return isMark ? {color_blue: true} : {color_blue: false};
+    }
+
     mounted() {
         this.$emit('setTitle', this.$store.state.username + ' 的客户');
         this.$watch('radio2', (v, ov) => {
@@ -137,5 +199,37 @@ export default class MyClientComponent extends ComponentBase {
             else
                 this.toastError('无法获取客户数据，请重试')
         });
+    }
+
+    putMark(c: server.client, isMark: boolean) {
+        c.isMark = isMark;
+        axios.put('/api/Client/MarkTag', c).then((res) => {
+            let jobj = res.data as server.resultJSON<server.client>;
+            if (jobj.code == 0) {
+                this.client = jobj.data;
+                this.toastSuccess('标记成功')
+            }
+        }); 
+    }
+
+    //备注提交
+    putReMark(c: server.client) {
+        c.remark = this.remark;
+        axios.put('/api/Client/Remark', c).then((res) => {
+            let jobj = res.data as server.resultJSON<server.client>;
+            if (jobj.code == 0) {
+                this.client = jobj.data;
+                this.toastSuccess('操作成功')
+            }
+        });
+    }
+
+    putClearAllMark() {
+        axios.put('/api/Client/ClearMyClientMark', null).then((res) => {
+            let jobj = res.data as server.resultJSON<server.client>;
+            if (jobj.code == 0) {
+                this.toastSuccess('清空标记成功')
+            }
+        }); 
     }
 }

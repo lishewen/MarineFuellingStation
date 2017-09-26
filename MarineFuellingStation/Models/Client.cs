@@ -46,6 +46,14 @@ namespace MFS.Models
         /// 总消费金额
         /// </summary>
         public decimal TotalAmount { get; set; }
+        /// <summary>
+        /// 是否标注 用于标记当前客户，方便销售区分客户是否联系过
+        /// </summary>
+        public bool IsMark { get; set; } = false;
+        /// <summary>
+        /// 备注
+        /// </summary>
+        public string Remark { get; set; }
         [ForeignKey("CompanyId")]
         public virtual Company Company { get; set; }
         [ForeignKey("DefaultProductId")]

@@ -18,7 +18,7 @@ export default class MoveStoreComponent extends ComponentBase {
 
     radio2: string = "1";
     carNo: string = "";
-    show1: boolean = false;
+    showManuUsers: boolean = false;
     isPrevent: boolean = true;
 
     filterclick(): void {
@@ -26,7 +26,7 @@ export default class MoveStoreComponent extends ComponentBase {
 
     selectproducerclick(): void {
         this.model.manufacturer = this.picked.join('|');
-        this.show1 = false;
+        this.showManuUsers = false;
     };
 
     constructor() {
@@ -35,7 +35,7 @@ export default class MoveStoreComponent extends ComponentBase {
         this.picked = new Array<string>();
         this.model = (new Object()) as server.moveStore;
         this.model.name = '';
-        this.model.manufacturer = '';
+        this.model.manufacturer = this.$store.state.username;//应客户要求，暂时取消生产员勾选，默认操作用户
         this.inStores = new Array<server.store>();
         this.outStores = new Array<server.store>();
         this.manufacturer = new Array<work.userlist>();
@@ -48,7 +48,7 @@ export default class MoveStoreComponent extends ComponentBase {
         this.getStoreTypes();
 
         this.getMoveStoreNo();
-        this.getManufacturer();
+        //this.getManufacturer();
     }
 
     buttonclick() {
@@ -108,10 +108,10 @@ export default class MoveStoreComponent extends ComponentBase {
             this.toastError("转出仓和转入仓不能相同")
             return;
         }
-        if (!this.model.manufacturer) {
-            this.toastError("请指定生产员")
-            return;
-        }
+        //if (!this.model.manufacturer) {
+        //    this.toastError("请指定生产员")
+        //    return;
+        //}
         
     }
 

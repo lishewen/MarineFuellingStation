@@ -53,7 +53,8 @@ namespace MFS.Models
     public enum StoreClass
     {
         销售仓,
-        存储仓
+        存储仓,
+        全部
     }
     public class StoreType : EntityBase
     {

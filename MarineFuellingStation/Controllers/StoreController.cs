@@ -56,7 +56,7 @@ namespace MFS.Controllers
             return new ResultJSON<List<Store>>
             {
                 Code = 0,
-                Data = r.GetAllList((s => s.StoreClass == sc))
+                Data = r.GetByClass(sc)
             };
         }
         [HttpPost]

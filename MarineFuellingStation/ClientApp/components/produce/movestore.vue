@@ -1,18 +1,19 @@
 ﻿<template>
     <div id="root">
         <yd-cell-group :title="'单号：' + model.name" style="margin-top:20px">
-            <yd-cell-item arrow @click.native="show1 = true">
+            <!--应客户要求暂时取消生产员的选择-->
+            <!--<yd-cell-item arrow @click.native="showManuUsers = true">
                 <span slot="left">生产员：</span>
                 <span slot="right">
                     {{model.manufacturer}}
                 </span>
-            </yd-cell-item>
+            </yd-cell-item>-->
         </yd-cell-group>
         <yd-cell-group title="转出仓">
 
             <yd-cell-item>
                 <span slot="left">分类：</span>
-                <span slot="left">
+                <span slot="right" style="padding: .2rem 0">
                     <span v-for="(f, index) in stypeFrom">
                         <yd-button type="warning" v-if="f.actived" @click.native="switchBtn(f, index, '转出仓')">{{f.name}}</yd-button>
                         <yd-button type="hollow" v-if="!f.actived" @click.native="switchBtn(f, index, '转出仓')">{{f.name}}</yd-button>
@@ -56,7 +57,7 @@
 
             <yd-cell-item>
                 <span slot="left">分类：</span>
-                <span slot="left">
+                <span slot="right" style="padding: .2rem 0">
                     <span v-for="(ff, index) in stypeTo">
                         <yd-button type="warning" v-if="ff.actived" @click.native="switchBtn(ff, index, '转入仓')">{{ff.name}}</yd-button>
                         <yd-button type="hollow" v-if="!ff.actived" @click.native="switchBtn(ff, index, '转入仓')">{{ff.name}}</yd-button>
@@ -94,7 +95,7 @@
             <yd-button size="large" type="primary" @click.native="buttonclick" :disabled="isPrevent">提交</yd-button>
         </div>
 
-        <yd-popup v-model="show1" position="right">
+        <yd-popup v-model="showManuUsers" position="right">
             <yd-cell-group title="请选择生产员">
                 <yd-cell-item type="checkbox" v-for="m in manufacturer" :key="m.userid">
                     <span slot="left">{{m.name}}</span>

@@ -67,6 +67,13 @@ export default class UnloadComponent extends ComponentBase {
         console.log(this.store);
     }
 
+    strClass(sc: server.storeClass) {
+        if (sc == server.storeClass.存储仓) 
+            return "存储仓"
+        else
+            return "销售仓"
+    }
+
     goNext() {
         let nextState;
         switch (this.currStep) {
@@ -169,12 +176,11 @@ export default class UnloadComponent extends ComponentBase {
             if (jobj.code == 0) {
                 this.purchases = jobj.data;
             }
-                
         });
     }
 
     getStores() {
-        axios.get('/api/Store/GetByClass?sc=' + server.storeClass.存储仓.toString()).then((res) => {
+        axios.get('/api/Store/GetByClass?sc=' + server.storeClass.全部.toString()).then((res) => {
             let jobj = res.data as server.resultJSON<server.store[]>;
             if (jobj.code == 0)
                 this.stores = jobj.data;

@@ -31,6 +31,9 @@ export default class OrderComponent extends ComponentBase {
     hasplan: boolean = false;
     istrans: boolean = false;
     sv: string = "";
+    page: number;
+    scrollRef: any;
+    pSize: number = 10;
 
     constructor() {
         super();
@@ -56,7 +59,6 @@ export default class OrderComponent extends ComponentBase {
 
         this.getOrderNo();
         this.getOilProducts();
-        this.getOrders();
     }
 
     salesplanselect() {
@@ -184,6 +186,32 @@ export default class OrderComponent extends ComponentBase {
     change(label: string, tabkey: string) {
         console.log(label);
         this.$emit('setTitle', this.$store.state.username + ' ' + label);
+
+        this.$refs.infinitescroll.$emit('ydui.infinitescroll.reInit');
+        this.salesplans = null;
+        this.page = 1;
+        if (label == '单据记录')
+            this.getOrders();
+    }
+
+    loadList() {
+        this.getOrders((list: server.order[]) => {
+            this.orders = this.page > 1 ? [...this.orders, ...list] : this.orders;
+            this.scrollRef = (<any>this).$refs.infinitescroll;
+            if (list.length < this.pSize) {
+                this.scrollRef.$emit("ydui.infinitescroll.loadedDone");
+                return;
+            }
+
+            //通知加载数据完毕
+            (<any>this).$refs.infinitescroll.$emit("ydui.infinitescroll.finishLoad");
+
+            if (list.length > 0)
+                this.page++;
+            else
+                this.page = 1;
+            console.log("page = " + this.page)
+        });
     }
 
     getSalesPlans() {
@@ -242,11 +270,21 @@ export default class OrderComponent extends ComponentBase {
         });
     }
 
-    getOrders() {
-        axios.get('/api/Order').then((res) => {
+    getOrders(callback?: Function) {
+        if (this.page == null) this.page = 1;
+        axios.get('/api/Order/GetByPager?page='
+            + this.page
+            + '&pagesize=' + this.pSize).then((res) => {
             let jobj = res.data as server.resultJSON<server.order[]>;
-            if (jobj.code == 0)
-                this.orders = jobj.data;
+            if (jobj.code == 0) {
+                if (callback) {
+                    callback(jobj.data);
+                }
+                else {
+                    this.orders = jobj.data;
+                    this.page++;
+                }
+            }
         });
     }
 

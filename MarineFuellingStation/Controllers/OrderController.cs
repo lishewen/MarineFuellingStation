@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace MFS.Controllers
 {
@@ -99,6 +100,21 @@ namespace MFS.Controllers
             {
                 Code = 0,
                 Data = r.Get(id)
+            };
+        }
+        /// <summary>
+        /// 分页显示数据
+        /// </summary>
+        /// <param name="page">第N页</param>
+        /// <param name="pageSize">页记录数</param>
+        /// <returns></returns>
+        [HttpGet("[action]")]
+        public ResultJSON<List<Order>> GetByPager(int page, int pageSize)
+        {
+            return new ResultJSON<List<Order>>
+            {
+                Code = 0,
+                Data = r.LoadPageList(page, pageSize, out int rCount, true).Include(o => o.Product).OrderByDescending(s => s.Id).ToList()
             };
         }
         /// <summary>

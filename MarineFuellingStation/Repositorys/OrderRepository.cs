@@ -55,7 +55,7 @@ namespace MFS.Repositorys
             return base.Insert(entity, autoSave);
         }
         /// <summary>
-        /// 获取所有订单列表
+        /// 根据订单类型获取所有订单列表
         /// </summary>
         /// <param name="orderType">订单类型，水上/陆上/机油</param>
         /// <param name="startPage">第N页</param>

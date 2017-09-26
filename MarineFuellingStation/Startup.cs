@@ -12,6 +12,8 @@ using Microsoft.EntityFrameworkCore;
 using MFS.Models;
 using MFS.Repositorys;
 using MFS.Hubs;
+using Senparc.Weixin.Work.Containers;
+using Microsoft.Extensions.Options;
 
 namespace MFS
 {
@@ -63,7 +65,7 @@ namespace MFS
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IOptionsSnapshot<WorkOption> option)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -84,7 +86,8 @@ namespace MFS
             app.UseSession();
             app.UseStaticFiles();
             app.UseWebSockets();
-            app.UseSignalR(routes=> {
+            app.UseSignalR(routes =>
+            {
                 routes.MapHub<PrintHub>("hubs/print");
             });
 
@@ -98,6 +101,12 @@ namespace MFS
                     name: "spa-fallback",
                     defaults: new { controller = "Home", action = "Index" });
             });
+            #region 微信相关
+
+            //注册微信
+            AccessTokenContainer.Register(option.Value.CorpId, option.Value.Secret);
+
+            #endregion
         }
     }
 }

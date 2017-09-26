@@ -1,6 +1,6 @@
 ﻿<template>
     <div id="root">
-        <yd-tab :change="change">
+        <yd-tab :callback="change">
             <yd-tab-panel label="计划开单">
 
                 <yd-cell-group title="请选择" style="padding-top: 20px">

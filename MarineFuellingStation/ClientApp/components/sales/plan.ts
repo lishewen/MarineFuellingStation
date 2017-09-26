@@ -93,7 +93,7 @@ export default class PlanComponent extends ComponentBase {
     change(label: string, tabkey: string) {
         this.$emit('setTitle', this.username + ' ' + label);
 
-        this.$refs.infinitescroll.$emit('ydui.infinitescroll.reInit');
+        (<any>this).$refs.infinitescroll.$emit('ydui.infinitescroll.reInit');
         this.salesplans = null;
         this.page = 1;
         if (label == '单据记录')

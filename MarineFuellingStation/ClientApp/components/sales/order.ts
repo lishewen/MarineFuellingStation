@@ -187,7 +187,7 @@ export default class OrderComponent extends ComponentBase {
         console.log(label);
         this.$emit('setTitle', this.$store.state.username + ' ' + label);
 
-        this.$refs.infinitescroll.$emit('ydui.infinitescroll.reInit');
+        (<any>this).$refs.infinitescroll.$emit('ydui.infinitescroll.reInit');
         this.salesplans = null;
         this.page = 1;
         if (label == '单据记录')
@@ -275,17 +275,17 @@ export default class OrderComponent extends ComponentBase {
         axios.get('/api/Order/GetByPager?page='
             + this.page
             + '&pagesize=' + this.pSize).then((res) => {
-            let jobj = res.data as server.resultJSON<server.order[]>;
-            if (jobj.code == 0) {
-                if (callback) {
-                    callback(jobj.data);
+                let jobj = res.data as server.resultJSON<server.order[]>;
+                if (jobj.code == 0) {
+                    if (callback) {
+                        callback(jobj.data);
+                    }
+                    else {
+                        this.orders = jobj.data;
+                        this.page++;
+                    }
                 }
-                else {
-                    this.orders = jobj.data;
-                    this.page++;
-                }
-            }
-        });
+            });
     }
 
     postOrder(model: server.order) {

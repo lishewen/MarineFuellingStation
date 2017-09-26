@@ -1,6 +1,6 @@
 ﻿<template>
     <div id="root">
-        <yd-tab :change="change">
+        <yd-tab :callback="change">
             <yd-tab-panel label="销售开单">
                 <yd-cell-group title="计划" v-show="hasplan">
                     <yd-cell-item v-show="hasplan">

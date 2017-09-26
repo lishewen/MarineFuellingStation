@@ -1,4 +1,9 @@
-﻿<template>
+﻿<style>
+    .color_blue{
+        background-color:lightcyan
+    }
+</style>
+<template>
     <div id="root">
         <yd-cell-group>
             <div style="text-align: center;padding: 10px 0 10px">
@@ -8,7 +13,7 @@
                 </span>
                 <span><yd-button type="hollow" @click.native="show2 = true">筛选</yd-button></span>
             </div>
-            <yd-cell-item arrow v-for="c in clients" :key="c.id" @click.native="godetail(c.id)">
+            <yd-cell-item arrow v-for="c in clients" :key="c.id" @click.native="clientclick(c)" :class="classMark(c.isMark)" style="padding: .1rem 0">
                 <div slot="left">
                     <p>{{c.carNo}} - {{c.contact}}</p>
                     <p v-if="c.company != null" style="color:lightgray;font-size:12px">{{c.company.name}}</p>
@@ -49,6 +54,18 @@
                 <yd-button style="width:90%" type="primary" @click.native="filterclick()">提交</yd-button>
             </div>
         </yd-popup>
+        <yd-popup v-model="showRemark" position="right" width="75%">
+            <yd-cell-group title="备注信息">
+                <yd-cell-item>
+                    <yd-textarea slot="right" v-model="remark" placeholder="请输入客户备注信息" maxlength="200"></yd-textarea>
+                </yd-cell-item>
+            </yd-cell-group>
+            <div style="text-align: center;margin-top: .2rem">
+                <yd-button style="width:90%" type="primary" @click.native="putReMark()">保存</yd-button>
+            </div>
+        </yd-popup>
+        <!--actionsheet-->
+        <yd-actionsheet :items="actItems" v-model="showAct" cancel="取消"></yd-actionsheet>
     </div>
 </template>
 

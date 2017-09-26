@@ -74,5 +74,51 @@ namespace MFS.Controllers
                 Data = r.GetMyClients(ctype, ptype, balances, cycle, kw, isMy)
             };
         }
+        /// <summary>
+        /// 标记客户
+        /// </summary>
+        /// <param name="c">客户model</param>
+        [HttpPut("[action]")]
+        public ResultJSON<Client> MarkTag([FromBody]Client c)
+        {
+            r.CurrentUser = UserName;
+            return new ResultJSON<Client>
+            {
+                Code = 0,
+                Data = r.Update(c)
+            };
+        }
+        /// <summary>
+        /// 清除我的客户所有标注
+        /// </summary>
+        /// <param name="c">客户model</param>
+        [HttpPut("[action]")]
+        public ResultJSON<Client> ClearMyClientMark()
+        {
+            r.CurrentUser = UserName;
+            Client client = new Client() {
+                IsMark = false
+            };
+            return new ResultJSON<Client>
+            {
+                Code = 0,
+                Msg = "成功更新了" + r.Update(c => c.FollowSalesman == UserName, client).ToString() + "条信息"
+            };
+        }
+        /// <summary>
+        /// 提交客户备注信息
+        /// </summary>
+        /// <param name="c">客户model</param>
+        [HttpPut("[action]")]
+        public ResultJSON<Client> ReMark([FromBody]Client c)
+        {
+            r.CurrentUser = UserName;
+            return new ResultJSON<Client>
+            {
+                Code = 0,
+                Data = r.Update(c)
+            };
+        }
+
     }
 }

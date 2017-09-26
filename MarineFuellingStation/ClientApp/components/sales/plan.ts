@@ -19,6 +19,9 @@ export default class PlanComponent extends ComponentBase {
     oiloptions: ydui.actionSheetItem[];
     clients: server.client[];
     sv: string = "";
+    page: number;
+    scrollRef: any;
+    pSize: number = 10;
 
     constructor() {
         super();
@@ -90,8 +93,32 @@ export default class PlanComponent extends ComponentBase {
     change(label: string, tabkey: string) {
         this.$emit('setTitle', this.username + ' ' + label);
 
+
+        (<any>this).$refs.infinitescroll.$emit('ydui.infinitescroll.reInit');
+        this.salesplans = null;
+        this.page = 1;
         if (label == '单据记录')
             this.getSalesPlans();
+    }
+
+    loadList() {
+        this.getSalesPlans((list: server.salesPlan[]) => {
+            this.salesplans = this.page > 1 ? [...this.salesplans, ...list] : this.salesplans;
+            this.scrollRef = (<any>this).$refs.infinitescroll;
+            if (list.length < this.pSize) {
+                this.scrollRef.$emit("ydui.infinitescroll.loadedDone");
+                return;
+            }
+
+            //通知加载数据完毕
+            (<any>this).$refs.infinitescroll.$emit("ydui.infinitescroll.finishLoad");
+
+            if (list.length > 0)
+                this.page++;
+            else
+                this.page = 1;
+            console.log("page = " + this.page)
+        });
     }
 
     buttonclick() {
@@ -151,11 +178,21 @@ export default class PlanComponent extends ComponentBase {
         });
     }
 
-    getSalesPlans() {
-        axios.get('/api/SalesPlan').then((res) => {
+    getSalesPlans(callback?: Function) {
+        if (this.page == null) this.page = 1;
+        axios.get('/api/SalesPlan/GetByPager?page='
+            + this.page
+            + '&pagesize=' + this.pSize).then((res) => {
             let jobj = res.data as server.resultJSON<server.salesPlan[]>;
-            if (jobj.code == 0)
-                this.salesplans = jobj.data;
+            if (jobj.code == 0) {
+                if (callback) {
+                    callback(jobj.data);
+                }
+                else {
+                    this.salesplans = jobj.data;
+                    this.page++;
+                }
+            }
         });
     }
 

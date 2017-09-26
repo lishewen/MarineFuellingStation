@@ -89,7 +89,7 @@ namespace MFS.Controllers
             return new ResultJSON<List<Order>>
             {
                 Code = 0,
-                Data = r.GetAllList()
+                Data = r.GetIncludeProduct(1, 30)
             };
         }
         [HttpGet("{id}")]

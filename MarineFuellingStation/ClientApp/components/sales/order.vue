@@ -101,10 +101,15 @@
                 <weui-search v-model="sv" />
                 <yd-cell-group>
                     <yd-cell-item arrow v-for="o in orders" :key="o.id" @click.native="godetail(o.id)">
-                        <span slot="left">{{o.carNo}}</span>
-                        <span slot="left" class="color_lightgray" style="margin-left:10px">{{o.oilName}} {{o.count}}{{o.unit}} ￥{{o.totalMoney}}</span>
-                        <span slot="right">{{formatDate(o.oilDate)}}</span>
-                        <span slot="right" :class="classState(o.state)" style="padding-left:10px">{{getStateName(o.state)}}</span>
+                        <div slot="left" style="line-height: .4rem;margin: 10px 0">
+                            <p>{{o.carNo}} - <span style="color:forestgreen">￥{{o.totalMoney}}</span></p>
+                            <p class="color_lightgray">{{o.product.name}}</p>
+                            <p class="color_lightgray">{{o.price}} x {{o.count}}{{o.unit}}</p>
+                        </div>
+                        <div slot="right">
+                            <p :class="classState(o.state)" style="padding-left:10px">{{getStateName(o.state)}}</p>
+                            <p>{{formatDate(o.oilDate)}}</p>
+                        </div>
                     </yd-cell-item>
                 </yd-cell-group>
             </yd-tab-panel>

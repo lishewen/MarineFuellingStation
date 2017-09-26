@@ -96,13 +96,14 @@ namespace MFS.Controllers
         public ResultJSON<Client> ClearMyClientMark()
         {
             r.CurrentUser = UserName;
-            Client client = new Client() {
-                IsMark = false
-            };
             return new ResultJSON<Client>
             {
                 Code = 0,
-                Msg = "成功更新了" + r.Update(c => c.FollowSalesman == UserName, client).ToString() + "条信息"
+                Msg = "成功更新了" + r.Update(c => c.FollowSalesman == UserName,
+                new Client()
+                {
+                    IsMark = false
+                }).ToString() + "条信息"
             };
         }
         /// <summary>

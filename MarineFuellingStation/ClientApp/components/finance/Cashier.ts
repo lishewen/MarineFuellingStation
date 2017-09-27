@@ -9,9 +9,15 @@ import moment from "moment";
     }
 })
 export default class CashierComponent extends ComponentBase {
-    show2: boolean = false;
+    showPayTypes: boolean = false;
     lastshow: boolean = true;
-    sv: string = "";
+
+    //搜索
+    searchVal: string = "";
+    sv1: string = "";
+    sv2: string = "";
+    sv3: string = "";
+
     payInfact: number = 0;//实收金额
     payState: server.payState;
     scrollRef: any;
@@ -37,7 +43,7 @@ export default class CashierComponent extends ComponentBase {
         this.selectedOrder.client = new Object() as server.client;
         this.selectedOrder.client.balances = 0;
         this.orderPayTypes = [server.orderPayType.现金.toString()];//默认支付方式“现金”
-        this.orderPayMoneys = new Array<number>();
+        this.orderPayMoneys = new Array<number>(0, 0, 0, 0, 0, 0, 0);
         this.showInputs = new Array<boolean>(false, false, false, false, false, false, false);
 
         this.readypayorders = new Array<server.order>();
@@ -47,7 +53,7 @@ export default class CashierComponent extends ComponentBase {
 
     orderclick(o: server.order) {
         this.selectedOrder = o;
-        this.show2 = true;
+        this.showPayTypes = true;
         this.lastshow = true;
     }
 
@@ -73,7 +79,7 @@ export default class CashierComponent extends ComponentBase {
     lastclick(): void {
         this.lastshow = true;
         //清空所有input的值
-        this.orderPayMoneys = new Array<number>();
+        this.orderPayMoneys = new Array<number>(0, 0, 0, 0, 0, 0, 0);
     };
 
     getDiff(d: Date) {
@@ -83,10 +89,37 @@ export default class CashierComponent extends ComponentBase {
 
     mounted() {
         this.$emit('setTitle', this.$store.state.username + ' 结算');
-        this.$watch("show2", (v, ov) => {
+        this.$watch("showPayTypes", (v, ov) => {
             //初始化
             this.orderPayTypes = ["0"];
-            this.orderPayMoneys = new Array<number>();
+            this.orderPayMoneys = new Array<number>(0, 0, 0, 0, 0, 0, 0);
+        });
+        this.$watch("orderPayMoneys", (v, ov) => {
+            let balan = this.selectedOrder.client == null ? 0 : this.selectedOrder.client.balances;
+            let input = (v[6] == null || v[6] == "") ? 0 : v[6];
+            if (v != null) {
+                if (balan > 0) {
+                    if (v[6] > this.selectedOrder.client.balances){
+                        this.toastError("超出可扣余额")
+                        this.orderPayMoneys[6] = this.selectedOrder.client.balances;
+                    }
+                }
+            }
+        });
+        this.$watch("sv1", (v, ov) => {
+            this.searchVal = v;
+            this.page = 1;
+            this.getOrders();
+        });
+        this.$watch("sv2", (v, ov) => {
+            this.searchVal = v;
+            this.page = 1;
+            this.getOrders();
+        });
+        this.$watch("sv3", (v, ov) => {
+            this.searchVal = v;
+            this.page = 1;
+            this.getOrders();
         });
     };
 
@@ -141,6 +174,7 @@ export default class CashierComponent extends ComponentBase {
         (<any>this).$refs.orderinfinitescroll2.$emit('ydui.infinitescroll.reInit');
         (<any>this).$refs.orderinfinitescroll3.$emit('ydui.infinitescroll.reInit');
         this.readypayorders = null; this.haspayorders = null; this.nopayorders = null;
+        this.searchVal = "";
         this.page = 1;
         this.getOrders();
     }
@@ -150,7 +184,8 @@ export default class CashierComponent extends ComponentBase {
         axios.get('/api/Order/GetByPayState?'
             + 'paystate=' + this.payState
             + '&page=' + this.page.toString()
-            + '&pagesize=' + this.pSize)
+            + '&pagesize=' + this.pSize
+            + '&searchval=' + this.searchVal)
             .then((res) => {
                 let jobj = res.data as server.resultJSON<server.order[]>;
                 if (jobj.code == 0) {
@@ -239,7 +274,7 @@ export default class CashierComponent extends ComponentBase {
             if (jobj.code == 0) {
                 this.toastSuccess("挂账成功")
                 this.getOrders();
-                this.show2 = false;
+                this.showPayTypes = false;
             }
         })
     }

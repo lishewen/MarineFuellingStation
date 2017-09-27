@@ -3,7 +3,7 @@
         <yd-tab :callback="change">
             <yd-tab-panel label="待结算">
                 <yd-cell-group>
-                    <weui-search v-model="sv" />
+                    <weui-search v-model="sv1" />
                     <yd-infinitescroll :callback="loadList" ref="orderinfinitescroll1">
                         <yd-cell-item slot="list" arrow @click.native="orderclick(o)" v-for="o in readypayorders" :key="o.id">
                             <div slot="left">
@@ -26,7 +26,7 @@
             </yd-tab-panel>
             <yd-tab-panel label="已结算">
                 <yd-cell-group>
-                    <weui-search v-model="sv" />
+                    <weui-search v-model="sv2" />
                     <yd-infinitescroll :callback="loadList" ref="orderinfinitescroll2">
                         <yd-cell-item slot="list" arrow v-for="o in haspayorders" :key="o.id">
                             <div slot="left">
@@ -49,7 +49,7 @@
             </yd-tab-panel>
             <yd-tab-panel label="挂账">
                 <yd-cell-group>
-                    <weui-search v-model="sv" />
+                    <weui-search v-model="sv3" />
                     <yd-infinitescroll :callback="loadList" ref="orderinfinitescroll3">
                         <yd-cell-item slot="list" arrow v-for="o in nopayorders" :key="o.id">
                             <div slot="left">
@@ -72,7 +72,7 @@
                 </yd-cell-group>
             </yd-tab-panel>
         </yd-tab>
-        <yd-popup v-model="show2" position="right" width="70%">
+        <yd-popup v-model="showPayTypes" position="right" width="70%">
             <yd-cell-group title="第一步：结账方式" v-show="lastshow">
                 <yd-cell-item type="checkbox">
                     <span slot="left">现金</span>
@@ -174,7 +174,7 @@
                 <yd-button style="width:80%" type="warning" @click.native="lastclick()" v-show="!lastshow">上一步</yd-button>
             </div>
             <div style="text-align: center">
-                <yd-button style="width:80%;margin-top:10px" type="primary" @click.native="validateMoney()" v-show="!lastshow">结账</yd-button>
+                <yd-button style="width:80%;margin-top:10px" type="primary" @click.native="validateMoney()" v-show="!lastshow" :disabled ="payInfact - selectedOrder.totalMoney < 0">结账</yd-button>
             </div>
         </yd-popup>
     </div>

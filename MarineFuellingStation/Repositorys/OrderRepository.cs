@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace MFS.Repositorys
 {
@@ -110,9 +111,14 @@ namespace MFS.Repositorys
         /// <param name="startPage">第N页</param>
         /// <param name="pageSize">每页记录</param>
         /// <returns></returns>
-        public List<Order> GetByPayState(PayState payState, int startPage, int pageSize)
+        public List<Order> GetByPayState(PayState payState, int startPage, int pageSize, string searchVal)
         {
-            return LoadPageList(startPage, pageSize, out int count, true, o=>o.PayState == payState).Include(o => o.Product).Include(o => o.Client).ToList();
+            Expression<Func<Order, bool>> orderwhere = o => o.PayState == payState;
+            if (!string.IsNullOrEmpty(searchVal))
+                orderwhere = orderwhere.And(o => o.Name.Contains(searchVal) || o.CarNo.Contains(searchVal));
+
+            return LoadPageList(startPage, pageSize, out int count, true, orderwhere)
+                .Include(o => o.Product).Include(o => o.Client).ToList();
         }
         /// <summary>
         /// 结算订单

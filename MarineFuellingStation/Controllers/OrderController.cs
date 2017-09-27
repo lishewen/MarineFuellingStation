@@ -185,12 +185,12 @@ namespace MFS.Controllers
         /// <param name="pageSize">分页记录数</param>
         /// <returns></returns>
         [HttpGet("[action]")]
-        public ResultJSON<List<Order>> GetByPayState(PayState payState, int page, int pageSize)
+        public ResultJSON<List<Order>> GetByPayState(PayState payState, int page, int pageSize, string searchVal = "")
         {
             return new ResultJSON<List<Order>>
             {
                 Code = 0,
-                Data = r.GetByPayState(payState, page, pageSize)//每页30条记录
+                Data = r.GetByPayState(payState, page, pageSize, searchVal)//每页30条记录
             };
         }
         #endregion

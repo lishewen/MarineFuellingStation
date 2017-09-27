@@ -177,6 +177,21 @@
                 <yd-button style="width:80%;margin-top:10px" type="primary" @click.native="validateMoney()" v-show="!lastshow" :disabled ="payInfact - selectedOrder.totalMoney < 0">结账</yd-button>
             </div>
         </yd-popup>
+        <!--popup充值-->
+        <yd-popup v-model="showCharge" position="right" width="70%">
+            <yd-cell-group title="充值">
+                <div style="text-align: center; padding: .2rem 0; font-size: .4rem">当前余额：￥{{selectedOrder.client == null ? "" : selectedOrder.client.balances}}</div>
+                <yd-cell-item>
+                    <span slot="left">充值金额：</span>
+                    <yd-input slot="right" type="number" v-model="chargeLog.money"></yd-input>
+                </yd-cell-item>
+            </yd-cell-group>
+            <div style="text-align: center">
+                <yd-button style="width:80%;margin-top:10px" type="primary" @click.native="chargeMoneyclick()" :disabled="chargeMoney <= 0">提交</yd-button>
+            </div>
+        </yd-popup>
+        <!--actionsheet-->
+        <yd-actionsheet :items="actItems" v-model="showAct" cancel="取消"></yd-actionsheet>
     </div>
 </template>
 

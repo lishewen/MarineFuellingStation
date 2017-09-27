@@ -1,11 +1,11 @@
 declare module server {
-	/** name 为order的单号 */
-	interface payment extends entityBase {
-        /** 支付方式 */
-        payTypeId: orderPayType;
+	/** 付款方式记录表 */
+	interface payment extends EntityBase {
+		/** 支付方式 */
+		payTypeId: any;
 		/** 金额 */
-        money: number;
-        /** 订单Id */
-        orderId: number;
+		money: number;
+		/** 订单Id */
+		orderId?: number;
 	}
 }

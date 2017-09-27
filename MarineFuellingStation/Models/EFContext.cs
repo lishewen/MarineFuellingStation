@@ -70,6 +70,10 @@ namespace MFS.Models
         public DbSet<Payment> Payments { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Wage> Wages { get; set; }
+        /// <summary>
+        /// 充值记录表
+        /// </summary>
+        public DbSet<ChargeLog> ChargeLogs { get; set; }
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {
             OnBeforeSaving();

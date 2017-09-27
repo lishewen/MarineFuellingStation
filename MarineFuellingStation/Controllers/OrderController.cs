@@ -183,6 +183,7 @@ namespace MFS.Controllers
         /// <param name="payState">付款状态</param>
         /// <param name="page">第n页</param>
         /// <param name="pageSize">分页记录数</param>
+        /// <param name="searchVal">搜索关键字</param>
         /// <returns></returns>
         [HttpGet("[action]")]
         public ResultJSON<List<Order>> GetByPayState(PayState payState, int page, int pageSize, string searchVal = "")

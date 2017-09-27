@@ -11,6 +11,9 @@ import moment from "moment";
 export default class CashierComponent extends ComponentBase {
     showPayTypes: boolean = false;
     lastshow: boolean = true;
+    showAct: boolean = false;
+    showCharge: boolean = false;
+    actItems: ydui.actionSheetItem[];
 
     //搜索
     searchVal: string = "";
@@ -30,6 +33,8 @@ export default class CashierComponent extends ComponentBase {
     payments: Array<server.payment>;
     selectedOrder: server.order;
 
+    chargeLog: server.chargeLog;//充值记录对象
+
     readypayorders: server.order[];
     haspayorders: server.order[];
     nopayorders: server.order[];
@@ -39,6 +44,7 @@ export default class CashierComponent extends ComponentBase {
         super();
 
         this.payments = new Array<server.payment>();
+        this.chargeLog = new Object() as server.chargeLog;
         this.selectedOrder = new Object() as server.order;
         this.selectedOrder.client = new Object() as server.client;
         this.selectedOrder.client.balances = 0;
@@ -49,12 +55,30 @@ export default class CashierComponent extends ComponentBase {
         this.readypayorders = new Array<server.order>();
         this.haspayorders = new Array<server.order>();
         this.nopayorders = new Array<server.order>();
+
+        this.actItems = new Array<ydui.actionSheetItem>();
     }
 
     orderclick(o: server.order) {
         this.selectedOrder = o;
-        this.showPayTypes = true;
-        this.lastshow = true;
+
+        this.actItems = [
+            {
+                label: '结账',
+                method: () => {
+                    this.showPayTypes = true;
+                    this.lastshow = true;
+                }
+            },
+            {
+                label: '充值【预收款】',
+                method: () => {
+                    this.showCharge = true;
+                }
+            }
+        ];
+        this.showAct = true;
+        
     }
 
     getTotalPayMoney() {
@@ -85,6 +109,11 @@ export default class CashierComponent extends ComponentBase {
     getDiff(d: Date) {
         moment.locale('zh-cn');
         return moment(d).startOf('day').fromNow();
+    }
+
+    //充值提交
+    chargeMoneyclick() {
+
     }
 
     mounted() {
@@ -278,4 +307,15 @@ export default class CashierComponent extends ComponentBase {
             }
         })
     }
+
+    //充值到客户账户
+    postCharge() {
+        axios.post("/api/chargelog?cid=" + this.selectedOrder.id, this.chargeLog).then((res) => {
+            let jobj = res.data as server.resultJSON<server.chargeLog>;
+            if (jobj.code == 0) {
+                this.toastSuccess("充值成功")
+            }
+        });
+    }
+    
 }

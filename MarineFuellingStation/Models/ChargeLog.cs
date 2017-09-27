@@ -1,30 +1,33 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace MFS.Models
 {
     /// <summary>
-    /// 付款方式记录表
+    /// 充值记录
     /// </summary>
-    public class Payment: EntityBase
+    public class ChargeLog: EntityBase
     {
         /// <summary>
-        /// 支付方式
+        /// 类型
         /// </summary>
-        public OrderPayType PayTypeId { get; set; }
+        public ChargeType ChargeType { get; set; }
         /// <summary>
         /// 金额
         /// </summary>
         public decimal Money { get; set; }
         /// <summary>
-        /// 订单Id
+        /// 支付方式
         /// </summary>
-        public int? OrderId { get; set; }
-        [JsonIgnore,ForeignKey("OrderId")]
-        public virtual Order Order { get; set; }
+        public OrderPayType PayType { get; set; }
+    }
+    public enum ChargeType
+    {
+        充值,
+        消费
     }
 }

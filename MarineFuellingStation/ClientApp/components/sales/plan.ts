@@ -16,6 +16,7 @@ export default class PlanComponent extends ComponentBase {
     oildate: string;
     salesplans: server.salesPlan[];
     oilshow: boolean = false;
+    showNext: boolean = false;
     oiloptions: ydui.actionSheetItem[];
     clients: server.client[];
     sv: string = "";
@@ -118,6 +119,10 @@ export default class PlanComponent extends ComponentBase {
                 this.page = 1;
             console.log("page = " + this.page)
         });
+    }
+
+    goNext() {
+        this.showNext = true;
     }
 
     buttonclick() {
@@ -250,6 +255,7 @@ export default class PlanComponent extends ComponentBase {
             if (jobj.code == 0) {
                 this.getSalesPlanNo();
                 this.toastSuccess(jobj.msg);
+                this.goNext = false;
             }
         });
     }

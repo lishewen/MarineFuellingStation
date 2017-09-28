@@ -23,8 +23,13 @@
                         <yd-input slot="right" v-model="currentproduct.name" required placeholder="请输入名称"></yd-input>
                     </yd-cell-item>
                     <yd-cell-item>
-                        <span slot="left">单价：</span>
-                        <yd-input slot="right" type="number" v-model="currentproduct.minPrice" placeholder="请输入单价"></yd-input>
+                        <span slot="left">最新售价：</span>
+                        <yd-input slot="right" type="number" v-model="currentproduct.lastPrice" placeholder="请输入最新售价"></yd-input>
+                        <span slot="right" style="width: 60px">元 / 升</span>
+                    </yd-cell-item>
+                    <yd-cell-item>
+                        <span slot="left">最低售价：</span>
+                        <yd-input slot="right" type="number" v-model="currentproduct.minPrice" placeholder="请输入最低售价"></yd-input>
                         <span slot="right" style="width: 60px">元 / 升</span>
                     </yd-cell-item>
                 </yd-cell-group>

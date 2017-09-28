@@ -1,18 +1,18 @@
 ﻿<style>
-    .color_red{
+    .clog-color_red{
         background-color:lightcoral;
     }
-    .color_green {
+    .clog-color_green {
         background-color: forestgreen;
     }
-    .color_red, .color_green {
+    .clog-color_red, .clog-color_green {
         color: #fff;
         width: auto;
         padding: .2rem;
     }
-    .font_red{color: lightcoral}
-    .font_green {color: forestgreen}
-    .font_red, .font_green{font-weight: bold}
+    .clog-font_red{color: lightcoral}
+    .clog-font_green {color: forestgreen}
+    .clog-font_red, .clog-font_green{font-weight: bold}
 </style>
 <template>
     <div id="root">

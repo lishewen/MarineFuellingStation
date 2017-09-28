@@ -24,6 +24,16 @@ namespace MFS.Models
         /// 支付方式
         /// </summary>
         public OrderPayType PayType { get; set; }
+        /// <summary>
+        /// 客户
+        /// </summary>
+        public int? ClientId { get; set; }
+        [ForeignKey("ClientId")]
+        public Client Client { get; set; }
+        /// <summary>
+        /// 公司名称
+        /// </summary>
+        public string CompanyName { get; set; }
     }
     public enum ChargeType
     {

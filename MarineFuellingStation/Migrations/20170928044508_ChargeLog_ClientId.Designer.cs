@@ -11,9 +11,10 @@ using System;
 namespace MFS.Migrations
 {
     [DbContext(typeof(EFContext))]
-    partial class EFContextModelSnapshot : ModelSnapshot
+    [Migration("20170928044508_ChargeLog_ClientId")]
+    partial class ChargeLog_ClientId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -139,9 +140,7 @@ namespace MFS.Migrations
 
                     b.Property<int>("ChargeType");
 
-                    b.Property<int?>("ClientId");
-
-                    b.Property<string>("CompanyName");
+                    b.Property<int>("ClientId");
 
                     b.Property<DateTime>("CreatedAt");
 
@@ -871,7 +870,8 @@ namespace MFS.Migrations
                 {
                     b.HasOne("MFS.Models.Client", "Client")
                         .WithMany()
-                        .HasForeignKey("ClientId");
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("MFS.Models.Client", b =>

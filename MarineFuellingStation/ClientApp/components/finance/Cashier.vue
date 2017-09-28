@@ -181,6 +181,17 @@
         <yd-popup v-model="showCharge" position="right" width="70%">
             <yd-cell-group title="充值">
                 <div style="text-align: center; padding: .2rem 0; font-size: .4rem">当前余额：￥{{selectedOrder.client == null ? "" : selectedOrder.client.balances}}</div>
+                <yd-cell-item arrow type="label">
+                    <span slot="left">支付方式：</span>
+                    <select slot="right" v-model="chargeLog.payType">
+                        <option value="0">现金</option>
+                        <option value="1">微信</option>
+                        <option value="2">支付宝</option>
+                        <option value="3">刷卡一</option>
+                        <option value="4">刷卡二</option>
+                        <option value="5">刷卡三</option>
+                    </select>
+                </yd-cell-item>
                 <yd-cell-item>
                     <span slot="left">充值金额：</span>
                     <yd-input slot="right" type="number" v-model="chargeLog.money"></yd-input>

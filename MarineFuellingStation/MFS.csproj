@@ -49,6 +49,9 @@
     <None Update="Helper\FileHelper.cs.d.ts">
       <DependentUpon>FileHelper.cs</DependentUpon>
     </None>
+    <None Update="Migrations\20170928075743_ChargeLog_ClientId_modify.cs.d.ts">
+      <DependentUpon>20170928075743_ChargeLog_ClientId_modify.cs</DependentUpon>
+    </None>
     <None Update="Models\Assay.cs.d.ts">
       <DependentUpon>Assay.cs</DependentUpon>
     </None>
@@ -93,6 +96,9 @@
     </None>
     <None Update="Models\Wage.cs.d.ts">
       <DependentUpon>Wage.cs</DependentUpon>
+    </None>
+    <None Update="Repositorys\OrderRepository.cs.d.ts">
+      <DependentUpon>OrderRepository.cs</DependentUpon>
     </None>
     <None Update="Repositorys\PurchaseRepository.cs.d.ts">
       <DependentUpon>PurchaseRepository.cs</DependentUpon>

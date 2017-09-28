@@ -45,6 +45,7 @@ export default class CashierComponent extends ComponentBase {
 
         this.payments = new Array<server.payment>();
         this.chargeLog = new Object() as server.chargeLog;
+        this.chargeLog.payType = server.orderPayType.现金;
         this.selectedOrder = new Object() as server.order;
         this.selectedOrder.client = new Object() as server.client;
         this.selectedOrder.client.balances = 0;
@@ -273,6 +274,7 @@ export default class CashierComponent extends ComponentBase {
         model.carNo = this.selectedOrder.carNo;
         model.payState = server.payState.已结算;
         model.payments = new Array<server.payment>();
+        model.clientId = this.selectedOrder.clientId;
         this.orderPayTypes.forEach((p, idx) => {
             let payment = new Object as server.payment;
             payment.name = this.selectedOrder.name;
@@ -305,7 +307,10 @@ export default class CashierComponent extends ComponentBase {
 
     //充值到客户账户
     postCharge() {
-        axios.post("/api/chargelog?cid=" + this.selectedOrder.id, this.chargeLog).then((res) => {
+        if (this.selectedOrder.clientId == null) { this.toastError("请先建立客户档案！"); return; }
+        this.chargeLog.chargeType = server.chargeType.充值;
+        this.chargeLog.clientId = this.selectedOrder.clientId;
+        axios.post("/api/chargelog", this.chargeLog).then((res) => {
             let jobj = res.data as server.resultJSON<server.chargeLog>;
             if (jobj.code == 0) {
                 this.toastSuccess("充值成功")

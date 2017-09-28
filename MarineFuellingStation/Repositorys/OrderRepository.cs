@@ -142,21 +142,36 @@ namespace MFS.Repositorys
                 o.Payments.Add(p);
                 if (p.PayTypeId == OrderPayType.账户扣减)
                 {
-                    //扣减账户余额
-                    var client = _dbContext.Clients.FirstOrDefault(c => c.CarNo == model.CarNo);
-                    if (client != null)
+                    if (!model.ClientId.HasValue)
                     {
-                        if (client.Balances >= p.Money)
-                            client.Balances -= p.Money;
-                        else
-                        {
-                            ret.Code = 500;
-                            ret.Msg = "扣减金额必须少于或等于账户余额";
-                            break;
-                        }
+                        ret.Code = 500;
+                        ret.Msg = "请检查是否存在该客户";
+                        break;
+                    }
+                    //新增消费记录并且扣减账户余额
+                    ChargeLogRepository cl_r = new ChargeLogRepository(_dbContext);
+                    cl_r.CurrentUser = CurrentUser;
+                    ChargeLog cl = new ChargeLog {
+                        PayType = OrderPayType.账户扣减,
+                        ChargeType = ChargeType.消费,
+                        Money = p.Money
+                    };
+                    if (model.ClientId.HasValue)
+                        cl.ClientId = int.Parse(model.ClientId.ToString());
+
+                    ChargeLog cl_return = cl_r.InsertAndUpdateClient(cl);
+
+                    if(cl_return == null)
+                    {
+                        ret.Code = 500;
+                        ret.Msg = "扣减金额必须少于或等于账户余额";
+                        break;
                     }
                 }
             }
+
+            if (ret.Code == 500)
+                return ret;
 
             //更新计划状态为“已完成”
             if(o.SalesPlanId != null)
@@ -166,12 +181,10 @@ namespace MFS.Repositorys
             }
 
             o.LastUpdatedAt = DateTime.Now;
-
-            if (ret.Code == 0)
-            {
-                Save();
-                ret.Data = o;
-            }
+            
+            Save();
+            ret.Data = o;
+            
             return ret;
         }
         /// <summary>

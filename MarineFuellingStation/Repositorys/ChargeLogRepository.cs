@@ -1,4 +1,5 @@
 ﻿using MFS.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,16 +14,20 @@ namespace MFS.Repositorys
         /// 新增充值或消费记录，并且更新客户余额
         /// </summary>
         /// <param name="model"></param>
-        /// <param name="cid"></param>
         /// <returns></returns>
-        public ChargeLog InsertAndUpdateClient(ChargeLog model, int cid)
+        public ChargeLog InsertAndUpdateClient(ChargeLog model)
         {
             try { 
-                Client client = _dbContext.Clients.Find(cid);
+                Client client = _dbContext.Clients.Include("Company").FirstOrDefault(c => c.Id == model.ClientId);
+                model.Name = client.CarNo;
+                model.CompanyName = client.Company.Name;
                 if (model.ChargeType == ChargeType.充值)
                     client.Balances += model.Money;
-                else
+                else {
+                    if (client.Balances < model.Money)
+                        throw new Exception();
                     client.Balances -= model.Money;
+                }
                 Save();
             }
             catch

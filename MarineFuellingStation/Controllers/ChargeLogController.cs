@@ -2,6 +2,7 @@
 using MFS.Models;
 using MFS.Repositorys;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,27 @@ namespace MFS.Controllers
                 Data = r.GetAllList()
             };
         }
+        /// <summary>
+        /// 分页显示数据
+        /// </summary>
+        /// <param name="page">第N页</param>
+        /// <param name="pageSize">页记录数</param>
+        /// <param name="sv">搜索关键字</param>
+        /// <returns></returns>
+        [HttpGet("[action]")]
+        public ResultJSON<List<ChargeLog>> GetByPager(int page, int pageSize, string sv = "")
+        {
+            List<ChargeLog> cl;
+            if (string.IsNullOrEmpty(sv))
+                cl = r.LoadPageList(page, pageSize, out int rCount, true).Include("Client").OrderByDescending(c => c.Id).ToList();
+            else
+                cl = r.LoadPageList(page, pageSize, out int rCount, true, c => c.Name.Contains(sv) || c.CompanyName.Contains(sv)).Include("Client").OrderByDescending(c => c.Id).ToList();
+            return new ResultJSON<List<ChargeLog>>
+            {
+                Code = 0,
+                Data = cl
+            };
+        }
         [HttpGet("{id}")]
         public ResultJSON<ChargeLog> Get(int id)
         {
@@ -46,28 +68,17 @@ namespace MFS.Controllers
                 Data = r.InsertOrUpdate(model)
             };
         }
-        [HttpPost]
-        public ResultJSON<ChargeLog> Post([FromBody]ChargeLog model)
-        {
-            r.CurrentUser = UserName;
-            return new ResultJSON<ChargeLog>
-            {
-                Code = 0,
-                Data = r.Insert(new ChargeLog { Name = model.Name })
-            };
-        }
         /// <summary>
         /// 充值
         /// </summary>
         /// <param name="model"></param>
-        /// <param name="cid">客户ID</param>
         /// <returns></returns>
         [HttpPost]
-        public ResultJSON<ChargeLog> Post([FromBody]ChargeLog model, int cid)
+        public ResultJSON<ChargeLog> Post([FromBody]ChargeLog model)
         {
             r.CurrentUser = UserName;
-            ChargeLog c = r.InsertAndUpdateClient(model, cid);
-            if (c != null)
+            ChargeLog c = r.InsertAndUpdateClient(model);
+            if (c == null)
                 return new ResultJSON<ChargeLog>
                 {
                     Code = 501,

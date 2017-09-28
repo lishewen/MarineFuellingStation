@@ -13,7 +13,9 @@ export default class CashierComponent extends ComponentBase {
     lastshow: boolean = true;
     showAct: boolean = false;
     showCharge: boolean = false;
+    showPayments: boolean = false;
     actItems: ydui.actionSheetItem[];
+    totalPayMoney: number;//所有已支付的金额总和
 
     //搜索
     searchVal: string = "";
@@ -31,6 +33,7 @@ export default class CashierComponent extends ComponentBase {
 
     showInputs: Array<boolean>;
     payments: Array<server.payment>;
+    orderPayments: Array<server.payment>;//用于读取点击订单的付款记录
     selectedOrder: server.order;
 
     chargeLog: server.chargeLog;//充值记录对象
@@ -44,6 +47,7 @@ export default class CashierComponent extends ComponentBase {
         super();
 
         this.payments = new Array<server.payment>();
+        this.orderPayments = new Array<server.payment>();
         this.chargeLog = new Object() as server.chargeLog;
         this.chargeLog.payType = server.orderPayType.现金;
         this.selectedOrder = new Object() as server.order;
@@ -52,12 +56,30 @@ export default class CashierComponent extends ComponentBase {
         this.orderPayTypes = [server.orderPayType.现金.toString()];//默认支付方式“现金”
         this.orderPayMoneys = new Array<number>(0, 0, 0, 0, 0, 0, 0);
         this.showInputs = new Array<boolean>(false, false, false, false, false, false, false);
+        this.totalPayMoney = 0;//
 
         this.readypayorders = new Array<server.order>();
         this.haspayorders = new Array<server.order>();
         this.nopayorders = new Array<server.order>();
 
         this.actItems = new Array<ydui.actionSheetItem>();
+    }
+
+    strPayType(pt: server.orderPayType) {
+        switch (pt) {
+            case server.orderPayType.现金:
+                return "现金"
+            case server.orderPayType.微信:
+                return "微信"
+            case server.orderPayType.支付宝:
+                return "支付宝"
+            case server.orderPayType.刷卡一:
+                return "刷卡一"
+            case server.orderPayType.刷卡二:
+                return "刷卡二"
+            case server.orderPayType.刷卡三:
+                return "刷卡三"
+        }
     }
 
     orderclick(o: server.order) {
@@ -80,6 +102,11 @@ export default class CashierComponent extends ComponentBase {
         ];
         this.showAct = true;
         
+    }
+    showPaymentsclick(o: server.order) {
+        this.selectedOrder = o;
+        this.showPayments = true;
+        this.getOrderPayments(o.id);
     }
 
     getTotalPayMoney() {
@@ -147,6 +174,38 @@ export default class CashierComponent extends ComponentBase {
             this.getOrders();
         });
     };
+    //验证输入的账户扣减金额是否大于账户余额
+    validateMoney() {
+        if (this.payInfact - this.selectedOrder.totalMoney < 0) {
+            this.toastError("实收金额应大于等于应收金额")
+            return;
+        }
+
+        let flag = true;
+        let isNull = false;
+
+        this.orderPayTypes.forEach((p, idx) => {
+            if (!this.orderPayMoneys[parseInt(p)]) {
+                isNull = true;
+                return;
+            }
+            if (parseInt(p) == server.orderPayType.账户扣减) {
+                if (this.orderPayMoneys[parseInt(p)] > this.selectedOrder.client.balances) {
+                    flag = false;
+                }
+            }
+        });
+        if (!flag) {
+            this.toastError("输入的扣减金额不能大于账户余额");
+            return;
+        }
+        if (isNull) {
+            this.toastError("请输入金额");
+            return;
+        }
+
+        this.putPay();
+    }
 
     loadList() {
         this.getOrders((list: server.order[]) => {
@@ -204,6 +263,26 @@ export default class CashierComponent extends ComponentBase {
         this.getOrders();
     }
 
+    //根据orderId获取该订单的付款记录
+    getOrderPayments(oid: number) {
+        if (oid == null) {
+            this.toastError("订单数据有误，无法取得付款记录")
+            return;
+        }
+        axios.get('/api/payment/GetByOrderId?oid=' + oid).then((res => {
+            let jobj = res.data as server.resultJSON<server.payment[]>;
+            if (jobj.code == 0) {
+                this.orderPayments = jobj.data;
+                //计算所有已支付金额
+                this.totalPayMoney = 0;
+                this.orderPayments.forEach((p, idx) => {
+                    this.totalPayMoney += p.money;
+                });
+            }
+        }))
+    }
+
+    //获取订单
     getOrders(callback?: Function) {
         if (this.page == null) this.page = 1;
         axios.get('/api/Order/GetByPayState?'
@@ -234,38 +313,7 @@ export default class CashierComponent extends ComponentBase {
                 }
             });
     }
-    //验证输入的账户扣减金额是否大于账户余额
-    validateMoney() {
-        if (this.payInfact - this.selectedOrder.totalMoney < 0) {
-            this.toastError("实收金额应大于等于应收金额")
-            return;
-        }
-
-        let flag = true;
-        let isNull = false;
-
-        this.orderPayTypes.forEach((p, idx) => {
-            if (!this.orderPayMoneys[parseInt(p)]) {
-                isNull = true;
-                return;
-            }
-            if (parseInt(p) == server.orderPayType.账户扣减) {
-                if (this.orderPayMoneys[parseInt(p)] > this.selectedOrder.client.balances) {
-                    flag = false;
-                }
-            }
-        });
-        if (!flag) {
-            this.toastError("输入的扣减金额不能大于账户余额");
-            return;
-        }
-        if (isNull) {
-            this.toastError("请输入金额");
-            return;
-        }
-
-        this.putPay();
-    }
+    
 
     //结账
     putPay() {

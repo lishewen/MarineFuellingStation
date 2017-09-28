@@ -28,7 +28,7 @@
                 <yd-cell-group>
                     <weui-search v-model="sv2" />
                     <yd-infinitescroll :callback="loadList" ref="orderinfinitescroll2">
-                        <yd-cell-item slot="list" arrow v-for="o in haspayorders" :key="o.id">
+                        <yd-cell-item slot="list" arrow v-for="o in haspayorders" :key="o.id" @click.native="showPaymentsclick(o)">
                             <div slot="left">
                                 <p style="font-size: 18px">{{o.carNo}}</p>
                                 <p style="color:lightgray;font-size:14px">{{o.name}}</p>
@@ -200,6 +200,16 @@
             <div style="text-align: center">
                 <yd-button style="width:80%;margin-top:10px" type="primary" @click.native="postCharge()" :disabled="chargeLog.money <= 0">提交</yd-button>
             </div>
+        </yd-popup>
+        <!--popup付款金额和方式记录-->
+        <yd-popup v-model="showPayments" position="right" width="50%">
+            <yd-cell-group title="付款金额和方式">
+                <yd-cell-item type="label" v-for="p in orderPayments">
+                    <span slot="left">{{strPayType(p.payTypeId)}}</span>
+                    <span slot="right">￥{{p.money}}</span>
+                </yd-cell-item>
+            </yd-cell-group>
+            <div style="text-align: right;padding-right:.2rem">找零：￥{{selectedOrder.totalMoney - totalPayMoney}}</div>
         </yd-popup>
         <!--actionsheet-->
         <yd-actionsheet :items="actItems" v-model="showAct" cancel="取消"></yd-actionsheet>

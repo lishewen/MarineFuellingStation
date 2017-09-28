@@ -118,7 +118,7 @@ namespace MFS.Repositorys
                 orderwhere = orderwhere.And(o => o.Name.Contains(searchVal) || o.CarNo.Contains(searchVal));
 
             return LoadPageList(startPage, pageSize, out int count, true, orderwhere)
-                .Include(o => o.Product).Include(o => o.Client).ToList();
+                .Include(o => o.Product).Include(o => o.Client).OrderByDescending(o => o.LastUpdatedAt).ToList();
         }
         /// <summary>
         /// 结算订单

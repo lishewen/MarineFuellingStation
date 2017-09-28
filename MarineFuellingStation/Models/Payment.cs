@@ -10,7 +10,7 @@ namespace MFS.Models
     /// <summary>
     /// 付款方式记录表
     /// </summary>
-    public class Payment: EntityBase
+    public class Payment : EntityBase
     {
         /// <summary>
         /// 支付方式
@@ -24,7 +24,7 @@ namespace MFS.Models
         /// 订单Id
         /// </summary>
         public int? OrderId { get; set; }
-        [JsonIgnore,ForeignKey("OrderId")]
+        [JsonIgnore, ForeignKey("OrderId")]
         public virtual Order Order { get; set; }
     }
 }

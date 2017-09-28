@@ -67,11 +67,18 @@ namespace MFS.Controllers
         {
             r.CurrentUser = UserName;
             ChargeLog c = r.InsertAndUpdateClient(model, cid);
-            return new ResultJSON<ChargeLog>
-            {
-                Code = 0,
-                Data = c
-            };
+            if (c != null)
+                return new ResultJSON<ChargeLog>
+                {
+                    Code = 501,
+                    Msg = "无法更新客户余额"
+                };
+            else
+                return new ResultJSON<ChargeLog>
+                {
+                    Code = 0,
+                    Data = c
+                };
         }
     }
 }

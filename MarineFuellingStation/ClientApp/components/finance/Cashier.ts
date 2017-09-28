@@ -111,11 +111,6 @@ export default class CashierComponent extends ComponentBase {
         return moment(d).startOf('day').fromNow();
     }
 
-    //充值提交
-    chargeMoneyclick() {
-
-    }
-
     mounted() {
         this.$emit('setTitle', this.$store.state.username + ' 结算');
         this.$watch("showPayTypes", (v, ov) => {
@@ -314,6 +309,9 @@ export default class CashierComponent extends ComponentBase {
             let jobj = res.data as server.resultJSON<server.chargeLog>;
             if (jobj.code == 0) {
                 this.toastSuccess("充值成功")
+            }
+            if (jobj.code == 501) {
+                this.toastError(jobj.msg)
             }
         });
     }

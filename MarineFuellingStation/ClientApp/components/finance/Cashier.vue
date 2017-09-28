@@ -187,7 +187,7 @@
                 </yd-cell-item>
             </yd-cell-group>
             <div style="text-align: center">
-                <yd-button style="width:80%;margin-top:10px" type="primary" @click.native="chargeMoneyclick()" :disabled="chargeMoney <= 0">提交</yd-button>
+                <yd-button style="width:80%;margin-top:10px" type="primary" @click.native="postCharge()" :disabled="chargeLog.money <= 0">提交</yd-button>
             </div>
         </yd-popup>
         <!--actionsheet-->

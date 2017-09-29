@@ -50,9 +50,10 @@ namespace MFS.Repositorys
         /// <returns></returns>
         public new Order Insert(Order entity, bool autoSave = true)
         {
-            var p = _dbContext.Products.Find(entity.ProductId);
-            p.LastPrice = entity.Price;
-            entity.MinPrice = p.MinPrice;
+            //根据船号或车号取得clientId
+            var client = _dbContext.Clients.FirstOrDefault(c => c.CarNo == entity.CarNo);
+            if (client != null)
+                entity.ClientId = client.Id;
             return base.Insert(entity, autoSave);
         }
         /// <summary>
@@ -105,7 +106,7 @@ namespace MFS.Repositorys
                 return LoadPageList(startPage, pageSize, out int count, true, o => o.State != OrderState.已完成 && o.OrderType == orderType).Include(o => o.Product).Include(o => o.Client).ToList();
         }
         /// <summary>
-        /// 根据PayState获取分页数据，并且包含Product、Client对象
+        /// 根据PayState获取分页数据，并且包含Product、Client、Client.Company对象
         /// </summary>
         /// <param name="payState">付款状态</param>
         /// <param name="startPage">第N页</param>
@@ -118,7 +119,7 @@ namespace MFS.Repositorys
                 orderwhere = orderwhere.And(o => o.Name.Contains(searchVal) || o.CarNo.Contains(searchVal));
 
             return LoadPageList(startPage, pageSize, out int count, true, orderwhere)
-                .Include(o => o.Product).Include(o => o.Client).OrderByDescending(o => o.LastUpdatedAt).ToList();
+                .Include(o => o.Product).Include(o => o.Client).Include(o => o.Client.Company).OrderByDescending(o => o.LastUpdatedAt).ToList();
         }
         /// <summary>
         /// 结算订单

@@ -50,8 +50,10 @@ namespace MFS.Controllers
             if (!cr.Has(c => c.CarNo == s.CarNo))
                 cr.Insert(new Client
                 {
+                    Name = "个人",
                     CarNo = s.CarNo,
-                    FollowSalesman = UserName
+                    FollowSalesman = UserName,
+                    DefaultProductId = s.ProductId
                 });
 
             //推送打印指令

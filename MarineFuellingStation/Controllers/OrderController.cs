@@ -33,6 +33,7 @@ namespace MFS.Controllers
         public async Task<ResultJSON<Order>> Post([FromBody]Order o)
         {
             r.CurrentUser = UserName;
+            
             var result = r.Insert(o);
 
             //推送打印指令

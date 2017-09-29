@@ -14,6 +14,7 @@ export default class CashierComponent extends ComponentBase {
     showAct: boolean = false;
     showCharge: boolean = false;
     showPayments: boolean = false;
+    isCompanyCharge: boolean = false;
     actItems: ydui.actionSheetItem[];
     totalPayMoney: number;//所有已支付的金额总和
 
@@ -42,6 +43,8 @@ export default class CashierComponent extends ComponentBase {
     haspayorders: server.order[];
     nopayorders: server.order[];
     page: number;
+
+    chargeAccount: string = "";//当前选择充值的账户，船号或公司
 
     constructor() {
         super();
@@ -82,6 +85,12 @@ export default class CashierComponent extends ComponentBase {
         }
     }
 
+    strCompanyName(o: server.order) {
+        if (o.client != null)
+            if (o.client.company != null)
+                return o.client.company.name
+    }
+
     orderclick(o: server.order) {
         this.selectedOrder = o;
 
@@ -94,9 +103,19 @@ export default class CashierComponent extends ComponentBase {
                 }
             },
             {
-                label: '充值【预收款】',
+                label: '充值【个人账户】',
                 method: () => {
                     this.showCharge = true;
+                    this.isCompanyCharge = false;
+                    this.chargeAccount = this.selectedOrder.client.carNo;
+                }
+            },
+            {
+                label: '充值【公司账户】',
+                method: () => {
+                    this.showCharge = true;
+                    this.isCompanyCharge = true;
+                    this.chargeAccount = this.selectedOrder.client.company.name;
                 }
             }
         ];

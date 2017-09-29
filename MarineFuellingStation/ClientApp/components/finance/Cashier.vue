@@ -9,6 +9,7 @@
                             <div slot="left">
                                 <p style="font-size: 18px">{{o.carNo}}</p>
                                 <p style="color:lightgray;font-size:14px">{{o.name}}</p>
+                                <p class="color_lightgray" v-show="o.client != null">{{strCompanyName(o)}}</p>
                             </div>
                             <div slot="right" style="text-align: right;margin:10px 5px 10px 0px;line-height: 18px">
                                 <p style="color:gray;font-size:22px">￥{{o.totalMoney}}</p>
@@ -181,6 +182,10 @@
         <yd-popup v-model="showCharge" position="right" width="70%">
             <yd-cell-group title="充值">
                 <div style="text-align: center; padding: .2rem 0; font-size: .4rem">当前余额：￥{{selectedOrder.client == null ? "" : selectedOrder.client.balances}}</div>
+                <yd-cell-item>
+                    <span slot="left">当前账户：</span>
+                    <span slot="right" style="color:forestgreen">{{chargeAccount}}</span>
+                </yd-cell-item>
                 <yd-cell-item arrow type="label">
                     <span slot="left">支付方式：</span>
                     <select slot="right" v-model="chargeLog.payType">

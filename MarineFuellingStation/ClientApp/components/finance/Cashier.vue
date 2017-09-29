@@ -209,7 +209,7 @@
         <!--popup付款金额和方式记录-->
         <yd-popup v-model="showPayments" position="right" width="50%">
             <yd-cell-group title="付款金额和方式">
-                <yd-cell-item type="label" v-for="p in orderPayments">
+                <yd-cell-item type="label" v-for="p in orderPayments" :key="p.id">
                     <span slot="left">{{strPayType(p.payTypeId)}}</span>
                     <span slot="right">￥{{p.money}}</span>
                 </yd-cell-item>

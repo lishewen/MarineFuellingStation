@@ -54,10 +54,10 @@ export default class ChargeLogComponent extends ComponentBase {
 
     classChargeType(t: server.chargeType) {
         if (t == server.chargeType.充值) {
-            return { color_green: true }
+            return { 'clog-color_green': true }
         }
         else if (t == server.chargeType.消费) {
-            return { color_red: true }
+            return { 'clog-color_red': true }
         }
     }
 
@@ -72,10 +72,10 @@ export default class ChargeLogComponent extends ComponentBase {
 
     classMoney(t: server.chargeType) {
         if (t == server.chargeType.充值) {
-            return { font_green: true }
+            return { 'clog-font_green': true }
         }
         else if (t == server.chargeType.消费) {
-            return { font_red: true }
+            return { 'clog-font_red': true }
         }
     }
 

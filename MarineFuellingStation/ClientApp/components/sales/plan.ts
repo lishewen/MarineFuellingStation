@@ -175,7 +175,7 @@ export default class PlanComponent extends ComponentBase {
     getSalesPlanNo() {
         axios.get('/api/SalesPlan/SalesPlanNo').then((res) => {
             let jobj = res.data as server.resultJSON<string>;
-            if (jobj.code == 0){
+            if (jobj.code == 0) {
                 this.model.name = jobj.data;
                 this.isPrevent = false;//允许提交
             }
@@ -187,17 +187,17 @@ export default class PlanComponent extends ComponentBase {
         axios.get('/api/SalesPlan/GetByPager?page='
             + this.page
             + '&pagesize=' + this.pSize).then((res) => {
-            let jobj = res.data as server.resultJSON<server.salesPlan[]>;
-            if (jobj.code == 0) {
-                if (callback) {
-                    callback(jobj.data);
+                let jobj = res.data as server.resultJSON<server.salesPlan[]>;
+                if (jobj.code == 0) {
+                    if (callback) {
+                        callback(jobj.data);
+                    }
+                    else {
+                        this.salesplans = jobj.data;
+                        this.page++;
+                    }
                 }
-                else {
-                    this.salesplans = jobj.data;
-                    this.page++;
-                }
-            }
-        });
+            });
     }
 
     getClients() {
@@ -255,7 +255,7 @@ export default class PlanComponent extends ComponentBase {
             if (jobj.code == 0) {
                 this.getSalesPlanNo();
                 this.toastSuccess(jobj.msg);
-                this.goNext = false;
+                this.showNext = false;
             }
         });
     }

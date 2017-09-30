@@ -141,8 +141,9 @@ namespace MFS.Repositorys
             {
                 //要加载order下才会关联OrderId，直接加在db下不会反应关联关系
                 o.Payments.Add(p);
-                if (p.PayTypeId == OrderPayType.账户扣减)
+                if (p.PayTypeId == OrderPayType.账户扣减 || p.PayTypeId == OrderPayType.公司账户扣减)
                 {
+                    bool isCompanyCharge = (p.PayTypeId == OrderPayType.公司账户扣减) ? true : false;
                     if (!model.ClientId.HasValue)
                     {
                         ret.Code = 500;
@@ -153,16 +154,16 @@ namespace MFS.Repositorys
                     ChargeLogRepository cl_r = new ChargeLogRepository(_dbContext);
                     cl_r.CurrentUser = CurrentUser;
                     ChargeLog cl = new ChargeLog {
-                        PayType = OrderPayType.账户扣减,
+                        PayType = (isCompanyCharge) ? OrderPayType.公司账户扣减 : OrderPayType.账户扣减,
                         ChargeType = ChargeType.消费,
                         Money = p.Money
                     };
                     if (model.ClientId.HasValue)
                         cl.ClientId = int.Parse(model.ClientId.ToString());
 
-                    ChargeLog cl_return = cl_r.InsertAndUpdateClient(cl);
+                    ChargeLog cl_return = cl_r.InsertAndUpdateBalances(cl, isCompanyCharge);
 
-                    if(cl_return == null)
+                    if (cl_return == null)
                     {
                         ret.Code = 500;
                         ret.Msg = "扣减金额必须少于或等于账户余额";

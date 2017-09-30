@@ -83,7 +83,7 @@ namespace MFS.Controllers
         [HttpGet("[action]")]
         public GetTagMemberResult Manufacturer()
         {
-            return GetTagMember("生成员");
+            return GetTagMember("生产员");
         }
 
         [NonAction]

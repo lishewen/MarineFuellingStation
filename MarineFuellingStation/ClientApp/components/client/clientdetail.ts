@@ -48,6 +48,7 @@ export default class MyClientDetailComponent extends ComponentBase {
             switch (parseInt(v)) {
                 case server.clientType.个人:
                     this.companyName = "";
+                    this.model.companyId = null;
                     this.show1 = false;
                     break;
                 case server.clientType.公司:

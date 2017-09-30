@@ -14,7 +14,8 @@
                             <div slot="right" style="text-align: right;margin:10px 5px 10px 0px;line-height: 18px">
                                 <p style="color:gray;font-size:22px">￥{{o.totalMoney}}</p>
                                 <p style="color:lightgray;font-size:14px;margin-top:5px">{{o.product.name}} / {{o.count}}{{o.unit}} / {{o.price}}</p>
-                                <p style="color: lightcoral" v-if="o.client != null">余额：￥{{o.client == null ? 0 : o.client.balances}}</p>
+                                <p style="color: lightcoral" v-if="o.client != null">个人余额：￥{{o.client == null ? 0 : o.client.balances}}</p>
+                                <p style="color: lightcoral" v-if="o.client.company != null">公司余额：￥{{o.client.company == null ? 0 : o.client.company.balances}}</p>
                             </div>
                         </yd-cell-item>
 
@@ -52,7 +53,7 @@
                 <yd-cell-group>
                     <weui-search v-model="sv3" />
                     <yd-infinitescroll :callback="loadList" ref="orderinfinitescroll3">
-                        <yd-cell-item slot="list" arrow v-for="o in nopayorders" :key="o.id">
+                        <yd-cell-item slot="list" arrow v-for="o in nopayorders" :key="o.id" @click.native="orderclick(o)">
                             <div slot="left">
                                 <p style="font-size: 18px">{{o.carNo}}</p>
                                 <p style="color:lightgray;font-size:14px">{{o.name}}</p>
@@ -113,6 +114,14 @@
                     <input slot="right" type="checkbox" value="6" v-model="orderPayTypes" />
                 </yd-cell-item>
 
+                <yd-cell-item type="checkbox" v-show="selectedOrder.client.company != null">
+                    <div slot="left">
+                        <p> 公司账户余额</p>
+                        <p style="color:red;font-size:12px">￥{{selectedOrder.client.company == null? 0 : selectedOrder.client.company.balances}}</p>
+                    </div>
+                    <input slot="right" type="checkbox" value="7" v-model="orderPayTypes" />
+                </yd-cell-item>
+
             </yd-cell-group>
             <yd-cell-group title="第二步：结算金额" v-show="!lastshow">
                 <yd-cell-item v-show="!lastshow">
@@ -164,6 +173,11 @@
                     <yd-input slot="right" v-model="orderPayMoneys[6]" placeholder=""></yd-input>
                     <span slot="right">元</span>
                 </yd-cell-item>
+                <yd-cell-item v-show="showInputs[7]">
+                    <span slot="left">公司账户余额：</span>
+                    <yd-input slot="right" v-model="orderPayMoneys[7]" placeholder=""></yd-input>
+                    <span slot="right">元</span>
+                </yd-cell-item>
             </yd-cell-group>
             <div style="text-align: center">
                 <yd-button style="width:80%" type="warning" @click.native="nextclick()" v-show="lastshow">下一步</yd-button>
@@ -181,7 +195,7 @@
         <!--popup充值-->
         <yd-popup v-model="showCharge" position="right" width="70%">
             <yd-cell-group title="充值">
-                <div style="text-align: center; padding: .2rem 0; font-size: .4rem">当前余额：￥{{selectedOrder.client == null ? "" : selectedOrder.client.balances}}</div>
+                <div style="text-align: center; padding: .2rem 0; font-size: .4rem">当前余额：￥{{strBalances()}}</div>
                 <yd-cell-item>
                     <span slot="left">当前账户：</span>
                     <span slot="right" style="color:forestgreen">{{chargeAccount}}</span>

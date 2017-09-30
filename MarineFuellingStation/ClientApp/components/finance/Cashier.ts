@@ -57,8 +57,8 @@ export default class CashierComponent extends ComponentBase {
         this.selectedOrder.client = new Object() as server.client;
         this.selectedOrder.client.balances = 0;
         this.orderPayTypes = [server.orderPayType.现金.toString()];//默认支付方式“现金”
-        this.orderPayMoneys = new Array<number>(0, 0, 0, 0, 0, 0, 0);
-        this.showInputs = new Array<boolean>(false, false, false, false, false, false, false);
+        this.orderPayMoneys = new Array<number>(0, 0, 0, 0, 0, 0, 0, 0);
+        this.showInputs = new Array<boolean>(false, false, false, false, false, false, false, false);
         this.totalPayMoney = 0;//
 
         this.readypayorders = new Array<server.order>();
@@ -82,6 +82,10 @@ export default class CashierComponent extends ComponentBase {
                 return "刷卡二"
             case server.orderPayType.刷卡三:
                 return "刷卡三"
+            case server.orderPayType.账户扣减:
+                return "账户扣减"
+            case server.orderPayType.公司账户扣减:
+                return "公司账户扣减"
         }
     }
 
@@ -89,6 +93,13 @@ export default class CashierComponent extends ComponentBase {
         if (o.client != null)
             if (o.client.company != null)
                 return o.client.company.name
+    }
+
+    strBalances() {
+        if (this.isCompanyCharge)
+            return this.selectedOrder.client.company == null ? "" : this.selectedOrder.client.company.balances
+        else
+            return this.selectedOrder.client == null ? "" : this.selectedOrder.client.balances
     }
 
     orderclick(o: server.order) {
@@ -146,7 +157,7 @@ export default class CashierComponent extends ComponentBase {
 
     nextclick(): void {
         this.lastshow = false;
-        this.showInputs = new Array<boolean>(false, false, false, false, false, false, false);
+        this.showInputs = new Array<boolean>(false, false, false, false, false, false, false, false);
         this.orderPayTypes.forEach((p, idx) => {
             this.showInputs[p] = true;
         });
@@ -154,7 +165,7 @@ export default class CashierComponent extends ComponentBase {
     lastclick(): void {
         this.lastshow = true;
         //清空所有input的值
-        this.orderPayMoneys = new Array<number>(0, 0, 0, 0, 0, 0, 0);
+        this.orderPayMoneys = new Array<number>(0, 0, 0, 0, 0, 0, 0, 0);
     };
 
     getDiff(d: Date) {
@@ -167,16 +178,23 @@ export default class CashierComponent extends ComponentBase {
         this.$watch("showPayTypes", (v, ov) => {
             //初始化
             this.orderPayTypes = ["0"];
-            this.orderPayMoneys = new Array<number>(0, 0, 0, 0, 0, 0, 0);
+            this.orderPayMoneys = new Array<number>(0, 0, 0, 0, 0, 0, 0, 0);
         });
         this.$watch("orderPayMoneys", (v, ov) => {
-            let balan = this.selectedOrder.client == null ? 0 : this.selectedOrder.client.balances;
-            let input = (v[6] == null || v[6] == "") ? 0 : v[6];
+            let balanClient = this.selectedOrder.client == null ? 0 : this.selectedOrder.client.balances;
+            let balanCompany = this.selectedOrder.client.company == null ? 0 : this.selectedOrder.client.company.balances;
+            //let input = (v[6] == null || v[6] == "") ? 0 : v[6];
             if (v != null) {
-                if (balan > 0) {
+                if (balanClient > 0) {
                     if (v[6] > this.selectedOrder.client.balances){
-                        this.toastError("超出可扣余额")
+                        this.toastError("超出客户可扣余额")
                         this.orderPayMoneys[6] = this.selectedOrder.client.balances;
+                    }
+                }
+                if (balanCompany > 0) {
+                    if (v[7] > this.selectedOrder.client.company.balances) {
+                        this.toastError("超出公司账户可扣余额")
+                        this.orderPayMoneys[7] = this.selectedOrder.client.company.balances;
                     }
                 }
             }
@@ -376,12 +394,12 @@ export default class CashierComponent extends ComponentBase {
         })
     }
 
-    //充值到客户账户
+    //充值到客户或公司账户
     postCharge() {
         if (this.selectedOrder.clientId == null) { this.toastError("请先建立客户档案！"); return; }
         this.chargeLog.chargeType = server.chargeType.充值;
         this.chargeLog.clientId = this.selectedOrder.clientId;
-        axios.post("/api/chargelog", this.chargeLog).then((res) => {
+        axios.post("/api/chargelog?isCompanyCharge=" + this.isCompanyCharge.toString(), this.chargeLog).then((res) => {
             let jobj = res.data as server.resultJSON<server.chargeLog>;
             if (jobj.code == 0) {
                 this.toastSuccess("充值成功")

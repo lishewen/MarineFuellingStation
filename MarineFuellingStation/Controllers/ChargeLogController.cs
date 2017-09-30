@@ -72,12 +72,13 @@ namespace MFS.Controllers
         /// 充值
         /// </summary>
         /// <param name="model"></param>
+        /// <param name="isCompanyCharge">公司充值或客户充值</param>
         /// <returns></returns>
         [HttpPost]
-        public ResultJSON<ChargeLog> Post([FromBody]ChargeLog model)
+        public ResultJSON<ChargeLog> Post([FromBody]ChargeLog model, bool isCompanyCharge)
         {
             r.CurrentUser = UserName;
-            ChargeLog c = r.InsertAndUpdateClient(model);
+            ChargeLog c = r.InsertAndUpdateBalances(model, isCompanyCharge);
             if (c == null)
                 return new ResultJSON<ChargeLog>
                 {

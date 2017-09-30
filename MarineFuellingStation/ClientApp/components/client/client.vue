@@ -92,7 +92,7 @@
                         </span>
                         <span><yd-button type="hollow" @click.native="show2 = true">筛选</yd-button></span>
                     </div>
-                    <yd-cell-item arrow v-for="c in clients" :key="c.id" @click.native="godetail(c.id)">
+                    <yd-cell-item arrow v-for="c in clients" :key="c.id" @click.native="godetail(c)">
                         <div slot="left">
                             <p>{{c.carNo}} - {{c.contact}}</p>
                             <p v-if="c.company != null" style="color:lightgray;font-size:12px">{{c.company.name}}</p>
@@ -208,10 +208,8 @@
         <!--popup销售列表-->
         <yd-popup v-model="showsales" position="right">
             <yd-cell-group title="必填">
-                <weui-search v-model="svSales" />
                 <yd-cell-item arrow type="radio" v-for="s in sales" :key="s.userid" @click.native="selectsalesclick(s)">
                     <span slot="left">{{s.name}}</span>
-                    <span slot="right" style="font-size:12px;color:lightgray">{{s.clientcount}}客户</span>
                 </yd-cell-item>
             </yd-cell-group>
         </yd-popup>

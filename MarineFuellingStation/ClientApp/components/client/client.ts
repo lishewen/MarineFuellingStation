@@ -35,7 +35,6 @@ export default class ClientComponent extends ComponentBase {
     svCompany: string = "";
     svCompany1: string = "";
     svClient: string = "";
-    svSales: string = "";
 
     actBtnId: number; actBtnId1: number; actBtnId2: number; actBtnId3: number;//当前激活状态的条件button
     ctype: server.clientType; ptype: server.salesPlanState; balances: number; cycle: number;
@@ -47,7 +46,7 @@ export default class ClientComponent extends ComponentBase {
         super();
 
         this.oiloptions = new Array();
-
+        
         this.model = (new Object()) as server.client;
         this.modelCompany = (new Object()) as server.company;
         this.clients = new Array<server.client>();
@@ -202,8 +201,8 @@ export default class ClientComponent extends ComponentBase {
         this.showsales = false;
     }
 
-    godetail(id: number) {
-        this.$router.push('/client/client/' + id);
+    godetail(c: server.client) {
+        this.$router.push('/client/client/' + c.id);
     }
 
     //提交新增公司

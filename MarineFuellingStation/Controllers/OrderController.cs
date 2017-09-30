@@ -20,11 +20,13 @@ namespace MFS.Controllers
     public class OrderController : ControllerBase
     {
         private readonly OrderRepository r;
+        private readonly ClientRepository cr;
         private readonly IHubContext<PrintHub> _hub;
         private readonly IHostingEnvironment _hostingEnvironment;
-        public OrderController(OrderRepository repository, IHubContext<PrintHub> hub, IHostingEnvironment env)
+        public OrderController(OrderRepository repository, IHubContext<PrintHub> hub, IHostingEnvironment env, ClientRepository clientRepository)
         {
             r = repository;
+            cr = clientRepository;
             _hub = hub;
             _hostingEnvironment = env;
         }
@@ -33,7 +35,11 @@ namespace MFS.Controllers
         public async Task<ResultJSON<Order>> Post([FromBody]Order o)
         {
             r.CurrentUser = UserName;
-            
+
+            //当车号/船号没有对应的客户资料时，自动新增客户资料，以便我的客户中的关联查找
+            if (!cr.AddClientWithNoFind(o.CarNo, UserName, o.ProductId))
+                return new ResultJSON<Order> { Code = 501, Msg = "无法新增该客户，请联系开发人员" };
+
             var result = r.Insert(o);
 
             //推送打印指令

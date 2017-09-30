@@ -61,5 +61,31 @@ namespace MFS.Repositorys
 
             return list;
         }
+        /// <summary>
+        /// 根据carNo判断是否有改客户，没有便新增客户
+        /// </summary>
+        /// <param name="carNo"></param>
+        /// <param name="followsalesman"></param>
+        /// <param name="defaultProductId"></param>
+        /// <returns></returns>
+        public bool AddClientWithNoFind(string carNo, string followsalesman, int defaultProductId)
+        {
+            try
+            {
+                if (Has(c => c.CarNo == carNo)) return true;
+                Insert(new Client
+                {
+                    Name = "个人",
+                    CarNo = carNo,
+                    FollowSalesman = followsalesman,
+                    DefaultProductId = defaultProductId
+                });
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

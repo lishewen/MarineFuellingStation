@@ -120,6 +120,14 @@ namespace MFS.Controllers
                 Data = r.Update(c)
             };
         }
-
+        [HttpPut]
+        public ResultJSON<Client> Save([FromBody]Client c)
+        {
+            return new ResultJSON<Client>
+            {
+                Code = 0,
+                Data = r.Update(c)
+            };
+        }
     }
 }

@@ -44,17 +44,12 @@ namespace MFS.Controllers
         public async Task<ResultJSON<SalesPlan>> Post([FromBody]SalesPlan s)
         {
             r.CurrentUser = UserName;
-            var result = r.Insert(s);
 
             //当车号/船号没有对应的客户资料时，自动新增客户资料，以便我的客户中的关联查找
-            if (!cr.Has(c => c.CarNo == s.CarNo))
-                cr.Insert(new Client
-                {
-                    Name = "个人",
-                    CarNo = s.CarNo,
-                    FollowSalesman = UserName,
-                    DefaultProductId = s.ProductId
-                });
+            if (!cr.AddClientWithNoFind(s.CarNo, UserName, s.ProductId))
+                return new ResultJSON<SalesPlan> { Code = 501, Msg = "无法新增该客户，请联系开发人员" };
+            
+            SalesPlan result = r.Insert(s);
 
             //推送打印指令
             await _hub.Clients.All.InvokeAsync("printsalesplan", result);

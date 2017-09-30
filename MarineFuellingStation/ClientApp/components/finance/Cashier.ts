@@ -109,16 +109,20 @@ export default class CashierComponent extends ComponentBase {
                     this.isCompanyCharge = false;
                     this.chargeAccount = this.selectedOrder.client.carNo;
                 }
-            },
-            {
-                label: '充值【公司账户】',
-                method: () => {
-                    this.showCharge = true;
-                    this.isCompanyCharge = true;
-                    this.chargeAccount = this.selectedOrder.client.company.name;
-                }
-            }
+            }  
         ];
+        let coItem = {
+            label: '充值【公司账户】',
+            method: () => {
+                this.showCharge = true;
+                this.isCompanyCharge = true;
+                this.chargeAccount = this.selectedOrder.client.company.name;
+            }
+        };
+
+        if (this.selectedOrder.client.company != null)
+            this.actItems = [...this.actItems, coItem];
+
         this.showAct = true;
         
     }

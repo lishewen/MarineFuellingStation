@@ -4,12 +4,21 @@
             <yd-tab-panel label="计划开单">
                 <yd-cell-group :title="'单号：' + model.name" style="padding-top: 20px">
                     <yd-cell-item>
-                        <span slot="left">船号：</span>
+                        <span slot="left">船号/车牌号：</span>
                         <yd-input slot="right" v-model="model.carNo" required placeholder="请输入您的船号"></yd-input>
                         <yd-button slot="right" type="warning" @click.native="goNext" style="width: 1.2rem" :disabled="model.carNo == null || model.carNo == ''">下一步</yd-button>
                     </yd-cell-item>
                 </yd-cell-group>
-
+                <yd-cell-group title="客户信息" v-show="showNext && client != null">
+                    <yd-cell-item>
+                        <span slot="left">个人账户：</span>
+                        <span slot="right">￥{{client != null ? client.balances : ""}}</span>
+                    </yd-cell-item>
+                    <yd-cell-item v-show="isShowCompanyAccount()">
+                        <span slot="left">{{strCompanyName()}}账户：</span>
+                        <span slot="right">￥{{strCompanyBalances()}}</span>
+                    </yd-cell-item>
+                </yd-cell-group>
                 <yd-cell-group title="请选择" v-show="showNext">
                     <yd-cell-item>
                         <yd-radio-group slot="left" v-model="radio2">
@@ -34,6 +43,10 @@
                         <span slot="left">计划数量：</span>
                         <yd-input slot="right" v-model="model.count" regex="" placeholder="请输入加油数量"></yd-input>
                         <span slot="right" style="width:70px">单位：{{model.unit}}</span>
+                    </yd-cell-item>
+
+                    <yd-cell-item>
+                        <span slot="right" style="font-weight: bold">总计：￥{{model.price * model.count}}</span>
                     </yd-cell-item>
 
                     <!--<yd-cell-item>
@@ -65,7 +78,6 @@
                     <yd-cell-item v-show="model.isInvoice">
                         <span slot="left">开票单位：</span>
                         <yd-input slot="right" v-model="model.billingCompany" regex="" placeholder="请输入开票单位"></yd-input>
-                        <span slot="right" style="width: 1.2rem"><yd-button type="warning" @click.native="getClients">导入</yd-button></span>
                     </yd-cell-item>
                     <yd-cell-item v-show="model.isInvoice">
                         <span slot="left">单价：</span>

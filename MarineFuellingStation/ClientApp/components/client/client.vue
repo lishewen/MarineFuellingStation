@@ -106,6 +106,9 @@
             </yd-tab-panel>
             <yd-tab-panel label="公司列表">
                 <yd-cell-group>
+                    <div style="text-align: center;">
+                        <yd-button type="primary" @click.native="switchaddcompany" style="width: 90%; margin: .2rem 0">添加公司</yd-button>
+                    </div>
                     <weui-search v-model="svCompany" />
                     <yd-cell-item arrow v-for="co in companys" :key="co.id">
                         <div slot="left">
@@ -154,7 +157,7 @@
             <yd-cell-group title="必填">
                 <yd-cell-item>
                     <span slot="left">名称：</span>
-                    <yd-input slot="right" v-model="modelCompany.name" regex="" placeholder="请输入"></yd-input>
+                    <yd-input slot="right" v-model="modelCompany.name" required placeholder="请输入"></yd-input>
                 </yd-cell-item>
             </yd-cell-group>
             <yd-cell-group title="选填">
@@ -192,7 +195,7 @@
                 </yd-cell-item>
             </yd-cell-group>
             <div style="text-align: center">
-                <yd-button style="width:100px" type="primary" @click.native="addcompanyclick">提交</yd-button>
+                <yd-button style="width:80%" type="primary" @click.native="addcompanyclick">提交</yd-button>
             </div>
         </yd-popup>
         <!--popup公司选择列表-->

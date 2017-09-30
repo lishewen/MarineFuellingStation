@@ -18,7 +18,7 @@ export default class PlanComponent extends ComponentBase {
     oilshow: boolean = false;
     showNext: boolean = false;
     oiloptions: ydui.actionSheetItem[];
-    clients: server.client[];
+    client: server.client;
     sv: string = "";
     page: number;
     scrollRef: any;
@@ -49,10 +49,15 @@ export default class PlanComponent extends ComponentBase {
 
         this.oildate = this.formatDate(this.model.oilDate);
 
+        this.client = new Object() as server.client;
+        this.client.company = new Object() as server.company;
+        this.client.company.name = "";
+        this.client.company.ticketType = -1;
+        
         this.username = this.$store.state.username;
         this.getSalesPlanNo();
         this.getOilProducts();
-
+        
         this.$dialog.loading.close();
     }
 
@@ -121,8 +126,40 @@ export default class PlanComponent extends ComponentBase {
         });
     }
 
+    isShowCompanyAccount() {
+        //避免调试出错，只能这样写
+        if (this.client != null)
+            if (this.client.clientType == server.clientType.公司)
+                return true;
+        else
+            return false;
+    }
+
+    strCompanyName() {
+        //避免调试出错，只能这样写
+        if (this.client != null){
+            if (this.client.company != null)
+                return this.client.company.name
+        }
+        else
+            return ""
+
+    }
+
+    strCompanyBalances() {
+        //避免调试出错，只能这样写
+        if (this.client != null) {
+            if (this.client.company != null)
+                return this.client.company.balances
+        }
+        else
+            return 0
+
+    }
+
     goNext() {
         this.showNext = true;
+        this.getClient();
     }
 
     buttonclick() {
@@ -200,22 +237,20 @@ export default class PlanComponent extends ComponentBase {
             });
     }
 
-    getClients() {
+    getClient() {
         let carNo = this.model.carNo;
         if (carNo == "" || carNo == null) {
             this.toastError("请输入船号或车号");
             return;
         }
-        axios.get('/api/Client/' + carNo).then((res) => {
-            let jobj = res.data as server.resultJSON<server.client[]>;
+        axios.get('/api/client/GetClientByCarNo?carno=' + carNo).then((res) => {
+            let jobj = res.data as server.resultJSON<server.client>;
             if (jobj.code == 0) {
-                this.clients = jobj.data;
-                if (this.clients.length > 0) {
-                    this.model.billingCompany = this.clients[0].company.name;
-                    this.model.ticketType = this.clients[0].company.ticketType;
+                this.client = jobj.data;
+                if (jobj.data != null) {
+                    this.model.billingCompany = this.client.company != null ? this.client.company.name : "";
+                    this.model.ticketType = this.client.company != null ? this.client.company.ticketType : -1;
                 }
-                else
-                    this.toastError('没有找到' + carNo + '相关数据，请手动输入');
             }
         });
     }
@@ -250,9 +285,11 @@ export default class PlanComponent extends ComponentBase {
     }
 
     postSalesPlan(model: server.salesPlan) {
+        this.isPrevent = true;
         axios.post('/api/SalesPlan', model).then((res) => {
             let jobj = res.data as server.resultJSON<server.salesPlan>;
             if (jobj.code == 0) {
+                this.isPrevent = false;//释放提交按钮状态，避免重复提交
                 this.getSalesPlanNo();
                 this.toastSuccess(jobj.msg);
                 this.showNext = false;

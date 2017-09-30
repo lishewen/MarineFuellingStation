@@ -207,9 +207,11 @@ export default class ClientComponent extends ComponentBase {
 
     //提交新增公司
     addcompanyclick() {
-        if (this.modelCompany.name == '') {
-            this.toastError("名称不能为空")
+        if (this.modelCompany.name == '' || this.modelCompany.name == null) {
+            this.toastError("名称不能为空");
+            return;
         }
+        
         this.postCompany(this.modelCompany);
     }
     //提交新增客户

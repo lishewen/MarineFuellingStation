@@ -25,6 +25,15 @@ namespace MFS.Repositorys
         {
             return _dbContext.Clients.Include("Company").Include("Product").FirstOrDefault(c => c.Id == id);
         }
+        /// <summary>
+        /// 根据车号/船号获得客户
+        /// </summary>
+        /// <param name="carNo"></param>
+        /// <returns></returns>
+        public Client GetByCarNo(string carNo)
+        {
+            return _dbContext.Clients.Include("Company").FirstOrDefault(c => c.CarNo == carNo);
+        }
         public List<Client> GetMyClients(ClientType ctype, int ptype, int balances, int cycle, string kw, bool isMy)
         {
             List<Client> list;

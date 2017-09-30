@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace MFS.Controllers
 {
@@ -34,6 +35,20 @@ namespace MFS.Controllers
             {
                 Code = 0,
                 Data = r.GetDetail(id)
+            };
+        }
+        /// <summary>
+        /// 根据车号/船号获得客户
+        /// </summary>
+        /// <param name="carNo"></param>
+        /// <returns></returns>
+        [HttpGet("[action]")]
+        public ResultJSON<Client> GetClientByCarNo(string carNo)
+        {
+            return new ResultJSON<Client>
+            {
+                Code = 0,
+                Data = r.GetByCarNo(carNo)
             };
         }
         [HttpGet]

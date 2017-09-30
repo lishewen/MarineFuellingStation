@@ -24,17 +24,20 @@ export default class PurchaseDetailComponent extends ComponentBase {
             from = '/purchase/purchase'
         else if (from == 'board')
             from = '/produce/buyboard'
-        this.getPurchase(id, () => {
+        this.getPurchase(id, from, () => {
             //设置返回键的连接
             this.$emit('setTitle', this.model.name + ' 采购单明细', from);
         });
     }
     
-    getPurchase(id: string, callback: Function) {
+    getPurchase(id: string, from: string, callback: Function) {
         axios.get('/api/Purchase/GetDetail/' + id).then((res) => {
             let jobj = res.data as server.resultJSON<server.purchase>;
             if (jobj.code == 0) {
                 this.model = jobj.data;
+                //应客户要求不让生产部看到采购单价
+                if (from == '/produce/buyboard')
+                    this.model.price = 0;
                 callback();
             }
         });

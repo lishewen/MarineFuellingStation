@@ -19,7 +19,7 @@ export default class AuditingComponent extends ComponentBase {
     page: number;
     scrollRef: any;
     pSize: number = 30;
-    
+
     constructor() {
         super();
 
@@ -42,7 +42,7 @@ export default class AuditingComponent extends ComponentBase {
             this.filterCType[this.actBtnId].actived = false;
             this.actBtnId = idx;
 
-            this.state = o.value;
+            this.state = o.value as server.salesPlanState;
             this.page = 1;
             this.getSalesPlans();
         }
@@ -108,19 +108,19 @@ export default class AuditingComponent extends ComponentBase {
         axios.get('/api/SalesPlan/GetByState?'
             + 'page=' + this.page
             + '&pageSize=' + this.pSize
-            +'&sps=' + this.state).then((res) => {
-            let jobj = res.data as server.resultJSON<server.salesPlan[]>;
-            if (jobj.code == 0) {
-                if (callback) {
-                    callback(jobj.data);
+            + '&sps=' + this.state).then((res) => {
+                let jobj = res.data as server.resultJSON<server.salesPlan[]>;
+                if (jobj.code == 0) {
+                    if (callback) {
+                        callback(jobj.data);
+                    }
+                    else {
+                        this.plans = jobj.data;
+                        console.log(this.plans);
+                        this.page++;
+                    }
                 }
-                else {
-                    this.plans = jobj.data;
-                    console.log(this.plans);
-                    this.page++;
-                }
-            }
-        });
+            });
     }
 
     putAuditingOK(s: server.salesPlan) {
@@ -132,6 +132,6 @@ export default class AuditingComponent extends ComponentBase {
                 this.page = 1;
                 this.getSalesPlans();
             }
-       }); 
+        });
     }
 }

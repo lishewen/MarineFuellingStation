@@ -98,20 +98,21 @@ export default class MoveStoreComponent extends ComponentBase {
     validate() {
         if (!this.model.outStoreId) {
             this.toastError("请指定转出仓")
-            return;
+            return false;
         }
         if (!this.model.inStoreId) {
             this.toastError("请指定转入仓")
-            return;
+            return false;
         }
         if (this.model.outStoreId == this.model.inStoreId) {
             this.toastError("转出仓和转入仓不能相同")
-            return;
+            return false;
         }
         //if (!this.model.manufacturer) {
         //    this.toastError("请指定生产员")
         //    return;
         //}
+        return true;
         
     }
 
@@ -173,9 +174,9 @@ export default class MoveStoreComponent extends ComponentBase {
     }
 
     postMoveStore(model: server.moveStore) {
-
         model.inStoreId = this.selectedInStore;
         model.outStoreId = <number>this.selectedOutStore;
+        if (!this.validate()) return;
         axios.post('/api/MoveStore', model).then((res) => {
             let jobj = res.data as server.resultJSON<server.moveStore>;
             if (jobj.code == 0) {

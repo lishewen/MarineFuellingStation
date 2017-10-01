@@ -77,6 +77,14 @@ export default class AssayComponent extends ComponentBase {
 
     buttonclick() {
         //信息验证
+        if (this.model.assayType == server.assayType.油舱化验)
+            if (this.selectedStore == null || this.selectedStore == '') {
+                this.toastError("请选择油仓")
+            }
+        if (this.model.assayType == server.assayType.采购化验)
+            if (this.selectedPurchase == null || this.selectedPurchase == '') {
+                this.toastError
+            }
         this.postAssay(this.model);
     }
 

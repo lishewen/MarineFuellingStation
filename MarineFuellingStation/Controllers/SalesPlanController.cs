@@ -91,6 +91,22 @@ namespace MFS.Controllers
                 Data = r.LoadPageList(page, pageSize, out int rCount, true).OrderByDescending(s => s.Id).ToList()
             };
         }
+        /// <summary>
+        /// 根据状态分页显示数据
+        /// </summary>
+        /// <param name="page">第N页</param>
+        /// <param name="pageSize">页记录数</param>
+        /// <param name="sps">State状态</param>
+        /// <returns></returns>
+        [HttpGet("[action]")]
+        public ResultJSON<List<SalesPlan>> GetByState(int page, int pageSize, SalesPlanState sps)
+        {
+            return new ResultJSON<List<SalesPlan>>
+            {
+                Code = 0,
+                Data = r.LoadPageList(page, pageSize, out int rCount, true, s => s.State == sps).OrderByDescending(s => s.Id).ToList()
+            };
+        }
         [HttpGet("[action]/{id}")]
         public ResultJSON<SalesPlan> GetDetail(int id)
         {
@@ -116,6 +132,21 @@ namespace MFS.Controllers
             {
                 Code = 0,
                 Data = r.GetAllList(s => s.CarNo.Contains(sv))
+            };
+        }
+        /// <summary>
+        /// 审核计划 设置状态State为已审核
+        /// </summary>
+        /// <param name="sp">model</param>
+        /// <returns></returns>
+        [HttpPut("[action]")]
+        public ResultJSON<SalesPlan> AuditingOK([FromBody]SalesPlan sp)
+        {
+            sp.State = SalesPlanState.已审批;
+            return new ResultJSON<SalesPlan>
+            {
+                Code = 0,
+                Data = r.Update(sp)
             };
         }
     }

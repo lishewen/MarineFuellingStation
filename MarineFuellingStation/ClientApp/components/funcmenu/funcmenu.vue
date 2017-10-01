@@ -16,6 +16,9 @@
             <yd-grids-item link="./sales/boatclean" style="background-color:lightcyan">
                 <p slot="text">船舶清污开单</p>
             </yd-grids-item>
+            <yd-grids-item link="./sales/auditing" style="background-color:lightcyan">
+                <p slot="text">审核</p>
+            </yd-grids-item>
         </yd-grids-group>
         <yd-grids-group :rows="3" title="生产管理">
             <yd-grids-item link="./produce/buyboard" style="background-color:lightcyan">

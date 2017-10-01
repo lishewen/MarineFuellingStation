@@ -67,6 +67,7 @@ export default class ClientComponent extends ComponentBase {
         this.getCompanys('');
         this.getSales();
         
+        
         this.filterCType = [
             { id: 0, name: '全部', value: server.clientType.全部, actived: true },
             { id: 1, name: '个人', value: server.clientType.个人, actived: false },

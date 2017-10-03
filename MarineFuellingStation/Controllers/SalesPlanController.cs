@@ -29,6 +29,7 @@ namespace MFS.Controllers
             //获取 销售计划 企业微信应用的AccessToken
             this.option = option.Value;
             this.option.销售计划AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.销售计划Secret);
+            this.option.审核AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.审核Secret);
         }
 
         [HttpGet("SalesPlanNo")]
@@ -56,10 +57,18 @@ namespace MFS.Controllers
             //推送企业微信卡片消息（最多5行，128个字符）
             MassApi.SendTextCard(option.销售计划AccessToken, option.销售计划AgentId, "制定销售计划成功"
                      , $"<div class=\"gray\">单号：{result.Name}</div>" +
-                     $"<div class=\"normal\">制定人：{UserName}</div>" +
+                     $"<div class=\"normal\">开单人：{UserName}</div>" +
                      $"<div class=\"normal\">船号/车号：{result.CarNo}</div>" +
                      $"<div class=\"normal\">油品：{result.OilName}</div>"
                      , $"http://vue.car0774.com/#/sales/plan/{result.Id}/plan", toUser: "@all");
+
+            //推送到“审核”
+            MassApi.SendTextCard(option.审核AccessToken, option.审核AgentId, "已开单，待审核"
+                     , $"<div class=\"gray\">单号：{result.Name}</div>" +
+                     $"<div class=\"normal\">开单人：{UserName}</div>" +
+                     $"<div class=\"normal\">船号/车号：{result.CarNo}</div>" +
+                     $"<div class=\"normal\">油品：{result.OilName}</div>"
+                     , $"http://vue.car0774.com/#/sales/auditing", toUser: "@all");
 
             return new ResultJSON<SalesPlan>
             {

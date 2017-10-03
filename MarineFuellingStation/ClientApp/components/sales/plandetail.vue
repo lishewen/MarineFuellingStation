@@ -41,11 +41,7 @@
             </yd-cell-item>
         </yd-cell-group>
 
-        <yd-cell-group title="选填">
-            <yd-cell-item>
-                <span slot="left"></span>
-                <span slot="right">{{getIsInvoice(model.isInvoice)}}</span>
-            </yd-cell-item>
+        <yd-cell-group title="开票信息" v-show="model.isInvoice">
             <yd-cell-item>
                 <span slot="left">开票单位：</span>
                 <span slot="right">{{model.billingCompany}}</span>

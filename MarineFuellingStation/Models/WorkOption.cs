@@ -16,5 +16,29 @@ namespace MFS.Models
         public string 销售计划AgentId { get; set; }
         public string 销售计划Secret { get; set; }
         public string 销售计划AccessToken { get; set; }
+        public string 销售单AgentId { get; set; }
+        public string 销售单Secret { get; set; }
+        public string 销售单AccessToken { get; set; }
+        public string 审核AgentId { get; set; }
+        public string 审核Secret { get; set; }
+        public string 审核AccessToken { get; set; }
+        public string 水上加油AgentId { get; set; }
+        public string 水上加油Secret { get; set; }
+        public string 水上加油AccessToken { get; set; }
+        public string 采购看板AgentId { get; set; }
+        public string 采购看板Secret { get; set; }
+        public string 采购看板AccessToken { get; set; }
+        public string 陆上加油AgentId { get; set; }
+        public string 陆上加油Secret { get; set; }
+        public string 陆上加油AccessToken { get; set; }
+        public string 陆上卸油AgentId { get; set; }
+        public string 陆上卸油Secret { get; set; }
+        public string 陆上卸油AccessToken { get; set; }
+        public string 收银AgentId { get; set; }
+        public string 收银Secret { get; set; }
+        public string 收银AccessToken { get; set; }
+        public string 采购计划AgentId { get; set; }
+        public string 采购计划Secret { get; set; }
+        public string 采购计划AccessToken { get; set; }
     }
 }

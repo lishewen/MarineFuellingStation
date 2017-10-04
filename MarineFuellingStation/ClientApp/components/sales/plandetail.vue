@@ -29,23 +29,19 @@
                 <span slot="right">{{model.count}}</span>
                 <span slot="right" style="width:70px">单位：{{model.unit}}</span>
             </yd-cell-item>
-
-            <yd-cell-item>
+            <!--应客户要求暂时取消当前余油-->
+            <!--<yd-cell-item>
                 <span slot="left">当前余油：</span>
                 <span slot="right">{{model.remainder}}</span>
                 <span slot="right" style="width:70px">单位：{{model.unit}}</span>
-            </yd-cell-item>
+            </yd-cell-item>-->
             <yd-cell-item>
                 <span slot="left">加油时间：</span>
                 <span slot="right">{{formatDate(model.oilDate)}}</span>
             </yd-cell-item>
         </yd-cell-group>
 
-        <yd-cell-group title="选填">
-            <yd-cell-item>
-                <span slot="left"></span>
-                <span slot="right">{{getIsInvoice(model.isInvoice)}}</span>
-            </yd-cell-item>
+        <yd-cell-group title="开票信息" v-show="model.isInvoice">
             <yd-cell-item>
                 <span slot="left">开票单位：</span>
                 <span slot="right">{{model.billingCompany}}</span>

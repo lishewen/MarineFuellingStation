@@ -22,6 +22,10 @@ export default class PlanDetailComponent extends ComponentBase {
                 break;
             case "board"://计划看板
                 from = '/produce/planboard'
+                break;
+            case "auditing": //计划审核
+                from = '/sales/auditing'
+                break;
         }
         this.getSalesPlan(id, () => {
             //设置返回键的连接

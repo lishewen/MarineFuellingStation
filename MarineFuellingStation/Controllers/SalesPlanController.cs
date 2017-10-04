@@ -29,6 +29,7 @@ namespace MFS.Controllers
             //获取 销售计划 企业微信应用的AccessToken
             this.option = option.Value;
             this.option.销售计划AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.销售计划Secret);
+            this.option.审核AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.审核Secret);
         }
 
         [HttpGet("SalesPlanNo")]
@@ -56,10 +57,18 @@ namespace MFS.Controllers
             //推送企业微信卡片消息（最多5行，128个字符）
             MassApi.SendTextCard(option.销售计划AccessToken, option.销售计划AgentId, "制定销售计划成功"
                      , $"<div class=\"gray\">单号：{result.Name}</div>" +
-                     $"<div class=\"normal\">制定人：{UserName}</div>" +
+                     $"<div class=\"normal\">开单人：{UserName}</div>" +
                      $"<div class=\"normal\">船号/车号：{result.CarNo}</div>" +
                      $"<div class=\"normal\">油品：{result.OilName}</div>"
                      , $"http://vue.car0774.com/#/sales/plan/{result.Id}/plan", toUser: "@all");
+
+            //推送到“审核”
+            MassApi.SendTextCard(option.审核AccessToken, option.审核AgentId, "已开单，待审核"
+                     , $"<div class=\"gray\">单号：{result.Name}</div>" +
+                     $"<div class=\"normal\">开单人：{UserName}</div>" +
+                     $"<div class=\"normal\">船号/车号：{result.CarNo}</div>" +
+                     $"<div class=\"normal\">油品：{result.OilName}</div>"
+                     , $"http://vue.car0774.com/#/sales/auditing", toUser: "@all");
 
             return new ResultJSON<SalesPlan>
             {
@@ -91,6 +100,22 @@ namespace MFS.Controllers
                 Data = r.LoadPageList(page, pageSize, out int rCount, true).OrderByDescending(s => s.Id).ToList()
             };
         }
+        /// <summary>
+        /// 根据状态分页显示数据
+        /// </summary>
+        /// <param name="page">第N页</param>
+        /// <param name="pageSize">页记录数</param>
+        /// <param name="sps">State状态</param>
+        /// <returns></returns>
+        [HttpGet("[action]")]
+        public ResultJSON<List<SalesPlan>> GetByState(int page, int pageSize, SalesPlanState sps)
+        {
+            return new ResultJSON<List<SalesPlan>>
+            {
+                Code = 0,
+                Data = r.LoadPageList(page, pageSize, out int rCount, true, s => s.State == sps).OrderByDescending(s => s.Id).ToList()
+            };
+        }
         [HttpGet("[action]/{id}")]
         public ResultJSON<SalesPlan> GetDetail(int id)
         {
@@ -116,6 +141,21 @@ namespace MFS.Controllers
             {
                 Code = 0,
                 Data = r.GetAllList(s => s.CarNo.Contains(sv))
+            };
+        }
+        /// <summary>
+        /// 审核计划 设置状态State为已审核
+        /// </summary>
+        /// <param name="sp">model</param>
+        /// <returns></returns>
+        [HttpPut("[action]")]
+        public ResultJSON<SalesPlan> AuditingOK([FromBody]SalesPlan sp)
+        {
+            sp.State = SalesPlanState.已审批;
+            return new ResultJSON<SalesPlan>
+            {
+                Code = 0,
+                Data = r.Update(sp)
             };
         }
     }

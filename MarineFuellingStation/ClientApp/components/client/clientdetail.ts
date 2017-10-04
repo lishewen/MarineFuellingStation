@@ -36,7 +36,7 @@ export default class MyClientDetailComponent extends ComponentBase {
         this.getSales();
         this.getCompanys('');
     }
-    
+
     mounted() {
         let id = this.$route.params.id;
         this.getClient(id, () => {
@@ -103,7 +103,7 @@ export default class MyClientDetailComponent extends ComponentBase {
     }
 
     selectcompanyclick(company: server.company) {
-        this.model.company = new Array<server.company>();
+        this.model.company = new Object as server.company;
         this.model.company.name = company.name;
         this.model.companyId = company.id;
         this.showcompany = false;

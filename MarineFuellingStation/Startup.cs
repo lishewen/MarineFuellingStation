@@ -63,6 +63,7 @@ namespace MFS
             services.AddScoped<UserRepository>();
             services.AddScoped<WageRepository>();
             services.AddScoped<ChargeLogRepository>();
+            services.AddScoped<NoticeRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

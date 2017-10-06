@@ -74,6 +74,10 @@ namespace MFS.Models
         /// 充值记录表
         /// </summary>
         public DbSet<ChargeLog> ChargeLogs { get; set; }
+        /// <summary>
+        /// 通知
+        /// </summary>
+        public DbSet<Notice> Notices { get; set; }
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {
             OnBeforeSaving();

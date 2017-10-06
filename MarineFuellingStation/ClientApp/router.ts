@@ -45,6 +45,8 @@ const routes: VueRouter.RouteConfig[] = [
     { path: '/report', component: require('./components/report/report.vue') },
     { path: '/wages', component: require('./components/report/wages.vue') },
 
+    { path: '/notice', component: require('./components/notice/notice.vue') },
+
     { path: '/funcmenu', component: require('./components/funcmenu/funcmenu.vue') },
     { path: '/', component: require('./components/home/home.vue') },
     { path: '/counter', component: require('./components/counter/counter.vue') },

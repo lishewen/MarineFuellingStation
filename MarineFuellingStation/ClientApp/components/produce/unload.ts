@@ -13,6 +13,7 @@ export default class UnloadComponent extends ComponentBase {
     isPrevent1: boolean = true;
     store: server.store;
     stores: server.store[];
+    notice: server.notice;
 
     purchases: server.purchase[];
     purchase: server.purchase;
@@ -24,8 +25,10 @@ export default class UnloadComponent extends ComponentBase {
         this.purchase = new Object as server.purchase;
         this.store = new Object as server.store;
         this.stores = new Array<server.store>();
+        this.notice = new Array<server.notice>();
         this.getPurchases();
         this.getStores();
+        this.getNotice();
     }
 
     purchaseclick(pu: server.purchase) {
@@ -184,6 +187,18 @@ export default class UnloadComponent extends ComponentBase {
             let jobj = res.data as server.resultJSON<server.store[]>;
             if (jobj.code == 0)
                 this.stores = jobj.data;
+        });
+    }
+
+    getNotice() {
+        //获取该应用的通知信息
+        axios.get('/api/Notice/GetByAppName?app=陆上卸油').then((res) => {
+            let jobj = res.data as server.resultJSON<server.notice>;
+            if (jobj.code == 0) {
+                this.notice = jobj.data;
+                if (jobj.data)
+                    this.$dialog.alert({ mes: jobj.data.content });
+            }
         });
     }
 

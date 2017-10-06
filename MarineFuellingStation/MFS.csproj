@@ -49,6 +49,9 @@
     <None Update="Helper\FileHelper.cs.d.ts">
       <DependentUpon>FileHelper.cs</DependentUpon>
     </None>
+    <None Update="Migrations\20171006050810_Notice.cs.d.ts">
+      <DependentUpon>20171006050810_Notice.cs</DependentUpon>
+    </None>
     <None Update="Models\Assay.cs.d.ts">
       <DependentUpon>Assay.cs</DependentUpon>
     </None>

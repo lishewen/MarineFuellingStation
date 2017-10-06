@@ -25,7 +25,7 @@ export default class UnloadComponent extends ComponentBase {
         this.purchase = new Object as server.purchase;
         this.store = new Object as server.store;
         this.stores = new Array<server.store>();
-        this.notice = new Array<server.notice>();
+        this.notice = new Object as server.notice;
         this.getPurchases();
         this.getStores();
         this.getNotice();
@@ -71,7 +71,7 @@ export default class UnloadComponent extends ComponentBase {
     }
 
     strClass(sc: server.storeClass) {
-        if (sc == server.storeClass.存储仓) 
+        if (sc == server.storeClass.存储仓)
             return "存储仓"
         else
             return "销售仓"

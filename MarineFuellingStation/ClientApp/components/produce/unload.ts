@@ -107,7 +107,7 @@ export default class UnloadComponent extends ComponentBase {
     }
 
     strClass(sc: server.storeClass) {
-        if (sc == server.storeClass.存储仓) 
+        if (sc == server.storeClass.存储仓)
             return "存储仓"
         else
             return "销售仓"

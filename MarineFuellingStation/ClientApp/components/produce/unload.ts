@@ -35,7 +35,7 @@ export default class UnloadComponent extends ComponentBase {
         this.toStoreCounts = new Array<number>();
         this.selectedStIds = new Array<number>();
         this.instruments = new Array<string>();
-        this.notice = new Array<server.notice>();
+        this.notice = new Object as server.notice;
         this.getPurchases();
         this.getLastPurchase();
         this.getStores();
@@ -88,7 +88,7 @@ export default class UnloadComponent extends ComponentBase {
         //把所选的油仓的Id和Name复制到toStores
         this.selectedStIds.forEach((sst, i) => {
             this.stores.forEach((st, j) => {
-                if (sst == st.id) 
+                if (sst == st.id)
                     this.toStores.push({ id: st.id, name: st.name });
             });
         });
@@ -97,7 +97,7 @@ export default class UnloadComponent extends ComponentBase {
 
         this.showStores = false;
     }
-    
+
     toStoresOKclick() {
         this.goNext();
     }
@@ -137,18 +137,18 @@ export default class UnloadComponent extends ComponentBase {
                 this.toStores.forEach((tst, idx) => {
                     switch (this.instruments[idx]) {
                         case "表1":
-                            if (this.purchase.instrument1 <= 0) { this.toastError("请填写表数1"); isValid = false; return;};
-                            if (this.purchase.instrument1 < this.lastPurchase.instrument1) { this.toastError("卸油后表数1应大于或等于卸油前表数1"); isValid = false; return;};
+                            if (this.purchase.instrument1 <= 0) { this.toastError("请填写表数1"); isValid = false; return; };
+                            if (this.purchase.instrument1 < this.lastPurchase.instrument1) { this.toastError("卸油后表数1应大于或等于卸油前表数1"); isValid = false; return; };
                             tst.count = this.purchase.instrument1 - this.lastPurchase.instrument1;
                             break;
                         case "表2":
                             if (this.purchase.instrument2 <= 0) { this.toastError("请填写表数2"); isValid = false; };
-                            if (this.purchase.instrument2 < this.lastPurchase.instrument2) { this.toastError("卸油后表数2应大于或等于卸油前表数2"); isValid = false; return;};
+                            if (this.purchase.instrument2 < this.lastPurchase.instrument2) { this.toastError("卸油后表数2应大于或等于卸油前表数2"); isValid = false; return; };
                             tst.count = this.purchase.instrument2 - this.lastPurchase.instrument2;
                             break;
                         case "表3":
                             if (this.purchase.instrument3 <= 0) { this.toastError("请填写表数3"); isValid = false; };
-                            if (this.purchase.instrument3 < this.lastPurchase.instrument3) { this.toastError("卸油后表数3应大于或等于卸油前表数3"); isValid = false; return;};
+                            if (this.purchase.instrument3 < this.lastPurchase.instrument3) { this.toastError("卸油后表数3应大于或等于卸油前表数3"); isValid = false; return; };
                             tst.count = this.purchase.instrument3 - this.lastPurchase.instrument3;
                             break;
                     }

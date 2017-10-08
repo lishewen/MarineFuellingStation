@@ -100,7 +100,7 @@ export default class AssayComponent extends ComponentBase {
             if (jobj.code == 0) {
                 this.model.name = jobj.data;
                 this.isPrevent = false;
-            }  
+            }
         });
     }
 
@@ -115,7 +115,7 @@ export default class AssayComponent extends ComponentBase {
     getPurchase(n: number) {
         axios.get('/api/Purchase/GetTopN/' + n.toString()).then((res) => {
             let jobj = res.data as server.resultJSON<server.purchase[]>;
-            if (jobj.code == 0){
+            if (jobj.code == 0) {
                 this.purchases = jobj.data;
             }
         });

@@ -75,14 +75,14 @@ export default class UnloadComponent extends ComponentBase {
 
     storeclick(st: server.store) {
         this.store = st;
-        this.purchase.store = st;
+        //this.purchase.store = st;
         this.showStores = false;
         this.goNext();
         console.log(this.store);
     }
 
     storeOKclick() {
-        this.toStores = new Array<number>();
+        this.toStores = new Array<server.toStore>();
         //console.log(this.selectedStIds);
 
         //把所选的油仓的Id和Name复制到toStores

@@ -1,23 +1,23 @@
 declare module server {
 	/** 化验单 */
 	interface assay extends entityBase {
-        assayType: assayType;
+		assayType: assayType;
 		storeId?: number;
-        /** 化验油仓 */
-        store: store;
+		/** 化验油仓 */
+		store: store;
 		purchaseId?: number;
-        /** 采购来源 */
-        purchase: purchase;
-		视密: number;
-		标密: number;
+		/** 采购来源 */
+		purchase: purchase;
+		视密: number | string;
+		标密: number | string;
 		闭口闪点: string;
 		/** 油温 */
 		temperature: number;
 		/** 味道 */
-        smellType: smellType;
+		smellType: smellType;
 		混水反应: string;
 		十六烷值: string;
-		初硫: number;
+		初硫: number | string;
 		/** 10% */
 		percentage10: number;
 		/** 50% */

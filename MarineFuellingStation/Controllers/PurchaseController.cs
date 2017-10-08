@@ -77,6 +77,19 @@ namespace MFS.Controllers
                 Data = r.GetSerialNumber(r.GetLastPurchaseNo())
             };
         }
+        /// <summary>
+        /// 获得最近生成的采购单
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("[action]")]
+        public ResultJSON<Purchase> LastPurchase()
+        {
+            return new ResultJSON<Purchase>
+            {
+                Code = 0,
+                Data = r.GetAllList().OrderByDescending(p => p.Id).FirstOrDefault()
+            };
+        }
         [HttpPut("[action]")]
         public ResultJSON<Purchase> ChangeState([FromBody]Purchase p)
         {
@@ -84,7 +97,7 @@ namespace MFS.Controllers
             return new ResultJSON<Purchase>
             {
                 Code = 0,
-                Data = r.Update(p)
+                Data = r.ChangeState(p)
             };
         }
         [HttpPost("[action]")]

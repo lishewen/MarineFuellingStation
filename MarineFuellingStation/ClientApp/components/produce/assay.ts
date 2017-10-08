@@ -145,6 +145,9 @@ export default class AssayComponent extends ComponentBase {
     postAssay(model: server.assay) {
         model.storeId = this.selectedStore as number;
         model.purchaseId = this.selectedPurchase as number;
+        if (model.初硫 == null || model.初硫 == '') { this.toastError("请输入初硫"); return; };
+        if (model.视密 == null || model.视密 == '') { this.toastError("请输入视密"); return; };
+        if (model.标密 == null || model.标密 == '') { this.toastError("请输入标密"); return; };
         axios.post('/api/Assay', model).then((res) => {
             let jobj = res.data as server.resultJSON<server.assay>;
             if (jobj.code == 0) {

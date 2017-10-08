@@ -36,9 +36,8 @@ namespace MFS.Models
         public string Driver2 { get; set; }
         public string IdCard2 { get; set; }
         public string Phone2 { get; set; }
-        public int? StoreId { get; set; }
-        [ForeignKey("StoreId")]
-        public Store Store { get; set; }
+        [NotMapped]
+        public List<ToStoreModel> ToStores { get; set; }
 
         ///陆上卸油用到的字段
         ///
@@ -81,6 +80,7 @@ namespace MFS.Models
         /// <summary>
         /// 化验单
         /// </summary>
+        public int? AssayId { get; set; }
         [ForeignKey("AssayId")]
         public virtual Assay Assay { get; set; }
 
@@ -110,5 +110,15 @@ namespace MFS.Models
                 return Price * Count;
             }
         }
+    }
+    /// <summary>
+    /// 选择多个卸油仓卸油用到的Model
+    /// </summary>
+    [NotMapped]
+    public class ToStoreModel
+    {
+        public int Id { get; set; }
+        public decimal Count { get; set; }
+        public string Name { get; set; }
     }
 }

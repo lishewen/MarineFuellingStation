@@ -10,13 +10,13 @@
         </div>
         <yd-step :current="currStep" style="margin: .4rem 0 .4rem">
             <yd-step-item>
-                <span slot="bottom">选择油仓</span>
-            </yd-step-item>
-            <yd-step-item>
                 <span slot="bottom">油车过磅</span>
             </yd-step-item>
             <yd-step-item>
                 <span slot="bottom">化验</span>
+            </yd-step-item>
+            <yd-step-item>
+                <span slot="bottom">选择油仓</span>
             </yd-step-item>
             <yd-step-item>
                 <span slot="bottom">卸油</span>
@@ -28,10 +28,7 @@
                 <span slot="bottom">完工</span>
             </yd-step-item>
         </yd-step>
-        <div class="center" v-show="currStep == 1">
-            <yd-button style="width:90%" type="primary" @click.native="showStores = true">选择油仓</yd-button>
-        </div>
-        <div v-show="currStep == 2">
+        <div v-show="currStep == 1">
             <yd-cell-group title="油车过磅">
                 <yd-cell-item>
                     <span slot="left">测量密度：</span>
@@ -51,22 +48,54 @@
                 <yd-button style="width:90%" type="primary" @click.native="goNext" :disabled="isPrevent">前往化验</yd-button>
             </div>
         </div>
+        <div class="center" v-show="currStep == 2">
+            <yd-button style="width:90%" type="primary" @click.native="goNext">已化验</yd-button>
+        </div>
         <div class="center" v-show="currStep == 3">
-            <yd-button style="width:90%" type="primary" @click.native="goNext">已化验，前往施工</yd-button>
+            <yd-cell-group title="选择卸油油仓对应油表">
+                <yd-cell-item arrow type="label" v-for="(ts,idx) in toStores" :key="ts.id">
+                    <span slot="left">{{ts.name}}：</span>
+                    <!--<yd-input slot="right" required type="number" v-model="toStoreCounts[idx]"></yd-input>-->
+                    <select slot="right" v-model="instruments[idx]">
+                        <option value="">请选择</option>
+                        <option value="表1">表1 - {{lastPurchase.instrument1}}</option>
+                        <option value="表2">表2 - {{lastPurchase.instrument2}}</option>
+                        <option value="表3">表3 - {{lastPurchase.instrument3}}</option>
+                    </select>
+                </yd-cell-item>
+            </yd-cell-group>
+            <yd-button style="width:90%" type="primary" @click.native="showStores = true">选择油仓</yd-button>
+            <yd-button style="width:90%; margin-top:10px;" type="primary" @click.native="toStoresOKclick">提交，下一步</yd-button>
         </div>
         <div class="center" v-show="currStep == 4">
-            <yd-cell-item>
-                <span slot="left">卸油后表数1：</span>
-                <yd-input slot="right" v-model="purchase.instrument1" type="number" required placeholder="请输入卸油表数1"></yd-input>
-            </yd-cell-item>
-            <yd-cell-item>
-                <span slot="left">卸油后表数2：</span>
-                <yd-input slot="right" v-model="purchase.instrument2" type="number" required placeholder="请输入卸油表数2"></yd-input>
-            </yd-cell-item>
-            <yd-cell-item>
-                <span slot="left">卸油后表数3：</span>
-                <yd-input slot="right" v-model="purchase.instrument3" type="number" required placeholder="请输入卸油表数3"></yd-input>
-            </yd-cell-item>
+            <yd-cell-group title="卸油前表数（上次卸油）">
+                <yd-cell-item v-show="isHas('表1')">
+                    <span slot="left">表数1：</span>
+                    <yd-input slot="right" v-model="lastPurchase.instrument1" type="number" required></yd-input>
+                </yd-cell-item>
+                <yd-cell-item v-show="isHas('表2')">
+                    <span slot="left">表数2：</span>
+                    <yd-input slot="right" v-model="lastPurchase.instrument2" type="number" required></yd-input>
+                </yd-cell-item>
+                <yd-cell-item v-show="isHas('表3')">
+                    <span slot="left">表数3：</span>
+                    <yd-input slot="right" v-model="lastPurchase.instrument3" type="number" required></yd-input>
+                </yd-cell-item>
+            </yd-cell-group>
+            <yd-cell-group title="卸油后表数">
+                <yd-cell-item v-show="isHas('表1')">
+                    <span slot="left">表数1：</span>
+                    <yd-input slot="right" v-model="purchase.instrument1" type="number" required placeholder="请输入卸油表数1"></yd-input>
+                </yd-cell-item>
+                <yd-cell-item v-show="isHas('表2')">
+                    <span slot="left">表数2：</span>
+                    <yd-input slot="right" v-model="purchase.instrument2" type="number" required placeholder="请输入卸油表数2"></yd-input>
+                </yd-cell-item>
+                <yd-cell-item v-show="isHas('表3')">
+                    <span slot="left">表数3：</span>
+                    <yd-input slot="right" v-model="purchase.instrument3" type="number" required placeholder="请输入卸油表数3"></yd-input>
+                </yd-cell-item>
+            </yd-cell-group>
             <yd-button style="width:90%" type="primary" @click.native="goNext">卸油结束，前往过磅</yd-button>
         </div>
         <div v-show="currStep == 5">
@@ -101,7 +130,7 @@
             </yd-cell-group>
         </yd-popup>
         <!--popup油仓选择-->
-        <yd-popup v-model="showStores" position="right" width="70%">
+        <!--<yd-popup v-model="showStores" position="right" width="70%">
             <yd-cell-group title="请选择油仓">
                 <yd-cell-item v-for="s in stores" :key="s.id" @click.native="storeclick(s)">
                     <div slot="left">
@@ -113,6 +142,16 @@
                     </div>
                 </yd-cell-item>
             </yd-cell-group>
+        </yd-popup>-->
+        <yd-popup v-model="showStores" position="right" width="70%">
+            <div style="text-align: center;margin: 10px 0">
+                <yd-button type="primary" style="width: 80%" @click.native="storeOKclick()" :disabled="selectedStIds.length < 1">选好了</yd-button>
+            </div>
+            <yd-checklist align="right" v-model="selectedStIds">
+                <yd-checklist-item v-for="s in stores" :key="s.id" :val="s.id">
+                    <div style="height: 50px;line-height: 50px;">{{s.name}}</div>
+                </yd-checklist-item>
+            </yd-checklist>
         </yd-popup>
     </div>
 </template>

@@ -13,9 +13,11 @@ namespace MFS.Controllers
     public class AssayController : ControllerBase
     {
         private readonly AssayRepository r;
-        public AssayController(AssayRepository repository)
+        private readonly PurchaseRepository pu_r;
+        public AssayController(AssayRepository repository, PurchaseRepository pu_repository)
         {
             r = repository;
+            pu_r = pu_repository;
         }
         [HttpGet("[action]")]
         public ResultJSON<string> AssayNo()
@@ -33,6 +35,13 @@ namespace MFS.Controllers
             a.Assayer = UserName;
             var result = r.Insert(a);
 
+            if (a.PurchaseId.HasValue)
+            {
+                var purchase = pu_r.Get(int.Parse(a.PurchaseId.ToString()));
+                purchase.AssayId = result.Id;
+                pu_r.Update(purchase);
+            }
+            
             return new ResultJSON<Assay>
             {
                 Code = 0,

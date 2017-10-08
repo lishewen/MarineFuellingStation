@@ -18,6 +18,7 @@
             <yd-infinitescroll :callback="loadList" ref="infinitescroll">
                 <yd-cell-item slot="list" v-for="n in notices" :key="n.id" @click.native="" style="padding: 10px 0">
                     <div slot="left" style="padding-left: .2rem">
+                        <p>{{n.name}}</p>
                         <p style="margin-top: .2rem;color: gray">{{n.content}}</p>
                         <p>{{n.createdBy}} {{formatDate(n.createAt)}}</p>
                     </div>

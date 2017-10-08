@@ -66,24 +66,31 @@ namespace MFS.Repositorys
             if(modelWithChanges.State == Purchase.UnloadState.完工)
             {
                 //更新油仓
-                StoreRepository st_r = new StoreRepository(_dbContext);
-                bool isUpdateStore = st_r.UpdateOil(int.Parse(modelWithChanges.StoreId.ToString()), modelWithChanges.Count, true);
-                //更新平均单价
-                bool isUpdateAvgPrice = st_r.UpdateAvgPrice(int.Parse(modelWithChanges.StoreId.ToString()),modelWithChanges.Price);
-                if (isUpdateStore && isUpdateAvgPrice)
+                StoreRepository st_r;
+                InAndOutLogRepository io_r;
+                st_r = new StoreRepository(_dbContext);
+                foreach(ToStoreModel ts in modelWithChanges.ToStores)
                 {
-                    //增加入仓记录
-                    InAndOutLogRepository io_r = new InAndOutLogRepository(_dbContext);
-                    io_r.Insert(new InAndOutLog
+                    //更新平均单价
+                    bool isUpdateAvgPrice = st_r.UpdateAvgPrice(ts.Id, modelWithChanges.Price, ts.Count);
+                    //更新油仓当前数量
+                    bool isUpdateStore = st_r.UpdateOil(ts.Id, ts.Count, true);
+                    if (isUpdateStore && isUpdateAvgPrice)
                     {
-                        Name = "采购卸油",
-                        StoreId = int.Parse(modelWithChanges.StoreId.ToString()),
-                        Value = modelWithChanges.Count,
-                        Operators = CurrentUser,
-                        Unit = "升",
-                        Type = LogType.入仓
-                    });
+                        //增加入仓记录
+                        io_r = new InAndOutLogRepository(_dbContext);
+                        io_r.Insert(new InAndOutLog
+                        {
+                            Name = "采购卸油",
+                            StoreId = ts.Id,
+                            Value = ts.Count,
+                            Operators = CurrentUser,
+                            Unit = "升",
+                            Type = LogType.入仓
+                        });
+                    }
                 }
+                
             }
             return Update(modelWithChanges);
         }

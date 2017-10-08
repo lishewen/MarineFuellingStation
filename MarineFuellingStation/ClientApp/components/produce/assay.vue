@@ -66,7 +66,7 @@
 
                     <yd-cell-item>
                         <span slot="left">十六烷值：</span>
-                        <yd-input slot="right" v-model="model.十六烷值" regex="" placeholder="请输入标密"></yd-input>
+                        <yd-input slot="right" v-model="model.十六烷值" regex="" placeholder="请输入十六烷值"></yd-input>
                     </yd-cell-item>
 
                 </yd-cell-group>

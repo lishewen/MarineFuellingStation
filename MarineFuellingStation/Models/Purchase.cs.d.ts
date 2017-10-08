@@ -35,10 +35,8 @@ declare module server {
         instrument2: number;
         /** 卸油表表数3 */
         instrument3: number;
-        /** 卸油用油仓id */
-        storeId?: number;
-        /** 卸油油仓 */
-        store: store;
+        /** 卸油选择的多个油仓 */
+        toStores: toStore[];
         /** 卸车时需要测量的密度 */
         density: number;
 		/** 油车磅秤数 */
@@ -54,5 +52,11 @@ declare module server {
         /** 状态 */
         state: unloadState;
 		totalMoney: number;
-	}
+    }
+    /** 选择多个油仓卸油用到的Model **/
+    interface toStore {
+        id: number;
+        count: number;
+        name: string;
+    }
 }

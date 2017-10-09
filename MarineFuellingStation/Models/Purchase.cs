@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -81,7 +82,7 @@ namespace MFS.Models
         /// 化验单
         /// </summary>
         public int? AssayId { get; set; }
-        [ForeignKey("AssayId")]
+        [JsonIgnore, ForeignKey("AssayId")]
         public virtual Assay Assay { get; set; }
 
         /// <summary>

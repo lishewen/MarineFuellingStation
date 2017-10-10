@@ -17,6 +17,10 @@ namespace MFS.Hubs
         {
             return Clients.All.InvokeAsync("printorder", model);
         }
+        public Task PrintUnload(Purchase model)
+        {
+            return Clients.All.InvokeAsync("printunload", model);
+        }
         public Task Login(string username)
         {
             return Clients.All.InvokeAsync("login", username);

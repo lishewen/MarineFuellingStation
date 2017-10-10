@@ -1,10 +1,12 @@
 ﻿using MFS.Controllers.Attributes;
 using MFS.Helper;
+using MFS.Hubs;
 using MFS.Models;
 using MFS.Repositorys;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Options;
 using Senparc.Weixin.Work.AdvancedAPIs;
 using Senparc.Weixin.Work.Containers;
@@ -22,15 +24,18 @@ namespace MFS.Controllers
         private readonly PurchaseRepository r;
         private readonly IHostingEnvironment _hostingEnvironment;
         WorkOption option;
-        public PurchaseController(PurchaseRepository repository, IOptionsSnapshot<WorkOption> option, IHostingEnvironment env)
+        private readonly IHubContext<PrintHub> _hub;
+        public PurchaseController(PurchaseRepository repository, IOptionsSnapshot<WorkOption> option, IHostingEnvironment env, IHubContext<PrintHub> hub)
         {
             r = repository;
             _hostingEnvironment = env;
             //获取 销售单 企业微信应用的AccessToken
             this.option = option.Value;
-            this.option.采购计划AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.采购计划Secret); 
-            this.option.采购看板AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.采购看板Secret); 
+            this.option.采购计划AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.采购计划Secret);
+            this.option.采购看板AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.采购看板Secret);
             this.option.陆上卸油AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.陆上卸油Secret);
+
+            _hub = hub;
         }
         [HttpGet]
         public ResultJSON<List<Purchase>> Get()
@@ -149,6 +154,7 @@ namespace MFS.Controllers
                      $"<div class=\"normal\">运输车号：{result.CarNo}{result.TrailerNo}</div>" +
                      $"<div class=\"normal\">预计到达：{result.ArrivalTime}</div>"
                      , $"http://vue.car0774.com/#/produce/buyboard", toUser: "@all");
+            _hub.Clients.All.InvokeAsync("printunload", p);
 
             return new ResultJSON<Purchase>
             {

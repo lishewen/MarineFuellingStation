@@ -46,5 +46,17 @@ namespace 打印终端.Properties {
                 this["PrintOrderDocx"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("unload.docx")]
+        public string PrintUnloadDocx {
+            get {
+                return ((string)(this["PrintUnloadDocx"]));
+            }
+            set {
+                this["PrintUnloadDocx"] = value;
+            }
+        }
     }
 }

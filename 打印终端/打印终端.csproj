@@ -173,12 +173,15 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Assay.cs" />
     <Compile Include="Models\EntityBase.cs" />
     <Compile Include="Models\ITrackable.cs" />
     <Compile Include="Models\Logs.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\Purchase.cs" />
     <Compile Include="Models\SalesPlan.cs" />
+    <Compile Include="Models\Store.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -202,6 +205,9 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="dbd.docx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="unload.docx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

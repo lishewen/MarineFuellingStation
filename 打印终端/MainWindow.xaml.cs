@@ -73,6 +73,10 @@ namespace 打印终端
             {
                 PrintOrder(order);
             });
+            Connection.On<Purchase>("printunload", (p) =>
+            {
+                PrintUnload(p);
+            });
             Connection.On<string>("login", (username) => Dispatcher.Invoke(() => textBox.AppendText(username + " 已登录，正在执行操作\r")));
         }
 
@@ -100,6 +104,40 @@ namespace 打印终端
 
             object background = false; //这个很重要，否则关闭的时候会提示请等待Word打印完毕后再退出，加上这个后可以使Word所有
             object filename = AppDomain.CurrentDomain.BaseDirectory + order.Name + ".docx";
+            wDoc.SaveAs(ref filename, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref
+                missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing);
+            wDoc.PrintOut(ref background, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref
+               missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing,
+               ref missing);
+            object saveOption = Word.WdSaveOptions.wdSaveChanges;
+            wDoc.Close(ref saveOption, ref missing, ref missing); //关闭当前文档，如果有多个模版文件进行操作，则执行完这一步后接着执行打开Word文档的方法即可
+            saveOption = Word.WdSaveOptions.wdDoNotSaveChanges;
+            wApp.Quit(ref saveOption, ref missing, ref missing); //关闭Word进程
+        }
+
+        private void PrintUnload(Purchase p)
+        {
+            this.Dispatcher.Invoke(() => textBox.AppendText($"正在打印陆上卸油：{p.Name}\r"));
+
+            Word.Application thisApplication = new Word.ApplicationClass();
+            wApp = thisApplication;
+            string tmpDocFile = AppDomain.CurrentDomain.BaseDirectory + Properties.Settings.Default.PrintUnloadDocx;
+            object templatefile = tmpDocFile;
+            wDoc = wApp.Documents.Add(ref templatefile, ref missing, ref missing, ref missing); //在现有进程内打开文档
+            wDoc.Activate(); //当前文档置前
+
+            //填充数据
+            WordReplace(wApp, "#CarNo#", p.CarNo);
+            WordReplace(wApp, "#TrailerNo#", p.TrailerNo);
+            WordReplace(wApp, "#ProductName#", p.Product?.Name);
+            WordReplace(wApp, "#Name#", p.Name);
+            WordReplace(wApp, "#CreateAt#", p.CreatedAt.ToLongDateString());
+            WordReplace(wApp, "#UpdateBy#", p.LastUpdatedBy);
+            WordReplace(wApp, "#Count#", p.Count.ToString());
+            WordReplace(wApp, "#StoreName#", p.ToStores?[0].Name);
+
+            object background = false; //这个很重要，否则关闭的时候会提示请等待Word打印完毕后再退出，加上这个后可以使Word所有
+            object filename = AppDomain.CurrentDomain.BaseDirectory + p.Name + ".docx";
             wDoc.SaveAs(ref filename, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref
                 missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing);
             wDoc.PrintOut(ref background, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref

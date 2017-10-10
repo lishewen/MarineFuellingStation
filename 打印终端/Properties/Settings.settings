@@ -8,5 +8,8 @@
     <Setting Name="PrintOrderDocx" Type="System.String" Scope="User">
       <Value Profile="(Default)">dbd.docx</Value>
     </Setting>
+    <Setting Name="PrintUnloadDocx" Type="System.String" Scope="User">
+      <Value Profile="(Default)">unload.docx</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

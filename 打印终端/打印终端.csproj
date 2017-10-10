@@ -177,6 +177,7 @@
     <Compile Include="Models\EntityBase.cs" />
     <Compile Include="Models\ITrackable.cs" />
     <Compile Include="Models\Logs.cs" />
+    <Compile Include="Models\MoveStore.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\Purchase.cs" />
@@ -210,6 +211,7 @@
     <None Include="unload.docx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="生产转仓单.docx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

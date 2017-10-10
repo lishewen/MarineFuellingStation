@@ -11,5 +11,8 @@
     <Setting Name="PrintUnloadDocx" Type="System.String" Scope="User">
       <Value Profile="(Default)">unload.docx</Value>
     </Setting>
+    <Setting Name="PrintMoveStoreDocx" Type="System.String" Scope="User">
+      <Value Profile="(Default)">生产转仓单.docx</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

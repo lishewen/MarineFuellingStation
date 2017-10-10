@@ -21,6 +21,10 @@ namespace MFS.Hubs
         {
             return Clients.All.InvokeAsync("printunload", model);
         }
+        public Task PrintMoveStore(MoveStore model)
+        {
+            return Clients.All.InvokeAsync("printmovestore", model);
+        }
         public Task Login(string username)
         {
             return Clients.All.InvokeAsync("login", username);

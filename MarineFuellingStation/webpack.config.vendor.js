@@ -8,12 +8,11 @@ module.exports = (env) => {
 
     return [{
         stats: { modules: false },
-        resolve: { extensions: [ '.js' ] },
+        resolve: { extensions: ['.js'] },
         entry: {
             vendor: [
                 'event-source-polyfill',
                 'isomorphic-fetch',
-                'jquery',
                 'vue',
                 'vue-router',
                 'axios',
@@ -22,8 +21,18 @@ module.exports = (env) => {
                 'ydui-district/dist/gov_province_city_area_id',
                 'vuex',
                 'vuex-router-sync',
-                'vue-echarts'
+                'vue-echarts',
+                'moment',
+                'fastclick'
             ],
+        },
+        externals: {
+            'vue': 'Vue',
+            'vue-router': 'VueRouter',
+            'vuex': 'Vuex',
+            'axios': 'axios',
+            'moment': 'moment',
+            'fastclick': 'FastClick'
         },
         module: {
             rules: [
@@ -31,7 +40,7 @@ module.exports = (env) => {
                 { test: /\.(png|woff|woff2|eot|ttf|svg)(\?|$)/, use: 'url-loader?limit=100000' }
             ]
         },
-        output: { 
+        output: {
             path: path.join(__dirname, 'wwwroot', 'dist'),
             publicPath: '/dist/',
             filename: '[name].js',

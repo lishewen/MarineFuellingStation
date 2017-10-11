@@ -49,9 +49,6 @@ const routes: VueRouter.RouteConfig[] = [
 
     { path: '/funcmenu', component: require('./components/funcmenu/funcmenu.vue') },
     { path: '/', component: require('./components/home/home.vue') },
-    { path: '/counter', component: require('./components/counter/counter.vue') },
-    { path: '/fetchdata', component: require('./components/fetchdata/fetchdata.vue') },
-    { path: '/ydui', component: require('./components/ydui/ydui.vue') },
     {
         //服务端一律跳转到这个URL上
         path: '/wxhub/:id/:userid/:redirectUrl', redirect: to => {

@@ -40,6 +40,14 @@ namespace MFS.Controllers
             this.option.水上加油AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.水上加油Secret);
             this.option.陆上加油AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.陆上加油Secret);
         }
+        [NonAction]
+        public async Task SendPrintOrderAsync(string who, Order order)
+        {
+            foreach (var connectionId in PrintHub.connections.GetConnections(who))
+            {
+                await _hub.Clients.Client(connectionId).InvokeAsync("printorder", order);
+            }
+        }
         #region Post方法
         [HttpPost]
         public async Task<ResultJSON<Order>> Post([FromBody]Order o)
@@ -53,36 +61,39 @@ namespace MFS.Controllers
             var result = r.Insert(o);
 
             //推送打印指令
-            await _hub.Clients.All.InvokeAsync("printorder", result);
+            //await _hub.Clients.All.InvokeAsync("printorder", result);
+
+            //向指定目标推送打印指令
+            await SendPrintOrderAsync("收银台", result);
 
             //推送到“销售单”
             MassApi.SendTextCard(option.销售单AccessToken, option.销售单AgentId, "已开单"
                      , $"<div class=\"gray\">单号：{result.Name}</div>" +
                      $"<div class=\"normal\">开单人：{UserName}</div>" +
-                     $"<div class=\"normal\">船号/车号：{result.CarNo}</div>" 
-                     , $"http://vue.car0774.com/#/sales/order/{result.Id}/order", toUser: "@all");
+                     $"<div class=\"normal\">船号/车号：{result.CarNo}</div>"
+                     , $"https://vue.car0774.com/#/sales/order/{result.Id}/order", toUser: "@all");
 
             //推送到“收银”
             MassApi.SendTextCard(option.收银AccessToken, option.收银AgentId, "已开单"
                      , $"<div class=\"gray\">单号：{result.Name}</div>" +
                      $"<div class=\"normal\">开单人：{UserName}</div>" +
                      $"<div class=\"normal\">船号/车号：{result.CarNo}</div>"
-                     , $"http://vue.car0774.com/#/sales/order/{result.Id}/order", toUser: "@all");
+                     , $"https://vue.car0774.com/#/sales/order/{result.Id}/order", toUser: "@all");
 
-            if(result.OrderType == SalesPlanType.水上)
+            if (result.OrderType == SalesPlanType.水上)
                 //推送到“水上加油”
                 MassApi.SendTextCard(option.水上加油AccessToken, option.水上加油AgentId, "已开单，请施工"
                          , $"<div class=\"gray\">单号：{result.Name}</div>" +
                          $"<div class=\"normal\">开单人：{UserName}</div>" +
                          $"<div class=\"normal\">船号/车号：{result.CarNo}</div>"
-                         , $"http://vue.car0774.com/#/sales/order/{result.Id}/order", toUser: "@all");
+                         , $"https://vue.car0774.com/#/sales/order/{result.Id}/order", toUser: "@all");
             else
                 //推送到“陆上加油”
                 MassApi.SendTextCard(option.陆上加油AccessToken, option.陆上加油AgentId, "已开单，请施工"
                          , $"<div class=\"gray\">单号：{result.Name}</div>" +
                          $"<div class=\"normal\">开单人：{UserName}</div>" +
                          $"<div class=\"normal\">船号/车号：{result.CarNo}</div>"
-                         , $"http://vue.car0774.com/#/sales/order/{result.Id}/order", toUser: "@all");
+                         , $"https://vue.car0774.com/#/sales/order/{result.Id}/order", toUser: "@all");
 
             return new ResultJSON<Order>
             {
@@ -115,7 +126,7 @@ namespace MFS.Controllers
                 };
             }
         }
-        
+
         #endregion
         #region GET方法
 

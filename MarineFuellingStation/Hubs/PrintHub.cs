@@ -9,6 +9,7 @@ namespace MFS.Hubs
 {
     public class PrintHub : Hub
     {
+        public readonly static ConnectionMapping<string> connections = new ConnectionMapping<string>();
         public Task PrintSalesPlan(SalesPlan model)
         {
             return Clients.All.InvokeAsync("printsalesplan", model);
@@ -28,6 +29,11 @@ namespace MFS.Hubs
         public Task Login(string username)
         {
             return Clients.All.InvokeAsync("login", username);
+        }
+        public Task Conn(string client)
+        {
+            connections.Add(client, Context.ConnectionId);
+            return Task.FromResult(0);
         }
     }
 }

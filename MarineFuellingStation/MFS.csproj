@@ -36,6 +36,7 @@
   <ItemGroup>
     <Folder Include="wwwroot\dist\" />
     <Folder Include="wwwroot\upload\" />
+    <Folder Include="wwwroot\js\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\componentbase.ts" />

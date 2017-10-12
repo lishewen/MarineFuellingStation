@@ -25,7 +25,7 @@ namespace 打印终端.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://vue.car0774.com/hubs/print")]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://vue.car0774.com/hubs/print")]
         public string baseAddress {
             get {
                 return ((string)(this["baseAddress"]));
@@ -68,6 +68,18 @@ namespace 打印终端.Properties {
             }
             set {
                 this["PrintMoveStoreDocx"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("收银台")]
+        public string ClientId {
+            get {
+                return ((string)(this["ClientId"]));
+            }
+            set {
+                this["ClientId"] = value;
             }
         }
     }

@@ -60,7 +60,7 @@ namespace MFS.Controllers
                      $"<div class=\"normal\">开单人：{UserName}</div>" +
                      $"<div class=\"normal\">船号/车号：{result.CarNo}</div>" +
                      $"<div class=\"normal\">油品：{result.OilName}</div>"
-                     , $"http://vue.car0774.com/#/sales/plan/{result.Id}/plan", toUser: "@all");
+                     , $"https://vue.car0774.com/#/sales/plan/{result.Id}/plan", toUser: "@all");
 
             //推送到“审核”
             MassApi.SendTextCard(option.审核AccessToken, option.审核AgentId, "已开单，待审核"
@@ -68,7 +68,7 @@ namespace MFS.Controllers
                      $"<div class=\"normal\">开单人：{UserName}</div>" +
                      $"<div class=\"normal\">船号/车号：{result.CarNo}</div>" +
                      $"<div class=\"normal\">油品：{result.OilName}</div>"
-                     , $"http://vue.car0774.com/#/sales/auditing", toUser: "@all");
+                     , $"https://vue.car0774.com/#/sales/auditing", toUser: "@all");
 
             return new ResultJSON<SalesPlan>
             {

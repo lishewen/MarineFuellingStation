@@ -12,7 +12,7 @@ declare module server {
         productId: number;
         product: product;
 		/** 商品单价 */
-		price: number;
+		price: number | string;
 		count: number;
 		/** 单位 */
 		unit: string;

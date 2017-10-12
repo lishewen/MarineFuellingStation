@@ -23,6 +23,10 @@ export default class OrderComponent extends ComponentBase {
 
     radio2: string = '1';
     carNo: string = '';
+    strCarOrBoat: string = '船号';
+
+    pMinPrice: number = 0;
+    pMinInvoicePrice: number = 0;
 
     show1: boolean = false;
     show2: boolean = false;
@@ -43,7 +47,7 @@ export default class OrderComponent extends ComponentBase {
         this.model = (new Object()) as server.order;
         this.model.isInvoice = false;
         this.model.carNo = '';
-        this.model.price = 0;
+        this.model.price = '';
         this.model.billingPrice = 0;
         this.model.count = 0;
         this.model.billingCount = 0;
@@ -64,6 +68,13 @@ export default class OrderComponent extends ComponentBase {
     salesplanselect() {
         this.getSalesPlans();
         this.salesplanshow = true;
+    }
+
+    strMinPriceTip() {
+        if (this.pMinPrice > 0 && this.pMinInvoicePrice > 0)
+            return "最低：￥" + this.pMinPrice + "，开票：￥" + this.pMinInvoicePrice;
+        else
+            return ""
     }
 
     formatShortDate(d: Date): string {
@@ -131,7 +142,7 @@ export default class OrderComponent extends ComponentBase {
     buttonclick() {
         //信息验证
         if (this.model.carNo == '') {
-            this.toastError('车牌不能为空');
+            this.toastError('船号或车牌号不能为空');
             return;
         }
         if (this.model.count <= 0) {
@@ -142,6 +153,9 @@ export default class OrderComponent extends ComponentBase {
             this.toastError('必须选择油品');
             return;
         }
+        if (this.model.price == '' || this.model.price <= 0) { this.toastError("销售单价输入有误"); return; }
+        if (!this.model.isInvoice && this.model.price < this.pMinPrice) { this.toastError("当前最低销售单价是￥" + this.pMinPrice + "/升"); return; }
+        if (this.model.isInvoice && this.model.price < this.pMinInvoicePrice) { this.toastError("当前开票最低销售单价是￥" + this.pMinInvoicePrice + "/升"); return; }
         this.postOrder(this.model);
     }
 
@@ -157,15 +171,18 @@ export default class OrderComponent extends ComponentBase {
             switch (v) {
                 case "1":
                     this.model.unit = '升';
+                    this.strCarOrBoat = "船号";
                     this.show2 = false;
                     this.model.orderType = server.salesPlanType.水上;
                     break;
                 case "2":
+                    this.strCarOrBoat = "车牌号";
                     this.model.unit = '吨';
                     this.show2 = true;
                     this.model.orderType = server.salesPlanType.陆上;
                     break;
                 case "3":
+                    this.strCarOrBoat = "车牌号";
                     this.model.unit = '桶';
                     this.show2 = false;
                     this.model.orderType = server.salesPlanType.机油;
@@ -263,7 +280,9 @@ export default class OrderComponent extends ComponentBase {
                         method: () => {
                             this.oilName = o.name;
                             this.model.productId = o.id;
-                            this.model.price = o.lastPrice;
+                            this.model.price = o.minPrice;
+                            this.pMinInvoicePrice = o.minInvoicePrice;
+                            this.pMinPrice = o.minPrice;
                         }
                     });
                 });

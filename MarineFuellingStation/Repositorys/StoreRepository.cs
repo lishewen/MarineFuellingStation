@@ -77,9 +77,9 @@ namespace MFS.Repositorys
         public List<Store> GetByClass(StoreClass sc)
         {
             if (sc == StoreClass.全部)
-                return LoadPageList(1,30,out int count,true,s => s.StoreClass == StoreClass.存储仓 || s.StoreClass == StoreClass.销售仓).OrderByDescending(s => s.Name).ToList();
+                return LoadPageList(1,30,out int count,true,s => s.StoreClass == StoreClass.存储仓 || s.StoreClass == StoreClass.销售仓).OrderBy(s => s.Name).ToList();
             else
-                return LoadPageList(1, 30, out int count, true, s => s.StoreClass == sc).OrderByDescending(s => s.Name).ToList();
+                return LoadPageList(1, 30, out int count, true, s => s.StoreClass == sc).OrderBy(s => s.Name).ToList();
         }
     }
 }

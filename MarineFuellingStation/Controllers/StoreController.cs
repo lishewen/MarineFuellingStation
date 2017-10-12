@@ -23,7 +23,7 @@ namespace MFS.Controllers
             return new ResultJSON<List<Store>>
             {
                 Code = 0,
-                Data = r.GetAllList()
+                Data = r.GetAllList().OrderBy(s => s.Name)
             };
         }
         [HttpGet("{id}")]
@@ -42,7 +42,7 @@ namespace MFS.Controllers
             return new ResultJSON<List<Store>>
             {
                 Code = 0,
-                Data = r.GetAllList(s => s.StoreTypeId == stypeId)
+                Data = r.GetAllList(s => s.StoreTypeId == stypeId).OrderBy(s => s.Name).ToList()
             };
         }
         /// <summary>

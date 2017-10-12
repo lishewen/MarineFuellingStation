@@ -23,6 +23,8 @@ export default class PlanComponent extends ComponentBase {
     page: number;
     scrollRef: any;
     pSize: number = 10;
+    pMinInvoicePrice: number = 0;
+    pMinPrice: number = 0;
 
     constructor() {
         super();
@@ -37,7 +39,7 @@ export default class PlanComponent extends ComponentBase {
         this.model.unit = '升';
         this.model.isInvoice = false;
         this.model.carNo = '';
-        this.model.price = 0;
+        this.model.price = '';
         this.model.count = 0;
         this.model.remainder = 0;
         this.model.oilDate = new Date();
@@ -53,6 +55,9 @@ export default class PlanComponent extends ComponentBase {
         this.client.company = new Object() as server.company;
         this.client.company.name = "";
         this.client.company.ticketType = -1;
+
+        this.pMinPrice = 0;
+        this.pMinInvoicePrice = 0;
         
         this.username = this.$store.state.username;
         this.getSalesPlanNo();
@@ -126,6 +131,13 @@ export default class PlanComponent extends ComponentBase {
         });
     }
 
+    strMinPriceTip() {
+        if (this.pMinPrice > 0 && this.pMinInvoicePrice > 0)
+            return "最低：￥" + this.pMinPrice + "，开票：￥" + this.pMinInvoicePrice;
+        else
+            return ""
+    }
+
     isShowCompanyAccount() {
         //避免调试出错，只能这样写
         if (this.client != null)
@@ -176,6 +188,9 @@ export default class PlanComponent extends ComponentBase {
             this.toastError('必须选择油品');
             return;
         }
+        if (this.model.price == '' || this.model.price <= 0) { this.toastError("计划单价输入有误"); return; }
+        if (!this.model.isInvoice && this.model.price < this.pMinPrice) { this.toastError("当前最低销售单价是￥" + this.pMinPrice + "/升"); return; }
+        if (this.model.isInvoice && this.model.price < this.pMinInvoicePrice) { this.toastError("当前开票最低销售单价是￥" + this.pMinInvoicePrice + "/升"); return; }
         this.postSalesPlan(this.model);
     }
 
@@ -273,10 +288,9 @@ export default class PlanComponent extends ComponentBase {
                         method: () => {
                             this.model.oilName = o.name;
                             this.model.productId = o.id;
-                            if (o.lastPrice > 0)
-                                this.model.price = o.lastPrice;
-                            else
-                                this.model.price = o.minPrice;
+                            this.model.price = o.price;
+                            this.pMinInvoicePrice = o.minInvoicePrice;
+                            this.pMinPrice = o.minPrice;
                         }
                     });
                 });

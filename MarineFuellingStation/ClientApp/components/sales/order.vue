@@ -27,8 +27,8 @@
                         </yd-radio-group>
                     </yd-cell-item>
                     <yd-cell-item>
-                        <span slot="left">船号：</span>
-                        <yd-input slot="right" v-model="model.carNo" required placeholder="请输入您的船号"></yd-input>
+                        <span slot="left">{{strCarOrBoat}}：</span>
+                        <yd-input slot="right" v-model="model.carNo" required placeholder="请输入"></yd-input>
                     </yd-cell-item>
 
                     <yd-cell-item arrow @click.native="oilshow = true">
@@ -38,7 +38,7 @@
 
                     <yd-cell-item>
                         <span slot="left">订单单价：</span>
-                        <yd-input slot="right" v-model="model.price" required placeholder="请输入单价"></yd-input>
+                        <yd-input slot="right" v-model="model.price" required :placeholder="strMinPriceTip()"></yd-input>
                     </yd-cell-item>
 
                     <yd-cell-item>
@@ -48,8 +48,7 @@
                     </yd-cell-item>
 
                     <yd-cell-item>
-                        <span slot="left">总价：</span>
-                        <yd-input slot="right" v-model="model.totalMoney" placeholder="自动计算，单价 x 数量" readonly></yd-input>
+                        <span slot="right" style="font-weight: bold">总计：￥{{model.totalMoney}}</span>
                     </yd-cell-item>
                     <yd-cell-item>
                         <span slot="left">是否开票</span>

@@ -14,6 +14,11 @@ namespace MFS.Models
         /// </summary>
         public decimal MinPrice { get; set; }
         /// <summary>
+        /// 开票底价
+        /// </summary>
+        public decimal MinInvoicePrice { get; set; }
+
+        /// <summary>
         /// 最后报价
         /// </summary>
         public decimal LastPrice { get; set; }

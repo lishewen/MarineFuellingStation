@@ -23,13 +23,18 @@
                         <yd-input slot="right" v-model="currentproduct.name" required placeholder="请输入名称"></yd-input>
                     </yd-cell-item>
                     <yd-cell-item>
-                        <span slot="left">最新售价：</span>
+                        <span slot="left">最近一次单价：</span>
                         <yd-input slot="right" type="number" v-model="currentproduct.lastPrice" placeholder="请输入最新售价"></yd-input>
                         <span slot="right" style="width: 60px">元 / 升</span>
                     </yd-cell-item>
                     <yd-cell-item>
-                        <span slot="left">最低售价：</span>
-                        <yd-input slot="right" type="number" v-model="currentproduct.minPrice" placeholder="请输入最低售价"></yd-input>
+                        <span slot="left">最低单价：</span>
+                        <yd-input slot="right" type="number" v-model="currentproduct.minPrice" placeholder="请输入最低单价"></yd-input>
+                        <span slot="right" style="width: 60px">元 / 升</span>
+                    </yd-cell-item>
+                    <yd-cell-item>
+                        <span slot="left">最低开票单价：</span>
+                        <yd-input slot="right" type="number" v-model="currentproduct.minInvoicePrice" placeholder="请输入最低开票单价"></yd-input>
                         <span slot="right" style="width: 60px">元 / 升</span>
                     </yd-cell-item>
                 </yd-cell-group>
@@ -45,7 +50,7 @@
                 <yd-cell-item arrow v-for="p in currentpt.products" :key="p.id" @click.native="editProductclick(p)">
                     <div slot="left">{{p.name}}</div>
                     <div slot="right">
-                        <p style="color:forestgreen; font-size: 14px">￥{{p.minPrice}} / 升</p>
+                        <p style="color:forestgreen; font-size: 14px">￥{{p.minPrice}} / 升 开票￥{{p.minInvoicePrice}}</p>
                     </div>
                 </yd-cell-item>
             </yd-cell-group>

@@ -38,6 +38,7 @@ export default class ProductComponent extends ComponentBase {
             this.currentproduct = (new Object()) as server.product;
             this.currentproduct.name = '';
             this.currentproduct.minPrice = 0;
+            this.currentproduct.minInvoicePrice = 0;
             this.selectptname = '请选择分类';
         }
         if (label == '所有分类')

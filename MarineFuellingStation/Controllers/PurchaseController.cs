@@ -31,8 +31,8 @@ namespace MFS.Controllers
             _hostingEnvironment = env;
             //获取 销售单 企业微信应用的AccessToken
             this.option = option.Value;
-            this.option.采购计划AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.采购计划Secret);
-            this.option.采购看板AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.采购看板Secret);
+            this.option.进油计划AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.进油计划Secret);
+            this.option.进油看板AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.进油看板Secret);
             this.option.陆上卸油AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.陆上卸油Secret);
 
             _hub = hub;
@@ -137,13 +137,13 @@ namespace MFS.Controllers
             var result = r.Insert(p);
 
             //推送到“采购计划”
-            MassApi.SendTextCard(option.采购计划AccessToken, option.采购计划AgentId, "已开采购计划单"
+            MassApi.SendTextCard(option.进油计划AccessToken, option.进油计划AgentId, "已开采购计划单"
                      , $"<div class=\"gray\">单号：{result.Name}</div>" +
                      $"<div class=\"normal\">运输车号：{result.CarNo}{result.TrailerNo}</div>" +
                      $"<div class=\"normal\">预计到达：{result.ArrivalTime}</div>"
                      , $"http://vue.car0774.com/#/produce/buyboard", toUser: "@all");
-            //推送到“采购看板”
-            MassApi.SendTextCard(option.采购看板AccessToken, option.采购看板AgentId, "已开采购计划单"
+            //推送到“进油看板”
+            MassApi.SendTextCard(option.进油看板AccessToken, option.进油看板AgentId, "已开进油计划单"
                      , $"<div class=\"gray\">单号：{result.Name}</div>" +
                      $"<div class=\"normal\">运输车号：{result.CarNo}{result.TrailerNo}</div>" +
                      $"<div class=\"normal\">预计到达：{result.ArrivalTime}</div>"

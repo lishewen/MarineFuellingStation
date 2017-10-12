@@ -13,7 +13,7 @@ export default class BuyboardComponent extends Vue {
         this.getPurchases();
     }
     mounted() {
-        this.$emit('setTitle', '采购看板');
+        this.$emit('setTitle', '进油看板');
     }
     toastError(msg: string) {
         (<any>this).$dialog.toast({

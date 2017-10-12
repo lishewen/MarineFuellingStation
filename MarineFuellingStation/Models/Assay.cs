@@ -20,7 +20,7 @@ namespace MFS.Models
         public virtual Store Store { get; set; }
         public int? PurchaseId { get; set; }
         /// <summary>
-        /// 采购来源
+        /// 进油来源
         /// </summary>
         [ForeignKey("PurchaseId")]
         public virtual Purchase Purchase { get; set; }
@@ -62,7 +62,7 @@ namespace MFS.Models
     public enum AssayType
     {
         油舱化验,
-        采购化验
+        进油化验
     }
     public enum SmellType
     {

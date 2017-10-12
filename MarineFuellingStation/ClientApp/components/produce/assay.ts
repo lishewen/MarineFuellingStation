@@ -49,7 +49,7 @@ export default class AssayComponent extends ComponentBase {
             if (v == "2") {
                 this.show1 = false;
                 this.getPurchase(10);
-                this.model.assayType = server.assayType.采购化验;
+                this.model.assayType = server.assayType.进油化验;
             }
             else {
                 this.show1 = true;
@@ -81,7 +81,7 @@ export default class AssayComponent extends ComponentBase {
             if (this.selectedStore == null || this.selectedStore == '') {
                 this.toastError("请选择油仓")
             }
-        if (this.model.assayType == server.assayType.采购化验)
+        if (this.model.assayType == server.assayType.进油化验)
             if (this.selectedPurchase == null || this.selectedPurchase == '') {
                 this.toastError
             }

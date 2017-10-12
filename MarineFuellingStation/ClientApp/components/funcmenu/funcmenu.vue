@@ -22,7 +22,7 @@
         </yd-grids-group>
         <yd-grids-group :rows="3" title="生产管理">
             <yd-grids-item link="./produce/buyboard" style="background-color:lightcyan">
-                <p slot="text">采购计划看板</p>
+                <p slot="text">进油计划看板</p>
             </yd-grids-item>
             <yd-grids-item link="./produce/planboard" style="background-color:lightcyan">
                 <p slot="text">销售计划看板</p>
@@ -73,7 +73,7 @@
         </yd-grids-group>
         <yd-grids-group :rows="3" title="商品采购">
             <yd-grids-item link="./purchase/purchase" style="background-color:lightcyan">
-                <p slot="text">采购计划</p>
+                <p slot="text">进油计划</p>
             </yd-grids-item>
         </yd-grids-group>
         <yd-grids-group :rows="3" title="人员管理">

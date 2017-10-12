@@ -6,7 +6,7 @@
                     <yd-cell-item>
                         <yd-radio-group slot="left" v-model="radio2">
                             <yd-radio val="1">油仓化验</yd-radio>
-                            <yd-radio val="2">采购化验</yd-radio>
+                            <yd-radio val="2">进油化验</yd-radio>
                         </yd-radio-group>
                     </yd-cell-item>
 
@@ -19,9 +19,9 @@
                     </yd-cell-item>
 
                     <yd-cell-item v-show="!show1" @click.native="showPurchases = true">
-                        <span slot="left">采购来源：</span>
+                        <span slot="left">进油来源：</span>
                         <!--<select slot="right" v-model="selectedPurchase">
-                            <option value="">请选择采购来源计划单</option>
+                            <option value="">请选择进油来源计划单</option>
                             <option v-for="p in purchase" :key="p.id" :value="p.id">{{p.name}}</option>
                         </select>-->
                         <span slot="right">{{selectedPName}}</span>
@@ -129,9 +129,9 @@
                 </yd-cell-group>
             </yd-tab-panel>
         </yd-tab>
-        <!--采购单选择-->
+        <!--进油单选择-->
         <yd-popup v-model="showPurchases" width="70%" position="right">
-            <yd-cell-group title="选择采购单">
+            <yd-cell-group title="选择进油单">
                 <weui-search v-model="sv" />
                 <yd-cell-item v-for="p in purchases" :key="p.id" @click.native="purchaseclick(p)">
                     <div slot="left">

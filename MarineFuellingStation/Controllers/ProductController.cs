@@ -32,7 +32,7 @@ namespace MFS.Controllers
             return new ResultJSON<List<Product>>
             {
                 Code = 0,
-                Data = r.GetAllList((p) => p.ProductType.Name == "采购油" && p.IsUse)
+                Data = r.GetAllList((p) => p.ProductType.Name == "进油油" && p.IsUse)
             };
         }
         [HttpGet("{id}")]

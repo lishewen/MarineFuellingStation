@@ -32,7 +32,7 @@ declare module server {
 	}
 	const enum assayType {
 		油舱化验,
-		采购化验,
+		进油化验,
 	}
 	const enum smellType {
 		一般刺鼻,

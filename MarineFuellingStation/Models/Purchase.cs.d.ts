@@ -9,7 +9,7 @@ declare module server {
         空车过磅,
         完工
     }
-    /** 采购计划 */
+    /** 进油计划 */
     interface purchase extends entityBase {
         productId: number;
         product: product;

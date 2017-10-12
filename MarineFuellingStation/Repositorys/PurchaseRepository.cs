@@ -49,7 +49,7 @@ namespace MFS.Repositorys
             return _dbContext.Purchases.Include(p => p.Product).ToList();
         }
         /// <summary>
-        /// 获取最近top n个采购单
+        /// 获取最近top n个进油单
         /// </summary>
         /// <param name="n">top n?</param>
         /// <returns></returns>
@@ -81,7 +81,7 @@ namespace MFS.Repositorys
                         io_r = new InAndOutLogRepository(_dbContext);
                         io_r.Insert(new InAndOutLog
                         {
-                            Name = "采购卸油",
+                            Name = "进油卸油",
                             StoreId = ts.Id,
                             Value = ts.Count,
                             Operators = CurrentUser,

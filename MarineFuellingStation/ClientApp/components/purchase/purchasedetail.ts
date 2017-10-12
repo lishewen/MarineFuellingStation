@@ -26,7 +26,7 @@ export default class PurchaseDetailComponent extends ComponentBase {
             from = '/produce/buyboard'
         this.getPurchase(id, from, () => {
             //设置返回键的连接
-            this.$emit('setTitle', this.model.name + ' 采购单明细', from);
+            this.$emit('setTitle', this.model.name + ' 进油单明细', from);
         });
     }
     
@@ -35,7 +35,7 @@ export default class PurchaseDetailComponent extends ComponentBase {
             let jobj = res.data as server.resultJSON<server.purchase>;
             if (jobj.code == 0) {
                 this.model = jobj.data;
-                //应客户要求不让生产部看到采购单价
+                //应客户要求不让生产部看到进油单价
                 if (from == '/produce/buyboard')
                     this.model.price = 0;
                 callback();

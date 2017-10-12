@@ -83,7 +83,7 @@ namespace MFS.Controllers
             };
         }
         /// <summary>
-        /// 获得最近生成的采购单
+        /// 获得最近生成的进油单
         /// </summary>
         /// <returns></returns>
         [HttpGet("[action]")]
@@ -137,7 +137,7 @@ namespace MFS.Controllers
             var result = r.Insert(p);
 
             //推送到“进油计划”
-            MassApi.SendTextCard(option.进油计划AccessToken, option.进油计划AgentId, "已开采购计划单"
+            MassApi.SendTextCard(option.进油计划AccessToken, option.进油计划AgentId, "已开进油计划单"
                      , $"<div class=\"gray\">单号：{result.Name}</div>" +
                      $"<div class=\"normal\">运输车号：{result.CarNo}{result.TrailerNo}</div>" +
                      $"<div class=\"normal\">预计到达：{result.ArrivalTime}</div>"
@@ -149,7 +149,7 @@ namespace MFS.Controllers
                      $"<div class=\"normal\">预计到达：{result.ArrivalTime}</div>"
                      , $"https://vue.car0774.com/#/produce/buyboard", toUser: "@all");
             //推送到“陆上卸油”
-            MassApi.SendTextCard(option.陆上卸油AccessToken, option.陆上卸油AgentId, "已开采购计划单"
+            MassApi.SendTextCard(option.陆上卸油AccessToken, option.陆上卸油AgentId, "已开进油计划单"
                      , $"<div class=\"gray\">单号：{result.Name}</div>" +
                      $"<div class=\"normal\">运输车号：{result.CarNo}{result.TrailerNo}</div>" +
                      $"<div class=\"normal\">预计到达：{result.ArrivalTime}</div>"

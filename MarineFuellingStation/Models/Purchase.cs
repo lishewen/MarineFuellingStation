@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace MFS.Models
 {
     /// <summary>
-    /// 采购计划
+    /// 进油计划
     /// </summary>
     public class Purchase : EntityBase
     {

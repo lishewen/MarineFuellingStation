@@ -23,7 +23,7 @@ namespace MFS.Controllers
             return new ResultJSON<List<Store>>
             {
                 Code = 0,
-                Data = r.GetAllList().OrderBy(s => s.Name)
+                Data = r.GetAllList().OrderBy(s => s.Name).ToList()
             };
         }
         [HttpGet("{id}")]

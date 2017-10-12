@@ -41,7 +41,7 @@ namespace MFS.Models
         public DbSet<Store> Stores { get; set; }
         public DbSet<StoreType> StoreTypes { get; set; }
         /// <summary>
-        /// 采购计划
+        /// 进油计划
         /// </summary>
         public DbSet<Purchase> Purchases { get; set; }
         /// <summary>

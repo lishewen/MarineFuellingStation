@@ -47,7 +47,7 @@ export default class PurchaseComponent extends ComponentBase {
     }
 
     mounted() {
-        this.$emit('setTitle', this.$store.state.username + ' 的采购计划');
+        this.$emit('setTitle', this.$store.state.username + ' 的进油计划');
         this.$watch('radio1', (v, ov) => {
             switch (v) {
                 case "1":

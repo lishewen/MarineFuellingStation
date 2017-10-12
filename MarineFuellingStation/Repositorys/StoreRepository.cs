@@ -57,7 +57,7 @@ namespace MFS.Repositorys
         /// 更新平均单价
         /// </summary>
         /// <param name="storeId">卸油油仓Id</param>
-        /// <param name="purchasePrice">采购单价 单位：元/升</param>
+        /// <param name="purchasePrice">进油单价 单位：元/升</param>
         /// <param name="count">数量</param>
         /// <returns></returns>
         public bool UpdateAvgPrice(int storeId, decimal purchasePrice, decimal count)

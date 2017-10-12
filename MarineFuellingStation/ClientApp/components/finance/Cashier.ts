@@ -76,10 +76,10 @@ export default class CashierComponent extends ComponentBase {
                 return "微信"
             case server.orderPayType.支付宝:
                 return "支付宝"
-            case server.orderPayType.刷卡一:
-                return "刷卡一"
-            case server.orderPayType.刷卡二:
-                return "刷卡二"
+            case server.orderPayType.桂行刷卡:
+                return "桂行刷卡"
+            case server.orderPayType.工行刷卡:
+                return "工行刷卡"
             case server.orderPayType.刷卡三:
                 return "刷卡三"
             case server.orderPayType.账户扣减:

@@ -92,19 +92,20 @@
                 </yd-cell-item>
 
                 <yd-cell-item type="checkbox">
-                    <span slot="left">刷卡一</span>
+                    <span slot="left">桂行刷卡</span>
                     <input slot="right" type="checkbox" value="3" v-model="orderPayTypes" />
                 </yd-cell-item>
 
                 <yd-cell-item type="checkbox">
-                    <span slot="left">刷卡二</span>
+                    <span slot="left">工行刷卡</span>
                     <input slot="right" type="checkbox" value="4" v-model="orderPayTypes" />
                 </yd-cell-item>
 
-                <yd-cell-item type="checkbox">
+                <!--暂时取消-->
+                <!--<yd-cell-item type="checkbox">
                     <span slot="left">刷卡三</span>
                     <input slot="right" type="checkbox" value="5" v-model="orderPayTypes" />
-                </yd-cell-item>
+                </yd-cell-item>-->
 
                 <yd-cell-item type="checkbox" v-show="selectedOrder.client != null">
                     <div slot="left">

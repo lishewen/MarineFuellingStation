@@ -46,11 +46,11 @@
                 <span slot="right">升</span>
             </yd-cell-item>
 
-            <!--<yd-cell-item>
+            <yd-cell-item>
                 <span slot="left">实际转出：</span>
                 <yd-input slot="right" v-model="model.outFact" type="number" placeholder="请输入实际转出升数"></yd-input>
                 <span slot="right">升</span>
-            </yd-cell-item>-->
+            </yd-cell-item>
 
         </yd-cell-group>
         <yd-cell-group title="转入仓">

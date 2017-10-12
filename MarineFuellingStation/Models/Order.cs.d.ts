@@ -89,9 +89,9 @@ declare module server {
 	const enum orderPayType {
 		现金,
 		微信,
-		支付宝,
-		刷卡一,
-		刷卡二,
+        支付宝,
+        桂行刷卡,
+        工行刷卡,
 		刷卡三,
         账户扣减,
         公司账户扣减

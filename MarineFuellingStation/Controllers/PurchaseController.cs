@@ -141,19 +141,19 @@ namespace MFS.Controllers
                      , $"<div class=\"gray\">单号：{result.Name}</div>" +
                      $"<div class=\"normal\">运输车号：{result.CarNo}{result.TrailerNo}</div>" +
                      $"<div class=\"normal\">预计到达：{result.ArrivalTime}</div>"
-                     , $"http://vue.car0774.com/#/produce/buyboard", toUser: "@all");
+                     , $"https://vue.car0774.com/#/produce/buyboard", toUser: "@all");
             //推送到“采购看板”
             MassApi.SendTextCard(option.采购看板AccessToken, option.采购看板AgentId, "已开采购计划单"
                      , $"<div class=\"gray\">单号：{result.Name}</div>" +
                      $"<div class=\"normal\">运输车号：{result.CarNo}{result.TrailerNo}</div>" +
                      $"<div class=\"normal\">预计到达：{result.ArrivalTime}</div>"
-                     , $"http://vue.car0774.com/#/produce/buyboard", toUser: "@all");
+                     , $"https://vue.car0774.com/#/produce/buyboard", toUser: "@all");
             //推送到“陆上卸油”
             MassApi.SendTextCard(option.陆上卸油AccessToken, option.陆上卸油AgentId, "已开采购计划单"
                      , $"<div class=\"gray\">单号：{result.Name}</div>" +
                      $"<div class=\"normal\">运输车号：{result.CarNo}{result.TrailerNo}</div>" +
                      $"<div class=\"normal\">预计到达：{result.ArrivalTime}</div>"
-                     , $"http://vue.car0774.com/#/produce/buyboard", toUser: "@all");
+                     , $"https://vue.car0774.com/#/produce/buyboard", toUser: "@all");
             _hub.Clients.All.InvokeAsync("printunload", p);
 
             return new ResultJSON<Purchase>

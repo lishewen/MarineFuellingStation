@@ -60,14 +60,14 @@ namespace MFS.Controllers
                      , $"<div class=\"gray\">单号：{result.Name}</div>" +
                      $"<div class=\"normal\">开单人：{UserName}</div>" +
                      $"<div class=\"normal\">船号/车号：{result.CarNo}</div>" 
-                     , $"http://vue.car0774.com/#/sales/order/{result.Id}/order", toUser: "@all");
+                     , $"https://vue.car0774.com/#/sales/order/{result.Id}/order", toUser: "@all");
 
             //推送到“收银”
             MassApi.SendTextCard(option.收银AccessToken, option.收银AgentId, "已开单"
                      , $"<div class=\"gray\">单号：{result.Name}</div>" +
                      $"<div class=\"normal\">开单人：{UserName}</div>" +
                      $"<div class=\"normal\">船号/车号：{result.CarNo}</div>"
-                     , $"http://vue.car0774.com/#/sales/order/{result.Id}/order", toUser: "@all");
+                     , $"https://vue.car0774.com/#/sales/order/{result.Id}/order", toUser: "@all");
 
             if(result.OrderType == SalesPlanType.水上)
                 //推送到“水上加油”
@@ -75,14 +75,14 @@ namespace MFS.Controllers
                          , $"<div class=\"gray\">单号：{result.Name}</div>" +
                          $"<div class=\"normal\">开单人：{UserName}</div>" +
                          $"<div class=\"normal\">船号/车号：{result.CarNo}</div>"
-                         , $"http://vue.car0774.com/#/sales/order/{result.Id}/order", toUser: "@all");
+                         , $"https://vue.car0774.com/#/sales/order/{result.Id}/order", toUser: "@all");
             else
                 //推送到“陆上加油”
                 MassApi.SendTextCard(option.陆上加油AccessToken, option.陆上加油AgentId, "已开单，请施工"
                          , $"<div class=\"gray\">单号：{result.Name}</div>" +
                          $"<div class=\"normal\">开单人：{UserName}</div>" +
                          $"<div class=\"normal\">船号/车号：{result.CarNo}</div>"
-                         , $"http://vue.car0774.com/#/sales/order/{result.Id}/order", toUser: "@all");
+                         , $"https://vue.car0774.com/#/sales/order/{result.Id}/order", toUser: "@all");
 
             return new ResultJSON<Order>
             {

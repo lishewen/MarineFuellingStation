@@ -36,7 +36,7 @@ namespace MFS.Controllers
 #else
             var state = Request.Query["state"];
             if (state != "car0774")
-                return Redirect(OAuth2Api.GetCode(option.CorpId, "http://" + Request.Host + Request.Path + Request.QueryString, "car0774"));
+                return Redirect(OAuth2Api.GetCode(option.CorpId, "https://" + Request.Host + Request.Path + Request.QueryString, "car0774"));
             else
             {
                 var code = Request.Query["code"];

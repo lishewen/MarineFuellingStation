@@ -246,6 +246,8 @@ namespace 打印终端
                 try
                 {
                     await connection.StartAsync();
+                    //向Server发送ClientId
+                    await connection.SendAsync("Conn", Properties.Settings.Default.ClientId);
                     return connection;
                 }
                 catch (Exception)

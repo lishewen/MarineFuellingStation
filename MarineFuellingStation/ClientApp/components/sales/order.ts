@@ -193,11 +193,11 @@ export default class OrderComponent extends ComponentBase {
         this.$watch('model.price', (v, ov) => {
             console.log(v);
             this.model.billingPrice = v;
-            this.model.totalMoney = this.model.price * this.model.count;
+            this.model.totalMoney = <number>this.model.price * this.model.count;
         });
         this.$watch('model.count', (v, ov) => {
             this.model.billingCount = v;
-            this.model.totalMoney = this.model.price * v;
+            this.model.totalMoney = <number>this.model.price * v;
         });
     };
 

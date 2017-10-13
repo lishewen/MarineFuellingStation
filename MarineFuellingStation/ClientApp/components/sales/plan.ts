@@ -288,7 +288,7 @@ export default class PlanComponent extends ComponentBase {
                         method: () => {
                             this.model.oilName = o.name;
                             this.model.productId = o.id;
-                            this.model.price = o.price;
+                            this.model.price = o.lastPrice;
                             this.pMinInvoicePrice = o.minInvoicePrice;
                             this.pMinPrice = o.minPrice;
                         }

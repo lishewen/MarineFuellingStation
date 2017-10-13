@@ -26,5 +26,9 @@ namespace MFS.Models
         /// 油高
         /// </summary>
         public decimal Height { get; set; }
+        /// <summary>
+        /// 油高对应的升数
+        /// </summary>
+        public decimal Count { get; set; }
     }
 }

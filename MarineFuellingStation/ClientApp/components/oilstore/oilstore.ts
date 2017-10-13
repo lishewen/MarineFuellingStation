@@ -23,6 +23,8 @@ export default class OilStoreComponent extends ComponentBase {
         this.surveys = new Array<server.survey>();
         this.selectStore = new Object() as server.store;
         this.survey = new Object() as server.survey;
+        this.survey.density = 0;
+        this.survey.count = 0;
         this.getStoreTypes();
     }
 
@@ -35,6 +37,9 @@ export default class OilStoreComponent extends ComponentBase {
      */
     storeclick(st: server.store) {
         this.show1 = true;
+        this.survey = new Object as server.survey;
+        this.survey.count = 0;
+        this.survey.density = 0;
         this.survey.storeId = st.id;
         this.survey.name = st.name;
         this.selectStore = st;
@@ -57,6 +62,10 @@ export default class OilStoreComponent extends ComponentBase {
         if (percent > 100)
             percent = 100;
         return percent
+    }
+
+    strToton() {
+        return this.survey.count * this.survey.density / 1000
     }
 
     getStoreTypes() {
@@ -99,6 +108,10 @@ export default class OilStoreComponent extends ComponentBase {
         }
         if (this.survey.height == null || this.survey.height == '') {
             this.toastError('油高不能为空');
+            return false;
+        }
+        if (this.survey.height == null || this.survey.height == '') {
+            this.toastError('对应升数不能为空');
             return false;
         }
         return true;

@@ -8,6 +8,8 @@ declare module server {
 		/** 密度 */
 		density: number | string;
 		/** 油高 */
-		height: number | string;
+        height: number | string;
+        /** 油高对应的升数 */
+        count: number;
 	}
 }

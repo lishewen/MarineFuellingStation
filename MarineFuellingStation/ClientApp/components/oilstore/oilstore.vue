@@ -47,6 +47,14 @@
                     <yd-input type="number" slot="right" v-model="survey.height" placeholder="请输入" required></yd-input>
                     <span slot="right">cm</span>
                 </yd-cell-item>
+                <yd-cell-item>
+                    <span slot="left">对应升数：</span>
+                    <yd-input type="number" slot="right" v-model="survey.count" placeholder="请输入" required></yd-input>
+                    <span slot="right">升</span>
+                </yd-cell-item>
+                <yd-cell-item>
+                    <span slot="right">{{strToton()}}吨</span>
+                </yd-cell-item>
             </yd-cell-group>
             <div style="text-align: center">
                 <yd-button style="width:80%" type="primary" @click.native="postSurveyclick">提交新数据</yd-button>
@@ -58,6 +66,7 @@
                         <p>油温：{{su.temperature}}℃</p>
                         <p>密度：{{su.density}}</p>
                         <p>油高：{{su.height}}cm</p>
+                        <p>对应升数：{{su.count}}</p>
                     </div>
                 </yd-cell-item>
             </yd-cell-group>

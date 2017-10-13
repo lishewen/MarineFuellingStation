@@ -16,7 +16,12 @@ namespace MFS.Repositorys
         /// <returns></returns>
         public new List<StoreType> GetAllList()
         {
-            return _dbContext.StoreTypes.Include(st => st.Stores).ToList();
+            var list = _dbContext.StoreTypes.Include(st => st.Stores).ToList();
+            foreach (var item in list)
+            {
+                item.Stores = item.Stores.OrderByDescending(s => s.Id).ToList();
+            }
+            return list;
         }
     }
 }

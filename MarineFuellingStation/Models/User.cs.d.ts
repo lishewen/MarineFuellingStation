@@ -1,5 +1,5 @@
 declare module server {
-	interface user extends entityBase {
+	interface user extends EntityBase {
 		userId: string;
 		/** 入职时间 */
 		reportDutyTime: Date;

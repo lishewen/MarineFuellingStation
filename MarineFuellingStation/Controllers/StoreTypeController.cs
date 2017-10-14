@@ -61,6 +61,7 @@ namespace MFS.Controllers
         [HttpPost]
         public ResultJSON<StoreType> Post([FromBody]StoreType model)
         {
+            if (r.Has(s => s.Name == model.Name)) return new ResultJSON<StoreType> { Code = 0, Msg = "操作失败，已存在" + model.Name };
             r.CurrentUser = UserName;
             return new ResultJSON<StoreType>
             {

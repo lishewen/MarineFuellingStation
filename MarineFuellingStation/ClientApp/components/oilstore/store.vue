@@ -20,8 +20,8 @@
                 <yd-cell-group>
                     <yd-cell-item>
                         <yd-radio-group v-model="radio1" slot="left">
-                            <yd-radio val="1">销售仓</yd-radio>
-                            <yd-radio val="2">存储仓</yd-radio>
+                            <yd-radio val="0">销售仓</yd-radio>
+                            <yd-radio val="1">存储仓</yd-radio>
                         </yd-radio-group>
                     </yd-cell-item>
                     <yd-cell-item>

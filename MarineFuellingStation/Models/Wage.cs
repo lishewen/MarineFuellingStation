@@ -12,6 +12,7 @@ namespace MFS.Models
         public int DepartmentId { get; set; }
         public decimal 基本 { get; set; }
         public decimal 出勤天数 { get; set; }
+        public decimal 绩效工资 { get; set; }
         public decimal 提成 { get; set; }
         public decimal 超额 { get; set; }
         public decimal 交通 { get; set; }

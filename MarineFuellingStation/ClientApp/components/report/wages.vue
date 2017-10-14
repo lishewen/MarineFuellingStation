@@ -54,6 +54,12 @@
                 <div style="text-align:right;margin-top:20px;color:lightgray">津贴</div>
                 <hr />
                 <yd-flexbox>
+                    <yd-flexbox-item>绩效工资：</yd-flexbox-item>
+                    <yd-flexbox-item style="text-align:right">
+                        <yd-input type="number" v-model="jixiao" placeholder="请输入" style="background-color:lightcyan"></yd-input>
+                    </yd-flexbox-item>
+                </yd-flexbox>
+                <yd-flexbox>
                     <yd-flexbox-item>提成：</yd-flexbox-item>
                     <yd-flexbox-item style="text-align:right">{{model.提成}}</yd-flexbox-item>
                 </yd-flexbox>

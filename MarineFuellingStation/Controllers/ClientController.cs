@@ -21,6 +21,7 @@ namespace MFS.Controllers
         [HttpPost]
         public ResultJSON<Client> Post([FromBody]Client model)
         {
+            if (r.Has(c => c.CarNo == model.CarNo)) return new ResultJSON<Client> { Code = 0, Msg = "操作失败，已存在" + model.CarNo };
             r.CurrentUser = UserName;
             return new ResultJSON<Client>
             {

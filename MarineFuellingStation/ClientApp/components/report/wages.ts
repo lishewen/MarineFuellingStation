@@ -21,6 +21,7 @@ export default class WageComponent extends ComponentBase {
     traffic: number = 0;
     qingjia: number = 0;
     lend: number = 0;
+    jixiao: number = 0;//绩效工资
     security: number = 0;
     sv: string = "";
     departshow: boolean = false;
@@ -61,6 +62,10 @@ export default class WageComponent extends ComponentBase {
         this.$watch('selecteddate', (v: string, ov: string) => {
             this.sdate = moment(v).format("YYYYMM");
         });
+        this.$watch('jixiao', (v: string, ov: string) => {
+            this.model.绩效工资 = parseInt(v);
+            this.changeMoney();
+        });
     };
 
     change(label: string, tabkey: string) {
@@ -74,6 +79,7 @@ export default class WageComponent extends ComponentBase {
         this.security = this.model.安全保障金;
         this.lend = this.model.借支;
         this.qingjia = this.model.请假;
+        this.jixiao = this.model.绩效工资;
         this.showwage = true;
     }
 
@@ -85,7 +91,7 @@ export default class WageComponent extends ComponentBase {
 
     saveWage() {
         //TODO: 验证操作
-
+        if (this.model.实发 == 0 || this.model.实发 != this.model.现金 + this.model.转卡金额) { this.toastError("实发 = 现金 + 转卡金额"); return; }
         this.postWage(this.model);
     }
 
@@ -95,7 +101,7 @@ export default class WageComponent extends ComponentBase {
     }
 
     changeMoney() {
-        this.model.实发 = this.model.基本 + this.model.提成 + this.model.交通
+        this.model.实发 = this.model.基本 + this.model.提成 + this.model.交通 + this.model.绩效工资
             - this.model.社保 - this.model.安全保障金 - this.model.请假 - this.model.餐费 - this.model.借支;
     }
 

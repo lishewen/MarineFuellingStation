@@ -252,7 +252,9 @@ export default class ClientComponent extends ComponentBase {
             let jobj = res.data as server.resultJSON<server.company>;
             if (jobj.code == 0) {
                 this.modelCompany.name = '';
-                this.toastSuccess('操作成功')
+                this.toastSuccess('操作成功');
+                this.modelCompany = new Object as server.company;
+                this.getCompanys('');
             }
             else
                 this.toastError(jobj.msg);

@@ -9,5 +9,6 @@ namespace MFS.Repositorys
     public class CompanyRepository : RepositoryBase<Company>
     {
         public CompanyRepository(EFContext dbContext) : base(dbContext) { }
+        
     }
 }

@@ -20,6 +20,7 @@ const routes: VueRouter.RouteConfig[] = [
     { path: '/produce/planboard/:id/:from', component: require('./components/sales/plandetail.vue') },
     { path: '/produce/assay', component: require('./components/produce/assay.vue') },
     { path: '/produce/unload', component: require('./components/produce/unload.vue') },
+    { path: '/produce/unloadaudit', component: require('./components/produce/unloadaudit.vue') },
     { path: '/produce/load', component: require('./components/produce/load.vue') },
     { path: '/produce/landload', component: require('./components/produce/landload.vue') },
     { path: '/produce/movestore', component: require('./components/produce/movestore.vue') },

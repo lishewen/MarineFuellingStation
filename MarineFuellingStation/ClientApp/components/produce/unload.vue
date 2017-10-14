@@ -35,7 +35,7 @@
                     <yd-input slot="right" v-model="purchase.density" type="number" required placeholder="请输入测量密度"></yd-input>
                 </yd-cell-item>
                 <yd-cell-item>
-                    <span slot="left">磅秤数：</span>
+                    <span slot="left">磅秤数（毛重）：</span>
                     <yd-input slot="right" v-model="purchase.scaleWithCar" type="number" required placeholder="请输入磅秤数"></yd-input>
                     <span slot="right">吨</span>
                 </yd-cell-item>
@@ -65,7 +65,7 @@
                 </yd-cell-item>
             </yd-cell-group>
             <yd-button style="width:90%" type="primary" @click.native="showStores = true">选择油仓</yd-button>
-            <yd-button style="width:90%; margin-top:10px;" type="primary" @click.native="toStoresOKclick">提交，下一步</yd-button>
+            <yd-button style="width:90%; margin-top:10px;" type="primary" @click.native="toStoresOKclick" :disabled="isPrevent2">提交，下一步</yd-button>
         </div>
         <div class="center" v-show="currStep == 4">
             <yd-cell-group title="卸油前表数（上次卸油）">
@@ -82,7 +82,7 @@
                     <yd-input slot="right" v-model="lastPurchase.instrument3" type="number" required></yd-input>
                 </yd-cell-item>
             </yd-cell-group>
-            <yd-cell-group title="卸油后表数">
+            <yd-cell-group title="卸油后表数（本次卸油）">
                 <yd-cell-item v-show="isHas('表1')">
                     <span slot="left">表数1：</span>
                     <yd-input slot="right" v-model="purchase.instrument1" type="number" required placeholder="请输入卸油表数1"></yd-input>
@@ -101,10 +101,11 @@
         <div v-show="currStep == 5">
             <yd-cell-group title="空车过磅">
                 <yd-cell-item>
-                    <span slot="left">磅秤数：</span>
+                    <span slot="left">磅秤数（皮重）：</span>
                     <yd-input slot="right" v-model="purchase.scale" type="number" required placeholder="请输入磅秤数"></yd-input>
                     <span slot="right">吨</span>
                 </yd-cell-item>
+                
                 <yd-cell-item>
                     <span slot="left">图片上传：</span>
                     <input slot="left" type="file" value="选择图片" accept="image/png,image/gif,image/jpeg" @change="uploadfile" />

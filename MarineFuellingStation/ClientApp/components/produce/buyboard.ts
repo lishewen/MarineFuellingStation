@@ -30,7 +30,7 @@ export default class BuyboardComponent extends Vue {
         return moment(d).format('MM-DD hh:mm');
     }
     getPurchases() {
-        axios.get('/api/Purchase').then((res) => {
+        axios.get('/api/Purchase/GetAllByState?pus=' + server.unloadState.已开单).then((res) => {
             let jobj = res.data as server.resultJSON<server.purchase[]>;
             if (jobj.code == 0)
                 this.list = jobj.data;

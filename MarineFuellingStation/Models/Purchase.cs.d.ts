@@ -7,7 +7,8 @@ declare module server {
         化验,
         卸油中,
         空车过磅,
-        完工
+        完工,
+        已审核
     }
     /** 进油计划 */
     interface purchase extends entityBase {
@@ -35,8 +36,12 @@ declare module server {
         instrument2: number;
         /** 卸油表表数3 */
         instrument3: number;
+        /** 审核人 */
+        auditor: string;
+        /** 审核时间 */
+        audiTime: string;
         /** 卸油选择的多个油仓 */
-        toStores: toStore[];
+        toStoresList: toStore[];
         /** 卸车时需要测量的密度 */
         density: number;
         /** 油车磅秤数 */

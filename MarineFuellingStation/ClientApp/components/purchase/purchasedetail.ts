@@ -24,6 +24,8 @@ export default class PurchaseDetailComponent extends ComponentBase {
             from = '/purchase/purchase'
         else if (from == 'board')
             from = '/produce/buyboard'
+        else if (from == 'auditing')
+            from = '/produce/unloadaudit'
         this.getPurchase(id, from, () => {
             //设置返回键的连接
             this.$emit('setTitle', this.model.name + ' 进油单明细', from);

@@ -11,6 +11,7 @@ export default class UnloadComponent extends ComponentBase {
     currStep: number = 0;
     isPrevent: boolean = true;//控制上传后提交的标识
     isPrevent1: boolean = true;
+    isPrevent2: boolean = true;//控制选择油仓下一步的标识
     store: server.store;
     stores: server.store[];
     toStores: server.toStore[];
@@ -82,6 +83,8 @@ export default class UnloadComponent extends ComponentBase {
     }
 
     storeOKclick() {
+        if (this.selectedStIds.length > 3) { this.toastError("最多只可以选择三个卸油仓"); return; }
+
         this.toStores = new Array<server.toStore>();
         //console.log(this.selectedStIds);
 
@@ -95,6 +98,8 @@ export default class UnloadComponent extends ComponentBase {
         //不初始化的话会出现bug
         this.toStoreCounts = new Array<number>(this.toStores.length);
 
+        //释放下一步提交按钮
+        this.isPrevent2 = false;
         this.showStores = false;
     }
 
@@ -133,7 +138,7 @@ export default class UnloadComponent extends ComponentBase {
                 nextState = server.unloadState.空车过磅;
 
                 let isValid = true;
-                this.purchase.toStores = new Array<server.toStore>();
+                this.purchase.toStoresList = new Array<server.toStore>();
                 this.toStores.forEach((tst, idx) => {
                     switch (this.instruments[idx]) {
                         case "表1":
@@ -152,7 +157,7 @@ export default class UnloadComponent extends ComponentBase {
                             tst.count = this.purchase.instrument3 - this.lastPurchase.instrument3;
                             break;
                     }
-                    this.purchase.toStores.push(tst);
+                    this.purchase.toStoresList.push(tst);
                 });
                 if (!isValid) return;
                 break;
@@ -206,7 +211,7 @@ export default class UnloadComponent extends ComponentBase {
     }
 
     getPurchases() {
-        axios.get('/api/Purchase').then((res) => {
+        axios.get('/api/Purchase/GetReadyUnload').then((res) => {
             let jobj = res.data as server.resultJSON<server.purchase[]>;
             if (jobj.code == 0) {
                 this.purchases = jobj.data;

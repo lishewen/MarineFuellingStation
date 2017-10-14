@@ -11,9 +11,10 @@ using System;
 namespace MFS.Migrations
 {
     [DbContext(typeof(EFContext))]
-    partial class EFContextModelSnapshot : ModelSnapshot
+    [Migration("20171014112442_purchase_auditor")]
+    partial class purchase_auditor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -625,12 +626,6 @@ namespace MFS.Migrations
                     b.Property<DateTime?>("StartTime");
 
                     b.Property<int>("State");
-
-                    b.Property<string>("ToStoreCounts");
-
-                    b.Property<string>("ToStoreIds");
-
-                    b.Property<string>("ToStoreNames");
 
                     b.Property<string>("TrailerNo");
 

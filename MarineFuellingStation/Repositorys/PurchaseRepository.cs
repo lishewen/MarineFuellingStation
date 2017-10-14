@@ -48,6 +48,15 @@ namespace MFS.Repositorys
         {
             return _dbContext.Purchases.Include(p => p.Product).ToList();
         }
+        
+        /// <summary>
+        /// 获取待卸油施工的采购单
+        /// </summary>
+        /// <returns></returns>
+        public List<Purchase> GetReadyUnload()
+        {
+            return _dbContext.Purchases.Where(p => p.State != Purchase.UnloadState.完工 && p.State != Purchase.UnloadState.已审核).Include(p => p.Product).ToList();
+        }
         /// <summary>
         /// 获取最近top n个进油单
         /// </summary>
@@ -61,18 +70,17 @@ namespace MFS.Repositorys
         {
             return _dbContext.Purchases.Include("Product").FirstOrDefault(p => p.Id == id);
         }
-        public Purchase ChangeState(Purchase modelWithChanges)
+        public bool UpdateStoreOil(Purchase model)
         {
-            if(modelWithChanges.State == Purchase.UnloadState.完工)
-            {
+            try { 
                 //更新油仓
                 StoreRepository st_r;
                 InAndOutLogRepository io_r;
                 st_r = new StoreRepository(_dbContext);
-                foreach(ToStoreModel ts in modelWithChanges.ToStores)
+                foreach (ToStoreModel ts in model.ToStoresList)
                 {
                     //更新平均单价
-                    bool isUpdateAvgPrice = st_r.UpdateAvgPrice(ts.Id, modelWithChanges.Price, ts.Count);
+                    bool isUpdateAvgPrice = st_r.UpdateAvgPrice(ts.Id, model.Price, ts.Count);
                     //更新油仓当前数量
                     bool isUpdateStore = st_r.UpdateOil(ts.Id, ts.Count, true);
                     if (isUpdateStore && isUpdateAvgPrice)
@@ -81,7 +89,7 @@ namespace MFS.Repositorys
                         io_r = new InAndOutLogRepository(_dbContext);
                         io_r.Insert(new InAndOutLog
                         {
-                            Name = "进油卸油",
+                            Name = "卸油入库",
                             StoreId = ts.Id,
                             Value = ts.Count,
                             Operators = CurrentUser,
@@ -90,9 +98,45 @@ namespace MFS.Repositorys
                         });
                     }
                 }
-                
+                return true;
             }
-            return Update(modelWithChanges);
+            catch
+            {
+                return false;
+            }
+        }
+        public List<Purchase> GetByState(int page, int pageSize, Purchase.UnloadState pus)
+        {
+            List<Purchase> list = LoadPageList(page, pageSize, out int rCount, true, p => p.State == pus).OrderByDescending(p => p.Id).ToList();
+            //根据ids,names,counts添加入toStoresList
+            foreach (var p in list)
+            {
+                if (!string.IsNullOrEmpty(p.ToStoreIds))
+                {
+                    p.ToStoresList = new List<ToStoreModel>();
+                    //多个
+                    if (p.ToStoreIds.IndexOf(',') > -1)
+                    {
+                        var arrSid = p.ToStoreIds.Split(',').ToArray();
+                        var arrName = p.ToStoreNames.Split(',').ToArray();
+                        var arrCount = p.ToStoreCounts.Split(',').ToArray();
+                        for (int i = 0; i < arrSid.Length; i++)
+                        {
+                            ToStoreModel s = new ToStoreModel();
+                            s.Id = int.Parse(arrSid[i]); s.Name = arrName[i]; s.Count = int.Parse(arrCount[i]);
+                            p.ToStoresList.Add(s);
+                        }
+                    }
+                    //单个
+                    else
+                    {
+                        ToStoreModel s = new ToStoreModel();
+                        s.Id = int.Parse(p.ToStoreIds); s.Name = p.ToStoreNames; s.Count = int.Parse(p.ToStoreCounts);
+                        p.ToStoresList.Add(s);
+                    }
+                }
+            }
+            return list;
         }
     }
 }

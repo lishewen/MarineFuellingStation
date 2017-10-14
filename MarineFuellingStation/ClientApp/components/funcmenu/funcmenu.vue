@@ -17,7 +17,7 @@
                 <p slot="text">船舶清污开单</p>
             </yd-grids-item>
             <yd-grids-item link="./sales/auditing" style="background-color:lightcyan">
-                <p slot="text">审核</p>
+                <p slot="text">计划审核</p>
             </yd-grids-item>
         </yd-grids-group>
         <yd-grids-group :rows="3" title="生产管理">
@@ -29,6 +29,9 @@
             </yd-grids-item>
             <yd-grids-item link="./produce/unload" style="background-color:lightcyan">
                 <p slot="text">陆上卸油</p>
+            </yd-grids-item>
+            <yd-grids-item link="./produce/unloadaudit" style="background-color:lightcyan">
+                <p slot="text">卸油审核</p>
             </yd-grids-item>
             <yd-grids-item link="./produce/load" style="background-color:lightcyan">
                 <p slot="text">水上装油</p>

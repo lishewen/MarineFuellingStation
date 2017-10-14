@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace MFS.Controllers
 {
@@ -95,6 +96,53 @@ namespace MFS.Controllers
                 Data = r.GetAllList().OrderByDescending(p => p.Id).FirstOrDefault()
             };
         }
+        /// <summary>
+        /// 准备卸油操作的单据
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("[action]")]
+        public ResultJSON<List<Purchase>> GetReadyUnload()
+        {
+
+            return new ResultJSON<List<Purchase>>
+            {
+                Code = 0,
+
+                Data = r.GetReadyUnload()
+            };
+        }
+        /// <summary>
+        /// 根据状态显示所有数据
+        /// </summary>
+        /// <param name="pus">State状态</param>
+        /// <returns></returns>
+        [HttpGet("[action]")]
+        public ResultJSON<List<Purchase>> GetAllByState(Purchase.UnloadState pus)
+        {
+
+            return new ResultJSON<List<Purchase>>
+            {
+                Code = 0,
+                Data = r.GetAllList(p => p.State == pus)
+            };
+        }
+        /// <summary>
+        /// 根据状态分页显示数据
+        /// </summary>
+        /// <param name="page">第N页</param>
+        /// <param name="pageSize">页记录数</param>
+        /// <param name="pus">State状态</param>
+        /// <returns></returns>
+        [HttpGet("[action]")]
+        public ResultJSON<List<Purchase>> GetByState(int page, int pageSize, Purchase.UnloadState pus)
+        {
+            
+            return new ResultJSON<List<Purchase>>
+            {
+                Code = 0,
+                Data = r.GetByState(page, pageSize, pus)
+            };
+        }
         [HttpPut("[action]")]
         public ResultJSON<Purchase> ChangeState([FromBody]Purchase p)
         {
@@ -102,7 +150,21 @@ namespace MFS.Controllers
             return new ResultJSON<Purchase>
             {
                 Code = 0,
-                Data = r.ChangeState(p)
+                Data = r.Update(p)
+            };
+        }
+        
+        [HttpPut("[action]")]
+        public ResultJSON<Purchase> UnloadRestart(int pid)
+        {
+            r.CurrentUser = UserName;
+            var purchase = r.Get(pid);
+            purchase.State = Purchase.UnloadState.已开单;
+            r.Save();
+            return new ResultJSON<Purchase>
+            {
+                Code = 0,
+                Data = purchase
             };
         }
         [HttpPost("[action]")]
@@ -162,5 +224,31 @@ namespace MFS.Controllers
                 Data = result
             };
         }
+        /// <summary>
+        /// 审核卸油 设置状态State为已审核
+        /// </summary>
+        /// <param name="sp">model</param>
+        /// <returns></returns>
+        [HttpPut("[action]")]
+        public ResultJSON<Purchase> AuditingOK([FromBody]Purchase pu)
+        {
+            pu.State = Purchase.UnloadState.已审核;
+            //更新油仓相关数量，平均单价，出入仓记录
+            if (r.UpdateStoreOil(pu))
+            {
+                return new ResultJSON<Purchase>
+                {
+                    Code = 0,
+                    Data = r.Update(pu)
+                };
+            }
+            else
+                return new ResultJSON<Purchase>
+                {
+                    Code = 500,
+                    Msg = "操作失败"
+                };
+        }
+
     }
 }

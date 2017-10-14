@@ -12,6 +12,10 @@ namespace MFS.Models
     /// </summary>
     public class Purchase : EntityBase
     {
+        private string _toStoreIds;
+        private string _toStoreNames;
+        private string _toStoreCounts;
+
         public int ProductId { get; set; }
         [ForeignKey("ProductId")]
         public virtual Product Product { get; set; }
@@ -37,10 +41,67 @@ namespace MFS.Models
         public string Driver2 { get; set; }
         public string IdCard2 { get; set; }
         public string Phone2 { get; set; }
-        [NotMapped]
-        public List<ToStoreModel> ToStores { get; set; }
 
         ///陆上卸油用到的字段
+        [NotMapped]
+        public List<ToStoreModel> ToStoresList { get; set; }
+        /// <summary>
+        /// 卸油对应的仓库Id，多个用','分隔
+        /// </summary>
+        public string ToStoreIds {
+            get { return _toStoreIds; }
+            set
+            {
+                if(ToStoresList != null)
+                {
+                    string ids = "";
+                    foreach(var s in ToStoresList)
+                    {
+                        ids += s.Id + ",";
+                    }
+                    ids = ids.Substring(0, ids.Length - 1);
+                    _toStoreIds = ids;
+                }
+            }
+        }
+        /// <summary>
+        /// 卸油对应的仓库名称，多个用','分隔
+        /// </summary>
+        public string ToStoreNames {
+            get { return _toStoreNames; }
+            set
+            {
+                if (ToStoresList != null)
+                {
+                    string names = "";
+                    foreach (var s in ToStoresList)
+                    {
+                        names += s.Name + ",";
+                    }
+                    names = names.Substring(0, names.Length - 1);
+                    _toStoreNames = names;
+                }
+            }
+        }
+        /// <summary>
+        /// 卸油对应的仓库的数量，多个用','分隔
+        /// </summary>
+        public string ToStoreCounts {
+            get { return _toStoreCounts; }
+            set
+            {
+                if (ToStoresList != null)
+                {
+                    string counts = "";
+                    foreach (var s in ToStoresList)
+                    {
+                        counts += s.Count + ",";
+                    }
+                    counts = counts.Substring(0, counts.Length - 1);
+                    _toStoreCounts = counts;
+                }
+            }
+        }
         ///
         /// <summary>
         /// 表1
@@ -54,6 +115,14 @@ namespace MFS.Models
         /// 表3
         /// </summary>
         public decimal Instrument3 { get; set; }
+        /// <summary>
+        /// 审核人
+        /// </summary>
+        public string Auditor { get; set; }
+        /// <summary>
+        /// 审核时间
+        /// </summary>
+        public DateTime? AuditTime { get; set; }
         /// <summary>
         /// 卸车时需要测量的密度
         /// </summary>
@@ -99,7 +168,8 @@ namespace MFS.Models
             化验,
             卸油中,
             空车过磅,
-            完工
+            完工,
+            已审核
         }
 
 
@@ -111,6 +181,7 @@ namespace MFS.Models
                 return Price * Count;
             }
         }
+        
     }
     /// <summary>
     /// 选择多个卸油仓卸油用到的Model

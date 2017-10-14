@@ -1,12 +1,12 @@
 declare module server {
 	/** 销售计划 Name字段为单号 */
-	interface salesPlan extends entityBase {
-		salesPlanType: salesPlanType;
+	interface salesPlan extends EntityBase {
+		salesPlanType: any;
 		carNo: string;
 		productId: number;
 		/** 油品名 */
-        oilName: string;
-        price: number | string;
+		oilName: string;
+		price: number;
 		count: number;
 		/** 单位 */
 		unit: string;
@@ -14,16 +14,15 @@ declare module server {
 		remainder: number;
 		oilDate: Date;
 		/** 是否开票 */
-        isInvoice: boolean;
-        /** 开票类型 */
-        ticketType: ticketType;
+		isInvoice: boolean;
+		ticketType: any;
 		/** 开票单位 */
 		billingCompany: string;
 		/** 开票单价 */
 		billingPrice: number;
 		/** 开票数量 */
 		billingCount: number;
-		state: salesPlanState;
+		state: any;
 		/** 审核人 */
 		auditor: string;
 		/** 审核时间 */

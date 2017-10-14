@@ -65,7 +65,7 @@ export default class OilStoreComponent extends ComponentBase {
     }
 
     strToton() {
-        return this.survey.count * this.survey.density / 1000
+        return this.survey.count * <number>this.survey.density / 1000
     }
 
     getStoreTypes() {

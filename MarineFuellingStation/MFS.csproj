@@ -44,18 +44,6 @@
     <TypeScriptCompile Include="ClientApp\components\produce\planboard.ts" />
   </ItemGroup>
   <ItemGroup>
-    <None Update="Controllers\AssayController.cs.d.ts">
-      <DependentUpon>AssayController.cs</DependentUpon>
-    </None>
-    <None Update="Controllers\ProductController.cs.d.ts">
-      <DependentUpon>ProductController.cs</DependentUpon>
-    </None>
-    <None Update="Controllers\SurveyController.cs.d.ts">
-      <DependentUpon>SurveyController.cs</DependentUpon>
-    </None>
-    <None Update="Helper\FileHelper.cs.d.ts">
-      <DependentUpon>FileHelper.cs</DependentUpon>
-    </None>
     <None Update="Models\Assay.cs.d.ts">
       <DependentUpon>Assay.cs</DependentUpon>
     </None>
@@ -106,9 +94,6 @@
     </None>
     <None Update="Models\WorkOption.cs.d.ts">
       <DependentUpon>WorkOption.cs</DependentUpon>
-    </None>
-    <None Update="Repositorys\OrderRepository.cs.d.ts">
-      <DependentUpon>OrderRepository.cs</DependentUpon>
     </None>
   </ItemGroup>
   <Target Name="RunWebpack" AfterTargets="ComputeFilesToPublish">

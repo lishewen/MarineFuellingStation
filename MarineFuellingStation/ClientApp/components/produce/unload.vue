@@ -86,14 +86,17 @@
                 <yd-cell-item v-show="isHas('表1')">
                     <span slot="left">表数1：</span>
                     <yd-input slot="right" v-model="purchase.instrument1" type="number" required placeholder="请输入卸油表数1"></yd-input>
+                    <span slot="right" style="width: 150px">油量：{{diff1}}升</span>
                 </yd-cell-item>
                 <yd-cell-item v-show="isHas('表2')">
                     <span slot="left">表数2：</span>
                     <yd-input slot="right" v-model="purchase.instrument2" type="number" required placeholder="请输入卸油表数2"></yd-input>
+                    <span slot="right" style="width: 150px">油量：{{diff2}}升</span>
                 </yd-cell-item>
                 <yd-cell-item v-show="isHas('表3')">
                     <span slot="left">表数3：</span>
                     <yd-input slot="right" v-model="purchase.instrument3" type="number" required placeholder="请输入卸油表数3"></yd-input>
+                    <span slot="right" style="width: 150px">油量：{{diff3}}升</span>
                 </yd-cell-item>
             </yd-cell-group>
             <yd-button style="width:90%" type="primary" @click.native="goNext">卸油结束，前往过磅</yd-button>

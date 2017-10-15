@@ -24,6 +24,10 @@ export default class UnloadComponent extends ComponentBase {
     purchase: server.purchase;
     lastPurchase: server.purchase;
 
+    diff1: number = 0;//表数差值1
+    diff2: number = 0;//表数差值2
+    diff3: number = 0;//表数差值3
+
     constructor() {
         super();
 
@@ -76,7 +80,6 @@ export default class UnloadComponent extends ComponentBase {
 
     storeclick(st: server.store) {
         this.store = st;
-        //this.purchase.store = st;
         this.showStores = false;
         this.goNext();
         console.log(this.store);
@@ -91,8 +94,11 @@ export default class UnloadComponent extends ComponentBase {
         //把所选的油仓的Id和Name复制到toStores
         this.selectedStIds.forEach((sst, i) => {
             this.stores.forEach((st, j) => {
-                if (sst == st.id)
+                if (sst == st.id) {
                     this.toStores.push({ id: st.id, name: st.name });
+                    //初始化下拉列表的值
+                    this.instruments[j] = "";
+                }   
             });
         });
         //不初始化的话会出现bug
@@ -104,6 +110,21 @@ export default class UnloadComponent extends ComponentBase {
     }
 
     toStoresOKclick() {
+        //判断选择的油表是否相同
+        console.log(this.instruments);
+        if (this.instruments.length == 1) { if (this.instruments[0] == "") { this.toastError("请选择使用的油表"); return; } };
+        if (this.instruments.length == 2) {
+            if (this.instruments[0] == "" || this.instruments[1] == "") { this.toastError("请选择使用的油表"); return; };
+            if (this.instruments[0] == this.instruments[1]) { this.toastError("两个油仓不能同时使用一个油表"); return; };
+        }
+        if (this.instruments.length == 3) {
+            if (this.instruments[0] == "" || this.instruments[1] == "" || this.instruments[2] == "") { this.toastError("请选择使用的油表"); return; };
+            if (this.instruments[0] == this.instruments[1] || this.instruments[0] == this.instruments[2] || this.instruments[1] == this.instruments[2]) {
+                this.toastError("油仓不能同时使用同一个油表");
+                return;
+            };
+        }
+
         this.goNext();
     }
 
@@ -173,7 +194,23 @@ export default class UnloadComponent extends ComponentBase {
 
     mounted() {
         this.$emit('setTitle', this.$store.state.username + ' 陆上卸油');
-        this.$watch('show1', (v, ov) => {
+        this.$watch('purchase.instrument1', (v, ov) => {
+            this.diff1 = v - this.lastPurchase.instrument1;
+        });
+        this.$watch('purchase.instrument2', (v, ov) => {
+            this.diff2 = v - this.lastPurchase.instrument1;
+        });
+        this.$watch('purchase.instrument3', (v, ov) => {
+            this.diff3 = v - this.lastPurchase.instrument1;
+        });
+        this.$watch('lastPurchase.instrument1', (v, ov) => {
+            this.diff1 = this.purchase.instrument1 - v;
+        });
+        this.$watch('lastPurchase.instrument2', (v, ov) => {
+            this.diff2 = this.purchase.instrument2 - v;
+        });
+        this.$watch('lastPurchase.instrument3', (v, ov) => {
+            this.diff3 = this.purchase.instrument3 - v;
         });
     };
     uploadfile(e) {

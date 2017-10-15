@@ -71,7 +71,7 @@ export default class UnloadAuditComponent extends ComponentBase {
             );
             this.actItems.push(
                 {
-                    label: '审核',
+                    label: '审核通过',
                     method: () => {
                         this.putAuditingOK(s);
                     }
@@ -110,6 +110,16 @@ export default class UnloadAuditComponent extends ComponentBase {
                 this.page = 1;
             console.log("page = " + this.page)
         });
+    }
+
+    strDiff(p: server.purchase) {
+        let 实际转入升数: number = 0;
+        let 订单升数: number = 0;
+        p.toStoresList.forEach((st, i) => {
+            实际转入升数 += st.count;
+        });
+        订单升数 = Math.round(p.count / p.density * 1000);
+        return 订单升数 - 实际转入升数;
     }
 
     //获得计划列表

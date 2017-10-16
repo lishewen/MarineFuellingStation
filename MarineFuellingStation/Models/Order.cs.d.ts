@@ -5,7 +5,9 @@ declare module server {
         salesPlan: salesPlan;
 		orderType: any;
 		/** 船号/车号 */
-		carNo: string;
+        carNo: string;
+        /** 销售员 */
+        salesman: string;
 		/** 客户 */
         clientId?: number;
         client: client;

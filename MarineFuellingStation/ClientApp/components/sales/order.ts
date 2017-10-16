@@ -20,6 +20,8 @@ export default class OrderComponent extends ComponentBase {
     oilshow: boolean = false;
     orders: server.order[];
     clients: server.client[];
+    sales: work.userlist[];
+    showSalesmans: boolean = false;
 
     radio2: string = '1';
     carNo: string = '';
@@ -63,6 +65,7 @@ export default class OrderComponent extends ComponentBase {
 
         this.getOrderNo();
         this.getOilProducts();
+        this.getSales();
     }
 
     salesplanselect() {
@@ -115,6 +118,8 @@ export default class OrderComponent extends ComponentBase {
         this.model.billingCompany = s.billingCompany;
         this.model.billingPrice = s.billingPrice;
         this.model.billingCount = s.billingCount;
+        this.model.salesman = s.createdBy;
+        
         //this.model.clientId = s.cl
         this.oilName = s.oilName;
         this.model.productId = s.productId;
@@ -139,6 +144,11 @@ export default class OrderComponent extends ComponentBase {
         this.salesplanshow = false;
     };
 
+    selectsalesclick(s: work.userlist) {
+        this.model.salesman = s.name;
+        this.showSalesmans = false;
+    }
+
     buttonclick() {
         //信息验证
         if (this.model.carNo == '') {
@@ -151,6 +161,10 @@ export default class OrderComponent extends ComponentBase {
         }
         if (this.model.productId == 0) {
             this.toastError('必须选择油品');
+            return;
+        }
+        if (this.model.salesman == "") {
+            this.toastError('必须指定销售员');
             return;
         }
         if (this.model.price == '' || this.model.price <= 0) { this.toastError("销售单价输入有误"); return; }
@@ -235,8 +249,9 @@ export default class OrderComponent extends ComponentBase {
     getSalesPlans() {
         axios.get('/api/SalesPlan').then((res) => {
             let jobj = res.data as server.resultJSON<server.salesPlan[]>;
-            if (jobj.code == 0)
+            if (jobj.code == 0) {
                 this.salesplans = jobj.data;
+            }   
         });
     }
 
@@ -306,6 +321,15 @@ export default class OrderComponent extends ComponentBase {
                     }
                 }
             });
+    }
+
+    //获得销售员
+    getSales() {
+        axios.get('/api/User/Salesman').then((res) => {
+            let jobj = res.data as work.tagMemberResult;
+            if (jobj.errcode == 0)
+                this.sales = jobj.userlist;
+        });
     }
 
     postOrder(model: server.order) {

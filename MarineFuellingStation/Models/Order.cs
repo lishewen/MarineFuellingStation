@@ -31,6 +31,10 @@ namespace MFS.Models
         public int? ClientId { get; set; }
         [ForeignKey("ClientId")]
         public virtual Client Client { get; set; }
+        /// <summary>
+        /// 销售员
+        /// </summary>
+        public string Salesman { get; set; }
         public int ProductId { get; set; }
         [ForeignKey("ProductId")]
         public virtual Product Product { get; set; }

@@ -139,11 +139,13 @@ namespace MFS.Repositorys
                     case "升":
                         o.SalesCommission = (o.Price - o.MinPrice) * o.Count * 0.2M / 1200;
                         break;
-                    default:
+                    case "吨":
                         o.SalesCommission = (o.Price - o.MinPrice) * o.Count * 0.2M;
                         break;
+                    default:
+                        break;
                 }
-           
+
             }
             //新增付款记录Payment
             foreach (Payment p in model.Payments)
@@ -162,7 +164,8 @@ namespace MFS.Repositorys
                     //新增消费记录并且扣减账户余额
                     ChargeLogRepository cl_r = new ChargeLogRepository(_dbContext);
                     cl_r.CurrentUser = CurrentUser;
-                    ChargeLog cl = new ChargeLog {
+                    ChargeLog cl = new ChargeLog
+                    {
                         PayType = (isCompanyCharge) ? OrderPayType.公司账户扣减 : OrderPayType.账户扣减,
                         ChargeType = ChargeType.消费,
                         Money = p.Money
@@ -185,17 +188,17 @@ namespace MFS.Repositorys
                 return ret;
 
             //更新计划状态为“已完成”
-            if(o.SalesPlanId != null)
+            if (o.SalesPlanId != null)
             {
                 var sp = _dbContext.SalesPlans.Where(s => s.Id == o.SalesPlanId).FirstOrDefault();
                 sp.State = SalesPlanState.已完成;
             }
 
             o.LastUpdatedAt = DateTime.Now;
-            
+
             Save();
             ret.Data = o;
-            
+
             return ret;
         }
         /// <summary>
@@ -219,7 +222,7 @@ namespace MFS.Repositorys
         public Order ChangeState(Order modelWithChanges)
         {
             //更新对应销售仓的数量
-            if(modelWithChanges.State == OrderState.已完成)
+            if (modelWithChanges.State == OrderState.已完成)
             {
                 StoreRepository st_r = new StoreRepository(_dbContext);
                 //更新油仓数量
@@ -237,7 +240,7 @@ namespace MFS.Repositorys
                         Unit = "升",
                         Type = LogType.出仓
                     });
-                }   
+                }
             }
             return Update(modelWithChanges);//更改状态
         }

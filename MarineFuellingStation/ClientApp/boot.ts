@@ -1,6 +1,5 @@
 ﻿import Vue from 'vue';
 import YDUI from 'vue-ydui';
-import { sync } from 'vuex-router-sync'
 import store from './store';
 import router from './router';
 import axios from "axios";
@@ -12,7 +11,6 @@ document.addEventListener('DOMContentLoaded', function () {
 }, false);
 
 Vue.use(YDUI);
-sync(store, router) //路由状态同步组件.
 
 axios.interceptors.request.use(function (config) {    // 这里的config包含每次请求的内容
     if (store.state.username != "") {

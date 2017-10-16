@@ -1,10 +1,10 @@
 ﻿import Vue from 'vue';
-import VueRouter from 'vue-router';
+import VueRouter, { RouteConfig } from 'vue-router';
 import store from './store'
 
 Vue.use(VueRouter);
 
-const routes: VueRouter.RouteConfig[] = [
+const routes: RouteConfig[] = [
     { path: '/sales/plan', component: require('./components/sales/plan.vue') },
     { path: '/sales/plan/:id/:from', component: require('./components/sales/plandetail.vue') },
     { path: '/sales/order', component: require('./components/sales/order.vue') },

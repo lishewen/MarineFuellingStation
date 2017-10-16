@@ -186,7 +186,27 @@ namespace MFS.Controllers
             return new ResultJSON<List<Order>>
             {
                 Code = 0,
-                Data = r.LoadPageList(page, size, out int cnt, true, o => o.CreatedBy == UserName && o.CreatedAt >= startDate && o.CreatedAt < endDate).ToList()
+                Data = r.LoadPageList(page, size, out int cnt, true, o => o.Salesman == UserName && o.CreatedAt >= startDate && o.CreatedAt < endDate).ToList()
+            };
+        }
+        /// <summary>
+        /// 获取我的订单分页数据，并且包含Product对象
+        /// </summary>
+        /// <param name="orderType">水上/陆上/机油</param>
+        /// <param name="page">第n页</param>
+        /// <returns></returns>
+        [HttpGet("[action]")]
+        public ResultJSON<List<Order>> GetOrders(int page, int size, DateTime startDate, DateTime endDate, string sales = "")
+        {
+            List<Order> list = new List<Order>();
+            if (string.IsNullOrEmpty(sales))
+                list = r.LoadPageList(page, size, out int cnt, true, o => o.CreatedAt >= startDate && o.CreatedAt < endDate).ToList();
+            else
+                list = r.LoadPageList(page, size, out int cnt, true, o => o.Salesman == sales && o.CreatedAt >= startDate && o.CreatedAt < endDate).ToList();
+            return new ResultJSON<List<Order>>
+            {
+                Code = 0,
+                Data = list
             };
         }
         /// <summary>

@@ -31,6 +31,11 @@
                         <yd-input slot="right" v-model="model.carNo" required placeholder="请输入"></yd-input>
                     </yd-cell-item>
 
+                    <yd-cell-item arrow @click.native="showSalesmans = true">
+                        <span slot="left">销售员：</span>
+                        <span slot="right">{{model.salesman}}</span>
+                    </yd-cell-item>
+
                     <yd-cell-item arrow @click.native="oilshow = true">
                         <span slot="left">商品：</span>
                         <span slot="right">{{oilName}}</span> 
@@ -147,6 +152,14 @@
                 <yd-cell-item arrow @click.native="transitemclick()">
                     <span slot="left">YS07070001</span>
                     <span slot="left" style="color:lightgray;margin-left:10px">王五</span>
+                </yd-cell-item>
+            </yd-cell-group>
+        </yd-popup>
+        <!--popup销售列表-->
+        <yd-popup v-model="showSalesmans" position="right">
+            <yd-cell-group title="必填">
+                <yd-cell-item arrow type="radio" v-for="s in sales" :key="s.userid" @click.native="selectsalesclick(s)">
+                    <span slot="left">{{s.name}}</span>
                 </yd-cell-item>
             </yd-cell-group>
         </yd-popup>

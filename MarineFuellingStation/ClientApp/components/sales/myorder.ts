@@ -12,7 +12,10 @@ export default class MyOrderComponent extends ComponentBase {
     startDate: string;
     endDate: string;
     orders: server.order[];
-    page: number = 1;
+
+    page: number;
+    scrollRef: any;
+    pSize: number = 30;
 
     timesubmit(): void {
         this.show4 = false;
@@ -36,6 +39,27 @@ export default class MyOrderComponent extends ComponentBase {
 
         this.getOrders();
     }
+
+    loadList() {
+        this.getOrders((list: server.order[]) => {
+            this.orders = this.page > 1 ? [...this.orders, ...list] : this.orders;
+            this.scrollRef = (<any>this).$refs.infinitescroll;
+            if (list.length < this.pSize) {
+                this.scrollRef.$emit("ydui.infinitescroll.loadedDone");
+                return;
+            }
+
+            //通知加载数据完毕
+            (<any>this).$refs.infinitescroll.$emit("ydui.infinitescroll.finishLoad");
+
+            if (list.length > 0)
+                this.page++;
+            else
+                this.page = 1;
+            console.log("page = " + this.page)
+        });
+    }
+
     switchBtn(o: any, idx: number) {
         if (o.id != this.activedBtnId && this.activedBtnId != -1) {
             o.actived = true;
@@ -135,7 +159,7 @@ export default class MyOrderComponent extends ComponentBase {
         this.$emit('setTitle', this.$store.state.username + ' ' + label);
     }
 
-    getOrders() {
+    getOrders(callback?: Function) {
         let sTimespan = ' 00:00';
         let eTimespan = ' 23:59';
         if (this.startDate == null) this.startDate = this.formatDate(new Date());
@@ -145,8 +169,13 @@ export default class MyOrderComponent extends ComponentBase {
             .then((res) => {
                 let jobj = res.data as server.resultJSON<server.order[]>;
                 if (jobj.code == 0) {
-                    this.orders = jobj.data;
-                    this.page++;
+                    if (callback) {
+                        callback(jobj.data);
+                    }
+                    else {
+                        this.orders = jobj.data;
+                        this.page++;
+                    }
                 }
             });
     }

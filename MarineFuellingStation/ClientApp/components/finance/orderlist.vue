@@ -6,7 +6,6 @@
 </style>
 <template>
     <div id="root">
-        <yd-pullrefresh :callback="getOrders">
             <div style="text-align:center;margin-top:10px;font-size:18px">
                 <div style="text-align: center; margin-top: .2rem">
                     <yd-button style="width:90%" type="primary" @click.native="showSalesmans = true">销售员</yd-button>
@@ -25,19 +24,25 @@
                 </div>
             </div>
             <yd-cell-group :title="getTotalSalesComm()" style="margin-top:10px">
-                <yd-cell-item arrow v-for="o in orders" :key="o.id" @click.native="godetail(o.id)" style="padding: .2rem 0 .2rem">
-                    <div slot="left">
-                        <p>{{o.carNo}}</p>
-                        <p style="color:lightgray;font-size:12px">{{o.name}}</p>
-                    </div>
-                    <div slot="right" style="color:lightcoral;width:80px;text-align:left">提：￥{{o.salesCommission}}</div>
-                    <div slot="right" style="padding-right: .1rem">
-                        <p style="color:forestgreen; padding-left:10px">{{strState(o)}}</p>
-                        <p style="color:gray;margin-top:0.1rem">{{strPayState(o)}}</p>
-                    </div> 
-                </yd-cell-item>
+                <yd-infinitescroll :callback="loadList" ref="infinitescroll">
+                    <yd-cell-item slot="list" arrow v-for="o in orders" :key="o.id" @click.native="godetail(o.id)" style="padding: .2rem 0 .2rem">
+                        <div slot="left">
+                            <p>{{o.carNo}}</p>
+                            <p style="margin-top: .2rem;color:gray">{{formatDate(o.createAt)}}</p>
+                            <p style="color:lightgray;font-size:12px">{{o.name}}</p>
+                        </div>
+                        <div slot="right" style="color:lightcoral;width:80px;text-align:left">提：￥{{o.salesCommission}}</div>
+                        <div slot="right" style="padding-right: .1rem">
+                            <p style="color:forestgreen; padding-left:10px">{{strState(o)}}</p>
+                            <p style="color:gray;margin-top:0.1rem">{{strPayState(o)}}</p>
+                        </div>
+                    </yd-cell-item>
+                    <!-- 数据全部加载完毕显示 -->
+                    <span slot="doneTip">没有数据啦~~</span>
+                    <!-- 加载中提示，不指定，将显示默认加载中图标 -->
+                    <img slot="loadingTip" src="http://static.ydcss.com/uploads/ydui/loading/loading10.svg" />
+                </yd-infinitescroll>
             </yd-cell-group>
-        </yd-pullrefresh>
         <!--popup销售列表-->
         <yd-popup v-model="showSalesmans" position="right">
             <yd-cell-group title="必填">

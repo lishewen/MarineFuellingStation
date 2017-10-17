@@ -20,6 +20,7 @@ export default class MoveStoreComponent extends ComponentBase {
     carNo: string = "";
     showManuUsers: boolean = false;
     isPrevent: boolean = true;
+    isPrevent1: boolean = true;
 
     filterclick(): void {
     };
@@ -169,6 +170,7 @@ export default class MoveStoreComponent extends ComponentBase {
                         actived: false
                     });
                 });
+                this.isPrevent1 = false;
             }
         });
     }

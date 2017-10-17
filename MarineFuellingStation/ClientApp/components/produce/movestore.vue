@@ -46,12 +46,6 @@
                 <span slot="right">升</span>
             </yd-cell-item>
 
-            <yd-cell-item>
-                <span slot="left">实际转出：</span>
-                <yd-input slot="right" v-model="model.outFact" type="number" placeholder="请输入实际转出升数"></yd-input>
-                <span slot="right">升</span>
-            </yd-cell-item>
-
         </yd-cell-group>
         <yd-cell-group title="转入仓">
 
@@ -92,7 +86,7 @@
         </yd-cell-group>
 
         <div>
-            <yd-button size="large" type="primary" @click.native="buttonclick" :disabled="isPrevent">提交</yd-button>
+            <yd-button size="large" type="primary" @click.native="buttonclick" :disabled="isPrevent || isPrevent1">提交</yd-button>
         </div>
 
         <yd-popup v-model="showManuUsers" position="right">

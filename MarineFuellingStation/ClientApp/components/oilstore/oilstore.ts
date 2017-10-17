@@ -97,6 +97,14 @@ export default class OilStoreComponent extends ComponentBase {
         });
     }
 
+    strInOutDiff(sumIn: number, sumOut: number) {
+        let diff = sumIn - sumOut;
+        if (diff > 0)
+            return "+" + diff.toString()
+        else
+            return diff
+    }
+
     validate() {
         if (this.survey.temperature == null || this.survey.temperature == '') {
             this.toastError('油温不能为空');

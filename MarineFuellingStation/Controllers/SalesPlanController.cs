@@ -85,6 +85,15 @@ namespace MFS.Controllers
                 Data = r.GetAllList()
             };
         }
+        [HttpGet("[action]")]
+        public ResultJSON<List<SalesPlan>> Unfinish()
+        {
+            return new ResultJSON<List<SalesPlan>>
+            {
+                Code = 0,
+                Data = r.GetAllList().Where(s => s.State != SalesPlanState.已完成).ToList()
+            };
+        }
         /// <summary>
         /// 分页显示数据
         /// </summary>

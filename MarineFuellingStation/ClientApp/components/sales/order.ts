@@ -95,6 +95,12 @@ export default class OrderComponent extends ComponentBase {
         }
     }
 
+    strPlanState(s: server.salesPlan) {
+        if (s.state == server.salesPlanState.未审批) { return "未审批" };
+        if (s.state == server.salesPlanState.已审批) { return "已审批" };
+        if (s.state == server.salesPlanState.已完成) { return "已完成" };
+    }
+
     getStateName(s: server.orderState): string {
         switch (s) {
             case server.orderState.已完成:
@@ -107,6 +113,7 @@ export default class OrderComponent extends ComponentBase {
     }
 
     planitemclick(s: server.salesPlan): void {
+        if (s.state == server.salesPlanState.未审批) { this.toastError("该计划未经审核，请通知上级审核通过！"); return; }
         this.salesplan = s;
         this.selectedplanNo = s.name;
         this.model.salesPlanId = s.id;
@@ -247,7 +254,7 @@ export default class OrderComponent extends ComponentBase {
     }
 
     getSalesPlans() {
-        axios.get('/api/SalesPlan').then((res) => {
+        axios.get('/api/SalesPlan/Unfinish').then((res) => {
             let jobj = res.data as server.resultJSON<server.salesPlan[]>;
             if (jobj.code == 0) {
                 this.salesplans = jobj.data;

@@ -123,7 +123,7 @@ namespace MFS.Controllers
             return new ResultJSON<List<Purchase>>
             {
                 Code = 0,
-                Data = r.GetAllList(p => p.State == pus)
+                Data = r.GetIncludeProduct().Where(p => p.State == pus).OrderByDescending(p => p.Id).ToList()
             };
         }
         /// <summary>

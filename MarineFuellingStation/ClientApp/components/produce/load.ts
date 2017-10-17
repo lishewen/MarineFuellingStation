@@ -50,6 +50,8 @@ export default class LoadComponent extends ComponentBase {
     }
 
     storeclick(st: server.store) {
+        if (st.value < this.order.count) { this.toastError("当前销售仓油量不足！"); return; }
+
         this.store = st;
         this.order.storeId = st.id;
         this.order.store = st;

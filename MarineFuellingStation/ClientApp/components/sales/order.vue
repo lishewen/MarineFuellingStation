@@ -133,9 +133,14 @@
                 </div>
                 <weui-search v-model="sv" />
                 <yd-cell-item arrow @click.native="planitemclick(s)" v-for="s in salesplans" :key="s.id">
-                    <span slot="left">{{s.carNo}}</span>
-                    <span slot="left" style="color:lightgray;margin-left:10px">{{s.createdBy}}</span>
-                    <span slot="right">{{formatShortDate(s.oilDate)}}</span>
+                    <div slot="left">
+                        <p>{{s.carNo}}</p>
+                        <p style="color: gray">{{s.createdBy}}</p>
+                    </div>
+                    <div slot="right">
+                        <p>{{strPlanState(s)}}</p>
+                        <p>{{formatShortDate(s.oilDate)}}</p>
+                    </div>
                 </yd-cell-item>
             </yd-cell-group>
         </yd-popup>

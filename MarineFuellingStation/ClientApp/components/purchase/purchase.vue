@@ -88,7 +88,7 @@
                         </div>
                         <div slot="right" style="text-align: right;margin-right: .2rem;padding: .2rem 0 .2rem">
                             <p>
-                                <span style="color:forestgreen;">{{s.product.name}}</span>
+                                <span style="color:forestgreen;">{{s.product == null ? "" : s.product.name}}</span>
                                 <span style="color:gray; font-size: 22px" s>{{s.count}}吨</span>
                             </p>
                             <p style="color:lightcoral;">预计到达：{{formatDate(s.arrivalTime, 'MM-DD hh:mm')}}</p>

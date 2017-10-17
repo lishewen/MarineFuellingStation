@@ -28,9 +28,7 @@ namespace 打印终端.Models
 
         static void OnPropertyChanged(string propertyName)
         {
-            var handler = StaticPropertyChanged;
-            if (handler != null)
-                handler(null, new PropertyChangedEventArgs(propertyName));
+            StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

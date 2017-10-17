@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using 打印终端.Models;
 using Word = Microsoft.Office.Interop.Word;
 
 namespace 打印终端
@@ -61,9 +62,9 @@ namespace 打印终端
 
         private async void ConnectAsync()
         {
-            textBox.AppendText($"Connecting to {baseAddress}\r");
+            Log.Logs += $"Connecting to {baseAddress}\r";
             Connection = await ConnectAsync(baseAddress);
-            textBox.AppendText($"Connected to server at {baseAddress}\r");
+            Log.Logs += $"Connected to server at {baseAddress}\r";
             Connection.Closed += Connection_Closed;
             Connection.On<SalesPlan>("printsalesplan", (salesplan) =>
             {
@@ -81,12 +82,12 @@ namespace 打印终端
             {
                 PrintMoveStore(m);
             });
-            Connection.On<string>("login", (username) => Dispatcher.Invoke(() => textBox.AppendText(username + " 已登录，正在执行操作\r")));
+            Connection.On<string>("login", (username) => Log.Logs += username + " 已登录，正在执行操作\r");
         }
 
         private void PrintOrder(Order order)
         {
-            this.Dispatcher.Invoke(() => textBox.AppendText($"正在打印Order：{order.Name}\r"));
+            Log.Logs += $"正在打印Order：{order.Name}\r";
 
             Word.Application thisApplication = new Word.ApplicationClass();
             wApp = thisApplication;
@@ -121,7 +122,7 @@ namespace 打印终端
 
         private void PrintUnload(Purchase p)
         {
-            this.Dispatcher.Invoke(() => textBox.AppendText($"正在打印陆上卸油：{p.Name}\r"));
+            Log.Logs += $"正在打印陆上卸油：{p.Name}\r";
 
             Word.Application thisApplication = new Word.ApplicationClass();
             wApp = thisApplication;
@@ -155,7 +156,7 @@ namespace 打印终端
 
         private void PrintMoveStore(MoveStore m)
         {
-            this.Dispatcher.Invoke(() => textBox.AppendText($"正在打印生产转仓：{m.Name}\r"));
+            Log.Logs += $"正在打印生产转仓：{m.Name}\r";
 
             Word.Application thisApplication = new Word.ApplicationClass();
             wApp = thisApplication;
@@ -202,14 +203,12 @@ namespace 打印终端
 
         private void PrintSalesPlan(SalesPlan salesplan)
         {
-            this.Dispatcher.Invoke(() => textBox.AppendText($"正在打印SalesPlan：{salesplan.Name}\r"));
+            Log.Logs += $"正在打印SalesPlan：{salesplan.Name}\r";
         }
 
         private Task Connection_Closed(Exception e)
         {
-            //Hide chat UI; show login UI
-            var dispatcher = Application.Current.Dispatcher;
-            dispatcher.Invoke(() => textBox.AppendText("连接已经断开\r"));
+            Log.Logs += "连接已经断开\r";
             //断线重连
             ConnectAsync();
             return Task.CompletedTask;

@@ -4,7 +4,7 @@ import moment from 'moment';
 import axios from "axios";
 
 @Component
-export default class MyOrderComponent extends ComponentBase {
+export default class OrderListComponent extends ComponentBase {
 
     show4: boolean = false;
     showSalesmans: boolean = false;
@@ -17,7 +17,6 @@ export default class MyOrderComponent extends ComponentBase {
     selectedsales: string = "";
     page: number = 1;
 
-    page: number;
     scrollRef: any;
     pSize: number = 30;
 

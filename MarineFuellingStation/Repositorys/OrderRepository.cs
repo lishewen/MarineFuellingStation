@@ -11,7 +11,11 @@ namespace MFS.Repositorys
     public class OrderRepository : RepositoryBase<Order>
     {
         const string tag = "XS";
-        public OrderRepository(EFContext dbContext) : base(dbContext) { }
+        private readonly ChargeLogRepository cl_r;
+        public OrderRepository(EFContext dbContext, ChargeLogRepository r) : base(dbContext)
+        {
+            cl_r = r;
+        }
 
         public string GetLastOrderNo()
         {
@@ -162,7 +166,6 @@ namespace MFS.Repositorys
                         break;
                     }
                     //新增消费记录并且扣减账户余额
-                    ChargeLogRepository cl_r = new ChargeLogRepository(_dbContext);
                     cl_r.CurrentUser = CurrentUser;
                     ChargeLog cl = new ChargeLog
                     {

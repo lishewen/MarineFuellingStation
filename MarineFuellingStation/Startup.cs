@@ -48,6 +48,7 @@ namespace MFS
             services.AddScoped<SalesPlanRepository>();
             services.AddScoped<ProductRepository>();
             services.AddScoped<ProductTypeRepository>();
+            services.AddScoped<ChargeLogRepository>();
             services.AddScoped<OrderRepository>();
             services.AddScoped<StoreRepository>();
             services.AddScoped<StoreTypeRepository>();
@@ -62,7 +63,6 @@ namespace MFS
             services.AddScoped<PaymentRepository>();
             services.AddScoped<UserRepository>();
             services.AddScoped<WageRepository>();
-            services.AddScoped<ChargeLogRepository>();
             services.AddScoped<NoticeRepository>();
         }
 

@@ -32,7 +32,7 @@
             </yd-cell-item>
         </yd-cell-group>
         <yd-popup v-model="show1" position="right" width="70%">
-            <yd-cell-group :title="selectStore.name">
+            <yd-cell-group :title="selectStore.name + ' - 测量'">
                 <yd-cell-item>
                     <span slot="left">油温：</span>
                     <yd-input type="number" slot="right" v-model="survey.temperature" placeholder="请输入" required></yd-input>
@@ -57,11 +57,16 @@
                 </yd-cell-item>
             </yd-cell-group>
             <div style="text-align: center">
-                <yd-button style="width:80%" type="primary" @click.native="postSurveyclick">提交新数据</yd-button>
+                <yd-button style="width:80%" type="primary" @click.native="postSurveyclick">提交测量记录</yd-button>
             </div>
-            <yd-cell-group title="最近十次测量" style="margin-top: 20px">
+        </yd-popup>
+        <yd-popup v-model="show2" position="right" width="70%">
+            <yd-cell-group title="最近十五次测量">
                 <yd-cell-item v-for="su in surveys" :key="su.id">
-                    <div slot="left">{{formatDate(su.createdAt)}}</div>
+                    <div slot="left">
+                        <p>{{su.createdBy}}</p>
+                        <p>{{formatDate(su.createdAt)}}</p>
+                    </div>
                     <div slot="right" style="text-align: left;padding: .2rem 0 .2rem">
                         <p>油温：{{su.temperature}}℃</p>
                         <p>密度：{{su.density}}</p>
@@ -71,6 +76,8 @@
                 </yd-cell-item>
             </yd-cell-group>
         </yd-popup>
+        <!--actionsheet-->
+        <yd-actionsheet :items="actItems" v-model="showAct" cancel="取消"></yd-actionsheet>
     </div>
 </template>
 <script src="./oilstore.ts"></script>

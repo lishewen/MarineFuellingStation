@@ -46,7 +46,7 @@
                     </yd-cell-item>
 
                     <yd-cell-item>
-                        <span slot="right" style="font-weight: bold">总计：￥{{model.price * model.count}}</span>
+                        <span slot="right" style="font-weight: bold">总计：￥{{Math.round(model.price * model.count)}}</span>
                     </yd-cell-item>
 
                     <!--<yd-cell-item>
@@ -55,7 +55,7 @@
                         <span slot="right" style="width:70px">单位：{{model.unit}}</span>
                     </yd-cell-item>-->
                     <yd-cell-item arrow>
-                        <span slot="left">加油时间：</span>
+                        <span slot="left">预计加油时间：</span>
                         <yd-datetime type="date" v-model="oildate" slot="right"></yd-datetime>
                     </yd-cell-item>
                 </yd-cell-group>
@@ -73,6 +73,8 @@
                             <option value="-1">请选择票类</option>
                             <option value="0">普通票</option>
                             <option value="1">专用票</option>
+                            <option value="2">循票</option>
+                            <option value="3">柴票</option>
                         </select>
                     </yd-cell-item>
                     <yd-cell-item v-show="model.isInvoice">

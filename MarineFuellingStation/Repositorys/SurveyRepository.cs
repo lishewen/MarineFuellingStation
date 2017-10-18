@@ -9,9 +9,9 @@ namespace MFS.Repositorys
     public class SurveyRepository : RepositoryBase<Survey>
     {
         public SurveyRepository(EFContext dbContext) : base(dbContext) { }
-        public List<Survey> Top10(int stid)
+        public List<Survey> Top15(int stid)
         {
-            return LoadPageList(1, 10, out int rowcount, true, s => s.StoreId == stid, o => o.CreatedAt).ToList();
+            return LoadPageList(1, 15, out int rowcount, true, s => s.StoreId == stid, o => o.CreatedAt).ToList();
         }
         public new Survey Insert(Survey model, bool autoSave = true)
         {

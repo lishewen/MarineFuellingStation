@@ -21,9 +21,9 @@ declare module server {
 		进油看板AgentId: string;
 		进油看板Secret: string;
 		进油看板AccessToken: string;
-		陆上加油AgentId: string;
-		陆上加油Secret: string;
-		陆上加油AccessToken: string;
+		陆上装车AgentId: string;
+		陆上装车Secret: string;
+		陆上装车AccessToken: string;
 		陆上卸油AgentId: string;
 		陆上卸油Secret: string;
 		陆上卸油AccessToken: string;

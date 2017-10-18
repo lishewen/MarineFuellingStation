@@ -28,9 +28,9 @@ namespace MFS.Models
         public string 进油看板AgentId { get; set; }
         public string 进油看板Secret { get; set; }
         public string 进油看板AccessToken { get; set; }
-        public string 陆上加油AgentId { get; set; }
-        public string 陆上加油Secret { get; set; }
-        public string 陆上加油AccessToken { get; set; }
+        public string 陆上装车AgentId { get; set; }
+        public string 陆上装车Secret { get; set; }
+        public string 陆上装车AccessToken { get; set; }
         public string 陆上卸油AgentId { get; set; }
         public string 陆上卸油Secret { get; set; }
         public string 陆上卸油AccessToken { get; set; }

@@ -7,12 +7,16 @@ import moment from "moment";
 export default class OilStoreComponent extends ComponentBase {
     datestr: string = "";
     show1: boolean = false;
+    show2: boolean = false;
+    showAct: boolean = false;
 
     survey: server.survey;
     surveys: server.survey[];
     sts: server.storeType[];
     salesSts: server.store[];
     selectStore: server.store;
+
+    actItems: ydui.actionSheetItem[];
 
     constructor() {
         super();
@@ -35,7 +39,7 @@ export default class OilStoreComponent extends ComponentBase {
     /**
      * 添加测量记录
      */
-    storeclick(st: server.store) {
+    showAddSurvey(st: server.store) {
         this.show1 = true;
         this.survey = new Object as server.survey;
         this.survey.count = 0;
@@ -43,7 +47,26 @@ export default class OilStoreComponent extends ComponentBase {
         this.survey.storeId = st.id;
         this.survey.name = st.name;
         this.selectStore = st;
-        this.getSurveys(st.id);
+    }
+
+    //显示actionsheet
+    storeclick(st: server.store) {
+        this.showAct = true;
+        this.actItems = [
+            {
+                label: '测量',
+                method: () => {
+                    this.showAddSurvey(st)
+                }
+            },
+            {
+                label: '最近十五次测量记录',
+                method: () => {
+                    this.getSurveys(st.id);
+                    this.show2 = true;
+                }
+            }
+        ];
     }
 
     /**
@@ -89,7 +112,7 @@ export default class OilStoreComponent extends ComponentBase {
     }
 
     getSurveys(stid: number) {
-        axios.get('/api/Survey/GetTop10/' + stid.toString()).then((res) => {
+        axios.get('/api/Survey/GetTop15/' + stid.toString()).then((res) => {
             let jobj = res.data as server.resultJSON<server.survey[]>;
             if (jobj.code == 0) {
                 this.surveys = jobj.data;

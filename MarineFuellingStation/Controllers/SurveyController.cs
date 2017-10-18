@@ -46,12 +46,12 @@ namespace MFS.Controllers
             };
         }
         [HttpGet("[action]/{stid}")]
-        public ResultJSON<List<Survey>> GetTop10(int stid)
+        public ResultJSON<List<Survey>> GetTop15(int stid)
         {
             return new ResultJSON<List<Survey>>
             {
                 Code = 0,
-                Data = r.Top10(stid)
+                Data = r.Top15(stid)
             };
         }
     }

@@ -65,7 +65,7 @@ namespace MFS.Controllers
             return new ResultJSON<Notice>
             {
                 Code = 0,
-                Data = r.GetAllList(n => n.ToApps.Contains(app)).OrderByDescending(n => n.LastUpdatedAt).FirstOrDefault()
+                Data = r.GetAllList(n => n.ToApps.Contains(app) && n.IsUse == true).OrderByDescending(n => n.LastUpdatedAt).FirstOrDefault()
             };
         }
         /// <summary>

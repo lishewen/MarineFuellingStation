@@ -33,11 +33,8 @@
             <yd-grids-item link="./produce/unloadaudit" style="background-color:lightcyan">
                 <p slot="text">卸油审核</p>
             </yd-grids-item>
-            <yd-grids-item link="./produce/load" style="background-color:lightcyan">
-                <p slot="text">水上装油</p>
-            </yd-grids-item>
-            <yd-grids-item link="./produce/landload" style="background-color:lightcyan">
-                <p slot="text">陆上装油</p>
+            <yd-grids-item link="./produce/loadoil" style="background-color:lightcyan">
+                <p slot="text">加油</p>
             </yd-grids-item>
             <yd-grids-item link="./produce/movestore" style="background-color:lightcyan">
                 <p slot="text">生产(转仓)开单</p>

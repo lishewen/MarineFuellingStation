@@ -56,6 +56,8 @@
                     <option value="-1">请选择票类</option>
                     <option value="0">普通票</option>
                     <option value="1">专用票</option>
+                    <option value="2">循票</option>
+                    <option value="3">柴票</option>
                 </select>
             </yd-cell-item>
             <yd-cell-item v-show="model.isInvoice">

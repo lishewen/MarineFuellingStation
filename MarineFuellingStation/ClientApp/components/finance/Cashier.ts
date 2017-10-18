@@ -374,7 +374,10 @@ export default class CashierComponent extends ComponentBase {
         axios.put("/api/order/pay", model).then((res) => {
             let jobj = res.data as server.resultJSON<server.order>;
             if (jobj.code == 0) {
-                this.toastSuccess("结算成功")
+                this.toastSuccess("结算成功");
+                this.showPayTypes = false;
+                this.page = 1;
+                this.getOrders();
             }
         })
     }

@@ -21,5 +21,7 @@ declare module server {
     const enum ticketType {
         普通票,
         专用票,
+        循票,
+        柴票
     }
 }

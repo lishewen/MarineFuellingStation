@@ -142,15 +142,15 @@ namespace MFS.Models
         /// </summary>
         public bool IsTrans { get; set; }
         /// <summary>
-        /// 油车磅秤图片地址 陆上加油
+        /// 油车磅秤图片地址 陆上装车
         /// </summary>
         public string OilCarWeightPic { get; set; }
         /// <summary>
-        /// 空车车磅秤图片地址 陆上加油
+        /// 空车车磅秤图片地址 陆上装车
         /// </summary>
         public string EmptyCarWeightPic { get; set; }
         /// <summary>
-        /// 销售仓Id 陆上加油
+        /// 销售仓Id 陆上装车
         /// </summary>
         public int? StoreId { get; set; }
         /// <summary>

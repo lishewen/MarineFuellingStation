@@ -38,7 +38,7 @@ namespace MFS.Controllers
             this.option.销售单AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.销售单Secret);
             this.option.收银AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.收银Secret);
             this.option.水上加油AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.水上加油Secret);
-            this.option.陆上加油AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.陆上加油Secret);
+            this.option.陆上装车AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.陆上装车Secret);
         }
         [NonAction]
         public async Task SendPrintOrderAsync(string who, Order order)
@@ -88,8 +88,8 @@ namespace MFS.Controllers
                          $"<div class=\"normal\">船号/车号：{result.CarNo}</div>"
                          , $"https://vue.car0774.com/#/sales/order/{result.Id}/order", toUser: "@all");
             else
-                //推送到“陆上加油”
-                MassApi.SendTextCard(option.陆上加油AccessToken, option.陆上加油AgentId, "已开单，请施工"
+                //推送到“陆上装车”
+                MassApi.SendTextCard(option.陆上装车AccessToken, option.陆上装车AgentId, "已开单，请施工"
                          , $"<div class=\"gray\">单号：{result.Name}</div>" +
                          $"<div class=\"normal\">开单人：{UserName}</div>" +
                          $"<div class=\"normal\">船号/车号：{result.CarNo}</div>"

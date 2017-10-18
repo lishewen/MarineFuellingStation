@@ -46,7 +46,7 @@
                     <yd-checkbox val="销售计划" style="padding: 10px 10px"></yd-checkbox>
                     <yd-checkbox val="销售单" style="padding: 10px 10px"></yd-checkbox>
                     <yd-checkbox val="陆上卸油" style="padding: 10px 10px"></yd-checkbox>
-                    <yd-checkbox val="陆上装油" style="padding: 10px 10px"></yd-checkbox>
+                    <yd-checkbox val="陆上装车" style="padding: 10px 10px"></yd-checkbox>
                     <yd-checkbox val="水上加油" style="padding: 10px 10px"></yd-checkbox>
                 </yd-checkbox-group>
             </yd-cell-group>

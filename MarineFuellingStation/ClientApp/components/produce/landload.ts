@@ -92,7 +92,7 @@ export default class LandloadComponent extends ComponentBase {
     }
    
     mounted() {
-        this.$emit('setTitle', this.$store.state.username + ' 陆上装油');
+        this.$emit('setTitle', this.$store.state.username + ' 陆上装车');
     };
 
     uploadfile(e) {

@@ -63,11 +63,11 @@ declare module server {
 		ticketType: any;
 		/** 是否运输 */
 		isTrans: boolean;
-		/** 油车磅秤图片地址 陆上加油 */
+		/** 油车磅秤图片地址 陆上装车 */
 		oilCarWeightPic: string;
-		/** 空车车磅秤图片地址 陆上加油 */
+		/** 空车车磅秤图片地址 陆上装车 */
 		emptyCarWeightPic: string;
-		/** 销售仓Id 陆上加油 */
+		/** 销售仓Id 陆上装车 */
 		storeId?: number;
         /** 对应油仓 */
         store: store;

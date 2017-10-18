@@ -22,6 +22,7 @@ const routes: RouteConfig[] = [
     { path: '/produce/unload', component: require('./components/produce/unload.vue') },
     { path: '/produce/unloadaudit', component: require('./components/produce/unloadaudit.vue') },
     { path: '/produce/load', component: require('./components/produce/load.vue') },
+    { path: '/produce/loadoil', component: require('./components/produce/loadoil.vue') },
     { path: '/produce/landload', component: require('./components/produce/landload.vue') },
     { path: '/produce/movestore', component: require('./components/produce/movestore.vue') },
     { path: '/produce/movestoreact', component: require('./components/produce/movestoreact.vue') },

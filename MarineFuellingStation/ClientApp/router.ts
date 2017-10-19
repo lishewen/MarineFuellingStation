@@ -54,13 +54,14 @@ const routes: RouteConfig[] = [
     { path: '/', component: require('./components/home/home.vue') },
     {
         //服务端一律跳转到这个URL上
-        path: '/wxhub/:id/:userid/:redirectUrl', redirect: to => {
+        path: '/wxhub/:id/:userid/:isSuperAdmin/:redirectUrl', redirect: to => {
             /**
             * 通过dispatch触发保存openid的action
             * 将URL上的OPENID保存到store中
             */
             store.commit('setUserName', decodeURI(to.params.id));
             store.commit('setUserId', decodeURI(to.params.userid));
+            store.commit('setIsSuperAdmin', decodeURI(to.params.isSuperAdmin));
             //在回跳到需要来访的正确页面
             return decodeURI(to.params.redirectUrl);
         }
@@ -72,6 +73,7 @@ var router = new VueRouter({ mode: 'hash', routes: routes });
 router.beforeEach((to, from, next) => {
     console.log(store.state)
     if (store.state.username != "") {
+        console.log(store.state.isSuperAdmin);
         next();
     } else {
         console.log(to);

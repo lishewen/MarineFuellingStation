@@ -6,7 +6,8 @@ Vue.use(Vuex);
 const state = {
     openid: '',
     userid: '',
-    username: ''
+    username: '',
+    isSuperAdmin: 'False'
 };
 
 const mutations = {
@@ -21,6 +22,9 @@ const mutations = {
     setUserName: (state, amount) => {
         state.username = amount;
         console.log(state.username);
+    },
+    setIsSuperAdmin: (state, amount) => {
+        state.isSuperAdmin = amount;
     }
 };
 

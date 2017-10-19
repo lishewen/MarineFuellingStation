@@ -29,6 +29,7 @@ namespace MFS.Controllers
             //获取 销售计划 企业微信应用的AccessToken
             this.option = option.Value;
             this.option.水上计划AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.水上计划Secret);
+            this.option.陆上计划AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.陆上计划Secret);
             this.option.审核AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.审核Secret);
         }
 
@@ -54,13 +55,22 @@ namespace MFS.Controllers
 
             //推送打印指令
             await _hub.Clients.All.InvokeAsync("printsalesplan", result);
-            //推送企业微信卡片消息（最多5行，128个字符）
-            MassApi.SendTextCard(option.水上计划AccessToken, option.水上计划AgentId, "制定销售计划成功"
-                     , $"<div class=\"gray\">单号：{result.Name}</div>" +
-                     $"<div class=\"normal\">开单人：{UserName}</div>" +
-                     $"<div class=\"normal\">船号/车号：{result.CarNo}</div>" +
-                     $"<div class=\"normal\">油品：{result.OilName}</div>"
-                     , $"https://vue.car0774.com/#/sales/plan/{result.Id}/plan", toUser: "@all");
+
+            if(s.SalesPlanType == SalesPlanType.水上 || s.SalesPlanType == SalesPlanType.机油)
+                //推送企业微信卡片消息（最多5行，128个字符）
+                MassApi.SendTextCard(option.水上计划AccessToken, option.水上计划AgentId, "制定水上计划成功"
+                         , $"<div class=\"gray\">单号：{result.Name}</div>" +
+                         $"<div class=\"normal\">开单人：{UserName}</div>" +
+                         $"<div class=\"normal\">船号/车号：{result.CarNo}</div>" +
+                         $"<div class=\"normal\">油品：{result.OilName}</div>"
+                         , $"https://vue.car0774.com/#/sales/plan/{result.Id}/plan", toUser: "@all");
+            else if(s.SalesPlanType == SalesPlanType.陆上)
+                MassApi.SendTextCard(option.陆上计划AccessToken, option.陆上计划AgentId, "制定陆上计划成功"
+                         , $"<div class=\"gray\">单号：{result.Name}</div>" +
+                         $"<div class=\"normal\">开单人：{UserName}</div>" +
+                         $"<div class=\"normal\">船号/车号：{result.CarNo}</div>" +
+                         $"<div class=\"normal\">油品：{result.OilName}</div>"
+                         , $"https://vue.car0774.com/#/sales/plan/{result.Id}/plan", toUser: "@all");
 
             //推送到“审核”
             MassApi.SendTextCard(option.审核AccessToken, option.审核AgentId, "已开单，待审核"
@@ -99,14 +109,22 @@ namespace MFS.Controllers
         /// </summary>
         /// <param name="page">第N页</param>
         /// <param name="pageSize">页记录数</param>
+        /// <param name="type">陆上|水上</param>
         /// <returns></returns>
         [HttpGet("[action]")]
-        public ResultJSON<List<SalesPlan>> GetByPager(int page, int pageSize)
+        public ResultJSON<List<SalesPlan>> GetByPager(int page, int pageSize, SalesPlanType type = SalesPlanType.全部)
         {
+            List<SalesPlan> list;
+            if(type == SalesPlanType.全部)
+                list = r.LoadPageList(page, pageSize, out int rCount, true).OrderByDescending(s => s.Id).ToList();
+            else if(type == SalesPlanType.水上)//客户要求“水上部”的人同时可以看到机油类的数据
+                list = r.LoadPageList(page, pageSize, out int rCount, true, s => s.SalesPlanType == type || s.SalesPlanType == SalesPlanType.机油).OrderByDescending(s => s.Id).ToList();
+            else
+                list = r.LoadPageList(page, pageSize, out int rCount, true, s => s.SalesPlanType == type).OrderByDescending(s => s.Id).ToList();
             return new ResultJSON<List<SalesPlan>>
             {
                 Code = 0,
-                Data = r.LoadPageList(page, pageSize, out int rCount, true).OrderByDescending(s => s.Id).ToList()
+                Data = list
             };
         }
         /// <summary>

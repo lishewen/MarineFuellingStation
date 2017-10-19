@@ -25,6 +25,8 @@ export default class PlanComponent extends ComponentBase {
     pSize: number = 10;
     pMinInvoicePrice: number = 0;
     pMinPrice: number = 0;
+    isLandSalesman: boolean = false;//标识当前用户是否“陆上部”
+    isWaterSalesman: boolean = false;//标识是否“水上部”
 
     constructor() {
         super();
@@ -62,6 +64,8 @@ export default class PlanComponent extends ComponentBase {
         this.username = this.$store.state.username;
         this.getSalesPlanNo();
         this.getOilProducts();
+        this.getIsLandSalesman();
+        this.getIsWaterSalesman();
         
         this.$dialog.loading.close();
     }
@@ -224,6 +228,25 @@ export default class PlanComponent extends ComponentBase {
         }
     }
 
+    getIsLandSalesman() {
+        axios.get('/api/User/IsLandSalesman').then((res) => {
+            let jobj = res.data as boolean;
+            if (jobj) {
+                this.isLandSalesman = true;
+                this.radio2 = "2";
+            }
+        });
+    }
+
+    getIsWaterSalesman() {
+        axios.get('/api/User/IsWaterSalesman').then((res) => {
+            let jobj = res.data as boolean;
+            if (jobj) {
+                this.isWaterSalesman = true;
+            }
+        });
+    }
+
     getSalesPlanNo() {
         axios.get('/api/SalesPlan/SalesPlanNo').then((res) => {
             let jobj = res.data as server.resultJSON<string>;
@@ -236,9 +259,15 @@ export default class PlanComponent extends ComponentBase {
 
     getSalesPlans(callback?: Function) {
         if (this.page == null) this.page = 1;
+        let type: server.salesPlanType;
+        if (this.isLandSalesman) type = server.salesPlanType.陆上;
+        if (this.isWaterSalesman) type = server.salesPlanType.水上;//水上部的销售同时输出“机油”数据
+        if (!this.isLandSalesman && !this.isWaterSalesman) type = server.salesPlanType.全部;
         axios.get('/api/SalesPlan/GetByPager?page='
             + this.page
-            + '&pagesize=' + this.pSize).then((res) => {
+            + '&pagesize=' + this.pSize
+            + '&type=' + type)
+            .then((res) => {
                 let jobj = res.data as server.resultJSON<server.salesPlan[]>;
                 if (jobj.code == 0) {
                     if (callback) {

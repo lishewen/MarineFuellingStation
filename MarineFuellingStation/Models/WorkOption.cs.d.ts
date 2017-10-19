@@ -8,6 +8,9 @@ declare module server {
 		agentId: string;
 		水上计划AgentId: string;
 		水上计划Secret: string;
+		陆上计划AccessToken: string;
+		陆上计划AgentId: string;
+		陆上计划Secret: string;
 		水上计划AccessToken: string;
 		销售单AgentId: string;
 		销售单Secret: string;

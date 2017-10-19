@@ -22,9 +22,9 @@
                 <yd-cell-group title="请选择" v-show="showNext">
                     <yd-cell-item>
                         <yd-radio-group slot="left" v-model="radio2">
-                            <yd-radio val="1">水上</yd-radio>
-                            <yd-radio val="2">陆上</yd-radio>
-                            <yd-radio val="3">机油</yd-radio>
+                            <yd-radio val="1" :disabled ="!isWaterSalesman">水上</yd-radio>
+                            <yd-radio val="2" :disabled ="!isLandSalesman">陆上</yd-radio>
+                            <yd-radio val="3" :disabled ="!isWaterSalesman">机油</yd-radio>
                         </yd-radio-group>
                     </yd-cell-item>
                 </yd-cell-group>

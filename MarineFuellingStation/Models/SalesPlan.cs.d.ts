@@ -32,7 +32,8 @@ declare module server {
 	const enum salesPlanType {
 		水上,
 		陆上,
-		机油,
+        机油,
+        全部
 	}
 	const enum salesPlanState {
 		未审批,

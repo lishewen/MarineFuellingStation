@@ -15,6 +15,9 @@ namespace MFS.Models
         public string AgentId { get; set; }
         public string 水上计划AgentId { get; set; }
         public string 水上计划Secret { get; set; }
+        public string 陆上计划AccessToken { get; set; }
+        public string 陆上计划AgentId { get; set; }
+        public string 陆上计划Secret { get; set; }
         public string 水上计划AccessToken { get; set; }
         public string 销售单AgentId { get; set; }
         public string 销售单Secret { get; set; }

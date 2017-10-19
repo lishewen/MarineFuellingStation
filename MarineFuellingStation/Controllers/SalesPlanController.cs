@@ -28,7 +28,7 @@ namespace MFS.Controllers
             _hub = hub;
             //获取 销售计划 企业微信应用的AccessToken
             this.option = option.Value;
-            this.option.销售计划AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.销售计划Secret);
+            this.option.水上计划AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.水上计划Secret);
             this.option.审核AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.审核Secret);
         }
 
@@ -55,7 +55,7 @@ namespace MFS.Controllers
             //推送打印指令
             await _hub.Clients.All.InvokeAsync("printsalesplan", result);
             //推送企业微信卡片消息（最多5行，128个字符）
-            MassApi.SendTextCard(option.销售计划AccessToken, option.销售计划AgentId, "制定销售计划成功"
+            MassApi.SendTextCard(option.水上计划AccessToken, option.水上计划AgentId, "制定销售计划成功"
                      , $"<div class=\"gray\">单号：{result.Name}</div>" +
                      $"<div class=\"normal\">开单人：{UserName}</div>" +
                      $"<div class=\"normal\">船号/车号：{result.CarNo}</div>" +

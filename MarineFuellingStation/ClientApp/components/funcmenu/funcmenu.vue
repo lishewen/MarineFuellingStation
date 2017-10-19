@@ -2,7 +2,7 @@
     <div>
         <yd-grids-group :rows="3" title="销售管理">
             <yd-grids-item link="./sales/plan" style="background-color:lightcyan">
-                <p slot="text">销售计划</p>
+                <p slot="text">水上计划</p>
             </yd-grids-item>
             <yd-grids-item link="./sales/order" style="background-color:lightcyan">
                 <p slot="text">销售单</p>

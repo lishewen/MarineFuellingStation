@@ -81,6 +81,53 @@ namespace MFS.Controllers
         }
 
         [HttpGet("[action]")]
+        public GetTagMemberResult WaterSalesman()
+        {
+            return GetTagMember("水上销售");
+        }
+
+        [HttpGet("[action]")]
+        public GetTagMemberResult LandSalesman()
+        {
+            return GetTagMember("陆上销售");
+        }
+
+        /// <summary>
+        /// 判断当前用户是否在“陆上部”
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("[action]")]
+        public bool IsLandSalesman()
+        {
+            return IsInDept("陆上部");
+        }
+
+        /// <summary>
+        /// 判断当前用户是否在“水上部”
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("[action]")]
+        public bool IsWaterSalesman()
+        {
+            return IsInDept("水上部");
+        }
+
+        [NonAction]
+        private bool IsInDept(string deptName)
+        {
+            GetDepartmentMemberInfoResult membersinfo = MailListApi.GetDepartmentMemberInfo(option.AccessToken, 1, 1);
+            GetMemberResult user = membersinfo.userlist.FirstOrDefault(m => m.name == UserName);
+            GetDepartmentListResult depts = MailListApi.GetDepartmentList(option.AccessToken);
+            int landDeptId = depts.department.First(d => d.name == deptName).id;
+            foreach (var deptId in user.department)
+            {
+                if (deptId == landDeptId)
+                    return true;
+            }
+            return false;
+        }
+
+        [HttpGet("[action]")]
         public GetTagMemberResult Manufacturer()
         {
             return GetTagMember("生产员");

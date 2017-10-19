@@ -1,6 +1,6 @@
 declare module server {
 	const enum apps {
-		销售计划,
+        水上计划,
 		销售单,
 		陆上卸油,
 		陆上装车,

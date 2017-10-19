@@ -43,7 +43,8 @@
             </yd-cell-group>
             <yd-cell-group title="通知应用">
                 <yd-checkbox-group v-model="toApps">
-                    <yd-checkbox val="销售计划" style="padding: 10px 10px"></yd-checkbox>
+                    <yd-checkbox val="水上计划" style="padding: 10px 10px"></yd-checkbox>
+                    <yd-checkbox val="陆上计划" style="padding: 10px 10px"></yd-checkbox>
                     <yd-checkbox val="销售单" style="padding: 10px 10px"></yd-checkbox>
                     <yd-checkbox val="陆上卸油" style="padding: 10px 10px"></yd-checkbox>
                     <yd-checkbox val="陆上装车" style="padding: 10px 10px"></yd-checkbox>

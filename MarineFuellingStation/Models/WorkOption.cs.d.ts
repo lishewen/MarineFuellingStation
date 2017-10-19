@@ -6,9 +6,9 @@ declare module server {
 		secret: string;
 		accessToken: string;
 		agentId: string;
-		销售计划AgentId: string;
-		销售计划Secret: string;
-		销售计划AccessToken: string;
+		水上计划AgentId: string;
+		水上计划Secret: string;
+		水上计划AccessToken: string;
 		销售单AgentId: string;
 		销售单Secret: string;
 		销售单AccessToken: string;

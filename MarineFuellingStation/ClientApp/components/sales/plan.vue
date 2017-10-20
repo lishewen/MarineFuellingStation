@@ -96,7 +96,7 @@
             </yd-tab-panel>
 
             <yd-tab-panel label="单据记录">
-                <weui-search v-model="sv" />
+                <yd-search v-model="sv" />
                 <yd-cell-group>
                     <yd-infinitescroll :callback="loadList" ref="infinitescroll">
                         <yd-cell-item slot="list" arrow v-for="s in salesplans" :key="s.id" @click.native="godetail(s.id)">

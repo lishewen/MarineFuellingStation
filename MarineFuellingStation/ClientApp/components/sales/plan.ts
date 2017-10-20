@@ -3,11 +3,7 @@ import { Component } from 'vue-property-decorator';
 import axios from "axios";
 import moment from "moment";
 
-@Component({
-    components: {
-        WeuiSearch: require('../weui-search/search.vue')
-    }
-})
+@Component
 export default class PlanComponent extends ComponentBase {
     radio2: string = '1';
     username: string;

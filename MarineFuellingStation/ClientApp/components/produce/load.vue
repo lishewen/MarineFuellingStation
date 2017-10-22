@@ -18,10 +18,28 @@
             <div class="center" v-show="currStep == 1">
                 <yd-button style="width:90%" type="primary" @click.native="showStores = true">选择销售仓</yd-button>
             </div>
+            <!--明细-->
+            <yd-cell-group title="施工明细" v-show="currStep == 2 || currStep == 3">
+                <yd-cell-item>
+                    <span slot="left">数量：</span>
+                    <span slot="right">{{order.count}}</span>
+                </yd-cell-item>
+                <yd-cell-item>
+                    <span slot="left">船号：</span>
+                    <span slot="right">{{order.carNo}}</span>
+                </yd-cell-item>
+                <yd-cell-item>
+                    <span slot="left">销售仓：</span>
+                    <span slot="right">{{order.store != null ? order.store.name : ''}}</span>
+                </yd-cell-item>
+                <yd-cell-item>
+                    <span slot="left">施工人员：</span>
+                    <span slot="right">{{order.lastUpdatedBy}}</span>
+                </yd-cell-item>
+            </yd-cell-group>
             <div class="center" v-show="currStep == 2">
                 <yd-button style="width:90%" type="primary" @click.native="changeState(5)">完工确认</yd-button>
             </div>
-
             <!--popup订单选择-->
             <yd-popup v-model="showOrders" position="right" width="70%">
                 <yd-pullrefresh :callback="getOrders">

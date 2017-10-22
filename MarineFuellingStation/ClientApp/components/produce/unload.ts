@@ -9,9 +9,9 @@ export default class UnloadComponent extends ComponentBase {
     showPurchases: boolean = false;
     showStores: boolean = false;
     currStep: number = 0;
-    isPrevent: boolean = true;//控制上传后提交的标识
-    isPrevent1: boolean = true;
     isPrevent2: boolean = true;//控制选择油仓下一步的标识
+    isScaleUpload: boolean = false;
+    isScaleWithCarUpload: boolean = false;
     store: server.store;
     stores: server.store[];
     toStores: server.toStore[];
@@ -57,17 +57,15 @@ export default class UnloadComponent extends ComponentBase {
                     break;
                 case server.unloadState.油车过磅:
                     this.currStep = 1;
-                    if (pu.scaleWithCarPic == "") this.isPrevent = true;
                     break;
                 case server.unloadState.化验:
                     this.currStep = 2;
                     break;
                 case server.unloadState.卸油中:
-                    this.currStep = 4;
+                    this.currStep = 3;
                     break;
                 case server.unloadState.空车过磅:
                     this.currStep = 5;
-                    if (pu.scalePic == "") this.isPrevent1 = true;
                     break;
                 case server.unloadState.完工:
                     this.currStep = 6;
@@ -76,6 +74,31 @@ export default class UnloadComponent extends ComponentBase {
         }
         else
             this.currStep = 1;
+
+        if (this.purchase.scalePic) this.isScaleUpload = true;
+        if (this.purchase.scaleWithCarPic) this.isScaleWithCarUpload = true;
+        console.log(this.purchase);
+    }
+
+    strState(sta: server.unloadState) {
+        switch (sta) {
+            case server.unloadState.已开单:
+                return "已开单";
+            case server.unloadState.已到达:
+                return "已到达";
+            case server.unloadState.选择油仓:
+                return "选择油仓";
+            case server.unloadState.油车过磅:
+                return "油车过磅";
+            case server.unloadState.化验:
+                return "化验";
+            case server.unloadState.卸油中:
+                return "卸油中";
+            case server.unloadState.空车过磅:
+                return "空车过磅";
+            case server.unloadState.完工:
+                return "完工";
+        }
     }
 
     storeclick(st: server.store) {
@@ -198,10 +221,10 @@ export default class UnloadComponent extends ComponentBase {
             this.diff1 = v - this.lastPurchase.instrument1;
         });
         this.$watch('purchase.instrument2', (v, ov) => {
-            this.diff2 = v - this.lastPurchase.instrument1;
+            this.diff2 = v - this.lastPurchase.instrument2;
         });
         this.$watch('purchase.instrument3', (v, ov) => {
-            this.diff3 = v - this.lastPurchase.instrument1;
+            this.diff3 = v - this.lastPurchase.instrument3;
         });
         this.$watch('lastPurchase.instrument1', (v, ov) => {
             this.diff1 = this.purchase.instrument1 - v;
@@ -231,11 +254,14 @@ export default class UnloadComponent extends ComponentBase {
                 this.toastSuccess('上传成功！');
                 if (this.currStep == 1) {
                     this.purchase.scaleWithCarPic = jobj.data;
-                    this.isPrevent = false;
+                    this.isScaleWithCarUpload = true;
+                    //this.isPrevent = false;
+
                 }
                 if (this.currStep == 5) {
                     this.purchase.scalePic = jobj.data;
-                    this.isPrevent1 = false;
+                    this.isScaleUpload = true;
+                    //this.isPrevent1 = false;
                 }
             }
             else
@@ -296,6 +322,17 @@ export default class UnloadComponent extends ComponentBase {
             }
             else
                 this.toastError(jobj.msg);
+        });
+    }
+
+    putRestart() {
+        let pid = this.purchase.id;
+        axios.put('/api/Purchase/UnloadRestart?pid=' + pid, null).then((res) => {
+            let jobj = res.data as server.resultJSON<server.purchase>;
+            if (jobj.code == 0) {
+                this.toastSuccess('操作成功');
+                this.currStep = 1;
+            }
         });
     }
 }

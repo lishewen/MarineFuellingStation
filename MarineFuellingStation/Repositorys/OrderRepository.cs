@@ -245,6 +245,8 @@ namespace MFS.Repositorys
                     });
                 }
             }
+
+            modelWithChanges.LastUpdatedBy = CurrentUser;
             return Update(modelWithChanges);//更改状态
         }
     }

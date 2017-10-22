@@ -147,10 +147,12 @@ namespace MFS.Controllers
         public ResultJSON<Purchase> ChangeState([FromBody]Purchase p)
         {
             r.CurrentUser = UserName;
+            var model = r.Update(p);
+            model.LastUpdatedBy = UserName;
             return new ResultJSON<Purchase>
             {
                 Code = 0,
-                Data = r.Update(p)
+                Data = model
             };
         }
         

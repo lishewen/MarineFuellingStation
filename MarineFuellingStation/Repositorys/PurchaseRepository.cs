@@ -55,7 +55,15 @@ namespace MFS.Repositorys
         /// <returns></returns>
         public List<Purchase> GetReadyUnload()
         {
-            return _dbContext.Purchases.Where(p => p.State != Purchase.UnloadState.完工 && p.State != Purchase.UnloadState.已审核).Include(p => p.Product).ToList();
+            List<Purchase> purchases = _dbContext.Purchases.Where(p => p.State != Purchase.UnloadState.已审核).Include(p => p.Product).ToList();
+            foreach(var p in purchases)
+            {
+                if (!string.IsNullOrEmpty(p.ToStoreIds))
+                {
+                    p.ToStoresList = GetToStoresList(p);
+                }
+            }
+            return purchases;
         }
         /// <summary>
         /// 获取最近top n个进油单
@@ -113,30 +121,35 @@ namespace MFS.Repositorys
             {
                 if (!string.IsNullOrEmpty(p.ToStoreIds))
                 {
-                    p.ToStoresList = new List<ToStoreModel>();
-                    //多个
-                    if (p.ToStoreIds.IndexOf(',') > -1)
-                    {
-                        var arrSid = p.ToStoreIds.Split(',').ToArray();
-                        var arrName = p.ToStoreNames.Split(',').ToArray();
-                        var arrCount = p.ToStoreCounts.Split(',').ToArray();
-                        for (int i = 0; i < arrSid.Length; i++)
-                        {
-                            ToStoreModel s = new ToStoreModel();
-                            s.Id = int.Parse(arrSid[i]); s.Name = arrName[i]; s.Count = int.Parse(arrCount[i]);
-                            p.ToStoresList.Add(s);
-                        }
-                    }
-                    //单个
-                    else
-                    {
-                        ToStoreModel s = new ToStoreModel();
-                        s.Id = int.Parse(p.ToStoreIds); s.Name = p.ToStoreNames; s.Count = int.Parse(p.ToStoreCounts);
-                        p.ToStoresList.Add(s);
-                    }
+                    p.ToStoresList = GetToStoresList(p);
                 }
             }
             return list;
+        }
+        private List<ToStoreModel> GetToStoresList(Purchase p)
+        {
+            List<ToStoreModel> ToStoresList = new List<ToStoreModel>();
+            //多个
+            if (p.ToStoreIds.IndexOf(',') > -1)
+            {
+                var arrSid = p.ToStoreIds.Split(',').ToArray();
+                var arrName = p.ToStoreNames.Split(',').ToArray();
+                var arrCount = p.ToStoreCounts.Split(',').ToArray();
+                for (int i = 0; i < arrSid.Length; i++)
+                {
+                    ToStoreModel s = new ToStoreModel();
+                    s.Id = int.Parse(arrSid[i]); s.Name = arrName[i]; s.Count = int.Parse(arrCount[i]);
+                    ToStoresList.Add(s);
+                }
+            }
+            //单个
+            else
+            {
+                ToStoreModel s = new ToStoreModel();
+                s.Id = int.Parse(p.ToStoreIds); s.Name = p.ToStoreNames; s.Count = int.Parse(p.ToStoreCounts);
+                ToStoresList.Add(s);
+            }
+            return ToStoresList;
         }
     }
 }

@@ -45,7 +45,10 @@
                 </yd-cell-item>
             </yd-cell-group>
             <div class="center">
-                <yd-button style="width:90%" type="primary" @click.native="goNext" :disabled="isPrevent">前往化验</yd-button>
+                <yd-button style="width:90%" type="primary" @click.native="goNext" :disabled="purchase.density <= 0 || purchase.scaleWithCar <= 0 || !isScaleWithCarUpload">前往化验</yd-button>
+            </div>
+            <div style="text-align: center;margin-top: .2rem">
+                <img :src="purchase.scaleWithCarPic" />
             </div>
         </div>
         <div class="center" v-show="currStep == 2">
@@ -115,18 +118,80 @@
                 </yd-cell-item>
             </yd-cell-group>
             <div class="center">
-                <yd-button style="width:90%" type="primary" @click.native="goNext" :disabled="isPrevent1">完工确认</yd-button>
+                <yd-button style="width:90%" type="primary" @click.native="goNext" :disabled="purchase.scale <= 0 || !isScaleUpload">完工确认</yd-button>
             </div>
+            <div style="text-align: center; margin-top: .2rem">
+                <img :src="purchase.scalePic" />
+            </div>
+        </div>
+
+        <!--施工明细-->
+        <yd-cell-group title="施工明细" v-show="currStep == 6">
+            <yd-cell-item>
+                <span slot="right" style="font-weight: bold">{{purchase.product? purchase.product.name : ""}} - {{purchase.count}}吨</span>
+            </yd-cell-item>
+            <yd-cell-item>
+                <span slot="left">毛重（磅秤）：</span>
+                <span slot="right">{{purchase.scaleWithCar}}吨</span>
+            </yd-cell-item>
+            <yd-cell-item>
+                <span slot="left">皮重（磅秤）：</span>
+                <span slot="right">{{purchase.scale}}吨</span>
+            </yd-cell-item>
+            <yd-cell-item>
+                <span slot="left">净重（计算）：</span>
+                <span slot="right">{{purchase.scaleWithCar - purchase.scale}}吨</span>
+            </yd-cell-item>
+            <yd-cell-item>
+                <span slot="left">相差：</span>
+                <span slot="right" style="color: red; font-weight: bold">{{purchase.count - (purchase.scaleWithCar - purchase.scale)}}</span>
+            </yd-cell-item>
+            <yd-cell-item>
+                <span slot="left">卸入油仓：</span>
+                <div slot="right">
+                    <p v-for="ts in purchase.toStoresList" :key="ts.id">
+                        {{ts.name}} - {{ts.count}}升
+                    </p>
+                </div>
+            </yd-cell-item>
+            <yd-cell-item v-show="isHas('表数1')">
+                <span slot="left">表1：</span>
+                <span slot="right">{{purchase.instrument1}}</span>
+            </yd-cell-item>
+            <yd-cell-item v-show="isHas('表数2')">
+                <span slot="left">表2：</span>
+                <span slot="right">{{purchase.instrument2}}</span>
+            </yd-cell-item>
+            <yd-cell-item v-show="isHas('表数3')">
+                <span slot="left">表3：</span>
+                <span slot="right">{{purchase.instrument3}}</span>
+            </yd-cell-item>
+            <yd-cell-item>
+                <span slot="left">施工人：</span>
+                <span slot="right">{{purchase.lastUpdatedBy}}</span>
+            </yd-cell-item>
+            <yd-cell-item>
+                <span slot="left">毛重图片：</span>
+                <span slot="right"><img :src="this.purchase.scaleWithCarPic" /></span>
+            </yd-cell-item>
+            <yd-cell-item>
+                <span slot="left">皮重图片：</span>
+                <span slot="right"><img :src="this.purchase.scalePic" /></span>
+            </yd-cell-item>
+        </yd-cell-group>
+        <div class="center" v-show="currStep == 6">
+            <yd-button style="width:90%" type="primary" @click.native="putRestart">重新施工</yd-button>
         </div>
         <yd-popup v-model="showPurchases" position="right" width="70%">
             <yd-cell-group>
-                <yd-cell-item v-for="p in purchases" v-show="p.state != 7" :key="p.id" @click.native="purchaseclick(p)" arrow>
+                <yd-cell-item v-for="p in purchases" :key="p.id" @click.native="purchaseclick(p)" arrow style="padding: 10px 0 10px">
                     <div slot="left" style="padding:.2rem 0 .2rem">
                         <p>{{p.name}}</p>
                         <p style="color:lightgray;font-size:12px">{{p.carNo}} - {{p.trailerNo}}</p>
                         <p style="color:lightgray;font-size:12px">{{p.driver1}} {{p.driver2}}</p>
                     </div>
                     <div slot="right" style="text-align: left;margin-right: 5px">
+                        <p style="color: forestgreen">{{strState(p.state)}}</p>
                         <p style="color:gray">{{p.product.name}}</p>
                         <p style="color:gray">{{p.count}}吨</p>
                     </div>

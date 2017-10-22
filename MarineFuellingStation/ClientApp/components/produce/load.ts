@@ -20,10 +20,10 @@ export default class LoadComponent extends ComponentBase {
         super();
 
         this.order = new Object as server.order;
+        this.order.store = new Object as server.store;
         this.orders = new Array<server.order>();
         this.store = new Object as server.store;
         this.stores = new Array<server.store>();
-        
         this.getStores();
     }
     
@@ -109,6 +109,7 @@ export default class LoadComponent extends ComponentBase {
             let jobj = res.data as server.resultJSON<server.order>;
             if (jobj.code == 0) {
                 this.order = jobj.data;
+                console.log(this.order);
                 this.matchCurrStep();
             }
             else

@@ -135,12 +135,21 @@ namespace MFS.Controllers
         /// <param name="sps">State状态</param>
         /// <returns></returns>
         [HttpGet("[action]")]
-        public ResultJSON<List<SalesPlan>> GetByState(int page, int pageSize, SalesPlanState sps)
+        public ResultJSON<List<SalesPlan>> GetByState(int page, int pageSize, SalesPlanState sps, bool islandplan)
         {
+            List<SalesPlan> list;
+            if (islandplan)
+                list = r.LoadPageList(page, pageSize, out int rCount, true, s => s.State == sps 
+                    && s.SalesPlanType == SalesPlanType.陆上)
+                    .OrderByDescending(s => s.Id).ToList();
+            else
+                list = r.LoadPageList(page, pageSize, out int rCount, true, s => s.State == sps 
+                    && (s.SalesPlanType == SalesPlanType.水上 || s.SalesPlanType == SalesPlanType.机油))
+                    .OrderByDescending(s => s.Id).ToList();
             return new ResultJSON<List<SalesPlan>>
             {
                 Code = 0,
-                Data = r.LoadPageList(page, pageSize, out int rCount, true, s => s.State == sps).OrderByDescending(s => s.Id).ToList()
+                Data = list
             };
         }
         [HttpGet("[action]/{id}")]

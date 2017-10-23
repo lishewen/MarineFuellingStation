@@ -43,5 +43,8 @@ namespace MFS.Models
         public string 进油计划AgentId { get; set; }
         public string 进油计划Secret { get; set; }
         public string 进油计划AccessToken { get; set; }
+        public string 油仓情况AgentId { get; set; }
+        public string 油仓情况Secret { get; set; }
+        public string 油仓情况AccessToken { get; set; }
     }
 }

@@ -22,9 +22,12 @@ namespace MFS.Models
         public string 销售单AgentId { get; set; }
         public string 销售单Secret { get; set; }
         public string 销售单AccessToken { get; set; }
-        public string 审核AgentId { get; set; }
-        public string 审核Secret { get; set; }
-        public string 审核AccessToken { get; set; }
+        public string 水上计划审核AgentId { get; set; }
+        public string 水上计划审核Secret { get; set; }
+        public string 水上计划审核AccessToken { get; set; }
+        public string 陆上计划审核AgentId { get; set; }
+        public string 陆上计划审核Secret { get; set; }
+        public string 陆上计划审核AccessToken { get; set; }
         public string 水上加油AgentId { get; set; }
         public string 水上加油Secret { get; set; }
         public string 水上加油AccessToken { get; set; }

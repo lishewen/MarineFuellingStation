@@ -57,7 +57,7 @@ namespace MFS.Controllers
             //当车号/船号没有对应的客户资料时，自动新增客户资料，以便我的客户中的关联查找
             if (!cr.AddClientWithNoFind(o.CarNo, o.Salesman, o.ProductId))
                 return new ResultJSON<Order> { Code = 501, Msg = "无法新增该客户，请联系开发人员" };
-
+            if (r.Has(od => od.Name == o.Name)) return new ResultJSON<Order> { Code = 501, Msg = "已存在单号" + o.Name + ",请勿重复提交" };
             var result = r.Insert(o);
 
             //推送打印指令
@@ -65,7 +65,7 @@ namespace MFS.Controllers
 
             //向指定目标推送打印指令
             await SendPrintOrderAsync("收银台", result);
-
+#if !DEBUG
             //推送到“销售单”
             MassApi.SendTextCard(option.销售单AccessToken, option.销售单AgentId, "已开单"
                      , $"<div class=\"gray\">单号：{result.Name}</div>" +
@@ -94,7 +94,7 @@ namespace MFS.Controllers
                          $"<div class=\"normal\">开单人：{UserName}</div>" +
                          $"<div class=\"normal\">船号/车号：{result.CarNo}</div>"
                          , $"https://vue.car0774.com/#/sales/order/{result.Id}/order", toUser: "@all");
-
+#endif
             return new ResultJSON<Order>
             {
                 Code = 0,
@@ -127,8 +127,8 @@ namespace MFS.Controllers
             }
         }
 
-        #endregion
-        #region GET方法
+#endregion
+#region GET方法
 
         [HttpGet("[action]")]
         public async Task<ResultJSON<string>> OrderNo()
@@ -156,7 +156,7 @@ namespace MFS.Controllers
             return new ResultJSON<Order>
             {
                 Code = 0,
-                Data = r.Get(id)
+                Data = r.GetWithInclude(id)
             };
         }
         /// <summary>
@@ -271,8 +271,8 @@ namespace MFS.Controllers
                 Data = r.GetByPayState(payState, page, pageSize, searchVal)//每页30条记录
             };
         }
-        #endregion
-        #region Put方法
+#endregion
+#region Put方法
         /// <summary>
         /// 施工过程切换状态
         /// </summary>
@@ -314,6 +314,6 @@ namespace MFS.Controllers
                 Data = r.ChangePayState(model)
             };
         }
-        #endregion
+#endregion
     }
 }

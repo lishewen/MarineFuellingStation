@@ -6,7 +6,6 @@
                 <span slot="right">{{model.salesPlan == null? "" : model.salesPlan.name}}</span>
             </yd-cell-item>
             <yd-cell-item>
-                <span slot="left">类型：</span>
                 <span slot="right">{{getOrderType(model.orderType)}}</span>
             </yd-cell-item>
             <yd-cell-item>
@@ -37,8 +36,7 @@
 
             <yd-cell-item>
                 <span slot="left">订单数量：</span>
-                <span slot="right">{{model.count}}</span>
-                <span slot="right" style="width:70px">单位：{{model.unit}}</span>
+                <span slot="right">{{model.count}}{{model.unit}}</span>
             </yd-cell-item>
 
             <yd-cell-item>
@@ -46,7 +44,6 @@
                 <span slot="right">{{model.totalMoney}}</span>
             </yd-cell-item>
             <yd-cell-item>
-                <span slot="left">是否开票</span>
                 <span slot="right">{{getIsInvoice(model.isInvoice)}}</span>
             </yd-cell-item>
             <yd-cell-item arrow v-show="model.isInvoice">

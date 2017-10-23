@@ -60,6 +60,14 @@ namespace MFS.Repositorys
                 entity.ClientId = client.Id;
             return base.Insert(entity, autoSave);
         }
+        public Order GetWithInclude(int id)
+        {
+            return _dbContext.Orders.Where(od => od.Id == id)
+                .Include(od => od.Product)
+                .Include(od => od.SalesPlan)
+                .Include(od => od.Client)
+                .FirstOrDefault();
+        }
         /// <summary>
         /// 根据订单类型获取所有订单列表
         /// </summary>

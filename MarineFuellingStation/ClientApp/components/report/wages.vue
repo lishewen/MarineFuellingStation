@@ -15,7 +15,7 @@
                 <p slot="text">筛选</p>
             </yd-grids-item>
         </yd-grids-group>
-        <weui-search v-model="sv" />
+        <yd-search v-model="sv" />
         <div style="text-align:center;margin-top:10px;font-size:18px">
             <yd-datetime type="date" v-model="selecteddate"></yd-datetime>
         </div>

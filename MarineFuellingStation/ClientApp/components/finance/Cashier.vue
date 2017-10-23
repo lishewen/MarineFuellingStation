@@ -3,7 +3,7 @@
         <yd-tab :callback="change">
             <yd-tab-panel label="待结算">
                 <yd-cell-group>
-                    <weui-search v-model="sv1" />
+                    <yd-search v-model="sv1" />
                     <yd-infinitescroll :callback="loadList" ref="orderinfinitescroll1">
                         <yd-cell-item slot="list" arrow @click.native="orderclick(o)" v-for="o in readypayorders" :key="o.id">
                             <div slot="left">
@@ -28,7 +28,7 @@
             </yd-tab-panel>
             <yd-tab-panel label="已结算">
                 <yd-cell-group>
-                    <weui-search v-model="sv2" />
+                    <yd-search v-model="sv2" />
                     <yd-infinitescroll :callback="loadList" ref="orderinfinitescroll2">
                         <yd-cell-item slot="list" arrow v-for="o in haspayorders" :key="o.id" @click.native="showPaymentsclick(o)">
                             <div slot="left">
@@ -51,7 +51,7 @@
             </yd-tab-panel>
             <yd-tab-panel label="挂账">
                 <yd-cell-group>
-                    <weui-search v-model="sv3" />
+                    <yd-search v-model="sv3" />
                     <yd-infinitescroll :callback="loadList" ref="orderinfinitescroll3">
                         <yd-cell-item slot="list" arrow v-for="o in nopayorders" :key="o.id" @click.native="orderclick(o)">
                             <div slot="left">

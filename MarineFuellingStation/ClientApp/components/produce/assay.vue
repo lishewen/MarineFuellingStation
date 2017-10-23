@@ -114,7 +114,7 @@
 
             </yd-tab-panel>
             <yd-tab-panel label="记录">
-                <weui-search v-model="sv" />
+                <yd-search v-model="sv" />
                 <yd-cell-group>
                     <yd-cell-item arrow v-for="s in list" :key="s.id" @click.native="assayclick(s)">
                         <div slot="left">
@@ -132,7 +132,7 @@
         <!--进油单选择-->
         <yd-popup v-model="showPurchases" width="70%" position="right">
             <yd-cell-group title="选择进油单">
-                <weui-search v-model="sv" />
+                <yd-search v-model="sv" />
                 <yd-cell-item v-for="p in purchases" :key="p.id" @click.native="purchaseclick(p)">
                     <div slot="left">
                         <p>{{p.carNo}}</p>

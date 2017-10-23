@@ -3,11 +3,7 @@ import { Component } from 'vue-property-decorator';
 import moment from "moment";
 import axios from "axios";
 
-@Component({
-    components: {
-        WeuiSearch: require('../weui-search/search.vue')
-    }
-})
+@Component
 export default class WageComponent extends ComponentBase {
     list: server.wage[];
     model: server.wage;

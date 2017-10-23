@@ -4,11 +4,7 @@ import axios from "axios";
 import moment from "moment";
 import District from 'ydui-district/dist/gov_province_city_area_id';
 
-@Component({
-    components: {
-        WeuiSearch: require('../weui-search/search.vue')
-    }
-})
+@Component
 export default class PurchaseComponent extends ComponentBase {
     model: server.purchase;
     list: server.purchase[];

@@ -82,7 +82,7 @@
         <!--popup公司选择列表-->
         <yd-popup v-model="showcompany" position="right" width="70%">
             <yd-cell-group>
-                <weui-search v-model="svCompany1" />
+                <yd-search v-model="svCompany1" />
                 <yd-cell-item arrow type="radio" v-for="co in companys" :key="co.id" @click.native="selectcompanyclick(co)">
                     <span slot="left">{{co.name}}</span>
                 </yd-cell-item>

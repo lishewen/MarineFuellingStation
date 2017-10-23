@@ -73,7 +73,7 @@
             </yd-tab-panel>
 
             <yd-tab-panel label="单据记录">
-                <weui-search v-model="sv" />
+                <yd-search v-model="sv" />
                 <yd-cell-group>
                     <yd-cell-item arrow v-for="s in list" :key="s.id">
                         <span slot="left">{{s.carNo}}</span>

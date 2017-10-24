@@ -18,9 +18,9 @@ declare module server {
 		审核AgentId: string;
 		审核Secret: string;
 		审核AccessToken: string;
-		水上加油AgentId: string;
-		水上加油Secret: string;
-		水上加油AccessToken: string;
+		加油AgentId: string;
+		加油Secret: string;
+		加油AccessToken: string;
 		进油看板AgentId: string;
 		进油看板Secret: string;
 		进油看板AccessToken: string;

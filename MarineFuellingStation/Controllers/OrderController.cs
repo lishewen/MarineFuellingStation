@@ -37,7 +37,7 @@ namespace MFS.Controllers
             this.option = option.Value;
             this.option.销售单AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.销售单Secret);
             this.option.收银AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.收银Secret);
-            this.option.水上加油AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.水上加油Secret);
+            this.option.加油AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.加油Secret);
             this.option.陆上装车AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.陆上装车Secret);
         }
         [NonAction]
@@ -82,7 +82,7 @@ namespace MFS.Controllers
 
             if (result.OrderType == SalesPlanType.水上)
                 //推送到“水上加油”
-                MassApi.SendTextCard(option.水上加油AccessToken, option.水上加油AgentId, "已开单，请施工"
+                MassApi.SendTextCard(option.加油AccessToken, option.加油AgentId, "已开单，请施工"
                          , $"<div class=\"gray\">单号：{result.Name}</div>" +
                          $"<div class=\"normal\">开单人：{UserName}</div>" +
                          $"<div class=\"normal\">船号/车号：{result.CarNo}</div>"

@@ -28,9 +28,9 @@ namespace MFS.Models
         public string 陆上计划审核AgentId { get; set; }
         public string 陆上计划审核Secret { get; set; }
         public string 陆上计划审核AccessToken { get; set; }
-        public string 水上加油AgentId { get; set; }
-        public string 水上加油Secret { get; set; }
-        public string 水上加油AccessToken { get; set; }
+        public string 加油AgentId { get; set; }
+        public string 加油Secret { get; set; }
+        public string 加油AccessToken { get; set; }
         public string 进油看板AgentId { get; set; }
         public string 进油看板Secret { get; set; }
         public string 进油看板AccessToken { get; set; }

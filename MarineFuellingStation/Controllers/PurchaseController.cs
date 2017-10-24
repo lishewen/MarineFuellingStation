@@ -37,8 +37,7 @@ namespace MFS.Controllers
             this.option.进油计划AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.进油计划Secret);
             this.option.进油看板AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.进油看板Secret);
             this.option.陆上卸油AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.陆上卸油Secret);
-            this.option.卸油审核AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.卸油审核Secret);
-            this.option.出入仓记录AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.出入仓记录Secret);
+            this.option.油仓情况AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.油仓情况Secret);
 
             _hub = hub;
         }
@@ -245,7 +244,7 @@ namespace MFS.Controllers
             if (infactTotal > 0)
             {
                 //推送到“收银”
-                MassApi.SendTextCard(option.出入仓记录AccessToken, option.出入仓记录AgentId, "卸油审核成功，已更新油仓油量"
+                MassApi.SendTextCard(option.油仓情况AccessToken, option.油仓情况AgentId, "卸油审核成功，已更新油仓油量"
                          , $"<div class=\"gray\">卸油单号：{pu.Name}</div>" +
                          $"<div class=\"normal\">审核人：{UserName}</div>" +
                          $"<div class=\"normal\">商品：{pName}</div>" +

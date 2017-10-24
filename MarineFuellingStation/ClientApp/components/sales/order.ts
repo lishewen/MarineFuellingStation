@@ -3,11 +3,7 @@ import { Component } from 'vue-property-decorator';
 import axios from "axios";
 import moment from "moment";
 
-@Component({
-    components: {
-        WeuiSearch: require('../weui-search/search.vue')
-    }
-})
+@Component
 export default class OrderComponent extends ComponentBase {
     salesplans: server.salesPlan[];
     salesplan: server.salesPlan;
@@ -184,6 +180,17 @@ export default class OrderComponent extends ComponentBase {
         this.$router.push('/sales/order/' + id + '/order');
     }
 
+    addNextConfirm() {
+        let that = this;
+        this.$dialog.confirm({
+            title: '操作成功',
+            mes: '操作成功，是否继续新增？',
+            opts: () => {
+                window.location.reload();
+            }
+        });
+    }
+
     mounted() {
         this.$emit('setTitle', this.$store.state.username + ' 销售单');
 
@@ -343,8 +350,8 @@ export default class OrderComponent extends ComponentBase {
         axios.post('/api/Order', model).then((res) => {
             let jobj = res.data as server.resultJSON<server.order>;
             if (jobj.code == 0) {
-                this.getOrderNo();
-                this.toastSuccess(jobj.msg);
+                this.addNextConfirm();
+                this.isPrevent = true;
             }
         });
     }

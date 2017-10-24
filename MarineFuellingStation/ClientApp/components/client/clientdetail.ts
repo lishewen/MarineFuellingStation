@@ -2,11 +2,7 @@ import ComponentBase from "../../componentbase";
 import { Component } from 'vue-property-decorator';
 import axios from "axios";
 
-@Component({
-    components: {
-        WeuiSearch: require('../weui-search/search.vue')
-    }
-})
+@Component
 export default class MyClientDetailComponent extends ComponentBase {
     model: server.client;
     showcompany: boolean = false;

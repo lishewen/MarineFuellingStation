@@ -79,7 +79,7 @@
             <yd-tab-panel label="列表">
 
                 <yd-cell-group>
-                    <weui-search v-model="sv" />
+                    <yd-search v-model="sv" />
                     <yd-cell-item arrow v-for="s in list" :key="s.id" @click.native="godetail(s.id)">
                         <div slot="left">
                             <p>{{s.name}}</p>

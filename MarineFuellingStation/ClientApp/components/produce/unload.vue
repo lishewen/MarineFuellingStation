@@ -1,6 +1,13 @@
 ﻿<style>
-    .center{
-        text-align:center;
+    .center {
+        text-align: center;
+    }
+
+    .img-wrap {
+        display: inline-block;
+    }
+    .img-wrap img {
+        width: 100%;
     }
 </style>
 <template>
@@ -48,7 +55,10 @@
                 <yd-button style="width:90%" type="primary" @click.native="goNext" :disabled="purchase.density <= 0 || purchase.scaleWithCar <= 0 || !isScaleWithCarUpload">前往化验</yd-button>
             </div>
             <div style="text-align: center;margin-top: .2rem">
-                <img :src="purchase.scaleWithCarPic" />
+                <div class="img-wrap">
+                    <img :src="purchase.scaleWithCarPic" />
+                </div>
+                
             </div>
         </div>
         <div class="center" v-show="currStep == 2">
@@ -121,7 +131,9 @@
                 <yd-button style="width:90%" type="primary" @click.native="goNext" :disabled="purchase.scale <= 0 || !isScaleUpload">完工确认</yd-button>
             </div>
             <div style="text-align: center; margin-top: .2rem">
-                <img :src="purchase.scalePic" />
+                <div class="img-wrap">
+                    <img :src="purchase.scalePic" />
+                </div>
             </div>
         </div>
 
@@ -171,12 +183,12 @@
                 <span slot="right">{{purchase.lastUpdatedBy}}</span>
             </yd-cell-item>
             <yd-cell-item>
-                <span slot="left">毛重图片：</span>
-                <span slot="right"><img :src="this.purchase.scaleWithCarPic" /></span>
+                <div slot="left">毛重图片：</div>
+                <div slot="right"><div class="img-wrap"><img :src="this.purchase.scaleWithCarPic" /></div></div>
             </yd-cell-item>
             <yd-cell-item>
-                <span slot="left">皮重图片：</span>
-                <span slot="right"><img :src="this.purchase.scalePic" /></span>
+                <div slot="left">皮重图片：</div>
+                <div slot="right"><div class="img-wrap"><img :src="this.purchase.scalePic" /></div></div>
             </yd-cell-item>
         </yd-cell-group>
         <div class="center" v-show="currStep == 6">

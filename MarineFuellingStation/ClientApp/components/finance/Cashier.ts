@@ -3,11 +3,7 @@ import { Component } from 'vue-property-decorator';
 import axios from "axios";
 import moment from "moment";
 
-@Component({
-    components: {
-        WeuiSearch: require('../weui-search/search.vue')
-    }
-})
+@Component
 export default class CashierComponent extends ComponentBase {
     showPayTypes: boolean = false;
     lastshow: boolean = true;

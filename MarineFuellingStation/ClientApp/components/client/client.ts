@@ -3,11 +3,7 @@ import axios from "axios";
 import moment from "moment";
 import { Component } from 'vue-property-decorator';
 
-@Component({
-    components: {
-        WeuiSearch: require('../weui-search/search.vue')
-    }
-})
+@Component
 export default class ClientComponent extends ComponentBase {
     model: server.client;
     modelCompany: server.company;

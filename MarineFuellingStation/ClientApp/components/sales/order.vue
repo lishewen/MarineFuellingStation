@@ -102,7 +102,7 @@
             </yd-tab-panel>
 
             <yd-tab-panel label="单据记录">
-                <weui-search v-model="sv" />
+                <yd-search v-model="sv" />
                 <yd-cell-group>
                     <yd-infinitescroll :callback="loadList" ref="infinitescroll">
                         <yd-cell-item slot="list" arrow v-for="o in orders" :key="o.id" @click.native="godetail(o.id)">
@@ -131,7 +131,7 @@
                 <div style="text-align: center">
                     <yd-button style="width:80%;margin:10px 0 10px 0" type="primary" @click.native="emptyclick()">散客</yd-button>
                 </div>
-                <weui-search v-model="sv" />
+                <yd-search v-model="sv" />
                 <yd-cell-item arrow @click.native="planitemclick(s)" v-for="s in salesplans" :key="s.id">
                     <div slot="left">
                         <p>{{s.carNo}}</p>

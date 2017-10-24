@@ -20,6 +20,8 @@ export default class AuditingComponent extends ComponentBase {
     scrollRef: any;
     pSize: number = 30;
 
+    strIsLp: string;//水上审核和陆上审核的标识，路由传值
+
     constructor() {
         super();
 
@@ -33,7 +35,6 @@ export default class AuditingComponent extends ComponentBase {
         this.actItems = new Array();
 
         this.state = server.salesPlanState.未审批;
-        this.getSalesPlans();
     }
 
     switchBtn(o: helper.filterBtn, idx: number) {
@@ -69,7 +70,9 @@ export default class AuditingComponent extends ComponentBase {
     }
 
     mounted() {
-        this.$emit('setTitle', this.$store.state.username + ' 计划审核');
+        this.strIsLp = this.$route.params.islandplan;
+        this.getSalesPlans();
+        this.$emit('setTitle', '计划审核');
     };
 
     change(label: string, tabkey: string) {
@@ -108,7 +111,8 @@ export default class AuditingComponent extends ComponentBase {
         axios.get('/api/SalesPlan/GetByState?'
             + 'page=' + this.page
             + '&pageSize=' + this.pSize
-            + '&sps=' + this.state).then((res) => {
+            + '&sps=' + this.state
+            + '&islandplan=' + this.strIsLp).then((res) => {
                 let jobj = res.data as server.resultJSON<server.salesPlan[]>;
                 if (jobj.code == 0) {
                     if (callback) {

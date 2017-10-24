@@ -40,5 +40,18 @@ namespace MFS.Controllers
                 HttpContext.Session.SetString("UserId", userid);
             }
         }
+        public string IsAdmin
+        {
+            get
+            {
+                return HttpContext.Session.GetString("IsAdmin");
+            }
+            set
+            {
+                string isAdmin = value ?? string.Empty;
+                isAdmin = WebUtility.UrlDecode(isAdmin);
+                HttpContext.Session.SetString("IsAdmin", isAdmin);
+            }
+        }
     }
 }

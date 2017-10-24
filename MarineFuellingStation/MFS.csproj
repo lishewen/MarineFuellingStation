@@ -98,6 +98,9 @@
     <None Update="Models\WorkOption.cs.d.ts">
       <DependentUpon>WorkOption.cs</DependentUpon>
     </None>
+    <None Update="Repositorys\MoveStoreRepository.cs.d.ts">
+      <DependentUpon>MoveStoreRepository.cs</DependentUpon>
+    </None>
   </ItemGroup>
   <Target Name="RunWebpack" AfterTargets="ComputeFilesToPublish">
     <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->

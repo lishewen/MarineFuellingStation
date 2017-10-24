@@ -84,7 +84,7 @@
             <yd-actionsheet :items="oiloptions" v-model="oilshow" cancel="取消"></yd-actionsheet>
             <yd-tab-panel label="客户列表">
                 <yd-cell-group>
-                    <weui-search v-model="svClient" />
+                    <yd-search v-model="svClient" />
                     <div style="text-align: center;padding: 10px 0 10px">
                         <span v-for="(f, index) in filterCType">
                             <yd-button type="warning" v-if="f.actived" @click.native="switchBtn(f, index, '客户类型')">{{f.name}}</yd-button>
@@ -109,7 +109,7 @@
                     <div style="text-align: center;">
                         <yd-button type="primary" @click.native="switchaddcompany" style="width: 90%; margin: .2rem 0">添加公司</yd-button>
                     </div>
-                    <weui-search v-model="svCompany" />
+                    <yd-search v-model="svCompany" />
                     <yd-cell-item arrow v-for="co in companys" :key="co.id">
                         <div slot="left">
                             <p>{{co.name}}</p>
@@ -202,7 +202,7 @@
         <yd-popup v-model="showcompany" position="right" width ="70%">
             <yd-cell-group>
                 <div style="text-align: center;"><yd-button type="primary" style="width: 90%" @click.native="switchaddcompany">新增</yd-button></div>
-                <weui-search v-model="svCompany1" />
+                <yd-search v-model="svCompany1" />
                 <yd-cell-item arrow type="radio" v-for="co in companys" :key="co.id" @click.native="selectcompanyclick(co)">
                     <span slot="left">{{co.name}}</span>
                 </yd-cell-item>

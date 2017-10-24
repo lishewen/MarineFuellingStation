@@ -2,11 +2,7 @@
 import { Component } from 'vue-property-decorator';
 import axios from "axios";
 
-@Component({
-    components: {
-        WeuiSearch: require('../weui-search/search.vue')
-    }
-})
+@Component
 export default class AssayComponent extends ComponentBase {
     model: server.assay;
     assay: server.assay;

@@ -16,7 +16,7 @@
 </style>
 <template>
     <div id="root">
-        <weui-search v-model="sv" />
+        <yd-search v-model="sv" />
         <yd-cell-group title="充值记录">
             <yd-infinitescroll :callback="loadList" ref="infinitescroll">
                 <yd-cell-item slot="list" v-for="c in chargeLogs" :key="c.id" style="padding: 10px 0 10px 10px">

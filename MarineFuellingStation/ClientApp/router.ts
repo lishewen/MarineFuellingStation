@@ -13,7 +13,7 @@ const routes: RouteConfig[] = [
     { path: '/sales/myclient', component: require('./components/sales/myclient.vue') },
     { path: '/sales/myclient/:id', component: require('./components/sales/myclientdetail.vue') },
     { path: '/sales/boatclean', component: require('./components/sales/boatclean.vue') },
-    { path: '/sales/auditing', component: require('./components/sales/auditing.vue') },
+    { path: '/sales/auditing/:islandplan', component: require('./components/sales/auditing.vue') },
 
     { path: '/produce/buyboard', component: require('./components/produce/buyboard.vue') },
     { path: '/produce/planboard', component: require('./components/produce/planboard.vue') },

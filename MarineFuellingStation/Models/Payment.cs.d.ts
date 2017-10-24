@@ -6,6 +6,8 @@ declare module server {
 		/** 金额 */
 		money: number;
 		/** 订单Id */
-		orderId?: number;
+        orderId?: number;
+        /** 船舶清污单Id */
+        boatCleanId?: number;
 	}
 }

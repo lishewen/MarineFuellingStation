@@ -29,11 +29,18 @@ declare module server {
 		startTime: Date;
 		/** 完成时间 */
 		endTime: Date;
-		state: boatCleanState;
+        state: boatCleanState;
+        payState: boatCleanPayState;
+        payments: payment[];
 	}
 	const enum boatCleanState {
 		已开单,
 		施工中,
 		已完成,
-	}
+    }
+    const enum boatCleanPayState {
+        未结算,
+        已结算,
+        挂账
+    }
 }

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace MFS.Repositorys
@@ -38,6 +39,30 @@ namespace MFS.Repositorys
                 }
             }
             return tag + DateTime.Now.ToString("yyMM") + "0001";
+        }
+        /// <summary>
+        /// 根据BoatCleanPayState获取分页数据
+        /// </summary>
+        /// <param name="payState">付款状态</param>
+        /// <param name="startPage">第N页</param>
+        /// <param name="pageSize">每页记录</param>
+        /// <returns></returns>
+        public List<BoatClean> GetByPayState(BoatCleanPayState payState, int startPage, int pageSize, string searchVal)
+        {
+            Expression<Func<BoatClean, bool>> bcwhere = b => b.PayState == payState;
+            if (!string.IsNullOrEmpty(searchVal))
+                bcwhere = bcwhere.And(b => b.Name.Contains(searchVal) || b.CarNo.Contains(searchVal));
+
+            return LoadPageList(startPage, pageSize, out int count, true, bcwhere)
+                .OrderByDescending(o => o.LastUpdatedAt).ToList();
+        }
+        public BoatClean Pay(BoatClean model)
+        {
+            foreach(Payment p in model.Payments)
+            {
+                _dbContext.Payments.Add(p);
+            }
+            return Update(model);
         }
     }
 }

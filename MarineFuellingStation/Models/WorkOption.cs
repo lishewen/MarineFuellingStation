@@ -34,9 +34,6 @@ namespace MFS.Models
         public string 进油看板AgentId { get; set; }
         public string 进油看板Secret { get; set; }
         public string 进油看板AccessToken { get; set; }
-        public string 陆上装车AgentId { get; set; }
-        public string 陆上装车Secret { get; set; }
-        public string 陆上装车AccessToken { get; set; }
         public string 陆上卸油AgentId { get; set; }
         public string 陆上卸油Secret { get; set; }
         public string 陆上卸油AccessToken { get; set; }
@@ -52,5 +49,8 @@ namespace MFS.Models
         public string 油仓情况AgentId { get; set; }
         public string 油仓情况Secret { get; set; }
         public string 油仓情况AccessToken { get; set; }
+        public string 系统设置AgentId { get; set; }
+        public string 系统设置Secret { get; set; }
+        public string 系统设置AccessToken { get; set; }
     }
 }

@@ -10,6 +10,11 @@ namespace MFS.Models
     /// </summary>
     public class BoatClean : EntityBase
     {
+        public BoatClean()
+        {
+            if (Payments == null)
+                Payments = new List<Payment>();
+        }
         /// <summary>
         /// 船号
         /// </summary>
@@ -66,6 +71,14 @@ namespace MFS.Models
         /// 完成时间
         /// </summary>
         public DateTime EndTime { get; set; }
+        /// <summary>
+        /// 支付状态
+        /// </summary>
+        public BoatCleanPayState PayState { get; set; }
+        /// <summary>
+        /// 支付金额和方式
+        /// </summary>
+        public virtual ICollection<Payment> Payments { get; set; }
         public BoatCleanState State { get; set; } = BoatCleanState.已开单;
     }
 
@@ -74,5 +87,11 @@ namespace MFS.Models
         已开单,
         施工中,
         已完成
+    }
+    public enum BoatCleanPayState
+    {
+        未结算,
+        已结算,
+        挂账
     }
 }

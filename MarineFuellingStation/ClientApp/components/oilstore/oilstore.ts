@@ -33,7 +33,7 @@ export default class OilStoreComponent extends ComponentBase {
     }
 
     mounted() {
-        this.$emit('今日油仓情况');
+        this.$emit('setTitle', '所有仓情况');
     };
 
     /**
@@ -67,6 +67,13 @@ export default class OilStoreComponent extends ComponentBase {
                 }
             }
         ];
+    }
+    strLastSurveyAt(date: string) {
+        let fDate = moment(new Date(date));
+        if (fDate.get('year') != 1)
+            return fDate.format("YYYY-MM-DD hh:mm")
+        else
+            return "无测量记录";
     }
 
     /**

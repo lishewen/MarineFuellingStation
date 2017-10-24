@@ -45,6 +45,15 @@ namespace MFS.Controllers
                 Data = r.GetAllList(p => p.OrderId == oid)
             };
         }
+        [HttpGet("[action]")]
+        public ResultJSON<List<Payment>> GetByBoatCleanId(int bid)
+        {
+            return new ResultJSON<List<Payment>>
+            {
+                Code = 0,
+                Data = r.GetAllList(p => p.BoatCleanId == bid)
+            };
+        }
         [HttpGet("{sv}")]
         public ResultJSON<List<Payment>> Get(string sv)
         {

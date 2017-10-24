@@ -88,6 +88,9 @@
             <yd-grids-item link="./finance/cashier" style="background-color:lightcyan">
                 <p slot="text">收银</p>
             </yd-grids-item>
+            <yd-grids-item link="./finance/cashierbc" style="background-color:lightcyan">
+                <p slot="text">船舶清污收银</p>
+            </yd-grids-item>
             <yd-grids-item link="./finance/orderlist" style="background-color:lightcyan">
                 <p slot="text">订单查询</p>
             </yd-grids-item>

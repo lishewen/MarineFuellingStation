@@ -3,7 +3,7 @@ import { Component } from 'vue-property-decorator';
 
 @Component
 export default class AppComponent extends Vue {
-    title: string = this.$store.state.username + '正在登录中。。。';
+    title: string = this.$store.state.username + '正在登录中...';
     backUrl: string = '#';
 
     setTitle(title: string, url: string = '#'): void {

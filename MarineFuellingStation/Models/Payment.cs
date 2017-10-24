@@ -26,5 +26,11 @@ namespace MFS.Models
         public int? OrderId { get; set; }
         [JsonIgnore, ForeignKey("OrderId")]
         public virtual Order Order { get; set; }
+        /// <summary>
+        /// 船舶清污单Id
+        /// </summary>
+        public int? BoatCleanId { get; set; }
+        [JsonIgnore, ForeignKey("BoatCleanId")]
+        public virtual BoatClean BoatClean { get; set; }
     }
 }

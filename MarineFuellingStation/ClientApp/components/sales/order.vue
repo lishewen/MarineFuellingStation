@@ -53,7 +53,7 @@
                     </yd-cell-item>
 
                     <yd-cell-item>
-                        <span slot="right" style="font-weight: bold">总计：￥{{model.totalMoney}}</span>
+                        <span slot="right" style="font-weight: bold">总计：￥{{Math.round(model.totalMoney)}}</span>
                     </yd-cell-item>
                     <yd-cell-item>
                         <span slot="left">是否开票</span>
@@ -65,10 +65,8 @@
                         <span slot="left">票类：</span>
                         <select slot="right" v-model="model.ticketType">
                             <option value="-1">请选择票类</option>
-                            <option value="0">普通票</option>
-                            <option value="1">专用票</option>
-                            <option value="2">循票</option>
-                            <option value="3">柴票</option>
+                            <option value="0">循票</option>
+                            <option value="1">柴票</option>
                         </select>
                     </yd-cell-item>
                     <yd-cell-item v-show="model.isInvoice">

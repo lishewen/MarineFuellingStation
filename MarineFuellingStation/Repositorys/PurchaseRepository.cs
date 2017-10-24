@@ -78,8 +78,14 @@ namespace MFS.Repositorys
         {
             return _dbContext.Purchases.Include("Product").FirstOrDefault(p => p.Id == id);
         }
-        public bool UpdateStoreOil(Purchase model)
+        /// <summary>
+        /// 卸油审核后更新油仓油量，平均单价；新增出入记录
+        /// </summary>
+        /// <param name="model">进油单model</param>
+        /// <returns>实际入仓总升数</returns>
+        public decimal UpdateStoreOil(Purchase model)
         {
+            decimal infactTotal = 0;
             try { 
                 //更新油仓
                 StoreRepository st_r;
@@ -104,13 +110,14 @@ namespace MFS.Repositorys
                             Unit = "升",
                             Type = LogType.入仓
                         });
+                        infactTotal += ts.Count;
                     }
                 }
-                return true;
+                return infactTotal;
             }
             catch
             {
-                return false;
+                return 0;
             }
         }
         public List<Purchase> GetByState(int page, int pageSize, Purchase.UnloadState pus)

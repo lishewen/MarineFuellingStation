@@ -41,8 +41,8 @@ namespace MFS.Models
     }
     public enum TicketType
     {
-        普通票,
-        专用票,
+        //普通票,
+        //专用票,
         循票,
         柴票
     }

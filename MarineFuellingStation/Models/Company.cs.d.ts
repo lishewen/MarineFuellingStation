@@ -19,8 +19,8 @@ declare module server {
         totalAmount: number;
     }
     const enum ticketType {
-        普通票,
-        专用票,
+        //普通票,
+        //专用票,
         循票,
         柴票
     }

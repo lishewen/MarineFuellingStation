@@ -24,6 +24,9 @@ namespace MFS.Models
         public string 销售单AccessToken { get; set; }
         public string 审核AgentId { get; set; }
         public string 审核Secret { get; set; }
+        public string 卸油审核AccessToken { get; set; }
+        public string 卸油审核AgentId { get; set; }
+        public string 卸油审核Secret { get; set; }
         public string 审核AccessToken { get; set; }
         public string 水上加油AgentId { get; set; }
         public string 水上加油Secret { get; set; }
@@ -43,5 +46,8 @@ namespace MFS.Models
         public string 进油计划AgentId { get; set; }
         public string 进油计划Secret { get; set; }
         public string 进油计划AccessToken { get; set; }
+        public string 出入仓记录AgentId { get; set; }
+        public string 出入仓记录Secret { get; set; }
+        public string 出入仓记录AccessToken { get; set; }
     }
 }

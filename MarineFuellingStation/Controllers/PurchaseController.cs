@@ -23,18 +23,22 @@ namespace MFS.Controllers
     public class PurchaseController : ControllerBase
     {
         private readonly PurchaseRepository r;
+        private readonly ProductRepository p_r;
         private readonly IHostingEnvironment _hostingEnvironment;
         WorkOption option;
         private readonly IHubContext<PrintHub> _hub;
-        public PurchaseController(PurchaseRepository repository, IOptionsSnapshot<WorkOption> option, IHostingEnvironment env, IHubContext<PrintHub> hub)
+        public PurchaseController(PurchaseRepository repository,ProductRepository p_repository, IOptionsSnapshot<WorkOption> option, IHostingEnvironment env, IHubContext<PrintHub> hub)
         {
             r = repository;
+            p_r = p_repository;
             _hostingEnvironment = env;
             //获取 销售单 企业微信应用的AccessToken
             this.option = option.Value;
             this.option.进油计划AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.进油计划Secret);
             this.option.进油看板AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.进油看板Secret);
             this.option.陆上卸油AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.陆上卸油Secret);
+            this.option.卸油审核AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.卸油审核Secret);
+            this.option.出入仓记录AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.出入仓记录Secret);
 
             _hub = hub;
         }
@@ -235,9 +239,22 @@ namespace MFS.Controllers
         public ResultJSON<Purchase> AuditingOK([FromBody]Purchase pu)
         {
             pu.State = Purchase.UnloadState.已审核;
+            decimal infactTotal = r.UpdateStoreOil(pu);
+            string pName = p_r.Get(pu.ProductId).Name;//取得商品名称
             //更新油仓相关数量，平均单价，出入仓记录
-            if (r.UpdateStoreOil(pu))
+            if (infactTotal > 0)
             {
+                //推送到“收银”
+                MassApi.SendTextCard(option.出入仓记录AccessToken, option.出入仓记录AgentId, "卸油审核成功，已更新油仓油量"
+                         , $"<div class=\"gray\">卸油单号：{pu.Name}</div>" +
+                         $"<div class=\"normal\">审核人：{UserName}</div>" +
+                         $"<div class=\"normal\">商品：{pName}</div>" +
+                         $"<div class=\"normal\">计划：{pu.Count}吨</div>" +
+                         $"<div class=\"normal\">实际：{infactTotal}升</div>" +
+                         $"<div class=\"normal\">密度：{pu.Density}</div>" 
+
+                         , $"https://vue.car0774.com/#/purchase/purchase/{pu.Id}/unloadaudit", toUser: "@all");
+
                 return new ResultJSON<Purchase>
                 {
                     Code = 0,

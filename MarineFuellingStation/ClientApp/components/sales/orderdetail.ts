@@ -47,10 +47,10 @@ export default class OrderDetailComponent extends ComponentBase {
 
     getTicketType(tt: server.ticketType) {
         switch (tt) {
-            case server.ticketType.普通票:
-                return "普通票";
-            case server.ticketType.专用票:
-                return "专用票";
+            //case server.ticketType.普通票:
+            //    return "普通票";
+            //case server.ticketType.专用票:
+            //    return "专用票";
             case server.ticketType.循票:
                 return "循票";
             case server.ticketType.柴票:

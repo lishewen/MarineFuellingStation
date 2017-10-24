@@ -12,7 +12,7 @@ using MFS.Repositorys;
 
 namespace MFS.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : ControllerBase
     {
         WorkOption option;
         ProductRepository r;
@@ -34,6 +34,9 @@ namespace MFS.Controllers
 #if DEBUG
             return Redirect($"/#/wxhub/{WebUtility.UrlEncode("黄继业")}/{WebUtility.UrlEncode("13907741118")}/{true}/{WebUtility.UrlEncode(id)}");
 #else
+            if (!string.IsNullOrWhiteSpace(UserName) && !string.IsNullOrWhiteSpace(UserId) && !string.IsNullOrWhiteSpace(IsAdmin))
+                return Redirect($"/#/wxhub/{WebUtility.UrlEncode(UserName)}/{WebUtility.UrlEncode(UserId)}/{IsAdmin}/{WebUtility.UrlEncode(id)}");
+
             var state = Request.Query["state"];
             if (state != "car0774")
                 return Redirect(OAuth2Api.GetCode(option.CorpId, "https://" + Request.Host + Request.Path + Request.QueryString, "car0774"));
@@ -42,6 +45,9 @@ namespace MFS.Controllers
                 var code = Request.Query["code"];
                 var at = OAuth2Api.GetUserId(option.AccessToken, code);
                 var userinfo = MailListApi.GetMember(option.AccessToken, at.UserId);
+                UserName = userinfo.name;
+                UserId = at.UserId;
+                IsAdmin = userinfo.department.Contains(7).ToString();
                 //超级管理员的部门id为7
                 return Redirect($"/#/wxhub/{WebUtility.UrlEncode(userinfo.name)}/{WebUtility.UrlEncode(at.UserId)}/{userinfo.department.Contains(7)}/{WebUtility.UrlEncode(id)}");
             }

@@ -7,7 +7,8 @@ const state = {
     openid: '',
     userid: '',
     username: '',
-    isSuperAdmin: 'False'
+    isSuperAdmin: 'False',
+    isLeader: 'False'
 };
 
 const mutations = {
@@ -25,6 +26,9 @@ const mutations = {
     },
     setIsSuperAdmin: (state, amount) => {
         state.isSuperAdmin = amount;
+    },
+    setIsLeader: (state, amount) => {
+        state.isLeader = amount;
     }
 };
 

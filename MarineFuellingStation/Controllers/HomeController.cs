@@ -32,10 +32,13 @@ namespace MFS.Controllers
             if (string.IsNullOrWhiteSpace(id))
                 id = "/";
 #if DEBUG
-            return Redirect($"/#/wxhub/{WebUtility.UrlEncode("黄继业")}/{WebUtility.UrlEncode("13907741118")}/{true}/{WebUtility.UrlEncode(id)}");
+            return Redirect($"/#/wxhub/{WebUtility.UrlEncode("黄继业")}/{WebUtility.UrlEncode("13907741118")}/{true}/{true}/{WebUtility.UrlEncode(id)}");
 #else
-            if (!string.IsNullOrWhiteSpace(UserName) && !string.IsNullOrWhiteSpace(UserId) && !string.IsNullOrWhiteSpace(IsAdmin))
-                return Redirect($"/#/wxhub/{WebUtility.UrlEncode(UserName)}/{WebUtility.UrlEncode(UserId)}/{IsAdmin}/{WebUtility.UrlEncode(id)}");
+            if (!string.IsNullOrWhiteSpace(UserName) 
+                && !string.IsNullOrWhiteSpace(UserId) 
+                && !string.IsNullOrWhiteSpace(IsAdmin)
+                && !string.IsNullOrWhiteSpace(IsLeader))
+                return Redirect($"/#/wxhub/{WebUtility.UrlEncode(UserName)}/{WebUtility.UrlEncode(UserId)}/{IsAdmin}/{IsLeader}/{WebUtility.UrlEncode(id)}");
 
             var state = Request.Query["state"];
             if (state != "car0774")
@@ -48,8 +51,9 @@ namespace MFS.Controllers
                 UserName = userinfo.name;
                 UserId = at.UserId;
                 IsAdmin = userinfo.department.Contains(7).ToString();
+                IsLeader = userinfo.isleader.ToString();
                 //超级管理员的部门id为7
-                return Redirect($"/#/wxhub/{WebUtility.UrlEncode(userinfo.name)}/{WebUtility.UrlEncode(at.UserId)}/{userinfo.department.Contains(7)}/{WebUtility.UrlEncode(id)}");
+                return Redirect($"/#/wxhub/{WebUtility.UrlEncode(userinfo.name)}/{WebUtility.UrlEncode(at.UserId)}/{userinfo.department.Contains(7)}/{userinfo.isleader}/{WebUtility.UrlEncode(id)}");
             }
 #endif
         }

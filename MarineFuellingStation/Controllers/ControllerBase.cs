@@ -53,5 +53,18 @@ namespace MFS.Controllers
                 HttpContext.Session.SetString("IsAdmin", isAdmin);
             }
         }
+        public string IsLeader
+        {
+            get
+            {
+                return HttpContext.Session.GetString("IsLeader");
+            }
+            set
+            {
+                string isLeader = value ?? string.Empty;
+                isLeader = WebUtility.UrlDecode(isLeader);
+                HttpContext.Session.SetString("IsLeader", isLeader);
+            }
+        }
     }
 }

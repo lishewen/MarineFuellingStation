@@ -71,6 +71,7 @@ export default class AuditingComponent extends ComponentBase {
 
     mounted() {
         this.strIsLp = this.$route.params.islandplan;
+        console.log("strIsLp = " + this.strIsLp);
         this.getSalesPlans();
         this.$emit('setTitle', '计划审核');
     };

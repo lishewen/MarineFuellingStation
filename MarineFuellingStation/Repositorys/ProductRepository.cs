@@ -34,5 +34,31 @@ namespace MFS.Repositorys
             _dbContext.ProductTypes.Add(p);
             _dbContext.SaveChanges();
         }
+        /// <summary>
+        /// 批量修改单价
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns>涉及更改的数量</returns>
+        public int ModifyProdPrice(List<Product> list)
+        {
+            int count = 0;
+            try {
+                foreach(Product p in list)
+                {
+                    var pOld = Get(p.Id);
+                    if (pOld.MinPrice != p.MinPrice)
+                    {
+                        pOld.MinPrice = p.MinPrice;
+                        count++;
+                    }
+                }
+                Save();
+                return count;
+            }
+            catch
+            {
+                return -1;
+            }
+        }
     }
 }

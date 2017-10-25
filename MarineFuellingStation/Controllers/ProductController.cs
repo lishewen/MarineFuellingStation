@@ -23,6 +23,9 @@ namespace MFS.Controllers
             //获取 系统设置 企业微信应用的AccessToken
             this.option = option.Value;
             this.option.系统设置AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.系统设置Secret);
+            this.option.水上计划AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.水上计划Secret);
+            this.option.陆上计划AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.陆上计划Secret);
+            this.option.销售单AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.销售单Secret);
         }
         [HttpGet("[action]")]
         public ResultJSON<List<Product>> OilProducts()
@@ -84,6 +87,35 @@ namespace MFS.Controllers
                 Code = 0,
                 Data = r.Insert(model)
             };
+        }
+        
+        /// <summary>
+        /// 批量修改商品单价
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        [HttpPut("[action]")]
+        public ResultJSON<Product> ModifyProdPrice([FromBody] List<Product> list)
+        {
+            r.CurrentUser = UserName;
+            int count = r.ModifyProdPrice(list);
+            if (count == 0) return new ResultJSON<Product> { Code = 501, Msg = "提交的单价没有变化" };
+            if (count == -1) return new ResultJSON<Product> { Code = 501, Msg = "保存出错，请联系开发人员" };
+#if !DEBUG
+            //推送到“水上计划”
+            MassApi.SendTextCard(option.水上计划AccessToken, option.水上计划AgentId, $"{UserName}修改了{count}项商品限价"
+                     , $"<div class=\"gray\">时间：{DateTime.Now.ToString("yyyy-MM-dd hh:mm")}</div>"
+                     , "https://", toUser: "@all");
+            //推送到“陆上计划”
+            MassApi.SendTextCard(option.陆上计划AccessToken, option.陆上计划AgentId, $"{UserName}修改了{count}项商品限价"
+                     , $"<div class=\"gray\">时间：{DateTime.Now.ToString("yyyy-MM-dd hh:mm")}</div>"
+                     , "https://", toUser: "@all");
+            //推送到“销售单”
+            MassApi.SendTextCard(option.销售单AccessToken, option.销售单AgentId, $"{UserName}修改了{count}项商品限价"
+                     , $"<div class=\"gray\">时间：{DateTime.Now.ToString("yyyy-MM-dd hh:mm")}</div>"
+                     , "https://", toUser: "@all");
+#endif
+            return new ResultJSON<Product>{Code = 0};
         }
     }
 }

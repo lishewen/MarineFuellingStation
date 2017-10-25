@@ -8,9 +8,11 @@ export default class PlanComponent extends ComponentBase {
     radio2: string = '1';
     username: string;
     isPrevent: boolean = true;
+    showPd: boolean = false;
     model: server.salesPlan;
     oildate: string;
     salesplans: server.salesPlan[];
+    products: server.product[];
     oilshow: boolean = false;
     showNext: boolean = false;
     oiloptions: ydui.actionSheetItem[];
@@ -23,6 +25,7 @@ export default class PlanComponent extends ComponentBase {
     pMinPrice: number = 0;
     isLandSalesman: boolean = false;//标识当前用户是否“陆上部”
     isWaterSalesman: boolean = false;//标识是否“水上部”
+    isLeader: boolean = false;//上级领导标识
 
     constructor() {
         super();
@@ -68,6 +71,7 @@ export default class PlanComponent extends ComponentBase {
 
     mounted() {
         this.$emit('setTitle', this.username + ' 销售计划');
+        this.isLeader = this.$store.state.isLeader;
         //观察者模式
         this.$watch('radio2', (v, ov) => {
             switch (v) {
@@ -131,6 +135,15 @@ export default class PlanComponent extends ComponentBase {
         });
     }
 
+    showProducts() {
+        this.showPd = true;
+    }
+
+    prodsaveclick() {
+        console.log(this.products);
+        this.putModifyProdPrice(this.products);
+    }
+
     strMinPriceTip() {
         if (this.pMinPrice > 0 && this.pMinInvoicePrice > 0)
             return "最低：￥" + this.pMinPrice + "，开票：￥" + this.pMinInvoicePrice;
@@ -168,7 +181,7 @@ export default class PlanComponent extends ComponentBase {
             return 0
 
     }
-
+    //输入船号后，下一步
     goNext() {
         this.showNext = true;
         this.getClient();
@@ -307,6 +320,8 @@ export default class PlanComponent extends ComponentBase {
         axios.get('/api/Product/OilProducts').then((res) => {
             let jobj = res.data as server.resultJSON<server.product[]>;
             if (jobj.code == 0) {
+                this.products = jobj.data;
+                this.oiloptions = new Array();
                 jobj.data.forEach((o, i) => {
                     this.oiloptions.push({
                         label: o.name,
@@ -319,6 +334,16 @@ export default class PlanComponent extends ComponentBase {
                         }
                     });
                 });
+
+                //如果为上级领导，则显示修改商品单价的入口
+                if (this.isLeader) {
+                    this.oiloptions.push({
+                        label: '修改商品限价',
+                        method: () => {
+                            this.showProducts()
+                        }
+                    });
+                }
             }
         });
     }
@@ -333,6 +358,19 @@ export default class PlanComponent extends ComponentBase {
                 this.toastSuccess(jobj.msg);
                 this.showNext = false;
             }
+        });
+    }
+    
+    putModifyProdPrice(model: server.product[]) {
+        axios.put('/api/Product/ModifyProdPrice', model).then((res) => {
+            let jobj = res.data as server.resultJSON<server.product>;
+            if (jobj.code == 0) {
+                this.toastSuccess("修改成功")
+                this.showPd = false;
+                this.getOilProducts();
+            }
+            else
+                this.toastError(jobj.msg)
         });
     }
 }

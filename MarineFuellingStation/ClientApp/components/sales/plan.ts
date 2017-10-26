@@ -317,7 +317,10 @@ export default class PlanComponent extends ComponentBase {
     }
 
     getOilProducts() {
-        axios.get('/api/Product/OilProducts').then((res) => {
+        let landOrWater = "";
+        if (!this.isLeader)
+            landOrWater = this.isLandSalesman.toString();
+        axios.get('/api/Product/OilProducts?landOrWater=' + landOrWater).then((res) => {
             let jobj = res.data as server.resultJSON<server.product[]>;
             if (jobj.code == 0) {
                 this.products = jobj.data;

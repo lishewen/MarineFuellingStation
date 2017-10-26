@@ -28,12 +28,17 @@ namespace MFS.Controllers
             this.option.销售单AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.销售单Secret);
         }
         [HttpGet("[action]")]
-        public ResultJSON<List<Product>> OilProducts()
+        public ResultJSON<List<Product>> OilProducts(string landOrWater = "")
         {
+            List<Product> list;
+            if (string.IsNullOrEmpty(landOrWater))
+                list = r.GetAllList((p) => p.ProductType.Name == "销售油" && p.IsUse);
+            else
+                list = r.GetAllList((p) => p.ProductType.Name == "销售油" && p.IsUse && p.IsForLand == true);
             return new ResultJSON<List<Product>>
             {
                 Code = 0,
-                Data = r.GetAllList((p) => p.ProductType.Name == "销售油" && p.IsUse)
+                Data = list
             };
         }
         [HttpGet("[action]")]

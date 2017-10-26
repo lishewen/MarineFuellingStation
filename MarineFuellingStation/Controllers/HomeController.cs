@@ -32,7 +32,7 @@ namespace MFS.Controllers
             if (string.IsNullOrWhiteSpace(id))
                 id = "/";
 #if DEBUG
-            return Redirect($"/#/wxhub/{WebUtility.UrlEncode("黄继业")}/{WebUtility.UrlEncode("13907741118")}/{true}/{true}/{WebUtility.UrlEncode(id)}");
+            return Redirect($"/#/wxhub/{WebUtility.UrlEncode("黄继业")}/{WebUtility.UrlEncode("13907741118")}/{true}/{false}/{WebUtility.UrlEncode(id)}");
 #else
             if (!string.IsNullOrWhiteSpace(UserName) 
                 && !string.IsNullOrWhiteSpace(UserId) 

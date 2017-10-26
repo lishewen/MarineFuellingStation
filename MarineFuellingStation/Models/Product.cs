@@ -25,6 +25,10 @@ namespace MFS.Models
         public bool IsUse { get; set; } = true;
         public int ProductTypeId { get; set; }
         /// <summary>
+        /// 是否陆上使用的商品，否为水上；默认水上
+        /// </summary>
+        public bool IsForLand { get; set; } = false;
+        /// <summary>
         /// 商品分类
         /// </summary>
         [JsonIgnore, ForeignKey("ProductTypeId")]

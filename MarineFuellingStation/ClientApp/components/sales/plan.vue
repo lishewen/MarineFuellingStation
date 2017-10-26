@@ -68,24 +68,24 @@
                         </span>
                     </yd-cell-item>
                     <yd-cell-item arrow v-show="model.isInvoice">
-                        <span slot="left">票类：</span>
+                        <span slot="left">必选：</span>
                         <select slot="right" v-model="model.ticketType">
-                            <option value="-1">请选择票类</option>
+                            <option value="-1">请选择</option>
                             <option value="0">循票</option>
                             <option value="1">柴票</option>
                         </select>
                     </yd-cell-item>
                     <yd-cell-item v-show="model.isInvoice">
-                        <span slot="left">开票单位：</span>
-                        <yd-input slot="right" v-model="model.billingCompany" regex="" placeholder="请输入开票单位"></yd-input>
+                        <span slot="left">单位：</span>
+                        <yd-input slot="right" v-model="model.billingCompany" regex="" placeholder="请输入单位"></yd-input>
                     </yd-cell-item>
                     <yd-cell-item v-show="model.isInvoice">
                         <span slot="left">单价：</span>
-                        <yd-input slot="right" v-model="model.billingPrice" regex="" placeholder="请输入开票单价，默认同上"></yd-input>
+                        <yd-input slot="right" v-model="model.billingPrice" regex="" placeholder="请输入开出单价，默认同上"></yd-input>
                     </yd-cell-item>
                     <yd-cell-item v-show="model.isInvoice">
                         <span slot="left">数量：</span>
-                        <yd-input slot="right" v-model="model.billingCount" regex="" placeholder="请输入开票，默认同上"></yd-input>
+                        <yd-input slot="right" v-model="model.billingCount" regex="" placeholder="请输入开出数量，默认同上"></yd-input>
                     </yd-cell-item>
                 </yd-cell-group>
                 <div>

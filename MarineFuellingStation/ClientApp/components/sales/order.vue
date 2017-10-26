@@ -56,22 +56,22 @@
                         <span slot="right" style="font-weight: bold">总计：￥{{Math.round(model.totalMoney)}}</span>
                     </yd-cell-item>
                     <yd-cell-item>
-                        <span slot="left">是否开票</span>
+                        <span slot="left"></span>
                         <span slot="right">
                             <yd-switch v-model="model.isInvoice"></yd-switch>
                         </span>
                     </yd-cell-item>
                     <yd-cell-item arrow v-show="model.isInvoice">
-                        <span slot="left">票类：</span>
+                        <span slot="left">必选：</span>
                         <select slot="right" v-model="model.ticketType">
-                            <option value="-1">请选择票类</option>
+                            <option value="-1">请选择</option>
                             <option value="0">循票</option>
                             <option value="1">柴票</option>
                         </select>
                     </yd-cell-item>
                     <yd-cell-item v-show="model.isInvoice">
-                        <span slot="left">开票单位：</span>
-                        <yd-input slot="right" v-model="model.billingCompany" placeholder="请输入开票单位"></yd-input>
+                        <span slot="left">单位：</span>
+                        <yd-input slot="right" v-model="model.billingCompany" placeholder="请输入单位"></yd-input>
                         <span slot="right" style="width: 1.2rem"><yd-button type="warning" @click.native="getClients">导入</yd-button></span>
                     </yd-cell-item>
                     <yd-cell-item v-show="model.isInvoice">

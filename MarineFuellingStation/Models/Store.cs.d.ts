@@ -15,7 +15,7 @@ declare module server {
 		cost: number;
 		isUse: boolean;
         storeTypeId: number;
-        isForLand: number;
+        isForLand: boolean | string;
 		sumOutValue: number;
 		sumInValue: number;
 	}

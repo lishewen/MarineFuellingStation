@@ -25,6 +25,12 @@
                         </yd-radio-group>
                     </yd-cell-item>
                     <yd-cell-item>
+                        <yd-radio-group v-model="model.isForLand" slot="left">
+                            <yd-radio val="false">水上</yd-radio>
+                            <yd-radio val="true">陆上</yd-radio>
+                        </yd-radio-group>
+                    </yd-cell-item>
+                    <yd-cell-item>
                         <span slot="left">所属分类：</span>
                         <select slot="right" v-model="model.storeTypeId">
                             <option value="-1">请选择分类</option>

@@ -24,6 +24,7 @@ export default class StoreComponent extends ComponentBase {
         this.model.name = '';
         this.model.volume = 0;
         this.model.storeTypeId = -1;
+        this.model.isForLand = "true";
 
         this.getStoreTypes();
     }
@@ -114,6 +115,8 @@ export default class StoreComponent extends ComponentBase {
             let jobj = res.data as server.resultJSON<server.store>;
             if (jobj.code == 0) {
                 this.model = jobj.data;
+                this.model.isForLand = this.model.isForLand.toString();
+                console.log(this.model.isForLand)
             }
         });
     }
@@ -186,13 +189,12 @@ export default class StoreComponent extends ComponentBase {
 
     mounted() {
         this.$emit('setTitle', this.$store.state.username + ' 油仓');
-
         this.$watch('radio1', (v, ov) => {
             switch (v) {
-                case "1":
+                case "0":
                     this.model.storeClass = server.storeClass.销售仓;
                     break;
-                case "2":
+                case "1":
                     this.model.storeClass = server.storeClass.存储仓;
                     break;
             }
@@ -206,6 +208,7 @@ export default class StoreComponent extends ComponentBase {
             this.model.name = '';
             this.model.volume = 0;
             this.model.storeTypeId = -1;
+            this.model.isForLand = "false"
         }
         if (label == '所有分类')
             this.isAddStore = true;

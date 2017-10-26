@@ -271,11 +271,11 @@ export default class PlanComponent extends ComponentBase {
         let type: server.salesPlanType;
         if (this.isLandSalesman) type = server.salesPlanType.陆上;
         if (this.isWaterSalesman) type = server.salesPlanType.水上;//水上部的销售同时输出“机油”数据
-        if (!this.isLandSalesman && !this.isWaterSalesman) type = server.salesPlanType.全部;
         axios.get('/api/SalesPlan/GetByPager?page='
             + this.page
             + '&pagesize=' + this.pSize
-            + '&type=' + type)
+            + '&type=' + type
+            + '&isLeader=' + this.isLeader)
             .then((res) => {
                 let jobj = res.data as server.resultJSON<server.salesPlan[]>;
                 if (jobj.code == 0) {

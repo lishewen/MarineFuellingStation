@@ -117,17 +117,26 @@ namespace MFS.Controllers
         /// <param name="page">第N页</param>
         /// <param name="pageSize">页记录数</param>
         /// <param name="type">陆上|水上</param>
+        /// <param name="isLeader">是否上级</param>
         /// <returns></returns>
         [HttpGet("[action]")]
-        public ResultJSON<List<SalesPlan>> GetByPager(int page, int pageSize, SalesPlanType type = SalesPlanType.全部)
+        public ResultJSON<List<SalesPlan>> GetByPager(int page, int pageSize, SalesPlanType type, bool isLeader)
         {
             List<SalesPlan> list;
-            if(type == SalesPlanType.全部)
-                list = r.LoadPageList(page, pageSize, out int rCount, true).OrderByDescending(s => s.Id).ToList();
-            else if(type == SalesPlanType.水上)//客户要求“水上部”的人同时可以看到机油类的数据
-                list = r.LoadPageList(page, pageSize, out int rCount, true, s => s.SalesPlanType == type || s.SalesPlanType == SalesPlanType.机油).OrderByDescending(s => s.Id).ToList();
+            if(type == SalesPlanType.水上)//客户要求“水上部”的人同时可以看到机油类的数据
+            { 
+                if (isLeader)
+                    list = r.LoadPageList(page, pageSize, out int rCount, true, s => s.SalesPlanType == type || s.SalesPlanType == SalesPlanType.机油).OrderByDescending(s => s.Id).ToList();
+                else
+                    list = r.LoadPageList(page, pageSize, out int rCount, true, s => (s.SalesPlanType == type || s.SalesPlanType == SalesPlanType.机油) && s.CreatedBy == UserName).OrderByDescending(s => s.Id).ToList();
+            }
             else
-                list = r.LoadPageList(page, pageSize, out int rCount, true, s => s.SalesPlanType == type).OrderByDescending(s => s.Id).ToList();
+            { 
+                if(isLeader)
+                    list = r.LoadPageList(page, pageSize, out int rCount, true, s => s.SalesPlanType == type).OrderByDescending(s => s.Id).ToList();
+                else
+                    list = r.LoadPageList(page, pageSize, out int rCount, true, s => s.SalesPlanType == type && s.CreatedBy == UserName).OrderByDescending(s => s.Id).ToList();
+            }
             return new ResultJSON<List<SalesPlan>>
             {
                 Code = 0,

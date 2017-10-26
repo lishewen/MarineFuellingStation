@@ -24,7 +24,6 @@ export default class StoreComponent extends ComponentBase {
         this.model.name = '';
         this.model.volume = 0;
         this.model.storeTypeId = -1;
-        this.model.isForLand = "true";
 
         this.getStoreTypes();
     }

@@ -14,7 +14,8 @@ declare module server {
 		/** 当前价值 */
 		cost: number;
 		isUse: boolean;
-		storeTypeId: number;
+        storeTypeId: number;
+        isForLand: number;
 		sumOutValue: number;
 		sumInValue: number;
 	}

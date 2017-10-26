@@ -45,6 +45,10 @@ namespace MFS.Models
         public int StoreTypeId { get; set; }
         [JsonIgnore, ForeignKey("StoreTypeId")]
         public virtual StoreType StoreType { get; set; }
+        /// <summary>
+        /// 是否陆上使用的仓，否为水上，默认水上
+        /// </summary>
+        public bool IsForLand { get; set; } = false;
         [NotMapped]
         public decimal SumOutValue { get; set; }
         [NotMapped]

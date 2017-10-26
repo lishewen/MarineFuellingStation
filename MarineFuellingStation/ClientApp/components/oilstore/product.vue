@@ -19,6 +19,12 @@
                         <span slot="right"><yd-button type="primary" @click.native="addpt($event)">添加</yd-button></span>
                     </yd-cell-item>
                     <yd-cell-item>
+                        <yd-radio-group v-model="currentproduct.isForLand" slot="left">
+                            <yd-radio val="false">水上</yd-radio>
+                            <yd-radio val="true">陆上</yd-radio>
+                        </yd-radio-group>
+                    </yd-cell-item>
+                    <yd-cell-item>
                         <span slot="left">名称：</span>
                         <yd-input slot="right" v-model="currentproduct.name" required placeholder="请输入名称"></yd-input>
                     </yd-cell-item>
@@ -49,8 +55,9 @@
             <yd-cell-group :title="currentpt.name">
                 <yd-cell-item arrow v-for="p in currentpt.products" :key="p.id" @click.native="editProductclick(p)">
                     <div slot="left">{{p.name}}</div>
-                    <div slot="right">
-                        <p style="color:forestgreen; font-size: 14px">￥{{p.minPrice}} / 升 开票￥{{p.minInvoicePrice}}</p>
+                    <div slot="right" style="font-size: 14px">
+                        <p style="color:forestgreen; ">￥{{p.minPrice}} / 升</p>
+                        <p style="color:lightcoral"> 开票￥{{p.minInvoicePrice}} / 升</p>
                     </div>
                 </yd-cell-item>
             </yd-cell-group>

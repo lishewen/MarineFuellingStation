@@ -8,7 +8,7 @@ declare module server {
 		lastPrice: number;
 		isUse: boolean;
         productTypeId: number;
-        isForLand: boolean;
+        isForLand: boolean | string;
 	}
     interface productType extends entityBase {
         products: product[];

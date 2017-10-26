@@ -34,7 +34,7 @@ namespace MFS.Controllers
             if (string.IsNullOrEmpty(landOrWater))
                 list = r.GetAllList((p) => p.ProductType.Name == "销售油" && p.IsUse);
             else
-                list = r.GetAllList((p) => p.ProductType.Name == "销售油" && p.IsUse && p.IsForLand == true);
+                list = r.GetAllList((p) => p.ProductType.Name == "销售油" && p.IsUse && p.IsForLand == bool.Parse(landOrWater));
             return new ResultJSON<List<Product>>
             {
                 Code = 0,

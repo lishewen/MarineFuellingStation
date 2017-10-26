@@ -40,6 +40,7 @@ export default class ProductComponent extends ComponentBase {
             this.currentproduct.minPrice = 0;
             this.currentproduct.minInvoicePrice = 0;
             this.selectptname = '请选择分类';
+            this.currentproduct.isForLand = "false"
         }
         if (label == '所有分类')
             this.isAddProduct = true;
@@ -103,6 +104,7 @@ export default class ProductComponent extends ComponentBase {
             if (jobj.code == 0) {
                 this.currentproduct = jobj.data;
                 this.selectptname = this.currentpt.name;
+                this.currentproduct.isForLand = this.currentproduct.isForLand.toString();
             }
         });
     }

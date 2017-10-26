@@ -62,7 +62,6 @@ export default class PlanComponent extends ComponentBase {
         
         this.username = this.$store.state.username;
         this.getSalesPlanNo();
-        this.getOilProducts();
         this.getIsLandSalesman();
         this.getIsWaterSalesman();
         
@@ -244,6 +243,7 @@ export default class PlanComponent extends ComponentBase {
                 this.isLandSalesman = true;
                 this.radio2 = "2";
             }
+            this.getOilProducts();
         });
     }
 
@@ -317,9 +317,10 @@ export default class PlanComponent extends ComponentBase {
     }
 
     getOilProducts() {
-        let landOrWater = "";
-        if (!this.isLeader)
-            landOrWater = this.isLandSalesman.toString();
+        let landOrWater: boolean | string;
+        landOrWater = this.isLandSalesman;
+        if (this.isLandSalesman && this.isWaterSalesman)
+            landOrWater = "";
         axios.get('/api/Product/OilProducts?landOrWater=' + landOrWater).then((res) => {
             let jobj = res.data as server.resultJSON<server.product[]>;
             if (jobj.code == 0) {

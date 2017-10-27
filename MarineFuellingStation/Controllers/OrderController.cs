@@ -64,44 +64,46 @@ namespace MFS.Controllers
 
             //向指定目标推送打印指令
             await SendPrintOrderAsync("收银台", result);
-//#if !DEBUG
-            
+            //#if !DEBUG
+
             //推送到“收银”
-            MassApi.SendTextCard(option.收银AccessToken, option.收银AgentId, "已开单"
+            await MassApi.SendTextCardAsync(option.收银AccessToken, option.收银AgentId, "已开单"
                      , $"<div class=\"gray\">单号：{result.Name}</div>" +
                      $"<div class=\"normal\">开单人：{UserName}</div>" +
                      $"<div class=\"normal\">船号/车号：{result.CarNo}</div>"
                      , $"https://vue.car0774.com/#/sales/order/{result.Id}/order", toUser: "@all");
 
-            if (result.OrderType == SalesPlanType.水上) {
+            if (result.OrderType == SalesPlanType.水上)
+            {
                 //推送到“销售单”
-                MassApi.SendTextCard(option.销售单AccessToken, option.销售单AgentId, $"【水上】{UserName}开了销售单"
+                await MassApi.SendTextCardAsync(option.销售单AccessToken, option.销售单AgentId, $"【水上】{UserName}开了销售单"
                          , $"<div class=\"gray\">单号：{result.Name}</div>" +
                          $"<div class=\"normal\">船号：{result.CarNo}</div>"
                          , $"https://vue.car0774.com/#/sales/order/{result.Id}/order", toUser: "@all");
 
                 //推送到“加油”
-                MassApi.SendTextCard(option.加油AccessToken, option.加油AgentId, "水上加油，请施工"
+                await MassApi.SendTextCardAsync(option.加油AccessToken, option.加油AgentId, "水上加油，请施工"
                          , $"<div class=\"gray\">单号：{result.Name}</div>" +
                          $"<div class=\"normal\">开单人：{UserName}</div>" +
                          $"<div class=\"normal\">船号：{result.CarNo}</div>"
                          , $"https://vue.car0774.com/#/sales/order/{result.Id}/order", toUser: "@all");
             }
-            else {
+            else
+            {
                 //推送到“销售单”
-                MassApi.SendTextCard(option.销售单AccessToken, option.销售单AgentId, $"【陆上】{UserName}开了销售单"
+                await MassApi.SendTextCardAsync(option.销售单AccessToken, option.销售单AgentId, $"【陆上】{UserName}开了销售单"
                          , $"<div class=\"gray\">单号：{result.Name}</div>" +
                          $"<div class=\"normal\">车号：{result.CarNo}</div>"
                          , $"https://vue.car0774.com/#/sales/order/{result.Id}/order", toUser: "@all");
 
                 //推送到“加油”
-                MassApi.SendTextCard(option.加油AccessToken, option.加油AgentId, "陆上装车，请施工"
+                await MassApi.SendTextCardAsync(option.加油AccessToken, option.加油AgentId, "陆上装车，请施工"
                          , $"<div class=\"gray\">单号：{result.Name}</div>" +
                          $"<div class=\"normal\">开单人：{UserName}</div>" +
                          $"<div class=\"normal\">车号：{result.CarNo}</div>"
                          , $"https://vue.car0774.com/#/sales/order/{result.Id}/order", toUser: "@all");
             }
-//#endif
+            //#endif
             return new ResultJSON<Order>
             {
                 Code = 0,
@@ -134,8 +136,8 @@ namespace MFS.Controllers
             }
         }
 
-#endregion
-#region GET方法
+        #endregion
+        #region GET方法
 
         [HttpGet("[action]")]
         public async Task<ResultJSON<string>> OrderNo()
@@ -278,8 +280,8 @@ namespace MFS.Controllers
                 Data = r.GetByPayState(payState, page, pageSize, searchVal)//每页30条记录
             };
         }
-#endregion
-#region Put方法
+        #endregion
+        #region Put方法
         /// <summary>
         /// 施工过程切换状态
         /// </summary>
@@ -321,6 +323,6 @@ namespace MFS.Controllers
                 Data = r.ChangePayState(model)
             };
         }
-#endregion
+        #endregion
     }
 }

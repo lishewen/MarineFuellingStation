@@ -14,6 +14,10 @@ using MFS.Repositorys;
 using MFS.Hubs;
 using Senparc.Weixin.Work.Containers;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
+using System.Text;
+using Senparc.Weixin.Exceptions;
 
 namespace MFS
 {
@@ -82,7 +86,41 @@ namespace MFS
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                //app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler(errorApp =>
+                {
+                    errorApp.Run(async context =>
+                    {
+                        context.Response.StatusCode = 500;
+                        context.Response.ContentType = "application/json";
+
+                        var error = context.Features.Get<IExceptionHandlerFeature>();
+                        if (error != null)
+                        {
+                            var ex = error.Error;
+
+                            //当异常为微信类型异常时候尝试重新注册刷新AccessToken
+                            if (ex is WeixinException)
+                            {
+                                try
+                                {
+                                    RegisterWeixinAccessToken(option);
+                                }
+                                catch(Exception e)
+                                {
+                                    ex = e;
+                                }
+                            }
+
+                            await context.Response.WriteAsync(new ResultJSON<string>()
+                            {
+                                Code = 500,
+                                Msg = ex.Message,
+                                Data = ex.Source
+                            }.ToString(), Encoding.UTF8);
+                        }
+                    });
+                });
             }
 
             app.UseSession();
@@ -105,13 +143,18 @@ namespace MFS
             });
             #region 微信相关
 
+            RegisterWeixinAccessToken(option);
+
+            #endregion
+        }
+
+        private static void RegisterWeixinAccessToken(IOptionsSnapshot<WorkOption> option)
+        {
             //注册微信
             AccessTokenContainer.Register(option.Value.CorpId, option.Value.Secret);
             AccessTokenContainer.Register(option.Value.CorpId, option.Value.销售单Secret);
             AccessTokenContainer.Register(option.Value.CorpId, option.Value.收银Secret);
             AccessTokenContainer.Register(option.Value.CorpId, option.Value.加油Secret);
-
-            #endregion
         }
     }
 }

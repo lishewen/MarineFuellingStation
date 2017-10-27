@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,8 +22,7 @@ namespace MFS.Models
                 Dictionary<int, string> dict = new Dictionary<int, string> {
                     { 1, "文件没有内容" },
                     { 0, "请求成功" },
-                    { -1, "系统繁忙" },
-                    { 500, "扣减金额必须少于或等于账户余额" }
+                    { -1, "系统繁忙" }
                 };
 
                 if (dict.Keys.Contains(value))
@@ -35,7 +35,7 @@ namespace MFS.Models
         public T Data { get; set; }
         public override string ToString()
         {
-            return JsonConvert.SerializeObject(this);
+            return JsonConvert.SerializeObject(this, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() });
         }
     }
 }

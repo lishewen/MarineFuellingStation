@@ -22,8 +22,6 @@ axios.interceptors.request.use(function (config) {    // 这里的config包含�
     Loading.open('正在提交');
 
     return config;
-}, function (err) {
-    return console.log(err);
 });
 
 axios.interceptors.response.use(function (response) {    // 这里的response包含每次响应的内容
@@ -32,8 +30,6 @@ axios.interceptors.response.use(function (response) {    // 这里的response包
     Loading.close();
 
     return response;
-}, function (err) {
-    return console.log(err);
 });
 
 export default new Vue({

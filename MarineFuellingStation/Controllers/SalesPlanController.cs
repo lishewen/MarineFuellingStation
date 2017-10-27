@@ -37,6 +37,8 @@ namespace MFS.Controllers
         [HttpGet("SalesPlanNo")]
         public ResultJSON<string> SalesPlanNo()
         {
+            //throw new Exception("测试异常");
+
             return new ResultJSON<string>
             {
                 Code = 0,

@@ -119,7 +119,7 @@
         <!--修改商品限价-->
         <yd-popup v-model="showPd" position="right" width="70%">
             <yd-cell-group title="修改限价">
-                <yd-cell-item v-for="p in products">
+                <yd-cell-item v-for="p in products" :key="p.id">
                     <span slot="left">{{p.name}}：</span>
                     <yd-input slot="right" v-model="p.minPrice" required></yd-input>
                     <span slot="right">元</span>

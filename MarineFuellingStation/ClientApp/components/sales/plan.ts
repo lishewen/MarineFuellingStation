@@ -59,12 +59,12 @@ export default class PlanComponent extends ComponentBase {
 
         this.pMinPrice = 0;
         this.pMinInvoicePrice = 0;
-        
+
         this.username = this.$store.state.username;
         this.getSalesPlanNo();
         this.getIsLandSalesman();
         this.getIsWaterSalesman();
-        
+
         this.$dialog.loading.close();
     }
 
@@ -155,13 +155,13 @@ export default class PlanComponent extends ComponentBase {
         if (this.client != null)
             if (this.client.clientType == server.clientType.公司)
                 return true;
-        else
-            return false;
+            else
+                return false;
     }
 
     strCompanyName() {
         //避免调试出错，只能这样写
-        if (this.client != null){
+        if (this.client != null) {
             if (this.client.company != null)
                 return this.client.company.name
         }
@@ -259,10 +259,15 @@ export default class PlanComponent extends ComponentBase {
     getSalesPlanNo() {
         axios.get('/api/SalesPlan/SalesPlanNo').then((res) => {
             let jobj = res.data as server.resultJSON<string>;
+            //console.log(jobj);
             if (jobj.code == 0) {
                 this.model.name = jobj.data;
                 this.isPrevent = false;//允许提交
             }
+        }).catch(error => {
+            //console.log(error);
+            let jobj = error.response.data as server.resultJSON<string>;
+            alert(jobj.msg);
         });
     }
 
@@ -364,7 +369,7 @@ export default class PlanComponent extends ComponentBase {
             }
         });
     }
-    
+
     putModifyProdPrice(model: server.product[]) {
         axios.put('/api/Product/ModifyProdPrice', model).then((res) => {
             let jobj = res.data as server.resultJSON<server.product>;

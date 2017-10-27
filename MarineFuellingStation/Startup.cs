@@ -107,6 +107,9 @@ namespace MFS
 
             //注册微信
             AccessTokenContainer.Register(option.Value.CorpId, option.Value.Secret);
+            AccessTokenContainer.Register(option.Value.CorpId, option.Value.销售单Secret);
+            AccessTokenContainer.Register(option.Value.CorpId, option.Value.收银Secret);
+            AccessTokenContainer.Register(option.Value.CorpId, option.Value.加油Secret);
 
             #endregion
         }

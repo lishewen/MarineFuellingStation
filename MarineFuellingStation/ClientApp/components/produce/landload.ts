@@ -8,6 +8,7 @@ export default class LandloadComponent extends ComponentBase {
     orders: server.order[];
     store: server.store;
     stores: server.store[];
+    lastorder: server.order;
 
     currStep: number = 0;
     showOrders: boolean = false;
@@ -19,11 +20,13 @@ export default class LandloadComponent extends ComponentBase {
         super();
 
         this.order = new Object as server.order;
+        this.lastorder = new Object as server.order;
         this.orders = new Array<server.order>();
         this.store = new Object as server.store;
         this.stores = new Array<server.store>();
 
         this.getStores();
+        this.getLastOrder();
     }
 
     showOrdersclick() {
@@ -65,18 +68,26 @@ export default class LandloadComponent extends ComponentBase {
             }
         }
         if (this.currStep == 3) {
+            if (this.lastorder.instrument1 <= 0) {
+                this.toastError("请填写加油前表数");
+                return;
+            }
             if (this.order.instrument1 <= 0) {
-                this.toastError("请填写表数1");
+                this.toastError("请填写加油后表数1");
                 return;
             }
-            if (this.order.instrument2 <= 0) {
-                this.toastError("请填写表数2");
+            if (this.order.oilCount <= 0) {
+                this.toastError("加油后表数应大于加油前表数");
                 return;
             }
-            if (this.order.instrument3 <= 0) {
-                this.toastError("请填写表数3");
-                return;
-            }
+            //if (this.order.instrument2 <= 0) {
+            //    this.toastError("请填写表数2");
+            //    return;
+            //}
+            //if (this.order.instrument3 <= 0) {
+            //    this.toastError("请填写表数3");
+            //    return;
+            //}
         }
         if (this.currStep == 4) {
             if (this.order.oilCarWeight == 0 || this.order.oilCarWeight == null) {
@@ -93,6 +104,12 @@ export default class LandloadComponent extends ComponentBase {
    
     mounted() {
         this.$emit('setTitle', this.$store.state.username + ' 陆上装车');
+        this.$watch("lastorder.instrument1", (v, ov) => {
+            this.order.oilCount = this.order.instrument1 - v;
+        });
+        this.$watch("order.instrument1", (v, ov) => {
+            this.order.oilCount = v - this.lastorder.instrument1;
+        });
     };
 
     uploadfile(e) {
@@ -163,6 +180,26 @@ export default class LandloadComponent extends ComponentBase {
             }
             else
                 this.toastError(jobj.msg);
+        });
+    }
+
+    getLastOrder() {
+        axios.get('/api/Order/GetLastOrder/' + server.salesPlanType.陆上).then((res) => {
+            let jobj = res.data as server.resultJSON<server.order>;
+            if (jobj.code == 0) {
+                this.lastorder = jobj.data;
+                console.log(this.lastorder)
+            }
+        });
+    }
+
+    putRestart() {
+        axios.put('/api/Order/Restart', this.order).then((res) => {
+            let jobj = res.data as server.resultJSON<server.order>;
+            if (jobj.code == 0) {
+                this.toastSuccess('操作成功');
+                this.currStep = 1;
+            }
         });
     }
 }

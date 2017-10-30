@@ -32,6 +32,10 @@
         <!--2-空车过磅-->
         <yd-cell-group title="空车过磅" v-show="currStep == 2">
             <yd-cell-item>
+                <span slot="left">测量密度：</span>
+                <yd-input slot="right" v-model="order.density" type="number" required placeholder="请输入测量密度"></yd-input>
+            </yd-cell-item>
+            <yd-cell-item>
                 <span slot="left">磅秤数：</span>
                 <yd-input slot="right" v-model="order.emptyCarWeight" type="number" required placeholder="请输入磅秤数"></yd-input>
                 <span slot="right">吨</span>
@@ -44,20 +48,33 @@
         <div class="center" v-show="currStep == 2">
             <yd-button style="width:90%" type="primary" @click.native="changeState(3)">前往加油</yd-button>
         </div>
+        <div style="text-align: center; margin-top: .2rem" v-show="currStep == 2">
+            <div class="img-wrap">
+                <img :src="order.emptyCarWeightPic" />
+            </div>
+        </div>
         <!--3-加油-->
         <div class="center" v-show="currStep == 3">
             <yd-cell-item>
-                <span slot="left">加油后表数1：</span>
-                <yd-input slot="right" v-model="order.instrument1" type="number" required placeholder="请输入装油表数1"></yd-input>
+                <span slot="left">表数（加油前）：</span>
+                <yd-input slot="right" v-model="lastorder.instrument1" type="number" required placeholder="请输入"></yd-input>
             </yd-cell-item>
             <yd-cell-item>
+                <span slot="left">表数（加油后）：</span>
+                <yd-input slot="right" v-model="order.instrument1" type="number" required placeholder="请输入"></yd-input>
+            </yd-cell-item>
+            <yd-cell-item>
+                <span slot="right">油量：{{order.oilCount}}升</span>
+            </yd-cell-item>
+            <!--应客户要求，暂时只有一个加油表-->
+            <!--<yd-cell-item>
                 <span slot="left">加油后表数2：</span>
                 <yd-input slot="right" v-model="order.instrument2" type="number" required placeholder="请输入装油表数2"></yd-input>
             </yd-cell-item>
             <yd-cell-item>
                 <span slot="left">加油后表数3：</span>
                 <yd-input slot="right" v-model="order.instrument3" type="number" required placeholder="请输入装油表数3"></yd-input>
-            </yd-cell-item>
+            </yd-cell-item>-->
             <yd-button style="width:90%" type="primary" @click.native="changeState(4)">加油完毕，前往过磅</yd-button>
         </div>
         <!--4-油车过磅-->
@@ -75,11 +92,73 @@
         <div class="center" v-show="currStep == 4">
             <yd-button style="width:90%" type="primary" @click.native="changeState(5)">完工确认</yd-button>
         </div>
+        <div style="text-align: center; margin-top: .2rem" v-show="currStep == 4">
+            <div class="img-wrap">
+                <img :src="order.oilCarWeightPic" />
+            </div>
+        </div>
+        <!--施工明细-->
+        <yd-cell-group title="施工明细" v-show="currStep == 5">
+            <yd-cell-item>
+                <span slot="right" style="font-weight: bold">{{order.product? order.product.name : ""}} - {{order.count}}吨</span>
+            </yd-cell-item>
+            <yd-cell-item>
+                <span slot="left">测量密度：</span>
+                <span slot="right">{{order.density}}</span>
+            </yd-cell-item>
+            <yd-cell-item>
+                <span slot="left">毛重（磅秤）：</span>
+                <span slot="right">{{order.oilCarWeight}}吨</span>
+            </yd-cell-item>
+            <yd-cell-item>
+                <span slot="left">皮重（磅秤）：</span>
+                <span slot="right">{{order.emptyCarWeight}}吨</span>
+            </yd-cell-item>
+            <yd-cell-item>
+                <span slot="left">净重（计算）：</span>
+                <span slot="right">{{order.oilCarWeight - order.emptyCarWeight}}吨</span>
+            </yd-cell-item>
+            <yd-cell-item>
+                <span slot="left">相差：</span>
+                <span slot="right" style="color: red; font-weight: bold">{{order.count - (order.oilCarWeight - order.emptyCarWeight)}}</span>
+            </yd-cell-item>
+            <yd-cell-item>
+                <span slot="left">加油前表数：</span>
+                <span slot="right">{{lastorder.instrument1}}</span>
+            </yd-cell-item>
+            <yd-cell-item>
+                <span slot="left">实际加油数量：</span>
+                <span slot="right">{{order.instrument1 - lastorder.instrument1}}升</span>
+            </yd-cell-item>
+            <yd-cell-item>
+                <span slot="left">加油后表数：</span>
+                <span slot="right">{{order.instrument1}}</span>
+            </yd-cell-item>
+            <yd-cell-item>
+                <span slot="left">换算吨数：</span>
+                <span slot="right">{{Math.round((order.instrument1 - lastorder.instrument1) * order.density / 1000)}}</span>
+            </yd-cell-item>
+            <yd-cell-item>
+                <span slot="left">施工人：</span>
+                <span slot="right">{{order.lastUpdatedBy}}</span>
+            </yd-cell-item>
+            <yd-cell-item>
+                <div slot="left">毛重图片：</div>
+                <div slot="right"><div class="img-wrap"><img :src="this.order.oilCarWeightPic" /></div></div>
+            </yd-cell-item>
+            <yd-cell-item>
+                <div slot="left">皮重图片：</div>
+                <div slot="right"><div class="img-wrap"><img :src="this.order.emptyCarWeightPic" /></div></div>
+            </yd-cell-item>
+        </yd-cell-group>
+        <div class="center" v-show="currStep == 5">
+            <yd-button style="width:90%" type="primary" @click.native="putRestart">重新施工</yd-button>
+        </div>
         <!--popup订单选择-->
         <yd-popup v-model="showOrders" position="right" width="70%">
             <yd-pullrefresh :callback="getOrders">
                 <yd-cell-group>
-                    <yd-cell-item v-for="o in orders" v-show="o.state != 4" :key="o.id" @click.native="orderclick(o)" arrow>
+                    <yd-cell-item v-for="o in orders" :key="o.id" @click.native="orderclick(o)" arrow>
                         <div slot="left" style="padding:.2rem 0 .2rem">
                             <p>{{o.name}}</p>
                             <p style="color: gray">车牌：{{o.carNo}}</p>

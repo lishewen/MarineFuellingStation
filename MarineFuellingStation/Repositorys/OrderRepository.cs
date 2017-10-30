@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using MFS.Helper;
 
 namespace MFS.Repositorys
 {
@@ -234,14 +235,15 @@ namespace MFS.Repositorys
         /// </summary>
         /// <param name="model">Model</param>
         /// <returns></returns>
-        public Order ChangeState(Order modelWithChanges)
+        public Order ChangeState(Order order)
         {
             //更新对应销售仓的数量
-            if (modelWithChanges.State == OrderState.已完成)
+            if (order.State == OrderState.已完成)
             {
                 StoreRepository st_r = new StoreRepository(_dbContext);
                 //更新油仓数量
-                bool isUpdateStore = st_r.UpdateOil(int.Parse(modelWithChanges.StoreId.ToString()), modelWithChanges.Count, false);
+                decimal litre = (order.OrderType == SalesPlanType.陆上) ? UnitExchange.ToLitre(order.OilCount, order.Density) : order.OilCount;
+                bool isUpdateStore = st_r.UpdateOil(int.Parse(order.StoreId.ToString()), litre, false);
                 if (isUpdateStore)
                 {
                     //增加出仓记录
@@ -249,8 +251,8 @@ namespace MFS.Repositorys
                     io_r.Insert(new InAndOutLog
                     {
                         Name = "订单加油",
-                        StoreId = int.Parse(modelWithChanges.StoreId.ToString()),
-                        Value = modelWithChanges.Count,
+                        StoreId = int.Parse(order.StoreId.ToString()),
+                        Value = litre,
                         Operators = CurrentUser,
                         Unit = "升",
                         Type = LogType.出仓
@@ -258,8 +260,45 @@ namespace MFS.Repositorys
                 }
             }
 
-            modelWithChanges.LastUpdatedBy = CurrentUser;
-            return Update(modelWithChanges);//更改状态
+            order.LastUpdatedBy = CurrentUser;
+            return Update(order);//更改状态
+        }
+        /// <summary>
+        /// 取得最近的订单model
+        /// </summary>
+        /// <param name="ordertype">水上|陆上|机油</param>
+        /// <returns></returns>
+        public Order GetLastOrder(SalesPlanType ordertype)
+        {
+            return _dbContext.Orders.Where(o => o.OrderType == ordertype).OrderByDescending(o => o.Id).FirstOrDefault();
+        }
+        /// <summary>
+        /// 重新施工
+        /// </summary>
+        /// <param name="order">model</param>
+        /// <returns></returns>
+        public Order Restart(Order order)
+        {
+            StoreRepository st_r = new StoreRepository(_dbContext);
+            //更新油仓数量
+            decimal litre = (order.OrderType == SalesPlanType.陆上)? UnitExchange.ToLitre(order.OilCount, order.Density) : order.OilCount;
+            bool isUpdateStore = st_r.UpdateOil(int.Parse(order.StoreId.ToString()), litre , true);
+            if (isUpdateStore)
+            {
+                //增加入仓记录
+                InAndOutLogRepository io_r = new InAndOutLogRepository(_dbContext);
+                io_r.Insert(new InAndOutLog
+                {
+                    Name = "重新施工",
+                    StoreId = int.Parse(order.StoreId.ToString()),
+                    Value = litre,
+                    Operators = CurrentUser,
+                    Unit = "升",
+                    Type = LogType.入仓
+                });
+            }
+            order.State = OrderState.已开单;
+            return Update(order);//回退到初始状态“已开单”
         }
     }
 }

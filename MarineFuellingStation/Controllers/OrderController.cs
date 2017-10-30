@@ -280,6 +280,16 @@ namespace MFS.Controllers
                 Data = r.GetByPayState(payState, page, pageSize, searchVal)//每页30条记录
             };
         }
+        [HttpGet("[action]/{ordertype}")]
+        public ResultJSON<Order> GetLastOrder(SalesPlanType ordertype)
+        {
+            Order order = r.GetLastOrder(ordertype);
+            return new ResultJSON<Order>
+            {
+                Code = 0,
+                Data = order
+            };
+        }
         #endregion
         #region Put方法
         /// <summary>
@@ -314,13 +324,29 @@ namespace MFS.Controllers
         /// <param name="model">包含需要更改内容的model</param>
         /// <returns></returns>
         [HttpPut("[action]")]
-        public ResultJSON<Order> PayOnCredit([FromBody] Order model)
+        public ResultJSON<Order> PayOnCredit([FromBody]Order model)
         {
             r.CurrentUser = UserName;
             return new ResultJSON<Order>
             {
                 Code = 0,
                 Data = r.ChangePayState(model)
+            };
+        }
+        /// <summary>
+        /// 重新施工
+        /// </summary>
+        /// <param name="oid">订单 id</param>
+        /// <returns></returns>
+        [HttpPut("[action]")]
+        public ResultJSON<Order> Restart([FromBody]Order order)
+        {
+            r.CurrentUser = UserName;
+            var o = r.Restart(order);
+            return new ResultJSON<Order>
+            {
+                Code = 0,
+                Data = o
             };
         }
         #endregion

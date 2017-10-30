@@ -62,7 +62,6 @@
 
                 <yd-cell-group title="选填" v-show="showNext">
                     <yd-cell-item>
-                        <span slot="left">是否开票</span>
                         <span slot="right">
                             <yd-switch v-model="model.isInvoice"></yd-switch>
                         </span>
@@ -71,8 +70,8 @@
                         <span slot="left">必选：</span>
                         <select slot="right" v-model="model.ticketType">
                             <option value="-1">请选择</option>
-                            <option value="0">循票</option>
-                            <option value="1">柴票</option>
+                            <option value="0">循</option>
+                            <option value="1">柴</option>
                         </select>
                     </yd-cell-item>
                     <yd-cell-item v-show="model.isInvoice">

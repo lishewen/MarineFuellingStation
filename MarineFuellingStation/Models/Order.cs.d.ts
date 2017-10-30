@@ -73,7 +73,9 @@ declare module server {
         store: store;
 		payments: any[];
 		/** 底价 */
-		minPrice: number;
+        minPrice: number;
+        /** 备注 */
+        remark: string;
 	}
 	const enum orderState {
 		已开单,

@@ -50,7 +50,7 @@
                                 <p style="color:lightgray">{{o.name}}</p>
                             </div>
                             <div slot="right" style="text-align: left;margin-right: 5px">
-                                <p style="color:gray"></p>
+                                <p style="color:gray">{{o.product.name}}</p>
                                 <p style="color:gray">{{o.count}}升</p>
                             </div>
                         </yd-cell-item>

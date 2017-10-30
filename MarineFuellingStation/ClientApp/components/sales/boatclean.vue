@@ -48,22 +48,21 @@
                     </yd-cell-item>
 
                     <yd-cell-item>
-                        <span slot="left">是否开票</span>
                         <span slot="right">
                             <yd-switch v-model="model.isInvoice"></yd-switch>
                         </span>
                     </yd-cell-item>
                     <yd-cell-item v-show="model.isInvoice">
-                        <span slot="left">开票单位：</span>
-                        <yd-input slot="right" v-model="model.billingCompany" regex="" placeholder="请输入开票单位"></yd-input>
+                        <span slot="left">单位：</span>
+                        <yd-input slot="right" v-model="model.billingCompany" regex="" placeholder="请输入单位"></yd-input>
                     </yd-cell-item>
                     <yd-cell-item v-show="model.isInvoice">
                         <span slot="left">单价：</span>
-                        <yd-input slot="right" v-model="model.billingPrice" regex="" placeholder="请输入开票单价，默认同上"></yd-input>
+                        <yd-input slot="right" v-model="model.billingPrice" regex="" placeholder="请输入单价，默认同上"></yd-input>
                     </yd-cell-item>
                     <yd-cell-item v-show="model.isInvoice">
                         <span slot="left">数量：</span>
-                        <yd-input slot="right" v-model="model.billingCount" regex="" placeholder="请输入开票，默认同上"></yd-input>
+                        <yd-input slot="right" v-model="model.billingCount" regex="" placeholder="请输入，默认同上"></yd-input>
                     </yd-cell-item>
 
                 </yd-cell-group>

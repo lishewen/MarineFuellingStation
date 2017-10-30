@@ -44,9 +44,9 @@ export default class PlanDetailComponent extends ComponentBase {
 
     getIsInvoice(isInv: boolean) {
         if (isInv)
-            return "开票";
+            return "代号1";
         else
-            return "不开票";
+            return "代号2";
     }
 
     formatDate(d: Date) {

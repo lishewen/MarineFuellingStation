@@ -82,6 +82,7 @@
                     <yd-cell-item v-for="o in orders" v-show="o.state != 4" :key="o.id" @click.native="orderclick(o)" arrow>
                         <div slot="left" style="padding:.2rem 0 .2rem">
                             <p>{{o.name}}</p>
+                            <p style="color: gray">车牌：{{o.carNo}}</p>
                         </div>
                         <div slot="right" style="text-align: left;margin-right: 5px">
                             <p style="color:gray">{{o.product.name}}</p>

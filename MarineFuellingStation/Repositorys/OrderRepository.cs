@@ -66,6 +66,7 @@ namespace MFS.Repositorys
                 .Include(od => od.Product)
                 .Include(od => od.SalesPlan)
                 .Include(od => od.Client)
+                .Include(od => od.Payments)
                 .FirstOrDefault();
         }
         /// <summary>
@@ -85,9 +86,12 @@ namespace MFS.Repositorys
         /// <param name="startPage">第N页</param>
         /// <param name="pageSize">每页记录</param>
         /// <returns></returns>
-        public List<Order> GetIncludeProduct(int startPage, int pageSize)
+        public List<Order> GetWithInclude(int startPage, int pageSize)
         {
-            return LoadPageList(startPage, pageSize, out int count, true).Include(o => o.Product).Include(o => o.Client).ToList();
+            return LoadPageList(startPage, pageSize, out int count, true)
+                .Include(o => o.Product)
+                .Include(o => o.Client)
+                .ToList();
         }
         /// <summary>
         /// 获取是否完工状态的所有订单列表

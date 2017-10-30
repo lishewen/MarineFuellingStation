@@ -156,7 +156,7 @@ namespace MFS.Controllers
             return new ResultJSON<List<Order>>
             {
                 Code = 0,
-                Data = r.GetIncludeProduct(1, 30)
+                Data = r.GetWithInclude(1, 30)
             };
         }
         [HttpGet("{id}")]
@@ -229,7 +229,7 @@ namespace MFS.Controllers
             return new ResultJSON<List<Order>>
             {
                 Code = 0,
-                Data = r.GetIncludeProduct(page, 30)//每页30条记录
+                Data = r.GetWithInclude(page, 30)//每页30条记录
             };
         }
         /// <summary>

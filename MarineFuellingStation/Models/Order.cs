@@ -163,6 +163,11 @@ namespace MFS.Models
         /// 底价
         /// </summary>
         public decimal MinPrice { get; set; }
+        /// <summary>
+        /// 备注
+        /// </summary>
+        public string Remark { get; set; }
+
     }
     public enum OrderState
     {

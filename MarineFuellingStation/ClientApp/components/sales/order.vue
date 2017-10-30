@@ -55,6 +55,12 @@
                     <yd-cell-item>
                         <span slot="right" style="font-weight: bold">总计：￥{{Math.round(model.totalMoney)}}</span>
                     </yd-cell-item>
+
+                    <yd-cell-item>
+                        <span slot="left">备注：</span>
+                        <yd-textarea slot="right" v-model="model.remark" placeholder="请输入备注信息" maxlength="200"></yd-textarea>
+                    </yd-cell-item>
+
                     <yd-cell-item>
                         <span slot="left"></span>
                         <span slot="right">
@@ -65,8 +71,8 @@
                         <span slot="left">必选：</span>
                         <select slot="right" v-model="model.ticketType">
                             <option value="-1">请选择</option>
-                            <option value="0">循票</option>
-                            <option value="1">柴票</option>
+                            <option value="0">循</option>
+                            <option value="1">柴</option>
                         </select>
                     </yd-cell-item>
                     <yd-cell-item v-show="model.isInvoice">
@@ -76,11 +82,11 @@
                     </yd-cell-item>
                     <yd-cell-item v-show="model.isInvoice">
                         <span slot="left">单价：</span>
-                        <yd-input slot="right" v-model="model.billingPrice" type="number" placeholder="请输入开票单价，默认同上"></yd-input>
+                        <yd-input slot="right" v-model="model.billingPrice" type="number" placeholder="请输入单价，默认同上"></yd-input>
                     </yd-cell-item>
                     <yd-cell-item v-show="model.isInvoice">
                         <span slot="left">数量：</span>
-                        <yd-input slot="right" v-model="model.billingCount" type="number" placeholder="请输入开票，默认同上"></yd-input>
+                        <yd-input slot="right" v-model="model.billingCount" type="number" placeholder="请输入，默认同上"></yd-input>
                     </yd-cell-item>
                 </yd-cell-group>
                 <yd-cell-group title="选填" v-show="show2">

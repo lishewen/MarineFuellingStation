@@ -4,8 +4,8 @@ declare module server {
 		职务: string;
 		departmentId: number;
 		基本: number;
-        出勤天数: number;
-        绩效工资: number;
+		出勤天数: number;
+		绩效工资: number;
 		提成: number;
 		超额: number;
 		交通: number;

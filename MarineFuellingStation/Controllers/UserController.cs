@@ -118,7 +118,7 @@ namespace MFS.Controllers
             GetDepartmentMemberInfoResult membersinfo = MailListApi.GetDepartmentMemberInfo(option.AccessToken, 1, 1);
             GetMemberResult user = membersinfo.userlist.FirstOrDefault(m => m.name == UserName);
             GetDepartmentListResult depts = MailListApi.GetDepartmentList(option.AccessToken);
-            int landDeptId = depts.department.First(d => d.name == deptName).id;
+            long landDeptId = depts.department.First(d => d.name == deptName).id;
             foreach (var deptId in user.department)
             {
                 if (deptId == landDeptId)

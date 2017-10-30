@@ -35,7 +35,7 @@ namespace MFS.Controllers
 
             var ids = departid.Split('|');
 
-            List<int> items = new List<int>();
+            List<long> items = new List<long>();
             foreach (var id in ids)
                 items.Add(Convert.ToInt32(id));
 

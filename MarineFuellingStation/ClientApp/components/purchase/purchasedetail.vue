@@ -18,10 +18,10 @@
                 <span slot="right">吨</span>
             </yd-cell-item>
 
-            <yd-cell-item>
+            <!--<yd-cell-item>
                 <span slot="left">始发地：</span>
                 <span slot="right">{{model.origin}}</span>
-            </yd-cell-item>
+            </yd-cell-item>-->
 
             <yd-cell-item>
                 <span slot="left">出发时间：</span>

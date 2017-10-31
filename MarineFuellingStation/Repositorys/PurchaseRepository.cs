@@ -145,7 +145,7 @@ namespace MFS.Repositorys
                 for (int i = 0; i < arrSid.Length; i++)
                 {
                     ToStoreModel s = new ToStoreModel();
-                    s.Id = int.Parse(arrSid[i]); s.Name = arrName[i]; s.Count = int.Parse(arrCount[i]);
+                    s.Id = int.Parse(arrSid[i]); s.Name = arrName[i]; s.Count = Convert.ToDecimal(arrCount[i]);
                     ToStoresList.Add(s);
                 }
             }
@@ -153,7 +153,7 @@ namespace MFS.Repositorys
             else
             {
                 ToStoreModel s = new ToStoreModel();
-                s.Id = int.Parse(p.ToStoreIds); s.Name = p.ToStoreNames; s.Count = int.Parse(p.ToStoreCounts);
+                s.Id = int.Parse(p.ToStoreIds); s.Name = p.ToStoreNames; s.Count = Convert.ToDecimal(p.ToStoreCounts);
                 ToStoresList.Add(s);
             }
             return ToStoresList;

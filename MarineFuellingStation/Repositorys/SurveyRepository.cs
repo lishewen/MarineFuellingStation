@@ -16,6 +16,7 @@ namespace MFS.Repositorys
         public new Survey Insert(Survey model, bool autoSave = true)
         {
             var st = _dbContext.Stores.Find(model.StoreId);
+            st.Density = model.Density;
             st.LastSurveyAt = DateTime.Now;
             return base.Insert(model, autoSave);
         }

@@ -8,7 +8,9 @@ declare module server {
 		/** 上次数量 */
 		lastValue: number;
 		/** 数量 */
-		value: number;
+        value: number;
+        /** 最近测量密度 */
+        density: number;
 		/** 最近测量时间 */
 		lastSurveyAt: Date;
 		/** 当前价值 */

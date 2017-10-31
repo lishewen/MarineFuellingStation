@@ -21,7 +21,7 @@
                 </div>
                 <div slot="left">
                     <p style="color:gray;font-size:.4rem;">{{s.name}}</p>
-                    <p style="color:lightgray;font-size:14px;">{{strLastSurveyAt(s.lastSurveyAt)}}</p>
+                    <p style="color:lightgray;font-size:14px;">{{s.density}}</p>
                 </div>
                 <div slot="right">
                     <div style="text-align: left">

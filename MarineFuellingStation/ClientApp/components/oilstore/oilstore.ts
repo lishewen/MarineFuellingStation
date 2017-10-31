@@ -68,13 +68,6 @@ export default class OilStoreComponent extends ComponentBase {
             }
         ];
     }
-    strLastSurveyAt(date: string) {
-        let fDate = moment(new Date(date));
-        if (fDate.get('year') != 1)
-            return fDate.format("YYYY-MM-DD hh:mm")
-        else
-            return "无测量记录";
-    }
 
     /**
      * 当前数量百分比

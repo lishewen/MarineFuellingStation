@@ -44,7 +44,9 @@ const routes: RouteConfig[] = [
     { path: '/finance/cashier', component: require('./components/finance/cashier.vue') },
     { path: '/finance/cashierbc', component: require('./components/finance/cashierbc.vue') },
     { path: '/finance/orderlist', component: require('./components/finance/orderlist.vue') },
+    { path: '/finance/charge', component: require('./components/finance/charge.vue') },
     { path: '/finance/chargelog', component: require('./components/finance/chargelog.vue') },
+    { path: '/finance/account', component: require('./components/finance/account.vue') },
 
     { path: '/report', component: require('./components/report/report.vue') },
     { path: '/wages', component: require('./components/report/wages.vue') },

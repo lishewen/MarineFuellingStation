@@ -70,8 +70,8 @@
             <yd-grids-item link="./client/client" style="background-color:lightcyan">
                 <p slot="text">客户</p>
             </yd-grids-item>
-            <yd-grids-item link="./finance/chargelog" style="background-color:lightcyan">
-                <p slot="text">账户变动</p>
+            <yd-grids-item link="./finance/account" style="background-color:lightcyan">
+                <p slot="text">账户</p>
             </yd-grids-item>
         </yd-grids-group>
         <yd-grids-group :rows="3" title="商品采购">

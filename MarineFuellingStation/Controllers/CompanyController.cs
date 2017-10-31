@@ -46,5 +46,22 @@ namespace MFS.Controllers
                 Data = r.GetAllList(s => s.Name.Contains(sv))
             };
         }
+        /// <summary>
+        /// 只根据company表内字段搜索关键字
+        /// </summary>
+        /// <param name="kw">电话|名称关键字</param>
+        /// <returns></returns>
+        [HttpGet("[action]")]
+        public ResultJSON<List<Company>> GetByCompanyKeyword(string kw)
+        {
+            List<Company> ls = r.GetAllList(c => 
+                c.Name.Contains(kw)
+                || c.Phone == kw);
+            return new ResultJSON<List<Company>>
+            {
+                Code = 0,
+                Data = ls
+            };
+        }
     }
 }

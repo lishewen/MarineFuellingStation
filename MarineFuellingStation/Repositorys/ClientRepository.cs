@@ -17,7 +17,8 @@ namespace MFS.Repositorys
         }
         public List<Client> GetIncludeCompany(string sv)
         {
-            return _dbContext.Clients.Include("Company").Where(s => s.CarNo.Contains(sv)
+            return _dbContext.Clients.Include("Company").Where(s => 
+                    s.CarNo.Contains(sv)
                     || s.Company.Name.Contains(sv)
                     || s.Contact.Contains(sv)).ToList();
         }
@@ -33,6 +34,19 @@ namespace MFS.Repositorys
         public Client GetByCarNo(string carNo)
         {
             return _dbContext.Clients.Include("Company").FirstOrDefault(c => c.CarNo == carNo);
+        }
+        /// <summary>
+        /// 只根据client表内字段搜索关键字
+        /// </summary>
+        /// <param name="kw">电话|联系人|船号|车号关键字</param>
+        /// <returns></returns>
+        public List<Client> GetByClientKeyword(string kw)
+        {
+            return _dbContext.Clients.Where(c =>
+                c.Mobile == kw
+                || c.Phone == kw
+                || c.CarNo.Contains(kw)
+                || c.Contact == kw).Include("Company").ToList();
         }
         public List<Client> GetMyClients(ClientType ctype, int ptype, int balances, int cycle, string kw, bool isMy)
         {

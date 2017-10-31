@@ -73,6 +73,21 @@ namespace MFS.Controllers
             };
         }
         /// <summary>
+        /// 只根据client表内字段搜索关键字
+        /// </summary>
+        /// <param name="kw">电话|联系人|船号|车号关键字</param>
+        /// <returns></returns>
+        [HttpGet("[action]")]
+        public ResultJSON<List<Client>> GetByClientKeyword(string kw)
+        {
+            List<Client> ls = r.GetByClientKeyword(kw);
+            return new ResultJSON<List<Client>>
+            {
+                Code = 0,
+                Data = ls
+            };
+        }
+        /// <summary>
         /// 根据条件查询数据
         /// </summary>
         /// <param name="ctype">客户类型</param>

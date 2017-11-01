@@ -79,7 +79,7 @@
             </yd-cell-item>
         </yd-cell-group>
         <yd-cell-group title="付款方式与金额">
-            <yd-cell-item v-for="p in model.payments">
+            <yd-cell-item v-for="p in model.payments" :key="p.id">
                 <span slot="left">{{strPayType(p)}}：</span>
                 <span slot="right">￥{{p.money}}</span>
             </yd-cell-item>

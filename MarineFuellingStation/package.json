@@ -5,7 +5,7 @@
     "@types/requirejs": "^2.1.28",
     "aspnet-webpack": "^1.0.27",
     "awesome-typescript-loader": "^3.0.0",
-    "axios": "0.16.2",
+    "axios": "^0.17.0",
     "css-loader": "^0.25.0",
     "event-source-polyfill": "^0.0.7",
     "extract-text-webpack-plugin": "^2.0.0-rc",
@@ -24,7 +24,7 @@
     "vue-router": "^3.0.1",
     "vue-template-compiler": "^2.5.2",
     "vue-ydui": "1.0.8",
-    "vuex": "^3.0.0",
+    "vuex": "^3.0.1",
     "webpack": "^2.2.0",
     "webpack-hot-middleware": "^2.20.0",
     "ydui-district": "1.0.0"

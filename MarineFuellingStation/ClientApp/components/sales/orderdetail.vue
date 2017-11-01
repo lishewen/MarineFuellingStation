@@ -72,6 +72,27 @@
                 <span slot="right">{{model.remark}}</span>
             </yd-cell-item>
         </yd-cell-group>
+        <yd-cell-group :title="strOrderState(model)">
+            <yd-cell-item>
+                <span slot="left">施工人员：</span>
+                <span slot="right">{{model.lastUpdatedBy}}</span>
+            </yd-cell-item>
+            <yd-cell-item>
+                <span slot="left">密度：</span>
+                <span slot="right">{{model.density}}</span>
+            </yd-cell-item>
+            <yd-cell-item>
+                <span slot="left">实际加油：</span>
+                <span slot="right">{{model.oilCount}}{{model.unit}}</span>
+            </yd-cell-item>
+            <yd-cell-item>
+                <span slot="left">与订单误差：</span>
+                <span slot="right">{{strDiffOil(model)}}</span>
+            </yd-cell-item>
+            <yd-cell-item>
+                <span slot="right">注：负数为实际少于订单</span>
+            </yd-cell-item>
+        </yd-cell-group>
         <yd-cell-group title="运输">
             <yd-cell-item>
                 <span slot="left">运输单：</span>

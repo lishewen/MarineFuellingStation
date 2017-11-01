@@ -98,61 +98,62 @@
             </div>
         </div>
         <!--施工明细-->
-        <yd-cell-group title="施工明细" v-show="currStep == 5">
-            <yd-cell-item>
-                <span slot="right" style="font-weight: bold">{{order.product? order.product.name : ""}} - {{order.count}}吨</span>
-            </yd-cell-item>
-            <yd-cell-item>
-                <span slot="left">测量密度：</span>
-                <span slot="right">{{order.density}}</span>
-            </yd-cell-item>
-            <yd-cell-item>
-                <span slot="left">毛重（磅秤）：</span>
-                <span slot="right">{{order.oilCarWeight}}吨</span>
-            </yd-cell-item>
-            <yd-cell-item>
-                <span slot="left">皮重（磅秤）：</span>
-                <span slot="right">{{order.emptyCarWeight}}吨</span>
-            </yd-cell-item>
-            <yd-cell-item>
-                <span slot="left">净重（计算）：</span>
-                <span slot="right">{{order.oilCarWeight - order.emptyCarWeight}}吨</span>
-            </yd-cell-item>
-            <yd-cell-item>
-                <span slot="left">相差：</span>
-                <span slot="right" style="color: red; font-weight: bold">{{order.count - (order.oilCarWeight - order.emptyCarWeight)}}</span>
-            </yd-cell-item>
-            <yd-cell-item>
-                <span slot="left">加油前表数：</span>
-                <span slot="right">{{lastorder.instrument1}}</span>
-            </yd-cell-item>
-            <yd-cell-item>
-                <span slot="left">实际加油数量：</span>
-                <span slot="right">{{order.instrument1 - lastorder.instrument1}}升</span>
-            </yd-cell-item>
-            <yd-cell-item>
-                <span slot="left">加油后表数：</span>
-                <span slot="right">{{order.instrument1}}</span>
-            </yd-cell-item>
-            <yd-cell-item>
-                <span slot="left">换算吨数：</span>
-                <span slot="right">{{Math.round((order.instrument1 - lastorder.instrument1) * order.density / 1000)}}</span>
-            </yd-cell-item>
-            <yd-cell-item>
-                <span slot="left">施工人：</span>
-                <span slot="right">{{order.lastUpdatedBy}}</span>
-            </yd-cell-item>
-            <yd-cell-item>
-                <div slot="left">毛重图片：</div>
-                <div slot="right"><div class="img-wrap"><img :src="this.order.oilCarWeightPic" /></div></div>
-            </yd-cell-item>
-            <yd-cell-item>
-                <div slot="left">皮重图片：</div>
-                <div slot="right"><div class="img-wrap"><img :src="this.order.emptyCarWeightPic" /></div></div>
-            </yd-cell-item>
-        </yd-cell-group>
-        <div class="center" v-show="currStep == 5">
-            <yd-button style="width:90%" type="primary" @click.native="putRestart">重新施工</yd-button>
+        <div v-show="currStep == 5">
+            <div style="background-color: yellowgreen;padding: 10px; text-align: center; color: white; font-size: .3rem">实际加：{{order.oilCount}}{{order.unit}} | 应加：{{order.count}}{{order.unit}} | 相差{{order.diffOil}}{{order.unit}}</div>
+            <yd-cell-group title="过磅明细" style="margin-top: 15px">
+                <yd-cell-item>
+                    <span slot="right" style="font-weight: bold">{{order.product? order.product.name : ""}} - {{order.count}}吨</span>
+                </yd-cell-item>
+                <yd-cell-item>
+                    <span slot="left">毛重：</span>
+                    <span slot="right">{{order.oilCarWeight}}{{order.unit}}</span>
+                </yd-cell-item>
+                <yd-cell-item>
+                    <span slot="left">皮重：</span>
+                    <span slot="right">{{order.emptyCarWeight}}{{order.unit}}</span>
+                </yd-cell-item>
+                <yd-cell-item>
+                    <span slot="left">净重：</span>
+                    <span slot="right">{{order.diffWeight}}{{order.unit}}</span>
+                </yd-cell-item>
+                <yd-cell-item>
+                    <div slot="left">毛重图片：</div>
+                    <div slot="right"><div class="img-wrap"><img :src="this.order.oilCarWeightPic" /></div></div>
+                </yd-cell-item>
+                <yd-cell-item>
+                    <div slot="left">皮重图片：</div>
+                    <div slot="right"><div class="img-wrap"><img :src="this.order.emptyCarWeightPic" /></div></div>
+                </yd-cell-item>
+            </yd-cell-group>
+            <yd-cell-group title="油表明细">
+                <yd-cell-item>
+                    <span slot="left">加油前表数：</span>
+                    <span slot="right">{{lastorder.instrument1}}</span>
+                </yd-cell-item>
+                <yd-cell-item>
+                    <span slot="left">加油后表数：</span>
+                    <span slot="right">{{order.instrument1}}</span>
+                </yd-cell-item>
+                <yd-cell-item>
+                    <span slot="left">实际加油数量：</span>
+                    <span slot="right">{{order.instrument1 - lastorder.instrument1}}升</span>
+                </yd-cell-item>
+                <yd-cell-item>
+                    <span slot="left">测量密度：</span>
+                    <span slot="right">{{order.density}}</span>
+                </yd-cell-item>
+                <yd-cell-item>
+                    <span slot="left">换算“吨”：</span>
+                    <span slot="right">{{order.oilCount}}</span>
+                </yd-cell-item>
+                <yd-cell-item>
+                    <span slot="left">施工人：</span>
+                    <span slot="right">{{order.lastUpdatedBy}}</span>
+                </yd-cell-item>
+            </yd-cell-group>
+            <div class="center" v-show="currStep == 5">
+                <yd-button style="width:90%" type="primary" @click.native="putRestart">重新施工</yd-button>
+            </div>
         </div>
         <!--popup订单选择-->
         <yd-popup v-model="showOrders" position="right" width="70%">

@@ -11,9 +11,10 @@ using System;
 namespace MFS.Migrations
 {
     [DbContext(typeof(EFContext))]
-    partial class EFContextModelSnapshot : ModelSnapshot
+    [Migration("20171101110721_Order_DiffOil_modify")]
+    partial class Order_DiffOil_modify
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -402,6 +403,8 @@ namespace MFS.Migrations
                     b.Property<string>("CreatedBy");
 
                     b.Property<decimal>("Density");
+
+                    b.Property<decimal>("DiffWeight");
 
                     b.Property<decimal>("EmptyCarWeight");
 

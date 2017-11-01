@@ -237,29 +237,38 @@ namespace MFS.Repositorys
         /// <returns></returns>
         public Order ChangeState(Order order)
         {
+            decimal oilCount = 0;
             //更新对应销售仓的数量
             if (order.State == OrderState.已完成)
             {
+                if (order.OrderType == SalesPlanType.水上)
+                    oilCount = order.OilCount;
+                else if (order.OrderType == SalesPlanType.陆上)
+                    //如果是陆上装车，则实际加油升数转换为实际加油吨数，以同步以“吨”为单位
+                    oilCount = UnitExchange.ToTon(order.OilCount, order.Density);
+                else if (order.OrderType == SalesPlanType.机油)
+                    oilCount = order.Count;
+                oilCount = Math.Round(oilCount, 2);//取两位小数
+
                 StoreRepository st_r = new StoreRepository(_dbContext);
                 //更新油仓数量
-                decimal litre = (order.OrderType == SalesPlanType.陆上) ? UnitExchange.ToLitre(order.OilCount, order.Density) : order.OilCount;
-                bool isUpdateStore = st_r.UpdateOil(int.Parse(order.StoreId.ToString()), litre, false);
+                bool isUpdateStore = st_r.UpdateOil(int.Parse(order.StoreId.ToString()), oilCount, false);
                 if (isUpdateStore)
                 {
                     //增加出仓记录
                     InAndOutLogRepository io_r = new InAndOutLogRepository(_dbContext);
                     io_r.Insert(new InAndOutLog
                     {
-                        Name = "订单加油",
+                        Name = (order.OrderType == SalesPlanType.水上 || order.OrderType == SalesPlanType.机油) ? "水上加油" : "陆上装车",
                         StoreId = int.Parse(order.StoreId.ToString()),
-                        Value = litre,
+                        Value = oilCount,
                         Operators = CurrentUser,
-                        Unit = "升",
+                        Unit = order.Unit,
                         Type = LogType.出仓
                     });
                 }
             }
-
+            order.OilCount = oilCount;
             order.LastUpdatedBy = CurrentUser;
             return Update(order);//更改状态
         }

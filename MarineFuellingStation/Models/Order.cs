@@ -110,7 +110,14 @@ namespace MFS.Models
         /// <summary>
         /// 实际与订单差
         /// </summary>
-        public decimal DiffOil { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public decimal DiffOil
+        {
+            get
+            {
+                return OilCount - Count;
+            }
+        }
         /// <summary>
         /// 皮重 陆上（空车）
         /// </summary>
@@ -120,9 +127,14 @@ namespace MFS.Models
         /// </summary>
         public decimal OilCarWeight { get; set; }
         /// <summary>
-        /// 油重 陆上
+        /// 油重 陆上(净重)
         /// </summary>
-        public decimal DiffWeight { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public decimal DiffWeight {
+            get {
+                return OilCarWeight - EmptyCarWeight;
+            }
+        }
         /// <summary>
         /// 销售提成
         /// </summary>

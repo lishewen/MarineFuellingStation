@@ -58,6 +58,24 @@ export default class OrderDetailComponent extends ComponentBase {
         }
     }
 
+    strOrderState(o: server.order) {
+        let str = "当前施工状态：";
+        switch (o.state) {
+            case server.orderState.已开单:
+                return str + "待施工";
+            case server.orderState.选择油仓:
+                return str + "待施工";
+            case server.orderState.空车过磅:
+                return str + "待施工";
+            case server.orderState.装油中:
+                return str + "待施工";
+            case server.orderState.油车过磅:
+                return str + "待施工";
+            case server.orderState.已完成:
+                return str + "已完成";
+        }
+    }
+
     strPayType(p: server.payment) {
         switch (p.payTypeId) {
             case server.orderPayType.现金:
@@ -75,6 +93,13 @@ export default class OrderDetailComponent extends ComponentBase {
             case server.orderPayType.公司账户扣减:
                 return "公司账户扣减";
         }
+    }
+
+    strDiffOil(o: server.order) {
+        if (o.unit == "升")
+            return o.diffOil + "升 换算吨：" + o.diffOil * o.density / 1000 + "吨";
+        else if (o.unit == "吨")
+            return o.diffOil + "吨 换算升：" + o.diffOil / o.density * 1000 + "升";
     }
 
     getOrder(id: string, callback: Function) {

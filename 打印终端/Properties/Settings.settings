@@ -17,5 +17,20 @@
     <Setting Name="ClientId" Type="System.String" Scope="User">
       <Value Profile="(Default)">收银台</Value>
     </Setting>
+    <Setting Name="PrintBoatCleanDocx" Type="System.String" Scope="User">
+      <Value Profile="(Default)">船舶清污完工证.docx</Value>
+    </Setting>
+    <Setting Name="PrintBoatCleanCollectionDocx" Type="System.String" Scope="User">
+      <Value Profile="(Default)">船舶清污完工证收款单.docx</Value>
+    </Setting>
+    <Setting Name="PrintLoadOilDocx" Type="System.String" Scope="User">
+      <Value Profile="(Default)">陆上装车单.docx</Value>
+    </Setting>
+    <Setting Name="PrintPrepaymentDocx" Type="System.String" Scope="User">
+      <Value Profile="(Default)">预收款确认单.docx</Value>
+    </Setting>
+    <Setting Name="PrintUnloadDocx1" Type="System.String" Scope="User">
+      <Value Profile="(Default)">卸车石化过磅单.docx</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

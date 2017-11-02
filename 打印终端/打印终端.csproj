@@ -166,11 +166,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\Assay.cs" />
+    <Compile Include="Models\BoatClean.cs" />
+    <Compile Include="Models\Client.cs" />
+    <Compile Include="Models\Company.cs" />
     <Compile Include="Models\EntityBase.cs" />
     <Compile Include="Models\ITrackable.cs" />
     <Compile Include="Models\Logs.cs" />
     <Compile Include="Models\MoveStore.cs" />
     <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\Payment.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\Purchase.cs" />
     <Compile Include="Models\SalesPlan.cs" />
@@ -203,7 +207,21 @@
     <None Include="unload.docx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="生产转仓单.docx" />
+    <None Include="卸车石化过磅单.docx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="生产转仓单.docx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="船舶清污完工证.docx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="陆上装车单.docx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="预收款确认单.docx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

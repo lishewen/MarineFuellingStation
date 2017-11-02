@@ -82,5 +82,65 @@ namespace 打印终端.Properties {
                 this["ClientId"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("船舶清污完工证.docx")]
+        public string PrintBoatCleanDocx {
+            get {
+                return ((string)(this["PrintBoatCleanDocx"]));
+            }
+            set {
+                this["PrintBoatCleanDocx"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("船舶清污完工证收款单.docx")]
+        public string PrintBoatCleanCollectionDocx {
+            get {
+                return ((string)(this["PrintBoatCleanCollectionDocx"]));
+            }
+            set {
+                this["PrintBoatCleanCollectionDocx"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("陆上装车单.docx")]
+        public string PrintLoadOilDocx {
+            get {
+                return ((string)(this["PrintLoadOilDocx"]));
+            }
+            set {
+                this["PrintLoadOilDocx"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("预收款确认单.docx")]
+        public string PrintPrepaymentDocx {
+            get {
+                return ((string)(this["PrintPrepaymentDocx"]));
+            }
+            set {
+                this["PrintPrepaymentDocx"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("卸车石化过磅单.docx")]
+        public string PrintUnloadDocx1 {
+            get {
+                return ((string)(this["PrintUnloadDocx1"]));
+            }
+            set {
+                this["PrintUnloadDocx1"] = value;
+            }
+        }
     }
 }

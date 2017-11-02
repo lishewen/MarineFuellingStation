@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
+<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8" />
@@ -11,6 +12,7 @@
         <link rel="stylesheet" href="~/dist/vendor.css" asp-append-version="true" />
         @RenderSection("css", required: false)
         <script src="~/js/ydui.flexible.js"></script>
+    @Html.Raw(JavaScriptSnippet.FullScript)
     </head>
     <body>
         @RenderBody()

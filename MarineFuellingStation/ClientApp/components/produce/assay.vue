@@ -20,10 +20,6 @@
 
                     <yd-cell-item v-show="!show1" @click.native="showPurchases = true">
                         <span slot="left">进油来源：</span>
-                        <!--<select slot="right" v-model="selectedPurchase">
-                            <option value="">请选择进油来源计划单</option>
-                            <option v-for="p in purchase" :key="p.id" :value="p.id">{{p.name}}</option>
-                        </select>-->
                         <span slot="right">{{selectedPName}}</span>
                     </yd-cell-item>
 

@@ -7,8 +7,8 @@ const state = {
     openid: '',
     userid: '',
     username: '',
-    isSuperAdmin: 'False',
-    isLeader: 'False'
+    isSuperAdmin: false,
+    isLeader: false
 };
 
 const mutations = {

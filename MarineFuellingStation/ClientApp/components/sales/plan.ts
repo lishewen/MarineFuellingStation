@@ -70,7 +70,7 @@ export default class PlanComponent extends ComponentBase {
 
     mounted() {
         this.$emit('setTitle', this.username + ' 销售计划');
-        this.isLeader = this.$store.state.isLeader;
+        this.isLeader = this.$store.state.isLeader == "True" ? true : false;
         //观察者模式
         this.$watch('radio2', (v, ov) => {
             switch (v) {
@@ -339,7 +339,6 @@ export default class PlanComponent extends ComponentBase {
                         }
                     });
                 });
-
                 //如果为上级领导，则显示修改商品单价的入口
                 if (this.isLeader) {
                     this.oiloptions.push({

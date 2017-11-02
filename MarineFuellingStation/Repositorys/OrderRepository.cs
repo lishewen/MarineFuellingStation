@@ -252,7 +252,7 @@ namespace MFS.Repositorys
 
                 StoreRepository st_r = new StoreRepository(_dbContext);
                 //更新油仓数量
-                bool isUpdateStore = st_r.UpdateOil(int.Parse(order.StoreId.ToString()), oilCount, false);
+                bool isUpdateStore = st_r.UpdateOil(int.Parse(order.StoreId.ToString()), order.OilCount, false);
                 if (isUpdateStore)
                 {
                     //增加出仓记录

@@ -57,6 +57,11 @@ namespace MFS.Controllers
             if (!cr.AddClientWithNoFind(o.CarNo, o.Salesman, o.ProductId))
                 return new ResultJSON<Order> { Code = 501, Msg = "无法新增该客户，请联系开发人员" };
             if (r.Has(od => od.Name == o.Name)) return new ResultJSON<Order> { Code = 501, Msg = "已存在单号" + o.Name + ",请勿重复提交" };
+
+            //如果没有计划，则不用指定销售员，客户需求，不用计算提成
+            if(!o.SalesPlanId.HasValue)
+                o.Salesman = "";
+
             var result = r.Insert(o);
 
             //推送打印指令

@@ -31,7 +31,7 @@
                         <yd-input slot="right" v-model="model.carNo" required placeholder="请输入"></yd-input>
                     </yd-cell-item>
 
-                    <yd-cell-item arrow @click.native="showSalesmans = true">
+                    <yd-cell-item v-show="selectedplanNo != '散客'" arrow @click.native="showSalesmans = true">
                         <span slot="left">销售员：</span>
                         <span slot="right">{{model.salesman}}</span>
                     </yd-cell-item>

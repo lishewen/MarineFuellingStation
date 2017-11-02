@@ -114,6 +114,7 @@
                         <yd-cell-item slot="list" arrow v-for="o in orders" :key="o.id" @click.native="godetail(o.id)">
                             <div slot="left" style="line-height: .4rem;margin: 10px 0">
                                 <p>{{o.carNo}} - <span style="color:forestgreen">￥{{o.totalMoney}}</span></p>
+                                <p class="color_lightgray">{{o.name}}</p>
                                 <p class="color_lightgray">{{o.product.name}}</p>
                                 <p class="color_lightgray">{{o.price}} x {{o.count}}{{o.unit}}</p>
                             </div>

@@ -8,6 +8,7 @@ export default class OilStoreComponent extends ComponentBase {
     datestr: string = "";
     show1: boolean = false;
     show2: boolean = false;
+    showAssays: boolean = false;
     showAct: boolean = false;
 
     survey: server.survey;
@@ -15,6 +16,7 @@ export default class OilStoreComponent extends ComponentBase {
     sts: server.storeType[];
     salesSts: server.store[];
     selectStore: server.store;
+    assays: server.assay[];
 
     actItems: ydui.actionSheetItem[];
 
@@ -25,6 +27,7 @@ export default class OilStoreComponent extends ComponentBase {
         this.sts = new Array<server.storeType>();
         this.salesSts = new Array<server.store>();
         this.surveys = new Array<server.survey>();
+        this.assays = new Array<server.assay>();
         this.selectStore = new Object() as server.store;
         this.survey = new Object() as server.survey;
         this.survey.density = 0;
@@ -64,6 +67,13 @@ export default class OilStoreComponent extends ComponentBase {
                 method: () => {
                     this.getSurveys(st.id);
                     this.show2 = true;
+                }
+            },
+            {
+                label: '化验记录',
+                method: () => {
+                    this.getAssays(st.id);
+                    this.showAssays = true;
                 }
             }
         ];
@@ -112,6 +122,15 @@ export default class OilStoreComponent extends ComponentBase {
             let jobj = res.data as server.resultJSON<server.survey[]>;
             if (jobj.code == 0) {
                 this.surveys = jobj.data;
+            }
+        });
+    }
+
+    getAssays(stid: number) {
+        axios.get('/api/Assay/GetByStoreId/' + stid.toString()).then((res) => {
+            let jobj = res.data as server.resultJSON<server.assay[]>;
+            if (jobj.code == 0) {
+                this.assays = jobj.data;
             }
         });
     }

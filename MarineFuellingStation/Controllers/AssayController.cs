@@ -66,6 +66,15 @@ namespace MFS.Controllers
                 Data = r.GetAllWithStANDPur().OrderByDescending(a => a.Id).ToList()
             };
         }
+        [HttpGet("[action]/{sId}")]
+        public ResultJSON<List<Assay>> GetByStoreId(int sId)
+        {
+            return new ResultJSON<List<Assay>>
+            {
+                Code = 0,
+                Data = r.GetAllList(a => a.StoreId == sId).OrderByDescending(a => a.Id).ToList()
+            };
+        }
         [HttpGet("{sv}")]
         public ResultJSON<List<Assay>> Get(string sv)
         {

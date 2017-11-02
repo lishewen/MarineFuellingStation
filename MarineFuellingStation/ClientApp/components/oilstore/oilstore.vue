@@ -76,6 +76,30 @@
                 </yd-cell-item>
             </yd-cell-group>
         </yd-popup>
+        <yd-popup v-model="showAssays" position="right" width="70%">
+            <yd-cell-group title="化验记录">
+                <yd-cell-item v-for="a in assays" :key="a.id">
+                    <div slot="left" style="line-height: 24px">
+                        <p>时间：</p>
+                        <p>化验员：</p>
+                        <p>视密：</p>
+                        <p>标密：</p>
+                        <p>闭口闪点：</p>
+                        <p>初硫：</p>
+                        <p>回流：</p>
+                    </div>
+                    <div slot="right"  style="line-height: 24px">
+                        <p>{{formatDate(a.createdAt)}}</p>
+                        <p>{{a.createdBy}}</p>
+                        <p>{{a.视密}}</p>
+                        <p>{{a.标密}}</p>
+                        <p>{{a.闭口闪点}}</p>
+                        <p>{{a.初硫}}</p>
+                        <p>{{a.回流}}</p>
+                    </div>
+                </yd-cell-item>
+            </yd-cell-group>
+        </yd-popup>
         <!--actionsheet-->
         <yd-actionsheet :items="actItems" v-model="showAct" cancel="取消"></yd-actionsheet>
     </div>

@@ -147,8 +147,16 @@ export default class AssayComponent extends ComponentBase {
         axios.post('/api/Assay', model).then((res) => {
             let jobj = res.data as server.resultJSON<server.assay>;
             if (jobj.code == 0) {
-                this.getAssayNo();
-                this.toastSuccess(jobj.msg)
+                this.toastSuccess(jobj.msg);
+                this.isPrevent = true;
+                (<any>this).$dialog.confirm({
+                    title: '提示',
+                    mes: '继续化验？',
+                    opts: () => {
+                        this.isPrevent = false;
+                        this.getAssayNo();
+                    }
+                })
             }
         });
     }

@@ -92,6 +92,14 @@
             <yd-cell-item>
                 <span slot="right">注：负数为实际少于订单</span>
             </yd-cell-item>
+            <yd-cell-item>
+                <div slot="left">毛重图片：</div>
+                <div slot="right"><div class="img-wrap"><img :src="this.model.oilCarWeightPic" /></div></div>
+            </yd-cell-item>
+            <yd-cell-item>
+                <div slot="left">皮重图片：</div>
+                <div slot="right"><div class="img-wrap"><img :src="this.model.emptyCarWeightPic" /></div></div>
+            </yd-cell-item>
         </yd-cell-group>
         <yd-cell-group title="运输">
             <yd-cell-item>

@@ -82,7 +82,169 @@ namespace 打印终端
             {
                 PrintMoveStore(m);
             });
+            Connection.On<BoatClean>("printboatclean", (m) =>
+            {
+                PrintBoatClean(m);
+            });
+            Connection.On<BoatClean>("printboatcleancollection", (m) =>
+            {
+                PrintBoatCleanCollection(m);
+            });
+            Connection.On<Order>("printloadoil", (m) =>
+            {
+                PrintLoadOil(m);
+            });
+            Connection.On<Order>("printprepayment", (m) =>
+            {
+                PrintPrepayment(m);
+            });
+            Connection.On<Purchase>("printunload1", (p) =>
+            {
+                PrintUnload1(p);
+            });
             Connection.On<string>("login", (username) => Log.Logs += username + " 已登录，正在执行操作\r");
+        }
+
+        private void PrintPrepayment(Order order)
+        {
+            Log.Logs += $"正在打印Prepayment：{order.Name}\r";
+
+            Word.Application thisApplication = new Word.ApplicationClass();
+            wApp = thisApplication;
+            string tmpDocFile = AppDomain.CurrentDomain.BaseDirectory + Properties.Settings.Default.PrintPrepaymentDocx;
+            object templatefile = tmpDocFile;
+            wDoc = wApp.Documents.Add(ref templatefile, ref missing, ref missing, ref missing); //在现有进程内打开文档
+            wDoc.Activate(); //当前文档置前
+
+            //填充数据
+            WordReplace(wApp, "#CarNo#", order.CarNo);
+            WordReplace(wApp, "#CreateAt#", order.CreatedAt.ToString());
+            WordReplace(wApp, "#ClientName#", order.Client.Name);
+            WordReplace(wApp, "#CompanyName#", order.Client.Company.Name);
+            WordReplace(wApp, "#Name#", order.Name);
+            WordReplace(wApp, "#ProductName#", "石化油");
+            WordReplace(wApp, "#Count#", order.Count.ToString());
+            WordReplace(wApp, "#ProductCount#", order.Count.ToString());
+            WordReplace(wApp, "#ProductPrice#", order.Price.ToString());
+            WordReplace(wApp, "#TotalMoney#", order.TotalMoney.ToString());
+            WordReplace(wApp, "#CreateBy#", order.CreatedBy);
+            WordReplace(wApp, "#Salesman#", order.Salesman);
+
+            object background = false; //这个很重要，否则关闭的时候会提示请等待Word打印完毕后再退出，加上这个后可以使Word所有
+            object filename = AppDomain.CurrentDomain.BaseDirectory + order.Name + ".docx";
+            wDoc.SaveAs(ref filename, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref
+                missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing);
+            wDoc.PrintOut(ref background, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref
+               missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing,
+               ref missing);
+            object saveOption = Word.WdSaveOptions.wdSaveChanges;
+            wDoc.Close(ref saveOption, ref missing, ref missing); //关闭当前文档，如果有多个模版文件进行操作，则执行完这一步后接着执行打开Word文档的方法即可
+            saveOption = Word.WdSaveOptions.wdDoNotSaveChanges;
+            wApp.Quit(ref saveOption, ref missing, ref missing); //关闭Word进程
+        }
+
+        private void PrintLoadOil(Order order)
+        {
+            Log.Logs += $"正在打印LoadOil：{order.Name}\r";
+
+            Word.Application thisApplication = new Word.ApplicationClass();
+            wApp = thisApplication;
+            string tmpDocFile = AppDomain.CurrentDomain.BaseDirectory + Properties.Settings.Default.PrintLoadOilDocx;
+            object templatefile = tmpDocFile;
+            wDoc = wApp.Documents.Add(ref templatefile, ref missing, ref missing, ref missing); //在现有进程内打开文档
+            wDoc.Activate(); //当前文档置前
+
+            //填充数据
+            WordReplace(wApp, "#CarNo#", order.CarNo);
+            WordReplace(wApp, "#CreateAt#", order.CreatedAt.ToString());
+            WordReplace(wApp, "#ClientName#", order.Client.Name);
+            WordReplace(wApp, "#CompanyName#", order.Client.Company.Name);
+            WordReplace(wApp, "#Name#", order.Name);
+            WordReplace(wApp, "#ProductName#", "石化油");
+            WordReplace(wApp, "#Count#", order.Count.ToString());
+            WordReplace(wApp, "#ProductCount#", order.Count.ToString());
+            WordReplace(wApp, "#ProductPrice#", order.Price.ToString());
+            WordReplace(wApp, "#TotalMoney#", order.TotalMoney.ToString());
+            WordReplace(wApp, "#CreateBy#", order.CreatedBy);
+            WordReplace(wApp, "#CNMoney#", ConvertToChinese(order.TotalMoney));
+
+            object background = false; //这个很重要，否则关闭的时候会提示请等待Word打印完毕后再退出，加上这个后可以使Word所有
+            object filename = AppDomain.CurrentDomain.BaseDirectory + order.Name + ".docx";
+            wDoc.SaveAs(ref filename, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref
+                missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing);
+            wDoc.PrintOut(ref background, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref
+               missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing,
+               ref missing);
+            object saveOption = Word.WdSaveOptions.wdSaveChanges;
+            wDoc.Close(ref saveOption, ref missing, ref missing); //关闭当前文档，如果有多个模版文件进行操作，则执行完这一步后接着执行打开Word文档的方法即可
+            saveOption = Word.WdSaveOptions.wdDoNotSaveChanges;
+            wApp.Quit(ref saveOption, ref missing, ref missing); //关闭Word进程
+        }
+
+        private void PrintBoatCleanCollection(BoatClean m)
+        {
+            Log.Logs += $"正在打印BoatCleanCollection：{m.Name}\r";
+
+            Word.Application thisApplication = new Word.ApplicationClass();
+            wApp = thisApplication;
+            string tmpDocFile = AppDomain.CurrentDomain.BaseDirectory + Properties.Settings.Default.PrintBoatCleanCollectionDocx;
+            object templatefile = tmpDocFile;
+            wDoc = wApp.Documents.Add(ref templatefile, ref missing, ref missing, ref missing); //在现有进程内打开文档
+            wDoc.Activate(); //当前文档置前
+
+            //填充数据
+            WordReplace(wApp, "#CreateAt#", m.CreatedAt.ToString());
+            WordReplace(wApp, "#CreateBy#", m.CreatedBy);
+            WordReplace(wApp, "#PayType#", m.Payments.First().PayTypeId.ToString());
+            WordReplace(wApp, "#Money#", m.Money.ToString());
+            WordReplace(wApp, "#Phone#", m.Phone);
+            WordReplace(wApp, "#CompanyName#", m.Company);
+
+            object background = false; //这个很重要，否则关闭的时候会提示请等待Word打印完毕后再退出，加上这个后可以使Word所有
+            object filename = AppDomain.CurrentDomain.BaseDirectory + m.Name + ".docx";
+            wDoc.SaveAs(ref filename, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref
+                missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing);
+            wDoc.PrintOut(ref background, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref
+               missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing,
+               ref missing);
+            object saveOption = Word.WdSaveOptions.wdSaveChanges;
+            wDoc.Close(ref saveOption, ref missing, ref missing); //关闭当前文档，如果有多个模版文件进行操作，则执行完这一步后接着执行打开Word文档的方法即可
+            saveOption = Word.WdSaveOptions.wdDoNotSaveChanges;
+            wApp.Quit(ref saveOption, ref missing, ref missing); //关闭Word进程
+        }
+
+        private void PrintBoatClean(BoatClean m)
+        {
+            Log.Logs += $"正在打印BoatClean：{m.Name}\r";
+
+            Word.Application thisApplication = new Word.ApplicationClass();
+            wApp = thisApplication;
+            string tmpDocFile = AppDomain.CurrentDomain.BaseDirectory + Properties.Settings.Default.PrintBoatCleanDocx;
+            object templatefile = tmpDocFile;
+            wDoc = wApp.Documents.Add(ref templatefile, ref missing, ref missing, ref missing); //在现有进程内打开文档
+            wDoc.Activate(); //当前文档置前
+
+            //填充数据
+            WordReplace(wApp, "#CarNo#", m.CarNo);
+            WordReplace(wApp, "#CreateAt#", m.CreatedAt.ToString());
+            WordReplace(wApp, "#Name#", m.Name);
+            WordReplace(wApp, "#Voyage#", m.Voyage.ToString());
+            WordReplace(wApp, "#Tonnage#", m.Tonnage.ToString());
+            WordReplace(wApp, "#ResponseId#", m.ResponseId);
+            WordReplace(wApp, "#Address#", m.Address);
+            WordReplace(wApp, "#Company#", m.Company);
+
+            object background = false; //这个很重要，否则关闭的时候会提示请等待Word打印完毕后再退出，加上这个后可以使Word所有
+            object filename = AppDomain.CurrentDomain.BaseDirectory + m.Name + ".docx";
+            wDoc.SaveAs(ref filename, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref
+                missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing);
+            wDoc.PrintOut(ref background, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref
+               missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing,
+               ref missing);
+            object saveOption = Word.WdSaveOptions.wdSaveChanges;
+            wDoc.Close(ref saveOption, ref missing, ref missing); //关闭当前文档，如果有多个模版文件进行操作，则执行完这一步后接着执行打开Word文档的方法即可
+            saveOption = Word.WdSaveOptions.wdDoNotSaveChanges;
+            wApp.Quit(ref saveOption, ref missing, ref missing); //关闭Word进程
         }
 
         private void PrintOrder(Order order)
@@ -140,6 +302,34 @@ namespace 打印终端
             WordReplace(wApp, "#UpdateBy#", p.LastUpdatedBy);
             WordReplace(wApp, "#Count#", p.Count.ToString());
             WordReplace(wApp, "#StoreName#", p.ToStores?[0].Name);
+
+            object background = false; //这个很重要，否则关闭的时候会提示请等待Word打印完毕后再退出，加上这个后可以使Word所有
+            object filename = AppDomain.CurrentDomain.BaseDirectory + p.Name + ".docx";
+            wDoc.SaveAs(ref filename, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref
+                missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing);
+            wDoc.PrintOut(ref background, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref
+               missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing,
+               ref missing);
+            object saveOption = Word.WdSaveOptions.wdSaveChanges;
+            wDoc.Close(ref saveOption, ref missing, ref missing); //关闭当前文档，如果有多个模版文件进行操作，则执行完这一步后接着执行打开Word文档的方法即可
+            saveOption = Word.WdSaveOptions.wdDoNotSaveChanges;
+            wApp.Quit(ref saveOption, ref missing, ref missing); //关闭Word进程
+        }
+
+        private void PrintUnload1(Purchase p)
+        {
+            Log.Logs += $"正在打印出库石化过磅单：{p.Name}\r";
+
+            Word.Application thisApplication = new Word.ApplicationClass();
+            wApp = thisApplication;
+            string tmpDocFile = AppDomain.CurrentDomain.BaseDirectory + Properties.Settings.Default.PrintUnloadDocx;
+            object templatefile = tmpDocFile;
+            wDoc = wApp.Documents.Add(ref templatefile, ref missing, ref missing, ref missing); //在现有进程内打开文档
+            wDoc.Activate(); //当前文档置前
+
+            //填充数据
+            WordReplace(wApp, "#CreateAt#", p.CreatedAt.ToLongDateString());
+            WordReplace(wApp, "#CreateBy#", p.CreatedBy);
 
             object background = false; //这个很重要，否则关闭的时候会提示请等待Word打印完毕后再退出，加上这个后可以使Word所有
             object filename = AppDomain.CurrentDomain.BaseDirectory + p.Name + ".docx";

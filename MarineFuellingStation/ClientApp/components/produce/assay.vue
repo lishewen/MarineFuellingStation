@@ -20,10 +20,6 @@
 
                     <yd-cell-item v-show="!show1" @click.native="showPurchases = true">
                         <span slot="left">进油来源：</span>
-                        <!--<select slot="right" v-model="selectedPurchase">
-                            <option value="">请选择进油来源计划单</option>
-                            <option v-for="p in purchase" :key="p.id" :value="p.id">{{p.name}}</option>
-                        </select>-->
                         <span slot="right">{{selectedPName}}</span>
                     </yd-cell-item>
 
@@ -122,7 +118,7 @@
                             <p style="color:lightgray">{{s.assayer}}</p>
                         </div>
                         <div slot="right" style="text-align: left;margin-right: 5px">
-                            <p v-show="s.assayType == 0" style="color:darkgreen">{{s.store == null?"":s.store.name}}</p>
+                            <p v-show="s.assayType == 0" style="color:darkgreen">{{s.store == null?"":s.store.name}}仓</p>
                             <p v-show="s.assayType == 1" style="color:lightcoral">{{s.purchase == null?"":s.purchase.carNo}} / {{s.purchase == null?"":s.purchase.count}}吨</p>
                         </div>
                     </yd-cell-item>

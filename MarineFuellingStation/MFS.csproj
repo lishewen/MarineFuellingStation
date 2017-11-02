@@ -4,10 +4,13 @@
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <IsPackable>false</IsPackable>
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+    <ApplicationInsightsResourceId>/subscriptions/7dbb4f8a-fb09-4e28-aab4-46402ca1c00d/resourcegroups/MFS/providers/microsoft.insights/components/MFS</ApplicationInsightsResourceId>
+    <ApplicationInsightsAnnotationResourceId>/subscriptions/7dbb4f8a-fb09-4e28-aab4-46402ca1c00d/resourcegroups/MFS/providers/microsoft.insights/components/MFS</ApplicationInsightsAnnotationResourceId>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.1.1" />
     <PackageReference Include="CoreCompat.System.Drawing.v2" Version="5.2.0-preview1-r131" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.0.0" />
@@ -101,6 +104,9 @@
     <None Update="Repositorys\MoveStoreRepository.cs.d.ts">
       <DependentUpon>MoveStoreRepository.cs</DependentUpon>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services" />
   </ItemGroup>
   <Target Name="RunWebpack" AfterTargets="ComputeFilesToPublish">
     <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->

@@ -151,6 +151,7 @@ namespace MFS.Controllers
         /// <param name="page">第N页</param>
         /// <param name="pageSize">页记录数</param>
         /// <param name="sps">State状态</param>
+        /// <param name="islandplan">是否陆上计划</param>
         /// <returns></returns>
         [HttpGet("[action]")]
         public ResultJSON<List<SalesPlan>> GetByState(int page, int pageSize, SalesPlanState sps, bool islandplan)
@@ -180,12 +181,21 @@ namespace MFS.Controllers
             };
         }
         [HttpGet("[action]")]
-        public ResultJSON<List<SalesPlan>> GetHasFinish()
+        public ResultJSON<List<SalesPlan>> GetAuditings(int page, int pagesize, bool islandplan = false)
         {
+            List<SalesPlan> list;
+            if (islandplan)
+                list = r.LoadPageList(page, pagesize, out int rowCount, true,
+                    s => (s.State == SalesPlanState.已审批 || s.State == SalesPlanState.未审批)
+                    && s.SalesPlanType == SalesPlanType.陆上).ToList();
+            else
+                list = r.LoadPageList(page, pagesize, out int rowCount, true,
+                    s => (s.State == SalesPlanState.已审批 || s.State == SalesPlanState.未审批)
+                    && (s.SalesPlanType == SalesPlanType.水上 || s.SalesPlanType == SalesPlanType.机油)).ToList();
             return new ResultJSON<List<SalesPlan>>
             {
                 Code = 0,
-                Data = r.GetAllList(s => s.State == SalesPlanState.已审批 || s.State == SalesPlanState.未审批)
+                Data = list
             };
         }
         [HttpGet("{sv}")]

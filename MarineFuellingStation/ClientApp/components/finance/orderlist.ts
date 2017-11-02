@@ -54,7 +54,7 @@ export default class OrderListComponent extends ComponentBase {
             }
 
             //通知加载数据完毕
-            (<any>this).$refs.infinitescroll.$emit("ydui.infinitescroll.finishLoad");
+            this.scrollRef.$emit("ydui.infinitescroll.finishLoad");
 
             if (list.length > 0)
                 this.page++;

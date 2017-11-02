@@ -2,7 +2,7 @@
 import moment from "moment";
 
 export default class ComponentBase extends Vue {
-    formatDate(d: Date, f: string = 'YYYY-MM-DD hh:mm'): string {
+    formatDate(d: Date, f: string = 'YYYY-MM-DD HH:mm'): string {
         return moment(d).format(f);
     }
     toastError(msg: string) {

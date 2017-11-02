@@ -26,9 +26,6 @@ export default class BuyboardComponent extends Vue {
     godetail(id: number) {
         this.$router.push('/purchase/purchase/' + id + '/board');
     }
-    formatDate(d: Date): string {
-        return moment(d).format('MM-DD hh:mm');
-    }
     getPurchases() {
         axios.get('/api/Purchase/GetAllByState?pus=' + server.unloadState.已开单).then((res) => {
             let jobj = res.data as server.resultJSON<server.purchase[]>;

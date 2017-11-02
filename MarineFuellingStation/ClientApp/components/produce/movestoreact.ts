@@ -55,10 +55,6 @@ export default class MoveStoreActComponent extends ComponentBase {
         this.$emit('setTitle', this.$store.state.username + ' 生产施工');
     };
 
-    formatDate(d: Date): string {
-        return moment(d).format('MM-DD hh:mm');
-    }
-
     change(label: string, tabkey: string) {
         console.log(label);
         this.$emit('setTitle', this.$store.state.username + ' ' + label);

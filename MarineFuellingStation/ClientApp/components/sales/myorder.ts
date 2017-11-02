@@ -120,10 +120,6 @@ export default class MyOrderComponent extends ComponentBase {
         this.getOrders();
     }
 
-    formatDate(d: Date) {
-        return moment(d).format('YYYY-MM-DD');
-    }
-
     mounted() {
         this.$emit('setTitle', this.$store.state.username + ' 的销售单');
     };

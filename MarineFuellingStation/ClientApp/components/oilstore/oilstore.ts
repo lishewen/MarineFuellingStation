@@ -107,10 +107,6 @@ export default class OilStoreComponent extends ComponentBase {
         });
     }
 
-    formatDate(d: Date): string {
-        return moment(d).format('MM-DD hh:mm');
-    }
-
     getSurveys(stid: number) {
         axios.get('/api/Survey/GetTop15/' + stid.toString()).then((res) => {
             let jobj = res.data as server.resultJSON<server.survey[]>;

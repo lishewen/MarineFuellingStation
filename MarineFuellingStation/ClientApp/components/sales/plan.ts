@@ -206,10 +206,6 @@ export default class PlanComponent extends ComponentBase {
         this.postSalesPlan(this.model);
     }
 
-    formatDate(d: Date): string {
-        return moment(d).format('YYYY-MM-DD');
-    }
-
     godetail(id) {
         this.$router.push('/sales/plan/' + id + '/plan')
     }

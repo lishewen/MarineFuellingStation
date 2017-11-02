@@ -13,10 +13,6 @@ export default class PurchaseDetailComponent extends ComponentBase {
         this.model = (new Object()) as server.purchase;
     }
 
-    formatDate(d: Date) {
-        return moment(d).format("YYYY-MM-DD");
-    }
-
     mounted() {
         let id = this.$route.params.id;
         let from = this.$route.params.from;

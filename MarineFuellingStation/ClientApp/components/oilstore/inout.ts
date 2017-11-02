@@ -79,11 +79,7 @@ export default class InAndOutLogComponent extends ComponentBase {
         this.page = 1;
         this.getInAndOutLogs();
     }
-
-    formatDate(d: Date) {
-        return moment(d).format("YYYY-MM-DD hh:mm")
-    }
-
+    
     loadList() {
         this.getInAndOutLogs((list: server.inAndOutLog[]) => {
             switch (this.logType) {

@@ -49,10 +49,6 @@ export default class PlanDetailComponent extends ComponentBase {
             return "代号2";
     }
 
-    formatDate(d: Date) {
-        return moment(d).format("YYYY-MM-DD");
-    }
-
     getSalesPlan(id: string, callback: Function) {
         axios.get('/api/SalesPlan/GetDetail/' + id).then((res) => {
             let jobj = res.data as server.resultJSON<server.salesPlan>;

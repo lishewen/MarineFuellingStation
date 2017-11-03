@@ -183,6 +183,7 @@ export default class UnloadComponent extends ComponentBase {
 
                 let isValid = true;
                 this.purchase.toStoresList = new Array<server.toStore>();
+                let total = 0;//统计总卸油数量
                 this.toStores.forEach((tst, idx) => {
                     switch (this.instruments[idx]) {
                         case "表1":
@@ -201,9 +202,11 @@ export default class UnloadComponent extends ComponentBase {
                             tst.count = this.purchase.instrument3 - this.lastPurchase.instrument3;
                             break;
                     }
+                    total += tst.count;
                     this.purchase.toStoresList.push(tst);
                 });
                 if (!isValid) return;
+                this.purchase.oilCount = total;
                 break;
             case 5:
                 nextState = server.unloadState.完工;

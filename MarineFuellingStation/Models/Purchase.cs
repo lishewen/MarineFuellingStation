@@ -20,7 +20,42 @@ namespace MFS.Models
         [ForeignKey("ProductId")]
         public virtual Product Product { get; set; }
         public decimal Price { get; set; }
+        /// <summary>
+        /// 计划订单数量 单位吨
+        /// </summary>
         public int Count { get; set; }
+        /// <summary>
+        /// 实际卸油数量 单位升
+        /// </summary>
+        public decimal OilCount { get; set; } = 0;
+        /// <summary>
+        /// 实际与订单相差 升数
+        /// </summary>
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public decimal DiffLitre
+        {
+            get
+            {
+                if (Density > 0)
+                    return OilCount - ((Count / Density) * 1000);
+                else
+                    return 0;
+            }
+        }
+        /// <summary>
+        /// 实际与订单相差 吨数
+        /// </summary>
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public decimal DiffTon
+        {
+            get
+            {
+                if(Density > 0)
+                    return OilCount * Density / 1000 - Count;
+                else
+                    return 0;
+            }
+        }
         /// <summary>
         /// 始发地
         /// </summary>
@@ -43,6 +78,7 @@ namespace MFS.Models
         public string Phone2 { get; set; }
 
         ///陆上卸油用到的字段
+        #region 卸油到多油仓用到的字段
         [NotMapped]
         public List<ToStoreModel> ToStoresList { get; set; }
         /// <summary>
@@ -102,6 +138,7 @@ namespace MFS.Models
                 }
             }
         }
+        #endregion
         ///
         /// <summary>
         /// 表1

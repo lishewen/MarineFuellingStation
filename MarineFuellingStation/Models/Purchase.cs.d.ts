@@ -15,7 +15,12 @@ declare module server {
         productId: number;
         product: product;
         price: number;
+        /** 计划订单数量 单位吨 */
         count: number;
+        /** 实际卸油数量 单位升 */
+        oilCount: number;
+        diffLitre: number;
+        diffTon: number;
         /** 始发地 */
         origin: string;
         startTime?: string;

@@ -38,6 +38,7 @@ namespace MFS.Controllers
             this.option.进油看板AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.进油看板Secret);
             this.option.陆上卸油AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.陆上卸油Secret);
             this.option.油仓情况AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.油仓情况Secret);
+            this.option.卸油审核AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.卸油审核Secret);
 
             _hub = hub;
         }
@@ -152,6 +153,17 @@ namespace MFS.Controllers
             r.CurrentUser = UserName;
             var model = r.Update(p);
             model.LastUpdatedBy = UserName;
+            //if(p.State == Purchase.UnloadState.完工)
+            //{
+            //    //推送到“卸油审核”
+            //    MassApi.SendTextCard(option.卸油审核AccessToken, option.卸油审核AgentId, "卸油施工结束，请审核更新油仓"
+            //             , $"<div class=\"gray\">单号：{model.Name}</div>" +
+            //             $"<div class=\"normal\">车号：{model.CarNo}</div>" +
+            //             $"<div class=\"normal\">计划数量：{model.Count}吨</div>" +
+            //             $"<div class=\"normal\">卸仓数量：{model.OilCount}升</div>" +
+            //             $"<div class=\"normal\">密度：{model.Density}</div>"
+            //             , $"http://vue.car0774.com/#/produce/buyboard", toUser: "@all");
+            //}
             return new ResultJSON<Purchase>
             {
                 Code = 0,

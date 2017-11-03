@@ -37,6 +37,9 @@ namespace MFS.Models
         public string 陆上卸油AgentId { get; set; }
         public string 陆上卸油Secret { get; set; }
         public string 陆上卸油AccessToken { get; set; }
+        public string 卸油审核AgentId { get; set; }
+        public string 卸油审核Secret { get; set; }
+        public string 卸油审核AccessToken { get; set; }
         public string 收银AgentId { get; set; }
         public string 收银Secret { get; set; }
         public string 收银AccessToken { get; set; }

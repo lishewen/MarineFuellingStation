@@ -398,7 +398,8 @@ export default class CashierComponent extends ComponentBase {
         if (this.selectedOrder.clientId == null) { this.toastError("请先建立客户档案！"); return; }
         this.chargeLog.chargeType = server.chargeType.充值;
         this.chargeLog.clientId = this.selectedOrder.clientId;
-        axios.post("/api/chargelog?isCompanyCharge=" + this.isCompanyCharge.toString(), this.chargeLog).then((res) => {
+        this.chargeLog.isCompany = this.isCompanyCharge;
+        axios.post("/api/chargelog", this.chargeLog).then((res) => {
             let jobj = res.data as server.resultJSON<server.chargeLog>;
             if (jobj.code == 0) {
                 this.toastSuccess("充值成功")

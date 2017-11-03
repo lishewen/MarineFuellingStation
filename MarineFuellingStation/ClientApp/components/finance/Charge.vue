@@ -4,7 +4,7 @@
             <yd-grids-item>
                 <div slot="text">
                     <p style="color: lightgray;font-size: .4rem">当前余额</p>
-                    <p style="margin-top: .2rem;font-size: .4rem">￥{{isCompanyAccount? company.balances : client.balances}}</p>
+                    <p style="margin-top: .2rem;font-size: .4rem">￥{{isCompany? company.balances : client.balances}}</p>
                 </div>
             </yd-grids-item>
             <yd-grids-item>
@@ -16,7 +16,7 @@
         </yd-grids-group>
         <yd-cell-group title="第一步：查询" style="margin-top: 10px">
             <yd-cell-item>
-                <yd-radio-group slot="left" v-model="isCompanyAccount">
+                <yd-radio-group slot="left" v-model="isCompany">
                     <yd-radio val="0">个人</yd-radio>
                     <yd-radio val="1">公司</yd-radio>
                 </yd-radio-group>

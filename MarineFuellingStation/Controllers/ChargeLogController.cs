@@ -39,9 +39,9 @@ namespace MFS.Controllers
         {
             List<ChargeLog> cl;
             if (string.IsNullOrEmpty(sv))
-                cl = r.LoadPageList(page, pageSize, out int rCount, true).Include("Client").OrderByDescending(c => c.Id).ToList();
+                cl = r.LoadPageList(page, pageSize, out int rCount, true).Include("Client").Include("Company").OrderByDescending(c => c.Id).ToList();
             else
-                cl = r.LoadPageList(page, pageSize, out int rCount, true, c => c.Name.Contains(sv) || c.CompanyName.Contains(sv)).Include("Client").OrderByDescending(c => c.Id).ToList();
+                cl = r.LoadPageList(page, pageSize, out int rCount, true, c => c.Name.Contains(sv) || c.Company.Name.Contains(sv)).Include("Client").Include("Company").OrderByDescending(c => c.Id).ToList();
             return new ResultJSON<List<ChargeLog>>
             {
                 Code = 0,
@@ -75,10 +75,10 @@ namespace MFS.Controllers
         /// <param name="isCompanyCharge">公司充值或客户充值</param>
         /// <returns></returns>
         [HttpPost]
-        public ResultJSON<ChargeLog> Post([FromBody]ChargeLog model, bool isCompanyCharge)
+        public ResultJSON<ChargeLog> Post([FromBody]ChargeLog model)
         {
             r.CurrentUser = UserName;
-            ChargeLog c = r.InsertAndUpdateBalances(model, isCompanyCharge);
+            ChargeLog c = r.InsertAndUpdateBalances(model);
             if (c == null)
                 return new ResultJSON<ChargeLog>
                 {

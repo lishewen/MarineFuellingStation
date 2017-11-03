@@ -6,7 +6,9 @@ import moment from "moment";
 @Component
 export default class BoatCleanComponent extends ComponentBase {
     model: server.boatClean;
+    bc: server.boatClean;
     list: server.boatClean[];
+    showDetail: boolean = false;
 
     radio2: string = '1';
     unit: string = '升';
@@ -27,6 +29,8 @@ export default class BoatCleanComponent extends ComponentBase {
         this.model.company = "广西梧州市汇保源防污有限公司";
         this.model.phone = "07742031178";
         this.model.isInvoice = false;
+
+        this.bc = new Object as server.boatClean;
 
         this.getBoatCleanNo();
         this.getBoatCleans();
@@ -76,6 +80,11 @@ export default class BoatCleanComponent extends ComponentBase {
                 this.searchBoatCleans(v);
         });
     };
+
+    itemclick(b: server.boatClean) {
+        this.showDetail = true;
+        this.bc = b;
+    }
 
     buttonclick() {
         //信息验证

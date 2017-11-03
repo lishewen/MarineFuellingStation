@@ -15,39 +15,42 @@ namespace MFS.Repositorys
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public ChargeLog InsertAndUpdateBalances(ChargeLog model, bool isCompanyCharge)
+        public ChargeLog InsertAndUpdateBalances(ChargeLog model)
         {
             try { 
-                Client client = _dbContext.Clients.Include("Company").FirstOrDefault(c => c.Id == model.ClientId);
-                model.CompanyName = client.Company.Name;
                 //公司账户的充值或消费处理
-                if (isCompanyCharge)
+                if (model.IsCompany)
                 {
+                    Company company = _dbContext.Companys.FirstOrDefault(c => c.Id == model.CompanyId);
                     model.Name = "公司账户";
                     if (model.ChargeType == ChargeType.充值)
-                        client.Company.Balances += model.Money;
-                    else
+                        company.Balances += model.Money;
+                    else//消费
                     {
-                        if (client.Company.Balances < model.Money)
+                        if (company.Balances < model.Money)
                             throw new Exception();
-                        client.Company.Balances -= model.Money;
+                        company.Balances -= model.Money;
                     }
                         
                     CompanyRepository co_r = new CompanyRepository(_dbContext);
-                    co_r.Update(client.Company);
+                    co_r.Update(company);
                 }
                 //客户账户的充值或消费处理
                 else
                 {
+                    Client client = _dbContext.Clients.FirstOrDefault(c => c.Id == model.ClientId);
                     model.Name = "个人账户";
                     if (model.ChargeType == ChargeType.充值)
                         client.Balances += model.Money;
-                    else
+                    else//消费
                     {
                         if (client.Balances < model.Money)
                             throw new Exception();
                         client.Balances -= model.Money;
                     }
+
+                    ClientRepository cl_r = new ClientRepository(_dbContext);
+                    cl_r.Update(client);
                 }
                 Save();
             }

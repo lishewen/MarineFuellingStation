@@ -4,7 +4,7 @@ import axios from "axios";
 
 @Component
 export default class ChargeComponent extends ComponentBase {
-    isCompanyAccount: boolean | string = false;
+    isCompany: boolean | string = false;
     showClients: boolean = false;//显示搜索返回的列表
     showCompanys: boolean = false;
     showStep2: boolean = false;
@@ -50,7 +50,7 @@ export default class ChargeComponent extends ComponentBase {
     }
     queryclick() {
         //真服了，要这样写才不会有bug
-        if (this.isCompanyAccount == true || this.isCompanyAccount == "1") {
+        if (this.isCompany == true || this.isCompany == "1") {
             this.getCompanys();
         }
         else {
@@ -62,6 +62,7 @@ export default class ChargeComponent extends ComponentBase {
         this.accName = c.carNo;
         if (this.showClients) this.showClients = false;
         this.clients = null;
+        this.chargeLog.clientId = c.id;
         this.showStep2 = true;
     }
     companyclick(co: server.company) {
@@ -69,12 +70,22 @@ export default class ChargeComponent extends ComponentBase {
         this.accName = co.name;
         if (this.showCompanys) this.showCompanys = false;
         this.companys = null;
+        this.chargeLog.companyId = co.id;
         this.showStep2 = true;
     }
     postCharge() {
         this.chargeLog.chargeType = server.chargeType.充值;
-        this.chargeLog.clientId = 0;
-        axios.post("/api/chargelog?isCompanyCharge=" + this.isCompanyAccount, this.chargeLog).then((res) => {
+        //console.log(this.isCompany); return;
+        if (this.isCompany == true || this.isCompany == "1") {
+            this.chargeLog.isCompany = true;
+            this.chargeLog.companyId = this.company.id
+        }
+        else {
+            this.chargeLog.isCompany = false;
+            this.chargeLog.clientId = this.client.id;
+        }
+        
+        axios.post("/api/chargelog", this.chargeLog).then((res) => {
             let jobj = res.data as server.resultJSON<server.chargeLog>;
             if (jobj.code == 0) {
                 this.toastSuccess("充值成功")
@@ -99,6 +110,7 @@ export default class ChargeComponent extends ComponentBase {
                 else if (this.clients.length == 1) {
                     this.client = this.clients[0]
                     this.accName = this.client.carNo;
+                    this.showStep2 = true;
                 }
                 else {
                     this.toastError("查询没有相关数据");
@@ -123,6 +135,7 @@ export default class ChargeComponent extends ComponentBase {
                 else if (this.companys.length == 1) {
                     this.company = this.companys[0];
                     this.accName = this.company.name;
+                    this.showStep2 = true;
                 }
                 else {
                     this.toastError("查询没有相关数据");

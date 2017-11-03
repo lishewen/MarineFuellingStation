@@ -171,7 +171,7 @@ namespace MFS.Repositorys
                 o.Payments.Add(p);
                 if (p.PayTypeId == OrderPayType.账户扣减 || p.PayTypeId == OrderPayType.公司账户扣减)
                 {
-                    bool isCompanyCharge = (p.PayTypeId == OrderPayType.公司账户扣减) ? true : false;
+                    bool isCompany = (p.PayTypeId == OrderPayType.公司账户扣减) ? true : false;
                     if (!model.ClientId.HasValue)
                     {
                         ret.Code = 500;
@@ -182,14 +182,15 @@ namespace MFS.Repositorys
                     cl_r.CurrentUser = CurrentUser;
                     ChargeLog cl = new ChargeLog
                     {
-                        PayType = (isCompanyCharge) ? OrderPayType.公司账户扣减 : OrderPayType.账户扣减,
+                        PayType = (isCompany) ? OrderPayType.公司账户扣减 : OrderPayType.账户扣减,
                         ChargeType = ChargeType.消费,
-                        Money = p.Money
+                        Money = p.Money,
+                        IsCompany = isCompany
                     };
                     if (model.ClientId.HasValue)
                         cl.ClientId = int.Parse(model.ClientId.ToString());
 
-                    ChargeLog cl_return = cl_r.InsertAndUpdateBalances(cl, isCompanyCharge);
+                    ChargeLog cl_return = cl_r.InsertAndUpdateBalances(cl);
 
                     if (cl_return == null)
                     {

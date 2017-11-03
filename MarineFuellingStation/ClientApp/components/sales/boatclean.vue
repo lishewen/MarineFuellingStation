@@ -74,15 +74,72 @@
             <yd-tab-panel label="单据记录">
                 <yd-search v-model="sv" />
                 <yd-cell-group>
-                    <yd-cell-item arrow v-for="s in list" :key="s.id">
-                        <span slot="left">{{s.carNo}}</span>
-                        <span slot="left" style="color:lightgray;margin-left:10px">{{s.name}}</span>
-                        <span slot="right">{{formatDate(s.oilDate)}}</span>
-                        <span slot="right" :class="classState(s.state)" style="padding-left:10px">{{getStateName(s.state)}}</span>
+                    <yd-cell-item arrow v-for="s in list" :key="s.id" style="padding: 10px 0 10px 0" @click.native="itemclick(s)">
+                        <div slot="left">
+                            <p>{{s.carNo}}</p>
+                            <p style="color: gray; margin-top: 5px">{{s.name}}</p>
+                            <p style="color: lightgray">{{s.createdBy}}</p>
+                        </div>
+                        <div slot="right">
+                            <p>{{formatDate(s.oilDate)}}</p>
+                            <p :class="classState(s.state)">{{getStateName(s.state)}}</p>
+                        </div>
                     </yd-cell-item>
                 </yd-cell-group>
             </yd-tab-panel>
         </yd-tab>
+        <!--明细-->
+        <yd-popup v-model="showDetail" position="right" width="80%">
+            <yd-cell-group>
+                <yd-cell-item>
+                    <span slot="left">船号：</span>
+                    <span slot="right">{{bc.carNo}}</span>
+                </yd-cell-item>
+                <yd-cell-item>
+                    <span slot="left">金额：</span>
+                    <span slot="right">{{bc.money}}</span>
+                </yd-cell-item>
+                <yd-cell-item>
+                    <span slot="left">航次：</span>
+                    <span slot="right">{{bc.voyage}}</span>
+                </yd-cell-item>
+                <yd-cell-item>
+                    <span slot="left">吨位：</span>
+                    <span slot="right">{{bc.tonnage}}</span>
+                </yd-cell-item>
+                <yd-cell-item>
+                    <span slot="left">批文号：</span>
+                    <span slot="right">{{bc.responseId}}</span>
+                </yd-cell-item>
+                <yd-cell-item>
+                    <span slot="left">作业地点：</span>
+                    <span slot="right">{{bc.address}}</span>
+                </yd-cell-item>
+                <yd-cell-item>
+                    <span slot="left">作业单位：</span>
+                    <span slot="right">{{bc.company}}</span>
+                </yd-cell-item>
+                <yd-cell-item>
+                    <span slot="left">联系电话：</span>
+                    <span slot="right">{{bc.phone}}</span>
+                </yd-cell-item>
+                <yd-cell-item v-show="bc.isInvoice">
+                    <span slot="right">代号信息</span>
+                </yd-cell-item>
+                <yd-cell-item v-show="bc.isInvoice">
+                    <span slot="left">单位：</span>
+                    <span slot="right">{{bc.billingCompany}}</span>
+                </yd-cell-item>
+                <yd-cell-item v-show="bc.isInvoice">
+                    <span slot="left">单价：</span>
+                    <span slot="right">{{bc.billingPrice}}</span>
+                </yd-cell-item>
+                <yd-cell-item v-show="bc.isInvoice">
+                    <span slot="left">数量：</span>
+                    <span slot="right">{{bc.billingCount}}</span>
+                </yd-cell-item>
+            </yd-cell-group>
+        </yd-popup>
     </div>
 </template>
 

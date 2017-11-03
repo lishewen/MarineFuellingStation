@@ -38,6 +38,7 @@
                 </yd-cell-item>
             </yd-cell-group>
             <div class="center" v-show="currStep == 2">
+                <yd-button style="width:90%" type="primary" @click.native="changeState(1)">上一步</yd-button>
                 <yd-button style="width:90%" type="primary" @click.native="changeState(5)">完工确认</yd-button>
             </div>
             <!--popup订单选择-->

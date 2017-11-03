@@ -31,9 +31,15 @@ namespace MFS.Models
         [ForeignKey("ClientId")]
         public Client Client { get; set; }
         /// <summary>
-        /// 公司名称
+        /// 公司Id
         /// </summary>
-        public string CompanyName { get; set; }
+        public int? CompanyId { get; set; }
+        [ForeignKey("CompanyId")]
+        public Company Company { get; set; }
+        /// <summary>
+        /// 标识个人充值和公司充值
+        /// </summary>
+        public bool IsCompany { get; set; }
     }
     public enum ChargeType
     {

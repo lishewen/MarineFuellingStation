@@ -4,7 +4,7 @@
             <yd-grids-item @click.native="go('/finance/charge')">
                 <img slot="icon" src="/images/水上加油.png" style="width:36px; height: 36px">
                 <div slot="text">
-                    充值
+                    充值【预付款】
                 </div>
             </yd-grids-item>
             <yd-grids-item @click.native="go('/finance/chargelog')">

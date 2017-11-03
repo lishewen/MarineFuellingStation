@@ -22,8 +22,9 @@
                 <yd-cell-item slot="list" v-for="c in chargeLogs" :key="c.id" style="padding: 10px 0 10px 10px">
                     <div slot="left" :class="classChargeType(c.chargeType)">{{strChargeType(c.chargeType)}}</div>
                     <div slot="left" style="margin-left: .1rem">
-                        <p>{{c.client.carNo}} [{{c.client.name}}]</p>
-                        <p style="color:gray">{{c.companyName}}</p>
+                        <p>[{{c.name}}]</p>
+                        <p v-show="c.client != null" style="color: gray">{{c.client == null? "" : c.client.carNo}}</p>
+                        <p v-show="c.company != null" style="color:gray">{{c.company == null ? "" : c.company.name}}</p>
                     </div>
                     <div slot="right" style="line-height: .4rem">
                         <p :class="classMoney(c.chargeType)">￥{{c.money}}</p>

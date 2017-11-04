@@ -65,6 +65,11 @@
                         <yd-input slot="right" v-model="model.十六烷值" regex="" placeholder="请输入十六烷值"></yd-input>
                     </yd-cell-item>
 
+                    <yd-cell-item>
+                        <span slot="left">十六烷指数：</span>
+                        <yd-input slot="right" v-model="model.十六烷指数" regex="" placeholder="请输入十六烷指数"></yd-input>
+                    </yd-cell-item>
+
                 </yd-cell-group>
                 <yd-cell-group title="化验二">
 
@@ -102,6 +107,24 @@
                         <span slot="left">干点：</span>
                         <yd-input slot="right" v-model="model.干点" regex="" placeholder="参考值："></yd-input>
                         <span slot="right">℃</span>
+                    </yd-cell-item>
+
+                    <yd-cell-item>
+                        <span slot="left">蚀点：</span>
+                        <yd-input slot="right" v-model="model.蚀点" regex="" placeholder="参考值："></yd-input>
+                        <span slot="right">℃</span>
+                    </yd-cell-item>
+
+                    <yd-cell-item>
+                        <span slot="left">凝点：</span>
+                        <yd-input slot="right" v-model="model.凝点" regex="" placeholder="参考值："></yd-input>
+                        <span slot="right">℃</span>
+                    </yd-cell-item>
+
+                    <yd-cell-item>
+                        <span slot="left">含硫：</span>
+                        <yd-input slot="right" v-model="model.含硫" regex="" placeholder="参考值："></yd-input>
+                        <span slot="right">PPM</span>
                     </yd-cell-item>
                 </yd-cell-group>
                 <div>
@@ -179,6 +202,11 @@
                 </yd-cell-item>
 
                 <yd-cell-item>
+                    <span slot="left">十六烷指数：</span>
+                    <span slot="right">{{assay.十六烷指数}}℃</span>
+                </yd-cell-item>
+
+                <yd-cell-item>
                     <span slot="left">初硫：</span>
                     <span slot="right">{{assay.初硫}}℃</span>
                 </yd-cell-item>
@@ -206,6 +234,21 @@
                 <yd-cell-item>
                     <span slot="left">干点：</span>
                     <span slot="right">{{assay.干点}}℃</span>
+                </yd-cell-item>
+
+                <yd-cell-item>
+                    <span slot="left">蚀点：</span>
+                    <span slot="right">{{assay.蚀点}}℃</span>
+                </yd-cell-item>
+
+                <yd-cell-item>
+                    <span slot="left">凝点：</span>
+                    <span slot="right">{{assay.凝点}}℃</span>
+                </yd-cell-item>
+
+                <yd-cell-item>
+                    <span slot="left">含硫：</span>
+                    <span slot="right">{{assay.含硫}}℃</span>
                 </yd-cell-item>
             </yd-cell-group>
         </yd-popup>

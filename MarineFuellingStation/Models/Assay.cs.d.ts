@@ -17,6 +17,7 @@ declare module server {
         smellType: smellType;
 		混水反应: string;
         十六烷值: string;
+        十六烷指数: string;
         初硫: number | string;
 		/** 10% */
 		percentage10: number;
@@ -25,7 +26,10 @@ declare module server {
 		/** 90% */
 		percentage90: number;
 		回流: number;
-		干点: number;
+        干点: number;
+        蚀点: number;
+        凝点: number;
+        含硫: number;
 		/** 化验员 */
 		assayer: string;
 		isUse: boolean;

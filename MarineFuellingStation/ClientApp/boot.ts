@@ -23,5 +23,5 @@ axios.interceptors.request.use(function (config) {    // 这里的config包含�
 export default new Vue({
     store,
     router,
-    render: h => h(require('./components/app/app.vue'))
+    render: h => h(require('./components/app/app.vue').default)
 }).$mount('#app-root');;

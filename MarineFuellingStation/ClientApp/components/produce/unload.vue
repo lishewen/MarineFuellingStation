@@ -156,7 +156,7 @@
             </yd-cell-item>
             <yd-cell-item>
                 <span slot="left">相差：</span>
-                <span slot="right" style="color: red; font-weight: bold">{{purchase.count - (purchase.scaleWithCar - purchase.scale)}}</span>
+                <span slot="right" style="color: red; font-weight: bold">{{(purchase.scaleWithCar - purchase.scale) - purchase.count}}</span>
             </yd-cell-item>
             <yd-cell-item>
                 <span slot="left">卸入油仓：</span>
@@ -180,7 +180,7 @@
             </yd-cell-item>
             <yd-cell-item>
                 <span slot="left">施工人：</span>
-                <span slot="right">{{purchase.lastUpdatedBy}}</span>
+                <span slot="right">{{purchase.constructor}}</span>
             </yd-cell-item>
             <yd-cell-item>
                 <div slot="left">毛重图片：</div>

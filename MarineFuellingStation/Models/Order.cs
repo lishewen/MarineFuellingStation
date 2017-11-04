@@ -179,6 +179,10 @@ namespace MFS.Models
         /// 备注
         /// </summary>
         public string Remark { get; set; }
+        /// <summary>
+        /// 施工人员
+        /// </summary>
+        public string Constructor { get; set; }
 
     }
     public enum OrderState

@@ -1,5 +1,8 @@
 ﻿<template>
     <div id="root">
+        <div v-show="model.state == 0" style="background-color: lightcoral;padding: 10px; text-align: center; color: white">未审批</div>
+        <div v-show="model.state == 1" style="background-color: yellowgreen;padding: 10px; text-align: center; color: white">已审批</div>
+        <div v-show="model.state == 2" style="background-color: yellowgreen;padding: 10px; text-align: center; color: white">已完成</div>
         <yd-cell-group>
             <yd-cell-item>
                 <span slot="left">单号</span>
@@ -26,8 +29,7 @@
 
             <yd-cell-item>
                 <span slot="left">计划数量：</span>
-                <span slot="right">{{model.count}}</span>
-                <span slot="right" style="width:70px">单位：{{model.unit}}</span>
+                <span slot="right">{{model.count}}{{model.unit}}</span>
             </yd-cell-item>
             <!--应客户要求暂时取消当前余油-->
             <!--<yd-cell-item>

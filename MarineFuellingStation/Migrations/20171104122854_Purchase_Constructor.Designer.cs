@@ -11,9 +11,10 @@ using System;
 namespace MFS.Migrations
 {
     [DbContext(typeof(EFContext))]
-    partial class EFContextModelSnapshot : ModelSnapshot
+    [Migration("20171104122854_Purchase_Constructor")]
+    partial class Purchase_Constructor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -398,8 +399,6 @@ namespace MFS.Migrations
                     b.Property<string>("CarNo");
 
                     b.Property<int?>("ClientId");
-
-                    b.Property<string>("Constructor");
 
                     b.Property<int>("Count");
 

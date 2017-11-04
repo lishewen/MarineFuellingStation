@@ -57,6 +57,8 @@ declare module server {
         scale: number;
         /** 油车磅秤图片地址 */
         scalePic: string;
+        /** 施工人员 */
+        constructor: string;
         /** 化验单 */
         assay: assay;
         /** 状态 */

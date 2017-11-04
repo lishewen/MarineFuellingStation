@@ -4,22 +4,21 @@ using System.Collections.Generic;
 
 namespace MFS.Migrations
 {
-    public partial class Purchase_Density : Migration
+    public partial class Purchase_Constructor : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<decimal>(
-                name: "Density",
+            migrationBuilder.AddColumn<string>(
+                name: "Constructor",
                 table: "Purchases",
-                type: "decimal(18, 3)",
-                nullable: false,
-                defaultValue: 0m);
+                type: "nvarchar(max)",
+                nullable: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Density",
+                name: "Constructor",
                 table: "Purchases");
         }
     }

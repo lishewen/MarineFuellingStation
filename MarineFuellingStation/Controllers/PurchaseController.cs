@@ -54,10 +54,37 @@ namespace MFS.Controllers
         [HttpGet("[action]/{id}")]
         public ResultJSON<Purchase> GetDetail(int id)
         {
+            Purchase p = r.GetDetail(id);
+            if(p.ToStoreNames.IndexOf(',') > -1)
+            {
+                ToStoreModel ts;
+                p.ToStoresList = new List<ToStoreModel>();
+                string[] arrNames = p.ToStoreNames.Split(',');
+                string[] arrIds = p.ToStoreIds.Split(',');
+                string[] arrCounts = p.ToStoreCounts.Split(',');
+                for(int i=0; i<arrNames.Length; i++)
+                {
+                    ts = new ToStoreModel();
+                    ts.Id = Convert.ToInt32(arrIds[i]);
+                    ts.Name = arrNames[i];
+                    ts.Count = Convert.ToDecimal(arrCounts[i]);
+                    p.ToStoresList.Add(ts);
+                }
+            }
+            else if(!string.IsNullOrEmpty(p.ToStoreNames) && p.ToStoreNames.IndexOf(',') == -1)
+            {
+                p.ToStoresList = new List<ToStoreModel>();
+                p.ToStoresList.Add(new ToStoreModel
+                {
+                    Id = Convert.ToInt32(p.ToStoreIds),
+                    Name = p.ToStoreNames,
+                    Count = Convert.ToDecimal(p.ToStoreCounts)
+                });
+            }
             return new ResultJSON<Purchase>
             {
                 Code = 0,
-                Data = r.GetDetail(id)
+                Data = p
             };
         }
         [HttpGet("[action]/{n}")]
@@ -151,19 +178,20 @@ namespace MFS.Controllers
         public ResultJSON<Purchase> ChangeState([FromBody]Purchase p)
         {
             r.CurrentUser = UserName;
+            p.Constructor = UserName;
             var model = r.Update(p);
             model.LastUpdatedBy = UserName;
-            //if(p.State == Purchase.UnloadState.完工)
-            //{
-            //    //推送到“卸油审核”
-            //    MassApi.SendTextCard(option.卸油审核AccessToken, option.卸油审核AgentId, "卸油施工结束，请审核更新油仓"
-            //             , $"<div class=\"gray\">单号：{model.Name}</div>" +
-            //             $"<div class=\"normal\">车号：{model.CarNo}</div>" +
-            //             $"<div class=\"normal\">计划数量：{model.Count}吨</div>" +
-            //             $"<div class=\"normal\">卸仓数量：{model.OilCount}升</div>" +
-            //             $"<div class=\"normal\">密度：{model.Density}</div>"
-            //             , $"http://vue.car0774.com/#/produce/buyboard", toUser: "@all");
-            //}
+            if (p.State == Purchase.UnloadState.完工)
+            {
+                //推送到“卸油审核”
+                MassApi.SendTextCard(option.卸油审核AccessToken, option.卸油审核AgentId, "卸油施工结束，请审核更新油仓"
+                         , $"<div class=\"gray\">单号：{model.Name}</div>" +
+                         $"<div class=\"normal\">车号：{model.CarNo}</div>" +
+                         $"<div class=\"normal\">计划数量：{model.Count}吨</div>" +
+                         $"<div class=\"normal\">卸仓数量：{model.OilCount}升</div>" +
+                         $"<div class=\"normal\">密度：{model.Density}</div>"
+                         , $"http://vue.car0774.com/#/purchase/purchase/" + model.Id + "/buyboard", toUser: "@all");
+            }
             return new ResultJSON<Purchase>
             {
                 Code = 0,
@@ -177,6 +205,7 @@ namespace MFS.Controllers
             r.CurrentUser = UserName;
             var purchase = r.Get(pid);
             purchase.State = Purchase.UnloadState.已开单;
+            purchase.Constructor = "";
             r.Save();
             return new ResultJSON<Purchase>
             {

@@ -174,10 +174,11 @@ namespace MFS.Controllers
         [HttpGet("[action]/{id}")]
         public ResultJSON<SalesPlan> GetDetail(int id)
         {
+            SalesPlan sp = r.GetDetail(id);
             return new ResultJSON<SalesPlan>
             {
                 Code = 0,
-                Data = r.GetDetail(id)
+                Data = sp
             };
         }
         [HttpGet("[action]")]

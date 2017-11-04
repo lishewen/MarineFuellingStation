@@ -37,7 +37,7 @@ namespace MFS.Models
             get
             {
                 if (Density > 0)
-                    return OilCount - ((Count / Density) * 1000);
+                    return Math.Round(OilCount - ((Count / Density) * 1000), 2);
                 else
                     return 0;
             }
@@ -51,7 +51,7 @@ namespace MFS.Models
             get
             {
                 if(Density > 0)
-                    return OilCount * Density / 1000 - Count;
+                    return Math.Round(OilCount * Density / 1000 - Count, 2);
                 else
                     return 0;
             }
@@ -183,6 +183,11 @@ namespace MFS.Models
         /// 油车磅秤图片地址
         /// </summary>
         public string ScalePic { get; set; }
+        /// <summary>
+        /// 施工人员
+        /// </summary>
+
+        public string Constructor { get; set; }
 
         /// <summary>
         /// 化验单

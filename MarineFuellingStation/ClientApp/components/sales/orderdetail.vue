@@ -1,10 +1,29 @@
 ﻿<template>
     <div id="root">
         <div v-show="model.payState == 1" style="background-color: yellowgreen;padding: 10px; text-align: center; color: white">已结算</div>
+        <yd-grids-group :rows="2">
+            <yd-grids-item>
+                <div slot="text">
+                    <p style="color: lightgray;font-size: .3rem">计划</p>
+                    <p style="margin-top: .2rem;font-size: .2rem">￥{{model.salesPlan == null ? "散客" : model.salesPlan.price}} x {{model.salesPlan == null ? "散客" : model.salesPlan.count}}{{model.unit}}</p>
+                    <p>金额：￥{{model.salesPlan == null? "散客" : model.salesPlan.totalMoney}}</p>
+                </div>
+            </yd-grids-item>
+            <yd-grids-item>
+                <div slot="text">
+                    <p style="color: lightgray;font-size: .3rem">销售单</p>
+                    <p style="margin-top: .2rem;font-size: .2rem">￥{{model.price}} x {{model.count}}{{model.unit}}</p>
+                    <p>金额：￥{{model.totalMoney}}</p>
+                </div>
+            </yd-grids-item>
+        </yd-grids-group>
         <yd-cell-group>
             <yd-cell-item v-show="model.salesPlan != null">
-                <span slot="left">计划单：</span>
-                <span slot="right">{{model.salesPlan == null? "" : model.salesPlan.name}}</span>
+                <div slot="left">计划单：</div>
+                <div slot="right">
+                    <p>{{model.salesPlan == null? "" : model.salesPlan.name}}</p>
+                    <p>{{model.salesPlan == null? "" : model.salesPlan.createdBy}}</p>
+                </div>
             </yd-cell-item>
             <yd-cell-item>
                 <span slot="right">{{getOrderType(model.orderType)}}</span>
@@ -19,44 +38,20 @@
                 <span slot="right">{{model.product == null? "" : model.product.name}}</span>
             </yd-cell-item>
 
-            <yd-cell-item v-show="model.salesPlan != null">
-                <span slot="left">计划单价：</span>
-                <span slot="right">{{model.salesPlan == null ? "" : model.salesPlan.price}}</span>
-            </yd-cell-item>
-
             <yd-cell-item>
-                <span slot="left">订单单价：</span>
-                <span slot="right">￥{{model.price}}</span>
+                <span slot="left">备注：</span>
+                <span slot="right">{{model.remark}}</span>
             </yd-cell-item>
-
-            <yd-cell-item v-show="model.salesPlan != null">
-                <span slot="left">计划数量：</span>
-                <span slot="right">{{model.salesPlan == null ? "" : model.salesPlan.count}}</span>
-                <span slot="right" style="width:70px">单位：{{model.unit}}</span>
-            </yd-cell-item>
-
-            <yd-cell-item>
-                <span slot="left">订单数量：</span>
-                <span slot="right">{{model.count}}{{model.unit}}</span>
-            </yd-cell-item>
-
-            <yd-cell-item>
-                <span slot="left">总价：</span>
-                <span slot="right">{{model.totalMoney}}</span>
-            </yd-cell-item>
+        </yd-cell-group>
+        <yd-cell-group title="代号信息" v-show="model.isInvoice">
             <yd-cell-item>
                 <span slot="right">{{getIsInvoice(model.isInvoice)}}</span>
             </yd-cell-item>
-            <yd-cell-item arrow v-show="model.isInvoice">
+            <yd-cell-item v-show="model.isInvoice">
                 <span slot="right">{{getTicketType(model.ticketType)}}</span>
-                <select slot="right" v-model="model.ticketType">
-                    <option value="-1">请选择类型</option>
-                    <option value="0">循</option>
-                    <option value="1">柴</option>
-                </select>
             </yd-cell-item>
             <yd-cell-item v-show="model.isInvoice">
-                <span slot="left">开票单位：</span>
+                <span slot="left">单位：</span>
                 <span slot="right">{{model.billingCompany}}</span>
             </yd-cell-item>
             <yd-cell-item v-show="model.isInvoice">
@@ -67,17 +62,17 @@
                 <span slot="left">数量：</span>
                 <span slot="right">{{model.billingCount}}</span>
             </yd-cell-item>
-            <yd-cell-item>
-                <span slot="left">备注：</span>
-                <span slot="right">{{model.remark}}</span>
-            </yd-cell-item>
         </yd-cell-group>
         <yd-cell-group :title="strOrderState(model)">
             <yd-cell-item>
                 <span slot="left">施工人员：</span>
-                <span slot="right">{{model.lastUpdatedBy}}</span>
+                <span slot="right">{{model.constructor}}</span>
             </yd-cell-item>
             <yd-cell-item>
+                <span slot="left">时间：</span>
+                <span slot="right">{{formatDate(model.lastUpdatedAt)}}</span>
+            </yd-cell-item>
+            <yd-cell-item v-show="model.orderType == 1">
                 <span slot="left">密度：</span>
                 <span slot="right">{{model.density}}</span>
             </yd-cell-item>
@@ -85,18 +80,18 @@
                 <span slot="left">实际加油：</span>
                 <span slot="right">{{model.oilCount}}{{model.unit}}</span>
             </yd-cell-item>
-            <yd-cell-item>
+            <yd-cell-item v-show="model.orderType == 1">
                 <span slot="left">与订单误差：</span>
                 <span slot="right">{{strDiffOil(model)}}</span>
             </yd-cell-item>
-            <yd-cell-item>
+            <yd-cell-item v-show="model.orderType == 1">
                 <span slot="right">注：负数为实际少于订单</span>
             </yd-cell-item>
-            <yd-cell-item>
+            <yd-cell-item v-show="model.orderType == 1">
                 <div slot="left">毛重图片：</div>
                 <div slot="right"><div class="img-wrap"><img :src="this.model.oilCarWeightPic" /></div></div>
             </yd-cell-item>
-            <yd-cell-item>
+            <yd-cell-item v-show="model.orderType == 1">
                 <div slot="left">皮重图片：</div>
                 <div slot="right"><div class="img-wrap"><img :src="this.model.emptyCarWeightPic" /></div></div>
             </yd-cell-item>

@@ -305,6 +305,7 @@ namespace MFS.Controllers
         public ResultJSON<Order> ChangeState([FromBody]Order o)
         {
             r.CurrentUser = UserName;
+            o.Constructor = UserName;
             return new ResultJSON<Order>
             {
                 Code = 0,

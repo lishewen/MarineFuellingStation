@@ -187,7 +187,7 @@ namespace MFS.Models
         /// 施工人员
         /// </summary>
 
-        public string Constructor { get; set; }
+        public string Worker { get; set; }
 
         /// <summary>
         /// 化验单

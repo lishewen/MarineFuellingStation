@@ -57,13 +57,14 @@ declare module server {
         scale: number;
         /** 油车磅秤图片地址 */
         scalePic: string;
-        /** 施工人员 */
-        constructor: string;
         /** 化验单 */
         assay: assay;
         /** 状态 */
         state: unloadState;
         totalMoney: number;
+        /** 施工人员 */
+        worker: string;
+
     }
     /** 选择多个油仓卸油用到的Model **/
     interface toStore {

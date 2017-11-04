@@ -76,8 +76,6 @@ declare module server {
         minPrice: number;
         /** 备注 */
         remark: string;
-        /** 施工人员 */
-        constructor: string;
 	}
 	const enum orderState {
 		已开单,

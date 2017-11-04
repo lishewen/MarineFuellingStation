@@ -52,7 +52,7 @@ namespace MFS.Models
         {
             get
             {
-                return Price * Count;
+                return Math.Round(Price * Count, 2);
             }
         }
         /// <summary>
@@ -179,10 +179,6 @@ namespace MFS.Models
         /// 备注
         /// </summary>
         public string Remark { get; set; }
-        /// <summary>
-        /// 施工人员
-        /// </summary>
-        public string Constructor { get; set; }
 
     }
     public enum OrderState

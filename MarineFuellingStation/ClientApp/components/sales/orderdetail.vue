@@ -66,7 +66,7 @@
         <yd-cell-group :title="strOrderState(model)">
             <yd-cell-item>
                 <span slot="left">施工人员：</span>
-                <span slot="right">{{model.constructor}}</span>
+                <span slot="right">{{model.worker}}</span>
             </yd-cell-item>
             <yd-cell-item>
                 <span slot="left">时间：</span>

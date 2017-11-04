@@ -124,7 +124,7 @@
             </yd-cell-item>
             <yd-cell-item>
                 <span slot="left">施工人：</span>
-                <span slot="right">{{model.constructor}}</span>
+                <span slot="right">{{model.worker}}</span>
             </yd-cell-item>
             <yd-cell-item>
                 <div slot="left">毛重图片：</div>

@@ -60,7 +60,7 @@ namespace MFS.Models
         {
             get
             {
-                return Price * Count;
+                return Math.Round(Price * Count, 2);
             }
         }
     }

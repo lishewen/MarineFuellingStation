@@ -178,7 +178,7 @@ namespace MFS.Controllers
         public ResultJSON<Purchase> ChangeState([FromBody]Purchase p)
         {
             r.CurrentUser = UserName;
-            p.Constructor = UserName;
+            p.Worker = UserName;
             var model = r.Update(p);
             model.LastUpdatedBy = UserName;
             if (p.State == Purchase.UnloadState.完工)
@@ -205,7 +205,7 @@ namespace MFS.Controllers
             r.CurrentUser = UserName;
             var purchase = r.Get(pid);
             purchase.State = Purchase.UnloadState.已开单;
-            purchase.Constructor = "";
+            purchase.Worker = "";
             r.Save();
             return new ResultJSON<Purchase>
             {

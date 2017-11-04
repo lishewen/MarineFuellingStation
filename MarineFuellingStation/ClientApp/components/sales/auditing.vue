@@ -15,7 +15,7 @@
             <yd-infinitescroll :callback="loadList" ref="infinitescroll">
                 <yd-cell-item slot="list" arrow v-for="p in plans" :key="p.id" @click.native="planclick(p)" style="padding: 10px 0">
                     <div slot="left" style="padding-left: .2rem">
-                        <p style="font-weight: bold; color: forestgreen">{{p.carNo}} - ￥{{p.price * p.count}}</p>
+                        <p style="font-weight: bold; color: forestgreen">{{p.carNo}} - ￥{{p.totalMoney}}</p>
                         <p style="margin-top: .2rem;color: gray">{{p.oilName}} | ￥{{p.price}} | {{p.count}}{{p.unit}}</p>
                         <p style="color:lightgray">{{p.name}}</p>
                     </div>

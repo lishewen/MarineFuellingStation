@@ -61,7 +61,7 @@ namespace MFS.Controllers
 
             if(s.SalesPlanType == SalesPlanType.水上 || s.SalesPlanType == SalesPlanType.机油) { 
                 //推送企业微信卡片消息（最多5行，128个字符）
-                MassApi.SendTextCard(option.水上计划AccessToken, option.水上计划AgentId, "制定水上计划成功"
+                MassApi.SendTextCard(option.水上计划AccessToken, option.水上计划AgentId, $"【水上】{UserName}开出计划单"
                          , $"<div class=\"gray\">单号：{result.Name}</div>" +
                          $"<div class=\"normal\">开单人：{UserName}</div>" +
                          $"<div class=\"normal\">船号/车号：{result.CarNo}</div>" +
@@ -75,7 +75,7 @@ namespace MFS.Controllers
                          , $"https://vue.car0774.com/#/sales/auditing/false", toUser: "@all");
             }
             else if(s.SalesPlanType == SalesPlanType.陆上) { 
-                MassApi.SendTextCard(option.陆上计划AccessToken, option.陆上计划AgentId, "制定陆上计划成功"
+                MassApi.SendTextCard(option.陆上计划AccessToken, option.陆上计划AgentId, $"【陆上】{UserName}开出计划单"
                          , $"<div class=\"gray\">单号：{result.Name}</div>" +
                          $"<div class=\"normal\">开单人：{UserName}</div>" +
                          $"<div class=\"normal\">船号/车号：{result.CarNo}</div>" +

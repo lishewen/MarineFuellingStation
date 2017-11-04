@@ -33,6 +33,7 @@ export default class AssayComponent extends ComponentBase {
         this.purchases = new Array<server.purchase>();
         this.list = new Array<server.assay>();
         this.model.name = '';
+        this.model.oilTempTime = this.formatDate(new Date(), 'YYYY-MM-DD HH:mm');
 
         this.getAssayNo();
         this.getStore();

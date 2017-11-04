@@ -46,7 +46,8 @@
             </yd-cell-item>
         </yd-cell-group>
         <div class="center" v-show="currStep == 2">
-            <yd-button style="width:90%" type="primary" @click.native="changeState(3)">前往加油</yd-button>
+            <yd-button style="width:90%;margin-top: 30px;" type="primary" @click.native="currStep -= 1">← 上一步：选择销售仓</yd-button>
+            <yd-button style="width:90%;margin-top: 10px;" type="primary" @click.native="changeState(3)">下一步：加油 →</yd-button>
         </div>
         <div style="text-align: center; margin-top: .2rem" v-show="currStep == 2">
             <div class="img-wrap">
@@ -75,7 +76,8 @@
                 <span slot="left">加油后表数3：</span>
                 <yd-input slot="right" v-model="order.instrument3" type="number" required placeholder="请输入装油表数3"></yd-input>
             </yd-cell-item>-->
-            <yd-button style="width:90%" type="primary" @click.native="changeState(4)">加油完毕，前往过磅</yd-button>
+            <yd-button style="width:90%;margin-top: 30px;" type="primary" @click.native="currStep -= 1">← 上一步：空车过磅</yd-button>
+            <yd-button style="width:90%;margin-top: 10px;" type="primary" @click.native="changeState(4)">下一步：油车过磅 →</yd-button>
         </div>
         <!--4-油车过磅-->
         <yd-cell-group title="油车过磅" v-show="currStep == 4">
@@ -90,7 +92,8 @@
             </yd-cell-item>
         </yd-cell-group>
         <div class="center" v-show="currStep == 4">
-            <yd-button style="width:90%" type="primary" @click.native="changeState(5)">完工确认</yd-button>
+            <yd-button style="width:90%;margin-top: 30px;" type="primary" @click.native="currStep -= 1">← 上一步：加油</yd-button>
+            <yd-button style="width:90%;margin-top: 10px;" type="primary" @click.native="changeState(5)">下一步：完工 →</yd-button>
         </div>
         <div style="text-align: center; margin-top: .2rem" v-show="currStep == 4">
             <div class="img-wrap">

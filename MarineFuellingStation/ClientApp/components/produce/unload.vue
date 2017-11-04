@@ -13,7 +13,7 @@
 <template>
     <div id="root">
         <div style="text-align: center; margin-top: .4rem">
-            <yd-button style="width:90%" type="primary" @click.native="showPurchases = true">进油单{{purchase.name? '：' + purchase.name : ''}}</yd-button>
+            <yd-button style="width:90%" type="primary" @click.native="showPurchases = true">进油单{{purchase.name? '：' + purchase.name + ' | ' + purchase.count + '吨' : ''}}</yd-button>
         </div>
         <yd-step :current="currStep" style="margin: .4rem 0 .4rem">
             <yd-step-item>
@@ -38,10 +38,6 @@
         <div v-show="currStep == 1">
             <yd-cell-group title="油车过磅">
                 <yd-cell-item>
-                    <span slot="left">测量密度：</span>
-                    <yd-input slot="right" v-model="purchase.density" type="number" required placeholder="请输入测量密度"></yd-input>
-                </yd-cell-item>
-                <yd-cell-item>
                     <span slot="left">磅秤数（毛重）：</span>
                     <yd-input slot="right" v-model="purchase.scaleWithCar" type="number" required placeholder="请输入磅秤数"></yd-input>
                     <span slot="right">吨</span>
@@ -62,7 +58,14 @@
             </div>
         </div>
         <div class="center" v-show="currStep == 2">
-            <yd-button style="width:90%" type="primary" @click.native="goNext">已化验</yd-button>
+            <yd-cell-group>
+                <yd-cell-item>
+                    <span slot="left">测量密度：</span>
+                    <yd-input slot="right" v-model="purchase.density" type="number" required placeholder="请输入测量密度"></yd-input>
+                </yd-cell-item>
+            </yd-cell-group>
+            <yd-button style="width:90%; margin-top:30px;" type="primary" @click.native="currStep -= 1">← 上一步：油车过磅</yd-button>
+            <yd-button style="width:90%; margin-top:10px;" type="primary" @click.native="goNext">下一步：选择油仓 →</yd-button>
         </div>
         <div class="center" v-show="currStep == 3">
             <yd-cell-group title="选择卸油油仓对应油表">
@@ -77,8 +80,9 @@
                     </select>
                 </yd-cell-item>
             </yd-cell-group>
-            <yd-button style="width:90%" type="primary" @click.native="showStores = true">选择油仓</yd-button>
-            <yd-button style="width:90%; margin-top:10px;" type="primary" @click.native="toStoresOKclick" :disabled="isPrevent2">提交，下一步</yd-button>
+            <yd-button style="width:90%" type="warning" @click.native="showStores = true">请选择油仓</yd-button>
+            <yd-button style="width:90%; margin-top:30px;" type="primary" @click.native="currStep -= 1">上一步：化验</yd-button>
+            <yd-button style="width:90%; margin-top:10px;" type="primary" @click.native="toStoresOKclick" :disabled="isPrevent2">下一步：卸油</yd-button>
         </div>
         <div class="center" v-show="currStep == 4">
             <yd-cell-group title="卸油前表数（上次卸油）">
@@ -112,7 +116,8 @@
                     <span slot="right" style="width: 150px">油量：{{diff3}}升</span>
                 </yd-cell-item>
             </yd-cell-group>
-            <yd-button style="width:90%" type="primary" @click.native="goNext">卸油结束，前往过磅</yd-button>
+            <yd-button style="width:90%; margin-top:30px;" type="primary" @click.native="currStep -= 1">← 上一步：卸油</yd-button>
+            <yd-button style="width:90%; margin-top:10px;" type="primary" @click.native="goNext">下一步：空车过磅 →</yd-button>
         </div>
         <div v-show="currStep == 5">
             <yd-cell-group title="空车过磅">
@@ -128,7 +133,8 @@
                 </yd-cell-item>
             </yd-cell-group>
             <div class="center">
-                <yd-button style="width:90%" type="primary" @click.native="goNext" :disabled="purchase.scale <= 0 || !isScaleUpload">完工确认</yd-button>
+                <yd-button style="width:90%; margin-top:30px;" type="primary" @click.native="currStep -= 1">← 上一步：空车过磅</yd-button>
+                <yd-button style="width:90%; margin-top:10px;" type="primary" @click.native="goNext" :disabled="purchase.scale <= 0 || !isScaleUpload">下一步：完工 →</yd-button>
             </div>
             <div style="text-align: center; margin-top: .2rem">
                 <div class="img-wrap">

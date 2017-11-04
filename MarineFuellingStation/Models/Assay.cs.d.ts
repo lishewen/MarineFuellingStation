@@ -14,7 +14,7 @@ declare module server {
 		/** 油温 */
         temperature: number;
         /** 量油温时间 */
-        oilTempTime: number;
+        oilTempTime: string;
         /** 味道 */
         smellType: smellType;
 		混水反应: string;

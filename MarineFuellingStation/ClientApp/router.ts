@@ -31,6 +31,7 @@ const routes: RouteConfig[] = [
     { path: '/oilstore/store', component: require('./components/oilstore/store.vue').default },
     { path: '/oilstore/product', component: require('./components/oilstore/product.vue').default },
     { path: '/oilstore', component: require('./components/oilstore/oilstore.vue').default },
+    { path: '/oilstore/setting', component: require('./components/oilstore/setting.vue').default },
 
     { path: '/purchase/purchase', component: require('./components/purchase/purchase.vue').default },
     { path: '/purchase/purchase/:id/:from', component: require('./components/purchase/purchasedetail.vue').default },

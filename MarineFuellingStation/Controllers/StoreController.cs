@@ -24,6 +24,7 @@ namespace MFS.Controllers
             this.option = option.Value;
             this.option.系统设置AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.系统设置Secret);
         }
+        #region GET操作
         [HttpGet]
         public ResultJSON<List<Store>> Get()
         {
@@ -66,6 +67,8 @@ namespace MFS.Controllers
                 Data = r.GetByClass(sc)
             };
         }
+        #endregion
+        #region POST操作
         [HttpPost]
         public ResultJSON<Store> Post([FromBody]Store model)
         {
@@ -81,6 +84,38 @@ namespace MFS.Controllers
                 Data = r.Insert(model)
             };
         }
+        /// <summary>
+        /// 批量更新油仓油量，密度
+        /// </summary>
+        /// <param name="list">Stores</param>
+        /// <returns></returns>
+        [HttpPost("[action]")]
+        public ResultJSON<string> PostStores([FromBody]List<Store> list)
+        {
+            int count = 0;
+            if (list.Count > 0)
+            {   
+                foreach(Store st in list)
+                {
+                    try
+                    {
+                        count++;
+                        r.Update(st);
+                    }
+                    catch
+                    {
+                        count--;
+                    }
+                }
+            }
+            return new ResultJSON<string>
+            {
+                Code = 0,
+                Msg = "成功初始化了" + count.ToString() + "个油仓"
+            };
+        }
+        #endregion
+        #region PUT操作
         [HttpPut]
         public ResultJSON<Store> Put([FromBody]Store model)
         {
@@ -95,5 +130,6 @@ namespace MFS.Controllers
                 Data = r.InsertOrUpdate(model)
             };
         }
+        #endregion
     }
 }

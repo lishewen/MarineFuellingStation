@@ -12,7 +12,9 @@ declare module server {
         标密: number | string;
 		闭口闪点: string;
 		/** 油温 */
-		temperature: number;
+        temperature: number;
+        /** 量油温时间 */
+        oilTempTime: number;
         /** 味道 */
         smellType: smellType;
 		混水反应: string;

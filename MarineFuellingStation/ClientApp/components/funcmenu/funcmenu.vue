@@ -62,6 +62,9 @@
             <yd-grids-item link="./oilstore/store" style="background-color:lightcyan">
                 <p slot="text">油仓和分类</p>
             </yd-grids-item>
+            <yd-grids-item link="./oilstore/setting" style="background-color:lightcyan">
+                <p slot="text">油仓初始化</p>
+            </yd-grids-item>
             <yd-grids-item link="./oilstore/product" style="background-color:lightcyan">
                 <p slot="text">商品和分类</p>
             </yd-grids-item>

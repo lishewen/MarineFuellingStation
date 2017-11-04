@@ -45,6 +45,11 @@
                         <span slot="right">℃</span>
                     </yd-cell-item>
 
+                    <yd-cell-item arrow>
+                        <span slot="left">量油温时间：</span>
+                        <yd-datetime type="datetime" v-model="model.oilTempTime" slot="right"></yd-datetime>
+                    </yd-cell-item>
+
                     <yd-cell-item>
                         <span slot="left">味道：</span>
                         <select slot="right" v-model="model.smellType">
@@ -182,6 +187,11 @@
                 <yd-cell-item>
                     <span slot="left">油温：</span>
                     <span slot="right">{{assay.temperature}}℃</span>
+                </yd-cell-item>
+
+                <yd-cell-item>
+                    <span slot="left">量油温时间：</span>
+                    <span slot="right">{{assay.oilTempTime}}℃</span>
                 </yd-cell-item>
 
                 <yd-cell-item>

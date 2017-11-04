@@ -149,9 +149,9 @@ namespace MFS.Repositorys
             Order o = _dbContext.Orders.Find(model.Id);
             o.PayState = model.PayState;
             //计算订单销售提成
-            if (model.PayState == PayState.已结算)
+            if (o.PayState == PayState.已结算)
             {
-                switch (model.Unit)
+                switch (o.Unit)
                 {
                     case "升":
                         o.SalesCommission = (o.Price - o.MinPrice) * o.Count * 0.2M / 1200;
@@ -162,7 +162,6 @@ namespace MFS.Repositorys
                     default:
                         break;
                 }
-
             }
             //新增付款记录Payment
             foreach (Payment p in model.Payments)

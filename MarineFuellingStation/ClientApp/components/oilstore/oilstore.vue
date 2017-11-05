@@ -6,7 +6,7 @@
                 <p slot="text" style="color: lightgray">总：{{s.sumOutValue}}L</p>
             </yd-grids-item>
         </yd-grids-group>
-        <yd-cell-group :title="st.name" style="margin-top:20px" v-for="st in sts" :key="st.id">
+        <yd-cell-group :title="st.name" class="first-group" v-for="st in sts" :key="st.id">
             <yd-cell-item arrow @click.native="storeclick(s)" v-for="s in st.stores" :key="s.id">
                 <div slot="left" style="width: 60px;height: 60px;margin:15px 15px 15px -5px">
                     <yd-progressbar :progress="getPercent(s.sumInValue, s.sumInValue+s.sumOutValue)" trailWidth="4">{{strInOutDiff(s.sumInValue, s.sumOutValue)}}</yd-progressbar>
@@ -20,13 +20,13 @@
                                     fillColor="#EAEAEA">{{s.value}}</yd-progressbar>
                 </div>
                 <div slot="left">
-                    <p style="color:gray;font-size:.4rem;">{{s.name}}</p>
-                    <p style="color:lightgray;font-size:14px;">{{s.density}}</p>
+                    <p class="col-gray font-rem4">{{s.name}}</p>
+                    <p class="col-light-gray font14">{{s.density}}</p>
                 </div>
                 <div slot="right">
-                    <div style="text-align: left">
-                        <p style="color:gray">今 <span style="color:red">+{{s.sumInValue}}</span> 升</p>
-                        <p style="color:lightgray">今 <span style="color:green">-{{s.sumOutValue}}</span> 升</p>
+                    <div class="align-left">
+                        <p class="col-gray">今 <span class="col-red">+{{s.sumInValue}}</span> 升</p>
+                        <p class="col-light-gray">今 <span class="col-green">-{{s.sumOutValue}}</span> 升</p>
                     </div>
                 </div>
             </yd-cell-item>
@@ -56,7 +56,7 @@
                     <span slot="right">{{strToton()}}吨</span>
                 </yd-cell-item>
             </yd-cell-group>
-            <div style="text-align: center">
+            <div class="align-center">
                 <yd-button style="width:80%" type="primary" @click.native="postSurveyclick">提交测量记录</yd-button>
             </div>
         </yd-popup>
@@ -67,7 +67,7 @@
                         <p>{{su.createdBy}}</p>
                         <p>{{formatDate(su.createdAt)}}</p>
                     </div>
-                    <div slot="right" style="text-align: left;padding: .2rem 0 .2rem">
+                    <div slot="right" class="align-left" style="padding: .2rem 0 .2rem">
                         <p>油温：{{su.temperature}}℃</p>
                         <p>密度：{{su.density}}</p>
                         <p>油高：{{su.height}}cm</p>
@@ -79,7 +79,7 @@
         <yd-popup v-model="showAssays" position="right" width="70%">
             <yd-cell-group title="化验记录">
                 <yd-cell-item v-for="a in assays" :key="a.id">
-                    <div slot="left" style="line-height: 24px">
+                    <div slot="left" class="lineheight24">
                         <p>时间：</p>
                         <p>化验员：</p>
                         <p>视密：</p>
@@ -88,7 +88,7 @@
                         <p>初硫：</p>
                         <p>回流：</p>
                     </div>
-                    <div slot="right"  style="line-height: 24px">
+                    <div slot="right" class="lineheight24">
                         <p>{{formatDate(a.createdAt)}}</p>
                         <p>{{a.createdBy}}</p>
                         <p>{{a.视密}}</p>
@@ -105,3 +105,4 @@
     </div>
 </template>
 <script src="./oilstore.ts"></script>
+<style src="./../website.css" />

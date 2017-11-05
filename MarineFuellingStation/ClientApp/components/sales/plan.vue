@@ -98,7 +98,7 @@
                     <yd-infinitescroll :callback="loadList" ref="infinitescroll">
                         <yd-cell-item slot="list" arrow v-for="s in salesplans" :key="s.id" @click.native="godetail(s.id)">
                             <div slot="left" style="line-height: .4rem;margin: 10px 0">
-                                <p>{{s.carNo}} - <span style="color:forestgreen">￥{{s.totalMoney}}</span></p>
+                                <p>{{s.carNo}} - <span class="col-green">￥{{s.totalMoney}}</span></p>
                                 <p class="color_lightgray">{{s.oilName}}</p>
                                 <p class="color_lightgray">{{s.price}} x {{s.count}}{{s.unit}}</p>
                             </div>
@@ -124,7 +124,7 @@
                     <span slot="right">元</span>
                 </yd-cell-item>
             </yd-cell-group>
-            <div style="text-align: center">
+            <div class="align-center">
                 <yd-button type="primary" @click.native="prodsaveclick" style="width: 90%">保存</yd-button>
             </div>
         </yd-popup>
@@ -133,4 +133,5 @@
 </template>
 
 <style src="./plan.css" />
+<style src="./../website.css" />
 <script src="./plan.ts" />

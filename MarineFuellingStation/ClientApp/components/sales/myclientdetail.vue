@@ -1,7 +1,7 @@
 ﻿<template>
     <div id="root">
         <div id="root">
-            <yd-cell-group title="必填" style="margin-top:20px">
+            <yd-cell-group title="必填" class="first-group">
                 <yd-cell-item>
                     <span slot="left">所属公司：</span>
                     <span slot="right">{{model.company != null? model.company.name : ""}}</span>
@@ -33,7 +33,7 @@
                 </yd-cell-item>
 
             </yd-cell-group>
-            <yd-cell-group title="选填" style="margin-top:10px">
+            <yd-cell-group title="选填" class="first-group">
 
                 <yd-cell-item>
                     <span slot="left">身份证号：</span>
@@ -52,7 +52,7 @@
 
             </yd-cell-group>
 
-            <yd-cell-group title="设置（选填）" style="margin-top:10px">
+            <yd-cell-group title="设置（选填）" class="first-group">
 
                 <yd-cell-item>
                     <span slot="left">最高挂账金额：</span>
@@ -66,3 +66,4 @@
 </template>
 
 <script src="./myclientdetail.ts" />
+<style src="./../website.css" />

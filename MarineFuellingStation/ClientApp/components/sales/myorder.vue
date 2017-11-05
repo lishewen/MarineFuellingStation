@@ -6,7 +6,7 @@
 </style>
 <template>
     <div id="root">
-        <div style="text-align:center;margin-top:10px;font-size:18px">
+        <div class="align-center font16 first-group">
             <div style="display: flex; line-height: .6rem">
                 <yd-datetime type="date" v-model="startDate" slot="right"></yd-datetime>
                 <div>至</div>
@@ -20,17 +20,17 @@
                 <yd-button class="navBtn" type="hollow" v-if="!f.actived" @click.native="switchBtn(f,idx)">{{f.name}}</yd-button>
             </div>
         </div>
-        <yd-cell-group :title="getTotalSalesComm()" style="margin-top:10px">
+        <yd-cell-group :title="getTotalSalesComm()" class="first-group">
             <yd-infinitescroll :callback="loadList" ref="infinitescroll">
                 <yd-cell-item slot="list" arrow v-for="o in orders" :key="o.id" @click.native="godetail(o.id)" style="padding: .2rem 0 .2rem">
                     <div slot="left">
                         <p>{{o.carNo}}</p>
-                        <p style="color:lightgray;font-size:12px">{{o.name}}</p>
+                        <p class="col-light-gray font12">{{o.name}}</p>
                     </div>
-                    <div slot="right" style="color:lightcoral;width:80px;text-align:left">提：￥{{o.salesCommission}}</div>
+                    <div slot="right" class="col-coral align-left" style="width:80px;">提：￥{{o.salesCommission}}</div>
                     <div slot="right" style="padding-right: .1rem">
-                        <p style="color:forestgreen; padding-left:10px">{{strState(o)}}</p>
-                        <p style="color:gray;margin-top:0.1rem">{{strPayState(o)}}</p>
+                        <p class="col-green" style="padding-left:10px">{{strState(o)}}</p>
+                        <p class="col-gray" style="margin-top:0.1rem">{{strPayState(o)}}</p>
                     </div>
                 </yd-cell-item>
                 <!-- 数据全部加载完毕显示 -->
@@ -43,3 +43,4 @@
 </template>
 
 <script src="./myorder.ts" />
+<style src="./../website.css" />

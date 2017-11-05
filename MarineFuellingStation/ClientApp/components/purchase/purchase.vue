@@ -84,15 +84,15 @@
                         <div slot="left">
                             <p>{{s.name}}</p>
                             <p>{{s.origin}}</p>
-                            <p style="color:lightgray;font-size:12px">{{s.carNo}} {{s.trailerNo}}</p>
+                            <p class="col-light-gray font12">{{s.carNo}} {{s.trailerNo}}</p>
                         </div>
-                        <div slot="right" style="text-align: right;margin-right: .2rem;padding: .2rem 0 .2rem">
+                        <div slot="right" class="align-right" style="margin-right: .2rem;padding: .2rem 0 .2rem">
                             <p>
-                                <span style="color:forestgreen;">{{s.product == null ? "" : s.product.name}}</span>
-                                <span style="color:gray; font-size: 22px" s>{{s.count}}吨</span>
+                                <span class="col-green">{{s.product == null ? "" : s.product.name}}</span>
+                                <span class="col-gray font16">{{s.count}}吨</span>
                             </p>
-                            <p style="color:lightcoral;">预计到达：{{formatDate(s.arrivalTime, 'MM-DD hh:mm')}}</p>
-                            <p style="color:gray;" v-show="s.state != 0">实际到达：{{formatDate(s.updateAt)}}</p>
+                            <p class="col-coral">预计到达：{{formatDate(s.arrivalTime, 'MM-DD hh:mm')}}</p>
+                            <p class="col-gray" v-show="s.state != 0">实际到达：{{formatDate(s.updateAt)}}</p>
                         </div>
                     </yd-cell-item>
                 </yd-cell-group>
@@ -104,3 +104,4 @@
 </template>
 
 <script src="./purchase.ts" />
+<style src="./../website.css" />

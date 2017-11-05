@@ -16,111 +16,111 @@
             </yd-grids-item>
         </yd-grids-group>
         <yd-search v-model="sv" />
-        <div style="text-align:center;margin-top:10px;font-size:18px">
+        <div class="align-center first-group font16">
             <yd-datetime type="date" v-model="selecteddate"></yd-datetime>
         </div>
         
-        <yd-cell-group :title="'总计：￥' + sumwage" style="margin-top: 20px">
+        <yd-cell-group :title="'总计：￥' + sumwage" class="first-group">
             <yd-cell-item v-for="w in list" :key="w.id" arrow @click.native="clickWage(w)">
                 <div slot="left">
                     <p>{{w.name}}</p>
-                    <p style="color:lightgray;font-size:14px">{{w.职务}} - {{departmentdict[w.departmentId]}}</p>
+                    <p class="col-light-gray font14">{{w.职务}} - {{departmentdict[w.departmentId]}}</p>
                 </div>
-                <div slot="right" style="text-align: right;margin-right: 5px">
+                <div slot="right" class="align-right" style="margin-right: 5px">
                     <p>
-                        <span style="color:gray; font-size: 18px">￥{{w.实发}}</span>
+                        <span class="col-gray font16">￥{{w.实发}}</span>
                     </p>
                 </div>
             </yd-cell-item>
         </yd-cell-group>
         <yd-popup v-model="showwage" position="right" width="70%">
-            <div style="font-size: 16px;line-height:30px;margin:0px 12px 0px 12px">
+            <div class="font14 lineheight28" style="margin:0px 12px 0px 12px">
                 <yd-flexbox>
                     <yd-flexbox-item>姓名：</yd-flexbox-item>
-                    <yd-flexbox-item style="text-align:right">{{model.name}}</yd-flexbox-item>
+                    <yd-flexbox-item class="align-right">{{model.name}}</yd-flexbox-item>
                 </yd-flexbox>
                 <yd-flexbox>
                     <yd-flexbox-item>职务：</yd-flexbox-item>
-                    <yd-flexbox-item style="text-align:right">{{model.职务}}</yd-flexbox-item>
+                    <yd-flexbox-item class="align-right">{{model.职务}}</yd-flexbox-item>
                 </yd-flexbox>
                 <yd-flexbox>
                     <yd-flexbox-item>基本：</yd-flexbox-item>
-                    <yd-flexbox-item style="text-align:right">{{model.基本}}</yd-flexbox-item>
+                    <yd-flexbox-item class="align-right">{{model.基本}}</yd-flexbox-item>
                 </yd-flexbox>
                 <yd-flexbox>
                     <yd-flexbox-item>出勤天数：</yd-flexbox-item>
-                    <yd-flexbox-item style="text-align:right">{{model.出勤天数}}</yd-flexbox-item>
+                    <yd-flexbox-item class="align-right">{{model.出勤天数}}</yd-flexbox-item>
                 </yd-flexbox>
-                <div style="text-align:right;margin-top:20px;color:lightgray">津贴</div>
+                <div class="align-right first-group col-light-gray">津贴</div>
                 <hr />
                 <yd-flexbox>
                     <yd-flexbox-item>绩效工资：</yd-flexbox-item>
-                    <yd-flexbox-item style="text-align:right">
+                    <yd-flexbox-item class="align-right">
                         <yd-input type="number" v-model="jixiao" placeholder="请输入" style="background-color:lightcyan"></yd-input>
                     </yd-flexbox-item>
                 </yd-flexbox>
                 <yd-flexbox>
                     <yd-flexbox-item>提成：</yd-flexbox-item>
-                    <yd-flexbox-item style="text-align:right">{{model.提成}}</yd-flexbox-item>
+                    <yd-flexbox-item class="align-right">{{model.提成}}</yd-flexbox-item>
                 </yd-flexbox>
                 <yd-flexbox>
                     <yd-flexbox-item>超额：</yd-flexbox-item>
-                    <yd-flexbox-item style="text-align:right">{{model.超额}}</yd-flexbox-item>
+                    <yd-flexbox-item class="align-right">{{model.超额}}</yd-flexbox-item>
                 </yd-flexbox>
                 <yd-flexbox>
                     <yd-flexbox-item>交通：</yd-flexbox-item>
-                    <yd-flexbox-item style="text-align:right">
+                    <yd-flexbox-item class="align-right">
                         <yd-input type="number" v-model="traffic" placeholder="请输入" style="background-color:lightcyan"></yd-input>
                     </yd-flexbox-item>
                 </yd-flexbox>
-                <div style="text-align:right;margin-top:20px;color:lightgray">扣款</div>
+                <div class="align-right first-group col-light-gray">扣款</div>
                 <hr />
                 <yd-flexbox>
                     <yd-flexbox-item>社保：</yd-flexbox-item>
-                    <yd-flexbox-item style="text-align:right">{{model.社保}}</yd-flexbox-item>
+                    <yd-flexbox-item class="align-right">{{model.社保}}</yd-flexbox-item>
                 </yd-flexbox>
                 <yd-flexbox>
                     <yd-flexbox-item>请假：</yd-flexbox-item>
-                    <yd-flexbox-item style="text-align:right">
+                    <yd-flexbox-item class="align-right">
                         <yd-input type="number" v-model="qingjia" placeholder="请输入" style="background-color:lightcyan"></yd-input>
                     </yd-flexbox-item>
                 </yd-flexbox>
                 <yd-flexbox>
                     <yd-flexbox-item>餐费：</yd-flexbox-item>
-                    <yd-flexbox-item style="text-align:right">{{model.餐费}}</yd-flexbox-item>
+                    <yd-flexbox-item class="align-right">{{model.餐费}}</yd-flexbox-item>
                 </yd-flexbox>
                 <yd-flexbox>
                     <yd-flexbox-item>借支：</yd-flexbox-item>
-                    <yd-flexbox-item style="text-align:right">
+                    <yd-flexbox-item class="align-right">
                         <yd-input type="number" v-model="lend" placeholder="请输入" style="background-color:lightcyan"></yd-input>
                     </yd-flexbox-item>
                 </yd-flexbox>
                 <yd-flexbox>
                     <yd-flexbox-item><span style="width:200px">安全保障金：</span></yd-flexbox-item>
-                    <yd-flexbox-item style="text-align:right">
+                    <yd-flexbox-item class="align-right">
                         <yd-input type="number" v-model="security" placeholder="请输入" style="background-color:lightcyan"></yd-input>
                     </yd-flexbox-item>
                 </yd-flexbox>
-                <div style="text-align:right;margin-top:20px;color:lightgray">汇总</div>
+                <div class="align-right first-group col-light-gray">汇总</div>
                 <hr />
                 <yd-flexbox>
                     <yd-flexbox-item>实发：</yd-flexbox-item>
-                    <yd-flexbox-item style="text-align:right">{{model.实发}}</yd-flexbox-item>
+                    <yd-flexbox-item class="align-right">{{model.实发}}</yd-flexbox-item>
                 </yd-flexbox>
                 <yd-flexbox>
                     <yd-flexbox-item>转卡金额：</yd-flexbox-item>
-                    <yd-flexbox-item style="text-align:right">
+                    <yd-flexbox-item class="align-right">
                         <yd-input type="number" v-model="model.转卡金额" placeholder="请输入" style="background-color:lightcyan"></yd-input>
                     </yd-flexbox-item>
                 </yd-flexbox>
                 <yd-flexbox>
                     <yd-flexbox-item>现金：</yd-flexbox-item>
-                    <yd-flexbox-item style="text-align:right">
+                    <yd-flexbox-item class="align-right">
                         <yd-input type="number" v-model="model.现金" placeholder="请输入" style="background-color:lightcyan"></yd-input>
                     </yd-flexbox-item>
                 </yd-flexbox>
             </div>
-            <div style="text-align: center;margin-top:20px">
+            <div class="align-center first-group">
                 <yd-button style="width:80%" type="primary" @click.native="saveWage">保存</yd-button>
             </div>
         </yd-popup>
@@ -131,7 +131,7 @@
                     <input slot="right" type="checkbox" :value="d.id" v-model="picked" />
                 </yd-cell-item>
             </yd-cell-group>
-            <div style="text-align: center">
+            <div class="align-center">
                 <yd-button style="width:80%" type="primary" @click.native="clickDepart">提交</yd-button>
             </div>
         </yd-popup>
@@ -139,3 +139,4 @@
 </template>
 
 <script src="./wages.ts" />
+<style src="./../website.css" />

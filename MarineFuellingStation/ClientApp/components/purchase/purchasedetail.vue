@@ -85,7 +85,7 @@
                 </div>
             </yd-grids-item>
         </yd-grids-group>
-        <yd-cell-group title="卸油明细" style="margin-top: 20px">
+        <yd-cell-group title="卸油明细" class="first-group">
             <yd-cell-item>
                 <span slot="left">毛重：</span>
                 <span slot="right">{{model.scaleWithCar}}吨</span>
@@ -104,7 +104,7 @@
             </yd-cell-item>
             <yd-cell-item>
                 <span slot="left">卸入油仓：</span>
-                <div slot="right" style="line-height: 24px">
+                <div slot="right" class="font16">
                     <p v-for="ts in model.toStoresList" :key="ts.id">
                         {{ts.name}} - {{ts.count}}升
                     </p>
@@ -139,3 +139,5 @@
 </template>
 
 <script src="./purchasedetail.ts" />
+<style src="./../website.css" />
+

@@ -16,3 +16,4 @@
 </template>
 
 <script src="./setting.ts" />
+<style src="./../website.css" />

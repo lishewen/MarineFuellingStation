@@ -4,14 +4,14 @@
         <yd-grids-group :rows="2">
             <yd-grids-item>
                 <div slot="text">
-                    <p style="color: lightgray;font-size: .3rem">计划</p>
+                    <p class="col-light-gray font16">计划</p>
                     <p style="margin-top: .2rem;font-size: .2rem">￥{{model.salesPlan == null ? "散客" : model.salesPlan.price}} x {{model.salesPlan == null ? "散客" : model.salesPlan.count}}{{model.unit}}</p>
                     <p>金额：￥{{model.salesPlan == null? "散客" : model.salesPlan.totalMoney}}</p>
                 </div>
             </yd-grids-item>
             <yd-grids-item>
                 <div slot="text">
-                    <p style="color: lightgray;font-size: .3rem">销售单</p>
+                    <p class="col-light-gray font16">销售单</p>
                     <p style="margin-top: .2rem;font-size: .2rem">￥{{model.price}} x {{model.count}}{{model.unit}}</p>
                     <p>金额：￥{{model.totalMoney}}</p>
                 </div>
@@ -113,3 +113,4 @@
 </template>
 
 <script src="./orderdetail.ts" />
+<style src="./../website.css" />

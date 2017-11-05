@@ -1,7 +1,7 @@
 ﻿<template>
     <div id="root">
         <yd-tab :change="change">
-            <div style="text-align: center; margin-top: .4rem">
+            <div class="align-center first-group">
                 <yd-button style="width:90%" type="primary" @click.native="showOrdersclick">销售单{{order.name? '：' + order.name : ''}}</yd-button>
             </div>
             <yd-step :current="currStep" style="margin: .4rem 0 .4rem">
@@ -51,8 +51,8 @@
                                 <p style="color:lightgray">{{o.name}}</p>
                             </div>
                             <div slot="right" style="text-align: left;margin-right: 5px">
-                                <p style="color:gray">{{o.product.name}}</p>
-                                <p style="color:gray">{{o.count}}升</p>
+                                <p class="col-gray">{{o.product.name}}</p>
+                                <p class="col-gray">{{o.count}}升</p>
                             </div>
                         </yd-cell-item>
                     </yd-cell-group>
@@ -66,7 +66,7 @@
                             <p>{{s.name}}</p>
                         </div>
                         <div slot="right">
-                            <p style="color:lightgray">{{s.value}}</p>
+                            <p class="col-light-gray">{{s.value}}</p>
                         </div>
                     </yd-cell-item>
                 </yd-cell-group>
@@ -76,3 +76,4 @@
 </template>
 
 <script src="./load.ts" />
+<style src="./../website.css" />

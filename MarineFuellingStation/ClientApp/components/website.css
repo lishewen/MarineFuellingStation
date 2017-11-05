@@ -1,0 +1,63 @@
+﻿.first-group{
+    margin-top: 20px;
+}
+.col-gray{
+    color: gray;
+}
+.col-light-gray{
+    color: lightgray;
+}
+.col-coral{
+    color: lightcoral
+}
+.col-red{
+    color: red;
+}
+.col-green{
+    color: forestgreen;
+}
+.col-salmon{
+    color: lightsalmon
+}
+.cell-padding{
+    padding: 10px 0 10px;
+}
+.align-center{
+    text-align: center;
+}
+.align-left{
+    text-align: left;
+}
+.align-right{
+    text-align: right;
+}
+.font12{
+    font-size: 12px;
+}
+.font14{
+    font-size: 14px;
+}
+.font16{
+    font-size: 16px;
+}
+.font-rem2{
+    font-size: .2rem
+}
+.font-rem4{
+    font-size: .4rem
+}
+.lineheight24{
+    line-height: 24px
+}
+.lineheight28 {
+    line-height: 28px
+}
+.lineheight32 {
+    line-height: 324px
+}
+.popup50{
+    width: 50%
+}
+.popup70{
+    width: 70%
+}

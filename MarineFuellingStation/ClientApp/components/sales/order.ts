@@ -25,8 +25,7 @@ export default class OrderComponent extends ComponentBase {
 
     pMinPrice: number = 0;
     pMinInvoicePrice: number = 0;
-
-    show1: boolean = false;
+    
     show2: boolean = false;
 
     selectedtransord: string = "";
@@ -135,7 +134,6 @@ export default class OrderComponent extends ComponentBase {
 
     transitemclick(): void {
         this.selectedtransord = "YS07070001";
-        this.show1 = false;
     };
 
     emptyclick(): void {

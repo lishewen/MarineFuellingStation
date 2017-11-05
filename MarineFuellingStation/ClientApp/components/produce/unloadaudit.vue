@@ -17,7 +17,7 @@
                     <div slot="left" style="padding-left: .2rem">
                         <p style="font-weight: bold; color: forestgreen">{{p.carNo}} - {{p.trailerNo}} | {{p.count}}吨</p>
                         <p style="margin-top: 10px">净{{p.scaleWithCar - p.scale}}吨 | 表{{p.oilCount}}升 | 密{{p.density}}</p>
-                        <p style="color: lightcoral">误差：{{p.diffLitre}}升</p>
+                        <p class="col-coral">误差：{{p.diffLitre}}升</p>
                     </div>
                     <div slot="right" style="line-height: .6rem">
                         <p>{{p.worker}}</p>
@@ -33,3 +33,4 @@
 </template>
 
 <script src="./unloadaudit.ts" />
+<style src="./../website.css" />

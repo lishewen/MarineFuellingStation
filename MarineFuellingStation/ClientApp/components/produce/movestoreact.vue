@@ -7,16 +7,16 @@
                     <yd-cell-item arrow @click.native="changeState(m)" v-for="m in movestores" :key="m.id">
                         <div slot="left" style="line-height: 22px;margin: 10px 0 10px 0">
                             <p>
-                                <span style="color:forestgreen">出：</span><span>【{{m.outStoreTypeName}}】 - {{m.outStoreName}}</span>
+                                <span class="col-green">出：</span><span>【{{m.outStoreTypeName}}】 - {{m.outStoreName}}</span>
                             </p>
                             <p>
                                 <span style="color:red">入：</span><span>【{{m.inStoreTypeName}}】 - {{m.inStoreName}}</span>
                             </p>
-                            <p style="color:lightgray;font-size:12px">{{m.name}} - {{formatDate(m.lastUpdateAt)}}</p>
+                            <p class="col-light-gray font12">{{m.name}} - {{formatDate(m.lastUpdateAt)}}</p>
                         </div>
                         <div slot="right" style="text-align: left;margin-right: 5px">
-                            <p style="color:gray; font-size: 22px">{{m.outPlan}}升</p>
-                            <p style="color:red; font-size: 14px">{{m.stateName}}</p>
+                            <p class="col-gray font16">{{m.outPlan}}升</p>
+                            <p class="col-red font14">{{m.stateName}}</p>
                         </div>
                     </yd-cell-item>
                 </yd-cell-group>
@@ -24,17 +24,17 @@
             <yd-tab-panel label="完工单">
                 <yd-cell-group>
                     <yd-cell-item arrow v-for="f in fnmovestores" :key="f.id">
-                        <div slot="left" style="line-height: 22px;margin: 10px 0 10px 0">
+                        <div slot="left" class="lineheight24" style="margin: 10px 0 10px 0">
                             <p>
-                                <span style="color:forestgreen">出：</span><span>【{{f.outStoreTypeName}}】 - {{f.outStoreName}}</span>
+                                <span class="col-green">出：</span><span>【{{f.outStoreTypeName}}】 - {{f.outStoreName}}</span>
                             </p>
                             <p>
-                                <span style="color:red">入：</span><span>【{{f.inStoreTypeName}}】 - {{f.inStoreName}}</span>
+                                <span class="col-red">入：</span><span>【{{f.inStoreTypeName}}】 - {{f.inStoreName}}</span>
                             </p>
-                            <p style="color:lightgray;font-size:12px">{{f.name}} - {{formatDate(f.lastUpdateAt)}}</p>
+                            <p class="col-light-gray font12">{{f.name}} - {{formatDate(f.lastUpdateAt)}}</p>
                         </div>
-                        <div slot="right" style="text-align: left;margin-right: 5px">
-                            <p style="color:gray; font-size: 22px">{{f.outPlan}}升</p>
+                        <div slot="right" class="align-left" style="margin-right: 5px">
+                            <p class="col-gray font16">{{f.outPlan}}升</p>
                         </div>
                     </yd-cell-item>
                 </yd-cell-group>
@@ -52,7 +52,7 @@
                         <span slot="right">升</span>
                     </yd-cell-item>
                 </yd-cell-group>
-                <div style="text-align: center">
+                <div class="align-center">
                     <yd-button style="width:80%" type="primary" @click.native="overclick()">施工结束</yd-button>
                 </div>
             </yd-popup>
@@ -61,3 +61,4 @@
 </template>
 
 <script src="./movestoreact.ts" />
+<style src="./../website.css" />

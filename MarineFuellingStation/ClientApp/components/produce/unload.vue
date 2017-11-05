@@ -12,7 +12,7 @@
 </style>
 <template>
     <div id="root">
-        <div style="text-align: center; margin-top: .4rem">
+        <div class="align-center first-group">
             <yd-button style="width:90%" type="primary" @click.native="showPurchases = true">进油单{{purchase.name? '：' + purchase.name + ' | ' + purchase.count + '吨' : ''}}</yd-button>
         </div>
         <yd-step :current="currStep" style="margin: .4rem 0 .4rem">
@@ -50,7 +50,7 @@
             <div class="center">
                 <yd-button style="width:90%" type="primary" @click.native="goNext" :disabled="purchase.density <= 0 || purchase.scaleWithCar <= 0 || !isScaleWithCarUpload">前往化验</yd-button>
             </div>
-            <div style="text-align: center;margin-top: .2rem">
+            <div class="align-center first-group">
                 <div class="img-wrap">
                     <img :src="purchase.scaleWithCarPic" />
                 </div>
@@ -136,7 +136,7 @@
                 <yd-button style="width:90%; margin-top:30px;" type="primary" @click.native="currStep -= 1">← 上一步：空车过磅</yd-button>
                 <yd-button style="width:90%; margin-top:10px;" type="primary" @click.native="goNext" :disabled="purchase.scale <= 0 || !isScaleUpload">下一步：完工 →</yd-button>
             </div>
-            <div style="text-align: center; margin-top: .2rem">
+            <div class="align-center first-group">
                 <div class="img-wrap">
                     <img :src="purchase.scalePic" />
                 </div>
@@ -162,7 +162,7 @@
             </yd-cell-item>
             <yd-cell-item>
                 <span slot="left">相差：</span>
-                <span slot="right" style="color: red; font-weight: bold">{{(purchase.scaleWithCar - purchase.scale) - purchase.count}}</span>
+                <span slot="right" class="col-red" style="font-weight: bold">{{(purchase.scaleWithCar - purchase.scale) - purchase.count}}</span>
             </yd-cell-item>
             <yd-cell-item>
                 <span slot="left">卸入油仓：</span>
@@ -205,13 +205,13 @@
                 <yd-cell-item v-for="p in purchases" :key="p.id" @click.native="purchaseclick(p)" arrow style="padding: 10px 0 10px">
                     <div slot="left" style="padding:.2rem 0 .2rem">
                         <p>{{p.name}}</p>
-                        <p style="color:lightgray;font-size:12px">{{p.carNo}} - {{p.trailerNo}}</p>
-                        <p style="color:lightgray;font-size:12px">{{p.driver1}} {{p.driver2}}</p>
+                        <p class="col-light-gray font12">{{p.carNo}} - {{p.trailerNo}}</p>
+                        <p class="col-light-gray font12">{{p.driver1}} {{p.driver2}}</p>
                     </div>
                     <div slot="right" style="text-align: left;margin-right: 5px">
                         <p style="color: forestgreen">{{strState(p.state)}}</p>
-                        <p style="color:gray">{{p.product.name}}</p>
-                        <p style="color:gray">{{p.count}}吨</p>
+                        <p class="col-gray">{{p.product.name}}</p>
+                        <p class="col-gray">{{p.count}}吨</p>
                     </div>
                 </yd-cell-item>
             </yd-cell-group>
@@ -244,3 +244,4 @@
 </template>
 
 <script src="./unload.ts" />
+<style src="./../website.css" />

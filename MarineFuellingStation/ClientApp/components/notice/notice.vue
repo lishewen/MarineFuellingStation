@@ -5,7 +5,7 @@
 </style>
 <template>
     <div id="root">
-        <div style="text-align: center">
+        <div class="align-center">
             <yd-button type="primary" @click.native="showAdd = true" style="width: 90%;margin: 10px 0">新增通知</yd-button>
         </div>
         <yd-cell-group>
@@ -51,7 +51,7 @@
                     <yd-checkbox val="水上加油" style="padding: 10px 10px"></yd-checkbox>
                 </yd-checkbox-group>
             </yd-cell-group>
-            <div style="text-align: center">
+            <div class="align-center">
                 <yd-button type="primary" @click.native="postNotice()" style="width: 80%;margin: 10px 0" :disabled="notice.name == null || notice.name == ''">提交</yd-button>
             </div>
         </yd-popup>
@@ -59,3 +59,4 @@
 </template>
 
 <script src="./notice.ts" />
+<style src="./../website.css" />

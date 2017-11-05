@@ -15,9 +15,9 @@
             <yd-infinitescroll :callback="loadList" ref="infinitescroll">
                 <yd-cell-item slot="list" arrow v-for="p in plans" :key="p.id" @click.native="planclick(p)" style="padding: 10px 0">
                     <div slot="left" style="padding-left: .2rem">
-                        <p style="font-weight: bold; color: forestgreen">{{p.carNo}} - ￥{{p.totalMoney}}</p>
-                        <p style="margin-top: .2rem;color: gray">{{p.oilName}} | ￥{{p.price}} | {{p.count}}{{p.unit}}</p>
-                        <p style="color:lightgray">{{p.name}}</p>
+                        <p class="col-green" style="font-weight: bold;">{{p.carNo}} - ￥{{p.totalMoney}}</p>
+                        <p class="col-gray" style="margin-top: .2rem;">{{p.oilName}} | ￥{{p.price}} | {{p.count}}{{p.unit}}</p>
+                        <p class="col-light-gray">{{p.name}}</p>
                     </div>
                     <div slot="right" style="line-height: .6rem">
                         <p>{{p.createdBy}}</p>
@@ -33,3 +33,4 @@
 </template>
 
 <script src="./auditing.ts" />
+<style src="./../website.css" />

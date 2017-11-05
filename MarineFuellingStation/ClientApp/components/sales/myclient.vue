@@ -6,7 +6,7 @@
 <template>
     <div id="root">
         <yd-cell-group>
-            <div style="text-align: center;padding: 10px 0 10px">
+            <div class="align-center" style="padding: 10px 0 10px">
                 <span v-for="(f, index) in filterCType">
                     <yd-button type="warning" v-if="f.actived" @click.native="switchBtn(f, index, '客户类型')">{{f.name}}</yd-button>
                     <yd-button type="hollow" v-if="!f.actived" @click.native="switchBtn(f, index, '客户类型')">{{f.name}}</yd-button>
@@ -16,11 +16,11 @@
             <yd-cell-item arrow v-for="c in clients" :key="c.id" @click.native="clientclick(c)" :class="classMark(c.isMark)" style="padding: .1rem 0">
                 <div slot="left">
                     <p>{{c.carNo}} - {{c.contact}}</p>
-                    <p v-if="c.company != null" style="color:lightgray;font-size:12px">{{c.company.name}}</p>
+                    <p v-if="c.company != null" class="col-light-gray font12">{{c.company.name}}</p>
                 </div>
-                <div slot="right" style="text-align: left;margin-right: 5px">
-                    <p v-if="c.company != null" style="color:gray">余额：￥{{c.company.balances}}</p>
-                    <p style="color:lightcoral;line-height: 25px">最近：{{formatDate(c.lastUpdatedAt)}}</p>
+                <div slot="right" class="align-left" style="margin-right: 5px">
+                    <p v-if="c.company != null" class="col-gray">余额：￥{{c.company.balances}}</p>
+                    <p class="col-coral lineheight24">最近：{{formatDate(c.lastUpdatedAt)}}</p>
                 </div>
             </yd-cell-item>
         </yd-cell-group>
@@ -50,7 +50,7 @@
                     </span>
                 </yd-grids-item>
             </yd-grids-group>
-            <div style="text-align: center;margin-top: .2rem">
+            <div class="align-center first-group">
                 <yd-button style="width:90%" type="primary" @click.native="filterclick()">提交</yd-button>
             </div>
         </yd-popup>
@@ -60,7 +60,7 @@
                     <yd-textarea slot="right" v-model="remark" placeholder="请输入客户备注信息" maxlength="200"></yd-textarea>
                 </yd-cell-item>
             </yd-cell-group>
-            <div style="text-align: center;margin-top: .2rem">
+            <div class="align-center first-group">
                 <yd-button style="width:90%" type="primary" @click.native="putReMark()">保存</yd-button>
             </div>
         </yd-popup>
@@ -70,3 +70,4 @@
 </template>
 
 <script src="./myclient.ts" />
+<style src="./../website.css" />

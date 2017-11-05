@@ -1,6 +1,6 @@
 ﻿<template>
     <div id="root">
-        <yd-cell-group title="基本资料（必填）" style="margin-top:20px">
+        <yd-cell-group title="基本资料（必填）" class="first-group">
             <yd-cell-item>
                 <span slot="left">性别：</span>
                 <yd-radio-group slot="left" v-model="model.workInfo.gender">
@@ -85,3 +85,4 @@
 </template>
 
 <script src="./userdetail.ts" />
+<style src="./../website.css" />

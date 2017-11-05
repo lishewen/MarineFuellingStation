@@ -24,9 +24,9 @@
                     <div slot="left" style="margin-left: .1rem">
                         <p>[{{c.name}}]</p>
                         <p v-show="c.client != null" style="color: gray">{{c.client == null? "" : c.client.carNo}}</p>
-                        <p v-show="c.company != null" style="color:gray">{{c.company == null ? "" : c.company.name}}</p>
+                        <p v-show="c.company != null" class="col-gray">{{c.company == null ? "" : c.company.name}}</p>
                     </div>
-                    <div slot="right" style="line-height: .4rem">
+                    <div slot="right" class="font-rem4">
                         <p :class="classMoney(c.chargeType)">￥{{c.money}}</p>
                         <p>{{formatDate(c.createdAt)}}</p>
                     </div>
@@ -41,3 +41,4 @@
 </template>
 
 <script src="./chargelog.ts" />
+<style src="./../website.css"></style>

@@ -2,8 +2,7 @@
     <div id="root">
         <yd-tab :callback="change">
             <yd-tab-panel label="添加客户">
-                <yd-cell-group title="必填" style="margin-top:20px">
-
+                <yd-cell-group title="必填" class="first-group">
                     <yd-cell-item>
                         <yd-radio-group slot="left" v-model="model.placeType">
                             <yd-radio val="0">陆上</yd-radio>
@@ -49,7 +48,7 @@
                     </yd-cell-item>
 
                 </yd-cell-group>
-                <yd-cell-group title="选填" style="margin-top:10px">
+                <yd-cell-group title="选填" class="first-group">
 
                     <yd-cell-item>
                         <span slot="left">身份证号：</span>
@@ -68,7 +67,7 @@
 
                 </yd-cell-group>
 
-                <yd-cell-group title="设置（选填）" style="margin-top:10px">
+                <yd-cell-group title="设置（选填）" class="first-group">
 
                     <yd-cell-item>
                         <span slot="left">最高挂账金额：</span>
@@ -85,7 +84,7 @@
             <yd-tab-panel label="客户列表">
                 <yd-cell-group>
                     <yd-search v-model="svClient" />
-                    <div style="text-align: center;padding: 10px 0 10px">
+                    <div class="align-center cell-padding">
                         <span v-for="(f, index) in filterCType">
                             <yd-button type="warning" v-if="f.actived" @click.native="switchBtn(f, index, '客户类型')">{{f.name}}</yd-button>
                             <yd-button type="hollow" v-if="!f.actived" @click.native="switchBtn(f, index, '客户类型')">{{f.name}}</yd-button>
@@ -95,18 +94,18 @@
                     <yd-cell-item arrow v-for="c in clients" :key="c.id" @click.native="godetail(c)">
                         <div slot="left">
                             <p>{{c.carNo}} - {{c.contact}}</p>
-                            <p v-if="c.company != null" style="color:lightgray;font-size:12px">{{c.company.name}}</p>
+                            <p v-if="c.company != null" class="col-light-gray font12">{{c.company.name}}</p>
                         </div>
-                        <div slot="right" style="text-align: left;margin-right: 5px">
-                            <p v-if="c.company != null" style="color:gray">余额：￥{{c.company.balances}}</p>
-                            <p style="color:lightcoral;line-height: 25px">最近：{{formatDate(c.lastUpdatedAt)}}</p>
+                        <div slot="right" class="align-left" style="margin-right: 5px">
+                            <p v-if="c.company != null" class="col-gray">余额：￥{{c.company.balances}}</p>
+                            <p class="col-coral lineheight24">最近：{{formatDate(c.lastUpdatedAt)}}</p>
                         </div>
                     </yd-cell-item>
                 </yd-cell-group>
             </yd-tab-panel>
             <yd-tab-panel label="公司列表">
                 <yd-cell-group>
-                    <div style="text-align: center;">
+                    <div class="align-center">
                         <yd-button type="primary" @click.native="switchaddcompany" style="width: 90%; margin: .2rem 0">添加公司</yd-button>
                     </div>
                     <yd-search v-model="svCompany" />
@@ -114,9 +113,9 @@
                         <div slot="left">
                             <p>{{co.name}}</p>
                         </div>
-                        <div slot="right" style="text-align: left;margin-right: 5px">
-                            <p style="color:gray">余额：￥{{co.balances}}</p>
-                            <p style="color:lightcoral;line-height: 25px">最近：{{formatDate(co.lastUpdatedAt)}}</p>
+                        <div slot="right" class="align-left" style="margin-right: 5px">
+                            <p class="col-gray">余额：￥{{co.balances}}</p>
+                            <p class="col-coral lineheight24">最近：{{formatDate(co.lastUpdatedAt)}}</p>
                         </div>
                     </yd-cell-item>
                 </yd-cell-group>
@@ -194,14 +193,14 @@
                     <yd-input slot="right" v-model="modelCompany.phone" regex="mobile" placeholder="请输入"></yd-input>
                 </yd-cell-item>
             </yd-cell-group>
-            <div style="text-align: center">
+            <div class="align-center">
                 <yd-button style="width:80%" type="primary" @click.native="addcompanyclick">提交</yd-button>
             </div>
         </yd-popup>
         <!--popup公司选择列表-->
-        <yd-popup v-model="showcompany" position="right" width ="70%">
+        <yd-popup v-model="showcompany" position="right" class="popup70">
             <yd-cell-group>
-                <div style="text-align: center;"><yd-button type="primary" style="width: 90%" @click.native="switchaddcompany">新增</yd-button></div>
+                <div class="align-center"><yd-button type="primary" style="width: 90%" @click.native="switchaddcompany">新增</yd-button></div>
                 <yd-search v-model="svCompany1" />
                 <yd-cell-item arrow type="radio" v-for="co in companys" :key="co.id" @click.native="selectcompanyclick(co)">
                     <span slot="left">{{co.name}}</span>
@@ -220,3 +219,4 @@
 </template>
 
 <script src="./client.ts" />
+<style src="./../website.css"></style>

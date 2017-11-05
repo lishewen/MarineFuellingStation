@@ -5,7 +5,7 @@
 </style>
 <template>
     <div id="root">
-        <div style="text-align: center; margin-top: .4rem">
+        <div class="align-center first-group">
             <yd-button style="width:90%" type="primary" @click.native="showOrdersclick">销售单{{order.name? '：' + order.name : ''}}</yd-button>
         </div>
         <yd-step :current="currStep" style="margin: .4rem 0 .4rem">
@@ -49,7 +49,7 @@
             <yd-button style="width:90%;margin-top: 30px;" type="primary" @click.native="currStep -= 1">← 上一步：选择销售仓</yd-button>
             <yd-button style="width:90%;margin-top: 10px;" type="primary" @click.native="changeState(3)">下一步：加油 →</yd-button>
         </div>
-        <div style="text-align: center; margin-top: .2rem" v-show="currStep == 2">
+        <div class="align-center first-group" v-show="currStep == 2">
             <div class="img-wrap">
                 <img :src="order.emptyCarWeightPic" />
             </div>
@@ -165,11 +165,11 @@
                     <yd-cell-item v-for="o in orders" :key="o.id" @click.native="orderclick(o)" arrow>
                         <div slot="left" style="padding:.2rem 0 .2rem">
                             <p>{{o.name}}</p>
-                            <p style="color: gray">车牌：{{o.carNo}}</p>
+                            <p class="col-gray">车牌：{{o.carNo}}</p>
                         </div>
                         <div slot="right" style="text-align: left;margin-right: 5px">
-                            <p style="color:gray">{{o.product.name}}</p>
-                            <p style="color:gray">{{o.count}}吨</p>
+                            <p class="col-gray">{{o.product.name}}</p>
+                            <p class="col-gray">{{o.count}}吨</p>
                         </div>
                     </yd-cell-item>
                 </yd-cell-group>
@@ -183,7 +183,7 @@
                         <p>{{s.name}}</p>
                     </div>
                     <div slot="right">
-                        <p style="color:lightgray">{{s.value}}</p>
+                        <p class="col-light-gray">{{s.value}}</p>
                     </div>
                 </yd-cell-item>
             </yd-cell-group>
@@ -192,3 +192,4 @@
 </template>
 
 <script src="./landload.ts" />
+<style src="./../website.css" />

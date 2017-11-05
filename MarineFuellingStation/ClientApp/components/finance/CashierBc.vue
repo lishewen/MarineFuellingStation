@@ -7,10 +7,10 @@
                     <yd-infinitescroll :callback="loadList" ref="bcinfinitescroll1">
                         <yd-cell-item slot="list" arrow @click.native="boatclick(b)" v-for="b in readypayboats" :key="b.id">
                             <div slot="left">
-                                <p style="font-size: 18px">{{b.carNo}}</p>
+                                <p class="font16">{{b.carNo}}</p>
                             </div>
-                            <div slot="right" style="text-align: right;margin:10px 5px 10px 0px;line-height: 18px">
-                                <p style="color:gray;font-size:22px">￥{{b.money}}</p>
+                            <div slot="right" class="align-right lineheight24" style="margin:10px 5px 10px 0px;">
+                                <p class="font16 col-gray">￥{{b.money}}</p>
                             </div>
                         </yd-cell-item>
 
@@ -27,11 +27,11 @@
                     <yd-infinitescroll :callback="loadList" ref="bcinfinitescroll2">
                         <yd-cell-item slot="list" arrow v-for="b in hasypayboats" :key="b.id" @click.native="showPaymentsclick(b)">
                             <div slot="left">
-                                <p style="font-size: 18px">{{b.carNo}}</p>
-                                <p style="color:lightgray;font-size:14px">{{b.name}}</p>
+                                <p class="font16">{{b.carNo}}</p>
+                                <p class="col-light-gray font14">{{b.name}}</p>
                             </div>
-                            <div slot="right" style="text-align: right;margin:10px 5px 10px 0px;line-height: 18px">
-                                <p style="color:gray;font-size:22px">￥{{b.money}}</p>
+                            <div slot="right" class="align-right lineheight24" style="margin:10px 5px 10px 0px;">
+                                <p class="font16 col-gray">￥{{b.money}}</p>
                             </div>
                         </yd-cell-item>
 
@@ -49,12 +49,12 @@
                     <yd-infinitescroll :callback="loadList" ref="bcinfinitescroll3">
                         <yd-cell-item slot="list" arrow v-for="b in nopayboats" :key="b.id" @click.native="boatclick(b)">
                             <div slot="left">
-                                <p style="font-size: 18px">{{b.carNo}}</p>
-                                <p style="color:lightgray;font-size:14px">{{b.name}}</p>
+                                <p class="font16">{{b.carNo}}</p>
+                                <p class="color_lightgray font14">{{b.name}}</p>
                             </div>
-                            <div slot="right" style="text-align: right;margin:10px 5px 10px 0px;line-height: 18px">
-                                <p style="color:gray;font-size:22px">￥{{b.money}}</p>
-                                <p style="color:forestgreen;font-size:14px;margin-top:5px">{{getDiff(b.createdAt)}}</p>
+                            <div slot="right" class="align-right lineheight24" style="margin:10px 5px 10px 0px;">
+                                <p class="col-gray font16">￥{{b.money}}</p>
+                                <p class="col-green font14" style="margin-top:5px">{{getDiff(b.createdAt)}}</p>
                             </div>
                         </yd-cell-item>
 
@@ -113,8 +113,8 @@
 
             <yd-cell-group title="第二步：结算金额" v-show="!showStep1">
                 <yd-cell-item v-show="!showStep1">
-                    <span slot="left" style="color:red">应收：</span>
-                    <span slot="right" style="color:red;font-size:18px">￥{{selectedBc.money}}元</span>
+                    <span slot="left" class="col-red">应收：</span>
+                    <span slot="right" class="col-red font16">￥{{selectedBc.money}}元</span>
                 </yd-cell-item>
                 <yd-cell-item v-show="!showStep1">
                     <span slot="left">实收：</span>
@@ -129,16 +129,16 @@
                     <yd-input slot="right" type="number" v-model="payMoneys[idx]" required></yd-input>
                 </yd-cell-item>
             </yd-cell-group>
-            <div style="text-align: center">
+            <div class="align-center">
                 <yd-button style="width:80%" type="warning" @click.native="nextclick()" v-show="showStep1">下一步</yd-button>
             </div>
-            <div style="text-align: center">
+            <div class="align-center">
                 <yd-button style="width:80%;margin-top:10px" type="primary" v-show="showStep1" @click.native="putPayOnCredit()">挂账</yd-button>
             </div>
-            <div style="text-align: center">
+            <div class="align-center">
                 <yd-button style="width:80%" type="warning" @click.native="lastclick()" v-show="!showStep1">上一步</yd-button>
             </div>
-            <div style="text-align: center">
+            <div class="align-center">
                 <yd-button style="width:80%;margin-top:10px" type="primary" @click.native="validateMoney" v-show="!showStep1" :disabled="payInfact - selectedBc.money < 0">结账</yd-button>
             </div>
         </yd-popup>
@@ -150,7 +150,7 @@
                     <span slot="right">￥{{p.money}}</span>
                 </yd-cell-item>
             </yd-cell-group>
-            <div style="text-align: right;padding-right:.2rem">找零：￥{{selectedBc.money - totalPayMoney}}</div>
+            <div class="align-right" style="padding-right:.2rem">找零：￥{{selectedBc.money - totalPayMoney}}</div>
         </yd-popup>
         <!--actionsheet-->
         <yd-actionsheet :items="actItems" v-model="showAct" cancel="取消"></yd-actionsheet>
@@ -158,3 +158,4 @@
 </template>
 
 <script src="./cashierbc.ts" />
+<style src="./../website.css"></style>

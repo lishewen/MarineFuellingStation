@@ -2,7 +2,7 @@
     <div id="root">
         <yd-tab :change="change">
             <yd-tab-panel label="开单">
-                <yd-cell-group :title="'单号：' + model.name" style="margin-top: 20px">
+                <yd-cell-group :title="'单号：' + model.name" class="first-group">
 
                     <yd-cell-item>
                         <span slot="left">船号：</span>
@@ -77,8 +77,8 @@
                     <yd-cell-item arrow v-for="s in list" :key="s.id" style="padding: 10px 0 10px 0" @click.native="itemclick(s)">
                         <div slot="left">
                             <p>{{s.carNo}}</p>
-                            <p style="color: gray; margin-top: 5px">{{s.name}}</p>
-                            <p style="color: lightgray">{{s.createdBy}}</p>
+                            <p class="col-gray" style="margin-top: 5px">{{s.name}}</p>
+                            <p class="col-light-gray">{{s.createdBy}}</p>
                         </div>
                         <div slot="right">
                             <p>{{formatDate(s.oilDate)}}</p>
@@ -145,3 +145,4 @@
 
 <style src="./plan.css" />
 <script src="./boatclean.ts"/>
+<style src="./../website.css" />

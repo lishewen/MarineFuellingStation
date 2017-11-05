@@ -14,10 +14,10 @@
                 <yd-cell-group>
                     <yd-infinitescroll :callback="loadList" ref="infinitescroll">
                         <yd-cell-item slot="list" v-for="i in inAndOutLogs" :key="i.id">
-                            <div slot="left" style="line-height: 22px;margin: 10px 0 10px 0">
+                            <div slot="left" class="lineheight24" style="margin: 10px 0 10px 0">
                                 <p><span :class="classState(i.type)">{{getType(i.type)}}</span><span> 【{{getSttName(i.store)}}】 - {{i.store == null? "" : i.store.name}}</span></p>
-                                <p style="color:lightgray;font-size:12px">{{i.operators}}</p>
-                                <p style="color:lightgray;font-size:12px">{{formatDate(i.createdAt)}}</p>
+                                <p class="col-light-gray font12">{{i.operators}}</p>
+                                <p class="col-light-gray font12">{{formatDate(i.createdAt)}}</p>
                             </div>
                             <div slot="right" style="text-align: left;margin-right: 5px">
                                 <p :class="classState(i.type)" style="font-size: 22px">{{i.value}}{{i.unit}}</p>
@@ -34,12 +34,12 @@
                 <yd-cell-group>
                     <yd-infinitescroll :callback="loadList" ref="infinitescroll1">
                         <yd-cell-item slot="list" v-for="i in outLogs" :key="i.id">
-                            <div slot="left" style="line-height: 22px;margin: 10px 0 10px 0">
+                            <div slot="left" class="lineheight24" style="margin: 10px 0 10px 0">
                                 <p><span :class="classState(i.type)">{{getType(i.type)}}</span><span> 【{{getSttName(i.store)}}】 - {{i.store == null? "" : i.store.name}}</span></p>
-                                <p style="color:lightgray;font-size:12px">{{i.operators}}</p>
-                                <p style="color:lightgray;font-size:12px">{{formatDate(i.createAt)}}</p>
+                                <p class="col-light-gray font12">{{i.operators}}</p>
+                                <p class="col-light-gray font12">{{formatDate(i.createAt)}}</p>
                             </div>
-                            <div slot="right" style="text-align: left;margin-right: 5px">
+                            <div slot="right" class="align-right" style="margin-right: 5px">
                                 <p :class="classState(i.type)" style="font-size: 22px">{{i.value}}{{i.unit}}</p>
                             </div>
                         </yd-cell-item>
@@ -58,10 +58,10 @@
                                 <p>
                                     <span :class="classState(i.type)">{{getType(i.type)}}</span><span> 【{{getSttName(i.store)}}】 - {{i.store == null? "" : i.store.name}}</span>
                                 </p>
-                                <p style="color:lightgray;font-size:12px">{{i.operators}}</p>
-                                <p style="color:lightgray;font-size:12px">{{formatDate(i.createAt)}}</p>
+                                <p class="col-light-gray font12">{{i.operators}}</p>
+                                <p class="col-light-gray font12">{{formatDate(i.createAt)}}</p>
                             </div>
-                            <div slot="right" style="text-align: left;margin-right: 5px">
+                            <div slot="right" class="align-left" style="margin-right: 5px">
                                 <p :class="classState(i.type)" style="font-size: 22px">{{i.value}}{{i.unit}}</p>
                             </div>
                         </yd-cell-item>
@@ -77,3 +77,4 @@
 </template>
 
 <script src="./inout.ts" />
+<style src="./../website.css" />

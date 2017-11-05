@@ -2,7 +2,7 @@
     <div id="root">
         <yd-tab :change="change">
             <yd-tab-panel label="化验录入">
-                <yd-cell-group :title="'单号：' + model.name" style="margin-top:20px">
+                <yd-cell-group :title="'单号：' + model.name" class="first-group">
                     <yd-cell-item>
                         <yd-radio-group slot="left" v-model="radio2">
                             <yd-radio val="1">油仓化验</yd-radio>
@@ -143,7 +143,7 @@
                     <yd-cell-item arrow v-for="s in list" :key="s.id" @click.native="assayclick(s)">
                         <div slot="left">
                             <p>{{s.name}}</p>
-                            <p style="color:lightgray">{{s.assayer}}</p>
+                            <p class="col-light-gray">{{s.assayer}}</p>
                         </div>
                         <div slot="right" style="text-align: left;margin-right: 5px">
                             <p v-show="s.assayType == 0" style="color:darkgreen">{{s.store == null?"":s.store.name}}仓</p>
@@ -160,9 +160,9 @@
                 <yd-cell-item v-for="p in purchases" :key="p.id" @click.native="purchaseclick(p)">
                     <div slot="left">
                         <p>{{p.carNo}}</p>
-                        <p style="color:lightgray">{{p.name}}</p>
+                        <p class="col-light-gray">{{p.name}}</p>
                     </div>
-                    <div slot="right" style="color:lightgray">{{p.count}}吨</div>
+                    <div slot="right" class="col-light-gray">{{p.count}}吨</div>
                 </yd-cell-item>
             </yd-cell-group>
         </yd-popup>
@@ -266,3 +266,4 @@
 </template>
 
 <script src="./assay.ts" />
+<style src="./../website.css" />

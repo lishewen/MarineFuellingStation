@@ -1,6 +1,6 @@
 ﻿<template>
     <div id="root">
-        <yd-cell-group :title="'单号：' + model.name" style="margin-top:20px">
+        <yd-cell-group :title="'单号：' + model.name" class="first-group">
             <!--应客户要求暂时取消生产员的选择-->
             <!--<yd-cell-item arrow @click.native="showManuUsers = true">
                 <span slot="left">生产员：</span>
@@ -96,7 +96,7 @@
                     <input slot="right" type="checkbox" :value="m.name" v-model="picked" />
                 </yd-cell-item>
             </yd-cell-group>
-            <div style="text-align: center">
+            <div class="align-center">
                 <yd-button style="width:100px" type="primary" @click.native="selectproducerclick()">确定</yd-button>
             </div>
         </yd-popup>
@@ -104,3 +104,4 @@
 </template>
 
 <script src="./movestore.ts" />
+<style src="./../website.css" />

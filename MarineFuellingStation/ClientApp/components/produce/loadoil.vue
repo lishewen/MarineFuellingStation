@@ -23,3 +23,4 @@
     </div>
 </template>
 <script src="./loadoil.ts"></script>
+<style src="./../website.css" />

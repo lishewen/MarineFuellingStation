@@ -4,9 +4,9 @@
             <yd-tab-panel label="所有分类">
                 <yd-cell-group>
                     <yd-cell-item arrow @click.native="ptClick(pt)" v-for="pt in pts" :key="pt.id">
-                        <div slot="left" style="margin: 10px 0 10px 0;line-height:22px">
+                        <div slot="left" style="margin: 10px 0 10px 0" class="lineheight24">
                             <p>{{pt.name}}</p>
-                            <p style="color:lightgray;font-size:14px">{{pt.products.length}}个商品</p>
+                            <p class="col-light-gray font14">{{pt.products.length}}个商品</p>
                         </div>
                     </yd-cell-item>
                 </yd-cell-group>
@@ -44,7 +44,7 @@
                         <span slot="right" style="width: 60px">元 / 升</span>
                     </yd-cell-item>
                 </yd-cell-group>
-                <div style="text-align: center">
+                <div class="align-center">
                     <yd-button v-show="isAddProduct" style="width:90%" type="primary" @click.native="postProductclick">提交</yd-button>
                     <yd-button v-show="!isAddProduct" style="width:90%" type="primary" @click.native="saveProductclick">保存</yd-button>
                 </div>
@@ -56,12 +56,12 @@
                 <yd-cell-item arrow v-for="p in currentpt.products" :key="p.id" @click.native="editProductclick(p)">
                     <div slot="left">{{p.name}}</div>
                     <div slot="right" style="font-size: 14px">
-                        <p style="color:forestgreen; ">￥{{p.minPrice}} / 升</p>
-                        <p style="color:lightcoral"> 开票￥{{p.minInvoicePrice}} / 升</p>
+                        <p class="col-green">￥{{p.minPrice}} / 升</p>
+                        <p class="col-coral"> 开票￥{{p.minInvoicePrice}} / 升</p>
                     </div>
                 </yd-cell-item>
             </yd-cell-group>
-            <div style="text-align: center">
+            <div class="align-center">
                 <yd-button style="width:80%" type="primary" @click.native="editProductTypeclick">编辑分类</yd-button>
             </div>
         </yd-popup>
@@ -73,7 +73,7 @@
                     <yd-input slot="left" v-model="ptName" required placeholder="请输入名称"></yd-input>
                 </yd-cell-item>
             </yd-cell-group>
-            <div style="text-align: center">
+            <div class="align-center">
                 <yd-button v-show="isAddType" style="width: 80%" type="primary" @click.native="postProductTypeclick()">提交</yd-button>
                 <yd-button v-show="!isAddType" style="width:80%" type="primary" @click.native="saveProductTypeclick">保存</yd-button>
             </div>
@@ -82,3 +82,4 @@
 </template>
 
 <script src="./product.ts" />
+<style src="./../website.css" />

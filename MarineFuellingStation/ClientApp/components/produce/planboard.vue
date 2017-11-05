@@ -6,13 +6,13 @@
                     <yd-infinitescroll :callback="loadList" ref="waterinfinitescroll">
                         <yd-cell-item slot="list" arrow v-for="p in waterPlans" :key="p.id" @click.native="godetail(p)">
                             <div slot="left">
-                                <p style="font-size:18px">{{p.carNo}}</p>
-                                <p style="color:lightgray;font-size:12px">{{p.name}}</p>
+                                <p class="font16">{{p.carNo}}</p>
+                                <p class="col-light-gray font12">{{p.name}}</p>
                             </div>
-                            <div slot="right" style="text-align: left;margin-right: 5px;padding: 0.2rem 0 .2rem">
-                                <p style="color:gray"><span style="font-size:20px;color:darkgreen">{{p.count}}</span> {{p.unit}} / {{p.oilName}}</p>
+                            <div slot="right" class="align-left" style="margin-right: 5px;padding: 0.2rem 0 .2rem">
+                                <p class="col-gray"><span class="col-green font16">{{p.count}}</span> {{p.unit}} / {{p.oilName}}</p>
                                 <p :class="stateClass(p.state)" style="text-align: right">{{strState(p.state)}}</p>
-                                <p style="color:lightsalmon;text-align:right">{{formatDate(p.createdAt)}}</p>
+                                <p class="align-right col-salmon">{{formatDate(p.createdAt)}}</p>
                             </div>
                         </yd-cell-item>
                         <!-- 数据全部加载完毕显示 -->
@@ -26,13 +26,13 @@
                 <yd-infinitescroll :callback="loadList" ref="landinfinitescroll">
                     <yd-cell-item slot="list" arrow v-for="p in landPlans" :key="p.id" @click.native="godetail(p)">
                         <div slot="left">
-                            <p style="font-size:18px">{{p.carNo}}</p>
-                            <p style="color:lightgray;font-size:12px">{{p.name}}</p>
+                            <p class="font16">{{p.carNo}}</p>
+                            <p class="col-light-gray font12">{{p.name}}</p>
                         </div>
                         <div slot="right" style="text-align: left;margin-right: 5px;padding: 0.2rem 0 .2rem">
-                            <p style="color:gray"><span style="font-size:20px;color:darkgreen">{{p.count}}</span> {{p.unit}} / {{p.oilName}}</p>
+                            <p class="col-gray"><span class="font16 col-green">{{p.count}}</span> {{p.unit}} / {{p.oilName}}</p>
                             <p :class="stateClass(p.state)" style="text-align: right">{{strState(p.state)}}</p>
-                            <p style="color:lightsalmon;text-align:right">{{formatDate(p.createdAt)}}</p>
+                            <p class="col-salmon align-right">{{formatDate(p.createdAt)}}</p>
                         </div>
                     </yd-cell-item>
                     <!-- 数据全部加载完毕显示 -->
@@ -46,3 +46,4 @@
 </template>
 <script src="./planboard.ts"></script>
 <style src="./planboard.css" />
+<style src="./../website.css" />

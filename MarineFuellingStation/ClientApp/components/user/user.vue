@@ -4,12 +4,12 @@
             <yd-cell-item arrow @click.native="userClick(user)" v-for="user in users" :key="user.id">
                 <div slot="left">
                     <p>{{user.name}}</p>
-                    <p style="color:lightgray;font-size:12px" v-show="user.isleader==0">普通职员</p>
-                    <p style="color:lightgray;font-size:12px" v-show="user.isleader==1">上级</p>
+                    <p class="col-light-gray font12" v-show="user.isleader==0">普通职员</p>
+                    <p class="col-light-gray font12" v-show="user.isleader==1">上级</p>
                 </div>
                 <div slot="right" style="text-align: right;margin-right: 5px">
                     <p>
-                        <span style="color:gray; font-size: 18px">{{departmentdict[user.department[0]]}}</span>
+                        <span class="col-gray font16">{{departmentdict[user.department[0]]}}</span>
                     </p>
                 </div>
             </yd-cell-item>
@@ -20,3 +20,4 @@
 </template>
 
 <script src="./user.ts" />
+<style src="./../website.css" />

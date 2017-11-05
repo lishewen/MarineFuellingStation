@@ -14,7 +14,7 @@
                         <span slot="right" style="width:70px">单位：{{model.unit}}</span>
                     </yd-cell-item>
                 </yd-cell-group>
-                <yd-cell-group :title="'单号：' + model.name" style="margin-top:20px">
+                <yd-cell-group :title="'单号：' + model.name" class="first-group">
                     <yd-cell-item arrow @click.native="salesplanselect">
                         <span slot="left">计划单：</span>
                         <span slot="right">{{selectedplanNo}}</span>
@@ -113,7 +113,7 @@
                     <yd-infinitescroll :callback="loadList" ref="infinitescroll">
                         <yd-cell-item slot="list" arrow v-for="o in orders" :key="o.id" @click.native="godetail(o.id)">
                             <div slot="left" style="line-height: .4rem;margin: 10px 0">
-                                <p>{{o.carNo}} - <span style="color:forestgreen">￥{{o.totalMoney}}</span></p>
+                                <p>{{o.carNo}} - <span class="col-green">￥{{o.totalMoney}}</span></p>
                                 <p class="color_lightgray">{{o.name}}</p>
                                 <p class="color_lightgray">{{o.product.name}}</p>
                                 <p class="color_lightgray">{{o.price}} x {{o.count}}{{o.unit}}</p>
@@ -135,35 +135,19 @@
         <!--选择计划单-->
         <yd-popup v-model="salesplanshow" position="right" width="70%">
             <yd-cell-group>
-                <div style="text-align: center">
+                <div class="align-center">
                     <yd-button style="width:80%;margin:10px 0 10px 0" type="primary" @click.native="emptyclick()">散客</yd-button>
                 </div>
                 <yd-search v-model="sv" />
                 <yd-cell-item arrow @click.native="planitemclick(s)" v-for="s in salesplans" :key="s.id">
                     <div slot="left">
                         <p>{{s.carNo}}</p>
-                        <p style="color: gray">{{s.createdBy}}</p>
+                        <p class="col-gray">{{s.createdBy}}</p>
                     </div>
                     <div slot="right">
                         <p>{{strPlanState(s)}}</p>
                         <p>{{formatShortDate(s.oilDate)}}</p>
                     </div>
-                </yd-cell-item>
-            </yd-cell-group>
-        </yd-popup>
-        <yd-popup v-model="show1" position="right" width="70%">
-            <yd-cell-group>
-                <yd-cell-item arrow @click.native="transitemclick()">
-                    <span slot="left">YS07070001</span>
-                    <span slot="left" style="color:lightgray;margin-left:10px">李四</span>
-                </yd-cell-item>
-                <yd-cell-item arrow @click.native="transitemclick()">
-                    <span slot="left">YS07070001</span>
-                    <span slot="left" style="color:lightgray;margin-left:10px">张三</span>
-                </yd-cell-item>
-                <yd-cell-item arrow @click.native="transitemclick()">
-                    <span slot="left">YS07070001</span>
-                    <span slot="left" style="color:lightgray;margin-left:10px">王五</span>
                 </yd-cell-item>
             </yd-cell-group>
         </yd-popup>
@@ -181,3 +165,4 @@
 
 <style src="./plan.css" />
 <script src="./order.ts" />
+<style src="./../website.css" />

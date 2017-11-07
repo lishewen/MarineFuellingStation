@@ -19,6 +19,9 @@
         </yd-grids-group>
         <yd-cell-group>
             <yd-cell-item v-show="model.salesPlan != null">
+                <span slot="right">{{model.salesPlan != null? "销售单金额 - 计划单金额 = " + (model.totalMoney - model.salesPlan.totalMoney) : ""}}</span>
+            </yd-cell-item>
+            <yd-cell-item v-show="model.salesPlan != null">
                 <div slot="left">计划单：</div>
                 <div slot="right">
                     <p>{{model.salesPlan == null? "" : model.salesPlan.name}}</p>

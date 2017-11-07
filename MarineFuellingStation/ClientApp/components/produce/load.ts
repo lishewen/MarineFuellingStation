@@ -105,6 +105,7 @@ export default class LoadComponent extends ComponentBase {
     putState(state: server.orderState) {
         //console.log(this.order.storeId);
         this.order.state = state;
+        this.order.oilCount = this.order.count;
         axios.put('/api/Order/ChangeState', this.order).then((res) => {
             let jobj = res.data as server.resultJSON<server.order>;
             if (jobj.code == 0) {

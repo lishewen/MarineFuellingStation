@@ -38,6 +38,7 @@ namespace MFS.Controllers
             this.option.销售单AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.销售单Secret);
             this.option.收银AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.收银Secret);
             this.option.加油AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.加油Secret);
+            this.option.油仓情况AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.油仓情况Secret);
         }
         [NonAction]
         public async Task SendPrintOrderAsync(string who, Order order)
@@ -302,14 +303,22 @@ namespace MFS.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPut("[action]")]
-        public ResultJSON<Order> ChangeState([FromBody]Order o)
+        public async Task<ResultJSON<Order>> ChangeState([FromBody]Order o)
         {
             r.CurrentUser = UserName;
             o.Worker = UserName;
+            Order result = r.ChangeState(o);
+            //推送到“油仓情况”
+            await MassApi.SendTextCardAsync(option.油仓情况AccessToken, option.油仓情况AgentId, $"{result.CarNo}加油完工，已更新油仓油量"
+                     , $"<div class=\"gray\">单号：{result.Name}</div>" +
+                     $"<div class=\"normal\">施工人：{result.Worker}</div>" +
+                     $"<div class=\"normal\">数量：{result.OilCount}</div>"
+                     , $"https://vue.car0774.com/#/sales/order/{result.Id}/order", toUser: "@all");
+
             return new ResultJSON<Order>
             {
                 Code = 0,
-                Data = r.ChangeState(o)
+                Data = result
             };
         }
         /// <summary>

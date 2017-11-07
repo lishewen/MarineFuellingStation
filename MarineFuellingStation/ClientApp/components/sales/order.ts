@@ -184,7 +184,7 @@ export default class OrderComponent extends ComponentBase {
         let that = this;
         this.$dialog.confirm({
             title: '操作成功',
-            mes: '操作成功，是否继续新增？',
+            mes: '操作成功，是否继续开单？',
             opts: () => {
                 window.location.reload();
             }

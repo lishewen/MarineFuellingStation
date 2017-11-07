@@ -4,6 +4,9 @@ using MFS.Models;
 using MFS.Repositorys;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Options;
+using Senparc.Weixin.Work.AdvancedAPIs;
+using Senparc.Weixin.Work.Containers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,10 +19,13 @@ namespace MFS.Controllers
     {
         private readonly MoveStoreRepository r;
         private readonly IHubContext<PrintHub> _hub;
-        public MoveStoreController(MoveStoreRepository repository, IHubContext<PrintHub> hub)
+        WorkOption option;
+        public MoveStoreController(MoveStoreRepository repository, IOptionsSnapshot<WorkOption> option, IHubContext<PrintHub> hub)
         {
             r = repository;
             _hub = hub;
+            this.option = option.Value;
+            this.option.油仓情况AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.油仓情况Secret);
         }
         [HttpGet("[action]")]
         public ResultJSON<string> MoveStoreNo()
@@ -59,18 +65,27 @@ namespace MFS.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPut("[action]")]
-        public ResultJSON<MoveStore> UpdateInOutFact([FromBody]MoveStore m)
+        public async Task<ResultJSON<MoveStore>> UpdateInOutFact([FromBody]MoveStore m)
         {
             r.CurrentUser = UserName;
 
-            var model = r.UpdateInOutFact(m);
+            var result = r.UpdateInOutFact(m);
+
+            //推送到“油仓情况”
+            await MassApi.SendTextCardAsync(option.油仓情况AccessToken, option.油仓情况AgentId, "转仓生产完工，已更新油仓油量"
+                     , $"<div class=\"gray\">单号：{result.Name}</div>" +
+                     $"<div class=\"normal\">施工人：{result.LastUpdatedBy}</div>" +
+                     $"<div class=\"normal\">转出：{result.OutStoreName} - {result.OutFact}升</div>" +
+                     $"<div class=\"normal\">转入：{result.InStoreName} - {result.InFact}升</div>"
+                     , $"https://vue.car0774.com/#/sales/order/{result.Id}/order", toUser: "@all");
+
             //打印生产转仓单
-            _hub.Clients.All.InvokeAsync("printmovestore", model);
+            await _hub.Clients.All.InvokeAsync("printmovestore", result);
 
             return new ResultJSON<MoveStore>
             {
                 Code = 0,
-                Data = model
+                Data = result
             };
         }
         [HttpPost]

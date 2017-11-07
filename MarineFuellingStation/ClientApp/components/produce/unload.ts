@@ -251,24 +251,25 @@ export default class UnloadComponent extends ComponentBase {
                 'x-userid': encodeURIComponent(this.$store.state.userid)
             }
         };  //添加请求头
+        this.$dialog.loading.open("正在上传图片，请稍后");
         axios.post('/api/Purchase/UploadFile', param, config).then((res) => {
             let jobj = res.data as server.resultJSON<string>;
+            this.$dialog.loading.close();
             if (jobj.code == 0) {
                 this.toastSuccess('上传成功！');
                 if (this.currStep == 1) {
                     this.purchase.scaleWithCarPic = jobj.data;
                     this.isScaleWithCarUpload = true;
-                    //this.isPrevent = false;
 
                 }
                 if (this.currStep == 5) {
                     this.purchase.scalePic = jobj.data;
                     this.isScaleUpload = true;
-                    //this.isPrevent1 = false;
                 }
             }
-            else
-                this.toastError(jobj.msg);
+            else {
+                this.toastError("无法上传图片，请重试")
+            }
         });
     }
     change(label: string, tabkey: string) {

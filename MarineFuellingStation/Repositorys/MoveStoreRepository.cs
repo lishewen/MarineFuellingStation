@@ -21,6 +21,14 @@ namespace MFS.Repositorys
                 return string.Empty;
             }
         }
+        public new MoveStore Insert(MoveStore entity, bool autoSave = true)
+        {
+            var inSt = _dbContext.Stores.Find(entity.InStoreId);
+            entity.InStoreName = inSt.Name;
+            var outSt = _dbContext.Stores.Find(entity.OutStoreId);
+            entity.OutStoreName = outSt.Name;
+            return base.Insert(entity, autoSave);
+        }
         public string GetSerialNumber(string serialNumber = "0")
         {
             if (!string.IsNullOrWhiteSpace(serialNumber) && serialNumber != "0")

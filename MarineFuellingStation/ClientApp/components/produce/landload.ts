@@ -124,8 +124,10 @@ export default class LandloadComponent extends ComponentBase {
                 'x-userid': encodeURIComponent(this.$store.state.userid)
             }
         };  //添加请求头
+        this.$dialog.loading.open("正在上传图片，请稍后");
         axios.post('/api/Order/UploadFile', param, config).then((res) => {
             let jobj = res.data as server.resultJSON<string>;
+            this.$dialog.loading.close();
             if (jobj.code == 0) {
                 this.toastSuccess('上传成功！');
                 if (this.currStep == 2)
@@ -134,7 +136,7 @@ export default class LandloadComponent extends ComponentBase {
                     this.order.oilCarWeightPic = jobj.data;
             }
             else
-                this.toastError(jobj.msg);
+                this.toastError("无法上传图片，请重试")
         });
     }
 

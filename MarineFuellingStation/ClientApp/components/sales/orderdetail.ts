@@ -95,6 +95,13 @@ export default class OrderDetailComponent extends ComponentBase {
         }
     }
 
+    totalMoneyClass() {
+        if (this.model.salesPlan != null)
+            return this.model.totalMoney - this.model.salesPlan.totalMoney > 0 ? { "col-green": true } : { "col-red": true };
+        else
+            return;
+    }
+
     strDiffOil(o: server.order) {
         if (o.unit == "升")
             return o.diffOil + "升 换算吨：" + o.diffOil * o.density / 1000 + "吨";

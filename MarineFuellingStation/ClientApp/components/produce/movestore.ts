@@ -96,6 +96,17 @@ export default class MoveStoreComponent extends ComponentBase {
         }
     }
 
+    addNextConfirm() {
+        let that = this;
+        this.$dialog.confirm({
+            title: '操作成功',
+            mes: '操作成功，是否继续开单？',
+            opts: () => {
+                window.location.reload();
+            }
+        });
+    }
+
     validate() {
         if (!this.model.outStoreId) {
             this.toastError("请指定转出仓")
@@ -182,12 +193,8 @@ export default class MoveStoreComponent extends ComponentBase {
         axios.post('/api/MoveStore', model).then((res) => {
             let jobj = res.data as server.resultJSON<server.moveStore>;
             if (jobj.code == 0) {
-                this.getMoveStoreNo();
-                (<any>this).$dialog.toast({
-                    mes: jobj.msg,
-                    timeout: 1500,
-                    icon: 'success'
-                });
+                this.isPrevent = true;
+                this.addNextConfirm();
             }
         });
     }

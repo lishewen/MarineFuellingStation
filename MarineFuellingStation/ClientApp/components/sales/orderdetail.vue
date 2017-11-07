@@ -1,6 +1,7 @@
 ﻿<template>
     <div id="root">
         <div v-show="model.payState == 1" style="background-color: yellowgreen;padding: 10px; text-align: center; color: white">已结算</div>
+        <div v-show="model.payState == 0" style="background-color: lightcoral;padding: 10px; text-align: center; color: white">未结算</div>
         <yd-grids-group :rows="2">
             <yd-grids-item>
                 <div slot="text">
@@ -19,7 +20,9 @@
         </yd-grids-group>
         <yd-cell-group>
             <yd-cell-item v-show="model.salesPlan != null">
-                <span slot="right">{{model.salesPlan != null? "销售单金额 - 计划单金额 = " + (model.totalMoney - model.salesPlan.totalMoney) : ""}}</span>
+                <span slot="right" :class="totalMoneyClass()">
+                    {{model.salesPlan != null? "差额：销售单金额 - 计划单金额 = ￥" + (model.totalMoney - model.salesPlan.totalMoney) : ""}}
+                </span>
             </yd-cell-item>
             <yd-cell-item v-show="model.salesPlan != null">
                 <div slot="left">计划单：</div>

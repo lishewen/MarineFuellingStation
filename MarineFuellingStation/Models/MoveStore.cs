@@ -22,6 +22,10 @@ namespace MFS.Models
 
         public int OutStoreId { get; set; }
         /// <summary>
+        /// 转出仓名称
+        /// </summary>
+        public string OutStoreName { get; set; }
+        /// <summary>
         /// 密度
         /// </summary>
         public decimal OutDensity { get; set; }
@@ -41,6 +45,10 @@ namespace MFS.Models
         #region 转入
         public int InStoreTypeId { get; set; }
         public int InStoreId { get; set; }
+        /// <summary>
+        /// 转入仓名称
+        /// </summary>
+        public string InStoreName { get; set; }
         /// <summary>
         /// 密度
         /// </summary>

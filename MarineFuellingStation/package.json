@@ -22,7 +22,7 @@
     "vue-property-decorator": "^6.0.0",
     "vue-router": "^3.0.1",
     "vue-template-compiler": "^2.5.2",
-    "vue-ydui": "^1.0.9",
+    "vue-ydui": "^1.1.0",
     "vuex": "^3.0.1",
     "webpack": "^3.8.1",
     "webpack-hot-middleware": "^2.20.0",

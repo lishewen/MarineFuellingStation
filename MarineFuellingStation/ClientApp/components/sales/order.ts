@@ -33,8 +33,10 @@ export default class OrderComponent extends ComponentBase {
     istrans: boolean = false;
     sv: string = "";
     page: number;
+    sp_page: number;//salesplans分页使用的page
     scrollRef: any;
-    pSize: number = 10;
+    scrollRef_sp: any;//salesplans引用使用的下拉刷新对象
+    pSize: number = 20;
 
     constructor() {
         super();
@@ -225,6 +227,14 @@ export default class OrderComponent extends ComponentBase {
             this.model.billingCount = v;
             this.model.totalMoney = <number>this.model.price * v;
         });
+        //搜索计划单
+        this.$watch('sv', (v, ov) => {
+            if (v.length > 1) {
+                this.sp_page = 1;
+                this.getSalesPlans();
+            }
+        });
+
     };
 
     change(label: string, tabkey: string) {
@@ -258,12 +268,42 @@ export default class OrderComponent extends ComponentBase {
         });
     }
 
-    getSalesPlans() {
-        axios.get('/api/SalesPlan/Unfinish').then((res) => {
+    loadList_sp() {
+        this.getSalesPlans((list: server.salesPlan[]) => {
+            this.salesplans = this.sp_page > 1 ? [...this.salesplans, ...list] : this.salesplans;
+            this.scrollRef_sp = (<any>this).$refs.spInfinitescroll;
+            if (list.length < this.pSize) {
+                this.scrollRef_sp.$emit("ydui.infinitescroll.loadedDone");
+                return;
+            }
+
+            //通知加载数据完毕
+            this.scrollRef_sp.$emit("ydui.infinitescroll.finishLoad");
+
+            if (list.length > 0)
+                this.sp_page++;
+            else
+                this.sp_page = 1;
+            console.log("sp_page = " + this.sp_page)
+        });
+    }
+
+    getSalesPlans(callback?: Function) {
+        if (this.sv == null) this.sv = "";
+        if (this.sp_page == null) this.sp_page = 1;
+        axios.get('/api/SalesPlan/Unfinish?kw=' + this.sv +
+            "&page=" + this.sp_page +
+            "&pagesize=" + this.pSize).then((res) => {
             let jobj = res.data as server.resultJSON<server.salesPlan[]>;
             if (jobj.code == 0) {
-                this.salesplans = jobj.data;
-            }   
+                if (callback) {
+                    callback(jobj.data);
+                }
+                else {
+                    this.salesplans = jobj.data;
+                    this.sp_page++;
+                }
+            }
         });
     }
 

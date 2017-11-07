@@ -139,16 +139,18 @@
                     <yd-button style="width:80%;margin:10px 0 10px 0" type="primary" @click.native="emptyclick()">散客</yd-button>
                 </div>
                 <yd-search v-model="sv" />
-                <yd-cell-item arrow @click.native="planitemclick(s)" v-for="s in salesplans" :key="s.id">
-                    <div slot="left">
-                        <p>{{s.carNo}}</p>
-                        <p class="col-gray">{{s.createdBy}}</p>
-                    </div>
-                    <div slot="right">
-                        <p>{{strPlanState(s)}}</p>
-                        <p>{{formatShortDate(s.oilDate)}}</p>
-                    </div>
-                </yd-cell-item>
+                <yd-infinitescroll :callback="loadList_sp" ref="spInfinitescroll">
+                    <yd-cell-item slot="list" arrow @click.native="planitemclick(s)" v-for="s in salesplans" :key="s.id">
+                        <div slot="left">
+                            <p>{{s.carNo}}</p>
+                            <p class="col-gray">{{s.createdBy}}</p>
+                        </div>
+                        <div slot="right">
+                            <p>{{strPlanState(s)}}</p>
+                            <p>{{formatShortDate(s.oilDate)}}</p>
+                        </div>
+                    </yd-cell-item>
+                </yd-infinitescroll>
             </yd-cell-group>
         </yd-popup>
         <!--popup销售列表-->

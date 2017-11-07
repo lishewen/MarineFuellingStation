@@ -105,12 +105,17 @@ namespace MFS.Controllers
             };
         }
         [HttpGet("[action]")]
-        public ResultJSON<List<SalesPlan>> Unfinish()
+        public ResultJSON<List<SalesPlan>> Unfinish(string kw, int page, int pagesize)
         {
+            List<SalesPlan> list;
+            if(string.IsNullOrEmpty(kw))
+                list = r.LoadPageList(page, pagesize, out int rowCount, true, sp => sp.State != SalesPlanState.已完成).ToList();
+            else
+                list = r.LoadPageList(page, pagesize, out int rowCount, true, sp => sp.CarNo.Contains(kw) && sp.State != SalesPlanState.已完成).ToList();
             return new ResultJSON<List<SalesPlan>>
             {
                 Code = 0,
-                Data = r.GetAllList().Where(s => s.State != SalesPlanState.已完成).ToList()
+                Data = list
             };
         }
         /// <summary>

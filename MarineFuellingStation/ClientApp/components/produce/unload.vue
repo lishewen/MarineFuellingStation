@@ -38,7 +38,7 @@
         <div v-show="currStep == 1">
             <yd-cell-group title="油车过磅">
                 <yd-cell-item>
-                    <span slot="left">磅秤数（毛重）：</span>
+                    <span slot="left">毛重：</span>
                     <yd-input slot="right" v-model="purchase.scaleWithCar" type="number" required placeholder="请输入磅秤数"></yd-input>
                     <span slot="right">吨</span>
                 </yd-cell-item>
@@ -48,7 +48,7 @@
                 </yd-cell-item>
             </yd-cell-group>
             <div class="center">
-                <yd-button style="width:90%" type="primary" @click.native="goNext" :disabled="purchase.density <= 0 || purchase.scaleWithCar <= 0 || !isScaleWithCarUpload">前往化验</yd-button>
+                <yd-button style="width:90%" type="primary" @click.native="goNext" :disabled="purchase.scaleWithCar <= 0 || !isScaleWithCarUpload">下一步：化验 →</yd-button>
             </div>
             <div class="align-center first-group">
                 <div class="img-wrap">
@@ -65,7 +65,7 @@
                 </yd-cell-item>
             </yd-cell-group>
             <yd-button style="width:90%; margin-top:30px;" type="primary" @click.native="currStep -= 1">← 上一步：油车过磅</yd-button>
-            <yd-button style="width:90%; margin-top:10px;" type="primary" @click.native="goNext">下一步：选择油仓 →</yd-button>
+            <yd-button style="width:90%; margin-top:10px;" type="primary" @click.native="goNext" :disabled="purchase.density <= 0">下一步：选择油仓 →</yd-button>
         </div>
         <div class="center" v-show="currStep == 3">
             <yd-cell-group title="选择卸油油仓对应油表">
@@ -122,7 +122,7 @@
         <div v-show="currStep == 5">
             <yd-cell-group title="空车过磅">
                 <yd-cell-item>
-                    <span slot="left">磅秤数（皮重）：</span>
+                    <span slot="left">皮重：</span>
                     <yd-input slot="right" v-model="purchase.scale" type="number" required placeholder="请输入磅秤数"></yd-input>
                     <span slot="right">吨</span>
                 </yd-cell-item>

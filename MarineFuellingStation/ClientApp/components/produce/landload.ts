@@ -124,7 +124,7 @@ export default class LandloadComponent extends ComponentBase {
                 'x-userid': encodeURIComponent(this.$store.state.userid)
             }
         };  //添加请求头
-        this.$dialog.loading.open("正在上传图片，请稍后");
+        this.$dialog.loading.open("正在上传图片");
         axios.post('/api/Order/UploadFile', param, config).then((res) => {
             let jobj = res.data as server.resultJSON<string>;
             this.$dialog.loading.close();

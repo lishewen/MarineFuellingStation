@@ -308,12 +308,16 @@ namespace MFS.Controllers
             r.CurrentUser = UserName;
             o.Worker = UserName;
             Order result = r.ChangeState(o);
-            //推送到“油仓情况”
-            await MassApi.SendTextCardAsync(option.油仓情况AccessToken, option.油仓情况AgentId, $"{result.CarNo}加油完工，已更新油仓油量"
-                     , $"<div class=\"gray\">单号：{result.Name}</div>" +
-                     $"<div class=\"normal\">施工人：{result.Worker}</div>" +
-                     $"<div class=\"normal\">数量：{result.OilCount}</div>"
-                     , $"https://vue.car0774.com/#/sales/order/{result.Id}/order", toUser: "@all");
+
+            if(o.State == OrderState.已完成)
+            { 
+                //推送到“油仓情况”
+                await MassApi.SendTextCardAsync(option.油仓情况AccessToken, option.油仓情况AgentId, $"{result.CarNo}加油完工，已更新油仓油量"
+                         , $"<div class=\"gray\">单号：{result.Name}</div>" +
+                         $"<div class=\"normal\">施工人：{result.Worker}</div>" +
+                         $"<div class=\"normal\">数量：{result.OilCount}{result.Unit}</div>"
+                         , $"https://vue.car0774.com/#/sales/order/{result.Id}/order", toUser: "@all");
+            }
 
             return new ResultJSON<Order>
             {

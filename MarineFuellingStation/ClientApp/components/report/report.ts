@@ -6,7 +6,7 @@ export default class PlanComponent extends Vue {
     carNo: string = '';
 
     mounted() {
-        this.$emit('setTitle', this.$store.state.username + ' 经营统计');
+        this.$emit('setTitle', '计划统计');
         
     };
 

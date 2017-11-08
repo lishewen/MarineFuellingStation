@@ -4,6 +4,15 @@
 .col-gray{
     color: gray;
 }
+.col-gray1 {
+    color: #aaaaaa;
+}
+.col-gray2 {
+    color: #b5b5b5;
+}
+.col-gray3 {
+    color: #c9c9c9;
+}
 .col-light-gray{
     color: lightgray;
 }
@@ -40,6 +49,9 @@
 .font16{
     font-size: 16px;
 }
+.font24{
+    font-size: 24px;
+}
 .font-rem2{
     font-size: .2rem
 }
@@ -60,4 +72,7 @@
 }
 .popup70{
     width: 70%
+}
+.mtop10{
+    margin-top: 10px;
 }

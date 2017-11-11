@@ -13,7 +13,7 @@
                 <span slot="right">{{getSpType(model.salesPlanType)}}</span>
             </yd-cell-item>
             <yd-cell-item>
-                <span slot="left">船号：</span>
+                <span slot="left">{{model.salesPlanType == 0? "船号": "车牌号"}}：</span>
                 <span slot="right">{{model.carNo}}</span>
             </yd-cell-item>
 

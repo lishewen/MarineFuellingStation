@@ -36,7 +36,7 @@
                 <yd-input slot="right" v-model="order.density" type="number" required placeholder="请输入测量密度"></yd-input>
             </yd-cell-item>
             <yd-cell-item>
-                <span slot="left">磅秤数：</span>
+                <span slot="left">皮重：</span>
                 <yd-input slot="right" v-model="order.emptyCarWeight" type="number" required placeholder="请输入磅秤数"></yd-input>
                 <span slot="right">吨</span>
             </yd-cell-item>
@@ -82,7 +82,7 @@
         <!--4-油车过磅-->
         <yd-cell-group title="油车过磅" v-show="currStep == 4">
             <yd-cell-item>
-                <span slot="left">磅秤数：</span>
+                <span slot="left">毛重：</span>
                 <yd-input slot="right" v-model="order.oilCarWeight" type="number" required placeholder="请输入磅秤数"></yd-input>
                 <span slot="right">吨</span>
             </yd-cell-item>

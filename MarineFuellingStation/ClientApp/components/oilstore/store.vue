@@ -85,4 +85,4 @@
 </template>
 
 <script src="./store.ts" />
-<style src="./../website.css" />
+

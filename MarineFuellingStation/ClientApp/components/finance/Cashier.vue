@@ -237,4 +237,4 @@
 </template>
 
 <script src="./cashier.ts" />
-<style src="./../website.css"></style>
+

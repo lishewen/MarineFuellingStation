@@ -104,4 +104,4 @@
 </template>
 
 <script src="./purchase.ts" />
-<style src="./../website.css" />
+

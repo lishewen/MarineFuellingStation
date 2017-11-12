@@ -139,5 +139,5 @@
 </template>
 
 <script src="./purchasedetail.ts" />
-<style src="./../website.css" />
+
 

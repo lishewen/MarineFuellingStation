@@ -59,5 +59,5 @@
         </yd-cell-group>
     </div>
 </template>
-<style src="./../website.css" />
+
 <script src="./plandetail.ts" />

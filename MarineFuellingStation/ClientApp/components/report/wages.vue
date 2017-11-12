@@ -139,4 +139,4 @@
 </template>
 
 <script src="./wages.ts" />
-<style src="./../website.css" />
+

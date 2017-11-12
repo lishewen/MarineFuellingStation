@@ -82,4 +82,4 @@
 </template>
 
 <script src="./product.ts" />
-<style src="./../website.css" />
+

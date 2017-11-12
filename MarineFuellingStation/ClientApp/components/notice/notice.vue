@@ -59,4 +59,3 @@
 </template>
 
 <script src="./notice.ts" />
-<style src="./../website.css" />

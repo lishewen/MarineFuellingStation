@@ -123,4 +123,4 @@
 </template>
 
 <script src="./orderdetail.ts" />
-<style src="./../website.css" />
+

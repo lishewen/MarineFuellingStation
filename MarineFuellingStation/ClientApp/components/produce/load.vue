@@ -76,4 +76,4 @@
 </template>
 
 <script src="./load.ts" />
-<style src="./../website.css" />
+

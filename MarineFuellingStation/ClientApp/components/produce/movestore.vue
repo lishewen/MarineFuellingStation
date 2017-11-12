@@ -104,4 +104,4 @@
 </template>
 
 <script src="./movestore.ts" />
-<style src="./../website.css" />
+

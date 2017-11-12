@@ -43,4 +43,4 @@
 </template>
 
 <script src="./myorder.ts" />
-<style src="./../website.css" />
+

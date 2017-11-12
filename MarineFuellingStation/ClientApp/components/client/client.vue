@@ -219,4 +219,3 @@
 </template>
 
 <script src="./client.ts" />
-<style src="./../website.css"></style>

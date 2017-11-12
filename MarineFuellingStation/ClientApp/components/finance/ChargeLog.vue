@@ -41,4 +41,4 @@
 </template>
 
 <script src="./chargelog.ts" />
-<style src="./../website.css"></style>
+

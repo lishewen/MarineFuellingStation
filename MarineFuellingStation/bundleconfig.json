@@ -4,5 +4,11 @@
     "inputFiles": [
       "wwwroot/css/pace.css"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/css/website.min.css",
+    "inputFiles": [
+      "wwwroot/css/website.css"
+    ]
   }
 ]

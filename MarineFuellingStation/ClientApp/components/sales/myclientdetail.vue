@@ -66,4 +66,4 @@
 </template>
 
 <script src="./myclientdetail.ts" />
-<style src="./../website.css" />
+

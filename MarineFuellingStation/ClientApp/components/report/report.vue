@@ -64,4 +64,4 @@
     </div>
 </template>
 <script src="./report.ts"></script>
-<style src="./../website.css" />
+

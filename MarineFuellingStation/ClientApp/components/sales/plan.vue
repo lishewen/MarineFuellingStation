@@ -133,5 +133,5 @@
 </template>
 
 <style src="./plan.css" />
-<style src="./../website.css" />
+
 <script src="./plan.ts" />

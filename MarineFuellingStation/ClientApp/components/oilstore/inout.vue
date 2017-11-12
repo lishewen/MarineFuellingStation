@@ -77,4 +77,4 @@
 </template>
 
 <script src="./inout.ts" />
-<style src="./../website.css" />
+

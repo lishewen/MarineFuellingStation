@@ -70,4 +70,4 @@
 </template>
 
 <script src="./myclient.ts" />
-<style src="./../website.css" />
+

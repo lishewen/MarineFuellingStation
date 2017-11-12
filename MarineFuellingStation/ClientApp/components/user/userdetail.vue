@@ -85,4 +85,4 @@
 </template>
 
 <script src="./userdetail.ts" />
-<style src="./../website.css" />
+

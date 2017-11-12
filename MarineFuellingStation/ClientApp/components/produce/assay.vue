@@ -266,4 +266,4 @@
 </template>
 
 <script src="./assay.ts" />
-<style src="./../website.css" />
+

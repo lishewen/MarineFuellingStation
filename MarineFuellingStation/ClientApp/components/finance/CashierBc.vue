@@ -158,4 +158,4 @@
 </template>
 
 <script src="./cashierbc.ts" />
-<style src="./../website.css"></style>
+

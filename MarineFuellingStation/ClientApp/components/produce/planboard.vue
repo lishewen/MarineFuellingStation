@@ -46,4 +46,4 @@
 </template>
 <script src="./planboard.ts"></script>
 <style src="./planboard.css" />
-<style src="./../website.css" />
+

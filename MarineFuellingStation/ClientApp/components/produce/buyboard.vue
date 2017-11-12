@@ -13,4 +13,4 @@
     </div>
 </template>
 <script src="./buyboard.ts"></script>
-<style src="./../website.css" />
+

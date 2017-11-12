@@ -61,4 +61,4 @@
 </template>
 
 <script src="./movestoreact.ts" />
-<style src="./../website.css" />
+

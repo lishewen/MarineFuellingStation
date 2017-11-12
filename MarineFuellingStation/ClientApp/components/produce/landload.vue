@@ -200,4 +200,4 @@
 </template>
 
 <script src="./landload.ts" />
-<style src="./../website.css" />
+

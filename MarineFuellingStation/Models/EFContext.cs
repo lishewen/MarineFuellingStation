@@ -12,7 +12,7 @@ namespace MFS.Models
 #if DEBUG
     public class EFContextFactory : IDesignTimeDbContextFactory<EFContext>
     {
-        const string connstr = "data source=120.24.88.129;initial catalog=MFS;persist security info=True;user id=yisuo;password=hr!2027055;MultipleActiveResultSets=True;";
+        const string connstr = "data source=120.78.223.3;initial catalog=MFS;persist security info=True;user id=sa;password=yisuo!1118;MultipleActiveResultSets=True;";
         public EFContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<EFContext>();

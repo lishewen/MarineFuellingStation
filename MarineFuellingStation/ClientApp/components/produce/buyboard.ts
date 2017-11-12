@@ -1,10 +1,10 @@
-﻿import Vue from 'vue';
+﻿import ComponentBase from "../../componentbase";
 import { Component } from 'vue-property-decorator';
 import axios from "axios";
 import moment from "moment";
 
 @Component
-export default class BuyboardComponent extends Vue {
+export default class BuyboardComponent extends ComponentBase {
     list: server.purchase[];
     constructor() {
         super();

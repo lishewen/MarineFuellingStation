@@ -35,10 +35,6 @@ namespace MFS.Controllers
             _hostingEnvironment = env;
             //获取 销售单 企业微信应用的AccessToken
             this.option = option.Value;
-            this.option.销售单AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.销售单Secret);
-            this.option.收银AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.收银Secret);
-            this.option.加油AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.加油Secret);
-            this.option.油仓情况AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.油仓情况Secret);
         }
         [NonAction]
         public async Task SendPrintOrderAsync(string who, Order order)
@@ -70,9 +66,15 @@ namespace MFS.Controllers
 
             //向指定目标推送打印指令
             await SendPrintOrderAsync("收银台", result);
+
+            //初始化推送需要到的AccessToken
+            this.option.销售单AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.销售单Secret);
+            this.option.加油AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.加油Secret);
+
             //#if !DEBUG
 
             //推送到“收银”
+            this.option.收银AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.收银Secret);
             await MassApi.SendTextCardAsync(option.收银AccessToken, option.收银AgentId, "已开单"
                      , $"<div class=\"gray\">单号：{result.Name}</div>" +
                      $"<div class=\"normal\">开单人：{UserName}</div>" +
@@ -327,8 +329,9 @@ namespace MFS.Controllers
             Order result = r.ChangeState(o);
 
             if(o.State == OrderState.已完成)
-            { 
+            {
                 //推送到“油仓情况”
+                this.option.油仓情况AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.油仓情况Secret);
                 await MassApi.SendTextCardAsync(option.油仓情况AccessToken, option.油仓情况AgentId, $"{result.CarNo}加油完工，已更新油仓油量"
                          , $"<div class=\"gray\">单号：{result.Name}</div>" +
                          $"<div class=\"normal\">施工人：{result.Worker}</div>" +

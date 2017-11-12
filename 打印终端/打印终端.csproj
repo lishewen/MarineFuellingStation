@@ -196,30 +196,27 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="big\出库石化过磅单.docx" />
+    <None Include="big\生产转仓单.docx" />
+    <None Include="big\船舶清污完工证.docx" />
+    <None Include="big\船舶清污完工证收款单.docx" />
+    <None Include="big\调拨单.docx" />
+    <None Include="big\陆上卸油单.docx" />
+    <None Include="big\陆上装车单.docx" />
+    <None Include="big\预收款确认单.docx" />
     <None Include="packages.config" />
+    <None Include="pos\个人预收款确认单.docx" />
+    <None Include="pos\公司预收款确认单.docx" />
+    <None Include="pos\生产转仓单.docx" />
+    <None Include="pos\船舶清污单.docx" />
+    <None Include="pos\船舶清污完工证.docx" />
+    <None Include="pos\调拨单.docx" />
+    <None Include="pos\陆上卸油单.docx" />
+    <None Include="pos\陆上装车单.docx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
-    </None>
-    <None Include="unload.docx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="卸车石化过磅单.docx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="生产转仓单.docx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="船舶清污完工证.docx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="调拨单.docx" />
-    <None Include="陆上装车单.docx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="预收款确认单.docx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>

@@ -50,9 +50,9 @@
             <yd-button style="width:90%;margin-top: 10px;" type="primary" @click.native="changeState(3)">下一步：加油 →</yd-button>
         </div>
         <div class="align-center first-group" v-show="currStep == 2">
-            <div class="img-wrap">
-                <img :src="order.emptyCarWeightPic" />
-            </div>
+            <yd-lightbox class="img-wrap">
+                <yd-lightbox-img :src="order.emptyCarWeightPic"></yd-lightbox-img>
+            </yd-lightbox>
         </div>
         <!--3-加油-->
         <div class="center" v-show="currStep == 3">
@@ -95,10 +95,10 @@
             <yd-button style="width:90%;margin-top: 30px;" type="primary" @click.native="currStep -= 1">← 上一步：加油</yd-button>
             <yd-button style="width:90%;margin-top: 10px;" type="primary" @click.native="changeState(5)">下一步：完工 →</yd-button>
         </div>
-        <div style="text-align: center; margin-top: .2rem" v-show="currStep == 4">
-            <div class="img-wrap">
-                <img :src="order.oilCarWeightPic" />
-            </div>
+        <div class="align-center first-group" v-show="currStep == 4">
+            <yd-lightbox class="img-wrap">
+                <yd-lightbox-img :src="order.oilCarWeightPic"></yd-lightbox-img>
+            </yd-lightbox>
         </div>
         <!--施工明细-->
         <div v-show="currStep == 5">
@@ -121,11 +121,19 @@
                 </yd-cell-item>
                 <yd-cell-item>
                     <div slot="left">毛重图片：</div>
-                    <div slot="right"><div class="img-wrap"><img :src="this.order.oilCarWeightPic" /></div></div>
+                    <div slot="right">
+                        <yd-lightbox class="img-wrap">
+                            <yd-lightbox-img :src="order.oilCarWeightPic"></yd-lightbox-img>
+                        </yd-lightbox>
+                    </div>
                 </yd-cell-item>
                 <yd-cell-item>
                     <div slot="left">皮重图片：</div>
-                    <div slot="right"><div class="img-wrap"><img :src="this.order.emptyCarWeightPic" /></div></div>
+                    <div slot="right">
+                        <yd-lightbox class="img-wrap">
+                            <yd-lightbox-img :src="order.emptyCarWeightPic"></yd-lightbox-img>
+                        </yd-lightbox>
+                    </div>
                 </yd-cell-item>
             </yd-cell-group>
             <yd-cell-group title="油表明细">

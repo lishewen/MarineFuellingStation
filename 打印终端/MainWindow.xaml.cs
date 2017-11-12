@@ -31,6 +31,7 @@ namespace 打印终端
         string baseAddress = Properties.Settings.Default.baseAddress;
         private static Word._Document wDoc = null; //word文档
         private static Word._Application wApp = null; //word进程
+        private string folder = "pos\\";
         object missing = System.Reflection.Missing.Value;
 
         static string ConvertToChinese(decimal x)
@@ -50,12 +51,12 @@ namespace 打印终端
             ConnectAsync();
 
             //测试
-            //PrintOrder(new Order
-            //{
-            //    CarNo = "ct200",
-            //    CreatedAt = DateTime.Now,
-            //    Name = "20170801"
-            //});
+            PrintOrder(new Order
+            {
+                CarNo = "ct200",
+                CreatedAt = DateTime.Now,
+                Name = "20170801"
+            });
 
             this.Hide();
         }
@@ -253,7 +254,7 @@ namespace 打印终端
 
             Word.Application thisApplication = new Word.ApplicationClass();
             wApp = thisApplication;
-            string tmpDocFile = AppDomain.CurrentDomain.BaseDirectory + Properties.Settings.Default.PrintOrderDocx;
+            string tmpDocFile = AppDomain.CurrentDomain.BaseDirectory + folder + Properties.Settings.Default.PrintOrderDocx;
             object templatefile = tmpDocFile;
             wDoc = wApp.Documents.Add(ref templatefile, ref missing, ref missing, ref missing); //在现有进程内打开文档
             wDoc.Activate(); //当前文档置前

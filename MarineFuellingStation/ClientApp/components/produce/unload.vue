@@ -51,10 +51,9 @@
                 <yd-button style="width:90%" type="primary" @click.native="goNext" :disabled="purchase.scaleWithCar <= 0 || !isScaleWithCarUpload">下一步：化验 →</yd-button>
             </div>
             <div class="align-center first-group">
-                <div class="img-wrap">
-                    <img :src="purchase.scaleWithCarPic" />
-                </div>
-                
+                <yd-lightbox class="img-wrap">
+                    <yd-lightbox-img :src="purchase.scaleWithCarPic"></yd-lightbox-img>
+                </yd-lightbox>
             </div>
         </div>
         <div class="center" v-show="currStep == 2">
@@ -137,9 +136,9 @@
                 <yd-button style="width:90%; margin-top:10px;" type="primary" @click.native="goNext" :disabled="purchase.scale <= 0 || !isScaleUpload">下一步：完工 →</yd-button>
             </div>
             <div class="align-center first-group">
-                <div class="img-wrap">
-                    <img :src="purchase.scalePic" />
-                </div>
+                <yd-lightbox class="img-wrap">
+                    <yd-lightbox-img :src="purchase.scalePic"></yd-lightbox-img>
+                </yd-lightbox>
             </div>
         </div>
 

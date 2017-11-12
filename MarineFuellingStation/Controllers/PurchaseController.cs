@@ -55,31 +55,34 @@ namespace MFS.Controllers
         public ResultJSON<Purchase> GetDetail(int id)
         {
             Purchase p = r.GetDetail(id);
-            if(p.ToStoreNames.IndexOf(',') > -1)
-            {
-                ToStoreModel ts;
-                p.ToStoresList = new List<ToStoreModel>();
-                string[] arrNames = p.ToStoreNames.Split(',');
-                string[] arrIds = p.ToStoreIds.Split(',');
-                string[] arrCounts = p.ToStoreCounts.Split(',');
-                for(int i=0; i<arrNames.Length; i++)
+            if(!string.IsNullOrEmpty(p.ToStoreNames) && !string.IsNullOrEmpty(p.ToStoreIds) && !string.IsNullOrEmpty(p.ToStoreCounts))
+            { 
+                if(p.ToStoreNames.IndexOf(',') > -1)
                 {
-                    ts = new ToStoreModel();
-                    ts.Id = Convert.ToInt32(arrIds[i]);
-                    ts.Name = arrNames[i];
-                    ts.Count = Convert.ToDecimal(arrCounts[i]);
-                    p.ToStoresList.Add(ts);
+                    ToStoreModel ts;
+                    p.ToStoresList = new List<ToStoreModel>();
+                    string[] arrNames = p.ToStoreNames.Split(',');
+                    string[] arrIds = p.ToStoreIds.Split(',');
+                    string[] arrCounts = p.ToStoreCounts.Split(',');
+                    for(int i=0; i<arrNames.Length; i++)
+                    {
+                        ts = new ToStoreModel();
+                        ts.Id = Convert.ToInt32(arrIds[i]);
+                        ts.Name = arrNames[i];
+                        ts.Count = Convert.ToDecimal(arrCounts[i]);
+                        p.ToStoresList.Add(ts);
+                    }
                 }
-            }
-            else if(!string.IsNullOrEmpty(p.ToStoreNames) && p.ToStoreNames.IndexOf(',') == -1)
-            {
-                p.ToStoresList = new List<ToStoreModel>();
-                p.ToStoresList.Add(new ToStoreModel
+                else if(!string.IsNullOrEmpty(p.ToStoreNames) && p.ToStoreNames.IndexOf(',') == -1)
                 {
-                    Id = Convert.ToInt32(p.ToStoreIds),
-                    Name = p.ToStoreNames,
-                    Count = Convert.ToDecimal(p.ToStoreCounts)
-                });
+                    p.ToStoresList = new List<ToStoreModel>();
+                    p.ToStoresList.Add(new ToStoreModel
+                    {
+                        Id = Convert.ToInt32(p.ToStoreIds),
+                        Name = p.ToStoreNames,
+                        Count = Convert.ToDecimal(p.ToStoreCounts)
+                    });
+                }
             }
             return new ResultJSON<Purchase>
             {

@@ -95,7 +95,11 @@
             </yd-cell-item>
             <yd-cell-item v-show="model.orderType == 1">
                 <div slot="left">毛重图片：</div>
-                <div slot="right"><div class="img-wrap"><img :src="this.model.oilCarWeightPic" /></div></div>
+                <div slot="right">
+                    <yd-lightbox class="img-wrap">
+                        <yd-lightbox-img :src="model.oilCarWeightPic"></yd-lightbox-img>
+                    </yd-lightbox>
+                </div>
             </yd-cell-item>
             <yd-cell-item v-show="model.orderType == 1">
                 <div slot="left">皮重图片：</div>

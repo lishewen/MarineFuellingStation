@@ -37,7 +37,7 @@ namespace 打印终端.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("dbd.docx")]
+        [global::System.Configuration.DefaultSettingValueAttribute("调拨单.docx")]
         public string PrintOrderDocx {
             get {
                 return ((string)(this["PrintOrderDocx"]));
@@ -49,7 +49,7 @@ namespace 打印终端.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("unload.docx")]
+        [global::System.Configuration.DefaultSettingValueAttribute("陆上卸油单.docx")]
         public string PrintUnloadDocx {
             get {
                 return ((string)(this["PrintUnloadDocx"]));
@@ -133,7 +133,7 @@ namespace 打印终端.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("卸车石化过磅单.docx")]
+        [global::System.Configuration.DefaultSettingValueAttribute("出库石化过磅单.docx")]
         public string PrintUnloadDocx1 {
             get {
                 return ((string)(this["PrintUnloadDocx1"]));

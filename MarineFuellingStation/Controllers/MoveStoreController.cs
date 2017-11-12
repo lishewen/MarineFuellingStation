@@ -25,7 +25,6 @@ namespace MFS.Controllers
             r = repository;
             _hub = hub;
             this.option = option.Value;
-            this.option.油仓情况AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.油仓情况Secret);
         }
         [HttpGet("[action]")]
         public ResultJSON<string> MoveStoreNo()
@@ -72,6 +71,7 @@ namespace MFS.Controllers
             var result = r.UpdateInOutFact(m);
 
             //推送到“油仓情况”
+            this.option.油仓情况AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.油仓情况Secret);
             await MassApi.SendTextCardAsync(option.油仓情况AccessToken, option.油仓情况AgentId, "转仓生产完工，已更新油仓油量"
                      , $"<div class=\"gray\">单号：{result.Name}</div>" +
                      $"<div class=\"normal\">施工人：{result.LastUpdatedBy}</div>" +

@@ -28,10 +28,6 @@ namespace MFS.Controllers
             _hub = hub;
             //获取 销售计划 企业微信应用的AccessToken
             this.option = option.Value;
-            this.option.水上计划AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.水上计划Secret);
-            this.option.陆上计划AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.陆上计划Secret);
-            this.option.水上计划审核AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.水上计划审核Secret);
-            this.option.陆上计划审核AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.陆上计划审核Secret);
         }
 
         [HttpGet("SalesPlanNo")]
@@ -59,8 +55,9 @@ namespace MFS.Controllers
             //推送打印指令
             await _hub.Clients.All.InvokeAsync("printsalesplan", result);
 
-            if(s.SalesPlanType == SalesPlanType.水上 || s.SalesPlanType == SalesPlanType.机油) { 
-                //推送企业微信卡片消息（最多5行，128个字符）
+            if(s.SalesPlanType == SalesPlanType.水上 || s.SalesPlanType == SalesPlanType.机油) {
+                //推送到“水上计划”
+                this.option.水上计划AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.水上计划Secret);
                 MassApi.SendTextCard(option.水上计划AccessToken, option.水上计划AgentId, $"【水上】{UserName}开出计划单"
                          , $"<div class=\"gray\">单号：{result.Name}</div>" +
                          $"<div class=\"normal\">开单人：{UserName}</div>" +
@@ -68,13 +65,15 @@ namespace MFS.Controllers
                          $"<div class=\"normal\">油品：{result.OilName}</div>"
                          , $"https://vue.car0774.com/#/sales/plan/{result.Id}/plan", toUser: "@all");
                 //推送到“水上计划审核”
+                this.option.水上计划审核AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.水上计划审核Secret);
                 MassApi.SendTextCard(option.水上计划审核AccessToken, option.水上计划审核AgentId, $"{UserName}开计划单，请审核"
                          , $"<div class=\"gray\">单号：{result.Name}</div>" +
                          $"<div class=\"normal\">船号/车号：{result.CarNo}</div>" +
                          $"<div class=\"normal\">油品：{result.OilName}</div>"
                          , $"https://vue.car0774.com/#/sales/auditing/false", toUser: "@all");
             }
-            else if(s.SalesPlanType == SalesPlanType.陆上) { 
+            else if(s.SalesPlanType == SalesPlanType.陆上) {
+                this.option.陆上计划AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.陆上计划Secret);
                 MassApi.SendTextCard(option.陆上计划AccessToken, option.陆上计划AgentId, $"【陆上】{UserName}开出计划单"
                          , $"<div class=\"gray\">单号：{result.Name}</div>" +
                          $"<div class=\"normal\">开单人：{UserName}</div>" +
@@ -82,6 +81,7 @@ namespace MFS.Controllers
                          $"<div class=\"normal\">油品：{result.OilName}</div>"
                          , $"https://vue.car0774.com/#/sales/plan/{result.Id}/plan", toUser: "@all");
                 //推送到“陆上计划审核”
+                this.option.陆上计划审核AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.陆上计划审核Secret);
                 MassApi.SendTextCard(option.陆上计划审核AccessToken, option.陆上计划审核AgentId, $"{UserName}开计划单，请审核"
                          , $"<div class=\"gray\">单号：{result.Name}</div>" +
                          $"<div class=\"normal\">船号/车号：{result.CarNo}</div>" +

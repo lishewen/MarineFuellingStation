@@ -296,6 +296,23 @@ namespace MFS.Controllers
                 Data = order
             };
         }
+        /// <summary>
+        /// 指定目标推送打印指令
+        /// </summary>
+        /// <param name="id">Order id</param>
+        /// <param name="to"></param>
+        /// <returns></returns>
+        [HttpGet("[action]")]
+        public async Task<ResultJSON<Order>> PrintTo(int id, string to)
+        {
+            Order o = r.Get(id);
+            await SendPrintOrderAsync(to, o);
+            return new ResultJSON<Order>
+            {
+                Code = 0,
+                Data = o
+            };
+        }
         #endregion
         #region Put方法
         /// <summary>

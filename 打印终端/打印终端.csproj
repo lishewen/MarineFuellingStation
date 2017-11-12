@@ -200,9 +200,7 @@
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="dbd.docx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
     <None Include="unload.docx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -216,6 +214,7 @@
     <None Include="船舶清污完工证.docx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="调拨单.docx" />
     <None Include="陆上装车单.docx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

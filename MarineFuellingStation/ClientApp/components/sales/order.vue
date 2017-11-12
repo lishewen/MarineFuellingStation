@@ -111,7 +111,7 @@
                 <yd-search v-model="sv" />
                 <yd-cell-group>
                     <yd-infinitescroll :callback="loadList" ref="infinitescroll">
-                        <yd-cell-item slot="list" arrow v-for="o in orders" :key="o.id" @click.native="godetail(o.id)">
+                        <yd-cell-item slot="list" arrow v-for="o in orders" :key="o.id" @click.native="showMenuclick(o.id)">
                             <div slot="left" style="line-height: .4rem;margin: 10px 0">
                                 <p>{{o.carNo}} - <span class="col-green">￥{{o.totalMoney}}</span></p>
                                 <p class="color_lightgray">{{o.name}}</p>
@@ -162,6 +162,8 @@
             </yd-cell-group>
         </yd-popup>
         <!--右滑菜单 end-->
+        <!--打印菜单-->
+        <yd-actionsheet :items="menus" v-model="showMenus" cancel="取消"></yd-actionsheet>
     </div>
 </template>
 

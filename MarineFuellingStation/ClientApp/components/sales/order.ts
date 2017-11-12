@@ -9,9 +9,11 @@ export default class OrderComponent extends ComponentBase {
     salesplan: server.salesPlan;
     salesplanshow: boolean = false;
     isPrevent: boolean = true;
+    showMenus: boolean = false;
     model: server.order;
     selectedplanNo: string = "请选择";
     oiloptions: ydui.actionSheetItem[];
+    menus: ydui.actionSheetItem[];
     oilName: string = '请选择';
     oilshow: boolean = false;
     orders: server.order[];
@@ -191,6 +193,25 @@ export default class OrderComponent extends ComponentBase {
         });
     }
 
+    showMenuclick(oid: number) {
+        this.menus = new Array();
+        this.menus = [
+            {
+                label: '单据明细',
+                method: () => {
+                    this.godetail(oid)
+                }
+            },
+            {
+                label: '打印到【收银台】',
+                method: () => {
+                    this.getPrintTo(oid, '收银台')
+                }
+            }
+        ];
+        this.showMenus = true;
+    }
+
     mounted() {
         this.$emit('setTitle', this.$store.state.username + ' 销售单');
 
@@ -244,8 +265,9 @@ export default class OrderComponent extends ComponentBase {
         (<any>this).$refs.infinitescroll.$emit('ydui.infinitescroll.reInit');
         this.salesplans = null;
         this.page = 1;
-        if (label == '单据记录')
+        if (label == '单据记录') {
             this.getOrders();
+        }   
     }
 
     loadList() {
@@ -390,6 +412,18 @@ export default class OrderComponent extends ComponentBase {
             if (jobj.code == 0) {
                 this.addNextConfirm();
                 this.isPrevent = true;
+            }
+        });
+    }
+
+    //打印
+    getPrintTo(id: number, to: string) {
+        axios.get('/api/Order/PrintTo?' +
+            'id=' + id +
+            '&to=' + to).then((res) => {
+            let jobj = res.data as server.resultJSON<server.order>;
+            if (jobj.code == 0) {
+                this.toastSuccess('打印指令已发出')
             }
         });
     }

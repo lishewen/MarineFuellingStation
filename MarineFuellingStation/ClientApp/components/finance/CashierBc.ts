@@ -141,7 +141,13 @@ export default class CashierBcComponent extends ComponentBase {
                 method: () => {
                     this.showPayTypes = true;
                 }
-            }
+            },
+            {
+                label: '打印到【收银台】',
+                method: () => {
+                    this.getPrintTo(b.id, '收银台')
+                }
+            },
         ];
         this.showAct = true;
     }
@@ -264,6 +270,18 @@ export default class CashierBcComponent extends ComponentBase {
                 this.showPayTypes = false;
             }
         })
+    }
+
+    //打印
+    getPrintTo(id: number, to: string) {
+        axios.get('/api/BoatClean/PrintTo?' +
+            'id=' + id +
+            '&to=' + to).then((res) => {
+                let jobj = res.data as server.resultJSON<server.boatClean>;
+                if (jobj.code == 0) {
+                    this.toastSuccess('打印指令已发出')
+                }
+            });
     }
     
 }

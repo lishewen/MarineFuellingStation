@@ -55,7 +55,7 @@ namespace MFS.Repositorys
         /// <returns></returns>
         public List<Purchase> GetReadyUnload()
         {
-            List<Purchase> purchases = _dbContext.Purchases.Where(p => p.State != Purchase.UnloadState.已审核).Include(p => p.Product).ToList();
+            List<Purchase> purchases = _dbContext.Purchases.Where(p => p.State != Purchase.UnloadState.已审核).Include(p => p.Product).OrderByDescending(p => p.Id).ToList();
             foreach(var p in purchases)
             {
                 if (!string.IsNullOrEmpty(p.ToStoreIds))

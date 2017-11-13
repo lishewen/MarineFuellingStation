@@ -141,9 +141,12 @@
                 </yd-lightbox>
             </div>
         </div>
-
+        <!--打印-->
+        <div class="center" v-show="currStep == 6">
+            <yd-button style="width:90%" type="primary" @click.native="printclick()">打印到【收银】</yd-button>
+        </div>
         <!--施工明细-->
-        <yd-cell-group title="施工明细" v-show="currStep == 6">
+        <yd-cell-group title="施工明细" v-show="currStep == 6" class="first-group">
             <yd-cell-item>
                 <span slot="right" style="font-weight: bold">{{purchase.product? purchase.product.name : ""}} - {{purchase.count}}吨</span>
             </yd-cell-item>

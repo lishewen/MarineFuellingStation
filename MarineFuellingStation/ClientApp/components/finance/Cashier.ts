@@ -10,8 +10,10 @@ export default class CashierComponent extends ComponentBase {
     showAct: boolean = false;
     showCharge: boolean = false;
     showPayments: boolean = false;
+    showMenus: boolean = false;//已结算中的actionsheet控制显示
     isCompanyCharge: boolean = false;
     actItems: ydui.actionSheetItem[];
+    menus: ydui.actionSheetItem[];
     totalPayMoney: number;//所有已支付的金额总和
 
     //搜索
@@ -62,6 +64,7 @@ export default class CashierComponent extends ComponentBase {
         this.nopayorders = new Array<server.order>();
 
         this.actItems = new Array<ydui.actionSheetItem>();
+        this.menus = new Array<ydui.actionSheetItem>();
     }
 
     strPayType(pt: server.orderPayType) {
@@ -100,7 +103,6 @@ export default class CashierComponent extends ComponentBase {
 
     orderclick(o: server.order) {
         this.selectedOrder = o;
-
         this.actItems = [
             {
                 label: '结账',
@@ -108,16 +110,18 @@ export default class CashierComponent extends ComponentBase {
                     this.showPayTypes = true;
                     this.lastshow = true;
                 }
-            },
-            {
-                label: '充值【个人账户】',
-                method: () => {
-                    this.showCharge = true;
-                    this.isCompanyCharge = false;
-                    this.chargeAccount = this.selectedOrder.client.carNo;
-                }
-            }  
+            }
         ];
+        
+        this.actItems.push({
+            label: '充值【个人账户】',
+            method: () => {
+                this.showCharge = true;
+                this.isCompanyCharge = false;
+                this.chargeAccount = this.selectedOrder.client.carNo;
+            }
+        });
+        
         let coItem = {
             label: '充值【公司账户】',
             method: () => {
@@ -133,6 +137,41 @@ export default class CashierComponent extends ComponentBase {
         this.showAct = true;
         
     }
+
+    //已结算中显示actionsheet菜单
+    showMenusclick(o: server.order) {
+        this.menus = [
+            {
+                label: '支付方式',
+                method: () => {
+                    this.showPaymentsclick(o)
+                }
+            },
+            {
+                label: '打印【调拨单】到【收银台】',
+                method: () => {
+                    this.getPrintOrder(o.id, "收银台")
+                }
+            },
+            {
+                label: '打印【调拨单】到【地磅室】',
+                method: () => {
+                    this.getPrintOrder(o.id, "地磅室")
+                }
+            }];
+        //如果为陆上销售，则添加相应打印菜单
+        if (o.orderType == server.salesPlanType.陆上) {
+            this.actItems.push({
+                label: '打印【送货单】到【地磅室】',
+                method: () => {
+                    this.getPrintDeliver(o.id)
+                }
+            });
+        }
+
+        this.showMenus = true;
+    }
+
     showPaymentsclick(o: server.order) {
         this.selectedOrder = o;
         this.showPayments = true;
@@ -409,5 +448,26 @@ export default class CashierComponent extends ComponentBase {
             }
         });
     }
-    
+
+    //打印“结算单”到指定打印机
+    getPrintOrder(id: number, to: string) {
+        axios.get('/api/Order/PrintOrder?' +
+            'id=' + id +
+            '&to=' + to).then((res) => {
+                let jobj = res.data as server.resultJSON<server.order>;
+                if (jobj.code == 0) {
+                    this.toastSuccess('调拨单打印指令已发出')
+                }
+            });
+    }
+    //打印“陆上装车单”
+    getPrintDeliver(id: number) {
+        axios.get('/api/Order/getPrintDeliver?' +
+            'id=' + id ).then((res) => {
+                let jobj = res.data as server.resultJSON<server.order>;
+                if (jobj.code == 0) {
+                    this.toastSuccess('陆上送货单打印指令已发出')
+                }
+            });
+    }
 }

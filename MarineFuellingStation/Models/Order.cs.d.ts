@@ -20,7 +20,11 @@ declare module server {
 		unit: string;
 		totalMoney: number;
 		/** 是否开票 */
-		isInvoice: boolean;
+        isInvoice: boolean;
+        /** 送货上门/自提 */
+        isDeliver: boolean;
+        /** 是否打印单价 送货 */
+        isPrintPrice: boolean;
 		/** 开票单位 */
 		billingCompany: string;
 		/** 开票单价 */

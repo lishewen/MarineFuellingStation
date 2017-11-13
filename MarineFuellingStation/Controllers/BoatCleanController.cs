@@ -1,7 +1,9 @@
 ﻿using MFS.Controllers.Attributes;
+using MFS.Hubs;
 using MFS.Models;
 using MFS.Repositorys;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +15,21 @@ namespace MFS.Controllers
     public class BoatCleanController:ControllerBase
     {
         private readonly BoatCleanRepository r;
-        public BoatCleanController(BoatCleanRepository repository)
+        private readonly IHubContext<PrintHub> _hub;
+        public BoatCleanController(BoatCleanRepository repository, IHubContext<PrintHub> hub)
         {
             r = repository;
+            _hub = hub;
         }
+        [NonAction]
+        public async Task SendPrintBoatCleanAsync(string who, BoatClean bc)
+        {
+            foreach (var connectionId in PrintHub.connections.GetConnections(who))
+            {
+                await _hub.Clients.Client(connectionId).InvokeAsync("printboatcleancollection", bc);
+            }
+        }
+        #region GET
         [HttpGet("[action]")]
         public ResultJSON<string> BoatCleanNo()
         {
@@ -24,18 +37,6 @@ namespace MFS.Controllers
             {
                 Code = 0,
                 Data = r.GetSerialNumber(r.GetLastBoatCleanNo())
-            };
-        }
-        [HttpPost]
-        public ResultJSON<BoatClean> Post([FromBody]BoatClean b)
-        {
-            r.CurrentUser = UserName;
-            var result = r.Insert(b);
-
-            return new ResultJSON<BoatClean>
-            {
-                Code = 0,
-                Data = result
             };
         }
         [HttpGet]
@@ -74,6 +75,39 @@ namespace MFS.Controllers
             };
         }
         /// <summary>
+        /// 指定目标推送打印指令
+        /// </summary>
+        /// <param name="id">Order id</param>
+        /// <param name="to"></param>
+        /// <returns></returns>
+        [HttpGet("[action]")]
+        public async Task<ResultJSON<BoatClean>> PrintTo(int id, string to)
+        {
+            BoatClean o = r.Get(id);
+            await SendPrintBoatCleanAsync(to, o);
+            return new ResultJSON<BoatClean>
+            {
+                Code = 0,
+                Data = o
+            };
+        }
+        #endregion
+        #region POST
+        [HttpPost]
+        public ResultJSON<BoatClean> Post([FromBody]BoatClean b)
+        {
+            r.CurrentUser = UserName;
+            var result = r.Insert(b);
+
+            return new ResultJSON<BoatClean>
+            {
+                Code = 0,
+                Data = result
+            };
+        }
+        #endregion
+        #region PUT
+        /// <summary>
         /// 订单结算
         /// </summary>
         /// <param name="model">model</param>
@@ -103,5 +137,6 @@ namespace MFS.Controllers
                 Data = r.Update(model)
             };
         }
+        #endregion
     }
 }

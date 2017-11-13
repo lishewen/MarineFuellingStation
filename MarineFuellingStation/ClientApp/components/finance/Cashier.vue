@@ -13,8 +13,8 @@
                             </div>
                             <div slot="right" class="align-right lineheight24 cell-padding">
                                 <p class="col-gray font16">￥{{o.totalMoney}}</p>
-                                <p class="col-light-gray font14" style="margin-top:5px">{{o.product.name}} / {{o.count}}{{o.unit}} / {{o.price}}</p>
-                                <p class="col-coral" v-if="o.client != null">个人余额：￥{{o.client == null ? 0 : o.client.balances}}</p>
+                                <p class="col-light-gray font14">{{o.product.name}} / {{o.count}}{{o.unit}} / {{o.price}}</p>
+                                <p class="col-coral" v-if="o.client.balances != 0">个人余额：￥{{o.client == null ? 0 : o.client.balances}}</p>
                                 <p class="col-coral" v-if="o.client.company != null">公司余额：￥{{o.client.company == null ? 0 : o.client.company.balances}}</p>
                             </div>
                         </yd-cell-item>
@@ -30,7 +30,7 @@
                 <yd-cell-group>
                     <yd-search v-model="sv2" />
                     <yd-infinitescroll :callback="loadList" ref="orderinfinitescroll2">
-                        <yd-cell-item slot="list" arrow v-for="o in haspayorders" :key="o.id" @click.native="showPaymentsclick(o)">
+                        <yd-cell-item slot="list" arrow v-for="o in haspayorders" :key="o.id" @click.native="showMenusclick(o)">
                             <div slot="left">
                                 <p class="font16">{{o.carNo}}</p>
                                 <p class="col-light-gray font14">{{o.name}}</p>
@@ -233,6 +233,7 @@
         </yd-popup>
         <!--actionsheet-->
         <yd-actionsheet :items="actItems" v-model="showAct" cancel="取消"></yd-actionsheet>
+        <yd-actionsheet :items="menus" v-model="showMenus" cancel="取消"></yd-actionsheet>
     </div>
 </template>
 

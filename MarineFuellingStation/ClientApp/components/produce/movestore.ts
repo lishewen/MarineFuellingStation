@@ -54,6 +54,7 @@ export default class MoveStoreComponent extends ComponentBase {
 
     buttonclick() {
         //信息验证
+        this.isPrevent = true;
         this.postMoveStore(this.model);
     }
 

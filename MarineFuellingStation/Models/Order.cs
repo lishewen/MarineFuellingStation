@@ -60,6 +60,14 @@ namespace MFS.Models
         /// </summary>
         public bool IsInvoice { get; set; }
         /// <summary>
+        /// 送货上门/自提
+        /// </summary>
+        public bool IsDeliver { get; set; } = true;
+        /// <summary>
+        /// 是否打印单价
+        /// </summary>
+        public bool IsPrintPrice { get; set; } = true;
+        /// <summary>
         /// 开票单位
         /// </summary>
         public string BillingCompany { get; set; }

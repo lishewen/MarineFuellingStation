@@ -89,6 +89,18 @@
                         <yd-input slot="right" v-model="model.billingCount" type="number" placeholder="请输入，默认同上"></yd-input>
                     </yd-cell-item>
                 </yd-cell-group>
+
+                <yd-cell-group title="送货单选项" v-show="model.orderType == 1">
+                    <yd-cell-item>
+                        <span slot="left">送货上门</span>
+                        <span slot="right"><yd-switch v-model="model.isDeliver"></yd-switch></span>
+                    </yd-cell-item>
+                    <yd-cell-item v-show="model.isDeliver">
+                        <span slot="left">打印单价</span>
+                        <span slot="right"><yd-switch v-model="model.isPrintPrice"></yd-switch></span>
+                    </yd-cell-item>
+                </yd-cell-group>
+
                 <yd-cell-group title="选填" v-show="show2">
                     <yd-cell-item>
                         <span slot="left">是否运输</span>

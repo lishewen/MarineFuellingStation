@@ -38,8 +38,12 @@
                 <span slot="right" style="width:70px">单位：{{model.unit}}</span>
             </yd-cell-item>-->
             <yd-cell-item>
-                <span slot="left">加油时间：</span>
+                <span slot="left">预计加油时间：</span>
                 <span slot="right">{{formatDate(model.oilDate)}}</span>
+            </yd-cell-item>
+            <yd-cell-item>
+                <span slot="left">备注：</span>
+                <span slot="right">{{model.remark}}</span>
             </yd-cell-item>
         </yd-cell-group>
 

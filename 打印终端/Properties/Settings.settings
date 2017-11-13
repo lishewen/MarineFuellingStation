@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="baseAddress" Type="System.String" Scope="User">
-      <Value Profile="(Default)">https://vue.car0774.com/hubs/print</Value>
+      <Value Profile="(Default)">http://localhost:1626/hubs/print</Value>
     </Setting>
     <Setting Name="PrintOrderDocx" Type="System.String" Scope="User">
       <Value Profile="(Default)">调拨单.docx</Value>
@@ -23,7 +23,7 @@
     <Setting Name="PrintBoatCleanCollectionDocx" Type="System.String" Scope="User">
       <Value Profile="(Default)">船舶清污完工证收款单.docx</Value>
     </Setting>
-    <Setting Name="PrintLoadOilDocx" Type="System.String" Scope="User">
+    <Setting Name="PrintLandLoadDocx" Type="System.String" Scope="User">
       <Value Profile="(Default)">陆上装车单.docx</Value>
     </Setting>
     <Setting Name="PrintPrepaymentDocx" Type="System.String" Scope="User">
@@ -31,6 +31,9 @@
     </Setting>
     <Setting Name="PrintUnloadDocx1" Type="System.String" Scope="User">
       <Value Profile="(Default)">出库石化过磅单.docx</Value>
+    </Setting>
+    <Setting Name="PrintLandDeliver" Type="System.String" Scope="User">
+      <Value Profile="(Default)">陆上送货单.docx</Value>
     </Setting>
   </Settings>
 </SettingsFile>

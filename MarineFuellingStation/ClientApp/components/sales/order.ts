@@ -125,6 +125,9 @@ export default class OrderComponent extends ComponentBase {
         this.model.billingPrice = s.billingPrice;
         this.model.billingCount = s.billingCount;
         this.model.salesman = s.createdBy;
+        this.model.isDeliver = s.isDeliver;
+        this.model.isPrintPrice = s.isPrintPrice;
+        this.model.remark = s.remark;
         
         //this.model.clientId = s.cl
         this.oilName = s.oilName;
@@ -206,6 +209,12 @@ export default class OrderComponent extends ComponentBase {
                 label: '打印到【收银台】',
                 method: () => {
                     this.getPrintTo(oid, '收银台')
+                }
+            },
+            {
+                label: '打印到【地磅室】',
+                method: () => {
+                    this.getPrintTo(oid, '地磅室')
                 }
             }
         ];

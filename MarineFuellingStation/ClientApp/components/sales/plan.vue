@@ -58,9 +58,13 @@
                         <span slot="left">预计加油时间：</span>
                         <yd-datetime type="date" v-model="oildate" slot="right"></yd-datetime>
                     </yd-cell-item>
+                    <yd-cell-item>
+                        <span slot="left">备注：</span>
+                        <yd-textarea slot="right" v-model="model.remark" placeholder="请输入备注信息" maxlength="200"></yd-textarea>
+                    </yd-cell-item>
                 </yd-cell-group>
 
-                <yd-cell-group title="选填" v-show="showNext">
+                <yd-cell-group title="代码信息" v-show="showNext">
                     <yd-cell-item>
                         <span slot="right">
                             <yd-switch v-model="model.isInvoice"></yd-switch>
@@ -87,6 +91,18 @@
                         <yd-input slot="right" v-model="model.billingCount" regex="" placeholder="请输入开出数量，默认同上"></yd-input>
                     </yd-cell-item>
                 </yd-cell-group>
+
+                <yd-cell-group title="送货单选项" v-show="model.salesPlanType == 1">
+                    <yd-cell-item>
+                        <span slot="left">送货上门</span>
+                        <span slot="right"><yd-switch v-model="model.isDeliver"></yd-switch></span>
+                    </yd-cell-item>
+                    <yd-cell-item v-show="model.isDeliver">
+                        <span slot="left">打印单价</span>
+                        <span slot="right"><yd-switch v-model="model.isPrintPrice"></yd-switch></span>
+                    </yd-cell-item>
+                </yd-cell-group>
+
                 <div>
                     <yd-button size="large" type="primary" @click.native="buttonclick" :disabled="isPrevent" v-show="showNext">提交</yd-button>
                 </div>

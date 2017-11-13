@@ -99,11 +99,15 @@
             <yd-lightbox class="img-wrap">
                 <yd-lightbox-img :src="order.oilCarWeightPic"></yd-lightbox-img>
             </yd-lightbox>
+        </div>        
+        <!--打印-->
+        <div class="center" v-show="currStep == 5">
+            <yd-button style="width:90%" type="primary" @click.native="printclick()">打印到【地磅室】</yd-button>
         </div>
         <!--施工明细-->
-        <div v-show="currStep == 5">
+        <div v-show="currStep == 5" class="first-group">
             <div style="background-color: yellowgreen;padding: 10px; text-align: center; color: white; font-size: .3rem">实际加：{{order.oilCount}}{{order.unit}} | 应加：{{order.count}}{{order.unit}} | 相差{{order.diffOil}}{{order.unit}}</div>
-            <yd-cell-group title="过磅明细" style="margin-top: 15px">
+            <yd-cell-group title="过磅明细" class="first-group">
                 <yd-cell-item>
                     <span slot="right" style="font-weight: bold">{{order.product? order.product.name : ""}} - {{order.count}}吨</span>
                 </yd-cell-item>

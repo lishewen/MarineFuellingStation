@@ -23,7 +23,7 @@
             </yd-tab-panel>
             <yd-tab-panel label="完工单">
                 <yd-cell-group>
-                    <yd-cell-item arrow v-for="f in fnmovestores" :key="f.id">
+                    <yd-cell-item arrow v-for="f in fnmovestores" :key="f.id" @click.native="showMenuclick(f.id)">
                         <div slot="left" class="lineheight24" style="margin: 10px 0 10px 0">
                             <p>
                                 <span class="col-green">出：</span><span>【{{f.outStoreTypeName}}】 - {{f.outStoreName}}</span>
@@ -40,7 +40,8 @@
                 </yd-cell-group>
             </yd-tab-panel>
             <yd-popup v-model="show2" position="right" width="70%">
-                <yd-cell-group title="请录入">
+                <yd-cell-group title="施工结束录入">
+                    <div style="background-color: yellowgreen;padding: 10px; text-align: center; color: white">本次安排转仓：{{model.outPlan}}升</div>
                     <yd-cell-item>
                         <span slot="left">实际转出：</span>
                         <yd-input slot="right" v-model="model.outFact" required placeholder="" type="number"></yd-input>
@@ -53,10 +54,12 @@
                     </yd-cell-item>
                 </yd-cell-group>
                 <div class="align-center">
-                    <yd-button style="width:80%" type="primary" @click.native="overclick()">施工结束</yd-button>
+                    <yd-button style="width:90%" type="primary" @click.native="overclick()">施工结束提交</yd-button>
                 </div>
             </yd-popup>
         </yd-tab>
+        <!--打印菜单-->
+        <yd-actionsheet :items="menus" v-model="showMenus" cancel="取消"></yd-actionsheet>
     </div>
 </template>
 

@@ -151,6 +151,10 @@ export default class UnloadComponent extends ComponentBase {
         this.goNext();
     }
 
+    printclick() {
+        this.getPrintTo(this.purchase.id, "收银台");
+    }
+
     isHas(name: string) {
         return this.instruments.indexOf(name) > -1
     }
@@ -338,5 +342,17 @@ export default class UnloadComponent extends ComponentBase {
                 this.currStep = 1;
             }
         });
+    }
+
+    //打印
+    getPrintTo(id: number, to: string) {
+        axios.get('/api/Purchase/PrintTo?' +
+            'id=' + id +
+            '&to=' + to).then((res) => {
+                let jobj = res.data as server.resultJSON<server.purchase>;
+                if (jobj.code == 0) {
+                    this.toastSuccess('打印指令已发出')
+                }
+            });
     }
 }

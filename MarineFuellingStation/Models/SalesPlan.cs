@@ -33,6 +33,14 @@ namespace MFS.Models
         /// 是否开票
         /// </summary>
         public bool IsInvoice { get; set; }
+        /// <summary>
+        /// 送货上门/自提
+        /// </summary>
+        public bool IsDeliver { get; set; } = true;
+        /// <summary>
+        /// 是否打印单价
+        /// </summary>
+        public bool IsPrintPrice { get; set; } = true;
         public TicketType TicketType { get; set; }
         /// <summary>
         /// 开票单位
@@ -63,6 +71,10 @@ namespace MFS.Models
                 return Math.Round(Price * Count, 2);
             }
         }
+        /// <summary>
+         /// 备注
+         /// </summary>
+        public string Remark { get; set; }
     }
 
     public enum SalesPlanType

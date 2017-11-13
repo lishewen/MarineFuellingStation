@@ -9,6 +9,8 @@ export default class MoveStoreActComponent extends ComponentBase {
     movestores: server.moveStoreGET[];
     fnmovestores: server.moveStoreGET[];
     model: server.moveStore;
+    menus: ydui.actionSheetItem[];
+    showMenus: boolean = false;
 
     constructor() {
         super();
@@ -22,33 +24,36 @@ export default class MoveStoreActComponent extends ComponentBase {
     }
 
     changeState(m: server.moveStoreGET) {
-        if (m.stateName == "已开单") {
-            m.state = 1;
-            (<any>this).$dialog.confirm({
-                title: '确认操作',
-                mes: '开始施工？',
-                opts: () => {
-                    this.putState(m)
-                }
-            })
-        }
-        else if (m.stateName == "施工中") {
-            this.show2 = true;
-            this.model.id = m.id;
-            this.model.inStoreId = m.inStoreId;
-            this.model.outStoreId = m.outStoreId;
-        }
+        this.show2 = true;
+        this.model.id = m.id;
+        this.model.inStoreId = m.inStoreId;
+        this.model.outStoreId = m.outStoreId;
+        this.model.outPlan = m.outPlan;
     };
     overclick() {
-        if (this.model.inFact == "" || this.model.inFact <= 0) {
-            this.toastError("实际转入数量不能为空或小于等于0")
-            return;
-        }
-        if (this.model.outFact == "" || this.model.outFact <= 0) {
+        if (this.model.outFact == null || this.model.outFact <= 0) {
             this.toastError("实际转出数量不能为空或小于等于0")
             return;
         }
-        this.putInOutFact()
+        if (this.model.inFact == null || this.model.inFact <= 0) {
+            this.toastError("实际转入数量不能为空或小于等于0")
+            return;
+        }
+        //this.putInOutFact()
+    }
+
+    //添加actionsheet items
+    showMenuclick(mid: number) {
+        this.menus = new Array();
+        this.menus = [
+            {
+                label: '打印到【收银台】',
+                method: () => {
+                    this.getPrintTo(mid, '收银台')
+                }
+            }
+        ];
+        this.showMenus = true;
     }
 
     mounted() {
@@ -95,13 +100,33 @@ export default class MoveStoreActComponent extends ComponentBase {
         axios.put('/api/MoveStore/UpdateInOutFact', this.model).then((res) => {
             let jobj = res.data as server.resultJSON<server.moveStore>;
             if (jobj.code == 0) {
+                let that = this;
                 this.getMoveStores();
                 this.getFnMoveStores();
                 this.toastSuccess("操作成功");
                 this.show2 = false;
+                (<any>this).$dialog.confirm({
+                    title: '打印操作',
+                    mes: '是否打印到【收银台】？',
+                    opts: () => {
+                        that.getPrintTo(jobj.data.id, "收银台");
+                    }
+                })
             }
             else
                 this.toastError(jobj.msg);
         });
+    }
+
+    //打印
+    getPrintTo(id: number, to: string) {
+        axios.get('/api/MoveStore/PrintTo?' +
+            'id=' + id +
+            '&to=' + to).then((res) => {
+                let jobj = res.data as server.resultJSON<server.moveStore>;
+                if (jobj.code == 0) {
+                    this.toastSuccess('打印指令已发出')
+                }
+            });
     }
 }

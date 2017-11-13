@@ -34,13 +34,16 @@ namespace MFS.Controllers
             _hostingEnvironment = env;
             //获取 销售单 企业微信应用的AccessToken
             this.option = option.Value;
-            this.option.进油计划AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.进油计划Secret);
-            this.option.进油看板AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.进油看板Secret);
-            this.option.陆上卸油AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.陆上卸油Secret);
-            this.option.油仓情况AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.油仓情况Secret);
-            this.option.卸油审核AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.卸油审核Secret);
 
             _hub = hub;
+        }
+        [NonAction]
+        public async Task SendPrintUnloadAsync(string who, Purchase pu)
+        {
+            foreach (var connectionId in PrintHub.connections.GetConnections(who))
+            {
+                await _hub.Clients.Client(connectionId).InvokeAsync("printunload", pu);
+            }
         }
         [HttpGet]
         public ResultJSON<List<Purchase>> Get()
@@ -177,6 +180,23 @@ namespace MFS.Controllers
                 Data = r.GetByState(page, pageSize, pus)
             };
         }
+        /// <summary>
+        /// 指定目标推送打印指令
+        /// </summary>
+        /// <param name="id">Purchase id</param>
+        /// <param name="to"></param>
+        /// <returns></returns>
+        [HttpGet("[action]")]
+        public async Task<ResultJSON<Purchase>> PrintTo(int id, string to)
+        {
+            Purchase bc = r.Get(id);
+            await SendPrintUnloadAsync(to, bc);
+            return new ResultJSON<Purchase>
+            {
+                Code = 0,
+                Data = bc
+            };
+        }
         [HttpPut("[action]")]
         public ResultJSON<Purchase> ChangeState([FromBody]Purchase p)
         {
@@ -187,6 +207,7 @@ namespace MFS.Controllers
             if (p.State == Purchase.UnloadState.完工)
             {
                 //推送到“卸油审核”
+                this.option.卸油审核AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.卸油审核Secret);
                 MassApi.SendTextCard(option.卸油审核AccessToken, option.卸油审核AgentId, "卸油施工结束，请审核更新油仓"
                          , $"<div class=\"gray\">单号：{model.Name}</div>" +
                          $"<div class=\"normal\">车号：{model.CarNo}</div>" +
@@ -248,19 +269,23 @@ namespace MFS.Controllers
             var result = r.Insert(p);
 
             //推送到“进油计划”
-            MassApi.SendTextCard(option.进油计划AccessToken, option.进油计划AgentId, "已开进油计划单"
-                     , $"<div class=\"gray\">单号：{result.Name}</div>" +
-                     $"<div class=\"normal\">运输车号：{result.CarNo}{result.TrailerNo}</div>" +
-                     $"<div class=\"normal\">预计到达：{result.ArrivalTime}</div>"
-                     , $"http://vue.car0774.com/#/produce/buyboard", toUser: "@all");
+            //this.option.进油计划AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.进油计划Secret);
+            //MassApi.SendTextCard(option.进油计划AccessToken, option.进油计划AgentId, "已开进油计划单"
+            //         , $"<div class=\"gray\">单号：{result.Name}</div>" +
+            //         $"<div class=\"normal\">运输车号：{result.CarNo}{result.TrailerNo}</div>" +
+            //         $"<div class=\"normal\">预计到达：{result.ArrivalTime}</div>"
+            //         , $"http://vue.car0774.com/#/produce/buyboard", toUser: "@all");
+
             //推送到“进油看板”
-            MassApi.SendTextCard(option.进油看板AccessToken, option.进油看板AgentId, "已开进油计划单"
+            this.option.进油看板AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.进油看板Secret);
+            MassApi.SendTextCard(option.进油看板AccessToken, option.进油看板AgentId, $"{UserName}开出了进油计划单"
                      , $"<div class=\"gray\">单号：{result.Name}</div>" +
                      $"<div class=\"normal\">运输车号：{result.CarNo}{result.TrailerNo}</div>" +
                      $"<div class=\"normal\">预计到达：{result.ArrivalTime}</div>"
                      , $"https://vue.car0774.com/#/produce/buyboard", toUser: "@all");
             //推送到“陆上卸油”
-            MassApi.SendTextCard(option.陆上卸油AccessToken, option.陆上卸油AgentId, "已开进油计划单"
+            this.option.陆上卸油AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.陆上卸油Secret);
+            MassApi.SendTextCard(option.陆上卸油AccessToken, option.陆上卸油AgentId, $"{UserName}开出了进油计划单"
                      , $"<div class=\"gray\">单号：{result.Name}</div>" +
                      $"<div class=\"normal\">运输车号：{result.CarNo}{result.TrailerNo}</div>" +
                      $"<div class=\"normal\">预计到达：{result.ArrivalTime}</div>"
@@ -287,7 +312,8 @@ namespace MFS.Controllers
             //更新油仓相关数量，平均单价，出入仓记录
             if (infactTotal > 0)
             {
-                //推送到“收银”
+                //推送到“油仓情况”
+                this.option.油仓情况AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.油仓情况Secret);
                 MassApi.SendTextCard(option.油仓情况AccessToken, option.油仓情况AgentId, "卸油审核成功，已更新油仓油量"
                          , $"<div class=\"gray\">卸油单号：{pu.Name}</div>" +
                          $"<div class=\"normal\">审核人：{UserName}</div>" +

@@ -14,7 +14,11 @@ declare module server {
 		remainder: number;
 		oilDate: Date;
 		/** 是否开票 */
-		isInvoice: boolean;
+        isInvoice: boolean;
+        /** 送货上门/自提 */
+        isDeliver: boolean;
+        /** 是否打印单价 送货 */
+        isPrintPrice: boolean;
 		ticketType: ticketType;
 		/** 开票单位 */
 		billingCompany: string;
@@ -27,7 +31,9 @@ declare module server {
 		auditor: string;
 		/** 审核时间 */
 		auditTime?: Date;
-		totalMoney: number;
+        totalMoney: number;
+        /** 备注 */
+        remark: string;
 	}
 	const enum salesPlanType {
 		水上,

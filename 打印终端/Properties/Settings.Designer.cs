@@ -25,7 +25,7 @@ namespace 打印终端.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://vue.car0774.com/hubs/print")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:1626/hubs/print")]
         public string baseAddress {
             get {
                 return ((string)(this["baseAddress"]));
@@ -110,12 +110,12 @@ namespace 打印终端.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("陆上装车单.docx")]
-        public string PrintLoadOilDocx {
+        public string PrintLandLoadDocx {
             get {
-                return ((string)(this["PrintLoadOilDocx"]));
+                return ((string)(this["PrintLandLoadDocx"]));
             }
             set {
-                this["PrintLoadOilDocx"] = value;
+                this["PrintLandLoadDocx"] = value;
             }
         }
         
@@ -140,6 +140,18 @@ namespace 打印终端.Properties {
             }
             set {
                 this["PrintUnloadDocx1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("陆上送货单.docx")]
+        public string PrintLandDeliver {
+            get {
+                return ((string)(this["PrintLandDeliver"]));
+            }
+            set {
+                this["PrintLandDeliver"] = value;
             }
         }
     }

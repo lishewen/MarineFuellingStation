@@ -26,6 +26,14 @@ namespace MFS.Controllers
             _hub = hub;
             this.option = option.Value;
         }
+        [NonAction]
+        public async Task SendPrintMoveStoreAsync(string who, MoveStore ms)
+        {
+            foreach (var connectionId in PrintHub.connections.GetConnections(who))
+            {
+                await _hub.Clients.Client(connectionId).InvokeAsync("printmovestore", ms);
+            }
+        }
         [HttpGet("[action]")]
         public ResultJSON<string> MoveStoreNo()
         {
@@ -42,6 +50,23 @@ namespace MFS.Controllers
             {
                 Code = 0,
                 Data = r.GetForIsFinished(isFinished)
+            };
+        }
+        /// <summary>
+        /// 指定目标推送打印指令
+        /// </summary>
+        /// <param name="id">Order id</param>
+        /// <param name="to"></param>
+        /// <returns></returns>
+        [HttpGet("[action]")]
+        public async Task<ResultJSON<MoveStore>> PrintTo(int id, string to)
+        {
+            MoveStore bc = r.Get(id);
+            await SendPrintMoveStoreAsync(to, bc);
+            return new ResultJSON<MoveStore>
+            {
+                Code = 0,
+                Data = bc
             };
         }
         /// <summary>

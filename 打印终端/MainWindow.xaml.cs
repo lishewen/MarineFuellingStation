@@ -51,12 +51,12 @@ namespace 打印终端
             ConnectAsync();
 
             //测试
-            PrintOrder(new Order
-            {
-                CarNo = "ct200",
-                CreatedAt = DateTime.Now,
-                Name = "20170801"
-            });
+            //PrintOrder(new Order
+            //{
+            //    CarNo = "ct200",
+            //    CreatedAt = DateTime.Now,
+            //    Name = "20170801"
+            //});
 
             this.Hide();
         }
@@ -91,9 +91,9 @@ namespace 打印终端
             {
                 PrintBoatCleanCollection(m);
             });
-            Connection.On<Order>("printloadoil", (m) =>
+            Connection.On<Order>("printlandload", (m) =>
             {
-                PrintLoadOil(m);
+                PrintLandLoad(m);
             });
             Connection.On<Order>("printprepayment", (m) =>
             {
@@ -144,30 +144,33 @@ namespace 打印终端
             wApp.Quit(ref saveOption, ref missing, ref missing); //关闭Word进程
         }
 
-        private void PrintLoadOil(Order order)
+        private void PrintLandLoad(Order order)
         {
             Log.Logs += $"正在打印LoadOil：{order.Name}\r";
 
             Word.Application thisApplication = new Word.ApplicationClass();
             wApp = thisApplication;
-            string tmpDocFile = AppDomain.CurrentDomain.BaseDirectory + Properties.Settings.Default.PrintLoadOilDocx;
+            string tmpDocFile = AppDomain.CurrentDomain.BaseDirectory + Properties.Settings.Default.PrintLandLoadDocx;
             object templatefile = tmpDocFile;
             wDoc = wApp.Documents.Add(ref templatefile, ref missing, ref missing, ref missing); //在现有进程内打开文档
             wDoc.Activate(); //当前文档置前
 
             //填充数据
+            WordReplace(wApp, "#Name#", order.Name);
             WordReplace(wApp, "#CarNo#", order.CarNo);
             WordReplace(wApp, "#CreateAt#", order.CreatedAt.ToString());
             WordReplace(wApp, "#ClientName#", order.Client.Name);
             WordReplace(wApp, "#CompanyName#", order.Client.Company.Name);
-            WordReplace(wApp, "#Name#", order.Name);
+            
             WordReplace(wApp, "#ProductName#", "石化油");
             WordReplace(wApp, "#Count#", order.Count.ToString());
-            WordReplace(wApp, "#ProductCount#", order.Count.ToString());
-            WordReplace(wApp, "#ProductPrice#", order.Price.ToString());
+            WordReplace(wApp, "#Unit#", order.Unit);
+            WordReplace(wApp, "#Price#", order.Price.ToString());
             WordReplace(wApp, "#TotalMoney#", order.TotalMoney.ToString());
-            WordReplace(wApp, "#CreateBy#", order.CreatedBy);
             WordReplace(wApp, "#CNMoney#", ConvertToChinese(order.TotalMoney));
+            WordReplace(wApp, "#Remark#", order.Remark);
+            WordReplace(wApp, "#LastUpdatedBy#", order.LastUpdatedBy);
+            WordReplace(wApp, "#Salesman#", order.Salesman);
 
             object background = false; //这个很重要，否则关闭的时候会提示请等待Word打印完毕后再退出，加上这个后可以使Word所有
             object filename = AppDomain.CurrentDomain.BaseDirectory + order.Name + ".docx";
@@ -260,15 +263,18 @@ namespace 打印终端
             wDoc.Activate(); //当前文档置前
 
             //填充数据
-            WordReplace(wApp, "#CarNo#", order.CarNo);
-            WordReplace(wApp, "#CreateAt#", order.CreatedAt.ToString());
             WordReplace(wApp, "#Name#", order.Name);
+            WordReplace(wApp, "#CarNo#", order.CarNo);
             WordReplace(wApp, "#ProductName#", "石化油");
-            WordReplace(wApp, "#ProductCount#", order.Count.ToString());
-            WordReplace(wApp, "#ProductPrice#", order.Price.ToString());
+            WordReplace(wApp, "#Count#", order.Count.ToString());
+            WordReplace(wApp, "#Unit#", order.Unit);
+            WordReplace(wApp, "#Price#", order.Price.ToString());
             WordReplace(wApp, "#TotalMoney#", order.TotalMoney.ToString());
-            WordReplace(wApp, "#CreateBy#", order.CreatedBy);
             WordReplace(wApp, "#CNMoney#", ConvertToChinese(order.TotalMoney));
+            WordReplace(wApp, "#Remark#", order.Remark);
+            WordReplace(wApp, "#LastUpdatedBy#", order.LastUpdatedBy);
+            WordReplace(wApp, "#Salesman#", order.Salesman);
+            WordReplace(wApp, "#CreatedAt#", order.CreatedAt.ToString());
 
             object background = false; //这个很重要，否则关闭的时候会提示请等待Word打印完毕后再退出，加上这个后可以使Word所有
             object filename = AppDomain.CurrentDomain.BaseDirectory + order.Name + ".docx";

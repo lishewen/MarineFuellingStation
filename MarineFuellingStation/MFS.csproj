@@ -6,6 +6,7 @@
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
     <ApplicationInsightsResourceId>/subscriptions/7dbb4f8a-fb09-4e28-aab4-46402ca1c00d/resourcegroups/MFS/providers/microsoft.insights/components/MFS</ApplicationInsightsResourceId>
     <ApplicationInsightsAnnotationResourceId>/subscriptions/7dbb4f8a-fb09-4e28-aab4-46402ca1c00d/resourcegroups/MFS/providers/microsoft.insights/components/MFS</ApplicationInsightsAnnotationResourceId>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.2.0" />

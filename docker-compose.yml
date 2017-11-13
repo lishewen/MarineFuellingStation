@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  mfs:
+    image: mfs
+    build:
+      context: ./MarineFuellingStation
+      dockerfile: Dockerfile

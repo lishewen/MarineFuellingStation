@@ -2,7 +2,7 @@ version: '3'
 
 services:
   mfs:
-    image: mfs
+    image: registry.cn-shenzhen.aliyuncs.com/lishewen/mfs
     build:
       context: ./MarineFuellingStation
       dockerfile: Dockerfile

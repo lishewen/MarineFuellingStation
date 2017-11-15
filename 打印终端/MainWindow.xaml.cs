@@ -150,26 +150,31 @@ namespace 打印终端
 
             Word.Application thisApplication = new Word.ApplicationClass();
             wApp = thisApplication;
-            string tmpDocFile = AppDomain.CurrentDomain.BaseDirectory + Properties.Settings.Default.PrintLandLoadDocx;
+            string tmpDocFile = AppDomain.CurrentDomain.BaseDirectory + folder +  Properties.Settings.Default.PrintLandLoadDocx;
             object templatefile = tmpDocFile;
             wDoc = wApp.Documents.Add(ref templatefile, ref missing, ref missing, ref missing); //在现有进程内打开文档
             wDoc.Activate(); //当前文档置前
 
+            decimal DiffWeightToLitre = order.DiffWeight / (decimal)order.Density * 1000;
             //填充数据
             WordReplace(wApp, "#Name#", order.Name);
-            WordReplace(wApp, "#CarNo#", order.CarNo);
-            WordReplace(wApp, "#CreateAt#", order.CreatedAt.ToString());
-            WordReplace(wApp, "#ClientName#", order.Client.Name);
-            WordReplace(wApp, "#CompanyName#", order.Client.Company.Name);
-            
-            WordReplace(wApp, "#ProductName#", "石化油");
-            WordReplace(wApp, "#Count#", order.Count.ToString());
-            WordReplace(wApp, "#Unit#", order.Unit);
-            WordReplace(wApp, "#Price#", order.Price.ToString());
+            WordReplace(wApp, "#ClientName#", order.Client.CarNo);
+            WordReplace(wApp, "#CompanyName#", order.Client.Company?.Name);
+            WordReplace(wApp, "#StoreName#", order.Store.Name);
+            WordReplace(wApp, "#DiffWeight#", order.DiffWeight.ToString("0.00"));
+            WordReplace(wApp, "#Count#", order.Count.ToString("0.00"));
+            WordReplace(wApp, "#DiffOrder#", (order.DiffWeight - order.Count).ToString());
+            WordReplace(wApp, "#Price#", order.IsPrintPrice? order.Price.ToString() : "0.00");
             WordReplace(wApp, "#TotalMoney#", order.TotalMoney.ToString());
-            WordReplace(wApp, "#CNMoney#", ConvertToChinese(order.TotalMoney));
-            WordReplace(wApp, "#Remark#", order.Remark);
-            WordReplace(wApp, "#LastUpdatedBy#", order.LastUpdatedBy);
+            WordReplace(wApp, "#OilCount#", order.OilCountLitre.ToString());
+            WordReplace(wApp, "#DiffWeightToLitre#", DiffWeightToLitre.ToString("0.00"));
+            WordReplace(wApp, "#DiffLitre#", (order.OilCountLitre - DiffWeightToLitre).ToString("0.00"));
+            WordReplace(wApp, "#Instrument_bf#", (order.Instrument1 - order.OilCountLitre).ToString());
+            WordReplace(wApp, "#Instrument_af#", order.Instrument1.ToString());
+            WordReplace(wApp, "#Density#", order.Density.ToString("0.000"));
+            //WordReplace(wApp, "#OilTemperature#", order.OilTemperature.ToString());
+            WordReplace(wApp, "#Worker#", order.Worker);
+            WordReplace(wApp, "#LastUpdatedAt#", order.LastUpdatedAt.ToString());
             WordReplace(wApp, "#Salesman#", order.Salesman);
 
             object background = false; //这个很重要，否则关闭的时候会提示请等待Word打印完毕后再退出，加上这个后可以使Word所有

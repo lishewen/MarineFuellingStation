@@ -13,7 +13,7 @@
 <template>
     <div id="root">
         <div class="align-center first-group">
-            <yd-button style="width:90%" type="primary" @click.native="showPurchases = true">进油单{{purchase.name? '：' + purchase.name + ' | ' + purchase.count + '吨' : ''}}</yd-button>
+            <yd-button style="width:90%" type="primary" @click.native="showPurchases = true">进油单{{purchase.name? '：' + purchase.name + ' / ' + purchase.count + '吨' : ''}}</yd-button>
         </div>
         <yd-step :current="currStep" style="margin: .4rem 0 .4rem">
             <yd-step-item>

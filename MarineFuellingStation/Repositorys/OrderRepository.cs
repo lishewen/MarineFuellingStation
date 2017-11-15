@@ -65,8 +65,10 @@ namespace MFS.Repositorys
         {
             return _dbContext.Orders.Where(od => od.Id == id)
                 .Include(od => od.Product)
+                .Include(od => od.Store)
                 .Include(od => od.SalesPlan)
                 .Include(od => od.Client)
+                .Include(od => od.Client.Company)
                 .Include(od => od.Payments)
                 .FirstOrDefault();
         }
@@ -237,22 +239,25 @@ namespace MFS.Repositorys
         /// <returns></returns>
         public Order ChangeState(Order order)
         {
-            decimal oilCount = 0;
+            //decimal oilCount = 0;
             //更新对应销售仓的数量
             if (order.State == OrderState.已完成)
             {
-                if (order.OrderType == SalesPlanType.水上)
-                    oilCount = order.OilCount;
-                else if (order.OrderType == SalesPlanType.陆上)
-                    //如果是陆上装车，则实际加油升数转换为实际加油吨数，以同步以“吨”为单位
-                    oilCount = UnitExchange.ToTon(order.OilCount, order.Density);
-                else if (order.OrderType == SalesPlanType.机油)
-                    oilCount = order.Count;
-                oilCount = Math.Round(oilCount, 2);//取两位小数
-
+                //if (order.OrderType == SalesPlanType.水上)
+                //    oilCount = order.OilCount;
+                //else if (order.OrderType == SalesPlanType.陆上)
+                //    //如果是陆上装车，则实际加油升数转换为实际加油吨数，以同步以“吨”为单位
+                //    oilCount = UnitExchange.ToTon(order.OilCount, order.Density);
+                //else if (order.OrderType == SalesPlanType.机油)
+                //    oilCount = order.Count;
+                //oilCount = Math.Round(oilCount, 2);//取两位小数
+                
+                if(order.OrderType == SalesPlanType.陆上)
+                    order.OilCount = UnitExchange.ToTon(order.OilCountLitre, order.Density);
                 StoreRepository st_r = new StoreRepository(_dbContext);
                 //更新油仓数量
-                bool isUpdateStore = st_r.UpdateOil(int.Parse(order.StoreId.ToString()), order.OilCount, false);
+                bool isUpdateStore;
+                isUpdateStore = st_r.UpdateOil(int.Parse(order.StoreId.ToString()), Math.Round(order.OilCountLitre, 2), false);
                 if (isUpdateStore)
                 {
                     //增加出仓记录
@@ -261,14 +266,14 @@ namespace MFS.Repositorys
                     {
                         Name = (order.OrderType == SalesPlanType.水上 || order.OrderType == SalesPlanType.机油) ? "水上加油" : "陆上装车",
                         StoreId = int.Parse(order.StoreId.ToString()),
-                        Value = oilCount,
+                        Value = Math.Round(order.OilCount, 2),
+                        ValueLitre = Math.Round(order.OilCountLitre, 2),
                         Operators = CurrentUser,
                         Unit = order.Unit,
                         Type = LogType.出仓
                     });
                 }
             }
-            order.OilCount = oilCount;
             order.LastUpdatedBy = CurrentUser;
             return Update(order);//更改状态
         }
@@ -301,6 +306,7 @@ namespace MFS.Repositorys
                     Name = "重新施工",
                     StoreId = int.Parse(order.StoreId.ToString()),
                     Value = litre,
+                    ValueLitre = litre,
                     Operators = CurrentUser,
                     Unit = "升",
                     Type = LogType.入仓

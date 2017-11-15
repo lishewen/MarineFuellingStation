@@ -6,7 +6,7 @@
 <template>
     <div id="root">
         <div class="align-center first-group">
-            <yd-button style="width:90%" type="primary" @click.native="showOrdersclick">销售单{{order.name? '：' + order.name : ''}}</yd-button>
+            <yd-button style="width:90%" type="primary" @click.native="showOrdersclick">销售单{{order.name? '：' + order.name + ' / ' + order.count + order.unit : ''}}</yd-button>
         </div>
         <yd-step :current="currStep" style="margin: .4rem 0 .4rem">
             <yd-step-item>
@@ -65,7 +65,7 @@
                 <yd-input slot="right" v-model="order.instrument1" type="number" required placeholder="请输入"></yd-input>
             </yd-cell-item>
             <yd-cell-item>
-                <span slot="right">油量：{{order.oilCount}}升</span>
+                <span slot="right">油量：{{order.oilCountLitre}}升</span>
             </yd-cell-item>
             <!--应客户要求，暂时只有一个加油表-->
             <!--<yd-cell-item>
@@ -102,7 +102,7 @@
         </div>        
         <!--打印-->
         <div class="center" v-show="currStep == 5">
-            <yd-button style="width:90%" type="primary" @click.native="printclick()">打印到【地磅室】</yd-button>
+            <yd-button style="width:90%" type="primary" @click.native="printToDBclick()">打印到【地磅室】</yd-button>
         </div>
         <!--施工明细-->
         <div v-show="currStep == 5" class="first-group">

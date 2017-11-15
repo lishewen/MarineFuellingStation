@@ -16,9 +16,9 @@ namespace MFS.Helper
         /// <param name="litre"></param>
         /// <param name="density"></param>
         /// <returns></returns>
-        public static decimal ToTon(decimal litre, decimal density)
+        public static decimal ToTon(decimal litre, double density)
         {
-            return litre * density / 1000;
+            return litre * (decimal)Math.Round(density, 3) / 1000;
         }
         /// <summary>
         /// 吨转升
@@ -26,9 +26,9 @@ namespace MFS.Helper
         /// <param name="ton"></param>
         /// <param name="density"></param>
         /// <returns></returns>
-        public static decimal ToLitre(decimal ton, decimal density)
+        public static decimal ToLitre(decimal ton, double density)
         {
-            return ton / density * 1000;
+            return ton / (decimal)Math.Round(density, 3) * 1000;
         }
     }
 }

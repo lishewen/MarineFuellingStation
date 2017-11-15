@@ -32,7 +32,9 @@ declare module server {
 		/** 开票数量 */
 		billingCount: number;
 		/** 实际加油数量 */
-		oilCount: number;
+        oilCount: number;
+        /** 实际加油数量 单位：升 */
+        oilCountLitre: number;
 		/** 生产员 以'|'区分多个 */
 		worker: string;
 		/** 开始装油时间 */

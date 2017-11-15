@@ -24,9 +24,13 @@ namespace MFS.Models
         /// </summary>
         public string Unit { get; set; }
         /// <summary>
-        /// 值
+        /// 对应单位的值
         /// </summary>
         public decimal Value { get; set; }
+        /// <summary>
+        /// 单位为升的值
+        /// </summary>
+        public decimal ValueLitre { get; set; }
     }
 
     public enum LogType

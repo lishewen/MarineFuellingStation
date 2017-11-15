@@ -37,7 +37,7 @@ namespace MFS.Models
             get
             {
                 if (Density > 0)
-                    return Math.Round(OilCount - ((Count / Density) * 1000), 2);
+                    return Math.Round(OilCount - (Count / (decimal)Density * 1000), 2);
                 else
                     return 0;
             }
@@ -51,7 +51,7 @@ namespace MFS.Models
             get
             {
                 if(Density > 0)
-                    return Math.Round(OilCount * Density / 1000 - Count, 2);
+                    return Math.Round(OilCount * (decimal)Density / 1000 - Count, 2);
                 else
                     return 0;
             }
@@ -163,7 +163,7 @@ namespace MFS.Models
         /// <summary>
         /// 卸车时需要测量的密度
         /// </summary>
-        public decimal Density { get; set; } = 0;
+        public double Density { get; set; } = 0;
         /// <summary>
         /// 油车磅秤数
         /// </summary>

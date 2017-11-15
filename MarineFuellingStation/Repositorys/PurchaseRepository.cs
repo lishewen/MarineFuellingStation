@@ -106,6 +106,7 @@ namespace MFS.Repositorys
                             Name = "卸油入库",
                             StoreId = ts.Id,
                             Value = ts.Count,
+                            ValueLitre = ts.Count,
                             Operators = CurrentUser,
                             Unit = "升",
                             Type = LogType.入仓

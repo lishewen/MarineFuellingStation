@@ -8,8 +8,10 @@ declare module server {
 		operators: string;
 		/** 单位 */
 		unit: string;
-		/** 值 */
-		value: number;
+		/** 对应单位的值 */
+        value: number;
+        /** 单位为升的值 */
+        valueLitre: number;
 	}
 	const enum logType {
 		出仓,

@@ -48,13 +48,21 @@ namespace MFS.Models
         {
             get
             {
-                return Price * Count;
+                return Math.Round(Price * Count, 2);
             }
         }
         /// <summary>
         /// 是否开票
         /// </summary>
         public bool IsInvoice { get; set; }
+        /// <summary>
+        /// 送货上门/自提
+        /// </summary>
+        public bool IsDeliver { get; set; } = true;
+        /// <summary>
+        /// 是否打印单价
+        /// </summary>
+        public bool IsPrintPrice { get; set; } = true;
         /// <summary>
         /// 开票单位
         /// </summary>
@@ -71,6 +79,10 @@ namespace MFS.Models
         /// 实际加油数量
         /// </summary>
         public decimal OilCount { get; set; }
+        /// <summary>
+        /// 实际加油数量 单位升
+        /// </summary>
+        public decimal OilCountLitre { get; set; }
         /// <summary>
         /// 生产员 以'|'区分多个
         /// </summary>
@@ -98,7 +110,7 @@ namespace MFS.Models
         /// <summary>
         /// 密度
         /// </summary>
-        public decimal Density { get; set; }
+        public double Density { get; set; }
         /// <summary>
         /// 油温
         /// </summary>

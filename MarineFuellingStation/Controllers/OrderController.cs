@@ -324,6 +324,26 @@ namespace MFS.Controllers
             };
         }
         /// <summary>
+        /// 向指定打印机推送【陆上装车单】打印指令
+        /// </summary>
+        /// <param name="id">Order id</param>
+        /// <param name="to"></param>
+        /// <returns></returns>
+        [HttpGet("[action]")]
+        public async Task<ResultJSON<Order>> PrintLandload(int id, string to)
+        {
+            Order o = r.GetWithInclude(id);
+            foreach (var connectionId in PrintHub.connections.GetConnections(to))
+            {
+                await _hub.Clients.Client(connectionId).InvokeAsync("printlandload", o);
+            }
+            return new ResultJSON<Order>
+            {
+                Code = 0,
+                Data = o
+            };
+        }
+        /// <summary>
         /// 向地磅室推送陆上【送货单】打印指令
         /// </summary>
         /// <param name="id">Order id</param>
@@ -359,7 +379,7 @@ namespace MFS.Controllers
                 await MassApi.SendTextCardAsync(option.油仓情况AccessToken, option.油仓情况AgentId, $"{result.CarNo}加油完工，已更新油仓油量"
                          , $"<div class=\"gray\">单号：{result.Name}</div>" +
                          $"<div class=\"normal\">施工人：{result.Worker}</div>" +
-                         $"<div class=\"normal\">数量：{result.OilCount}{result.Unit}</div>"
+                         $"<div class=\"normal\">数量：{Math.Round(result.OilCount, 2)}{result.Unit}</div>"
                          , $"https://vue.car0774.com/#/sales/order/{result.Id}/order", toUser: "@all");
             }
 

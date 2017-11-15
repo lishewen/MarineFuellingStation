@@ -56,6 +56,11 @@ export default class LandloadComponent extends ComponentBase {
         console.log(st.id);
     }
 
+    //打印到地磅室
+    printToDBclick() {
+        this.getPrintTo(this.order.id, "地磅室");
+    }
+
     changeState(nextState: server.orderState) {
         if (this.currStep == 2) {
             if (this.order.emptyCarWeight == 0 || this.order.emptyCarWeight == null) {
@@ -76,7 +81,7 @@ export default class LandloadComponent extends ComponentBase {
                 this.toastError("请填写加油后表数1");
                 return;
             }
-            if (this.order.oilCount <= 0) {
+            if (this.order.oilCountLitre <= 0) {
                 this.toastError("加油后表数应大于加油前表数");
                 return;
             }
@@ -105,10 +110,10 @@ export default class LandloadComponent extends ComponentBase {
     mounted() {
         this.$emit('setTitle', this.$store.state.username + ' 陆上装车');
         this.$watch("lastorder.instrument1", (v, ov) => {
-            this.order.oilCount = this.order.instrument1 - v;
+            this.order.oilCountLitre = this.order.instrument1 - v;
         });
         this.$watch("order.instrument1", (v, ov) => {
-            this.order.oilCount = v - this.lastorder.instrument1;
+            this.order.oilCountLitre = v - this.lastorder.instrument1;
         });
     };
 
@@ -170,6 +175,18 @@ export default class LandloadComponent extends ComponentBase {
             if (jobj.code == 0)
                 this.stores = jobj.data;
         });
+    }
+
+    //打印
+    getPrintTo(id: number, to: string) {
+        axios.get('/api/Order/PrintLandload?' +
+            'id=' + id +
+            '&to=' + to).then((res) => {
+                let jobj = res.data as server.resultJSON<server.order>;
+                if (jobj.code == 0) {
+                    this.toastSuccess('打印指令已发出')
+                }
+            });
     }
 
     putState(state: server.orderState) {

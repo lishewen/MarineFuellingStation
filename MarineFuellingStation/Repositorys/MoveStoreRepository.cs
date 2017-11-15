@@ -113,6 +113,7 @@ namespace MFS.Repositorys
                     Name = "生产转仓",
                     StoreId = m.InStoreId,
                     Value = m.InFact,
+                    ValueLitre = m.InFact,
                     Operators = CurrentUser,
                     Unit = "升",
                     Type = LogType.入仓
@@ -121,6 +122,7 @@ namespace MFS.Repositorys
                     Name = "生产转仓",
                     StoreId = m.OutStoreId,
                     Value = m.OutFact,
+                    ValueLitre = m.OutFact,
                     Operators = CurrentUser,
                     Unit = "升",
                     Type = LogType.出仓

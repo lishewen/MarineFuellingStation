@@ -47,6 +47,7 @@ export default class OrderComponent extends ComponentBase {
         this.salesplan = new Object() as server.salesPlan;
         this.model = (new Object()) as server.order;
         this.model.isInvoice = false;
+        this.model.isDeliver = false;
         this.model.carNo = '';
         this.model.price = '';
         this.model.billingPrice = 0;

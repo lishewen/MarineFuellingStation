@@ -92,7 +92,7 @@
                     </yd-cell-item>
                 </yd-cell-group>
 
-                <yd-cell-group title="送货单选项" v-show="model.salesPlanType == 1">
+                <yd-cell-group title="送货单选项" v-show="showNext && model.salesPlanType == 1">
                     <yd-cell-item>
                         <span slot="left">送货上门</span>
                         <span slot="right"><yd-switch v-model="model.isDeliver"></yd-switch></span>

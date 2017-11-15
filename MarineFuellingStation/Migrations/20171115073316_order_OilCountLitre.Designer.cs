@@ -11,9 +11,10 @@ using System;
 namespace MFS.Migrations
 {
     [DbContext(typeof(EFContext))]
-    partial class EFContextModelSnapshot : ModelSnapshot
+    [Migration("20171115073316_order_OilCountLitre")]
+    partial class order_OilCountLitre
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -304,8 +305,6 @@ namespace MFS.Migrations
                     b.Property<string>("Unit");
 
                     b.Property<decimal>("Value");
-
-                    b.Property<decimal>("ValueLitre");
 
                     b.HasKey("Id");
 

@@ -84,6 +84,10 @@ namespace MFS.Models
         /// </summary>
         public decimal OilCount { get; set; }
         /// <summary>
+        /// 实际加油数量 单位：升
+        /// </summary>
+        public decimal OilCountLitre { get; set; }
+        /// <summary>
         /// 生产员 以'|'区分多个
         /// </summary>
         public string Worker { get; set; }
@@ -110,7 +114,7 @@ namespace MFS.Models
         /// <summary>
         /// 密度
         /// </summary>
-        public decimal Density { get; set; }
+        public double Density { get; set; }
         /// <summary>
         /// 油温
         /// </summary>

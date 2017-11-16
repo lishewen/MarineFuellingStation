@@ -80,6 +80,16 @@ namespace MFS.Controllers
             return GetTagMember("销售");
         }
 
+        /// <summary>
+        /// 生产员，标签“生产员”
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("[action]")]
+        public GetTagMemberResult Worker()
+        {
+            return GetTagMember("生产员");
+        }
+
         [HttpGet("[action]")]
         public GetTagMemberResult WaterSalesman()
         {

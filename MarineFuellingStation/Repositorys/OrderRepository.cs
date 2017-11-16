@@ -239,19 +239,13 @@ namespace MFS.Repositorys
         /// <returns></returns>
         public Order ChangeState(Order order)
         {
-            //decimal oilCount = 0;
+            if (order.State == OrderState.空车过磅)
+                order.StartOilDateTime = DateTime.Now;
+            if (order.State == OrderState.油车过磅)
+                order.EndOilDateTime = DateTime.Now;
             //更新对应销售仓的数量
             if (order.State == OrderState.已完成)
             {
-                //if (order.OrderType == SalesPlanType.水上)
-                //    oilCount = order.OilCount;
-                //else if (order.OrderType == SalesPlanType.陆上)
-                //    //如果是陆上装车，则实际加油升数转换为实际加油吨数，以同步以“吨”为单位
-                //    oilCount = UnitExchange.ToTon(order.OilCount, order.Density);
-                //else if (order.OrderType == SalesPlanType.机油)
-                //    oilCount = order.Count;
-                //oilCount = Math.Round(oilCount, 2);//取两位小数
-                
                 if(order.OrderType == SalesPlanType.陆上)
                     order.OilCount = UnitExchange.ToTon(order.OilCountLitre, order.Density);
                 StoreRepository st_r = new StoreRepository(_dbContext);

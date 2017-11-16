@@ -80,6 +80,10 @@ namespace MFS.Models
         /// </summary>
         public virtual ICollection<Payment> Payments { get; set; }
         public BoatCleanState State { get; set; } = BoatCleanState.已开单;
+        /// <summary>
+        /// 施工人员
+        /// </summary>
+        public string Worker { get; set; }
     }
 
     public enum BoatCleanState

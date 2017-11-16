@@ -21,7 +21,7 @@
       <Value Profile="(Default)">船舶清污完工证.docx</Value>
     </Setting>
     <Setting Name="PrintBoatCleanCollectionDocx" Type="System.String" Scope="User">
-      <Value Profile="(Default)">船舶清污完工证收款单.docx</Value>
+      <Value Profile="(Default)">船舶清污收款单.docx</Value>
     </Setting>
     <Setting Name="PrintLandLoadDocx" Type="System.String" Scope="User">
       <Value Profile="(Default)">陆上装车单.docx</Value>
@@ -29,10 +29,10 @@
     <Setting Name="PrintPrepaymentDocx" Type="System.String" Scope="User">
       <Value Profile="(Default)">预收款确认单.docx</Value>
     </Setting>
-    <Setting Name="PrintUnloadDocx1" Type="System.String" Scope="User">
+    <Setting Name="PrintPonderationDocx" Type="System.String" Scope="User">
       <Value Profile="(Default)">出库石化过磅单.docx</Value>
     </Setting>
-    <Setting Name="PrintLandDeliver" Type="System.String" Scope="User">
+    <Setting Name="PrintDeliverDocx" Type="System.String" Scope="User">
       <Value Profile="(Default)">陆上送货单.docx</Value>
     </Setting>
   </Settings>

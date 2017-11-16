@@ -9,6 +9,7 @@ export default class CashierBcComponent extends ComponentBase {
     showPayments: boolean = false;
     showStep1: boolean = true;
     showAct: boolean = false;
+    showMenus: boolean = false;
     page: number;
     scrollRef: any;
     pSize: number = 30;//分页每页显示记录
@@ -27,6 +28,7 @@ export default class CashierBcComponent extends ComponentBase {
     sv1: string = ""; sv2: string = ""; sv3: string = "";
 
     actItems: ydui.actionSheetItem[];
+    menus: ydui.actionSheetItem[];
 
     constructor() {
         super();
@@ -36,6 +38,7 @@ export default class CashierBcComponent extends ComponentBase {
         this.hasypayboats = new Array<server.boatClean>();
         this.nopayboats = new Array<server.boatClean>();
         this.actItems = new Array<ydui.actionSheetItem>();
+        this.menus = new Array<ydui.actionSheetItem>();
         this.payTypes = new Array<string>('现金|0');
         this.payMoneys = new Array<string>();
 
@@ -127,6 +130,32 @@ export default class CashierBcComponent extends ComponentBase {
         this.getPayments(b.id);
     }
 
+    //已结算中显示actionsheet菜单
+    showMenusclick(b: server.boatClean) {
+        this.menus = [
+            {
+                label: '支付方式',
+                method: () => {
+                    this.showPaymentsclick(b)
+                }
+            },
+            {
+                label: '打印【完工证】',
+                method: () => {
+                    this.getPrintBoatClean(b.id, "收银台")
+                }
+            },
+            {
+                label: '打印【收款单】',
+                method: () => {
+                    this.getPrintBcCollection(b.id, "收银台")
+                }
+            }
+        ];
+
+        this.showMenus = true;
+    }
+
     getDiff(d: Date) {
         moment.locale('zh-cn');
         return moment(d).startOf('day').fromNow();
@@ -141,13 +170,7 @@ export default class CashierBcComponent extends ComponentBase {
                 method: () => {
                     this.showPayTypes = true;
                 }
-            },
-            {
-                label: '打印到【收银台】',
-                method: () => {
-                    this.getPrintTo(b.id, '收银台')
-                }
-            },
+            }
         ];
         this.showAct = true;
     }
@@ -283,5 +306,26 @@ export default class CashierBcComponent extends ComponentBase {
                 }
             });
     }
-    
+    //打印“完工证”
+    getPrintBoatClean(id: number, to: string) {
+        axios.get('/api/BoatClean/PrintBoatClean?' +
+            'id=' + id +
+            '&to=' + to).then((res) => {
+                let jobj = res.data as server.resultJSON<server.boatClean>;
+                if (jobj.code == 0) {
+                    this.toastSuccess('完工证打印指令已发出')
+                }
+            });
+    }
+    //打印“结算单”到指定打印机
+    getPrintBcCollection(id: number, to: string) {
+        axios.get('/api/BoatClean/PrintBcCollection?' +
+            'id=' + id +
+            '&to=' + to).then((res) => {
+                let jobj = res.data as server.resultJSON<server.boatClean>;
+                if (jobj.code == 0) {
+                    this.toastSuccess('收款单打印指令已发出')
+                }
+            });
+    }
 }

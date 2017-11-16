@@ -25,7 +25,7 @@
                 <yd-cell-group>
                     <yd-search v-model="sv2" />
                     <yd-infinitescroll :callback="loadList" ref="bcinfinitescroll2">
-                        <yd-cell-item slot="list" arrow v-for="b in hasypayboats" :key="b.id" @click.native="showPaymentsclick(b)">
+                        <yd-cell-item slot="list" arrow v-for="b in hasypayboats" :key="b.id" @click.native="showMenusclick(b)">
                             <div slot="left">
                                 <p class="font16">{{b.carNo}}</p>
                                 <p class="col-light-gray font14">{{b.name}}</p>
@@ -154,6 +154,7 @@
         </yd-popup>
         <!--actionsheet-->
         <yd-actionsheet :items="actItems" v-model="showAct" cancel="取消"></yd-actionsheet>
+        <yd-actionsheet :items="menus" v-model="showMenus" cancel="取消"></yd-actionsheet>
     </div>
 </template>
 

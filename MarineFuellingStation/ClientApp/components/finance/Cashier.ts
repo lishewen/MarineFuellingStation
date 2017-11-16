@@ -161,12 +161,23 @@ export default class CashierComponent extends ComponentBase {
             }];
         //如果为陆上销售，则添加相应打印菜单
         if (o.orderType == server.salesPlanType.陆上) {
-            this.actItems.push({
-                label: '打印【送货单】到【地磅室】',
-                method: () => {
-                    this.getPrintDeliver(o.id)
-                }
-            });
+            if (o.isDeliver) {
+                this.menus.push({
+                    label: '打印【送货单】到【地磅室】',
+                    method: () => {
+                        this.getPrintDeliver(o.id, '地磅室')
+                    }
+                });
+            }
+            //如果施工状态为已完成，则添加相应打印菜单
+            if (o.state == server.orderState.已完成) {
+                this.menus.push({
+                    label: '打印【陆上装车单】到【地磅室】',
+                    method: () => {
+                        this.getPrintLandload(o.id, '地磅室')
+                    }
+                });
+            }
         }
 
         this.showMenus = true;
@@ -460,13 +471,25 @@ export default class CashierComponent extends ComponentBase {
                 }
             });
     }
-    //打印“陆上装车单”
-    getPrintDeliver(id: number) {
+    //打印“陆上送货单”
+    getPrintDeliver(id: number, to: string) {
         axios.get('/api/Order/getPrintDeliver?' +
-            'id=' + id ).then((res) => {
+            'id=' + id +
+            '&to=' + to).then((res) => {
                 let jobj = res.data as server.resultJSON<server.order>;
                 if (jobj.code == 0) {
                     this.toastSuccess('陆上送货单打印指令已发出')
+                }
+            });
+    }
+    //打印“陆上装车单”
+    getPrintLandload(id: number, to: string) {
+        axios.get('/api/Order/getPrintLandload?' +
+            'id=' + id +
+            '&to=' + to).then((res) => {
+                let jobj = res.data as server.resultJSON<server.order>;
+                if (jobj.code == 0) {
+                    this.toastSuccess('陆上装车单打印指令已发出')
                 }
             });
     }

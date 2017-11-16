@@ -7,19 +7,25 @@ import moment from "moment";
 export default class BoatCleanComponent extends ComponentBase {
     model: server.boatClean;
     bc: server.boatClean;
-    list: server.boatClean[];
+    boatCleans: server.boatClean[];
+    workers: work.userlist[];
+    selectedworker: string;
     showDetail: boolean = false;
+    showWorkers: boolean = false;
 
     radio2: string = '1';
     unit: string = '升';
     carNo: string = '';
     sv: string = "";
     isPrevent: boolean = true;
+    page: number;
+    scrollRef: any;
+    pSize: number = 20;
 
     constructor() {
         super();
 
-        this.list = new Array<server.boatClean>();
+        this.boatCleans = new Array<server.boatClean>();
         this.model = (new Object()) as server.boatClean;
         this.model.name = '';
         this.model.carNo = '';
@@ -29,11 +35,34 @@ export default class BoatCleanComponent extends ComponentBase {
         this.model.company = "广西梧州市汇保源防污有限公司";
         this.model.phone = "07742031178";
         this.model.isInvoice = false;
+        this.model.worker = '';
+
+        this.selectedworker = "请选择";
 
         this.bc = new Object as server.boatClean;
 
         this.getBoatCleanNo();
-        this.getBoatCleans();
+        this.getWorkers();
+    }
+
+    loadList() {
+        this.getBoatCleans((list: server.boatClean[]) => {
+            this.boatCleans = this.page > 1 ? [...this.boatCleans, ...list] : this.boatCleans;
+            this.scrollRef = (<any>this).$refs.infinitescroll;
+            if (list.length < this.pSize) {
+                this.scrollRef.$emit("ydui.infinitescroll.loadedDone");
+                return;
+            }
+
+            //通知加载数据完毕
+            this.scrollRef.$emit("ydui.infinitescroll.finishLoad");
+
+            if (list.length > 0)
+                this.page++;
+            else
+                this.page = 1;
+            console.log("page = " + this.page)
+        });
     }
 
     getStateName(s: server.boatCleanState): string {
@@ -86,15 +115,28 @@ export default class BoatCleanComponent extends ComponentBase {
         this.bc = b;
     }
 
+    selectworkerclick(w: work.userlist) {
+        this.model.worker = w.name;
+        this.selectedworker = w.name;
+        this.showWorkers = false;
+    }
+
     buttonclick() {
         //信息验证
-
+        if (this.model.carNo == '') { this.toastError('船号不能为空'); return; };
+        if (this.model.company == '') { this.toastError('公司名称不能为空'); return; };
+        if (this.model.money <= 0) { this.toastError('金额应大于0'); return; };
+        if (this.model.worker == '') { this.toastError('请选择施工人员'); return; };
         this.postBoatClean(this.model);
     }
 
     change(label: string, tabkey: string) {
         console.log(label);
         this.$emit('setTitle', this.$store.state.username + ' ' + label);
+        if (label == '单据记录') {
+            this.page = 1;
+            this.getBoatCleans();
+        }  
     }
 
     getBoatCleanNo() {
@@ -108,11 +150,30 @@ export default class BoatCleanComponent extends ComponentBase {
         });
     }
 
-    getBoatCleans() {
-        axios.get('/api/BoatClean').then((res) => {
+    //获得生产员
+    getWorkers() {
+        axios.get('/api/User/Worker').then((res) => {
+            let jobj = res.data as work.tagMemberResult;
+            if (jobj.errcode == 0)
+                this.workers = jobj.userlist;
+        });
+    }
+
+    getBoatCleans(callback?: Function) {
+        if (this.page == null) this.page = 1;
+        axios.get('/api/BoatClean/GetByPager?page='
+            + this.page
+            + '&pagesize=' + this.pSize).then((res) => {
             let jobj = res.data as server.resultJSON<server.boatClean[]>;
-            if (jobj.code == 0)
-                this.list = jobj.data;
+            if (jobj.code == 0) {
+                if (callback) {
+                    callback(jobj.data);
+                }
+                else {
+                    this.boatCleans = jobj.data;
+                    this.page++;
+                }
+            }
         });
     }
 
@@ -120,7 +181,7 @@ export default class BoatCleanComponent extends ComponentBase {
         axios.get('/api/BoatClean/' + sv).then((res) => {
             let jobj = res.data as server.resultJSON<server.boatClean[]>;
             if (jobj.code == 0)
-                this.list = jobj.data;
+                this.boatCleans = jobj.data;
         });
     }
 

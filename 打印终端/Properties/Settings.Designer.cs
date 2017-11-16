@@ -97,7 +97,7 @@ namespace 打印终端.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("船舶清污完工证收款单.docx")]
+        [global::System.Configuration.DefaultSettingValueAttribute("船舶清污收款单.docx")]
         public string PrintBoatCleanCollectionDocx {
             get {
                 return ((string)(this["PrintBoatCleanCollectionDocx"]));
@@ -134,24 +134,24 @@ namespace 打印终端.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("出库石化过磅单.docx")]
-        public string PrintUnloadDocx1 {
+        public string PrintPonderationDocx {
             get {
-                return ((string)(this["PrintUnloadDocx1"]));
+                return ((string)(this["PrintPonderationDocx"]));
             }
             set {
-                this["PrintUnloadDocx1"] = value;
+                this["PrintPonderationDocx"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("陆上送货单.docx")]
-        public string PrintLandDeliver {
+        public string PrintDeliverDocx {
             get {
-                return ((string)(this["PrintLandDeliver"]));
+                return ((string)(this["PrintDeliverDocx"]));
             }
             set {
-                this["PrintLandDeliver"] = value;
+                this["PrintDeliverDocx"] = value;
             }
         }
     }

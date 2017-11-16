@@ -36,22 +36,16 @@ namespace MFS.Controllers
             //获取 销售单 企业微信应用的AccessToken
             this.option = option.Value;
         }
+        #region 推送打印指令到指定打印机端
         [NonAction]
-        public async Task SendPrintOrderAsync(string who, Order order)
+        public async Task SendPrintAsync(string who, Order order, string actionName)
         {
             foreach (var connectionId in PrintHub.connections.GetConnections(who))
             {
-                await _hub.Clients.Client(connectionId).InvokeAsync("printorder", order);
+                await _hub.Clients.Client(connectionId).InvokeAsync(actionName, order);
             }
         }
-        [NonAction]
-        public async Task SendPrintDeliverAsync(string who, Order order)
-        {
-            foreach (var connectionId in PrintHub.connections.GetConnections(who))
-            {
-                await _hub.Clients.Client(connectionId).InvokeAsync("printlandload", order);
-            }
-        }
+        #endregion
         #region Post方法
         [HttpPost]
         public async Task<ResultJSON<Order>> Post([FromBody]Order o)
@@ -73,7 +67,7 @@ namespace MFS.Controllers
             //await _hub.Clients.All.InvokeAsync("printorder", result);
 
             //向指定目标推送打印指令
-            await SendPrintOrderAsync("收银台", result);
+            await SendPrintAsync("收银台", result, "printorder");
 
             //初始化推送需要到的AccessToken
             this.option.销售单AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.销售单Secret);
@@ -316,7 +310,7 @@ namespace MFS.Controllers
         public async Task<ResultJSON<Order>> PrintOrder(int id, string to)
         {
             Order o = r.Get(id);
-            await SendPrintOrderAsync(to, o);
+            await SendPrintAsync(to, o, "printorder");
             return new ResultJSON<Order>
             {
                 Code = 0,
@@ -333,10 +327,7 @@ namespace MFS.Controllers
         public async Task<ResultJSON<Order>> PrintLandload(int id, string to)
         {
             Order o = r.GetWithInclude(id);
-            foreach (var connectionId in PrintHub.connections.GetConnections(to))
-            {
-                await _hub.Clients.Client(connectionId).InvokeAsync("printlandload", o);
-            }
+            await SendPrintAsync(to, o, "printlandload");
             return new ResultJSON<Order>
             {
                 Code = 0,
@@ -344,15 +335,16 @@ namespace MFS.Controllers
             };
         }
         /// <summary>
-        /// 向地磅室推送陆上【送货单】打印指令
+        /// 向指定打印机推送陆上【送货单】打印指令
         /// </summary>
         /// <param name="id">Order id</param>
+        /// <param name="to"></param>
         /// <returns></returns>
         [HttpGet("[action]")]
-        public async Task<ResultJSON<Order>> getPrintDeliver(int id)
+        public async Task<ResultJSON<Order>> getPrintDeliver(int id, string to)
         {
             Order o = r.Get(id);
-            await SendPrintDeliverAsync("地磅室", o);
+            await SendPrintAsync(to, o, "printdeliver");
             return new ResultJSON<Order>
             {
                 Code = 0,

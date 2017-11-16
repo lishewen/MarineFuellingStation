@@ -21,14 +21,16 @@ namespace MFS.Controllers
             r = repository;
             _hub = hub;
         }
+        #region 推送打印指令到指定打印机端
         [NonAction]
-        public async Task SendPrintBoatCleanAsync(string who, BoatClean bc)
+        public async Task SendPrintAsync(string who, BoatClean bc, string actionName)
         {
             foreach (var connectionId in PrintHub.connections.GetConnections(who))
             {
-                await _hub.Clients.Client(connectionId).InvokeAsync("printboatcleancollection", bc);
+                await _hub.Clients.Client(connectionId).InvokeAsync(actionName, bc);
             }
         }
+        #endregion
         #region GET
         [HttpGet("[action]")]
         public ResultJSON<string> BoatCleanNo()
@@ -46,6 +48,21 @@ namespace MFS.Controllers
             {
                 Code = 0,
                 Data = r.GetAllList()
+            };
+        }
+        /// <summary>
+        /// 分页显示数据
+        /// </summary>
+        /// <param name="page">第N页</param>
+        /// <param name="pageSize">页记录数</param>
+        /// <returns></returns>
+        [HttpGet("[action]")]
+        public ResultJSON<List<BoatClean>> GetByPager(int page, int pageSize)
+        {
+            return new ResultJSON<List<BoatClean>>
+            {
+                Code = 0,
+                Data = r.LoadPageList(page, pageSize, out int rCount, true).OrderByDescending(s => s.Id).ToList()
             };
         }
         [HttpGet("{sv}")]
@@ -75,20 +92,37 @@ namespace MFS.Controllers
             };
         }
         /// <summary>
-        /// 指定目标推送打印指令
+        /// 指定目标推送完工证打印指令
         /// </summary>
-        /// <param name="id">Order id</param>
+        /// <param name="id">BoatClean id</param>
         /// <param name="to"></param>
         /// <returns></returns>
         [HttpGet("[action]")]
-        public async Task<ResultJSON<BoatClean>> PrintTo(int id, string to)
+        public async Task<ResultJSON<BoatClean>> PrintBoatClean(int id, string to)
         {
-            BoatClean o = r.Get(id);
-            await SendPrintBoatCleanAsync(to, o);
+            BoatClean b = r.Get(id);
+            await SendPrintAsync(to, b, "printboatclean");
             return new ResultJSON<BoatClean>
             {
                 Code = 0,
-                Data = o
+                Data = b
+            };
+        }
+        /// <summary>
+        /// 指定目标推送收款单打印指令
+        /// </summary>
+        /// <param name="id">BoatClean id</param>
+        /// <param name="to"></param>
+        /// <returns></returns>
+        [HttpGet("[action]")]
+        public async Task<ResultJSON<BoatClean>> PrintBcCollection(int id, string to)
+        {
+            BoatClean b = r.Get(id);
+            await SendPrintAsync(to, b, "printboatcleancollection");
+            return new ResultJSON<BoatClean>
+            {
+                Code = 0,
+                Data = b
             };
         }
         #endregion

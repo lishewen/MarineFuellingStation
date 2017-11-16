@@ -32,6 +32,8 @@ declare module server {
         state: boatCleanState;
         payState: boatCleanPayState;
         payments: payment[];
+        /** 施工人员 */
+        worker: string;
 	}
 	const enum boatCleanState {
 		已开单,

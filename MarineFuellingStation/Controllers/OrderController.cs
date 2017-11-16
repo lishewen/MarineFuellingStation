@@ -301,7 +301,7 @@ namespace MFS.Controllers
             };
         }
         /// <summary>
-        /// 向指定打印机推送【结算单】打印指令
+        /// 向指定打印机推送【调拨单】打印指令
         /// </summary>
         /// <param name="id">Order id</param>
         /// <param name="to"></param>
@@ -345,6 +345,23 @@ namespace MFS.Controllers
         {
             Order o = r.Get(id);
             await SendPrintAsync(to, o, "printdeliver");
+            return new ResultJSON<Order>
+            {
+                Code = 0,
+                Data = o
+            };
+        }
+        /// <summary>
+        /// 向指定打印机推送陆上【送货单】打印指令
+        /// </summary>
+        /// <param name="id">Order id</param>
+        /// <param name="to"></param>
+        /// <returns></returns>
+        [HttpGet("[action]")]
+        public async Task<ResultJSON<Order>> getPrintPonderation(int id, string to)
+        {
+            Order o = r.Get(id);
+            await SendPrintAsync(to, o, "printponderation");
             return new ResultJSON<Order>
             {
                 Code = 0,

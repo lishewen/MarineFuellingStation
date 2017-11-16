@@ -177,6 +177,12 @@ export default class CashierComponent extends ComponentBase {
                         this.getPrintLandload(o.id, '地磅室')
                     }
                 });
+                this.menus.push({
+                    label: '打印【过磅单】到【地磅室】',
+                    method: () => {
+                        this.getPrintPonderation(o.id, '地磅室')
+                    }
+                });
             }
         }
 
@@ -460,7 +466,7 @@ export default class CashierComponent extends ComponentBase {
         });
     }
 
-    //打印“结算单”到指定打印机
+    //打印“调拨单”到指定打印机
     getPrintOrder(id: number, to: string) {
         axios.get('/api/Order/PrintOrder?' +
             'id=' + id +
@@ -490,6 +496,17 @@ export default class CashierComponent extends ComponentBase {
                 let jobj = res.data as server.resultJSON<server.order>;
                 if (jobj.code == 0) {
                     this.toastSuccess('陆上装车单打印指令已发出')
+                }
+            });
+    }
+    //打印“出库石化过磅单”
+    getPrintPonderation(id: number, to: string) {
+        axios.get('/api/Order/getPrintPonderation?' +
+            'id=' + id +
+            '&to=' + to).then((res) => {
+                let jobj = res.data as server.resultJSON<server.order>;
+                if (jobj.code == 0) {
+                    this.toastSuccess('出库石化过磅单打印指令已发出')
                 }
             });
     }

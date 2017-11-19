@@ -123,12 +123,11 @@
                 <yd-search v-model="sv" />
                 <yd-cell-group>
                     <yd-infinitescroll :callback="loadList" ref="infinitescroll">
-                        <yd-cell-item slot="list" arrow v-for="o in orders" :key="o.id" @click.native="showMenuclick(o.id)">
+                        <yd-cell-item slot="list" arrow v-for="o in orders" :key="o.id" @click.native="showMenuclick(o)">
                             <div slot="left" style="line-height: .4rem;margin: 10px 0">
                                 <p>{{o.carNo}} - <span class="col-green">￥{{o.totalMoney}}</span></p>
-                                <p class="color_lightgray">{{o.name}}</p>
-                                <p class="color_lightgray">{{o.product.name}}</p>
-                                <p class="color_lightgray">{{o.price}} x {{o.count}}{{o.unit}}</p>
+                                <p class="col-light-gray">{{o.name}}</p>
+                                <p class="col-light-gray">{{o.product.name}} / ￥{{o.price}} x {{o.count}}{{o.unit}}</p>
                             </div>
                             <div slot="right">
                                 <p :class="classState(o.state)" style="padding-left:10px">{{getStateName(o.state)}}</p>

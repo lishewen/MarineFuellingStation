@@ -103,13 +103,18 @@ namespace 打印终端
             });
             Connection.On<Order>("printdeliver", (m) =>
             {
-                //陆上装车单
+                //陆上送货单
                 PrintDeliver(m);
             });
-            Connection.On<Order>("printprepayment", (m) =>
+            Connection.On<ChargeLog>("printclientprepayment", (c) =>
             {
-                //预收款确认单
-                PrintPrepayment(m);
+                //个人预收款确认单
+                PrintClientPrepayment(c);
+            });
+            Connection.On<ChargeLog>("printcompanyprepayment", (c) =>
+            {
+                //公司预收款确认单
+                PrintCompanyPrepayment(c);
             });
             Connection.On<Order>("printponderation", (m) =>
             {
@@ -118,34 +123,34 @@ namespace 打印终端
             });
             Connection.On<string>("login", (username) => Log.Logs += username + " 已登录，正在执行操作\r");
         }
-
-        private void PrintPrepayment(Order order)
+        #region 个人预收款确认单
+        /// <summary>
+        /// 个人预收款确认单
+        /// </summary>
+        /// <param name="order"></param>
+        private void PrintClientPrepayment(ChargeLog cl)
         {
-            Log.Logs += $"正在打印Prepayment：{order.Name}\r";
+            Log.Logs += $"正在打印ClientPrepayment：{cl.Client.CarNo}\r";
 
             Word.Application thisApplication = new Word.ApplicationClass();
             wApp = thisApplication;
-            string tmpDocFile = AppDomain.CurrentDomain.BaseDirectory + folder + Properties.Settings.Default.PrintPrepaymentDocx;
+            string tmpDocFile = AppDomain.CurrentDomain.BaseDirectory + folder + Properties.Settings.Default.PrintClientPrepaymentDocx;
             object templatefile = tmpDocFile;
             wDoc = wApp.Documents.Add(ref templatefile, ref missing, ref missing, ref missing); //在现有进程内打开文档
             wDoc.Activate(); //当前文档置前
 
             //填充数据
-            WordReplace(wApp, "#CarNo#", order.CarNo);
-            WordReplace(wApp, "#CreateAt#", order.CreatedAt.ToString());
-            WordReplace(wApp, "#ClientName#", order.Client.Name);
-            WordReplace(wApp, "#CompanyName#", order.Client.Company.Name);
-            WordReplace(wApp, "#Name#", order.Name);
-            WordReplace(wApp, "#ProductName#", "石化油");
-            WordReplace(wApp, "#Count#", order.Count.ToString());
-            WordReplace(wApp, "#ProductCount#", order.Count.ToString());
-            WordReplace(wApp, "#ProductPrice#", order.Price.ToString());
-            WordReplace(wApp, "#TotalMoney#", order.TotalMoney.ToString());
-            WordReplace(wApp, "#CreateBy#", order.CreatedBy);
-            WordReplace(wApp, "#Salesman#", order.Salesman);
+            WordReplace(wApp, "#CarNo#", cl.Client.CarNo);
+            WordReplace(wApp, "#Money#", cl.Money.ToString("0.00"));
+            WordReplace(wApp, "#CNMoney#", ConvertToChinese(cl.Money));
+            WordReplace(wApp, "#CreatedBy#", cl.CreatedBy);
+            WordReplace(wApp, "#CreatedAt#", cl.CreatedAt.ToString()); 
+            WordReplace(wApp, "#PayType#", strPayType(cl.PayType));
+            WordReplace(wApp, "#Balances#", cl.Client.Balances.ToString());
+            PrintTime(wApp);
 
             object background = false; //这个很重要，否则关闭的时候会提示请等待Word打印完毕后再退出，加上这个后可以使Word所有
-            object filename = AppDomain.CurrentDomain.BaseDirectory + order.Name + ".docx";
+            object filename = AppDomain.CurrentDomain.BaseDirectory + cl.Client.Name + ".docx";
             wDoc.SaveAs(ref filename, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref
                 missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing);
             wDoc.PrintOut(ref background, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref
@@ -156,6 +161,46 @@ namespace 打印终端
             saveOption = Word.WdSaveOptions.wdDoNotSaveChanges;
             wApp.Quit(ref saveOption, ref missing, ref missing); //关闭Word进程
         }
+        #endregion
+        #region 公司预收款确认单
+        /// <summary>
+        /// 公司预收款确认单
+        /// </summary>
+        /// <param name="order"></param>
+        private void PrintCompanyPrepayment(ChargeLog cl)
+        {
+            Log.Logs += $"正在打印ClientPrepayment：{cl.Company.Name}\r";
+
+            Word.Application thisApplication = new Word.ApplicationClass();
+            wApp = thisApplication;
+            string tmpDocFile = AppDomain.CurrentDomain.BaseDirectory + folder + Properties.Settings.Default.PrintCompanyPrepaymentDocx;
+            object templatefile = tmpDocFile;
+            wDoc = wApp.Documents.Add(ref templatefile, ref missing, ref missing, ref missing); //在现有进程内打开文档
+            wDoc.Activate(); //当前文档置前
+
+            //填充数据
+            WordReplace(wApp, "#CompanyName#", cl.Company.Name);
+            WordReplace(wApp, "#Money#", cl.Money.ToString("0.00"));
+            WordReplace(wApp, "#CNMoney#", ConvertToChinese(cl.Money));
+            WordReplace(wApp, "#CreatedBy#", cl.CreatedBy);
+            WordReplace(wApp, "#CreatedAt#", cl.CreatedAt.ToString());
+            WordReplace(wApp, "#PayType#", strPayType(cl.PayType));
+            WordReplace(wApp, "#Balances#", cl.Company.Balances.ToString());
+            PrintTime(wApp);
+
+            object background = false; //这个很重要，否则关闭的时候会提示请等待Word打印完毕后再退出，加上这个后可以使Word所有
+            object filename = AppDomain.CurrentDomain.BaseDirectory + cl.Company.Name + ".docx";
+            wDoc.SaveAs(ref filename, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref
+                missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing);
+            wDoc.PrintOut(ref background, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref
+               missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing,
+               ref missing);
+            object saveOption = Word.WdSaveOptions.wdSaveChanges;
+            wDoc.Close(ref saveOption, ref missing, ref missing); //关闭当前文档，如果有多个模版文件进行操作，则执行完这一步后接着执行打开Word文档的方法即可
+            saveOption = Word.WdSaveOptions.wdDoNotSaveChanges;
+            wApp.Quit(ref saveOption, ref missing, ref missing); //关闭Word进程
+        }
+        #endregion
         #region 陆上装车单
         /// <summary>
         /// 陆上装车单
@@ -546,7 +591,20 @@ namespace 打印终端
         /// <param name="wApp"></param>
         private void PrintTime(Word._Application wApp)
         {
-            WordReplace(wApp, "#PrintTime#", DateTime.Now.ToString("yyyy-MM-dd hh:mm"));
+            WordReplace(wApp, "#PrintTime#", DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
+        }
+        private string strPayType(OrderPayType op)
+        {
+            if (op == OrderPayType.现金)
+                return "现金";
+            else if (op == OrderPayType.工行刷卡 || op == OrderPayType.桂行刷卡)
+                return "刷卡";
+            else if (op == OrderPayType.微信)
+                return "微信";
+            else if (op == OrderPayType.支付宝)
+                return "支付宝";
+            else
+                return "";
         }
     }
 }

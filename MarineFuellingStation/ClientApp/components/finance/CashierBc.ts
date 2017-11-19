@@ -295,37 +295,5 @@ export default class CashierBcComponent extends ComponentBase {
         })
     }
 
-    //打印
-    getPrintTo(id: number, to: string) {
-        axios.get('/api/BoatClean/PrintTo?' +
-            'id=' + id +
-            '&to=' + to).then((res) => {
-                let jobj = res.data as server.resultJSON<server.boatClean>;
-                if (jobj.code == 0) {
-                    this.toastSuccess('打印指令已发出')
-                }
-            });
-    }
-    //打印“完工证”
-    getPrintBoatClean(id: number, to: string) {
-        axios.get('/api/BoatClean/PrintBoatClean?' +
-            'id=' + id +
-            '&to=' + to).then((res) => {
-                let jobj = res.data as server.resultJSON<server.boatClean>;
-                if (jobj.code == 0) {
-                    this.toastSuccess('完工证打印指令已发出')
-                }
-            });
-    }
-    //打印“结算单”到指定打印机
-    getPrintBcCollection(id: number, to: string) {
-        axios.get('/api/BoatClean/PrintBcCollection?' +
-            'id=' + id +
-            '&to=' + to).then((res) => {
-                let jobj = res.data as server.resultJSON<server.boatClean>;
-                if (jobj.code == 0) {
-                    this.toastSuccess('收款单打印指令已发出')
-                }
-            });
-    }
+    
 }

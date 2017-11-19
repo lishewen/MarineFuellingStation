@@ -73,6 +73,15 @@ export default class ChargeComponent extends ComponentBase {
         this.chargeLog.companyId = co.id;
         this.showStep2 = true;
     }
+    confirmPrint(cl: server.chargeLog) {
+        this.$dialog.confirm({
+            title: '打印',
+            mes: '充值成功，是否需要打印？',
+            opts: () => {
+                this.postPrintTo(cl, "收银台")
+            }
+        });
+    }
     postCharge() {
         this.chargeLog.chargeType = server.chargeType.充值;
         //console.log(this.isCompany); return;
@@ -88,7 +97,8 @@ export default class ChargeComponent extends ComponentBase {
         axios.post("/api/chargelog", this.chargeLog).then((res) => {
             let jobj = res.data as server.resultJSON<server.chargeLog>;
             if (jobj.code == 0) {
-                this.toastSuccess("充值成功")
+                //this.toastSuccess("充值成功")
+                this.confirmPrint(jobj.data);
             }
             if (jobj.code == 501) {
                 this.toastError(jobj.msg)
@@ -144,5 +154,16 @@ export default class ChargeComponent extends ComponentBase {
             else
                 this.toastError('无法获取公司数据，请重试')
         });
+    }
+    //打印
+    postPrintTo(cl: server.chargeLog, to: string) {
+        let actName = cl.isCompany ? "postPrintCompanyPrepay" : "postPrintClientPrepay";
+        axios.post('/api/ChargeLog/' + actName + '?' +
+            '&to=' + to, cl).then((res) => {
+                let jobj = res.data as server.resultJSON<server.chargeLog>;
+                if (jobj.code == 0) {
+                    this.toastSuccess('打印指令已发出')
+                }
+            });
     }
 }

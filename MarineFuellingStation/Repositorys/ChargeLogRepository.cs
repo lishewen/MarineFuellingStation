@@ -34,6 +34,7 @@ namespace MFS.Repositorys
                         
                     CompanyRepository co_r = new CompanyRepository(_dbContext);
                     co_r.Update(company);
+                    model.Company = company;
                 }
                 //客户账户的充值或消费处理
                 else
@@ -51,6 +52,7 @@ namespace MFS.Repositorys
 
                     ClientRepository cl_r = new ClientRepository(_dbContext);
                     cl_r.Update(client);
+                    model.Client = client;
                 }
                 Save();
             }

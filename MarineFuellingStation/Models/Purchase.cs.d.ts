@@ -35,11 +35,11 @@ declare module server {
         driver2: string;
         idCard2: string;
         phone2: string;
-        /** 卸油表表数1 */
+        /** 卸油后表数1 */
         instrument1: number;
-        /** 卸油表表数2 */
+        /** 卸油后表数2 */
         instrument2: number;
-        /** 卸油表表数3 */
+        /** 卸油后表数3 */
         instrument3: number;
         /** 审核人 */
         auditor: string;
@@ -71,5 +71,9 @@ declare module server {
         id: number;
         count?: number;
         name: string;
+        //卸油前表数
+        instrumentBf?: number;
+        //卸油后表数
+        instrumentAf?: number;
     }
 }

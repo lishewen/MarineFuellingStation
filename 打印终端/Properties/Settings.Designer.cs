@@ -73,7 +73,7 @@ namespace 打印终端.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("地磅室")]
+        [global::System.Configuration.DefaultSettingValueAttribute("收银台")]
         public string ClientId {
             get {
                 return ((string)(this["ClientId"]));
@@ -121,13 +121,13 @@ namespace 打印终端.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("预收款确认单.docx")]
-        public string PrintPrepaymentDocx {
+        [global::System.Configuration.DefaultSettingValueAttribute("个人预收款确认单.docx")]
+        public string PrintClientPrepaymentDocx {
             get {
-                return ((string)(this["PrintPrepaymentDocx"]));
+                return ((string)(this["PrintClientPrepaymentDocx"]));
             }
             set {
-                this["PrintPrepaymentDocx"] = value;
+                this["PrintClientPrepaymentDocx"] = value;
             }
         }
         
@@ -152,6 +152,18 @@ namespace 打印终端.Properties {
             }
             set {
                 this["PrintDeliverDocx"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("公司预收款确认单.docx")]
+        public string PrintCompanyPrepaymentDocx {
+            get {
+                return ((string)(this["PrintCompanyPrepaymentDocx"]));
+            }
+            set {
+                this["PrintCompanyPrepaymentDocx"] = value;
             }
         }
     }

@@ -49,7 +49,7 @@ export default class MoveStoreActComponent extends ComponentBase {
             {
                 label: '打印到【收银台】',
                 method: () => {
-                    this.getPrintTo(mid, '收银台')
+                    this.getPrintMoveStore(mid, '收银台')
                 }
             }
         ];
@@ -106,27 +106,15 @@ export default class MoveStoreActComponent extends ComponentBase {
                 this.toastSuccess("操作成功");
                 this.show2 = false;
                 (<any>this).$dialog.confirm({
-                    title: '打印操作',
+                    title: '打印',
                     mes: '是否打印到【收银台】？',
                     opts: () => {
-                        that.getPrintTo(jobj.data.id, "收银台");
+                        that.getPrintMoveStore(jobj.data.id, "收银台");
                     }
                 })
             }
             else
                 this.toastError(jobj.msg);
         });
-    }
-
-    //打印
-    getPrintTo(id: number, to: string) {
-        axios.get('/api/MoveStore/PrintTo?' +
-            'id=' + id +
-            '&to=' + to).then((res) => {
-                let jobj = res.data as server.resultJSON<server.moveStore>;
-                if (jobj.code == 0) {
-                    this.toastSuccess('打印指令已发出')
-                }
-            });
     }
 }

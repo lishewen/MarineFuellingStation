@@ -114,7 +114,7 @@ export default class CashierComponent extends ComponentBase {
         ];
         
         this.actItems.push({
-            label: '充值【个人账户】',
+            label: '【个人账户】预付充值',
             method: () => {
                 this.showCharge = true;
                 this.isCompanyCharge = false;
@@ -123,7 +123,7 @@ export default class CashierComponent extends ComponentBase {
         });
         
         let coItem = {
-            label: '充值【公司账户】',
+            label: '充值【公司账户】预付充值',
             method: () => {
                 this.showCharge = true;
                 this.isCompanyCharge = true;
@@ -356,6 +356,26 @@ export default class CashierComponent extends ComponentBase {
         this.getOrders();
     }
 
+    confirmPrepayPrint(cl: server.chargeLog) {
+        this.$dialog.confirm({
+            title: '打印',
+            mes: '充值成功，是否需要打印？',
+            opts: () => {
+                this.postPrintPrepay(cl, "收银台")
+            }
+        });
+    }
+
+    confirmOrderPrint(o: server.order) {
+        this.$dialog.confirm({
+            title: '打印',
+            mes: '结算成功，是否需要打印？',
+            opts: () => {
+                this.getPrintOrder(o.id, "收银台")
+            }
+        });
+    }
+
     //根据orderId获取该订单的付款记录
     getOrderPayments(oid: number) {
         if (oid == null) {
@@ -426,7 +446,8 @@ export default class CashierComponent extends ComponentBase {
         axios.put("/api/order/pay", model).then((res) => {
             let jobj = res.data as server.resultJSON<server.order>;
             if (jobj.code == 0) {
-                this.toastSuccess("结算成功");
+                //this.toastSuccess("结算成功");
+                this.confirmOrderPrint(jobj.data);
                 this.showPayTypes = false;
                 this.page = 1;
                 this.getOrders();
@@ -458,56 +479,13 @@ export default class CashierComponent extends ComponentBase {
         axios.post("/api/chargelog", this.chargeLog).then((res) => {
             let jobj = res.data as server.resultJSON<server.chargeLog>;
             if (jobj.code == 0) {
-                this.toastSuccess("充值成功")
+                this.confirmPrepayPrint(jobj.data);
+                this.showCharge = false;
             }
             if (jobj.code == 501) {
                 this.toastError(jobj.msg)
             }
         });
     }
-
-    //打印“调拨单”到指定打印机
-    getPrintOrder(id: number, to: string) {
-        axios.get('/api/Order/PrintOrder?' +
-            'id=' + id +
-            '&to=' + to).then((res) => {
-                let jobj = res.data as server.resultJSON<server.order>;
-                if (jobj.code == 0) {
-                    this.toastSuccess('调拨单打印指令已发出')
-                }
-            });
-    }
-    //打印“陆上送货单”
-    getPrintDeliver(id: number, to: string) {
-        axios.get('/api/Order/getPrintDeliver?' +
-            'id=' + id +
-            '&to=' + to).then((res) => {
-                let jobj = res.data as server.resultJSON<server.order>;
-                if (jobj.code == 0) {
-                    this.toastSuccess('陆上送货单打印指令已发出')
-                }
-            });
-    }
-    //打印“陆上装车单”
-    getPrintLandload(id: number, to: string) {
-        axios.get('/api/Order/getPrintLandload?' +
-            'id=' + id +
-            '&to=' + to).then((res) => {
-                let jobj = res.data as server.resultJSON<server.order>;
-                if (jobj.code == 0) {
-                    this.toastSuccess('陆上装车单打印指令已发出')
-                }
-            });
-    }
-    //打印“出库石化过磅单”
-    getPrintPonderation(id: number, to: string) {
-        axios.get('/api/Order/getPrintPonderation?' +
-            'id=' + id +
-            '&to=' + to).then((res) => {
-                let jobj = res.data as server.resultJSON<server.order>;
-                if (jobj.code == 0) {
-                    this.toastSuccess('出库石化过磅单打印指令已发出')
-                }
-            });
-    }
+    
 }

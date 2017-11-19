@@ -15,7 +15,7 @@
       <Value Profile="(Default)">生产转仓单.docx</Value>
     </Setting>
     <Setting Name="ClientId" Type="System.String" Scope="User">
-      <Value Profile="(Default)">地磅室</Value>
+      <Value Profile="(Default)">收银台</Value>
     </Setting>
     <Setting Name="PrintBoatCleanDocx" Type="System.String" Scope="User">
       <Value Profile="(Default)">船舶清污完工证.docx</Value>
@@ -26,14 +26,17 @@
     <Setting Name="PrintLandLoadDocx" Type="System.String" Scope="User">
       <Value Profile="(Default)">陆上装车单.docx</Value>
     </Setting>
-    <Setting Name="PrintPrepaymentDocx" Type="System.String" Scope="User">
-      <Value Profile="(Default)">预收款确认单.docx</Value>
+    <Setting Name="PrintClientPrepaymentDocx" Type="System.String" Scope="User">
+      <Value Profile="(Default)">个人预收款确认单.docx</Value>
     </Setting>
     <Setting Name="PrintPonderationDocx" Type="System.String" Scope="User">
       <Value Profile="(Default)">出库石化过磅单.docx</Value>
     </Setting>
     <Setting Name="PrintDeliverDocx" Type="System.String" Scope="User">
       <Value Profile="(Default)">陆上送货单.docx</Value>
+    </Setting>
+    <Setting Name="PrintCompanyPrepaymentDocx" Type="System.String" Scope="User">
+      <Value Profile="(Default)">公司预收款确认单.docx</Value>
     </Setting>
   </Settings>
 </SettingsFile>

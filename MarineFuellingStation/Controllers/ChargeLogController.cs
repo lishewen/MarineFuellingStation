@@ -1,7 +1,9 @@
 ﻿using MFS.Controllers.Attributes;
+using MFS.Hubs;
 using MFS.Models;
 using MFS.Repositorys;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -14,10 +16,22 @@ namespace MFS.Controllers
     public class ChargeLogController : ControllerBase
     {
         private readonly ChargeLogRepository r;
-        public ChargeLogController(ChargeLogRepository repository)
+        private readonly IHubContext<PrintHub> _hub;
+        public ChargeLogController(ChargeLogRepository repository, IHubContext<PrintHub> hub)
         {
             r = repository;
+            _hub = hub;
         }
+        #region 推送打印指令到指定打印机端
+        [NonAction]
+        public async Task SendPrintAsync(string who, ChargeLog cl, string actionName)
+        {
+            foreach (var connectionId in PrintHub.connections.GetConnections(who))
+            {
+                await _hub.Clients.Client(connectionId).InvokeAsync(actionName, cl);
+            }
+        }
+        #endregion
         [HttpGet]
         public ResultJSON<List<ChargeLog>> Get()
         {
@@ -58,6 +72,7 @@ namespace MFS.Controllers
                 Data = s
             };
         }
+        
         [HttpPut]
         public ResultJSON<ChargeLog> Put([FromBody]ChargeLog model)
         {
@@ -91,6 +106,38 @@ namespace MFS.Controllers
                     Code = 0,
                     Data = c
                 };
+        }
+        /// <summary>
+        /// 向指定打印机推送【个人预付款确认单】打印指令
+        /// </summary>
+        /// <param name="cl">ChargeLog model</param>
+        /// <param name="to"></param>
+        /// <returns></returns>
+        [HttpPost("[action]")]
+        public async Task<ResultJSON<ChargeLog>> postPrintClientPrepay([FromBody]ChargeLog cl, string to)
+        {
+            await SendPrintAsync(to, cl, "printclientprepayment");
+            return new ResultJSON<ChargeLog>
+            {
+                Code = 0,
+                Data = cl
+            };
+        }
+        /// <summary>
+        /// 向指定打印机推送【公司预付款确认单】打印指令
+        /// </summary>
+        /// <param name="cl">ChargeLog model</param>
+        /// <param name="to"></param>
+        /// <returns></returns>
+        [HttpPost("[action]")]
+        public async Task<ResultJSON<ChargeLog>> postPrintCompanyPrepay([FromBody]ChargeLog cl, string to)
+        {
+            await SendPrintAsync(to, cl, "printcompanyprepayment");
+            return new ResultJSON<ChargeLog>
+            {
+                Code = 0,
+                Data = cl
+            };
         }
     }
 }

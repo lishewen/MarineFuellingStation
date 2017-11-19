@@ -58,7 +58,7 @@ export default class LandloadComponent extends ComponentBase {
 
     //打印到地磅室
     printToDBclick() {
-        this.getPrintTo(this.order.id, "地磅室");
+        this.getPrintLandload(this.order.id, "地磅室");
     }
 
     changeState(nextState: server.orderState) {
@@ -176,19 +176,7 @@ export default class LandloadComponent extends ComponentBase {
                 this.stores = jobj.data;
         });
     }
-
-    //打印
-    getPrintTo(id: number, to: string) {
-        axios.get('/api/Order/PrintLandload?' +
-            'id=' + id +
-            '&to=' + to).then((res) => {
-                let jobj = res.data as server.resultJSON<server.order>;
-                if (jobj.code == 0) {
-                    this.toastSuccess('打印指令已发出')
-                }
-            });
-    }
-
+    
     putState(state: server.orderState) {
         this.order.state = state;
         axios.put('/api/Order/ChangeState', this.order).then((res) => {

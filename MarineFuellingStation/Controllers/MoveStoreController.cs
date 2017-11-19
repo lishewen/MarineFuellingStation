@@ -59,7 +59,7 @@ namespace MFS.Controllers
         /// <param name="to"></param>
         /// <returns></returns>
         [HttpGet("[action]")]
-        public async Task<ResultJSON<MoveStore>> PrintTo(int id, string to)
+        public async Task<ResultJSON<MoveStore>> PrintMoveStore(int id, string to)
         {
             MoveStore bc = r.Get(id);
             await SendPrintMoveStoreAsync(to, bc);

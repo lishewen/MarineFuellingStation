@@ -234,5 +234,13 @@ namespace MFS.Models
         public int Id { get; set; }
         public decimal Count { get; set; }
         public string Name { get; set; }
+        /// <summary>
+        /// 卸油前表数
+        /// </summary>
+        public decimal InstrumentBf { get; set; }
+        /// <summary>
+        /// 卸油后表数
+        /// </summary>
+        public decimal InstrumentAf { get; set; }
     }
 }

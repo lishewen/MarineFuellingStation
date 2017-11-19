@@ -187,7 +187,7 @@ namespace MFS.Controllers
         /// <param name="to"></param>
         /// <returns></returns>
         [HttpGet("[action]")]
-        public async Task<ResultJSON<Purchase>> PrintTo(int id, string to)
+        public async Task<ResultJSON<Purchase>> PrintUnload(int id, string to)
         {
             Purchase bc = r.Get(id);
             await SendPrintUnloadAsync(to, bc);
@@ -290,8 +290,7 @@ namespace MFS.Controllers
                      $"<div class=\"normal\">运输车号：{result.CarNo}{result.TrailerNo}</div>" +
                      $"<div class=\"normal\">预计到达：{result.ArrivalTime}</div>"
                      , $"https://vue.car0774.com/#/produce/buyboard", toUser: "@all");
-            _hub.Clients.All.InvokeAsync("printunload", p);
-
+            
             return new ResultJSON<Purchase>
             {
                 Code = 0,

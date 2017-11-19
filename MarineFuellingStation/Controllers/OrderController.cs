@@ -65,10 +65,7 @@ namespace MFS.Controllers
 
             //推送打印指令
             //await _hub.Clients.All.InvokeAsync("printorder", result);
-
-            //向指定目标推送打印指令
-            await SendPrintAsync("收银台", result, "printorder");
-
+            
             //初始化推送需要到的AccessToken
             this.option.销售单AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.销售单Secret);
             this.option.加油AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.加油Secret);

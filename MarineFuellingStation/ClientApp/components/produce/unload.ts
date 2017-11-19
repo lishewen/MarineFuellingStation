@@ -194,16 +194,22 @@ export default class UnloadComponent extends ComponentBase {
                             if (this.purchase.instrument1 <= 0) { this.toastError("请填写表数1"); isValid = false; return; };
                             if (this.purchase.instrument1 < this.lastPurchase.instrument1) { this.toastError("卸油后表数1应大于或等于卸油前表数1"); isValid = false; return; };
                             tst.count = this.purchase.instrument1 - this.lastPurchase.instrument1;
+                            tst.instrumentAf = this.purchase.instrument1;
+                            tst.instrumentBf = this.lastPurchase.instrument1;
                             break;
                         case "表2":
                             if (this.purchase.instrument2 <= 0) { this.toastError("请填写表数2"); isValid = false; };
                             if (this.purchase.instrument2 < this.lastPurchase.instrument2) { this.toastError("卸油后表数2应大于或等于卸油前表数2"); isValid = false; return; };
                             tst.count = this.purchase.instrument2 - this.lastPurchase.instrument2;
+                            tst.instrumentAf = this.purchase.instrument2;
+                            tst.instrumentBf = this.lastPurchase.instrument2;
                             break;
                         case "表3":
                             if (this.purchase.instrument3 <= 0) { this.toastError("请填写表数3"); isValid = false; };
                             if (this.purchase.instrument3 < this.lastPurchase.instrument3) { this.toastError("卸油后表数3应大于或等于卸油前表数3"); isValid = false; return; };
                             tst.count = this.purchase.instrument3 - this.lastPurchase.instrument3;
+                            tst.instrumentAf = this.purchase.instrument3;
+                            tst.instrumentBf = this.lastPurchase.instrument3;
                             break;
                     }
                     total += tst.count;
@@ -342,17 +348,5 @@ export default class UnloadComponent extends ComponentBase {
                 this.currStep = 1;
             }
         });
-    }
-
-    //打印
-    getPrintTo(id: number, to: string) {
-        axios.get('/api/Purchase/PrintTo?' +
-            'id=' + id +
-            '&to=' + to).then((res) => {
-                let jobj = res.data as server.resultJSON<server.purchase>;
-                if (jobj.code == 0) {
-                    this.toastSuccess('打印指令已发出')
-                }
-            });
     }
 }

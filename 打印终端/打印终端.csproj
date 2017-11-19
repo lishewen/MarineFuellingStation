@@ -175,6 +175,7 @@
   <ItemGroup>
     <Compile Include="Models\Assay.cs" />
     <Compile Include="Models\BoatClean.cs" />
+    <Compile Include="Models\ChargeLog.cs" />
     <Compile Include="Models\Client.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\EntityBase.cs" />

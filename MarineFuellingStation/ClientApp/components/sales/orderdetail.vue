@@ -69,7 +69,7 @@
                 <span slot="right">{{model.billingCount}}</span>
             </yd-cell-item>
         </yd-cell-group>
-        <yd-cell-group :title="strOrderState(model)">
+        <yd-cell-group :title="strOrderState(model)" v-show="model.state == 5">
             <yd-cell-item>
                 <span slot="left">施工人员：</span>
                 <span slot="right">{{model.worker}}</span>
@@ -106,13 +106,13 @@
                 <div slot="right"><div class="img-wrap"><img :src="this.model.emptyCarWeightPic" /></div></div>
             </yd-cell-item>
         </yd-cell-group>
-        <yd-cell-group title="运输">
+        <!--<yd-cell-group title="运输">
             <yd-cell-item>
                 <span slot="left">运输单：</span>
                 <span slot="right"></span>
             </yd-cell-item>
-        </yd-cell-group>
-        <yd-cell-group title="付款方式与金额">
+        </yd-cell-group>-->
+        <yd-cell-group title="付款方式与金额" v-show="model.payState == 1">
             <yd-cell-item v-for="p in model.payments" :key="p.id">
                 <span slot="left">{{strPayType(p)}}：</span>
                 <span slot="right">￥{{p.money}}</span>

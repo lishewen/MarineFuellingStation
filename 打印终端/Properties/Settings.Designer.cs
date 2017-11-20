@@ -73,7 +73,7 @@ namespace 打印终端.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("收银台")]
+        [global::System.Configuration.DefaultSettingValueAttribute("地磅室")]
         public string ClientId {
             get {
                 return ((string)(this["ClientId"]));

@@ -39,7 +39,7 @@ namespace MFS.Models
         /// 商品单价
         /// </summary>
         public decimal Price { get; set; }
-        public int Count { get; set; }
+        public decimal Count { get; set; }
         /// <summary>
         /// 单位
         /// </summary>
@@ -75,6 +75,7 @@ namespace MFS.Models
         /// 开票数量
         /// </summary>
         public int BillingCount { get; set; }
+        public TicketType TicketType { get; set; }
         /// <summary>
         /// 实际加油数量
         /// </summary>
@@ -213,4 +214,5 @@ namespace MFS.Models
         账户扣减,
         公司账户扣减
     }
+
 }

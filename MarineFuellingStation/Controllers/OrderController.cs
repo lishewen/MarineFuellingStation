@@ -338,7 +338,7 @@ namespace MFS.Controllers
         /// <param name="to"></param>
         /// <returns></returns>
         [HttpGet("[action]")]
-        public async Task<ResultJSON<Order>> getPrintDeliver(int id, string to)
+        public async Task<ResultJSON<Order>> PrintDeliver(int id, string to)
         {
             Order o = r.Get(id);
             await SendPrintAsync(to, o, "printdeliver");
@@ -355,7 +355,7 @@ namespace MFS.Controllers
         /// <param name="to"></param>
         /// <returns></returns>
         [HttpGet("[action]")]
-        public async Task<ResultJSON<Order>> getPrintPonderation(int id, string to)
+        public async Task<ResultJSON<Order>> PrintPonderation(int id, string to)
         {
             Order o = r.Get(id);
             await SendPrintAsync(to, o, "printponderation");

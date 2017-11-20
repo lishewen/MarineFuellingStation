@@ -142,7 +142,7 @@ export default class CashierComponent extends ComponentBase {
     showMenusclick(o: server.order) {
         this.menus = [
             {
-                label: '支付方式',
+                label: '查看支付方式',
                 method: () => {
                     this.showPaymentsclick(o)
                 }

@@ -15,7 +15,7 @@
       <Value Profile="(Default)">生产转仓单.docx</Value>
     </Setting>
     <Setting Name="ClientId" Type="System.String" Scope="User">
-      <Value Profile="(Default)">收银台</Value>
+      <Value Profile="(Default)">地磅室</Value>
     </Setting>
     <Setting Name="PrintBoatCleanDocx" Type="System.String" Scope="User">
       <Value Profile="(Default)">船舶清污完工证.docx</Value>

@@ -348,14 +348,24 @@ namespace 打印终端
             WordReplace(wApp, "#ProductName#", "石化油");
             WordReplace(wApp, "#Count#", order.Count.ToString());
             WordReplace(wApp, "#Unit#", order.Unit);
-            WordReplace(wApp, "#Price#", order.Price.ToString());
-            WordReplace(wApp, "#TotalMoney#", order.TotalMoney.ToString());
+            WordReplace(wApp, "#Price#", order.IsPrintPrice ? order.Price.ToString("0.00") : "");
+            WordReplace(wApp, "#TotalMoney#", order.IsPrintPrice? order.TotalMoney.ToString("0.00") : "");
             WordReplace(wApp, "#CNMoney#", ConvertToChinese(order.TotalMoney));
             WordReplace(wApp, "#Remark#", order.Remark);
             WordReplace(wApp, "#LastUpdatedBy#", order.LastUpdatedBy);
             WordReplace(wApp, "#Salesman#", order.Salesman);
             WordReplace(wApp, "#CreatedAt#", order.CreatedAt.ToString());
             PrintTime(wApp);
+
+            string strInvoice = "";
+            if (order.IsInvoice)
+            {   
+                strInvoice += "开票单位：" + order.BillingCompany + "\r";
+                strInvoice += "开票单价：￥" + order.BillingPrice + "\r";
+                strInvoice += "开票数量：" + order.BillingCount + order.Unit + "\r";
+                strInvoice += "类型：" + strTicketType(order.TicketType);
+            }
+            WordReplace(wApp, "#InvoiceContent#", strInvoice);
 
             object background = false; //这个很重要，否则关闭的时候会提示请等待Word打印完毕后再退出，加上这个后可以使Word所有
             object filename = AppDomain.CurrentDomain.BaseDirectory + order.Name + ".docx";
@@ -605,6 +615,17 @@ namespace 打印终端
                 return "支付宝";
             else
                 return "";
+        }
+        private string strTicketType(TicketType type)
+        {
+            switch (type)
+            {
+                case TicketType.循票:
+                    return "循票";
+                case TicketType.柴票:
+                    return "柴票";
+            }
+            return "";
         }
     }
 }

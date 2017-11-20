@@ -104,9 +104,9 @@ export default class OrderDetailComponent extends ComponentBase {
 
     strDiffOil(o: server.order) {
         if (o.unit == "升")
-            return o.diffOil + "升 换算吨：" + o.diffOil * o.density / 1000 + "吨";
+            return o.diffOil + "升 = " + Math.round(o.diffOil * o.density / 1000 * 100)/100 + "吨";
         else if (o.unit == "吨")
-            return o.diffOil + "吨 换算升：" + o.diffOil / o.density * 1000 + "升";
+            return o.diffOil + "吨 = " + Math.round(o.diffOil / o.density * 1000 * 100)/100 + "升";
     }
 
     getOrder(id: string, callback: Function) {

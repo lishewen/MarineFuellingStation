@@ -114,7 +114,7 @@ namespace MFS.Controllers
         /// <param name="to"></param>
         /// <returns></returns>
         [HttpPost("[action]")]
-        public async Task<ResultJSON<ChargeLog>> postPrintClientPrepay([FromBody]ChargeLog cl, string to)
+        public async Task<ResultJSON<ChargeLog>> PrintClientPrepay([FromBody]ChargeLog cl, string to)
         {
             await SendPrintAsync(to, cl, "printclientprepayment");
             return new ResultJSON<ChargeLog>
@@ -130,7 +130,7 @@ namespace MFS.Controllers
         /// <param name="to"></param>
         /// <returns></returns>
         [HttpPost("[action]")]
-        public async Task<ResultJSON<ChargeLog>> postPrintCompanyPrepay([FromBody]ChargeLog cl, string to)
+        public async Task<ResultJSON<ChargeLog>> PrintCompanyPrepay([FromBody]ChargeLog cl, string to)
         {
             await SendPrintAsync(to, cl, "printcompanyprepayment");
             return new ResultJSON<ChargeLog>

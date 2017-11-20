@@ -128,7 +128,7 @@ export default class OrderComponent extends ComponentBase {
         this.model.salesman = s.createdBy;
         this.model.isDeliver = s.isDeliver;
         this.model.isPrintPrice = s.isPrintPrice;
-        this.model.remark = s.remark;
+        this.model.remark = (s.remark == null) ? "" : s.remark;
         
         //this.model.clientId = s.cl
         this.oilName = s.oilName;

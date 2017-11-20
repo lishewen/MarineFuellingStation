@@ -36,7 +36,7 @@ export default class ComponentBase extends Vue {
     }
     //打印“陆上送货单”
     getPrintDeliver(id: number, to: string) {
-        axios.get('/api/Order/getPrintDeliver?' +
+        axios.get('/api/Order/PrintDeliver?' +
             'id=' + id +
             '&to=' + to).then((res) => {
                 let jobj = res.data as server.resultJSON<server.order>;
@@ -47,7 +47,7 @@ export default class ComponentBase extends Vue {
     }
     //打印“陆上装车单”
     getPrintLandload(id: number, to: string) {
-        axios.get('/api/Order/getPrintLandload?' +
+        axios.get('/api/Order/PrintLandload?' +
             'id=' + id +
             '&to=' + to).then((res) => {
                 let jobj = res.data as server.resultJSON<server.order>;
@@ -58,7 +58,7 @@ export default class ComponentBase extends Vue {
     }
     //打印“出库石化过磅单”
     getPrintPonderation(id: number, to: string) {
-        axios.get('/api/Order/getPrintPonderation?' +
+        axios.get('/api/Order/PrintPonderation?' +
             'id=' + id +
             '&to=' + to).then((res) => {
                 let jobj = res.data as server.resultJSON<server.order>;
@@ -69,7 +69,7 @@ export default class ComponentBase extends Vue {
     }
     //打印预付款确认单 个人/公司
     postPrintPrepay(cl: server.chargeLog, to: string) {
-        let actName = cl.isCompany ? "postPrintCompanyPrepay" : "postPrintClientPrepay";
+        let actName = cl.isCompany ? "PrintCompanyPrepay" : "PrintClientPrepay";
         axios.post('/api/ChargeLog/' + actName + '?' +
             '&to=' + to, cl).then((res) => {
                 let jobj = res.data as server.resultJSON<server.chargeLog>;

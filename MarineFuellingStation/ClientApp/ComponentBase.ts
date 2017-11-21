@@ -112,13 +112,24 @@ export default class ComponentBase extends Vue {
             });
     }
     //打印“陆上卸油单”
-    getPrintTo(id: number, to: string) {
+    getPrintUnload(id: number, to: string) {
         axios.get('/api/Purchase/PrintUnload?' +
             'id=' + id +
             '&to=' + to).then((res) => {
                 let jobj = res.data as server.resultJSON<server.purchase>;
                 if (jobj.code == 0) {
                     this.toastSuccess('陆上卸油单打印指令已发出')
+                }
+            });
+    }
+    //打印“化验单”
+    getPrintAssay(id: number, to: string) {
+        axios.get('/api/Assay/PrintAssay?' +
+            'id=' + id +
+            '&to=' + to).then((res) => {
+                let jobj = res.data as server.resultJSON<server.assay>;
+                if (jobj.code == 0) {
+                    this.toastSuccess('化验单打印指令已发出')
                 }
             });
     }

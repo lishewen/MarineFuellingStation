@@ -152,7 +152,7 @@ export default class UnloadComponent extends ComponentBase {
     }
 
     printclick() {
-        this.getPrintTo(this.purchase.id, "收银台");
+        this.getPrintUnload(this.purchase.id, "收银台");
     }
 
     isHas(name: string) {

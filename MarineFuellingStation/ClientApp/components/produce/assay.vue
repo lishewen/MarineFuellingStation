@@ -260,6 +260,10 @@
                     <span slot="left">含硫：</span>
                     <span slot="right">{{assay.含硫}}℃</span>
                 </yd-cell-item>
+                <div class="align-center">
+                    <yd-button type="primary" style="width: 90%" @click.native="getPrintAssay(assay.id, '收银台')">打印到【收银台】</yd-button>
+                    <yd-button type="primary" class="mtop10" style="width: 90%" @click.native="getPrintAssay(assay.id, '地磅室')">打印到【地磅室】</yd-button>
+                </div>
             </yd-cell-group>
         </yd-popup>
     </div>

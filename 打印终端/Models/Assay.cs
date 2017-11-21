@@ -16,12 +16,12 @@ namespace MFS.Models
         /// <summary>
         /// 化验油仓
         /// </summary>
-        public virtual Store Store { get; set; }
+        public Store Store { get; set; }
         public int? PurchaseId { get; set; }
         /// <summary>
-        /// 采购来源
+        /// 进油来源
         /// </summary>
-        public virtual Purchase Purchase { get; set; }
+        public Purchase Purchase { get; set; }
         public decimal 视密 { get; set; }
         public decimal 标密 { get; set; }
         public string 闭口闪点 { get; set; }
@@ -30,11 +30,16 @@ namespace MFS.Models
         /// </summary>
         public decimal Temperature { get; set; }
         /// <summary>
+        /// 量油温时间
+        /// </summary>
+        public DateTime OilTempTime { get; set; }
+        /// <summary>
         /// 味道
         /// </summary>
         public SmellType SmellType { get; set; }
         public string 混水反应 { get; set; }
         public string 十六烷值 { get; set; }
+        public string 十六烷指数 { get; set; }
         public decimal 初硫 { get; set; }
         /// <summary>
         /// 10%
@@ -50,6 +55,9 @@ namespace MFS.Models
         public decimal Percentage90 { get; set; }
         public decimal 回流 { get; set; }
         public decimal 干点 { get; set; }
+        public decimal 蚀点 { get; set; }
+        public decimal 凝点 { get; set; }
+        public decimal 含硫 { get; set; }
         /// <summary>
         /// 化验员
         /// </summary>
@@ -60,7 +68,7 @@ namespace MFS.Models
     public enum AssayType
     {
         油舱化验,
-        采购化验
+        进油化验
     }
     public enum SmellType
     {

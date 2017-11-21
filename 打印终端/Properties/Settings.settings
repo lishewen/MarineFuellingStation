@@ -38,5 +38,8 @@
     <Setting Name="PrintCompanyPrepaymentDocx" Type="System.String" Scope="User">
       <Value Profile="(Default)">公司预收款确认单.docx</Value>
     </Setting>
+    <Setting Name="PrintAssayDocx" Type="System.String" Scope="User">
+      <Value Profile="(Default)">化验单.docx</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

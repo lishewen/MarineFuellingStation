@@ -1,7 +1,9 @@
 ﻿using MFS.Controllers.Attributes;
+using MFS.Hubs;
 using MFS.Models;
 using MFS.Repositorys;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +16,23 @@ namespace MFS.Controllers
     {
         private readonly AssayRepository r;
         private readonly PurchaseRepository pu_r;
-        public AssayController(AssayRepository repository, PurchaseRepository pu_repository)
+        private readonly IHubContext<PrintHub> _hub;
+        public AssayController(AssayRepository repository, PurchaseRepository pu_repository, IHubContext<PrintHub> hub)
         {
             r = repository;
             pu_r = pu_repository;
+            _hub = hub;
         }
+        #region 推送打印指令到指定打印机端
+        [NonAction]
+        public async Task SendPrintAsync(string who, Assay assay, string actionName)
+        {
+            foreach (var connectionId in PrintHub.connections.GetConnections(who))
+            {
+                await _hub.Clients.Client(connectionId).InvokeAsync(actionName, assay);
+            }
+        }
+        #endregion
         [HttpGet("[action]")]
         public ResultJSON<string> AssayNo()
         {
@@ -82,6 +96,23 @@ namespace MFS.Controllers
             {
                 Code = 0,
                 Data = r.GetAllWithStANDPur(sv).OrderByDescending(a => a.Id).ToList()
+            };
+        }
+        /// <summary>
+        /// 向指定打印机推送陆上【化验单】打印指令
+        /// </summary>
+        /// <param name="id">Order id</param>
+        /// <param name="to"></param>
+        /// <returns></returns>
+        [HttpGet("[action]")]
+        public async Task<ResultJSON<Assay>> PrintAssay(int id, string to)
+        {
+            Assay a = r.Get(id);
+            await SendPrintAsync(to, a, "printassay");
+            return new ResultJSON<Assay>
+            {
+                Code = 0,
+                Data = a
             };
         }
     }

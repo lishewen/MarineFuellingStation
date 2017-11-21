@@ -166,5 +166,17 @@ namespace 打印终端.Properties {
                 this["PrintCompanyPrepaymentDocx"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("化验单.docx")]
+        public string PrintAssayDocx {
+            get {
+                return ((string)(this["PrintAssayDocx"]));
+            }
+            set {
+                this["PrintAssayDocx"] = value;
+            }
+        }
     }
 }

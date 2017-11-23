@@ -15,7 +15,16 @@ namespace MFS.Models
         public int ProductId { get; set; }
         public virtual Product Product { get; set; }
         public decimal Price { get; set; }
+        /// <summary>
+        /// 计划订单数量 单位吨
+        /// </summary>
         public int Count { get; set; }
+        /// <summary>
+        /// 实际卸油数量 单位升
+        /// </summary>
+        public decimal OilCount { get; set; } = 0;
+        public decimal DiffLitre { get; set; }
+        public decimal DiffTon { get; set; }
         /// <summary>
         /// 始发地
         /// </summary>
@@ -36,7 +45,28 @@ namespace MFS.Models
         public string Driver2 { get; set; }
         public string IdCard2 { get; set; }
         public string Phone2 { get; set; }
-        public List<ToStoreModel> ToStores { get; set; }
+        /// <summary>
+        /// 卸油对应的仓库Id，多个用','分隔
+        /// </summary>
+        public string ToStoreIds { get; set; }
+        /// <summary>
+        /// 卸油对应的仓库名称，多个用','分隔
+        /// </summary>
+        public string ToStoreNames { get; set; }
+        /// <summary>
+        /// 卸油对应的仓库的数量，多个用','分隔
+        /// </summary>
+        public string ToStoreCounts { get; set; }
+        /// <summary>
+        /// 卸油对应的仓库的表前数，多个用','分隔
+        /// </summary>
+        public string ToStoreInstruBf { get; set; }
+        /// <summary>
+        /// 卸油对应的仓库的表后数，多个用','分隔
+        /// </summary>
+        public string ToStoreInstruAf { get; set; }
+
+        public List<ToStoreModel> ToStoresList { get; set; }
 
         ///陆上卸油用到的字段
         ///
@@ -55,7 +85,7 @@ namespace MFS.Models
         /// <summary>
         /// 卸车时需要测量的密度
         /// </summary>
-        public decimal Density { get; set; } = 0;
+        public double Density { get; set; } = 0;
         /// <summary>
         /// 油车磅秤数
         /// </summary>
@@ -65,6 +95,11 @@ namespace MFS.Models
         /// 油车磅秤图片地址
         /// </summary>
         public string ScaleWithCarPic { get; set; }
+        /// <summary>
+        /// 施工人员
+        /// </summary>
+
+        public string Worker { get; set; }
 
         /// <summary>
         /// 空车磅秤数
@@ -115,5 +150,13 @@ namespace MFS.Models
         public int Id { get; set; }
         public decimal Count { get; set; }
         public string Name { get; set; }
+        /// <summary>
+        /// 卸油前表数
+        /// </summary>
+        public decimal InstrumentBf { get; set; }
+        /// <summary>
+        /// 卸油后表数
+        /// </summary>
+        public decimal InstrumentAf { get; set; }
     }
 }

@@ -143,12 +143,17 @@
         </div>
         <!--打印-->
         <div class="center" v-show="currStep == 6">
-            <yd-button style="width:90%" type="primary" @click.native="printclick()">打印到【收银】</yd-button>
+            <yd-button style="width:90%" type="primary" @click.native="getPrintUnload(purchase.id, '收银台');">打印到【收银台】</yd-button>
+            <yd-button class="mtop10" style="width:90%" type="primary" @click.native="getPrintUnload(purchase.id, '地磅室')">打印到【地磅室】</yd-button>
         </div>
         <!--施工明细-->
         <yd-cell-group title="施工明细" v-show="currStep == 6" class="first-group">
             <yd-cell-item>
                 <span slot="right" style="font-weight: bold">{{purchase.product? purchase.product.name : ""}} - {{purchase.count}}吨</span>
+            </yd-cell-item>
+            <yd-cell-item>
+                <span slot="left">密度：</span>
+                <span slot="right">{{purchase.density}}</span>
             </yd-cell-item>
             <yd-cell-item>
                 <span slot="left">毛重（磅秤）：</span>

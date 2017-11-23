@@ -48,7 +48,19 @@ namespace MFS.Repositorys
         {
             return _dbContext.Purchases.Include(p => p.Product).ToList();
         }
-        
+        /// <summary>
+        /// 获取实体，并关联所有外键的model
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public Purchase GetWithInclude(int id)
+        {
+            return _dbContext.Purchases.Where(p => p.Id == id)
+                .Include(p => p.Assay)
+                .Include(p => p.Product)
+                .FirstOrDefault();
+        }
+
         /// <summary>
         /// 获取待卸油施工的采购单
         /// </summary>

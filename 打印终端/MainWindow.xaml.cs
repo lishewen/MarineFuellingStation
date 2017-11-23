@@ -442,14 +442,29 @@ namespace 打印终端
             wDoc.Activate(); //当前文档置前
 
             //填充数据
-            WordReplace(wApp, "#CarNo#", p.CarNo);
-            WordReplace(wApp, "#TrailerNo#", p.TrailerNo);
-            WordReplace(wApp, "#ProductName#", p.Product?.Name);
+
             WordReplace(wApp, "#Name#", p.Name);
-            WordReplace(wApp, "#CreateAt#", p.CreatedAt.ToString("yyyy-MM-dd HH:mm"));
-            WordReplace(wApp, "#UpdateBy#", p.LastUpdatedBy);
+            WordReplace(wApp, "#CarNo#", p.CarNo);
+            WordReplace(wApp, "#ProductName#", p.Product?.Name);
             WordReplace(wApp, "#Count#", p.Count.ToString());
-            WordReplace(wApp, "#StoreName#", p.ToStores?[0].Name);
+            WordReplace(wApp, "#OilCount#", p.OilCount.ToString("0.00"));
+            WordReplace(wApp, "#Density#", p.Density.ToString("0.000"));
+
+            string strToStore = "";
+            foreach(var st in p.ToStoresList)
+            {
+                strToStore += "\r";
+                strToStore += "卸入仓：" + st.Name + "\r";
+                strToStore += "卸油前表数：" + st.InstrumentBf + "\r";
+                strToStore += "卸油后表数：" + st.InstrumentAf + "\r";
+                strToStore += "卸油数量：" + st.Count + "升\r";
+            }
+            WordReplace(wApp, "#ToStores#", strToStore);
+
+            WordReplace(wApp, "#DiffLitre#", p.DiffLitre.ToString("0.00"));
+            WordReplace(wApp, "#DiffTon#", p.DiffTon.ToString("0.00"));
+            WordReplace(wApp, "#Worker#", p.Worker);
+            WordReplace(wApp, "#StartTime#", p.StartTime.HasValue ? DateTime.Parse(p.StartTime.ToString()).ToString("yyyy-MM-dd HH:mm") : "");
             PrintTime(wApp);
 
             object background = false; //这个很重要，否则关闭的时候会提示请等待Word打印完毕后再退出，加上这个后可以使Word所有

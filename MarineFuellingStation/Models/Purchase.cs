@@ -15,6 +15,9 @@ namespace MFS.Models
         private string _toStoreIds;
         private string _toStoreNames;
         private string _toStoreCounts;
+        private string _toStoreInstruBf;
+        private string _toStoreInstruAf;
+        private List<ToStoreModel> _toStoresList;
 
         public int ProductId { get; set; }
         [ForeignKey("ProductId")]
@@ -60,6 +63,9 @@ namespace MFS.Models
         /// 始发地
         /// </summary>
         public string Origin { get; set; }
+        /// <summary>
+        /// 卸油开始时间
+        /// </summary>
         public DateTime? StartTime { get; set; }
         /// <summary>
         /// 预计到达时间
@@ -80,7 +86,52 @@ namespace MFS.Models
         ///陆上卸油用到的字段
         #region 卸油到多油仓用到的字段
         [NotMapped]
-        public List<ToStoreModel> ToStoresList { get; set; }
+        public List<ToStoreModel> ToStoresList
+        {
+            get
+            {
+                if(!string.IsNullOrEmpty(ToStoreNames)) { 
+                    //多个油仓
+                    if (ToStoreNames.IndexOf(',') > -1)
+                    {
+                        ToStoreModel ts;
+                        _toStoresList = new List<ToStoreModel>();
+                        string[] arrNames = ToStoreNames.Split(',');
+                        string[] arrIds = ToStoreIds.Split(',');
+                        string[] arrCounts = ToStoreCounts.Split(',');
+                        string[] arrBfs = ToStoreInstruBf.Split(',');
+                        string[] arrAfs = ToStoreInstruAf.Split(',');
+                        for (int i = 0; i < arrNames.Length; i++)
+                        {
+                            ts = new ToStoreModel();
+                            ts.Id = Convert.ToInt32(arrIds[i]);
+                            ts.Name = arrNames[i];
+                            ts.Count = Convert.ToDecimal(arrCounts[i]);
+                            ts.InstrumentBf = Convert.ToDecimal(arrBfs[i]);
+                            ts.InstrumentAf = Convert.ToDecimal(arrAfs[i]);
+                            _toStoresList.Add(ts);
+                        }
+                    }
+                    //单个油仓
+                    else
+                    {
+                        _toStoresList = new List<ToStoreModel>();
+                        _toStoresList.Add(new ToStoreModel
+                        {
+                            Id = Convert.ToInt32(ToStoreIds),
+                            Name = ToStoreNames,
+                            Count = Convert.ToDecimal(ToStoreCounts),
+                            InstrumentBf = Convert.ToDecimal(ToStoreInstruBf),
+                            InstrumentAf = Convert.ToDecimal(ToStoreInstruAf)
+                        });
+                    }
+                    return _toStoresList;
+                }
+                else
+                    return null;
+            }
+            set { _toStoresList = value; }
+        }
         /// <summary>
         /// 卸油对应的仓库Id，多个用','分隔
         /// </summary>
@@ -88,10 +139,10 @@ namespace MFS.Models
             get { return _toStoreIds; }
             set
             {
-                if(ToStoresList != null)
+                if(_toStoresList != null)
                 {
                     string ids = "";
-                    foreach(var s in ToStoresList)
+                    foreach(var s in _toStoresList)
                     {
                         ids += s.Id + ",";
                     }
@@ -107,10 +158,10 @@ namespace MFS.Models
             get { return _toStoreNames; }
             set
             {
-                if (ToStoresList != null)
+                if (_toStoresList != null)
                 {
                     string names = "";
-                    foreach (var s in ToStoresList)
+                    foreach (var s in _toStoresList)
                     {
                         names += s.Name + ",";
                     }
@@ -126,15 +177,55 @@ namespace MFS.Models
             get { return _toStoreCounts; }
             set
             {
-                if (ToStoresList != null)
+                if (_toStoresList != null)
                 {
                     string counts = "";
-                    foreach (var s in ToStoresList)
+                    foreach (var s in _toStoresList)
                     {
                         counts += s.Count + ",";
                     }
                     counts = counts.Substring(0, counts.Length - 1);
                     _toStoreCounts = counts;
+                }
+            }
+        }
+        /// <summary>
+        /// 卸油对应的仓库的表前数，多个用','分隔
+        /// </summary>
+        public string ToStoreInstruBf
+        {
+            get { return _toStoreInstruBf; }
+            set
+            {
+                if (_toStoresList != null)
+                {
+                    string instru = "";
+                    foreach (var s in _toStoresList)
+                    {
+                        instru += s.InstrumentBf + ",";
+                    }
+                    instru = instru.Substring(0, instru.Length - 1);
+                    _toStoreInstruBf = instru;
+                }
+            }
+        }
+        /// <summary>
+        /// 卸油对应的仓库的表后数，多个用','分隔
+        /// </summary>
+        public string ToStoreInstruAf
+        {
+            get { return _toStoreInstruAf; }
+            set
+            {
+                if (_toStoresList != null)
+                {
+                    string instru = "";
+                    foreach (var s in _toStoresList)
+                    {
+                        instru += s.InstrumentAf + ",";
+                    }
+                    instru = instru.Substring(0, instru.Length - 1);
+                    _toStoreInstruAf = instru;
                 }
             }
         }

@@ -150,11 +150,7 @@ export default class UnloadComponent extends ComponentBase {
 
         this.goNext();
     }
-
-    printclick() {
-        this.getPrintUnload(this.purchase.id, "收银台");
-    }
-
+    
     isHas(name: string) {
         return this.instruments.indexOf(name) > -1
     }
@@ -194,8 +190,8 @@ export default class UnloadComponent extends ComponentBase {
                             if (this.purchase.instrument1 <= 0) { this.toastError("请填写表数1"); isValid = false; return; };
                             if (this.purchase.instrument1 < this.lastPurchase.instrument1) { this.toastError("卸油后表数1应大于或等于卸油前表数1"); isValid = false; return; };
                             tst.count = this.purchase.instrument1 - this.lastPurchase.instrument1;
-                            tst.instrumentAf = this.purchase.instrument1;
-                            tst.instrumentBf = this.lastPurchase.instrument1;
+                            tst.instrumentAf = this.purchase.instrument1;//表后数
+                            tst.instrumentBf = this.lastPurchase.instrument1;//表前数
                             break;
                         case "表2":
                             if (this.purchase.instrument2 <= 0) { this.toastError("请填写表数2"); isValid = false; };
@@ -212,7 +208,7 @@ export default class UnloadComponent extends ComponentBase {
                             tst.instrumentBf = this.lastPurchase.instrument3;
                             break;
                     }
-                    total += tst.count;
+                    total += tst.count;//总卸油数
                     this.purchase.toStoresList.push(tst);
                 });
                 if (!isValid) return;

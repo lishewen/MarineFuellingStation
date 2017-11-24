@@ -104,9 +104,6 @@ namespace MFS.Controllers
                      $"<div class=\"normal\">转入：{result.InStoreName} - {result.InFact}升</div>"
                      , $"https://vue.car0774.com/#/sales/order/{result.Id}/order", toUser: "@all");
 
-            //打印生产转仓单
-            await _hub.Clients.All.InvokeAsync("printmovestore", result);
-
             return new ResultJSON<MoveStore>
             {
                 Code = 0,

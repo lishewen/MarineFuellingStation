@@ -28,17 +28,17 @@ namespace MFS.Models
         /// <summary>
         /// 密度
         /// </summary>
-        public decimal OutDensity { get; set; }
+        public double OutDensity { get; set; }
         /// <summary>
         /// 油温
         /// </summary>
         public decimal OutTemperature { get; set; }
         /// <summary>
-        /// 计划转出
+        /// 计划转出 单位：升
         /// </summary>
         public decimal OutPlan { get; set; }
         /// <summary>
-        /// 实际转出
+        /// 实际转出 单位：升
         /// </summary>
         public decimal OutFact { get; set; }
         #endregion
@@ -52,17 +52,17 @@ namespace MFS.Models
         /// <summary>
         /// 密度
         /// </summary>
-        public decimal InDensity { get; set; }
+        public double InDensity { get; set; }
         /// <summary>
         /// 油温
         /// </summary>
         public decimal InTemperature { get; set; }
         /// <summary>
-        /// 实际转入
+        /// 实际转入 单位：升
         /// </summary>
         public decimal InFact { get; set; }
         /// <summary>
-        /// 安排转入
+        /// 安排转入 单位：升
         /// </summary>
         public decimal InPlan { get; set; }
         #endregion

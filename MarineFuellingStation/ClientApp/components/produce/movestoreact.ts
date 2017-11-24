@@ -39,7 +39,7 @@ export default class MoveStoreActComponent extends ComponentBase {
             this.toastError("实际转入数量不能为空或小于等于0")
             return;
         }
-        //this.putInOutFact()
+        this.putInOutFact()
     }
 
     //添加actionsheet items

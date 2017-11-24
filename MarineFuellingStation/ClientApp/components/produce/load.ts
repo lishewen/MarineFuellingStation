@@ -28,7 +28,11 @@ export default class LoadComponent extends ComponentBase {
     }
     
     mounted() {
+        let oid = this.$route.params.oid;
         this.$emit('setTitle', this.$store.state.username + ' 水上装油');
+        if (oid) {
+            this.getOrder(oid);
+        }
     };
 
     showOrdersclick() {
@@ -92,6 +96,18 @@ export default class LoadComponent extends ComponentBase {
                     this.showOrders = false;
                 }
             });
+    }
+
+    getOrder(oid: string) {
+        this.$dialog.loading.open("正在加载...请稍后");
+        axios.get('/api/Order/' + oid).then((res) => {
+            let jobj = res.data as server.resultJSON<server.order>;
+            if (jobj.code == 0) {
+                this.$dialog.loading.close();
+                this.order = jobj.data;
+                this.matchCurrStep();
+            }
+        });
     }
 
     getStores() {

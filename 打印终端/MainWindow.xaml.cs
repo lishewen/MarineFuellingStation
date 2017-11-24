@@ -540,8 +540,17 @@ namespace 打印终端
 
             //填充数据
             WordReplace(wApp, "#Name#", m.Name);
-            WordReplace(wApp, "#CreatedBy#", m.CreatedBy);
-            WordReplace(wApp, "#CreateAt#", m.CreatedAt.ToString("yyyy-MM-dd HH:mm"));
+            WordReplace(wApp, "#OutStoreName#", m.OutStoreName);
+            WordReplace(wApp, "#OutPlan#", m.OutPlan.ToString("0.00"));
+            WordReplace(wApp, "#OutDensity#", m.OutDensity.ToString("0.000"));
+            WordReplace(wApp, "#OutTemperature#", m.OutTemperature.ToString());
+            WordReplace(wApp, "#OutFact#", m.OutFact.ToString("0.00"));
+            WordReplace(wApp, "#InStoreName#", m.InStoreName);
+            WordReplace(wApp, "#InDensity#", m.InDensity.ToString("0.000"));
+            WordReplace(wApp, "#InTemperature#", m.InTemperature.ToString());
+            WordReplace(wApp, "#InFact#", m.InFact.ToString("0.00"));
+            WordReplace(wApp, "#Manufacturer#", m.Manufacturer);
+            WordReplace(wApp, "#LastUpdatedAt#", m.LastUpdatedAt.ToString("yyyy-MM-dd HH:mm"));
             PrintTime(wApp);
 
             object background = false; //这个很重要，否则关闭的时候会提示请等待Word打印完毕后再退出，加上这个后可以使Word所有

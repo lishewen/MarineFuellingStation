@@ -33,7 +33,7 @@ export default class MyOrderComponent extends ComponentBase {
             { id: 3, name: '本月', actived: false }
 
         ];
-        this.startDate = this.formatDate(new Date());
+        this.startDate = this.formatDate(new Date(), "YYYY-MM-DD");
         this.endDate = this.startDate;
         this.activedBtnId = 0;
 
@@ -74,23 +74,23 @@ export default class MyOrderComponent extends ComponentBase {
     }
 
     matchDate(o: any) {
-        let today = this.formatDate(new Date());
+        let today = this.formatDate(new Date(), "YYYY-MM-DD");
         switch (o.name) {
             case '今日':
                 this.startDate = today;
                 this.endDate = today;
                 break;
             case '昨日':
-                this.startDate = this.formatDate(moment(today).add(-1).toDate());
+                this.startDate = this.formatDate(moment(today).add(-1).toDate(), "YYYY-MM-DD");
                 this.endDate = this.startDate;
                 break;
             case '本周':
-                this.startDate = this.formatDate(moment().weekday(1).toDate());
-                this.endDate = this.formatDate(moment().weekday(7).toDate());
+                this.startDate = this.formatDate(moment().weekday(1).toDate(), "YYYY-MM-DD");
+                this.endDate = this.formatDate(moment().weekday(7).toDate(), "YYYY-MM-DD");
                 break;
             case '本月':
-                this.startDate = this.formatDate(moment().startOf('month').toDate());
-                this.endDate = this.formatDate(moment().endOf('month').toDate());
+                this.startDate = this.formatDate(moment().startOf('month').toDate(), "YYYY-MM-DD");
+                this.endDate = this.formatDate(moment().endOf('month').toDate(), "YYYY-MM-DD");
                 break;
         }
         this.refresh();
@@ -158,7 +158,7 @@ export default class MyOrderComponent extends ComponentBase {
     getOrders(callback?: Function) {
         let sTimespan = ' 00:00';
         let eTimespan = ' 23:59';
-        if (this.startDate == null) this.startDate = this.formatDate(new Date());
+        if (this.startDate == null) this.startDate = this.formatDate(new Date(), "YYYY-MM-DD");
         if (this.endDate == null) this.endDate = this.startDate;
         if (this.page == null) this.page = 1;
         axios.get('/api/Order/GetMyOrders?page=' + this.page.toString() + '&size=30&startDate=' + this.startDate + sTimespan + '&endDate=' + this.endDate + eTimespan)

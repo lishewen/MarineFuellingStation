@@ -65,6 +65,7 @@ export default class NoticeComponent extends ComponentBase {
     }
 
     changeIsUse(model: server.notice) {
+        model.isUse = !model.isUse;
         axios.put('/api/notice/ChangeIsUse', model).then((res) => {
             let jobj = res.data as server.resultJSON<server.notice>;
             if (jobj.code == 0) {

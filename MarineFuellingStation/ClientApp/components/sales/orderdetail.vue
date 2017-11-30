@@ -69,6 +69,16 @@
                 <span slot="right">{{model.billingCount}}</span>
             </yd-cell-item>
         </yd-cell-group>
+        <yd-cell-group v-show="model.isDeliver" title="送货上门">
+            <yd-cell-item>
+                <span slot="left">运费：</span>
+                <span slot="right">{{model.deliverMoney}}</span>
+            </yd-cell-item>
+            <yd-cell-item>
+                <span slot="left">打印显示单价：</span>
+                <span slot="right">{{model.isPrintPrice ? "显示" : "不显示"}}</span>
+            </yd-cell-item>
+        </yd-cell-group>
         <yd-cell-group :title="strOrderState(model)" v-show="model.state == 5">
             <yd-cell-item>
                 <span slot="left">施工人员：</span>

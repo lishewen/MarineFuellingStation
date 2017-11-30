@@ -105,9 +105,9 @@
             <yd-button style="width:90%" type="primary" @click.native="printToDBclick()">打印到【地磅室】</yd-button>
         </div>
         <!--施工明细-->
-        <div v-show="currStep == 5" class="first-group">
+        <div v-show="currStep == 5" class="mtop20">
             <div style="background-color: yellowgreen;padding: 10px; text-align: center; color: white; font-size: .3rem">实际加：{{order.oilCount}}{{order.unit}} | 应加：{{order.count}}{{order.unit}} | 相差{{order.diffOil}}{{order.unit}}</div>
-            <yd-cell-group title="过磅明细" class="first-group">
+            <yd-cell-group title="过磅明细" class="mtop20">
                 <yd-cell-item>
                     <span slot="right" style="font-weight: bold">{{order.product? order.product.name : ""}} - {{order.count}}吨</span>
                 </yd-cell-item>

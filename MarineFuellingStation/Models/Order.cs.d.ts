@@ -23,6 +23,8 @@ declare module server {
         isInvoice: boolean;
         /** 送货上门/自提 */
         isDeliver: boolean;
+        /** 送货上门 运费 */
+        deliverMoney: number;
         /** 是否打印单价 送货 */
         isPrintPrice: boolean;
 		/** 开票单位 */

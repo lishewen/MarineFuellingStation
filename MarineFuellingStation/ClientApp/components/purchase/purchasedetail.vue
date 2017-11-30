@@ -85,7 +85,7 @@
                 </div>
             </yd-grids-item>
         </yd-grids-group>
-        <yd-cell-group title="卸油明细" class="first-group">
+        <yd-cell-group title="卸油明细">
             <yd-cell-item>
                 <span slot="left">毛重：</span>
                 <span slot="right">{{model.scaleWithCar}}吨</span>

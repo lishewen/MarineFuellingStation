@@ -6,7 +6,7 @@
                 <p slot="text" style="color: lightgray">总：{{s.sumOutValue}}L</p>
             </yd-grids-item>
         </yd-grids-group>
-        <yd-cell-group :title="st.name" class="first-group" v-for="st in sts" :key="st.id">
+        <yd-cell-group :title="st.name" v-for="st in sts" :key="st.id">
             <yd-cell-item arrow @click.native="storeclick(s)" v-for="s in st.stores" :key="s.id">
                 <div slot="left" style="width: 60px;height: 60px;margin:15px 15px 15px -5px">
                     <yd-progressbar :progress="getPercent(s.sumInValue, s.sumInValue+s.sumOutValue)" trailWidth="4">{{strInOutDiff(s.sumInValue, s.sumOutValue)}}</yd-progressbar>

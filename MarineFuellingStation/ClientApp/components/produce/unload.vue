@@ -115,7 +115,7 @@
             <yd-button class="mtop10" style="width:90%;height:38px" type="danger" @click.native="getPrintUnload(purchase.id, '地磅室')">打印到【地磅室】</yd-button>
         </div>
         <!--施工明细-->
-        <yd-cell-group title="施工明细" v-show="currStep == 5" class="first-group">
+        <yd-cell-group title="施工明细" v-show="currStep == 5" class="mtop20">
             <yd-cell-item>
                 <span slot="right" style="font-weight: bold">{{purchase.product? purchase.product.name : ""}} - {{purchase.count}}吨</span>
             </yd-cell-item>
@@ -180,19 +180,6 @@
             </yd-cell-group>
         </yd-popup>
         <!--popup油仓选择-->
-        <!--<yd-popup v-model="showStores" position="right" width="70%">
-            <yd-cell-group title="请选择油仓">
-                <yd-cell-item v-for="s in stores" :key="s.id" @click.native="storeclick(s)">
-                    <div slot="left">
-                        <p>{{s.name}}</p>
-                        <p style="color:lightcoral">{{strClass(s.storeClass)}}</p>
-                    </div>
-                    <div slot="right">
-                        <p style="color:lightgray">当前：{{s.value}}升</p>
-                    </div>
-                </yd-cell-item>
-            </yd-cell-group>
-        </yd-popup>-->
         <yd-popup v-model="showStores" position="right" width="70%">
             <div style="text-align: center;margin: 10px 0">
                 <yd-button type="primary" style="width: 80%" @click.native="storeOKclick()" :disabled="selectedStIds.length < 1">选好了</yd-button>

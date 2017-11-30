@@ -22,19 +22,16 @@ namespace MFS.Controllers
             r = repository;
             //获取 系统设置 企业微信应用的AccessToken
             this.option = option.Value;
-            this.option.系统设置AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.系统设置Secret);
-            this.option.水上计划AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.水上计划Secret);
-            this.option.陆上计划AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.陆上计划Secret);
-            this.option.销售单AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.销售单Secret);
         }
         [HttpGet("[action]")]
-        public ResultJSON<List<Product>> OilProducts(string landOrWater = "")
+        public ResultJSON<List<Product>> OilProducts(string isforland = "")
         {
             List<Product> list;
-            if (string.IsNullOrEmpty(landOrWater))
+
+            if (string.IsNullOrEmpty(isforland))
                 list = r.GetAllList((p) => p.ProductType.Name == "销售油" && p.IsUse);
             else
-                list = r.GetAllList((p) => p.ProductType.Name == "销售油" && p.IsUse && p.IsForLand == bool.Parse(landOrWater));
+                list = r.GetAllList((p) => p.ProductType.Name == "销售油" && p.IsUse && p.IsForLand == bool.Parse(isforland));
             return new ResultJSON<List<Product>>
             {
                 Code = 0,
@@ -64,7 +61,9 @@ namespace MFS.Controllers
         public ResultJSON<Product> Put([FromBody]Product model)
         {
             r.CurrentUser = UserName;
+
             //推送到“系统设置”
+            this.option.系统设置AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.系统设置Secret);
             MassApi.SendTextCard(option.系统设置AccessToken, option.系统设置AgentId, $"{UserName}修改了{model.Name}"
                      , $"<div class=\"gray\">时间：{DateTime.Now.ToString("yyyy-MM-dd hh:mm")}</div>" 
                      , "https://vue.car0774.com/#/oilstore/product", toUser: "@all");
@@ -83,7 +82,9 @@ namespace MFS.Controllers
         public ResultJSON<Product> Post([FromBody]Product model)
         {
             r.CurrentUser = UserName;
+
             //推送到“系统设置”
+            this.option.系统设置AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.系统设置Secret);
             MassApi.SendTextCard(option.系统设置AccessToken, option.系统设置AgentId, $"{UserName}新增了商品{model.Name}"
                      , $"<div class=\"gray\">时间：{DateTime.Now.ToString("yyyy-MM-dd hh:mm")}</div>"
                      , "https://vue.car0774.com/#/oilstore/product", toUser: "@all");
@@ -106,16 +107,19 @@ namespace MFS.Controllers
             int count = r.ModifyProdPrice(list);
             if (count == 0) return new ResultJSON<Product> { Code = 501, Msg = "提交的单价没有变化" };
             if (count == -1) return new ResultJSON<Product> { Code = 501, Msg = "保存出错，请联系开发人员" };
-#if !DEBUG
+#if DEBUG
             //推送到“水上计划”
+            this.option.水上计划AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.水上计划Secret);
             MassApi.SendTextCard(option.水上计划AccessToken, option.水上计划AgentId, $"{UserName}修改了{count}项商品限价"
                      , $"<div class=\"gray\">时间：{DateTime.Now.ToString("yyyy-MM-dd hh:mm")}</div>"
                      , "https://", toUser: "@all");
             //推送到“陆上计划”
+            this.option.陆上计划AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.陆上计划Secret);
             MassApi.SendTextCard(option.陆上计划AccessToken, option.陆上计划AgentId, $"{UserName}修改了{count}项商品限价"
                      , $"<div class=\"gray\">时间：{DateTime.Now.ToString("yyyy-MM-dd hh:mm")}</div>"
                      , "https://", toUser: "@all");
             //推送到“销售单”
+            this.option.销售单AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.销售单Secret);
             MassApi.SendTextCard(option.销售单AccessToken, option.销售单AgentId, $"{UserName}修改了{count}项商品限价"
                      , $"<div class=\"gray\">时间：{DateTime.Now.ToString("yyyy-MM-dd hh:mm")}</div>"
                      , "https://", toUser: "@all");

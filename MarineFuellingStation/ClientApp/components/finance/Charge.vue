@@ -4,13 +4,13 @@
             <yd-grids-item>
                 <div slot="text">
                     <p style="color: lightgray;font-size: .4rem">当前余额</p>
-                    <p style="margin-top: .2rem;font-size: .4rem">￥{{isCompany? company.balances : client.balances}}</p>
+                    <p style="margin-top: .2rem;font-size: .4rem">￥{{balances}}</p>
                 </div>
             </yd-grids-item>
             <yd-grids-item>
                 <div slot="text">
                     <p style="color: lightgray;font-size: .4rem">挂账金额</p>
-                    <p style="margin-top: .2rem;font-size: .4rem">￥[待完成]</p>
+                    <p style="margin-top: .2rem;font-size: .4rem">￥{{sumNoPay}}</p>
                 </div>
             </yd-grids-item>
         </yd-grids-group>

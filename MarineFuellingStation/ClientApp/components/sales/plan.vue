@@ -2,13 +2,17 @@
     <div id="root">
         <yd-tab :callback="change">
             <yd-tab-panel label="计划开单">
-                <yd-cell-group :title="'单号：' + model.name" style="padding-top: 20px">
+                <yd-cell-group :title="'单号：' + model.name" v-show="!showNext">
                     <yd-cell-item>
                         <span slot="left">船号/车牌号：</span>
                         <yd-input slot="right" v-model="model.carNo" required placeholder="请输入您的船号"></yd-input>
-                        <yd-button slot="right" type="warning" @click.native="goNext" style="width: 1.2rem" :disabled="model.carNo == null || model.carNo == ''">下一步</yd-button>
+                    </yd-cell-item>
+                    <yd-cell-item arrow>
+                        <span slot="left">预计加油时间：</span>
+                        <yd-datetime type="date" v-model="oildate" slot="right"></yd-datetime>
                     </yd-cell-item>
                 </yd-cell-group>
+                <yd-button type="primary" @click.native="goNext" size="large" :disabled="model.carNo == null || model.carNo == ''" v-show="!showNext">下一步</yd-button>
                 <yd-cell-group title="客户信息" v-show="showNext && client != null">
                     <yd-cell-item>
                         <span slot="left">个人账户：</span>
@@ -21,10 +25,10 @@
                 </yd-cell-group>
                 <yd-cell-group title="请选择" v-show="showNext">
                     <yd-cell-item>
-                        <yd-radio-group slot="left" v-model="radio2">
-                            <yd-radio val="1" :disabled ="!isWaterSalesman">水上</yd-radio>
-                            <yd-radio val="2" :disabled ="!isLandSalesman">陆上</yd-radio>
-                            <yd-radio val="3" :disabled ="!isWaterSalesman">机油</yd-radio>
+                        <yd-radio-group slot="left" v-model="model.salesPlanType">
+                            <yd-radio val="0" :disabled ="!isWaterDept">水上</yd-radio>
+                            <yd-radio val="1" :disabled ="isWaterDept">陆上</yd-radio>
+                            <yd-radio val="2" :disabled ="!isWaterDept">机油</yd-radio>
                         </yd-radio-group>
                     </yd-cell-item>
                 </yd-cell-group>
@@ -42,7 +46,7 @@
                     <yd-cell-item>
                         <span slot="left">计划数量：</span>
                         <yd-input slot="right" v-model="model.count" required placeholder="请输入数量"></yd-input>
-                        <span slot="right" style="width:70px">单位：{{model.unit}}</span>
+                        <span slot="right">{{model.unit}}</span>
                     </yd-cell-item>
 
                     <yd-cell-item>
@@ -54,18 +58,12 @@
                         <yd-input slot="right" v-model="model.remainder" regex="" placeholder="请输入客户目前剩余油量"></yd-input>
                         <span slot="right" style="width:70px">单位：{{model.unit}}</span>
                     </yd-cell-item>-->
-                    <yd-cell-item arrow>
-                        <span slot="left">预计加油时间：</span>
-                        <yd-datetime type="date" v-model="oildate" slot="right"></yd-datetime>
-                    </yd-cell-item>
                     <yd-cell-item>
                         <span slot="left">备注：</span>
                         <yd-textarea slot="right" v-model="model.remark" placeholder="请输入备注信息" maxlength="200"></yd-textarea>
                     </yd-cell-item>
-                </yd-cell-group>
-
-                <yd-cell-group title="代码信息" v-show="showNext">
                     <yd-cell-item>
+                        <span slot="left">代码信息</span>
                         <span slot="right">
                             <yd-switch v-model="model.isInvoice"></yd-switch>
                         </span>
@@ -92,10 +90,15 @@
                     </yd-cell-item>
                 </yd-cell-group>
 
-                <yd-cell-group title="送货单选项" v-show="showNext && model.salesPlanType == 1">
+                <yd-cell-group title="【陆上】送货单选项" v-show="showNext && radio2 == 2">
                     <yd-cell-item>
                         <span slot="left">送货上门</span>
                         <span slot="right"><yd-switch v-model="model.isDeliver"></yd-switch></span>
+                    </yd-cell-item>
+                    <yd-cell-item v-show="model.isDeliver">
+                        <span slot="left">运费：</span>
+                        <yd-input slot="right" v-model="model.deliverMoney" type="number" placeholder="请输入运费"></yd-input>
+                        <span slot="right">元</span>
                     </yd-cell-item>
                     <yd-cell-item v-show="model.isDeliver">
                         <span slot="left">打印单价</span>

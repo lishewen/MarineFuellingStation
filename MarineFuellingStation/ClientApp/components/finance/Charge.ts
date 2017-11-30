@@ -17,6 +17,8 @@ export default class ChargeComponent extends ComponentBase {
     clients: server.client[];
     company: server.company;
     companys: server.company[];
+    balances: number;
+    sumNoPay: number = 0;
     constructor() {
         super();
 
@@ -59,14 +61,17 @@ export default class ChargeComponent extends ComponentBase {
     }
     clientclick(c: server.client) {
         this.client = c;
+        this.balances = this.client.balances;
         this.accName = c.carNo;
         if (this.showClients) this.showClients = false;
         this.clients = null;
         this.chargeLog.clientId = c.id;
         this.showStep2 = true;
+        console.log(c);
     }
     companyclick(co: server.company) {
         this.company = co;
+        this.balances = this.company.balances;
         this.accName = co.name;
         if (this.showCompanys) this.showCompanys = false;
         this.companys = null;
@@ -124,6 +129,7 @@ export default class ChargeComponent extends ComponentBase {
                 }
                 else {
                     this.toastError("查询没有相关数据");
+                    this.balances = 0;
                 }
             }
             else
@@ -149,10 +155,20 @@ export default class ChargeComponent extends ComponentBase {
                 }
                 else {
                     this.toastError("查询没有相关数据");
+                    this.balances = 0;
                 }
             }
             else
                 this.toastError('无法获取公司数据，请重试')
+        });
+    }
+    getNoPayMoney(id: number) {
+        let url = this.isCompany ? "/api/order/GetCompanyNoPayMoney?coid=" + id : "/api/order/GetClientNoPayMoney?cid=" + id;
+        axios.get(url).then((res) => {
+            let jobj = res.data as server.resultJSON<number>;
+            if (jobj.code == 0) {
+                this.sumNoPay = jobj.data;
+            }
         });
     }
     //打印

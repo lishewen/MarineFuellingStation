@@ -19,21 +19,21 @@ export default class UnloadComponent extends ComponentBase {
 
     purchases: server.purchase[];
     purchase: server.purchase;
-    lastPurchase: server.purchase;
+    //lastPurchase: server.purchase;
 
     constructor() {
         super();
 
         this.purchases = new Array<server.purchase>();
         this.purchase = new Object as server.purchase;
-        this.lastPurchase = new Object as server.purchase;
+        //this.lastPurchase = new Object as server.purchase;
         this.store = new Object as server.store;
         this.stores = new Array<server.store>();
         this.purchase.toStoresList = new Array<server.toStore>();
         this.selectedStIds = new Array<number>();
         this.notice = new Object as server.notice;
         this.getPurchases();
-        this.getLastPurchase();
+        //this.getLastPurchase();
         this.getStores();
         this.getNotice();
     }
@@ -225,14 +225,14 @@ export default class UnloadComponent extends ComponentBase {
             }
         });
     }
-    getLastPurchase() {
-        axios.get('/api/Purchase/LastPurchase').then((res) => {
-            let jobj = res.data as server.resultJSON<server.purchase>;
-            if (jobj.code == 0) {
-                this.lastPurchase = jobj.data;
-            }
-        });
-    }
+    //getLastPurchase() {
+    //    axios.get('/api/Purchase/LastPurchase').then((res) => {
+    //        let jobj = res.data as server.resultJSON<server.purchase>;
+    //        if (jobj.code == 0) {
+    //            this.lastPurchase = jobj.data;
+    //        }
+    //    });
+    //}
 
     getStores() {
         axios.get('/api/Store/GetByClass?sc=' + server.storeClass.全部.toString()).then((res) => {

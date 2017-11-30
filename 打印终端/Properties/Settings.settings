@@ -41,5 +41,8 @@
     <Setting Name="PrintAssayDocx" Type="System.String" Scope="User">
       <Value Profile="(Default)">化验单.docx</Value>
     </Setting>
+    <Setting Name="PrintUnloadPondDocx" Type="System.String" Scope="User">
+      <Value Profile="(Default)">卸车石化过磅单.docx</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

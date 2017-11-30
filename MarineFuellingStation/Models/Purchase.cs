@@ -256,9 +256,9 @@ namespace MFS.Models
         /// </summary>
         public double Density { get; set; } = 0;
         /// <summary>
-        /// 油车磅秤数
+        /// 油车磅秤数 毛重
         /// </summary>
-        public float ScaleWithCar { get; set; } = 0;
+        public decimal ScaleWithCar { get; set; } = 0;
 
         /// <summary>
         /// 油车磅秤图片地址
@@ -266,10 +266,21 @@ namespace MFS.Models
         public string ScaleWithCarPic { get; set; }
 
         /// <summary>
-        /// 空车磅秤数
+        /// 空车磅秤数 皮重
         /// </summary>
-        public float Scale { get; set; } = 0;
+        public decimal Scale { get; set; } = 0;
 
+        /// <summary>
+        /// 油重 陆上(净重)
+        /// </summary>
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public decimal DiffWeight
+        {
+            get
+            {
+                return ScaleWithCar - Scale;
+            }
+        }
         /// <summary>
         /// 油车磅秤图片地址
         /// </summary>

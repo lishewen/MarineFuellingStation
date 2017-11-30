@@ -122,6 +122,17 @@ export default class ComponentBase extends Vue {
                 }
             });
     }
+    //打印“卸油过磅单”
+    getPrintUnloadPond(id: number, to: string) {
+        axios.get('/api/Purchase/PrintUnloadPond?' +
+            'id=' + id +
+            '&to=' + to).then((res) => {
+                let jobj = res.data as server.resultJSON<server.purchase>;
+                if (jobj.code == 0) {
+                    this.toastSuccess('卸车石化过磅单打印指令已发出')
+                }
+            });
+    }
     //打印“化验单”
     getPrintAssay(id: number, to: string) {
         axios.get('/api/Assay/PrintAssay?' +

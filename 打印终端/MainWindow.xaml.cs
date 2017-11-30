@@ -81,6 +81,11 @@ namespace 打印终端
             {
                 //陆上卸油单
                 PrintUnload(p);
+            }); 
+            Connection.On<Purchase>("printunloadpond", (p) =>
+            {
+                //卸单石化过磅单
+                PrintUnloadPond(p);
             });
             Connection.On<MoveStore>("printmovestore", (m) =>
             {
@@ -480,6 +485,44 @@ namespace 打印终端
             wApp.Quit(ref saveOption, ref missing, ref missing); //关闭Word进程
         }
         #endregion
+        #region 卸车石化过磅单
+        private void PrintUnloadPond(Purchase p)
+        {
+            Log.Logs += $"正在打印卸车石化过磅单：{p.Name}\r";
+
+            Word.Application thisApplication = new Word.ApplicationClass();
+            wApp = thisApplication;
+            string tmpDocFile = AppDomain.CurrentDomain.BaseDirectory + folder + Properties.Settings.Default.PrintUnloadPondDocx;
+            object templatefile = tmpDocFile;
+            wDoc = wApp.Documents.Add(ref templatefile, ref missing, ref missing, ref missing); //在现有进程内打开文档
+            wDoc.Activate(); //当前文档置前
+
+            //填充数据
+
+            WordReplace(wApp, "#Name#", p.Name);
+            WordReplace(wApp, "#CarNo#", p.CarNo);
+            WordReplace(wApp, "#ScaleWithCar#", p.ScaleWithCar.ToString());
+            WordReplace(wApp, "#Scale#", p.Scale.ToString());
+            WordReplace(wApp, "#DiffWeight#", p.DiffWeight.ToString("0.00"));
+            WordReplace(wApp, "#Worker#", p.Worker);
+            WordReplace(wApp, "#StartTime#", p.StartTime.HasValue ? DateTime.Parse(p.StartTime.ToString()).ToString("yyyy-MM-dd HH:mm"): "");
+
+            PrintTime(wApp);
+
+            object background = false; //这个很重要，否则关闭的时候会提示请等待Word打印完毕后再退出，加上这个后可以使Word所有
+            object filename = AppDomain.CurrentDomain.BaseDirectory + createdfolder + p.Name + ".docx";
+            wDoc.SaveAs(ref filename, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref
+                missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing);
+            wDoc.PrintOut(ref background, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref
+               missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing,
+               ref missing);
+            object saveOption = Word.WdSaveOptions.wdSaveChanges;
+            wDoc.Close(ref saveOption, ref missing, ref missing); //关闭当前文档，如果有多个模版文件进行操作，则执行完这一步后接着执行打开Word文档的方法即可
+            saveOption = Word.WdSaveOptions.wdDoNotSaveChanges;
+            wApp.Quit(ref saveOption, ref missing, ref missing); //关闭Word进程
+        }
+        #endregion
+
         #region 出库石化过磅单
         /// <summary>
         /// 出库石化过磅单

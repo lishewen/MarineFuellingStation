@@ -49,14 +49,16 @@ declare module server {
         toStoresList: toStore[];
         /** 卸车时需要测量的密度 */
         density: number;
-        /** 油车磅秤数 */
+        /** 油车磅秤数 毛重 */
         scaleWithCar: number;
         /** 油车磅秤图片地址 */
         scaleWithCarPic: string;
-        /** 空车磅秤数 */
+        /** 空车磅秤数 皮重 */
         scale: number;
         /** 油车磅秤图片地址 */
         scalePic: string;
+        /** 油重 净重 */
+        diffWeight: number;
         /** 化验单 */
         assay: assay;
         /** 状态 */

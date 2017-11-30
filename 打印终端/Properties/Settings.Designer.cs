@@ -178,5 +178,17 @@ namespace 打印终端.Properties {
                 this["PrintAssayDocx"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("卸车石化过磅单.docx")]
+        public string PrintUnloadPondDocx {
+            get {
+                return ((string)(this["PrintUnloadPondDocx"]));
+            }
+            set {
+                this["PrintUnloadPondDocx"] = value;
+            }
+        }
     }
 }

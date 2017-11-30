@@ -14,19 +14,12 @@ export default class UnloadComponent extends ComponentBase {
     isScaleWithCarUpload: boolean = false;
     store: server.store;
     stores: server.store[];
-    toStores: server.toStore[];
     selectedStIds: Array<number>;
     notice: server.notice;
-    toStoreCounts: Array<number>;
-    instruments: Array<string>;
 
     purchases: server.purchase[];
     purchase: server.purchase;
     lastPurchase: server.purchase;
-
-    diff1: number = 0;//表数差值1
-    diff2: number = 0;//表数差值2
-    diff3: number = 0;//表数差值3
 
     constructor() {
         super();
@@ -36,10 +29,8 @@ export default class UnloadComponent extends ComponentBase {
         this.lastPurchase = new Object as server.purchase;
         this.store = new Object as server.store;
         this.stores = new Array<server.store>();
-        this.toStores = new Array<server.toStore>();
-        this.toStoreCounts = new Array<number>();
+        this.purchase.toStoresList = new Array<server.toStore>();
         this.selectedStIds = new Array<number>();
-        this.instruments = new Array<string>();
         this.notice = new Object as server.notice;
         this.getPurchases();
         this.getLastPurchase();
@@ -52,23 +43,20 @@ export default class UnloadComponent extends ComponentBase {
         this.showPurchases = false;
         if (pu.state != server.unloadState.已开单 && pu.state != server.unloadState.已到达) {
             switch (pu.state) {
-                case server.unloadState.选择油仓:
-                    this.currStep = 3;
-                    break;
                 case server.unloadState.油车过磅:
                     this.currStep = 1;
                     break;
                 case server.unloadState.化验:
                     this.currStep = 2;
                     break;
-                case server.unloadState.卸油中:
+                case server.unloadState.空车过磅:
                     this.currStep = 3;
                     break;
-                case server.unloadState.空车过磅:
-                    this.currStep = 5;
+                case server.unloadState.卸油中:
+                    this.currStep = 4;
                     break;
                 case server.unloadState.完工:
-                    this.currStep = 6;
+                    this.currStep = 5;
                     break;
             }
         }
@@ -108,24 +96,28 @@ export default class UnloadComponent extends ComponentBase {
         console.log(this.store);
     }
 
-    storeOKclick() {
-        if (this.selectedStIds.length > 3) { this.toastError("最多只可以选择三个卸油仓"); return; }
+    showStoresclick() {
+        this.showStores = true;
+        this.purchase.toStoresList.forEach((tst) => {
+            this.selectedStIds.push(tst.id)
+        });
+    }
 
-        this.toStores = new Array<server.toStore>();
+    storeOKclick() {
+        console.log(this.selectedStIds);
+        //if (this.selectedStIds.length > 3) { this.toastError("最多只可以选择三个卸油仓"); return; }
+
+        this.purchase.toStoresList = new Array<server.toStore>();
         //console.log(this.selectedStIds);
 
-        //把所选的油仓的Id和Name复制到toStores
+        //把所选的油仓的Id和Name复制到toStoresList
         this.selectedStIds.forEach((sst, i) => {
             this.stores.forEach((st, j) => {
                 if (sst == st.id) {
-                    this.toStores.push({ id: st.id, name: st.name });
-                    //初始化下拉列表的值
-                    this.instruments[j] = "";
+                    this.purchase.toStoresList.push({ id: st.id, name: st.name });
                 }   
             });
         });
-        //不初始化的话会出现bug
-        this.toStoreCounts = new Array<number>(this.toStores.length);
 
         //释放下一步提交按钮
         this.isPrevent2 = false;
@@ -133,28 +125,9 @@ export default class UnloadComponent extends ComponentBase {
     }
 
     toStoresOKclick() {
-        //判断选择的油表是否相同
-        console.log(this.instruments);
-        if (this.instruments.length == 1) { if (this.instruments[0] == "") { this.toastError("请选择使用的油表"); return; } };
-        if (this.instruments.length == 2) {
-            if (this.instruments[0] == "" || this.instruments[1] == "") { this.toastError("请选择使用的油表"); return; };
-            if (this.instruments[0] == this.instruments[1]) { this.toastError("两个油仓不能同时使用一个油表"); return; };
-        }
-        if (this.instruments.length == 3) {
-            if (this.instruments[0] == "" || this.instruments[1] == "" || this.instruments[2] == "") { this.toastError("请选择使用的油表"); return; };
-            if (this.instruments[0] == this.instruments[1] || this.instruments[0] == this.instruments[2] || this.instruments[1] == this.instruments[2]) {
-                this.toastError("油仓不能同时使用同一个油表");
-                return;
-            };
-        }
-
         this.goNext();
     }
     
-    isHas(name: string) {
-        return this.instruments.indexOf(name) > -1
-    }
-
     strClass(sc: server.storeClass) {
         if (sc == server.storeClass.存储仓)
             return "存储仓"
@@ -164,12 +137,13 @@ export default class UnloadComponent extends ComponentBase {
 
     goNext() {
         let nextState;
+        let isValid = true;
         switch (this.currStep) {
             case 1:
                 nextState = server.unloadState.化验;
                 break;
             case 2:
-                nextState = server.unloadState.选择油仓;
+                nextState = server.unloadState.空车过磅;
 
                 if (this.purchase.scaleWithCar == 0 || !this.purchase.scaleWithCar) { this.toastError("磅秤数据不能为空或0"); return; };
                 if (!this.purchase.scaleWithCarPic) { this.toastError("请上传油车过磅数据图片"); return; };
@@ -177,76 +151,36 @@ export default class UnloadComponent extends ComponentBase {
                 break;
             case 3:
                 nextState = server.unloadState.卸油中;
-                break;
-            case 4:
-                nextState = server.unloadState.空车过磅;
-
-                let isValid = true;
-                this.purchase.toStoresList = new Array<server.toStore>();
-                let total = 0;//统计总卸油数量
-                this.toStores.forEach((tst, idx) => {
-                    switch (this.instruments[idx]) {
-                        case "表1":
-                            if (this.purchase.instrument1 <= 0) { this.toastError("请填写表数1"); isValid = false; return; };
-                            if (this.purchase.instrument1 < this.lastPurchase.instrument1) { this.toastError("卸油后表数1应大于或等于卸油前表数1"); isValid = false; return; };
-                            tst.count = this.purchase.instrument1 - this.lastPurchase.instrument1;
-                            tst.instrumentAf = this.purchase.instrument1;//表后数
-                            tst.instrumentBf = this.lastPurchase.instrument1;//表前数
-                            break;
-                        case "表2":
-                            if (this.purchase.instrument2 <= 0) { this.toastError("请填写表数2"); isValid = false; };
-                            if (this.purchase.instrument2 < this.lastPurchase.instrument2) { this.toastError("卸油后表数2应大于或等于卸油前表数2"); isValid = false; return; };
-                            tst.count = this.purchase.instrument2 - this.lastPurchase.instrument2;
-                            tst.instrumentAf = this.purchase.instrument2;
-                            tst.instrumentBf = this.lastPurchase.instrument2;
-                            break;
-                        case "表3":
-                            if (this.purchase.instrument3 <= 0) { this.toastError("请填写表数3"); isValid = false; };
-                            if (this.purchase.instrument3 < this.lastPurchase.instrument3) { this.toastError("卸油后表数3应大于或等于卸油前表数3"); isValid = false; return; };
-                            tst.count = this.purchase.instrument3 - this.lastPurchase.instrument3;
-                            tst.instrumentAf = this.purchase.instrument3;
-                            tst.instrumentBf = this.lastPurchase.instrument3;
-                            break;
-                    }
-                    total += tst.count;//总卸油数
-                    this.purchase.toStoresList.push(tst);
-                });
-                if (!isValid) return;
-                this.purchase.oilCount = total;
-                break;
-            case 5:
-                nextState = server.unloadState.完工;
 
                 if (this.purchase.scale == 0 || !this.purchase.scale) { this.toastError("磅秤数据不能为空或0"); return; };
                 if (!this.purchase.scalePic) { this.toastError("请上传空车过磅数据图片"); return; };
+                if (this.purchase.scaleWithCar <= this.purchase.scale) { this.toastError("皮重应小于毛重！"); return; };
+                break;
+            case 4:
+                nextState = server.unloadState.完工;
+                console.log(this.purchase.toStoresList);
+                let total = 0;//统计总卸油数量
+                this.purchase.toStoresList.forEach((tst, idx) => {
+                    tst.count = tst.instrumentAf - tst.instrumentBf;
+                    if (tst.count <= 0 || !tst.count) {
+                        this.toastError("表数输入有误！");
+                        isValid = false;
+                    }
+                    else 
+                        total += tst.count;
+                });
+                this.purchase.oilCount = total;
                 break;
         }
-        this.putState(nextState);
+        if (isValid) this.putState(nextState);
     }
 
     mounted() {
         this.$emit('setTitle', this.$store.state.username + ' 陆上卸油');
-        this.$watch('purchase.instrument1', (v, ov) => {
-            this.diff1 = v - this.lastPurchase.instrument1;
-        });
-        this.$watch('purchase.instrument2', (v, ov) => {
-            this.diff2 = v - this.lastPurchase.instrument2;
-        });
-        this.$watch('purchase.instrument3', (v, ov) => {
-            this.diff3 = v - this.lastPurchase.instrument3;
-        });
-        this.$watch('lastPurchase.instrument1', (v, ov) => {
-            this.diff1 = this.purchase.instrument1 - v;
-        });
-        this.$watch('lastPurchase.instrument2', (v, ov) => {
-            this.diff2 = this.purchase.instrument2 - v;
-        });
-        this.$watch('lastPurchase.instrument3', (v, ov) => {
-            this.diff3 = this.purchase.instrument3 - v;
-        });
     };
     uploadfile(e) {
         let file = e.target.files[0];
+        if (!file || file.name == '') { this.toastError("请选择文件！"); return; }
         let param = new FormData(); //创建form对象
         param.append('file', file, file.name);//通过append向form对象添加数据
 
@@ -268,7 +202,7 @@ export default class UnloadComponent extends ComponentBase {
                     this.isScaleWithCarUpload = true;
 
                 }
-                if (this.currStep == 5) {
+                if (this.currStep == 3) {
                     this.purchase.scalePic = jobj.data;
                     this.isScaleUpload = true;
                 }

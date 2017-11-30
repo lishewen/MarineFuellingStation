@@ -52,9 +52,6 @@ namespace MFS.Controllers
             
             SalesPlan result = r.Insert(s);
 
-            //推送打印指令
-            await _hub.Clients.All.InvokeAsync("printsalesplan", result);
-
             if(s.SalesPlanType == SalesPlanType.水上 || s.SalesPlanType == SalesPlanType.机油) {
                 //推送到“水上计划”
                 this.option.水上计划AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.水上计划Secret);

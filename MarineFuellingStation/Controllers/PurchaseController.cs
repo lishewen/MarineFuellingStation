@@ -152,7 +152,7 @@ namespace MFS.Controllers
             };
         }
         /// <summary>
-        /// 指定目标推送打印指令
+        /// 指定目标推送【陆上卸油单】打印指令
         /// </summary>
         /// <param name="id">Purchase id</param>
         /// <param name="to"></param>
@@ -166,6 +166,26 @@ namespace MFS.Controllers
             {
                 Code = 0,
                 Data = bc
+            };
+        }
+        /// <summary>
+        /// 指定目标推送【卸车石化过磅单】打印指令
+        /// </summary>
+        /// <param name="id">Purchase id</param>
+        /// <param name="to"></param>
+        /// <returns></returns>
+        [HttpGet("[action]")]
+        public async Task<ResultJSON<Purchase>> PrintUnloadPond(int id, string to)
+        {
+            Purchase pu = r.GetWithInclude(id);
+            foreach (var connectionId in PrintHub.connections.GetConnections(to))
+            {
+                await _hub.Clients.Client(connectionId).InvokeAsync("printunloadpond", pu);
+            }
+            return new ResultJSON<Purchase>
+            {
+                Code = 0,
+                Data = pu
             };
         }
         [HttpPut("[action]")]

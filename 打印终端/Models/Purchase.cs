@@ -89,7 +89,7 @@ namespace MFS.Models
         /// <summary>
         /// 油车磅秤数
         /// </summary>
-        public float ScaleWithCar { get; set; } = 0;
+        public decimal ScaleWithCar { get; set; } = 0;
 
         /// <summary>
         /// 油车磅秤图片地址
@@ -104,12 +104,23 @@ namespace MFS.Models
         /// <summary>
         /// 空车磅秤数
         /// </summary>
-        public float Scale { get; set; } = 0;
+        public decimal Scale { get; set; } = 0;
 
         /// <summary>
         /// 油车磅秤图片地址
         /// </summary>
         public string ScalePic { get; set; }
+
+        /// <summary>
+        /// 油重 陆上(净重)
+        /// </summary>
+        public decimal DiffWeight
+        {
+            get
+            {
+                return ScaleWithCar - Scale;
+            }
+        }
 
         /// <summary>
         /// 化验单

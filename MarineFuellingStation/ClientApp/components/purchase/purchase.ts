@@ -7,7 +7,7 @@ import District from 'ydui-district/dist/gov_province_city_area_id';
 @Component
 export default class PurchaseComponent extends ComponentBase {
     model: server.purchase;
-    list: server.purchase[];
+    purchases: server.purchase[];
     oilshow: boolean = false;
     oiloptions: ydui.actionSheetItem[];
     oilName: string = '';
@@ -19,6 +19,10 @@ export default class PurchaseComponent extends ComponentBase {
     show2: boolean = false;
     carNo: string = "";
     sv: string = "";
+    page: number;
+    scrollRef: any;
+    pSize: number = 30;
+
     filterclick(): void {
         this.show2 = false;
     };
@@ -26,7 +30,7 @@ export default class PurchaseComponent extends ComponentBase {
         super();
 
         this.oiloptions = (new Array()) as ydui.actionSheetItem[];
-        this.list = new Array<server.purchase>();
+        this.purchases = new Array<server.purchase>();
 
         this.model = (new Object()) as server.purchase;
         this.model.name = '';
@@ -38,7 +42,6 @@ export default class PurchaseComponent extends ComponentBase {
         this.model.arrivalTime = this.formatDate(new Date(), 'YYYY-MM-DD hh:mm');
 
         this.getPurchaseNo();
-        this.getPurchases();
         this.getOilProducts();
     }
 
@@ -56,10 +59,32 @@ export default class PurchaseComponent extends ComponentBase {
         });
         this.$watch('sv', (v: string, ov) => {
             //3个字符开始才执行请求操作，减少请求次数
-            if (v.length >= 3)
-                this.searchPurchases(v);
+            if (v.length >= 2 || v == "") {
+                this.page = 1;
+                this.getPurchases();
+            }
         });
     };
+
+    loadList() {
+        this.getPurchases((list: server.purchase[]) => {
+            this.purchases = this.page > 1 ? [...this.purchases, ...list] : this.purchases;
+            this.scrollRef = (<any>this).$refs.infinitescroll;
+            if (list.length < this.pSize) {
+                this.scrollRef.$emit("ydui.infinitescroll.loadedDone");
+                return;
+            }
+
+            //通知加载数据完毕
+            this.scrollRef.$emit("ydui.infinitescroll.finishLoad");
+
+            if (list.length > 0)
+                this.page++;
+            else
+                this.page = 1;
+            console.log("page = " + this.page)
+        });
+    }
 
     origincallback(ret) {
         //console.log(ret);
@@ -69,6 +94,10 @@ export default class PurchaseComponent extends ComponentBase {
     change(label: string, tabkey: string) {
         console.log(label);
         this.$emit('setTitle', this.$store.state.username + ' ' + label);
+        if (label == "列表") {
+            this.page = 1;
+            this.getPurchases();
+        }
     }
 
     godetail(id: number) {
@@ -102,22 +131,25 @@ export default class PurchaseComponent extends ComponentBase {
         });
     }
 
-    getPurchases() {
-        axios.get('/api/Purchase').then((res) => {
-            let jobj = res.data as server.resultJSON<server.purchase[]>;
-            if (jobj.code == 0)
-                this.list = jobj.data;
-        });
+    getPurchases(callback?: Function) {
+        if (!this.page) this.page = 1;
+        axios.get('/api/Purchase/GetByPager?page='
+            + this.page
+            + '&pagesize=' + this.pSize
+            + '&sv=' + this.sv).then((res) => {
+                let jobj = res.data as server.resultJSON<server.purchase[]>;
+                if (jobj.code == 0) {
+                    if (callback) {
+                        callback(jobj.data);
+                    }
+                    else {
+                        this.purchases = jobj.data;
+                        this.page++;
+                    }
+                }
+            });
     }
-
-    searchPurchases(sv: string) {
-        axios.get('/api/Purchase/' + sv).then((res) => {
-            let jobj = res.data as server.resultJSON<server.purchase[]>;
-            if (jobj.code == 0)
-                this.list = jobj.data;
-        });
-    }
-
+    
     getOilProducts() {
         axios.get('/api/Product/PurchaseOilProducts').then((res) => {
             let jobj = res.data as server.resultJSON<server.product[]>;

@@ -48,6 +48,13 @@ namespace MFS.Repositorys
         {
             return _dbContext.Assays.Include(a => a.Store).Include(a => a.Purchase).ToList();
         }
+        public Assay GetWithInclude(int id)
+        {
+            return _dbContext.Assays.Where(a => a.Id == id)
+                .Include(a => a.Purchase)
+                .Include(a => a.Store)
+                .FirstOrDefault();
+        }
         /// <summary>
         /// 搜索关键字获取包含store和purchase对象的集合
         /// </summary>

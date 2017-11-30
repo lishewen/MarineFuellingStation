@@ -169,6 +169,7 @@ export default class OilStoreComponent extends ComponentBase {
             let jobj = res.data as server.resultJSON<server.survey>;
             if (jobj.code == 0) {
                 this.toastSuccess(jobj.msg);
+                this.show1 = false;
             }
         });
     }

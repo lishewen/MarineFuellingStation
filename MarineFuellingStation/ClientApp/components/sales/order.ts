@@ -286,7 +286,7 @@ export default class OrderComponent extends ComponentBase {
         });
         //搜索计划单
         this.$watch('sv', (v, ov) => {
-            if (v.length > 1) {
+            if (v.length > 1 || v == "") {
                 this.sp_page = 1;
                 this.getSalesPlans();
             }

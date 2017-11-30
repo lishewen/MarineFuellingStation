@@ -23,6 +23,7 @@ export default class InAndOutLogComponent extends ComponentBase {
         this.storeTypes = new Array<server.storeType>();
 
         this.getStoreTypes();
+        this.getInAndOutLogs();
     }
 
     getType(t: server.logType) {

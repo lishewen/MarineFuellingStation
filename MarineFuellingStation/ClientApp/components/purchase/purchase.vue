@@ -80,21 +80,27 @@
 
                 <yd-cell-group>
                     <yd-search v-model="sv" />
-                    <yd-cell-item arrow v-for="s in list" :key="s.id" @click.native="godetail(s.id)">
-                        <div slot="left">
-                            <p>{{s.name}}</p>
-                            <p>{{s.origin}}</p>
-                            <p class="col-light-gray font12">{{s.carNo}} {{s.trailerNo}}</p>
-                        </div>
-                        <div slot="right" class="align-right" style="margin-right: .2rem;padding: .2rem 0 .2rem">
-                            <p>
-                                <span class="col-green">{{s.product == null ? "" : s.product.name}}</span>
-                                <span class="col-gray font16">{{s.count}}吨</span>
-                            </p>
-                            <p class="col-coral">预计到达：{{formatDate(s.arrivalTime, 'MM-DD hh:mm')}}</p>
-                            <p class="col-gray" v-show="s.state != 0">实际到达：{{formatDate(s.updateAt)}}</p>
-                        </div>
-                    </yd-cell-item>
+                    <yd-infinitescroll :callback="loadList" ref="infinitescroll">
+                        <yd-cell-item slot="list" arrow v-for="s in purchases" :key="s.id" @click.native="godetail(s.id)">
+                            <div slot="left">
+                                <p>{{s.name}}</p>
+                                <p>{{s.origin}}</p>
+                                <p class="col-light-gray font12">{{s.carNo}} {{s.trailerNo}}</p>
+                            </div>
+                            <div slot="right" class="align-right" style="margin-right: .2rem;padding: .2rem 0 .2rem">
+                                <p>
+                                    <span class="col-green">{{s.product == null ? "" : s.product.name}}</span>
+                                    <span class="col-gray font16">{{s.count}}吨</span>
+                                </p>
+                                <p class="col-coral">预计到达：{{formatDate(s.arrivalTime, 'MM-DD hh:mm')}}</p>
+                                <p class="col-gray" v-show="s.state != 0">实际到达：{{formatDate(s.updateAt)}}</p>
+                            </div>
+                        </yd-cell-item>
+                        <!-- 数据全部加载完毕显示 -->
+                        <span slot="doneTip">没有数据啦~~</span>
+                        <!-- 加载中提示，不指定，将显示默认加载中图标 -->
+                        <img slot="loadingTip" src="http://static.ydcss.com/uploads/ydui/loading/loading10.svg" />
+                    </yd-infinitescroll>
                 </yd-cell-group>
             </yd-tab-panel>
         </yd-tab>

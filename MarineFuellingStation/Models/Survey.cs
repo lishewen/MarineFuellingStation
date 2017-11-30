@@ -21,7 +21,7 @@ namespace MFS.Models
         /// <summary>
         /// 密度
         /// </summary>
-        public decimal Density { get; set; }
+        public double Density { get; set; }
         /// <summary>
         /// 油高
         /// </summary>

@@ -105,7 +105,7 @@ export default class BoatCleanComponent extends ComponentBase {
         });
         this.$watch('sv', (v: string, ov) => {
             //3个字符开始才执行请求操作，减少请求次数
-            if (v.length >= 3)
+            if (v.length >= 2 || v == "")
                 this.searchBoatCleans(v);
         });
     };

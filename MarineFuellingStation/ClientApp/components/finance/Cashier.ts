@@ -65,6 +65,8 @@ export default class CashierComponent extends ComponentBase {
 
         this.actItems = new Array<ydui.actionSheetItem>();
         this.menus = new Array<ydui.actionSheetItem>();
+        
+        this.getOrders();
     }
 
     strPayType(pt: server.orderPayType) {
@@ -397,7 +399,10 @@ export default class CashierComponent extends ComponentBase {
 
     //获取订单
     getOrders(callback?: Function) {
+        if (this.payState == null) this.payState = server.payState.未结算;
         if (this.page == null) this.page = 1;
+        if (this.pSize == null) this.pSize = 30;
+        if (this.searchVal == null) this.searchVal = "";
         axios.get('/api/Order/GetByPayState?'
             + 'paystate=' + this.payState
             + '&page=' + this.page.toString()

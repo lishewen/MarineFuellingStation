@@ -54,6 +54,26 @@ namespace MFS.Controllers
                 Data = r.GetIncludeProduct().OrderByDescending(p => p.Id).ToList()
             };
         }
+        /// <summary>
+        /// 分页显示数据
+        /// </summary>
+        /// <param name="page">第N页</param>
+        /// <param name="pageSize">页记录数</param>
+        /// <returns></returns>
+        [HttpGet("[action]")]
+        public ResultJSON<List<Purchase>> GetByPager(int page, int pageSize, string sv)
+        {
+            List<Purchase> list;
+            if (string.IsNullOrEmpty(sv))
+                list = r.LoadPageList(page, pageSize, out int rCount, true).Include(p => p.Product).OrderByDescending(p => p.Id).ToList();
+            else
+                list = r.LoadPageList(page, pageSize, out int rCount, true, p => p.CarNo.Contains(sv)).Include(p => p.Product).OrderByDescending(p => p.Id).ToList();
+            return new ResultJSON<List<Purchase>>
+            {
+                Code = 0,
+                Data = list
+            };
+        }
         [HttpGet("[action]/{id}")]
         public ResultJSON<Purchase> GetDetail(int id)
         {

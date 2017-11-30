@@ -630,7 +630,7 @@ namespace 打印终端
             if(a.Purchase != null)
                 WordReplace(wApp, "#CarnoOrStorename#", "车号：" + a.Purchase.CarNo);
             if(a.Store != null)
-                WordReplace(wApp, "#CarnoOrStorename#", "油仓" + a.Store.Name);
+                WordReplace(wApp, "#CarnoOrStorename#", "油仓：" + a.Store.Name);
             WordReplace(wApp, "#视密#", a.视密.ToString("0.00"));
             WordReplace(wApp, "#标密#", a.标密.ToString("0.00"));
             WordReplace(wApp, "#闭口闪点#", a.闭口闪点);

@@ -99,8 +99,8 @@ export default class PlanComponent extends ComponentBase {
             this.model.oilDate = new Date(this.oildate);
         });
         this.$watch('sv', (v: string, ov) => {
-            //3个字符开始才执行请求操作，减少请求次数
-            if (v.length >= 3)
+            //2个字符开始才执行请求操作，减少请求次数
+            if (v.length >= 2 || v == "")
                 this.searchSalesPlans(v);
         });
     };

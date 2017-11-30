@@ -107,7 +107,7 @@ namespace MFS.Controllers
         [HttpGet("[action]")]
         public async Task<ResultJSON<Assay>> PrintAssay(int id, string to)
         {
-            Assay a = r.Get(id);
+            Assay a = r.GetWithInclude(id);
             await SendPrintAsync(to, a, "printassay");
             return new ResultJSON<Assay>
             {

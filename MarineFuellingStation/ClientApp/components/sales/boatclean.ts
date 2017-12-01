@@ -132,7 +132,7 @@ export default class BoatCleanComponent extends ComponentBase {
 
     change(label: string, tabkey: string) {
         console.log(label);
-        this.$emit('setTitle', this.$store.state.username + ' ' + label);
+        
         if (label == '单据记录') {
             this.page = 1;
             this.getBoatCleans();

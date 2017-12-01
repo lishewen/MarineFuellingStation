@@ -43,6 +43,9 @@ export default class CashierBcComponent extends ComponentBase {
         this.payMoneys = new Array<string>();
 
         this.selectedBc.money = 0;
+
+        this.payState = server.boatCleanPayState.未结算;
+        this.getBoatCleans();
     }
     
     mounted() {
@@ -57,6 +60,22 @@ export default class CashierBcComponent extends ComponentBase {
                 if(v[m])
                     this.payInfact += parseFloat(v[m]);
             }
+        });
+        /** 搜索关键字 */
+        this.$watch("sv1", (v, ov) => {
+            this.searchVal = v;
+            this.page = 1;
+            this.getBoatCleans();
+        });
+        this.$watch("sv2", (v, ov) => {
+            this.searchVal = v;
+            this.page = 1;
+            this.getBoatCleans();
+        });
+        this.$watch("sv3", (v, ov) => {
+            this.searchVal = v;
+            this.page = 1;
+            this.getBoatCleans();
         });
     };
 
@@ -102,7 +121,6 @@ export default class CashierBcComponent extends ComponentBase {
 
     change(label: string, tabkey: string) {
         console.log(label);
-        this.$emit('setTitle', this.$store.state.username + ' ' + label);
 
         switch (label) {
             case "待结算":
@@ -207,6 +225,8 @@ export default class CashierBcComponent extends ComponentBase {
     //获取订单
     getBoatCleans(callback?: Function) {
         if (this.page == null) this.page = 1;
+        if (this.pSize == null) this.pSize = 30;
+        if (this.searchVal == null) this.searchVal = "";
         axios.get('/api/BoatClean/GetByPayState?'
             + 'paystate=' + this.payState
             + '&page=' + this.page.toString()

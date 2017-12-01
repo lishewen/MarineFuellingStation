@@ -84,7 +84,7 @@ namespace MFS.Repositorys
         /// <returns></returns>
         public List<Purchase> GetTopNPurchases(int n)
         {
-            return LoadPageList(1, n, out int rowcount, true).ToList();
+            return LoadPageList(1, n, out int rowcount, true).Include(p => p.Product).ToList();
         }
         public Purchase GetDetail(int id)
         {

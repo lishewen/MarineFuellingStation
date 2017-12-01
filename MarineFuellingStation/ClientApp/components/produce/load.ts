@@ -76,7 +76,7 @@ export default class LoadComponent extends ComponentBase {
 
     change(label: string, tabkey: string) {
         console.log(label);
-        this.$emit('setTitle', this.$store.state.username + ' ' + label);
+        
     }
 
     getOrders(toPage?: number) {

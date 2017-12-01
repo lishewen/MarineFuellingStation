@@ -33,7 +33,6 @@ export default class ProductComponent extends ComponentBase {
     };
 
     change(label: string, tabkey: string) {
-        this.$emit('setTitle', this.$store.state.username + ' ' + label);
         if (label == '添加') {
             this.currentproduct = (new Object()) as server.product;
             this.currentproduct.name = '';

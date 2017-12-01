@@ -112,7 +112,7 @@
             </yd-tab-panel>
 
             <yd-tab-panel label="单据记录">
-                <yd-search v-model="sv" />
+                <yd-search v-model="ordersv" />
                 <yd-cell-group>
                     <yd-infinitescroll :callback="loadList" ref="infinitescroll">
                         <yd-cell-item slot="list" arrow v-for="o in orders" :key="o.id" @click.native="showMenuclick(o)">
@@ -149,8 +149,8 @@
                             <p class="col-gray">{{s.createdBy}}</p>
                         </div>
                         <div slot="right">
-                            <p>{{strPlanState(s)}}</p>
-                            <p>{{formatShortDate(s.oilDate)}}</p>
+                            <p :class="s.state == 0 ? 'color_red' : 'color_green'">{{strPlanState(s)}}</p>
+                            <p>预约{{formatShortDate(s.oilDate)}}</p>
                         </div>
                     </yd-cell-item>
                     <!-- 数据全部加载完毕显示 -->

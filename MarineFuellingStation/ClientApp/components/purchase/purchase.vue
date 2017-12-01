@@ -10,13 +10,13 @@
 
                     <yd-cell-item>
                         <span slot="left">单价：</span>
-                        <yd-input slot="right" v-model="model.price" required placeholder="请输入单价"></yd-input>
+                        <yd-input slot="right" v-model="model.price" type="number" required placeholder="请输入单价"></yd-input>
                         <span slot="right" style="width: 50px">元 / 吨</span>
                     </yd-cell-item>
 
                     <yd-cell-item>
                         <span slot="left">数量：</span>
-                        <yd-input slot="right" v-model="model.count" required placeholder="请输入数量"></yd-input>
+                        <yd-input slot="right" v-model="model.count" type="number" required placeholder="请输入数量"></yd-input>
                         <span slot="right">吨</span>
                     </yd-cell-item>
 
@@ -52,11 +52,11 @@
                     </yd-cell-item>
                     <yd-cell-item>
                         <span slot="left">身份证一：</span>
-                        <yd-input slot="right" v-model="model.idCard1" regex="" placeholder="请输入身份证号"></yd-input>
+                        <yd-input slot="right" v-model="model.idCard1" type="number" placeholder="请输入身份证号"></yd-input>
                     </yd-cell-item>
                     <yd-cell-item>
                         <span slot="left">电话号码一：</span>
-                        <yd-input slot="right" v-model="model.phone1" regex="" placeholder="请输入电话号码"></yd-input>
+                        <yd-input slot="right" v-model="model.phone1" type="number" placeholder="请输入电话号码"></yd-input>
                     </yd-cell-item>
                     <yd-cell-item>
                         <span slot="left">司机二：</span>
@@ -64,11 +64,11 @@
                     </yd-cell-item>
                     <yd-cell-item>
                         <span slot="left">身份证二：</span>
-                        <yd-input slot="right" v-model="model.idCard2" regex="" placeholder="请输入身份证号"></yd-input>
+                        <yd-input slot="right" v-model="model.idCard2" type="number" placeholder="请输入身份证号"></yd-input>
                     </yd-cell-item>
                     <yd-cell-item>
                         <span slot="left">电话号码二：</span>
-                        <yd-input slot="right" v-model="model.phone2" regex="" placeholder="请输入电话号码"></yd-input>
+                        <yd-input slot="right" v-model="model.phone2" type="number" placeholder="请输入电话号码"></yd-input>
                     </yd-cell-item>
                 </yd-cell-group>
 

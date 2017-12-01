@@ -2,10 +2,10 @@
     <div id="root">
         <yd-cell-group>
             <yd-cell-item arrow @click.native="userClick(user)" v-for="user in users" :key="user.id">
-                <div slot="left">
-                    <p>{{user.name}}</p>
-                    <p class="col-light-gray font12" v-show="user.isleader==0">普通职员</p>
-                    <p class="col-light-gray font12" v-show="user.isleader==1">上级</p>
+                <div slot="left" style="padding: 10px 0 10px">
+                    <p class="font16">{{user.name}}</p>
+                    <p class="col-light-gray font14" v-show="user.isleader==0">普通职员</p>
+                    <p class="col-light-gray font14" v-show="user.isleader==1">上级</p>
                 </div>
                 <div slot="right" style="text-align: right;margin-right: 5px">
                     <p>

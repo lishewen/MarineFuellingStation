@@ -67,7 +67,7 @@ export default class MoveStoreComponent extends ComponentBase {
 
     change(label: string, tabkey: string) {
         console.log(label);
-        this.$emit('setTitle', this.$store.state.username + ' ' + label);
+        
     }
 
     switchBtn(o: helper.filterBtn, idx: number, group: string) {

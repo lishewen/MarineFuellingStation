@@ -49,7 +49,7 @@ namespace MFS.Repositorys
         /// <returns></returns>
         public List<BoatClean> GetByPayState(BoatCleanPayState payState, int startPage, int pageSize, string searchVal)
         {
-            Expression<Func<BoatClean, bool>> bcwhere = b => b.PayState == payState;
+           Expression<Func<BoatClean, bool>> bcwhere = b => b.PayState == payState;
             if (!string.IsNullOrEmpty(searchVal))
                 bcwhere = bcwhere.And(b => b.Name.Contains(searchVal) || b.CarNo.Contains(searchVal));
 

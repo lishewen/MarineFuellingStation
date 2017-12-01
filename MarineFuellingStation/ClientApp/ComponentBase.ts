@@ -3,9 +3,20 @@ import moment from "moment";
 import axios from "axios";
 
 export default class ComponentBase extends Vue {
+    /** 日期时间格式处理 2017-12-12 08:00 */
     formatDate(d: Date, f: string = 'YYYY-MM-DD HH:mm'): string {
         return moment(d).format(f);
     }
+    /** 短日期格式 12-30 */
+    formatShortDate(d: Date): string {
+        return moment(d).format('MM-DD');
+    }
+    /** 距离现在相隔的时间 of: 'day'|'hour'|'minute'*/
+    getDiffDate(d: Date, str: any) {
+        moment.locale('zh-cn');
+        return moment(d).startOf(str).fromNow();
+    }
+    /** 联系人 */
     toastError(msg: string) {
         this.$dialog.toast({
             mes: msg,
@@ -13,6 +24,7 @@ export default class ComponentBase extends Vue {
             icon: 'error'
         });
     }
+    /** 联系人 */
     toastSuccess(msg: string) {
         this.$dialog.toast({
             mes: msg,

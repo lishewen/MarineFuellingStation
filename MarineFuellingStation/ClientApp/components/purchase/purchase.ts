@@ -93,7 +93,7 @@ export default class PurchaseComponent extends ComponentBase {
 
     change(label: string, tabkey: string) {
         console.log(label);
-        this.$emit('setTitle', this.$store.state.username + ' ' + label);
+        
         if (label == "列表") {
             this.page = 1;
             this.getPurchases();

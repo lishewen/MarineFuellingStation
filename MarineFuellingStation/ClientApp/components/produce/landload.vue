@@ -159,7 +159,7 @@
                 </yd-cell-item>
             </yd-cell-group>
             <div class="align-center" v-show="currStep == 5">
-                <yd-button style="width:90%" type="primary" @click.native="putRestart">重新施工</yd-button>
+                <yd-button class="mtop20" style="width:90%;height:38px" type="primary" @click.native="putRestart">重新施工</yd-button>
             </div>
         </div>
         <!--popup订单选择-->

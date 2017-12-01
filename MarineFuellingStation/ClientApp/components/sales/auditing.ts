@@ -78,7 +78,6 @@ export default class AuditingComponent extends ComponentBase {
 
     change(label: string, tabkey: string) {
         console.log(label);
-        this.$emit('setTitle', this.$store.state.username + ' ' + label);
     }
     godetail(id: number) {
         this.$router.push('/sales/plan/' + id + '/auditing')

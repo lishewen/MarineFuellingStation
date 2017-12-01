@@ -49,6 +49,19 @@ export default class PlanDetailComponent extends ComponentBase {
             return "代号2";
     }
 
+    getTicketType(tt: server.ticketType) {
+        switch (tt) {
+            //case server.ticketType.普通票:
+            //    return "普通票";
+            //case server.ticketType.专用票:
+            //    return "专用票";
+            case server.ticketType.循票:
+                return "循";
+            case server.ticketType.柴票:
+                return "柴";
+        }
+    }
+
     getSalesPlan(id: string, callback: Function) {
         axios.get('/api/SalesPlan/GetDetail/' + id).then((res) => {
             let jobj = res.data as server.resultJSON<server.salesPlan>;

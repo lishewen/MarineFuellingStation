@@ -221,12 +221,6 @@ export default class CashierComponent extends ComponentBase {
         //清空所有input的值
         this.orderPayMoneys = new Array<number>(0, 0, 0, 0, 0, 0, 0, 0);
     };
-
-    getDiff(d: Date) {
-        moment.locale('zh-cn');
-        return moment(d).startOf('day').fromNow();
-    }
-
     mounted() {
         this.$emit('setTitle', this.$store.state.username + ' 结算');
         this.$watch("showPayTypes", (v, ov) => {
@@ -336,8 +330,6 @@ export default class CashierComponent extends ComponentBase {
 
     change(label: string, tabkey: string) {
         console.log(label);
-        this.$emit('setTitle', this.$store.state.username + ' ' + label);
-
         switch (label) {
             case "待结算":
                 this.payState = server.payState.未结算;

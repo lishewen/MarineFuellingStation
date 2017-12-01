@@ -33,6 +33,7 @@ export default class OrderComponent extends ComponentBase {
     hasplan: boolean = false;
     istrans: boolean = false;
     sv: string = "";
+    ordersv: string = "";
     page: number;
     sp_page: number;//salesplans分页使用的page
     scrollRef: any;
@@ -68,6 +69,7 @@ export default class OrderComponent extends ComponentBase {
     }
 
     salesplanselect() {
+        this.sp_page = 1;
         this.getSalesPlans();
         this.salesplanshow = true;
     }
@@ -78,11 +80,6 @@ export default class OrderComponent extends ComponentBase {
         else
             return ""
     }
-
-    formatShortDate(d: Date): string {
-        return moment(d).format('MM-DD');
-    }
-
     classState(s: server.orderState): any {
         switch (s) {
             case server.orderState.已完成:
@@ -286,12 +283,18 @@ export default class OrderComponent extends ComponentBase {
                 this.getSalesPlans();
             }
         });
-
+        //搜索销售单
+        this.$watch('ordersv', (v, ov) => {
+            if (v.length > 1 || v == "") {
+                this.page = 1;
+                this.getOrders();
+            }
+        });
     };
 
     change(label: string, tabkey: string) {
         console.log(label);
-        this.$emit('setTitle', this.$store.state.username + ' ' + label);
+        
 
         (<any>this).$refs.infinitescroll.$emit('ydui.infinitescroll.reInit');
         this.salesplans = null;
@@ -411,10 +414,13 @@ export default class OrderComponent extends ComponentBase {
     }
 
     getOrders(callback?: Function) {
+        if (this.ordersv == null) this.ordersv = "";
         if (this.page == null) this.page = 1;
         axios.get('/api/Order/GetByPager?page='
             + this.page
-            + '&pagesize=' + this.pSize).then((res) => {
+            + '&pagesize=' + this.pSize
+            + '&sv=' + this.ordersv
+            ).then((res) => {
                 let jobj = res.data as server.resultJSON<server.order[]>;
                 if (jobj.code == 0) {
                     if (callback) {

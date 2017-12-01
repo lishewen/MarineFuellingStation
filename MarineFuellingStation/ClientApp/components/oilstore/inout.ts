@@ -60,7 +60,6 @@ export default class InAndOutLogComponent extends ComponentBase {
 
     change(label: string, tabkey: string) {
         console.log(label);
-        this.$emit('setTitle', this.$store.state.username + ' ' + label);
 
         switch (label) {
             case "所有":

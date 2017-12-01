@@ -61,7 +61,6 @@ export default class NoticeComponent extends ComponentBase {
 
     change(label: string, tabkey: string) {
         console.log(label);
-        this.$emit('setTitle', this.$store.state.username + ' ' + label);
     }
 
     changeIsUse(model: server.notice) {

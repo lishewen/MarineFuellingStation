@@ -78,7 +78,7 @@ export default class PlanComponent extends ComponentBase {
         this.model.salesPlanType = this.isWaterDept ? server.salesPlanType.水上 : server.salesPlanType.陆上;
 
         this.$emit('setTitle', this.username + ' 销售计划');
-        this.isLeader = this.$store.state.isLeader == "True" ? true : false;
+        this.isLeader = this.$store.state.isLeader;
 
         this.$watch('model.price', (v, ov) => {this.model.billingPrice = v;});
         this.$watch('model.count', (v, ov) => {this.model.billingCount = v;});

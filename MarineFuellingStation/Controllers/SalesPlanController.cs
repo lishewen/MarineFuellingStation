@@ -42,7 +42,7 @@ namespace MFS.Controllers
             };
         }
         [HttpPost]
-        public async Task<ResultJSON<SalesPlan>> Post([FromBody]SalesPlan s)
+        public ResultJSON<SalesPlan> Post([FromBody]SalesPlan s)
         {
             r.CurrentUser = UserName;
 

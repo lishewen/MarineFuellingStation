@@ -121,7 +121,11 @@ namespace MFS.Controllers
         {
             return IsInDept("水上部");
         }
-
+        /// <summary>
+        /// 当前用户是否在指定部门
+        /// </summary>
+        /// <param name="deptName">部门名称，可以是子部门</param>
+        /// <returns>true|false</returns>
         [NonAction]
         private bool IsInDept(string deptName)
         {

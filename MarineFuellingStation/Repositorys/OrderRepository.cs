@@ -59,6 +59,14 @@ namespace MFS.Repositorys
             var client = _dbContext.Clients.FirstOrDefault(c => c.CarNo == entity.CarNo);
             if (client != null)
                 entity.ClientId = client.Id;
+
+            //非开票情况过滤关于开票的字段
+            if (!entity.IsInvoice)
+            {
+                entity.BillingCompany = "";
+                entity.BillingCount = 0;
+                entity.BillingPrice = 0;
+            }
             return base.Insert(entity, autoSave);
         }
         public Order GetWithInclude(int id)
@@ -308,6 +316,17 @@ namespace MFS.Repositorys
             }
             order.State = OrderState.已开单;
             return Update(order);//回退到初始状态“已开单”
+        }
+        public decimal GetSumNoPay(int cid)
+        {
+            return _dbContext.Orders.Where(o => o.ClientId == cid && o.PayState == PayState.挂账).Sum(o => o.TotalMoney);
+        }
+        public decimal GetSumNoPayByCoId(int coId)
+        {
+            decimal sum = 0;
+            int[] cids = _dbContext.Clients.Where(c => c.CompanyId == coId).Select(c => c.Id).ToArray();
+            sum = _dbContext.Orders.Where(o => cids.Contains(o.ClientId.Value)).Sum(o => o.TotalMoney);
+            return sum;
         }
     }
 }

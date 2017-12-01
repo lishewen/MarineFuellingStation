@@ -5,6 +5,7 @@ import store from './store'
 Vue.use(VueRouter);
 
 const routes: RouteConfig[] = [
+    { path: '/sales/plan/:iswaterdept', component: require('./components/sales/plan.vue').default },
     { path: '/sales/plan', component: require('./components/sales/plan.vue').default },
     { path: '/sales/plan/:id/:from', component: require('./components/sales/plandetail.vue').default },
     { path: '/sales/order', component: require('./components/sales/order.vue').default },

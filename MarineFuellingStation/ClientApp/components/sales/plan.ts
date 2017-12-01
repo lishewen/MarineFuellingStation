@@ -23,8 +23,11 @@ export default class PlanComponent extends ComponentBase {
     pSize: number = 10;
     pMinInvoicePrice: number = 0;
     pMinPrice: number = 0;
-    isLandSalesman: boolean = false;//标识当前用户是否“陆上部”
-    isWaterSalesman: boolean = false;//标识是否“水上部”
+
+    isWaterDept: boolean = true;//标识水上部和陆上部
+
+    //isLandSalesman: boolean = false;//标识当前用户是否“陆上部”
+    //isWaterSalesman: boolean = false;//标识是否“水上部”
     isLeader: boolean = false;//上级领导标识
 
     constructor() {
@@ -41,7 +44,7 @@ export default class PlanComponent extends ComponentBase {
         this.model.isInvoice = false;
         this.model.carNo = '';
         this.model.price = '';
-        this.model.count = 0;
+        //this.model.count = 0;
         this.model.remainder = 0;
         this.model.oilDate = new Date();
         this.model.billingCompany = '';
@@ -50,6 +53,7 @@ export default class PlanComponent extends ComponentBase {
         this.model.productId = 0;
         this.model.oilName = '请选择油品';
         this.model.isPrintPrice = true;
+        this.model.deliverMoney = 0;
 
         this.oildate = this.formatDate(this.model.oilDate);
 
@@ -62,47 +66,32 @@ export default class PlanComponent extends ComponentBase {
         this.pMinInvoicePrice = 0;
 
         this.username = this.$store.state.username;
-        this.getSalesPlanNo();
-        this.getIsLandSalesman();
-        this.getIsWaterSalesman();
 
         this.$dialog.loading.close();
     }
 
     mounted() {
+        //透过路由获取参数iswaterdept
+        let iswaterdept = this.$route.params.iswaterdept;
+        this.isWaterDept = iswaterdept == "forland" ? false : true;
+
+        this.model.salesPlanType = this.isWaterDept ? server.salesPlanType.水上 : server.salesPlanType.陆上;
+
         this.$emit('setTitle', this.username + ' 销售计划');
         this.isLeader = this.$store.state.isLeader == "True" ? true : false;
-        //观察者模式
-        this.$watch('radio2', (v, ov) => {
-            switch (v) {
-                case "1":
-                    this.model.unit = '升';
-                    this.model.salesPlanType = server.salesPlanType.水上;
-                    break;
-                case "2":
-                    this.model.unit = '吨';
-                    this.model.salesPlanType = server.salesPlanType.陆上;
-                    break;
-                case "3":
-                    this.model.unit = '桶';
-                    this.model.salesPlanType = server.salesPlanType.机油;
-                    break;
-            }
-        });
-        this.$watch('model.price', (v, ov) => {
-            this.model.billingPrice = v;
-        });
-        this.$watch('model.count', (v, ov) => {
-            this.model.billingCount = v;
-        });
-        this.$watch('oildate', (v, ov) => {
-            this.model.oilDate = new Date(this.oildate);
-        });
+
+        this.$watch('model.price', (v, ov) => {this.model.billingPrice = v;});
+        this.$watch('model.count', (v, ov) => {this.model.billingCount = v;});
+        this.$watch('oildate', (v, ov) => { this.model.oilDate = new Date(this.oildate); });
+
         this.$watch('sv', (v: string, ov) => {
             //2个字符开始才执行请求操作，减少请求次数
             if (v.length >= 2 || v == "")
                 this.searchSalesPlans(v);
         });
+        
+        this.getSalesPlanNo();
+        this.getOilProducts();
     };
 
     change(label: string, tabkey: string) {
@@ -189,21 +178,16 @@ export default class PlanComponent extends ComponentBase {
 
     buttonclick() {
         //信息验证
-        if (this.model.carNo == '') {
-            this.toastError('车牌不能为空');
-            return;
-        }
-        if (this.model.count <= 0) {
+        if (this.model.carNo == '') {this.toastError('车牌不能为空');return;}
+        if (this.model.productId == 0) {this.toastError('必须选择油品');return;}
+        if (!this.model.count || this.model.count <= 0) {
             this.toastError('数量必须大于1');
-            return;
-        }
-        if (this.model.productId == 0) {
-            this.toastError('必须选择油品');
             return;
         }
         if (this.model.price == '' || this.model.price <= 0) { this.toastError("计划单价输入有误"); return; }
         if (!this.model.isInvoice && this.model.price < this.pMinPrice) { this.toastError("当前最低销售单价是￥" + this.pMinPrice + "/升"); return; }
         if (this.model.isInvoice && this.model.price < this.pMinInvoicePrice) { this.toastError("当前开票最低销售单价是￥" + this.pMinInvoicePrice + "/升"); return; }
+        console.log(this.model);
         this.postSalesPlan(this.model);
     }
 
@@ -232,27 +216,7 @@ export default class PlanComponent extends ComponentBase {
                 return { color_blue: true }
         }
     }
-
-    getIsLandSalesman() {
-        axios.get('/api/User/IsLandSalesman').then((res) => {
-            let jobj = res.data as boolean;
-            if (jobj) {
-                this.isLandSalesman = true;
-                this.radio2 = "2";
-            }
-            this.getOilProducts();
-        });
-    }
-
-    getIsWaterSalesman() {
-        axios.get('/api/User/IsWaterSalesman').then((res) => {
-            let jobj = res.data as boolean;
-            if (jobj) {
-                this.isWaterSalesman = true;
-            }
-        });
-    }
-
+    
     getSalesPlanNo() {
         axios.get('/api/SalesPlan/SalesPlanNo').then((res) => {
             let jobj = res.data as server.resultJSON<string>;
@@ -271,8 +235,7 @@ export default class PlanComponent extends ComponentBase {
     getSalesPlans(callback?: Function) {
         if (this.page == null) this.page = 1;
         let type: server.salesPlanType;
-        if (this.isLandSalesman) type = server.salesPlanType.陆上;
-        if (this.isWaterSalesman) type = server.salesPlanType.水上;//水上部的销售同时输出“机油”数据
+        type = this.isWaterDept ? server.salesPlanType.水上 : server.salesPlanType.陆上;
         axios.get('/api/SalesPlan/GetByPager?page='
             + this.page
             + '&pagesize=' + this.pSize
@@ -319,11 +282,9 @@ export default class PlanComponent extends ComponentBase {
     }
 
     getOilProducts() {
-        let landOrWater: boolean | string;
-        landOrWater = this.isLandSalesman;
-        if (this.isLandSalesman && this.isWaterSalesman)
-            landOrWater = "";
-        axios.get('/api/Product/OilProducts?landOrWater=' + landOrWater).then((res) => {
+        let isforland;
+        isforland = this.isWaterDept ? false : true;
+        axios.get('/api/Product/OilProducts?isforland=' + isforland).then((res) => {
             let jobj = res.data as server.resultJSON<server.product[]>;
             if (jobj.code == 0) {
                 this.products = jobj.data;

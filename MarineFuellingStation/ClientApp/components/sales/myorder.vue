@@ -20,7 +20,7 @@
                 <yd-button class="navBtn" type="hollow" v-if="!f.actived" @click.native="switchBtn(f,idx)">{{f.name}}</yd-button>
             </div>
         </div>
-        <yd-cell-group :title="getTotalSalesComm()" class="first-group">
+        <yd-cell-group :title="getTotalSalesComm()">
             <yd-infinitescroll :callback="loadList" ref="infinitescroll">
                 <yd-cell-item slot="list" arrow v-for="o in orders" :key="o.id" @click.native="godetail(o.id)" style="padding: .2rem 0 .2rem">
                     <div slot="left">

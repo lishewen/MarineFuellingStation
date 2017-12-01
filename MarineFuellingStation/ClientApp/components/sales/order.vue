@@ -14,7 +14,7 @@
                         <span slot="right" style="width:70px">单位：{{model.unit}}</span>
                     </yd-cell-item>
                 </yd-cell-group>
-                <yd-cell-group :title="'单号：' + model.name" class="first-group">
+                <yd-cell-group :title="'单号：' + model.name">
                     <yd-cell-item arrow @click.native="salesplanselect">
                         <span slot="left">计划单：</span>
                         <span slot="right">{{selectedplanNo}}</span>
@@ -62,7 +62,7 @@
                     </yd-cell-item>
 
                     <yd-cell-item>
-                        <span slot="left"></span>
+                        <span slot="left">代码信息</span>
                         <span slot="right">
                             <yd-switch v-model="model.isInvoice"></yd-switch>
                         </span>
@@ -96,21 +96,13 @@
                         <span slot="right"><yd-switch v-model="model.isDeliver"></yd-switch></span>
                     </yd-cell-item>
                     <yd-cell-item v-show="model.isDeliver">
+                        <span slot="left">运费：</span>
+                        <yd-input slot="right" v-model="model.deliverMoney" type="number" placeholder="请输入运费"></yd-input>
+                        <span slot="right">元</span>
+                    </yd-cell-item>
+                    <yd-cell-item v-show="model.isDeliver">
                         <span slot="left">打印单价</span>
                         <span slot="right"><yd-switch v-model="model.isPrintPrice"></yd-switch></span>
-                    </yd-cell-item>
-                </yd-cell-group>
-
-                <yd-cell-group title="选填" v-show="show2">
-                    <yd-cell-item>
-                        <span slot="left">是否运输</span>
-                        <span slot="right">
-                            <yd-switch v-model="istrans"></yd-switch>
-                        </span>
-                    </yd-cell-item>
-                    <yd-cell-item arrow v-show="istrans" @click.native="show1 = true">
-                        <span slot="left">运输单：</span>
-                        <span slot="right">{{selectedtransord}}</span>
                     </yd-cell-item>
                 </yd-cell-group>
 

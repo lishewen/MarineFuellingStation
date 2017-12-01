@@ -2,7 +2,7 @@
     <div id="root">
         <yd-tab :change="change">
             <yd-tab-panel label="开单">
-                <yd-cell-group :title="'单号：' + model.name" class="first-group">
+                <yd-cell-group :title="'单号：' + model.name">
 
                     <yd-cell-item>
                         <span slot="left">船号：</span>

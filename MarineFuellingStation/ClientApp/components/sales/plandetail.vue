@@ -31,6 +31,19 @@
                 <span slot="left">计划数量：</span>
                 <span slot="right">{{model.count}}{{model.unit}}</span>
             </yd-cell-item>
+
+            <yd-cell-item v-show="model.isDeliver">
+                <span slot="right">送货上门</span>
+            </yd-cell-item>
+            <yd-cell-item v-show="model.isDeliver">
+                <span slot="left">运费：</span>
+                <span slot="right">{{model.deliverMoney}}</span>
+            </yd-cell-item>
+            <yd-cell-item v-show="model.isDeliver">
+                <span slot="left">打印显示单价：</span>
+                <span slot="right">{{model.isPrintPrice ? "显示" : "不显示"}}</span>
+            </yd-cell-item>
+
             <!--应客户要求暂时取消当前余油-->
             <!--<yd-cell-item>
                 <span slot="left">当前余油：</span>

@@ -60,6 +60,12 @@ namespace MFS.Repositorys
         {
             var p = _dbContext.Products.Find(entity.ProductId);
             p.LastPrice = entity.Price;
+            if (!entity.IsInvoice)
+            {
+                entity.BillingCompany = "";
+                entity.BillingCount = 0;
+                entity.BillingPrice = 0;
+            }
             return base.Insert(entity, autoSave);
         }
         public SalesPlan GetDetail(int id)

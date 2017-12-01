@@ -64,6 +64,10 @@ namespace MFS.Models
         /// </summary>
         public bool IsDeliver { get; set; } = true;
         /// <summary>
+        /// 送货上门 运费
+        /// </summary>
+        public decimal DeliverMoney { get; set; } = 0;
+        /// <summary>
         /// 是否打印单价
         /// </summary>
         public bool IsPrintPrice { get; set; } = true;
@@ -78,7 +82,7 @@ namespace MFS.Models
         /// <summary>
         /// 开票数量
         /// </summary>
-        public int BillingCount { get; set; }
+        public decimal BillingCount { get; set; }
         /// <summary>
         /// 实际加油数量
         /// </summary>

@@ -29,8 +29,7 @@ export default class OrderComponent extends ComponentBase {
     pMinInvoicePrice: number = 0;
     
     show2: boolean = false;
-
-    selectedtransord: string = "";
+    
     hasplan: boolean = false;
     istrans: boolean = false;
     sv: string = "";
@@ -51,12 +50,12 @@ export default class OrderComponent extends ComponentBase {
         this.model.carNo = '';
         this.model.price = '';
         this.model.billingPrice = 0;
-        this.model.count = 0;
         this.model.billingCount = 0;
         this.model.totalMoney = 0;
         this.model.ticketType = -1;
         this.model.unit = '升';
         this.model.billingCompany = '';
+        this.model.deliverMoney = 0;
 
         this.clients = new Array<server.client>();
 
@@ -140,10 +139,6 @@ export default class OrderComponent extends ComponentBase {
         this.salesplanshow = false;
     };
 
-    transitemclick(): void {
-        this.selectedtransord = "YS07070001";
-    };
-
     emptyclick(): void {
         this.selectedplanNo = "散客";
         this.model.salesPlanId = null;
@@ -164,7 +159,7 @@ export default class OrderComponent extends ComponentBase {
             this.toastError('船号或车牌号不能为空');
             return;
         }
-        if (this.model.count <= 0) {
+        if (!this.model.count || this.model.count <= 0) {
             this.toastError('数量必须大于1');
             return;
         }

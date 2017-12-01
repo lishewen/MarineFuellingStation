@@ -2,7 +2,7 @@
     <div id="root">
         <yd-tab :change="change">
             <yd-tab-panel label="化验录入">
-                <yd-cell-group :title="'单号：' + model.name" class="first-group">
+                <yd-cell-group :title="'单号：' + model.name">
                     <yd-cell-item>
                         <yd-radio-group slot="left" v-model="radio2">
                             <yd-radio val="1">油仓化验</yd-radio>

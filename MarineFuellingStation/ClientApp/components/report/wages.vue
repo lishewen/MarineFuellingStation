@@ -20,7 +20,7 @@
             <yd-datetime type="date" v-model="selecteddate"></yd-datetime>
         </div>
         
-        <yd-cell-group :title="'总计：￥' + sumwage" class="first-group">
+        <yd-cell-group :title="'总计：￥' + sumwage">
             <yd-cell-item v-for="w in list" :key="w.id" arrow @click.native="clickWage(w)">
                 <div slot="left">
                     <p>{{w.name}}</p>

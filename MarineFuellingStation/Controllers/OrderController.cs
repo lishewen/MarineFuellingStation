@@ -365,6 +365,36 @@ namespace MFS.Controllers
                 Data = o
             };
         }
+        /// <summary>
+        /// 根据ClientID获得所有挂账金额
+        /// </summary>
+        /// <param name="id">Client ID</param>
+        /// <returns></returns>
+        [HttpGet("[action]")]
+        public ResultJSON<decimal> GetClientNoPayMoney(int cid)
+        {
+            decimal sumNopay = r.GetSumNoPay(cid);
+            return new ResultJSON<decimal>
+            {
+                Code = 0,
+                Data = sumNopay
+            };
+        }
+        /// <summary>
+        /// 根据CompanyID获得所有公司挂账金额
+        /// </summary>
+        /// <param name="id">Company ID</param>
+        /// <returns></returns>
+        [HttpGet("[action]")]
+        public ResultJSON<decimal> GetCompanyNoPayMoney(int coId)
+        {
+            decimal sumNopay = r.GetSumNoPayByCoId(coId);
+            return new ResultJSON<decimal>
+            {
+                Code = 0,
+                Data = sumNopay
+            };
+        }
         #endregion
         #region Put方法
         /// <summary>

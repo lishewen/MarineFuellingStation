@@ -1,6 +1,6 @@
 ﻿<template>
     <div id="root">
-        <yd-cell-group :title="'单号：' + model.name" class="first-group">
+        <yd-cell-group :title="'单号：' + model.name">
             <!--应客户要求暂时取消生产员的选择-->
             <!--<yd-cell-item arrow @click.native="showManuUsers = true">
                 <span slot="left">生产员：</span>

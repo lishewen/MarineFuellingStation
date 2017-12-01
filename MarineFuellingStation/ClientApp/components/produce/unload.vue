@@ -9,11 +9,12 @@
     .img-wrap img {
         width: 100%;
     }
+    
 </style>
 <template>
     <div id="root">
         <div class="align-center first-group">
-            <yd-button style="width:90%" type="primary" @click.native="showPurchases = true">进油单{{purchase.name? '：' + purchase.name + ' / ' + purchase.count + '吨' : ''}}</yd-button>
+            <yd-button style="width:90%;height:38px" type="primary" @click.native="showPurchases = true">进油单{{purchase.name? '：' + purchase.name + ' / ' + purchase.count + '吨' : ''}}</yd-button>
         </div>
         <yd-step :current="currStep" style="margin: .4rem 0 .4rem">
             <yd-step-item>
@@ -33,7 +34,7 @@
             </yd-step-item>
         </yd-step>
         <div v-show="currStep == 1">
-            <yd-cell-group title="第二步：油车过磅 称毛重">
+            <yd-cell-group title="第一步：油车过磅 称毛重">
                 <yd-cell-item>
                     <span slot="left">毛重：</span>
                     <yd-input slot="right" v-model="purchase.scaleWithCar" type="number" required placeholder="请输入磅秤数"></yd-input>
@@ -41,11 +42,11 @@
                 </yd-cell-item>
                 <yd-cell-item>
                     <span slot="left">图片上传：</span>
-                    <input slot="left" type="file" value="选择图片" accept="image/png,image/gif,image/jpeg" @change="uploadfile" />
+                    <label slot="right" class="input-file"><input title="浏览文件" type="file" accept="image/png,image/gif,image/jpeg" @change="uploadfile" />选择图片…</label>
                 </yd-cell-item>
             </yd-cell-group>
             <div class="center">
-                <yd-button style="width:90%;height:38px;" type="primary" @click.native="goNext" :disabled="purchase.scaleWithCar <= 0 || !isScaleWithCarUpload">下一步：化验 →</yd-button>
+                <yd-button class="mtop20" style="width:90%;height:38px;" type="primary" @click.native="goNext" :disabled="purchase.scaleWithCar <= 0 || !isScaleWithCarUpload">下一步：化验 →</yd-button>
             </div>
             <div class="align-center first-group">
                 <yd-lightbox class="img-wrap">
@@ -76,11 +77,11 @@
 
                 <yd-cell-item>
                     <span slot="left">图片上传：</span>
-                    <input slot="left" type="file" value="选择图片" accept="image/png,image/gif,image/jpeg" @change="uploadfile" />
+                    <label slot="right" class="input-file"><input title="浏览文件" type="file" accept="image/png,image/gif,image/jpeg" @change="uploadfile" />选择图片…</label>
                 </yd-cell-item>
             </yd-cell-group>
             <div class="center">
-                <yd-button style="width:90%;height:38px;" type="primary" @click.native="currStep -= 1">← 上一步：化验</yd-button>
+                <yd-button style="width:90%;height:38px;" type="primary" @click.native="currStep -= 1" class="mtop20">← 上一步：化验</yd-button>
                 <yd-button style="width:90%;height:38px; margin-top:20px;" type="primary" @click.native="goNext" :disabled="purchase.scale <= 0 || !isScaleUpload">下一步：卸油 →</yd-button>
             </div>
             <div class="align-center first-group">
@@ -90,14 +91,16 @@
             </div>
         </div>
         <div class="center" v-show="currStep == 4">
-            <yd-button style="width:90%;height:38px;margin-bottom: 20px" type="warning" @click.native="showStoresclick()">请选择油仓</yd-button>
+            <yd-button style="width:90%;height:38px;" type="hollow" @click.native="getPrintUnloadPond(purchase.id, '地磅室')">打印【过磅单】到【地磅室】</yd-button>
+            <yd-button style="width:90%;height:38px; margin-top:10px;" type="hollow" @click.native="getPrintUnloadPond(purchase.id, '收银台')">打印【过磅单】到【收银台】</yd-button>
+            <yd-button style="width:90%;height:38px; margin: 20px 0 20px" type="warning" @click.native="showStoresclick()">>>> 请选择油仓 <<<</yd-button>
             <yd-cell-group :title="ts.name" v-for="ts in purchase.toStoresList" :key="ts.id">
                 <yd-cell-item>
-                    <span slot="left">表前数：</span>
+                    <span slot="left">表数（卸油前）：</span>
                     <yd-input slot="right" required type="number" v-model="ts.instrumentBf"></yd-input>
                 </yd-cell-item>
                 <yd-cell-item>
-                    <span slot="left">表后数：</span>
+                    <span slot="left">表数（卸油后）：</span>
                     <yd-input slot="right" required type="number" v-model="ts.instrumentAf"></yd-input>
                 </yd-cell-item>
                 <yd-cell-item>
@@ -105,14 +108,12 @@
                 </yd-cell-item>
             </yd-cell-group>
             <yd-button style="width:90%;height:38px; margin-top:20px;" type="primary" @click.native="currStep -= 1">上一步：空车过磅</yd-button>
-            <yd-button style="width:90%;height:38px; margin-top:20px;" type="primary" @click.native="toStoresOKclick" :disabled="isPrevent2">下一步：完工</yd-button>
-            <yd-button style="width:90%;height:38px; margin-top:40px;" type="danger" @click.native="getPrintUnloadPond(purchase.id, '地磅室')">打印【过磅单】到【地磅室】</yd-button>
-            <yd-button style="width:90%;height:38px; margin-top:20px;" type="danger" @click.native="getPrintUnloadPond(purchase.id, '收银台')">打印【过磅单】到【收银台】</yd-button>
+            <yd-button style="width:90%;height:38px; margin-top:20px;" type="primary" @click.native="toStoresOKclick" :disabled="!isFinish()">下一步：完工</yd-button>
         </div>
         <!--打印-->
         <div class="center" v-show="currStep == 5">
-            <yd-button style="width:90%;height:38px" type="danger" @click.native="getPrintUnload(purchase.id, '收银台');">打印到【收银台】</yd-button>
-            <yd-button class="mtop10" style="width:90%;height:38px" type="danger" @click.native="getPrintUnload(purchase.id, '地磅室')">打印到【地磅室】</yd-button>
+            <yd-button style="width:90%;height:38px" type="hollow" @click.native="getPrintUnload(purchase.id, '收银台');">打印到【收银台】</yd-button>
+            <yd-button class="mtop10" style="width:90%;height:38px" type="hollow" @click.native="getPrintUnload(purchase.id, '地磅室')">打印到【地磅室】</yd-button>
         </div>
         <!--施工明细-->
         <yd-cell-group title="施工明细" v-show="currStep == 5" class="mtop20">

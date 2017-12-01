@@ -20,9 +20,7 @@ namespace MFS.Controllers
         public StoreController(StoreRepository repository, IOptionsSnapshot<WorkOption> option)
         {
             r = repository;
-            //获取 系统设置 企业微信应用的AccessToken
             this.option = option.Value;
-            this.option.系统设置AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.系统设置Secret);
         }
         #region GET操作
         [HttpGet]
@@ -75,6 +73,7 @@ namespace MFS.Controllers
             if (r.Has(s => s.Name == model.Name)) return new ResultJSON<Store> { Code = 0, Msg = "操作失败，已存在" + model.Name };
             r.CurrentUser = UserName;
             //推送到“系统设置”
+            this.option.系统设置AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.系统设置Secret);
             MassApi.SendTextCard(option.系统设置AccessToken, option.系统设置AgentId, $"{UserName}新增了{model.Name}"
                      , $"<div class=\"gray\">时间：{DateTime.Now.ToString("yyyy-MM-dd hh:mm")}</div>"
                      , "https://vue.car0774.com/#/oilstore/store", toUser: "@all");
@@ -121,6 +120,7 @@ namespace MFS.Controllers
         {
             r.CurrentUser = UserName;
             //推送到“系统设置”
+            this.option.系统设置AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.系统设置Secret);
             MassApi.SendTextCard(option.系统设置AccessToken, option.系统设置AgentId, $"{UserName}修改了{model.Name}"
                      , $"<div class=\"gray\">时间：{DateTime.Now.ToString("yyyy-MM-dd hh:mm")}</div>"
                      , "https://vue.car0774.com/#/oilstore/store", toUser: "@all");

@@ -9,7 +9,6 @@ export default class UnloadComponent extends ComponentBase {
     showPurchases: boolean = false;
     showStores: boolean = false;
     currStep: number = 0;
-    isPrevent2: boolean = true;//控制选择油仓下一步的标识
     isScaleUpload: boolean = false;
     isScaleWithCarUpload: boolean = false;
     store: server.store;
@@ -98,9 +97,19 @@ export default class UnloadComponent extends ComponentBase {
 
     showStoresclick() {
         this.showStores = true;
-        this.purchase.toStoresList.forEach((tst) => {
-            this.selectedStIds.push(tst.id)
-        });
+        this.selectedStIds = new Array();
+        if (this.purchase.toStoresList) {
+            this.purchase.toStoresList.forEach((tst) => {
+                this.selectedStIds.push(tst.id)
+            });
+        }
+    }
+
+    isFinish() {
+        if (this.purchase.toStoresList && this.purchase.toStoresList.length > 0)
+            return true;
+        else
+            return false;
     }
 
     storeOKclick() {
@@ -118,9 +127,7 @@ export default class UnloadComponent extends ComponentBase {
                 }   
             });
         });
-
-        //释放下一步提交按钮
-        this.isPrevent2 = false;
+        
         this.showStores = false;
     }
 
@@ -154,7 +161,7 @@ export default class UnloadComponent extends ComponentBase {
 
                 if (this.purchase.scale == 0 || !this.purchase.scale) { this.toastError("磅秤数据不能为空或0"); return; };
                 if (!this.purchase.scalePic) { this.toastError("请上传空车过磅数据图片"); return; };
-                if (this.purchase.scaleWithCar <= this.purchase.scale) { this.toastError("皮重应小于毛重！"); return; };
+                if (this.purchase.scaleWithCar <= this.purchase.scale) { this.toastError("皮重应小于毛重"); return; };
                 break;
             case 4:
                 nextState = server.unloadState.完工;

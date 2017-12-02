@@ -46,6 +46,8 @@ namespace MFS.Models
             }
         }
         public bool IsUse { get; set; } = true;
+        [NotMapped]
+        public string StoreTypeName { get; set; }
         public int StoreTypeId { get; set; }
         [JsonIgnore, ForeignKey("StoreTypeId")]
         public virtual StoreType StoreType { get; set; }

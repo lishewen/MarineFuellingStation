@@ -15,7 +15,7 @@
                     <yd-infinitescroll :callback="loadList" ref="infinitescroll">
                         <yd-cell-item slot="list" v-for="i in inAndOutLogs" :key="i.id">
                             <div slot="left" class="lineheight24" style="margin: 10px 0 10px 0">
-                                <p><span :class="classState(i.type)">{{getType(i.type)}}</span><span> 【{{getSttName(i.store)}}】 - {{i.store == null? "" : i.store.name}}</span></p>
+                                <p><span :class="classState(i.type)">{{getType(i.type)}}</span><span> 【{{i.store.storeTypeName}}】 - {{i.store == null? "" : i.store.name}}</span></p>
                                 <p class="col-light-gray font12">{{i.operators}}</p>
                                 <p class="col-light-gray font12">{{formatDate(i.createdAt)}}</p>
                             </div>
@@ -35,7 +35,7 @@
                     <yd-infinitescroll :callback="loadList" ref="infinitescroll1">
                         <yd-cell-item slot="list" v-for="i in outLogs" :key="i.id">
                             <div slot="left" class="lineheight24" style="margin: 10px 0 10px 0">
-                                <p><span :class="classState(i.type)">{{getType(i.type)}}</span><span> 【{{getSttName(i.store)}}】 - {{i.store == null? "" : i.store.name}}</span></p>
+                                <p><span :class="classState(i.type)">{{getType(i.type)}}</span><span> 【{{i.store.storeTypeName}}】 - {{i.store == null? "" : i.store.name}}</span></p>
                                 <p class="col-light-gray font12">{{i.operators}}</p>
                                 <p class="col-light-gray font12">{{formatDate(i.createAt)}}</p>
                             </div>
@@ -56,7 +56,7 @@
                         <yd-cell-item slot="list" v-for="i in inLogs" :key="i.id">
                             <div slot="left" style="line-height: 22px;margin: 10px 0 10px 0">
                                 <p>
-                                    <span :class="classState(i.type)">{{getType(i.type)}}</span><span> 【{{getSttName(i.store)}}】 - {{i.store == null? "" : i.store.name}}</span>
+                                    <span :class="classState(i.type)">{{getType(i.type)}}</span><span> 【{{i.store.storeTypeName}}】 - {{i.store == null? "" : i.store.name}}</span>
                                 </p>
                                 <p class="col-light-gray font12">{{i.operators}}</p>
                                 <p class="col-light-gray font12">{{formatDate(i.createAt)}}</p>

@@ -21,8 +21,7 @@ export default class InAndOutLogComponent extends ComponentBase {
         this.inLogs = new Array<server.inAndOutLog>();
         this.outLogs = new Array<server.inAndOutLog>();
         this.storeTypes = new Array<server.storeType>();
-
-        this.getStoreTypes();
+        
         this.getInAndOutLogs();
     }
 
@@ -31,18 +30,6 @@ export default class InAndOutLogComponent extends ComponentBase {
             return "入仓"
         else
             return "出仓"
-    }
-
-    getSttName(st: server.store) {
-        let sttName = "";
-        if (st != null) {
-            this.storeTypes.forEach((stt, idx) => {
-                if (stt.id == st.storeTypeId) {
-                    sttName = stt.name
-                }
-            })
-        }
-        return sttName;
     }
 
     classState(t: server.logType): any {
@@ -134,20 +121,13 @@ export default class InAndOutLogComponent extends ComponentBase {
                         case server.logType.入仓:
                             this.inLogs = jobj.data;
                             break;
+                        default:
+                            this.inAndOutLogs = jobj.data;
+                            break;
                     }
                     this.page++;
                 }
             }
         });
     }
-
-    getStoreTypes() {
-        axios.get('/api/StoreType').then((res) => {
-            let jobj = res.data as server.resultJSON<server.storeType[]>;
-            if (jobj.code == 0) {
-                this.storeTypes = jobj.data;
-            }
-        });
-    }
-    
 }

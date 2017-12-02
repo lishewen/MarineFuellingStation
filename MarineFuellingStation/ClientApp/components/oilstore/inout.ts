@@ -21,7 +21,8 @@ export default class InAndOutLogComponent extends ComponentBase {
         this.inLogs = new Array<server.inAndOutLog>();
         this.outLogs = new Array<server.inAndOutLog>();
         this.storeTypes = new Array<server.storeType>();
-        
+
+        this.logType = server.logType.全部;
         this.getInAndOutLogs();
     }
 
@@ -72,15 +73,15 @@ export default class InAndOutLogComponent extends ComponentBase {
             switch (this.logType) {
                 case server.logType.全部:
                     this.inAndOutLogs = this.page > 1 ? [...this.inAndOutLogs, ...list] : this.inAndOutLogs;
-                    this.scrollRef = (<any>this).$refs.infinitescroll;
+                    this.scrollRef = this.$refs.infinitescroll;
                     break;
                 case server.logType.出仓:
                     this.outLogs = this.page > 1 ? [...this.outLogs, ...list] : this.outLogs;
-                    this.scrollRef = (<any>this).$refs.infinitescroll1;
+                    this.scrollRef = this.$refs.infinitescroll1;
                     break;
                 case server.logType.入仓:
                     this.inLogs = this.page > 1 ? [...this.inLogs, ...list] : this.inLogs;
-                    this.scrollRef = (<any>this).$refs.infinitescroll2;
+                    this.scrollRef = this.$refs.infinitescroll2;
                     break;
             }
             if (list.length < this.pSize) {
@@ -120,9 +121,6 @@ export default class InAndOutLogComponent extends ComponentBase {
                             break;
                         case server.logType.入仓:
                             this.inLogs = jobj.data;
-                            break;
-                        default:
-                            this.inAndOutLogs = jobj.data;
                             break;
                     }
                     this.page++;

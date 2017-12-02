@@ -102,7 +102,7 @@ namespace MFS.Controllers
                      $"<div class=\"normal\">施工人：{result.LastUpdatedBy}</div>" +
                      $"<div class=\"normal\">转出：{result.OutStoreName} - {result.OutFact}升</div>" +
                      $"<div class=\"normal\">转入：{result.InStoreName} - {result.InFact}升</div>"
-                     , $"https://vue.car0774.com/#/sales/order/{result.Id}/order", toUser: "@all");
+                     , $"https://vue.car0774.com/#/oilstore/inout", toUser: "@all");
 
             return new ResultJSON<MoveStore>
             {

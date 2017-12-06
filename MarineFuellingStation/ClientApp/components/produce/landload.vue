@@ -1,12 +1,7 @@
-﻿<style>
-    .center {
-        text-align: center;
-    }
-</style>
-<template>
+﻿<template>
     <div id="root">
         <div class="align-center first-group">
-            <yd-button style="width:90%" type="primary" @click.native="showOrdersclick">销售单{{order.name? '：' + order.name + ' / ' + order.count + order.unit : ''}}</yd-button>
+            <yd-button style="width:90%;height:38px" type="primary" @click.native="showOrdersclick">销售单{{order.name? '：' + order.name + ' / ' + order.count + order.unit : ''}}</yd-button>
         </div>
         <yd-step :current="currStep" style="margin: .4rem 0 .4rem">
             <yd-step-item>
@@ -26,11 +21,11 @@
             </yd-step-item>
         </yd-step>
         <!--1-选择油仓-->
-        <div class="center" v-show="currStep == 1">
-            <yd-button style="width:90%" type="primary" @click.native="showStores = true">选择销售仓</yd-button>
+        <div class="align-center" v-show="currStep == 1">
+            <yd-button style="width:90%;height: 38px" type="primary" @click.native="showStores = true">第一步：选择销售仓</yd-button>
         </div>
         <!--2-空车过磅-->
-        <yd-cell-group title="空车过磅" v-show="currStep == 2">
+        <yd-cell-group title="第二步：空车过磅 称皮重" v-show="currStep == 2">
             <yd-cell-item>
                 <span slot="left">测量密度：</span>
                 <yd-input slot="right" v-model="order.density" type="number" required placeholder="请输入测量密度"></yd-input>
@@ -42,12 +37,12 @@
             </yd-cell-item>
             <yd-cell-item>
                 <span slot="left">图片上传：</span>
-                <input slot="left" type="file" value="选择图片" accept="image/png,image/gif,image/jpeg" @change="uploadfile" />
+                <label slot="right" class="input-file"><input title="浏览文件" type="file" accept="image/png,image/gif,image/jpeg" @change="uploadfile" />选择图片…</label>
             </yd-cell-item>
         </yd-cell-group>
-        <div class="center" v-show="currStep == 2">
-            <yd-button style="width:90%;margin-top: 30px;" type="primary" @click.native="currStep -= 1">← 上一步：选择销售仓</yd-button>
-            <yd-button style="width:90%;margin-top: 10px;" type="primary" @click.native="changeState(3)">下一步：加油 →</yd-button>
+        <div class="align-center" v-show="currStep == 2">
+            <yd-button style="width:90%;height:38px;margin-top: 20px;" type="primary" @click.native="currStep -= 1">← 上一步：选择销售仓</yd-button>
+            <yd-button style="width:90%;height:38px;margin-top: 20px;" type="primary" @click.native="changeState(3)">下一步：加油 →</yd-button>
         </div>
         <div class="align-center first-group" v-show="currStep == 2">
             <yd-lightbox class="img-wrap">
@@ -55,32 +50,37 @@
             </yd-lightbox>
         </div>
         <!--3-加油-->
-        <div class="center" v-show="currStep == 3">
-            <yd-cell-item>
-                <span slot="left">表数（加油前）：</span>
-                <yd-input slot="right" v-model="lastorder.instrument1" type="number" required placeholder="请输入"></yd-input>
-            </yd-cell-item>
-            <yd-cell-item>
-                <span slot="left">表数（加油后）：</span>
-                <yd-input slot="right" v-model="order.instrument1" type="number" required placeholder="请输入"></yd-input>
-            </yd-cell-item>
-            <yd-cell-item>
-                <span slot="right">油量：{{order.oilCountLitre}}升</span>
-            </yd-cell-item>
-            <!--应客户要求，暂时只有一个加油表-->
-            <!--<yd-cell-item>
-                <span slot="left">加油后表数2：</span>
-                <yd-input slot="right" v-model="order.instrument2" type="number" required placeholder="请输入装油表数2"></yd-input>
-            </yd-cell-item>
-            <yd-cell-item>
-                <span slot="left">加油后表数3：</span>
-                <yd-input slot="right" v-model="order.instrument3" type="number" required placeholder="请输入装油表数3"></yd-input>
-            </yd-cell-item>-->
-            <yd-button style="width:90%;margin-top: 30px;" type="primary" @click.native="currStep -= 1">← 上一步：空车过磅</yd-button>
-            <yd-button style="width:90%;margin-top: 10px;" type="primary" @click.native="changeState(4)">下一步：油车过磅 →</yd-button>
+        <div class="align-center" v-show="currStep == 3">
+            <yd-cell-group title="第三步：加油">
+                <yd-cell-item>
+                    <span slot="left">表数（加油前）：</span>
+                    <yd-input slot="right" v-model="lastorder.instrument1" type="number" required placeholder="请输入"></yd-input>
+                </yd-cell-item>
+                <yd-cell-item>
+                    <span slot="left">表数（加油后）：</span>
+                    <yd-input slot="right" v-model="order.instrument1" type="number" required placeholder="请输入"></yd-input>
+                </yd-cell-item>
+                <yd-cell-item>
+                    <span slot="right">油量：{{order.oilCountLitre}}升</span>
+                </yd-cell-item>
+                <!--应客户要求，暂时只有一个加油表-->
+                <!--<yd-cell-item>
+                    <span slot="left">加油后表数2：</span>
+                    <yd-input slot="right" v-model="order.instrument2" type="number" required placeholder="请输入装油表数2"></yd-input>
+                </yd-cell-item>
+                <yd-cell-item>
+                    <span slot="left">加油后表数3：</span>
+                    <yd-input slot="right" v-model="order.instrument3" type="number" required placeholder="请输入装油表数3"></yd-input>
+                </yd-cell-item>-->
+            </yd-cell-group>
+            <yd-button style="width:90%;height:38px;margin-top: 20px;" type="primary" @click.native="currStep -= 1">← 上一步：空车过磅</yd-button>
+            <yd-button style="width:90%;height:38px;margin-top: 20px;" type="primary" @click.native="changeState(4)">下一步：油车过磅 →</yd-button>
         </div>
         <!--4-油车过磅-->
-        <yd-cell-group title="油车过磅" v-show="currStep == 4">
+        <yd-cell-group title="第四步：油车过磅" v-show="currStep == 4">
+            <yd-cell-item>
+                <span slot="right">皮重：{{order.emptyCarWeight}}吨</span>
+            </yd-cell-item>
             <yd-cell-item>
                 <span slot="left">毛重：</span>
                 <yd-input slot="right" v-model="order.oilCarWeight" type="number" required placeholder="请输入磅秤数"></yd-input>
@@ -88,12 +88,12 @@
             </yd-cell-item>
             <yd-cell-item>
                 <span slot="left">图片上传：</span>
-                <input slot="left" type="file" value="选择图片" accept="image/png,image/gif,image/jpeg" @change="uploadfile" />
+                <label slot="right" class="input-file"><input title="浏览文件" type="file" accept="image/png,image/gif,image/jpeg" @change="uploadfile" />选择图片…</label>
             </yd-cell-item>
         </yd-cell-group>
-        <div class="center" v-show="currStep == 4">
-            <yd-button style="width:90%;margin-top: 30px;" type="primary" @click.native="currStep -= 1">← 上一步：加油</yd-button>
-            <yd-button style="width:90%;margin-top: 10px;" type="primary" @click.native="changeState(5)">下一步：完工 →</yd-button>
+        <div class="align-center" v-show="currStep == 4">
+            <yd-button style="width:90%;height:38px;margin-top: 20px;" type="primary" @click.native="currStep -= 1">← 上一步：加油</yd-button>
+            <yd-button style="width:90%;height:38px;margin-top: 20px;" type="primary" @click.native="changeState(5)">下一步：完工 →</yd-button>
         </div>
         <div class="align-center first-group" v-show="currStep == 4">
             <yd-lightbox class="img-wrap">
@@ -101,8 +101,8 @@
             </yd-lightbox>
         </div>        
         <!--打印-->
-        <div class="center" v-show="currStep == 5">
-            <yd-button style="width:90%" type="primary" @click.native="printToDBclick()">打印到【地磅室】</yd-button>
+        <div class="align-center" v-show="currStep == 5">
+            <yd-button style="width:90%" type="hollow" @click.native="printToDBclick()">打印到【地磅室】</yd-button>
         </div>
         <!--施工明细-->
         <div v-show="currStep == 5" class="mtop20">
@@ -122,22 +122,6 @@
                 <yd-cell-item>
                     <span slot="left">净重：</span>
                     <span slot="right">{{order.diffWeight}}{{order.unit}}</span>
-                </yd-cell-item>
-                <yd-cell-item>
-                    <div slot="left">毛重图片：</div>
-                    <div slot="right">
-                        <yd-lightbox class="img-wrap">
-                            <yd-lightbox-img :src="order.oilCarWeightPic"></yd-lightbox-img>
-                        </yd-lightbox>
-                    </div>
-                </yd-cell-item>
-                <yd-cell-item>
-                    <div slot="left">皮重图片：</div>
-                    <div slot="right">
-                        <yd-lightbox class="img-wrap">
-                            <yd-lightbox-img :src="order.emptyCarWeightPic"></yd-lightbox-img>
-                        </yd-lightbox>
-                    </div>
                 </yd-cell-item>
             </yd-cell-group>
             <yd-cell-group title="油表明细">
@@ -165,9 +149,17 @@
                     <span slot="left">施工人：</span>
                     <span slot="right">{{order.worker}}</span>
                 </yd-cell-item>
+                <yd-cell-item>
+                    <div slot="left">毛重图片：</div>
+                    <div slot="right"><div class="img-wrap"><img :src="this.order.oilCarWeightPic" /></div></div>
+                </yd-cell-item>
+                <yd-cell-item>
+                    <div slot="left">皮重图片：</div>
+                    <div slot="right"><div class="img-wrap"><img :src="this.order.emptyCarWeightPic" /></div></div>
+                </yd-cell-item>
             </yd-cell-group>
-            <div class="center" v-show="currStep == 5">
-                <yd-button style="width:90%" type="primary" @click.native="putRestart">重新施工</yd-button>
+            <div class="align-center" v-show="currStep == 5">
+                <yd-button class="mtop20" style="width:90%;height:38px" type="primary" @click.native="putRestart">重新施工</yd-button>
             </div>
         </div>
         <!--popup订单选择-->

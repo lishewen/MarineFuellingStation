@@ -121,7 +121,7 @@
                 </yd-flexbox>
             </div>
             <div class="align-center first-group">
-                <yd-button style="width:80%" type="primary" @click.native="saveWage">保存</yd-button>
+                <yd-button size="large" type="primary" @click.native="saveWage">保存</yd-button>
             </div>
         </yd-popup>
         <yd-popup v-model="departshow" position="right" width="70%">
@@ -132,7 +132,7 @@
                 </yd-cell-item>
             </yd-cell-group>
             <div class="align-center">
-                <yd-button style="width:80%" type="primary" @click.native="clickDepart">提交</yd-button>
+                <yd-button size="large" type="primary" @click.native="clickDepart">提交</yd-button>
             </div>
         </yd-popup>
     </div>

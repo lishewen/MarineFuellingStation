@@ -51,8 +51,8 @@
                     </yd-cell-item>
                 </yd-cell-group>
                 <div class="align-center">
-                    <yd-button v-show="isAddStore" style="width:90%" type="primary" @click.native="addStoreclick">提交</yd-button>
-                    <yd-button v-show="!isAddStore" style="width:90%" type="primary" @click.native="saveStoreclick">保存</yd-button>
+                    <yd-button v-show="isAddStore" size="large" type="primary" @click.native="addStoreclick">提交</yd-button>
+                    <yd-button v-show="!isAddStore" size="large" type="primary" @click.native="saveStoreclick">保存</yd-button>
                 </div>
             </yd-tab-panel>
         </yd-tab>
@@ -66,7 +66,7 @@
                 </yd-cell-item>
             </yd-cell-group>
             <div class="align-center">
-                <yd-button style="width:80%" type="primary" @click.native="editStoreTypeclick">编辑分类</yd-button>
+                <yd-button size="large" type="primary" @click.native="editStoreTypeclick">编辑分类</yd-button>
             </div>
         </yd-popup>
         <yd-popup v-model="newstshow" position="right" width="70%">
@@ -77,8 +77,8 @@
                 </yd-cell-item>
             </yd-cell-group>
             <div class="align-center">
-                <yd-button v-show="isAddStoreType" style="width:80%" type="primary" @click.native="postStoreType">提交</yd-button>
-                <yd-button v-show="!isAddStoreType" style="width:80%" type="primary" @click.native="saveStoreTypeclick">保存</yd-button>
+                <yd-button v-show="isAddStoreType" size="large" type="primary" @click.native="postStoreType">提交</yd-button>
+                <yd-button v-show="!isAddStoreType" size="large" type="primary" @click.native="saveStoreTypeclick">保存</yd-button>
             </div>
         </yd-popup>
     </div>

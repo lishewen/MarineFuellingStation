@@ -61,6 +61,9 @@
         </yd-cell-group>
 
         <yd-cell-group title="代号信息" v-show="model.isInvoice">
+            <yd-cell-item v-show="model.isInvoice">
+                <span slot="right">{{getTicketType(model.ticketType)}}</span>
+            </yd-cell-item>
             <yd-cell-item>
                 <span slot="left">单位：</span>
                 <span slot="right">{{model.billingCompany}}</span>

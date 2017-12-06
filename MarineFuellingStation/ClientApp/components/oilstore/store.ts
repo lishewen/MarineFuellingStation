@@ -201,7 +201,6 @@ export default class StoreComponent extends ComponentBase {
     };
 
     change(label: string, tabkey: string) {
-        this.$emit('setTitle', this.$store.state.username + ' ' + label);
         if (label == '添加') {
             this.model = (new Object()) as server.store;
             this.model.name = '';

@@ -1,6 +1,6 @@
 ﻿<template>
     <div id="root">
-        <yd-tab :change="change">
+        <yd-tab :callback="change">
             <yd-tab-panel label="化验录入">
                 <yd-cell-group :title="'单号：' + model.name">
                     <yd-cell-item>
@@ -140,16 +140,22 @@
             <yd-tab-panel label="记录">
                 <yd-search v-model="sv" />
                 <yd-cell-group>
-                    <yd-cell-item arrow v-for="s in list" :key="s.id" @click.native="assayclick(s)">
-                        <div slot="left">
-                            <p>{{s.name}}</p>
-                            <p class="col-light-gray">{{s.assayer}}</p>
-                        </div>
-                        <div slot="right" style="text-align: left;margin-right: 5px">
-                            <p v-show="s.assayType == 0" style="color:darkgreen">{{s.store == null?"":s.store.name}}仓</p>
-                            <p v-show="s.assayType == 1" style="color:lightcoral">{{s.purchase == null?"":s.purchase.carNo}} / {{s.purchase == null?"":s.purchase.count}}吨</p>
-                        </div>
-                    </yd-cell-item>
+                    <yd-infinitescroll :callback="loadList" ref="infinitescroll">
+                        <yd-cell-item slot="list" arrow v-for="s in assays" :key="s.id" @click.native="assayclick(s)">
+                            <div slot="left">
+                                <p>{{s.name}}</p>
+                                <p class="col-light-gray">{{s.assayer}}</p>
+                            </div>
+                            <div slot="right" style="text-align: left;margin-right: 5px">
+                                <p v-show="s.assayType == 0" style="color:darkgreen">{{s.store == null?"":s.store.name}}仓</p>
+                                <p v-show="s.assayType == 1" style="color:lightcoral">{{s.purchase == null?"":s.purchase.carNo}} / {{s.purchase == null?"":s.purchase.count}}吨</p>
+                            </div>
+                        </yd-cell-item>
+                        <!-- 数据全部加载完毕显示 -->
+                        <span slot="doneTip">没有数据啦~~</span>
+                        <!-- 加载中提示，不指定，将显示默认加载中图标 -->
+                        <img slot="loadingTip" src="http://static.ydcss.com/uploads/ydui/loading/loading10.svg" />
+                    </yd-infinitescroll>
                 </yd-cell-group>
             </yd-tab-panel>
         </yd-tab>
@@ -162,7 +168,7 @@
                         <p>{{p.carNo}}</p>
                         <p class="col-light-gray">{{p.name}}</p>
                     </div>
-                    <div slot="right" class="col-light-gray">{{p.count}}吨</div>
+                    <div slot="right" class="col-light-gray">{{p.count}}吨 / {{p.product.name}}</div>
                 </yd-cell-item>
             </yd-cell-group>
         </yd-popup>

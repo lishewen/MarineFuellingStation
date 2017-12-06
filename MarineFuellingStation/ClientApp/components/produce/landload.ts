@@ -62,47 +62,24 @@ export default class LandloadComponent extends ComponentBase {
     }
 
     changeState(nextState: server.orderState) {
-        if (this.currStep == 2) {
-            if (this.order.emptyCarWeight == 0 || this.order.emptyCarWeight == null) {
-                this.toastError("磅秤数据不能为空或0")
-                return;
-            }
-            if (!this.order.emptyCarWeightPic) {
-                this.toastError("请上传空车过磅数据图片");
-                return;
-            }
-        }
-        if (this.currStep == 3) {
-            if (this.lastorder.instrument1 <= 0) {
-                this.toastError("请填写加油前表数");
-                return;
-            }
-            if (this.order.instrument1 <= 0) {
-                this.toastError("请填写加油后表数1");
-                return;
-            }
-            if (this.order.oilCountLitre <= 0) {
-                this.toastError("加油后表数应大于加油前表数");
-                return;
-            }
-            //if (this.order.instrument2 <= 0) {
-            //    this.toastError("请填写表数2");
-            //    return;
-            //}
-            //if (this.order.instrument3 <= 0) {
-            //    this.toastError("请填写表数3");
-            //    return;
-            //}
-        }
-        if (this.currStep == 4) {
-            if (this.order.oilCarWeight == 0 || this.order.oilCarWeight == null) {
-                this.toastError("磅秤数据不能为空或0")
-                return;
-            }
-            if (!this.order.oilCarWeightPic) {
-                this.toastError("请上传油车过磅数据图片");
-                return;
-            }
+        console.log(this.currStep);
+        switch (this.currStep) {
+            case 2:
+                if (this.order.emptyCarWeight == 0 || this.order.emptyCarWeight == null) { this.toastError("磅秤数据不能为空或0"); return;}
+                if (!this.order.emptyCarWeightPic) { this.toastError("请上传空车过磅数据图片"); return;}
+                break;
+            case 3:
+                if (this.lastorder.instrument1 <= 0) { this.toastError("请填写加油前表数"); return;}
+                if (this.order.instrument1 <= 0) { this.toastError("请填写加油后表数1"); return;}
+                if (this.order.oilCountLitre <= 0) { this.toastError("加油后表数应大于加油前表数"); return;}
+                break;
+            case 4:
+                if (this.order.oilCarWeight == 0 || this.order.oilCarWeight == null) { this.toastError("磅秤数不能为空或0"); return;}
+                if (!this.order.oilCarWeightPic) { this.toastError("请上传油车过磅数据图片"); return;}
+                break;
+            case 5:
+                if (this.order.oilCarWeight <= this.order.emptyCarWeight) { this.toastError("皮重应小于毛重"); return;}
+                break;
         }
         this.putState(nextState);
     }
@@ -147,7 +124,7 @@ export default class LandloadComponent extends ComponentBase {
 
     change(label: string, tabkey: string) {
         console.log(label);
-        this.$emit('setTitle', this.$store.state.username + ' ' + label);
+        
     }
 
     getOrders(toPage?: number) {

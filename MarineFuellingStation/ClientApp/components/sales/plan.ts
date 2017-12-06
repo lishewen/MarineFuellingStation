@@ -54,6 +54,7 @@ export default class PlanComponent extends ComponentBase {
         this.model.oilName = '请选择油品';
         this.model.isPrintPrice = true;
         this.model.deliverMoney = 0;
+        this.model.salesPlanType = server.salesPlanType.水上;
 
         this.oildate = this.formatDate(this.model.oilDate);
 
@@ -71,13 +72,15 @@ export default class PlanComponent extends ComponentBase {
     }
 
     mounted() {
+        console.log(this.model);
         //透过路由获取参数iswaterdept
         let iswaterdept = this.$route.params.iswaterdept;
         this.isWaterDept = iswaterdept == "forland" ? false : true;
 
         this.model.salesPlanType = this.isWaterDept ? server.salesPlanType.水上 : server.salesPlanType.陆上;
 
-        this.$emit('setTitle', this.username + ' 销售计划');
+        let strType = this.isWaterDept ? ' 水上' : ' 陆上';
+        this.$emit('setTitle', this.username + strType + '计划');
         this.isLeader = this.$store.state.isLeader;
 
         this.$watch('model.price', (v, ov) => {this.model.billingPrice = v;});
@@ -95,8 +98,6 @@ export default class PlanComponent extends ComponentBase {
     };
 
     change(label: string, tabkey: string) {
-        this.$emit('setTitle', this.username + ' ' + label);
-
         (<any>this).$refs.infinitescroll.$emit('ydui.infinitescroll.reInit');
         this.salesplans = null;
         this.page = 1;

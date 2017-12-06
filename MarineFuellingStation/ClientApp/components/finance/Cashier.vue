@@ -8,7 +8,7 @@
                         <yd-cell-item slot="list" arrow @click.native="orderclick(o)" v-for="o in readypayorders" :key="o.id">
                             <div slot="left">
                                 <p class="font16">{{o.carNo}}</p>
-                                <p class="font16 col-light-gray">{{o.name}}</p>
+                                <p class="font14 col-light-gray">{{o.name}}</p>
                                 <p class="col-light-gray" v-show="o.client != null">{{strCompanyName(o)}}</p>
                             </div>
                             <div slot="right" class="align-right lineheight24 cell-padding">
@@ -36,7 +36,7 @@
                                 <p class="col-light-gray font14">{{o.name}}</p>
                             </div>
                             <div slot="right" class="align-right lineheight24" style="margin:10px 5px 10px 0px">
-                                <p class="col-gray font14">￥{{o.totalMoney}}</p>
+                                <p class="col-gray font16">￥{{o.totalMoney}}</p>
                                 <p class="col-light-gray font14">{{o.product.name}} / {{o.count}}{{o.unit}} / {{o.price}}</p>
                             </div>
                         </yd-cell-item>
@@ -60,7 +60,7 @@
                             </div>
                             <div slot="right" class="align-right lineheight24" style="margin:10px 5px 10px 0px">
                                 <p class="col-gray font14">￥{{o.totalMoney}}</p>
-                                <p class="col-green font14">{{getDiff(o.createdAt)}}</p>
+                                <p class="col-green font16">{{getDiffDate(o.createdAt, 'day')}}</p>
                                 <p class="col-light-gray font14">{{o.product.name}} / {{o.count}}{{o.unit}} / {{o.price}}</p>
                             </div>
                         </yd-cell-item>
@@ -155,18 +155,13 @@
                     <span slot="right">元</span>
                 </yd-cell-item>
                 <yd-cell-item v-show="showInputs[3]">
-                    <span slot="left">刷卡一：</span>
+                    <span slot="left">桂行刷卡：</span>
                     <yd-input slot="right" v-model="orderPayMoneys[3]"></yd-input>
                     <span slot="right">元</span>
                 </yd-cell-item>
                 <yd-cell-item v-show="showInputs[4]">
-                    <span slot="left">刷卡二：</span>
+                    <span slot="left">工行刷卡：</span>
                     <yd-input slot="right" v-model="orderPayMoneys[4]" placeholder=""></yd-input>
-                    <span slot="right">元</span>
-                </yd-cell-item>
-                <yd-cell-item v-show="showInputs[5]">
-                    <span slot="left">刷卡三：</span>
-                    <yd-input slot="right" v-model="orderPayMoneys[5]" placeholder=""></yd-input>
                     <span slot="right">元</span>
                 </yd-cell-item>
                 <yd-cell-item v-show="showInputs[6]">
@@ -181,16 +176,16 @@
                 </yd-cell-item>
             </yd-cell-group>
             <div class="align-center">
-                <yd-button style="width:80%" type="warning" @click.native="nextclick()" v-show="lastshow">下一步</yd-button>
+                <yd-button size="large" type="warning" @click.native="nextclick()" v-show="lastshow">下一步</yd-button>
             </div>
             <div class="align-center">
-                <yd-button style="width:80%;margin-top:10px" type="primary" v-show="lastshow" @click.native="putPayOnCredit()">挂账</yd-button>
+                <yd-button size="large" type="primary" v-show="lastshow" @click.native="putPayOnCredit()">挂账</yd-button>
             </div>
             <div class="align-center">
-                <yd-button style="width:80%" type="warning" @click.native="lastclick()" v-show="!lastshow">上一步</yd-button>
+                <yd-button size="large" type="warning" @click.native="lastclick()" v-show="!lastshow">上一步</yd-button>
             </div>
             <div class="align-center">
-                <yd-button style="width:80%;margin-top:10px" type="primary" @click.native="validateMoney()" v-show="!lastshow" :disabled ="payInfact - selectedOrder.totalMoney < 0">结账</yd-button>
+                <yd-button size="large" type="primary" @click.native="validateMoney()" v-show="!lastshow" :disabled ="payInfact - selectedOrder.totalMoney < 0">结账</yd-button>
             </div>
         </yd-popup>
         <!--popup充值-->
@@ -207,9 +202,8 @@
                         <option value="0">现金</option>
                         <option value="1">微信</option>
                         <option value="2">支付宝</option>
-                        <option value="3">刷卡一</option>
-                        <option value="4">刷卡二</option>
-                        <option value="5">刷卡三</option>
+                        <option value="3">桂行刷卡</option>
+                        <option value="4">工行刷卡</option>
                     </select>
                 </yd-cell-item>
                 <yd-cell-item>

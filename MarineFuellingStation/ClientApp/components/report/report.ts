@@ -12,6 +12,5 @@ export default class PlanComponent extends Vue {
 
     change(label: string, tabkey: string) {
         console.log(label);
-        this.$emit('setTitle', this.$store.state.username + ' ' + label);
     }
 }

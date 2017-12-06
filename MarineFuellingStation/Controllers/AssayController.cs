@@ -4,6 +4,7 @@ using MFS.Models;
 using MFS.Repositorys;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -72,12 +73,12 @@ namespace MFS.Controllers
             };
         }
         [HttpGet("[action]")]
-        public ResultJSON<List<Assay>> GetWithStANDPur()
+        public ResultJSON<List<Assay>> GetByPager(int page, int pageSize)
         {
             return new ResultJSON<List<Assay>>
             {
                 Code = 0,
-                Data = r.GetAllWithStANDPur().OrderByDescending(a => a.Id).ToList()
+                Data = r.LoadPageList(page, pageSize, out int rowCount).Include(a => a.Store).Include(a => a.Purchase).OrderByDescending(a => a.Id).ToList()
             };
         }
         [HttpGet("[action]/{sId}")]

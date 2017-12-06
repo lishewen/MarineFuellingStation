@@ -22,7 +22,7 @@ export default class InAndOutLogComponent extends ComponentBase {
         this.outLogs = new Array<server.inAndOutLog>();
         this.storeTypes = new Array<server.storeType>();
 
-        this.getStoreTypes();
+        this.logType = server.logType.全部;
         this.getInAndOutLogs();
     }
 
@@ -31,18 +31,6 @@ export default class InAndOutLogComponent extends ComponentBase {
             return "入仓"
         else
             return "出仓"
-    }
-
-    getSttName(st: server.store) {
-        let sttName = "";
-        if (st != null) {
-            this.storeTypes.forEach((stt, idx) => {
-                if (stt.id == st.storeTypeId) {
-                    sttName = stt.name
-                }
-            })
-        }
-        return sttName;
     }
 
     classState(t: server.logType): any {
@@ -60,7 +48,6 @@ export default class InAndOutLogComponent extends ComponentBase {
 
     change(label: string, tabkey: string) {
         console.log(label);
-        this.$emit('setTitle', this.$store.state.username + ' ' + label);
 
         switch (label) {
             case "所有":
@@ -86,15 +73,15 @@ export default class InAndOutLogComponent extends ComponentBase {
             switch (this.logType) {
                 case server.logType.全部:
                     this.inAndOutLogs = this.page > 1 ? [...this.inAndOutLogs, ...list] : this.inAndOutLogs;
-                    this.scrollRef = (<any>this).$refs.infinitescroll;
+                    this.scrollRef = this.$refs.infinitescroll;
                     break;
                 case server.logType.出仓:
                     this.outLogs = this.page > 1 ? [...this.outLogs, ...list] : this.outLogs;
-                    this.scrollRef = (<any>this).$refs.infinitescroll1;
+                    this.scrollRef = this.$refs.infinitescroll1;
                     break;
                 case server.logType.入仓:
                     this.inLogs = this.page > 1 ? [...this.inLogs, ...list] : this.inLogs;
-                    this.scrollRef = (<any>this).$refs.infinitescroll2;
+                    this.scrollRef = this.$refs.infinitescroll2;
                     break;
             }
             if (list.length < this.pSize) {
@@ -141,14 +128,4 @@ export default class InAndOutLogComponent extends ComponentBase {
             }
         });
     }
-
-    getStoreTypes() {
-        axios.get('/api/StoreType').then((res) => {
-            let jobj = res.data as server.resultJSON<server.storeType[]>;
-            if (jobj.code == 0) {
-                this.storeTypes = jobj.data;
-            }
-        });
-    }
-    
 }

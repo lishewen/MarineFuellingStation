@@ -68,8 +68,8 @@ namespace MFS.Repositorys
 
             if (cycle > 0)//周期
             {
-                var cylist = _dbContext.SalesPlans.Where(s => (s.LastUpdatedAt - DateTime.Now).Days > cycle).Select(s => s.CarNo);
-                clientwhere = clientwhere.And(c => cylist.Contains(c.CarNo));
+                var cylist = _dbContext.SalesPlans.Where(s => (DateTime.Now - s.LastUpdatedAt).Days < cycle && s.CreatedBy == CurrentUser).Select(s => s.CarNo).ToList();
+                clientwhere = clientwhere.And(c => !cylist.Contains(c.CarNo));
             }
             //客户类型：个人，公司，全部
             if (ctype == ClientType.全部)

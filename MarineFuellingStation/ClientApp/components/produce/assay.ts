@@ -11,7 +11,7 @@ export default class AssayComponent extends ComponentBase {
     selectedStore: number | string = '';
     selectedPurchase: number | string = '';
     selectedPName: string = "";
-    list: server.assay[];
+    assays: server.assay[];
 
     radio2: string = "1";
     carNo: string = "";
@@ -20,6 +20,10 @@ export default class AssayComponent extends ComponentBase {
     showDetail: boolean = false;
     sv: string = "";
     showPurchases: boolean = false;
+
+    page: number;
+    scrollRef: any;
+    pSize: number = 30;
 
     filterclick(): void {
     };
@@ -31,7 +35,7 @@ export default class AssayComponent extends ComponentBase {
         this.assay = (new Object()) as server.assay;
         this.store = new Array<server.store>();
         this.purchases = new Array<server.purchase>();
-        this.list = new Array<server.assay>();
+        this.assays = new Array<server.assay>();
         this.model.name = '';
         this.model.oilTempTime = this.formatDate(new Date(), 'YYYY-MM-DD HH:mm');
 
@@ -62,8 +66,31 @@ export default class AssayComponent extends ComponentBase {
 
     change(label: string, tabkey: string) {
         console.log(label);
-        this.$emit('setTitle', this.$store.state.username + ' ' + label);
+        if (label == '记录') {
+            this.page = 1;
+            this.getAssays();
+        }
     }
+    loadList() {
+        this.getAssays((list: server.assay[]) => {
+            this.assays = this.page > 1 ? [...this.assays, ...list] : this.assays;
+            this.scrollRef = (<any>this).$refs.infinitescroll;
+            if (list.length < this.pSize) {
+                this.scrollRef.$emit("ydui.infinitescroll.loadedDone");
+                return;
+            }
+
+            //通知加载数据完毕
+            this.scrollRef.$emit("ydui.infinitescroll.finishLoad");
+
+            if (list.length > 0)
+                this.page++;
+            else
+                this.page = 1;
+            console.log("page = " + this.page)
+        });
+    }
+
     /**
      * 显示化验单详细
      */
@@ -119,23 +146,34 @@ export default class AssayComponent extends ComponentBase {
     }
 
     initlist(ls: server.assay[]) {
-        this.list = ls;
+        this.assays = ls;
     }
 
-    getAssays() {
-        axios.get('/api/Assay/GetWithStANDPur').then((res) => {
-            let jobj = res.data as server.resultJSON<server.assay[]>;
-            if (jobj.code == 0) {
-                this.list = jobj.data;
-            }
-        });
+    getAssays(callback?: Function) {
+        if (this.page == null) this.page = 1;
+        if (this.pSize == null) this.pSize = 30;
+        axios.get('/api/Assay/GetByPager?'
+            + 'page=' + this.page
+            + '&pageSize=' + this.pSize
+            ).then((res) => {
+                let jobj = res.data as server.resultJSON<server.assay[]>;
+                if (jobj.code == 0) {
+                    if (callback) {
+                        callback(jobj.data);
+                    }
+                    else {
+                        this.assays = jobj.data;
+                        this.page++;
+                    }
+                }
+            });
     }
 
     searchAssays(sv: string) {
         axios.get('/api/Assay/' + sv).then((res) => {
             let jobj = res.data as server.resultJSON<server.assay[]>;
             if (jobj.code == 0)
-                this.list = jobj.data;
+                this.assays = jobj.data;
         });
     }
 

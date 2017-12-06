@@ -23,7 +23,8 @@ export default class PlanBoardComponent extends ComponentBase {
         this.salesPlans = new Array<server.salesPlan>();
         this.landPlans = new Array<server.salesPlan>();
         this.waterPlans = new Array<server.salesPlan>();
-        
+
+        this.getSalesPlans();
     }
 
     loadList() {
@@ -67,7 +68,7 @@ export default class PlanBoardComponent extends ComponentBase {
             this.waterPlans = null;
             this.islandplan = true;
         }
-            
+        this.page = 1;
         this.getSalesPlans();
     }
 

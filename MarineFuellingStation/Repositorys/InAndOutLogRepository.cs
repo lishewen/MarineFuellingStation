@@ -13,10 +13,18 @@ namespace MFS.Repositorys
 
         public List<InAndOutLog> GetIncludeStore(LogType type, int page)
         {
+            List<InAndOutLog> list;
             if (type == LogType.全部)
-                return LoadPageList(page, 10, out int rowCount, true, i => i.Type == LogType.入仓 || i.Type == LogType.出仓).Include(i => i.Store).ToList();
+                list = LoadPageList(page, 10, out int rowCount, true, i => i.Type == LogType.入仓 || i.Type == LogType.出仓).Include(i => i.Store).ToList();
             else
-                return LoadPageList(page, 10, out int rowCount, true, i => i.Type == type).Include(i => i.Store).ToList();
+                list = LoadPageList(page, 10, out int rowCount, true, i => i.Type == type).Include(i => i.Store).ToList();
+            foreach(InAndOutLog io in list)
+            {
+                Store st = io.Store;
+                string stName = _dbContext.StoreTypes.FirstOrDefault(stt => stt.Id == st.StoreTypeId).Name;
+                io.Store.StoreTypeName = stName;
+            }
+            return list;
         }
 
         public decimal GetStoreSumValue(int id, LogType type, DateTime date)

@@ -1,6 +1,7 @@
 ﻿using MFS.Models;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Logging;
+using Microsoft.VisualBasic.PowerPacks.Printing.Compatibility.VB6;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -34,6 +35,10 @@ namespace 打印终端
         private string createdfolder = "createdfile\\";
         private string folder = "pos\\";
         object missing = System.Reflection.Missing.Value;
+        Printer printer = new Printer();
+        const string ShopName = "尊享汇";
+        const string Address = "西江路鸳江丽港9号楼一层28号（海关正对面，GAGA旁）";
+        const string Phone = "2039123";
 
         static string ConvertToChinese(decimal x)
         {
@@ -45,6 +50,17 @@ namespace 打印终端
         public MainWindow()
         {
             InitializeComponent();
+
+            //选择打印机
+            var pc = new PrinterCollection();
+            foreach (Printer p in pc)
+            {
+                if (p.DeviceName == Properties.Settings.Default.DeviceName)
+                {
+                    printer = p;
+                    break;
+                }
+            }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -132,8 +148,30 @@ namespace 打印终端
                 //化验单
                 PrintAssay(m);
             });
+            Connection.On<ChargeLog>("printcharge", (log) =>
+                PrintCharge(log)
+            );
             Connection.On<string>("login", (username) => Log.Logs += username + " 已登录，正在执行操作\r");
         }
+
+        private void PrintCharge(ChargeLog log)
+        {
+            Log.Logs += "正在打印charge：{log.Name}\r";
+
+            printer.Print("———————————");
+            printer.Print("充值回执");
+            printer.Print("———————————");
+            printer.Print($"商户名称：{ShopName}");
+            printer.Print($"客户名称：{log.Name}");
+            printer.Print($"充值金额：{log.Money}");
+            printer.Print($"打印时间:{DateTime.Now}");
+            printer.Print("———————————");
+            printer.Print($"地址：{Address}");
+            printer.Print($"电话：{Phone}");
+            printer.Print($"欢迎再次光临");
+            printer.EndDoc();
+        }
+
         #region 个人预收款确认单
         /// <summary>
         /// 个人预收款确认单

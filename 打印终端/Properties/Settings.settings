@@ -44,5 +44,8 @@
     <Setting Name="PrintUnloadPondDocx" Type="System.String" Scope="User">
       <Value Profile="(Default)">卸车石化过磅单.docx</Value>
     </Setting>
+    <Setting Name="DeviceName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">xp58</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

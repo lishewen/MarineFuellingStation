@@ -156,12 +156,12 @@ export default class OrderComponent extends ComponentBase {
             this.toastError('船号或车牌号不能为空');
             return;
         }
-        if (!this.model.count || this.model.count <= 0) {
-            this.toastError('数量必须大于1');
+        if (!this.model.productId) {
+            this.toastError('必须选择商品');
             return;
         }
-        if (this.model.productId == 0) {
-            this.toastError('必须选择油品');
+        if (!this.model.count || this.model.count <= 0) {
+            this.toastError('数量必须大于1');
             return;
         }
         if (this.model.salesman == "") {
@@ -301,7 +301,7 @@ export default class OrderComponent extends ComponentBase {
         this.page = 1;
         if (label == '单据记录') {
             this.getOrders();
-        }   
+        }
     }
 
     loadList() {

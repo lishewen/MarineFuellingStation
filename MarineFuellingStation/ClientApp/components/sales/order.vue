@@ -43,12 +43,12 @@
 
                     <yd-cell-item>
                         <span slot="left">订单单价：</span>
-                        <yd-input slot="right" v-model="model.price" required :placeholder="strMinPriceTip()"></yd-input>
+                        <yd-input slot="right" type="number" v-model="model.price" required :placeholder="strMinPriceTip()"></yd-input>
                     </yd-cell-item>
 
                     <yd-cell-item>
                         <span slot="left">订单数量：</span>
-                        <yd-input slot="right" v-model="model.count" required placeholder="请输入加油数量"></yd-input>
+                        <yd-input slot="right" type="number" v-model="model.count" required placeholder="请输入加油数量"></yd-input>
                         <span slot="right" style="width:70px">单位：{{model.unit}}</span>
                     </yd-cell-item>
 

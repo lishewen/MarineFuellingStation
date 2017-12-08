@@ -51,10 +51,7 @@ namespace MFS.Controllers
         public async Task<ResultJSON<Order>> Post([FromBody]Order o)
         {
             r.CurrentUser = UserName;
-
-            //当车号/船号没有对应的客户资料时，自动新增客户资料，以便我的客户中的关联查找
-            if (!cr.AddClientWithNoFind(o.CarNo, o.Salesman, o.ProductId))
-                return new ResultJSON<Order> { Code = 501, Msg = "无法新增该客户，请联系开发人员" };
+            
             if (r.Has(od => od.Name == o.Name)) return new ResultJSON<Order> { Code = 501, Msg = "已存在单号" + o.Name + ",请勿重复提交" };
 
             //如果没有计划，则不用指定销售员，客户需求，不用计算提成

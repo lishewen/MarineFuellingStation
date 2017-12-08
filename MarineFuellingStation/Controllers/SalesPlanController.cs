@@ -46,9 +46,9 @@ namespace MFS.Controllers
         {
             r.CurrentUser = UserName;
 
-            //当车号/船号没有对应的客户资料时，自动新增客户资料，以便我的客户中的关联查找
-            if (!cr.AddClientWithNoFind(s.CarNo, UserName, s.ProductId))
-                return new ResultJSON<SalesPlan> { Code = 501, Msg = "无法新增该客户，请联系开发人员" };
+            //更新客户默认商品
+            if (!cr.SaveDefaultProduct(s.CarNo, s.ProductId))
+                return new ResultJSON<SalesPlan> { Code = 501, Msg = "无法更新客户默认商品，请联系开发人员" };
             
             SalesPlan result = r.Insert(s);
 

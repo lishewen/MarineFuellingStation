@@ -10,6 +10,6 @@ declare module server {
 		/** 油高 */
         height: number | string;
         /** 油高对应的升数 */
-        count: number;
+        count: number | string;
 	}
 }

@@ -1,7 +1,6 @@
 ﻿import ComponentBase from "../../componentbase";
 import { Component } from 'vue-property-decorator';
 import axios from "axios";
-import moment from "moment";
 
 @Component
 export default class OilStoreComponent extends ComponentBase {
@@ -10,6 +9,7 @@ export default class OilStoreComponent extends ComponentBase {
     show2: boolean = false;
     showAssays: boolean = false;
     showAct: boolean = false;
+    litreToTon: number;
 
     survey: server.survey;
     surveys: server.survey[];
@@ -30,13 +30,31 @@ export default class OilStoreComponent extends ComponentBase {
         this.assays = new Array<server.assay>();
         this.selectStore = new Object() as server.store;
         this.survey = new Object() as server.survey;
-        this.survey.density = 0;
-        this.survey.count = 0;
+        this.survey.density = '';
+        this.survey.count = '';
+        this.litreToTon = 0;
         this.getStoreTypes();
     }
 
     mounted() {
         this.$emit('setTitle', '所有仓情况');
+        console.log(this.survey);
+        this.$watch('survey.density', (v, ov) => {
+            console.log(v);
+            console.log(ov);
+            //if (v && v != '') {
+            //    if (this.survey && this.survey.count != "")
+            //        this.litreToTon = Math.round(<number>this.survey.count * v / 1000 * 100) / 100;
+            //}
+        });
+        //this.$watch('survey.count', (v, ov) => {
+        //    console.log(v);
+        //    console.log(ov);
+        //    //if (v && v != '') {
+        //    //    if (this.survey && this.survey.density != "")
+        //    //        this.litreToTon = Math.round(v * <number>this.survey.density / 1000 * 100) / 100;
+        //    //}
+        //});
     };
 
     /**
@@ -45,8 +63,8 @@ export default class OilStoreComponent extends ComponentBase {
     showAddSurvey(st: server.store) {
         this.show1 = true;
         this.survey = new Object as server.survey;
-        this.survey.count = 0;
-        this.survey.density = 0;
+        this.survey.count = '';
+        this.survey.density = '';
         this.survey.storeId = st.id;
         this.survey.name = st.name;
         this.selectStore = st;
@@ -96,10 +114,7 @@ export default class OilStoreComponent extends ComponentBase {
             percent = 100;
         return percent
     }
-
-    strToton() {
-        return this.survey.count * <number>this.survey.density / 1000
-    }
+    
 
     getStoreTypes() {
         axios.get('/api/StoreType').then((res) => {
@@ -156,7 +171,7 @@ export default class OilStoreComponent extends ComponentBase {
             this.toastError('油高不能为空');
             return false;
         }
-        if (this.survey.height == null || this.survey.height == '') {
+        if (this.survey.count == null || this.survey.count == '') {
             this.toastError('对应升数不能为空');
             return false;
         }

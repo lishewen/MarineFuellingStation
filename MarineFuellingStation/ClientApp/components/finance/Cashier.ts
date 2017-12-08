@@ -140,15 +140,26 @@ export default class CashierComponent extends ComponentBase {
         
     }
 
-    //已结算中显示actionsheet菜单
+    //已结算中和挂账中显示actionsheet菜单
     showMenusclick(o: server.order) {
-        this.menus = [
-            {
-                label: '查看支付方式',
-                method: () => {
-                    this.showPaymentsclick(o)
-                }
-            },
+        if (o.payState == server.payState.已结算)
+            this.menus = [
+                {
+                    label: '查看支付方式',
+                    method: () => {
+                        this.showPaymentsclick(o)
+                    }
+                }];
+        else//挂账
+            this.menus = [
+                {
+                    label: '结账',
+                    method: () => {
+                        this.showPayTypes = true;
+                        this.lastshow = true;
+                    }
+                }];
+        this.menus = [...this.menus, ...[
             {
                 label: '打印【调拨单】到【收银台】',
                 method: () => {
@@ -160,7 +171,8 @@ export default class CashierComponent extends ComponentBase {
                 method: () => {
                     this.getPrintOrder(o.id, "地磅室")
                 }
-            }];
+            }]
+        ];
         //如果为陆上销售，则添加相应打印菜单
         if (o.orderType == server.salesPlanType.陆上) {
             if (o.isDeliver) {
@@ -460,7 +472,8 @@ export default class CashierComponent extends ComponentBase {
         axios.put("/api/order/payoncredit", model).then((res) => {
             let jobj = res.data as server.resultJSON<server.order>;
             if (jobj.code == 0) {
-                this.toastSuccess("挂账成功")
+                this.toastSuccess("挂账成功");
+                this.page = 1;
                 this.getOrders();
                 this.showPayTypes = false;
             }

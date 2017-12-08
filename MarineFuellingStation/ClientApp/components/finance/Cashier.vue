@@ -53,7 +53,7 @@
                 <yd-cell-group>
                     <yd-search v-model="sv3" />
                     <yd-infinitescroll :callback="loadList" ref="orderinfinitescroll3">
-                        <yd-cell-item slot="list" arrow v-for="o in nopayorders" :key="o.id" @click.native="orderclick(o)">
+                        <yd-cell-item slot="list" arrow v-for="o in nopayorders" :key="o.id" @click.native="showMenusclick(o)">
                             <div slot="left">
                                 <p class="font16">{{o.carNo}}</p>
                                 <p class="col-light-gray font14">{{o.name}}</p>

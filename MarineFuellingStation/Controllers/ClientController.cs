@@ -44,12 +44,13 @@ namespace MFS.Controllers
         /// <param name="carNo"></param>
         /// <returns></returns>
         [HttpGet("[action]")]
-        public ResultJSON<Client> GetClientByCarNo(string carNo)
+        public ResultJSON<Client> CreateOrGetClientByCarNo(string carNo)
         {
+            r.CurrentUser = UserName;
             return new ResultJSON<Client>
             {
                 Code = 0,
-                Data = r.GetByCarNo(carNo)
+                Data = r.CreateOrGetByCarNo(carNo)
             };
         }
         [HttpGet]

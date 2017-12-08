@@ -31,9 +31,12 @@ namespace MFS.Repositorys
         /// </summary>
         /// <param name="carNo"></param>
         /// <returns></returns>
-        public Client GetByCarNo(string carNo)
+        public Client CreateOrGetByCarNo(string carNo)
         {
-            return _dbContext.Clients.Include("Company").FirstOrDefault(c => c.CarNo == carNo);
+            if (Has(c => c.CarNo == carNo))
+                return _dbContext.Clients.Include("Company").FirstOrDefault(c => c.CarNo == carNo);
+            else
+                return Insert(new Client {Name = "个人", CarNo = carNo, FollowSalesman = CurrentUser });
         }
         /// <summary>
         /// 只根据client表内字段搜索关键字
@@ -85,25 +88,24 @@ namespace MFS.Repositorys
             return list;
         }
         /// <summary>
-        /// 根据carNo判断是否有改客户，没有便新增客户
+        /// 更新客户默认商品
         /// </summary>
         /// <param name="carNo"></param>
-        /// <param name="followsalesman"></param>
         /// <param name="defaultProductId"></param>
         /// <returns></returns>
-        public bool AddClientWithNoFind(string carNo, string followsalesman, int defaultProductId)
+        public bool SaveDefaultProduct(string carNo, int defaultProductId)
         {
             try
             {
-                if (Has(c => c.CarNo == carNo)) return true;
-                Insert(new Client
+                Client c = _dbContext.Clients.FirstOrDefault(cl => cl.CarNo == carNo);
+                if (c != null)
                 {
-                    Name = "个人",
-                    CarNo = carNo,
-                    FollowSalesman = followsalesman,
-                    DefaultProductId = defaultProductId
-                });
-                return true;
+                    c.DefaultProductId = defaultProductId;
+                    Save();
+                    return true;
+                }
+                else
+                    return false;
             }
             catch
             {

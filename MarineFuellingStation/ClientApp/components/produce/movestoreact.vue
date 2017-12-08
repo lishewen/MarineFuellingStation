@@ -12,7 +12,7 @@
                             <p>
                                 <span style="color:red">入：</span><span>【{{m.inStoreTypeName}}】 - {{m.inStoreName}}</span>
                             </p>
-                            <p class="col-light-gray font12">{{m.name}} - {{formatDate(m.lastUpdateAt)}}</p>
+                            <p class="col-light-gray font12">{{m.name}} - {{formatDate(m.createdAt)}}</p>
                         </div>
                         <div slot="right" style="text-align: left;margin-right: 5px">
                             <p class="col-gray font16">{{m.outPlan}}升</p>

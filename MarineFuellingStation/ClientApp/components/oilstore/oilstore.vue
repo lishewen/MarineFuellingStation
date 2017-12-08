@@ -53,7 +53,7 @@
                     <span slot="right">升</span>
                 </yd-cell-item>
                 <yd-cell-item>
-                    <span slot="right">{{strToton()}}吨</span>
+                    <span slot="right">{{litreToTon}}吨</span>
                 </yd-cell-item>
             </yd-cell-group>
             <div class="align-center">

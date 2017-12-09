@@ -14,8 +14,8 @@
                             <div slot="right" class="align-right lineheight24 cell-padding">
                                 <p class="col-gray font16">￥{{o.totalMoney}}</p>
                                 <p class="col-light-gray font14">{{o.product.name}} / {{o.count}}{{o.unit}} / {{o.price}}</p>
-                                <p class="col-coral" v-if="o.client.balances != 0">个人余额：￥{{o.client == null ? 0 : o.client.balances}}</p>
-                                <p class="col-coral" v-if="o.client.company != null">公司余额：￥{{o.client.company == null ? 0 : o.client.company.balances}}</p>
+                                <p class="col-coral" v-if="o.client && o.client.balances && o.client.balances != 0">个人余额：￥{{o.client.balances}}</p>
+                                <p class="col-coral" v-if="o.client && o.client.company && o.client.company.balances">公司余额：￥{{o.client.company == null ? 0 : o.client.company.balances}}</p>
                             </div>
                         </yd-cell-item>
 

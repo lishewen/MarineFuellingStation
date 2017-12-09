@@ -4,8 +4,8 @@
             <yd-tab-panel label="计划开单">
                 <yd-cell-group :title="'单号：' + model.name" v-show="showStep1">
                     <yd-cell-item>
-                        <span slot="left">船号/车牌号：</span>
-                        <yd-input slot="right" v-model="model.carNo" required placeholder="请输入您的船号"></yd-input>
+                        <span slot="left">{{strCarOrBoat}}：</span>
+                        <yd-input slot="right" v-model="model.carNo" required placeholder="请输入"></yd-input>
                     </yd-cell-item>
                     <yd-cell-item arrow>
                         <span slot="left">预计加油时间：</span>

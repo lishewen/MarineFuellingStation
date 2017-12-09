@@ -72,26 +72,27 @@ export default class OilStoreComponent extends ComponentBase {
 
     //显示actionsheet
     storeclick(st: server.store) {
+        let that = this;
         this.showAct = true;
         this.actItems = [
             {
                 label: '测量',
                 method: () => {
-                    this.showAddSurvey(st)
+                    that.showAddSurvey(st);
                 }
             },
             {
                 label: '最近十五次测量记录',
                 method: () => {
-                    this.getSurveys(st.id);
-                    this.show2 = true;
+                    that.getSurveys(st.id);
+                    that.show2 = true;
                 }
             },
             {
                 label: '化验记录',
                 method: () => {
-                    this.getAssays(st.id);
-                    this.showAssays = true;
+                    that.getAssays(st.id);
+                    that.showAssays = true;
                 }
             }
         ];

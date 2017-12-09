@@ -450,6 +450,8 @@ export default class OrderComponent extends ComponentBase {
                 this.addNextConfirm();
                 this.isPrevent = true;
             }
+            else
+                this.toastError(jobj.msg);
         });
     }
 

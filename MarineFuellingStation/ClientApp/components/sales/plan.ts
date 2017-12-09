@@ -365,6 +365,8 @@ export default class PlanComponent extends ComponentBase {
                 this.toastSuccess(jobj.msg);
                 this.showStep2 = false;
             }
+            else
+                this.toastError(jobj.msg);
         });
     }
 

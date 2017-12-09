@@ -5,7 +5,6 @@ import moment from "moment";
 
 @Component
 export default class PlanComponent extends ComponentBase {
-    radio2: string = '1';
     username: string;
     isPrevent: boolean = true;
     showPd: boolean = false;
@@ -389,6 +388,9 @@ export default class PlanComponent extends ComponentBase {
             if (jobj.code == 0) {
                 this.showStep2 = false;
                 this.showStep3 = true;
+                console.log("showStep3 = " + this.showStep3);
+                console.log("model.salesPlanType = " + this.model.salesPlanType);
+
             }
         })
     }

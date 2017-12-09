@@ -115,10 +115,10 @@
                     <input slot="right" type="checkbox" value="6" v-model="orderPayTypes" />
                 </yd-cell-item>
 
-                <yd-cell-item type="checkbox" v-show="selectedOrder.client.company != null">
+                <yd-cell-item type="checkbox" v-show="selectedOrder.client && selectedOrder.client.company">
                     <div slot="left">
                         <p> 公司账户余额</p>
-                        <p class="col-red">￥{{selectedOrder.client.company == null? 0 : selectedOrder.client.company.balances}}</p>
+                        <p class="col-red">￥{{selectedOrder.client && selectedOrder.client.company? selectedOrder.client.company.balances : 0}}</p>
                     </div>
                     <input slot="right" type="checkbox" value="7" v-model="orderPayTypes" />
                 </yd-cell-item>

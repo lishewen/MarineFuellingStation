@@ -305,7 +305,7 @@ export default class PlanComponent extends ComponentBase {
                 if (jobj.data != null) {
                     this.model.billingCompany = this.client.company != null ? this.client.company.name : "";
                     this.model.ticketType = this.client.company != null ? this.client.company.ticketType : -1;
-
+                    
                     this.mobile = this.client.mobile ? this.client.mobile : "";
                     this.contact = this.client.contact ? this.client.contact : "";
                 }

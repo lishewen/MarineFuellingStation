@@ -133,7 +133,7 @@ export default class CashierComponent extends ComponentBase {
             }
         };
 
-        if (this.selectedOrder.client.company != null)
+        if (this.selectedOrder.client && this.selectedOrder.client.company)
             this.actItems = [...this.actItems, coItem];
 
         this.showAct = true;

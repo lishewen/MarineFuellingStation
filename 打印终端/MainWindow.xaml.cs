@@ -405,7 +405,7 @@ namespace 打印终端
             WordReplace(wApp, "#TotalMoney#", order.IsPrintPrice? order.TotalMoney.ToString("0.00") : "");
             WordReplace(wApp, "#CNMoney#", ConvertToChinese(order.TotalMoney));
             WordReplace(wApp, "#Remark#", order.Remark);
-            WordReplace(wApp, "#LastUpdatedBy#", order.LastUpdatedBy);
+            WordReplace(wApp, "#LastUpdatedBy#", order.Cashier);
             WordReplace(wApp, "#Salesman#", order.Salesman);
             WordReplace(wApp, "#CreatedAt#", order.CreatedAt.ToString("yyyy-MM-dd HH:mm"));
             PrintTime(wApp);

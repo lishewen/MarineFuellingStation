@@ -54,6 +54,12 @@ namespace MFS.Controllers
             
             if (r.Has(od => od.Name == o.Name)) return new ResultJSON<Order> { Code = 501, Msg = "已存在单号" + o.Name + ",请勿重复提交" };
 
+            //如果不存在该客户，则新增到Client表中，并关联ClientId
+            if (!cr.Has(cl => cl.CarNo == o.CarNo)) {
+                Client c = cr.Insert(new Client { Name = "个人", CarNo = o.CarNo});
+                o.ClientId = c.Id;
+            }
+
             //如果没有计划，则不用指定销售员，客户需求，不用计算提成
             if(!o.SalesPlanId.HasValue)
                 o.Salesman = "";

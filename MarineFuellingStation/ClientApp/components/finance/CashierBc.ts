@@ -148,15 +148,25 @@ export default class CashierBcComponent extends ComponentBase {
         this.getPayments(b.id);
     }
 
-    //已结算中显示actionsheet菜单
+    //已结算或挂账中显示actionsheet菜单
     showMenusclick(b: server.boatClean) {
-        this.menus = [
-            {
-                label: '支付方式',
-                method: () => {
-                    this.showPaymentsclick(b)
-                }
-            },
+        if (b.payState == server.boatCleanPayState.已结算)
+            this.menus = [
+                {
+                    label: '支付方式',
+                    method: () => {
+                        this.showPaymentsclick(b)
+                    }
+                }];
+        else//挂账
+            this.menus = [
+                {
+                    label: '结账',
+                    method: () => {
+                        this.showPayTypes = true;
+                    }
+                }];
+        this.menus = [...this.menus, ...[
             {
                 label: '打印【完工证】',
                 method: () => {
@@ -168,7 +178,7 @@ export default class CashierBcComponent extends ComponentBase {
                 method: () => {
                     this.getPrintBcCollection(b.id, "收银台")
                 }
-            }
+            }]
         ];
 
         this.showMenus = true;
@@ -308,7 +318,8 @@ export default class CashierBcComponent extends ComponentBase {
         axios.put("/api/boatClean/payoncredit", model).then((res) => {
             let jobj = res.data as server.resultJSON<server.order>;
             if (jobj.code == 0) {
-                this.toastSuccess("挂账成功")
+                this.toastSuccess("挂账成功");
+                this.page = 1;
                 this.getBoatCleans();
                 this.showPayTypes = false;
             }

@@ -5,7 +5,6 @@ import moment from "moment";
 
 @Component
 export default class PlanComponent extends ComponentBase {
-    radio2: string = '1';
     username: string;
     isPrevent: boolean = true;
     showPd: boolean = false;
@@ -27,6 +26,7 @@ export default class PlanComponent extends ComponentBase {
     pSize: number = 10;
     pMinInvoicePrice: number = 0;
     pMinPrice: number = 0;
+    strCarOrBoat: string = '船号/车号';
 
     isWaterDept: boolean = true;//标识水上部和陆上部
 
@@ -82,15 +82,29 @@ export default class PlanComponent extends ComponentBase {
         //透过路由获取参数iswaterdept
         let iswaterdept = this.$route.params.iswaterdept;
         this.isWaterDept = iswaterdept == "forland" ? false : true;
-
-        this.model.salesPlanType = this.isWaterDept ? server.salesPlanType.水上 : server.salesPlanType.陆上;
-
+        
         let strType = this.isWaterDept ? ' 水上' : ' 陆上';
         this.$emit('setTitle', this.username + strType + '计划');
         this.isLeader = this.$store.state.isLeader;
 
         this.$watch('model.price', (v, ov) => {this.model.billingPrice = v;});
-        this.$watch('model.count', (v, ov) => {this.model.billingCount = v;});
+        this.$watch('model.count', (v, ov) => { this.model.billingCount = v; });
+        this.$watch('model.salesPlanType', (v, ov) => {
+            switch (v) {
+                case "0":
+                    this.model.unit = '升';
+                    this.strCarOrBoat = "船号";
+                    break;
+                case "1":
+                    this.strCarOrBoat = "车牌号";
+                    this.model.unit = '吨';
+                    break;
+                case "2":
+                    this.strCarOrBoat = "车牌号";
+                    this.model.unit = '桶';
+                    break;
+            }
+        });
         this.$watch('oildate', (v, ov) => { this.model.oilDate = new Date(this.oildate); });
 
         this.$watch('sv', (v: string, ov) => {
@@ -98,7 +112,11 @@ export default class PlanComponent extends ComponentBase {
             if (v.length >= 2 || v == "")
                 this.searchSalesPlans(v);
         });
-        
+
+        this.model.salesPlanType = this.isWaterDept ? server.salesPlanType.水上 : server.salesPlanType.陆上;
+        this.model.unit = this.isWaterDept ? "升" : "吨";
+        this.strCarOrBoat = this.isWaterDept ? "船号" : "车号";
+
         this.getSalesPlanNo();
         this.getOilProducts();
     };
@@ -287,7 +305,7 @@ export default class PlanComponent extends ComponentBase {
                 if (jobj.data != null) {
                     this.model.billingCompany = this.client.company != null ? this.client.company.name : "";
                     this.model.ticketType = this.client.company != null ? this.client.company.ticketType : -1;
-
+                    
                     this.mobile = this.client.mobile ? this.client.mobile : "";
                     this.contact = this.client.contact ? this.client.contact : "";
                 }
@@ -346,6 +364,8 @@ export default class PlanComponent extends ComponentBase {
                 this.toastSuccess(jobj.msg);
                 this.showStep2 = false;
             }
+            else
+                this.toastError(jobj.msg);
         });
     }
 
@@ -368,6 +388,9 @@ export default class PlanComponent extends ComponentBase {
             if (jobj.code == 0) {
                 this.showStep2 = false;
                 this.showStep3 = true;
+                console.log("showStep3 = " + this.showStep3);
+                console.log("model.salesPlanType = " + this.model.salesPlanType);
+
             }
         })
     }

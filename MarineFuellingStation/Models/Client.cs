@@ -41,7 +41,7 @@ namespace MFS.Models
         /// <summary>
         /// 账户余额
         /// </summary>
-        public decimal Balances { get; set; }
+        public decimal Balances { get; set; } = 0;
         /// <summary>
         /// 总消费金额
         /// </summary>

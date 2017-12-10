@@ -47,7 +47,7 @@
                 <yd-cell-group>
                     <yd-search v-model="sv3" />
                     <yd-infinitescroll :callback="loadList" ref="bcinfinitescroll3">
-                        <yd-cell-item slot="list" arrow v-for="b in nopayboats" :key="b.id" @click.native="boatclick(b)">
+                        <yd-cell-item slot="list" arrow v-for="b in nopayboats" :key="b.id" @click.native="showMenusclick(b)">
                             <div slot="left">
                                 <p class="font16">{{b.carNo}}</p>
                                 <p class="color_lightgray font14">{{b.name}}</p>

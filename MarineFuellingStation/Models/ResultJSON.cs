@@ -22,7 +22,8 @@ namespace MFS.Models
                 Dictionary<int, string> dict = new Dictionary<int, string> {
                     { 1, "文件没有内容" },
                     { 0, "请求成功" },
-                    { -1, "系统繁忙" }
+                    { -1, "系统繁忙" },
+                    {502, "单号重复，请重新提交" }
                 };
 
                 if (dict.Keys.Contains(value))

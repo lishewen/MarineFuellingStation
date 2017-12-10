@@ -113,6 +113,10 @@ namespace MFS.Controllers
         [HttpPost]
         public ResultJSON<MoveStore> Post([FromBody]MoveStore m)
         {
+            //判断是否重复单号
+            if (r.Has(ms => ms.Name == m.Name))
+                return new ResultJSON<MoveStore> { Code = 502 };
+
             r.CurrentUser = UserName;
             var result = r.Insert(m);
 

@@ -130,6 +130,10 @@ namespace MFS.Controllers
         [HttpPost]
         public ResultJSON<BoatClean> Post([FromBody]BoatClean b)
         {
+            //判断是否重复单号
+            if (r.Has(bo => bo.Name == b.Name))
+                return new ResultJSON<BoatClean> { Code = 502 };
+
             r.CurrentUser = UserName;
             var result = r.Insert(b);
 

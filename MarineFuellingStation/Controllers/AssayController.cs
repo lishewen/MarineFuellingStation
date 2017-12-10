@@ -46,6 +46,10 @@ namespace MFS.Controllers
         [HttpPost]
         public ResultJSON<Assay> Post([FromBody]Assay a)
         {
+            //判断是否重复单号
+            if (r.Has(ass => ass.Name == a.Name))
+                return new ResultJSON<Assay> { Code = 502 };
+
             r.CurrentUser = UserName;
             a.Assayer = UserName;
             var result = r.Insert(a);
@@ -96,7 +100,7 @@ namespace MFS.Controllers
             return new ResultJSON<List<Assay>>
             {
                 Code = 0,
-                Data = r.GetAllWithStANDPur(sv).OrderByDescending(a => a.Id).ToList()
+                Data = r.GetWithInclude(sv).OrderByDescending(a => a.Id).ToList()
             };
         }
         /// <summary>

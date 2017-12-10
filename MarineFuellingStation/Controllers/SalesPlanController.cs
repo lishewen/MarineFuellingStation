@@ -44,12 +44,15 @@ namespace MFS.Controllers
         [HttpPost]
         public ResultJSON<SalesPlan> Post([FromBody]SalesPlan s)
         {
-            r.CurrentUser = UserName;
+            //判断是否重复单号
+            if(r.Has(sp => sp.Name == s.Name))
+                return new ResultJSON<SalesPlan> { Code = 502 };
 
             //更新客户默认商品
             if (!cr.SaveDefaultProduct(s.CarNo, s.ProductId))
                 return new ResultJSON<SalesPlan> { Code = 501, Msg = "无法更新客户默认商品，请联系开发人员" };
-            
+
+            r.CurrentUser = UserName;
             SalesPlan result = r.Insert(s);
 
             if(s.SalesPlanType == SalesPlanType.水上 || s.SalesPlanType == SalesPlanType.机油) {

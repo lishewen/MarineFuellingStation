@@ -50,6 +50,10 @@ namespace MFS.Controllers
         [HttpPost]
         public async Task<ResultJSON<Order>> Post([FromBody]Order o)
         {
+            //判断是否重复单号
+            if (r.Has(od => od.Name == o.Name))
+                return new ResultJSON<Order> { Code = 502 };
+
             r.CurrentUser = UserName;
             
             if (r.Has(od => od.Name == o.Name)) return new ResultJSON<Order> { Code = 501, Msg = "已存在单号" + o.Name + ",请勿重复提交" };

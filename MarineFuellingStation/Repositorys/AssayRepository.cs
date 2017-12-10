@@ -44,7 +44,7 @@ namespace MFS.Repositorys
         /// 获取包含store和purchase对象的集合
         /// </summary>
         /// <returns></returns>
-        public List<Assay> GetAllWithStANDPur()
+        public List<Assay> GetWithInclude()
         {
             return _dbContext.Assays.Include(a => a.Store).Include(a => a.Purchase).ToList();
         }
@@ -59,7 +59,7 @@ namespace MFS.Repositorys
         /// 搜索关键字获取包含store和purchase对象的集合
         /// </summary>
         /// <returns></returns>
-        public List<Assay> GetAllWithStANDPur(string sv)
+        public List<Assay> GetWithInclude(string sv)
         {
             return _dbContext.Assays.Where(a => a.Name.Contains(sv)).Include(a => a.Store).Include(a => a.Purchase).ToList();
         }

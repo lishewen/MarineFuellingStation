@@ -177,18 +177,7 @@ export default class OrderComponent extends ComponentBase {
     godetail(id: number) {
         this.$router.push('/sales/order/' + id + '/order');
     }
-
-    addNextConfirm() {
-        let that = this;
-        this.$dialog.confirm({
-            title: '操作成功',
-            mes: '操作成功，是否继续开单？',
-            opts: () => {
-                window.location.reload();
-            }
-        });
-    }
-
+    
     showMenuclick(o: server.order) {
         this.menus = new Array();
         this.menus = [

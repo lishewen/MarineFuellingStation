@@ -34,8 +34,8 @@ export default class PurchaseComponent extends ComponentBase {
 
         this.model = (new Object()) as server.purchase;
         this.model.name = '';
-        this.model.price = 0;
-        this.model.count = 0;
+        this.model.price = null;
+        this.model.count = null;
         this.model.origin = '';
         this.model.carNo = '';
         this.model.startTime = this.formatDate(new Date(), 'YYYY-MM-DD hh:mm');
@@ -106,18 +106,10 @@ export default class PurchaseComponent extends ComponentBase {
 
     buttonclick() {
         //信息验证
-        if (this.model.carNo == '') {
-            this.toastError('车牌不能为空');
-            return;
-        }
-        if (this.model.count <= 0) {
-            this.toastError('数量必须大于1');
-            return;
-        }
-        if (this.model.productId == 0) {
-            this.toastError('必须选择油品');
-            return;
-        }
+        if (!this.model.productId || this.model.productId == 0) { this.toastError('必须选择油品'); return; }
+        if (this.model.price == null) { this.toastError('单价不能为空，如不填写请填0'); return; }
+        if (!this.model.count || this.model.count <= 0) { this.toastError('数量必须大于1'); return; }
+        if (this.model.carNo == '') { this.toastError('车牌不能为空'); return; }
         this.postPurchase(this.model);
     }
 
@@ -169,11 +161,11 @@ export default class PurchaseComponent extends ComponentBase {
     }
 
     postPurchase(model: server.purchase) {
+        this.isPrevent = true;
         axios.post('/api/Purchase', model).then((res) => {
             let jobj = res.data as server.resultJSON<server.purchase>;
             if (jobj.code == 0) {
-                this.getPurchaseNo();
-                this.toastSuccess(jobj.msg);
+                this.addNextConfirm();
             }
         });
     }

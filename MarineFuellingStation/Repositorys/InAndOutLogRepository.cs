@@ -31,7 +31,8 @@ namespace MFS.Repositorys
         {
             DateTime startdate = new DateTime(date.Year, date.Month, date.Day, 0, 0, 0);
             DateTime enddate = startdate.AddDays(1).AddSeconds(-1);
-            return GetAllList(i => i.Type == type && i.StoreId == id && i.LastUpdatedAt >= startdate && i.LastUpdatedAt <= enddate).Sum(i => i.ValueLitre);
+            decimal sumValue = GetAllList(i => i.Type == type && i.StoreId == id && i.LastUpdatedAt >= startdate && i.LastUpdatedAt <= enddate).Sum(i => i.ValueLitre);
+            return Math.Round(sumValue, 2);
         }
     }
 }

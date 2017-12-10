@@ -11,7 +11,7 @@ using System;
 namespace MFS.Migrations
 {
     [DbContext(typeof(EFContext))]
-    [Migration("20171210071821_Order_Cashier")]
+    [Migration("20171210084059_Order_Cashier")]
     partial class Order_Cashier
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -415,6 +415,8 @@ namespace MFS.Migrations
                     b.Property<decimal>("BillingPrice");
 
                     b.Property<string>("CarNo");
+
+                    b.Property<string>("Cashier");
 
                     b.Property<int?>("ClientId");
 

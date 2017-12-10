@@ -8,7 +8,7 @@
 </style>
 <template>
     <div id="root">
-        <yd-tab :change="change">
+        <yd-tab :callback="change">
 
             <yd-tab-panel label="所有">
                 <yd-cell-group>

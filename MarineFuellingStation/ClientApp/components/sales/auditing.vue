@@ -21,7 +21,7 @@
                     </div>
                     <div slot="right" style="line-height: .6rem">
                         <p>{{p.createdBy}}</p>
-                        <p>{{formatDate(p.oilDate)}}</p>
+                        <p>{{formatShortDate(p.oilDate)}}</p>
                     </div>
                 </yd-cell-item>
             </yd-infinitescroll>

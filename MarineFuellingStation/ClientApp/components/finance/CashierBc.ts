@@ -198,6 +198,17 @@ export default class CashierBcComponent extends ComponentBase {
                 method: () => {
                     this.showPayTypes = true;
                 }
+            }, {
+                label: '未付挂账',
+                method: () => {
+                    this.$dialog.confirm({
+                        title: '挂账',
+                        mes: this.selectedBc.carNo + '是否需要挂账？',
+                        opts: () => {
+                            this.putPayOnCredit();
+                        }
+                    });
+                }
             }
         ];
         this.showAct = true;

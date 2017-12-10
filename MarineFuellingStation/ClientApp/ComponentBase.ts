@@ -34,7 +34,6 @@ export default class ComponentBase extends Vue {
     }
     /** 继续开单提示对话框 */
     addNextConfirm() {
-        let that = this;
         this.$dialog.confirm({
             title: '操作成功',
             mes: '操作成功，是否继续开单？',

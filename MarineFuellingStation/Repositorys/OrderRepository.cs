@@ -56,9 +56,11 @@ namespace MFS.Repositorys
         public new Order Insert(Order entity, bool autoSave = true)
         {
             //根据船号或车号取得clientId
-            var client = _dbContext.Clients.FirstOrDefault(c => c.CarNo == entity.CarNo);
-            if (client != null)
-                entity.ClientId = client.Id;
+            if (!entity.ClientId.HasValue) { 
+                var client = _dbContext.Clients.FirstOrDefault(c => c.CarNo == entity.CarNo);
+                if (client != null)
+                    entity.ClientId = client.Id;
+            }
 
             //非开票情况过滤关于开票的字段
             if (!entity.IsInvoice)
@@ -158,6 +160,8 @@ namespace MFS.Repositorys
             ResultJSON<Order> ret = new ResultJSON<Order> { Code = 0 };
             Order o = _dbContext.Orders.Find(model.Id);
             o.PayState = model.PayState;
+            o.Cashier = CurrentUser;
+
             //计算订单销售提成
             if (o.PayState == PayState.已结算)
             {

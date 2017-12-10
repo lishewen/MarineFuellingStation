@@ -415,6 +415,8 @@ namespace MFS.Migrations
 
                     b.Property<string>("CarNo");
 
+                    b.Property<string>("Cashier");
+
                     b.Property<int?>("ClientId");
 
                     b.Property<decimal>("Count");

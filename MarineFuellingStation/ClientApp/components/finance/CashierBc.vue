@@ -133,9 +133,6 @@
                 <yd-button style="width:80%" type="warning" @click.native="nextclick()" v-show="showStep1">下一步</yd-button>
             </div>
             <div class="align-center">
-                <yd-button style="width:80%;margin-top:10px" type="primary" v-show="showStep1" @click.native="putPayOnCredit()">挂账</yd-button>
-            </div>
-            <div class="align-center">
                 <yd-button style="width:80%" type="warning" @click.native="lastclick()" v-show="!showStep1">上一步</yd-button>
             </div>
             <div class="align-center">

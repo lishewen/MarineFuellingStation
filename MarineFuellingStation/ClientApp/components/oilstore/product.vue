@@ -16,7 +16,7 @@
                     <yd-cell-item @click.native="ptshow = true">
                         <span slot="left">所属分类：</span>
                         <span slot="left">{{selectptname}}</span>
-                        <span slot="right"><yd-button type="primary" @click.native="addpt($event)">添加</yd-button></span>
+                        <span slot="right"><yd-button type="warning" @click.native="addpt($event)">添加</yd-button></span>
                     </yd-cell-item>
                     <yd-cell-item>
                         <yd-radio-group v-model="currentproduct.isForLand" slot="left">
@@ -45,8 +45,8 @@
                     </yd-cell-item>
                 </yd-cell-group>
                 <div class="align-center">
-                    <yd-button v-show="isAddProduct" style="width:90%" type="primary" @click.native="postProductclick">提交</yd-button>
-                    <yd-button v-show="!isAddProduct" style="width:90%" type="primary" @click.native="saveProductclick">保存</yd-button>
+                    <yd-button v-show="isAddProduct" size="large" type="primary" @click.native="postProductclick">提交</yd-button>
+                    <yd-button v-show="!isAddProduct" size="large" type="primary" @click.native="saveProductclick">保存</yd-button>
                 </div>
             </yd-tab-panel>
         </yd-tab>
@@ -73,10 +73,8 @@
                     <yd-input slot="left" v-model="ptName" required placeholder="请输入名称"></yd-input>
                 </yd-cell-item>
             </yd-cell-group>
-            <div class="align-center">
-                <yd-button v-show="isAddType" style="width: 80%" type="primary" @click.native="postProductTypeclick()">提交</yd-button>
-                <yd-button v-show="!isAddType" style="width:80%" type="primary" @click.native="saveProductTypeclick">保存</yd-button>
-            </div>
+                <yd-button v-show="isAddType" type="primary" size="large" @click.native="postProductTypeclick()">提交</yd-button>
+                <yd-button v-show="!isAddType" type="primary" size="large" @click.native="saveProductTypeclick">保存</yd-button>
         </yd-popup>
     </div>
 </template>

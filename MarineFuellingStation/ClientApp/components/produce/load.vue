@@ -2,7 +2,7 @@
     <div id="root">
         <yd-tab :change="change">
             <div class="align-center first-group">
-                <yd-button style="width:90%" type="primary" @click.native="showOrdersclick">销售单{{order.name? '：' + order.name : ''}}</yd-button>
+                <yd-button style="width:90%;height: 38px" type="primary" @click.native="showOrdersclick">销售单{{order.name? '：' + order.name : ''}}</yd-button>
             </div>
             <yd-step :current="currStep" style="margin: .4rem 0 .4rem">
                 <yd-step-item>

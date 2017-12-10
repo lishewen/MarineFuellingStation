@@ -37,7 +37,7 @@
                             <option v-for="st in sts" :key="st.id" :value="st.id">{{st.name}}</option>
                         </select>
                         <span slot="right">
-                            <yd-button type="primary" @click.native="newstShowClick">添加</yd-button>
+                            <yd-button type="warning" @click.native="newstShowClick">添加</yd-button>
                         </span>
                     </yd-cell-item>
                     <yd-cell-item>

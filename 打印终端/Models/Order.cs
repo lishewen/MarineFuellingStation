@@ -186,6 +186,10 @@ namespace MFS.Models
         /// 备注
         /// </summary>
         public string Remark { get; set; }
+        /// <summary>
+        /// 收银员
+        /// </summary>
+        public string Cashier { get; set; }
 
     }
     public enum OrderState

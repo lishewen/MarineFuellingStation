@@ -84,6 +84,8 @@ declare module server {
         minPrice: number;
         /** 备注 */
         remark: string;
+        /** 收银员 */
+        cashier: string;
 	}
 	const enum orderState {
 		已开单,

@@ -47,7 +47,7 @@ export default class CashierBcComponent extends ComponentBase {
         this.payState = server.boatCleanPayState.未结算;
         this.getBoatCleans();
     }
-    
+
     mounted() {
         this.$emit('setTitle', this.$store.state.username + '结算');
         this.$watch("payTypes", (v, ov) => {
@@ -57,7 +57,7 @@ export default class CashierBcComponent extends ComponentBase {
         this.$watch("payMoneys", (v, ov) => {
             this.payInfact = 0;
             for (let m in v) {
-                if(v[m])
+                if (v[m])
                     this.payInfact += parseFloat(v[m]);
             }
         });
@@ -86,7 +86,7 @@ export default class CashierBcComponent extends ComponentBase {
     lastclick() {
         this.showStep1 = true;
     }
-    
+
     loadList() {
         this.getBoatCleans((list: server.boatClean[]) => {
             switch (this.payState) {
@@ -154,7 +154,7 @@ export default class CashierBcComponent extends ComponentBase {
             this.menus = [
                 {
                     label: '支付方式',
-                    method: () => {
+                    callback: () => {
                         this.showPaymentsclick(b)
                     }
                 }];
@@ -162,20 +162,20 @@ export default class CashierBcComponent extends ComponentBase {
             this.menus = [
                 {
                     label: '结账',
-                    method: () => {
+                    callback: () => {
                         this.showPayTypes = true;
                     }
                 }];
         this.menus = [...this.menus, ...[
             {
                 label: '打印【完工证】',
-                method: () => {
+                callback: () => {
                     this.getPrintBoatClean(b.id, "收银台")
                 }
             },
             {
                 label: '打印【收款单】',
-                method: () => {
+                callback: () => {
                     this.getPrintBcCollection(b.id, "收银台")
                 }
             }]
@@ -191,16 +191,16 @@ export default class CashierBcComponent extends ComponentBase {
 
     boatclick(b: server.boatClean) {
         this.selectedBc = b;
-        
+
         this.actItems = [
             {
                 label: '结账',
-                method: () => {
+                callback: () => {
                     this.showPayTypes = true;
                 }
             }, {
                 label: '未付挂账',
-                method: () => {
+                callback: () => {
                     this.$dialog.confirm({
                         title: '挂账',
                         mes: this.selectedBc.carNo + '是否需要挂账？',
@@ -219,11 +219,11 @@ export default class CashierBcComponent extends ComponentBase {
             if (this.payMoneys[i] == null || this.payMoneys[i] == '0' || this.payMoneys[i] == '') {
                 this.toastError("请输入金额，不能为空或0");
                 return;
-            }   
+            }
         }
         this.putPay();
     }
-    
+
     //根据boatCleanId获取该订单的付款记录
     getPayments(bid: number) {
         if (bid == null) {
@@ -296,7 +296,7 @@ export default class CashierBcComponent extends ComponentBase {
                 return "公司账户扣减"
         }
     }
-    
+
     //结账
     putPay() {
         let model = this.selectedBc;
@@ -337,5 +337,5 @@ export default class CashierBcComponent extends ComponentBase {
         })
     }
 
-    
+
 }

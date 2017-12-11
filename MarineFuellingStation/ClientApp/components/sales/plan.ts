@@ -332,7 +332,7 @@ export default class PlanComponent extends ComponentBase {
                 jobj.data.forEach((o, i) => {
                     this.oiloptions.push({
                         label: o.name,
-                        method: () => {
+                        callback: () => {
                             this.model.oilName = o.name;
                             this.model.productId = o.id;
                             this.model.price = o.lastPrice;
@@ -345,7 +345,7 @@ export default class PlanComponent extends ComponentBase {
                 if (this.isLeader) {
                     this.oiloptions.push({
                         label: '修改商品限价',
-                        method: () => {
+                        callback: () => {
                             this.showProducts()
                         }
                     });

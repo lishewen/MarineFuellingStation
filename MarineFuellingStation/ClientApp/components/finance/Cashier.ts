@@ -65,7 +65,7 @@ export default class CashierComponent extends ComponentBase {
 
         this.actItems = new Array<ydui.actionSheetItem>();
         this.menus = new Array<ydui.actionSheetItem>();
-        
+
         this.getOrders();
     }
 
@@ -108,13 +108,13 @@ export default class CashierComponent extends ComponentBase {
         this.actItems = [
             {
                 label: '结账',
-                method: () => {
+                callback: () => {
                     this.showPayTypes = true;
                     this.lastshow = true;
                 }
             }, {
                 label: '未付挂账',
-                method: () => {
+                callback: () => {
                     this.$dialog.confirm({
                         title: '挂账',
                         mes: this.selectedOrder.carNo + '是否需要挂账？',
@@ -125,19 +125,19 @@ export default class CashierComponent extends ComponentBase {
                 }
             }
         ];
-        
+
         this.actItems.push({
             label: '【个人账户】预付充值',
-            method: () => {
+            callback: () => {
                 this.showCharge = true;
                 this.isCompanyCharge = false;
                 this.chargeAccount = this.selectedOrder.client.carNo;
             }
         });
-        
-        let coItem = {
+
+        let coItem: ydui.actionSheetItem = {
             label: '充值【公司账户】预付充值',
-            method: () => {
+            callback: () => {
                 this.showCharge = true;
                 this.isCompanyCharge = true;
                 this.chargeAccount = this.selectedOrder.client.company.name;
@@ -148,7 +148,7 @@ export default class CashierComponent extends ComponentBase {
             this.actItems = [...this.actItems, coItem];
 
         this.showAct = true;
-        
+
     }
 
     //已结算中和挂账中显示actionsheet菜单
@@ -157,7 +157,7 @@ export default class CashierComponent extends ComponentBase {
             this.menus = [
                 {
                     label: '查看支付方式',
-                    method: () => {
+                    callback: () => {
                         this.showPaymentsclick(o)
                     }
                 }];
@@ -165,7 +165,7 @@ export default class CashierComponent extends ComponentBase {
             this.menus = [
                 {
                     label: '结账',
-                    method: () => {
+                    callback: () => {
                         this.showPayTypes = true;
                         this.lastshow = true;
                     }
@@ -173,13 +173,13 @@ export default class CashierComponent extends ComponentBase {
         this.menus = [...this.menus, ...[
             {
                 label: '打印【调拨单】到【收银台】',
-                method: () => {
+                callback: () => {
                     this.getPrintOrder(o.id, "收银台")
                 }
             },
             {
                 label: '打印【调拨单】到【地磅室】',
-                method: () => {
+                callback: () => {
                     this.getPrintOrder(o.id, "地磅室")
                 }
             }]
@@ -189,7 +189,7 @@ export default class CashierComponent extends ComponentBase {
             if (o.isDeliver) {
                 this.menus.push({
                     label: '打印【送货单】到【地磅室】',
-                    method: () => {
+                    callback: () => {
                         this.getPrintDeliver(o.id, '地磅室')
                     }
                 });
@@ -198,13 +198,13 @@ export default class CashierComponent extends ComponentBase {
             if (o.state == server.orderState.已完成) {
                 this.menus.push({
                     label: '打印【陆上装车单】到【地磅室】',
-                    method: () => {
+                    callback: () => {
                         this.getPrintLandload(o.id, '地磅室')
                     }
                 });
                 this.menus.push({
                     label: '打印【过磅单】到【地磅室】',
-                    method: () => {
+                    callback: () => {
                         this.getPrintPonderation(o.id, '地磅室')
                     }
                 });
@@ -257,7 +257,7 @@ export default class CashierComponent extends ComponentBase {
             //let input = (v[6] == null || v[6] == "") ? 0 : v[6];
             if (v != null) {
                 if (balanClient > 0) {
-                    if (v[6] > this.selectedOrder.client.balances){
+                    if (v[6] > this.selectedOrder.client.balances) {
                         this.toastError("超出客户可扣余额")
                         this.orderPayMoneys[6] = this.selectedOrder.client.balances;
                     }
@@ -446,7 +446,7 @@ export default class CashierComponent extends ComponentBase {
                 }
             });
     }
-    
+
 
     //结账
     putPay() {
@@ -508,5 +508,5 @@ export default class CashierComponent extends ComponentBase {
             }
         });
     }
-    
+
 }

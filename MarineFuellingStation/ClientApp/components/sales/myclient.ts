@@ -114,7 +114,7 @@ export default class MyClientComponent extends ComponentBase {
             this.actItems.push(
                 {
                     label: '取消标记',
-                    method: () => {
+                    callback: () => {
                         this.putMark(c, false);
                     }
                 },
@@ -123,7 +123,7 @@ export default class MyClientComponent extends ComponentBase {
             this.actItems.push(
                 {
                     label: '标记',
-                    method: () => {
+                    callback: () => {
                         this.putMark(c, true);
                     }
                 },

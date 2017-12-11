@@ -127,7 +127,7 @@ export default class ProductComponent extends ComponentBase {
                 jobj.data.forEach((o, i) => {
                     this.ptoptions.push({
                         label: o.name,
-                        method: () => {
+                        callback: () => {
                             this.currentproduct.productTypeId = o.id;
                             this.selectptname = o.name;
                         }
@@ -174,7 +174,7 @@ export default class ProductComponent extends ComponentBase {
                 //新增actionSheetItem项
                 this.ptoptions.push({
                     label: jobj.data.name,
-                    method: () => {
+                    callback: () => {
                         this.currentproduct.productTypeId = jobj.data.id;
                         this.selectptname = jobj.data.name;
                     }

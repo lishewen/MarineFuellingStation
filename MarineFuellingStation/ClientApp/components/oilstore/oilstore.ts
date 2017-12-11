@@ -77,20 +77,20 @@ export default class OilStoreComponent extends ComponentBase {
         this.actItems = [
             {
                 label: '测量',
-                method: () => {
+                callback: () => {
                     that.showAddSurvey(st);
                 }
             },
             {
                 label: '最近十五次测量记录',
-                method: () => {
+                callback: () => {
                     that.getSurveys(st.id);
                     that.show2 = true;
                 }
             },
             {
                 label: '化验记录',
-                method: () => {
+                callback: () => {
                     that.getAssays(st.id);
                     that.showAssays = true;
                 }
@@ -115,7 +115,7 @@ export default class OilStoreComponent extends ComponentBase {
             percent = 100;
         return percent
     }
-    
+
 
     getStoreTypes() {
         axios.get('/api/StoreType').then((res) => {

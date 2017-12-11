@@ -183,19 +183,19 @@ export default class OrderComponent extends ComponentBase {
         this.menus = [
             {
                 label: '单据明细',
-                method: () => {
+                callback: () => {
                     this.godetail(o.id)
                 }
             },
             {
                 label: '打印【调拨单】到【收银台】',
-                method: () => {
+                callback: () => {
                     this.getPrintOrder(o.id, "收银台")
                 }
             },
             {
                 label: '打印【调拨单】到【地磅室】',
-                method: () => {
+                callback: () => {
                     this.getPrintOrder(o.id, "地磅室")
                 }
             }
@@ -205,7 +205,7 @@ export default class OrderComponent extends ComponentBase {
             if (o.isDeliver) {
                 this.menus.push({
                     label: '打印【送货单】到【地磅室】',
-                    method: () => {
+                    callback: () => {
                         this.getPrintDeliver(o.id, '地磅室')
                     }
                 });
@@ -214,13 +214,13 @@ export default class OrderComponent extends ComponentBase {
             if (o.state == server.orderState.已完成) {
                 this.menus.push({
                     label: '打印【陆上装车单】到【地磅室】',
-                    method: () => {
+                    callback: () => {
                         this.getPrintLandload(o.id, '地磅室')
                     }
                 });
                 this.menus.push({
                     label: '打印【过磅单】到【地磅室】',
-                    method: () => {
+                    callback: () => {
                         this.getPrintPonderation(o.id, '地磅室')
                     }
                 });
@@ -389,7 +389,7 @@ export default class OrderComponent extends ComponentBase {
                 jobj.data.forEach((o, i) => {
                     this.oiloptions.push({
                         label: o.name,
-                        method: () => {
+                        callback: () => {
                             this.oilName = o.name;
                             this.model.productId = o.id;
                             this.model.price = o.minPrice;

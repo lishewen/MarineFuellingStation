@@ -2,112 +2,152 @@
     <div id="root">
         <yd-tab :callback="change">
             <yd-tab-panel label="销售开单">
-                <yd-cell-group title="计划" v-show="hasplan">
-                    <yd-cell-item v-show="hasplan">
-                        <span slot="left">计划单价：</span>
-                        <yd-input slot="right" v-model="salesplan.price" readonly></yd-input>
-                    </yd-cell-item>
-
-                    <yd-cell-item v-show="hasplan">
-                        <span slot="left">计划数量：</span>
-                        <yd-input slot="right" v-model="salesplan.count" readonly></yd-input>
-                        <span slot="right" style="width:70px">单位：{{model.unit}}</span>
-                    </yd-cell-item>
-                </yd-cell-group>
-                <yd-cell-group :title="'单号：' + model.name">
+                <!--第一步-->
+                <div v-show="showStep1">
                     <yd-cell-item arrow @click.native="salesplanselect">
                         <span slot="left">计划单：</span>
                         <span slot="right">{{selectedplanNo}}</span>
                     </yd-cell-item>
-                    <yd-cell-item>
+                    <yd-cell-item v-show="!hasplan">
                         <yd-radio-group slot="left" v-model="radio2">
-                            <yd-radio val="1">水上</yd-radio>
-                            <yd-radio val="2">陆上</yd-radio>
-                            <yd-radio val="3">机油</yd-radio>
+                            <yd-radio val="0">水上</yd-radio>
+                            <yd-radio val="1">陆上</yd-radio>
+                            <yd-radio val="2">机油</yd-radio>
                         </yd-radio-group>
                     </yd-cell-item>
-                    <yd-cell-item>
+                    <yd-cell-item v-show="!hasplan">
                         <span slot="left">{{strCarOrBoat}}：</span>
                         <yd-input slot="right" v-model="model.carNo" required placeholder="请输入"></yd-input>
                     </yd-cell-item>
-
-                    <yd-cell-item v-show="selectedplanNo != '散客'" arrow @click.native="showSalesmans = true">
-                        <span slot="left">销售员：</span>
-                        <span slot="right">{{model.salesman}}</span>
-                    </yd-cell-item>
-
-                    <yd-cell-item arrow @click.native="oilshow = true">
-                        <span slot="left">商品：</span>
-                        <span slot="right">{{oilName}}</span> 
-                    </yd-cell-item>
-
+                    <yd-cell-group title="计划" v-show="hasplan">
+                        <yd-cell-item>
+                            <span slot="left">{{strCarOrBoat}}：</span>
+                            <span slot="right">{{salesplan.carNo}}</span>
+                        </yd-cell-item>
+                        <yd-cell-item>
+                            <span slot="left">计划单价：</span>
+                            <span slot="right">{{salesplan.price}}</span>
+                        </yd-cell-item>
+                        <yd-cell-item>
+                            <span slot="left">计划数量：</span>
+                            <span slot="right">{{salesplan.count}}{{model.unit}}</span>
+                        </yd-cell-item>
+                        <yd-cell-item>
+                            <span slot="right" style="font-weight: bold">总价：￥{{Math.round(salesplan.totalMoney)}}</span>
+                        </yd-cell-item>
+                    </yd-cell-group>
+                    <yd-button size="large" @click.native="goStep2" :disabled="model.carNo == null || model.carNo == ''">下一步</yd-button>
+                </div>
+                <!--第二步-->
+                <yd-cell-group title="客户信息" v-show="showStep2">
                     <yd-cell-item>
-                        <span slot="left">订单单价：</span>
-                        <yd-input slot="right" type="number" v-model="model.price" required :placeholder="strMinPriceTip()"></yd-input>
+                        <span slot="left">个人账户：</span>
+                        <span slot="right">￥{{client != null ? client.balances : ""}}</span>
                     </yd-cell-item>
-
                     <yd-cell-item>
-                        <span slot="left">订单数量：</span>
-                        <yd-input slot="right" type="number" v-model="model.count" required placeholder="请输入加油数量"></yd-input>
-                        <span slot="right" style="width:70px">单位：{{model.unit}}</span>
+                        <span slot="left">联系人：</span>
+                        <div slot="right" v-show="client.contact && client.contact != ''">
+                            <span slot="right">{{client.contact}}</span>
+                            <yd-button type="warning" style="width: 35px" @click.native="client.contact = ''">变更</yd-button>
+                        </div>
+                        <yd-input slot="right" v-model="contact" ref="contact" v-show="!client.contact" required placeholder="请完善联系人资料" />
                     </yd-cell-item>
-
                     <yd-cell-item>
-                        <span slot="right" style="font-weight: bold">总计：￥{{Math.round(model.totalMoney)}}</span>
+                        <span slot="left">手机：</span>
+                        <div slot="right" v-show="client.mobile && client.mobile != ''">
+                            <span>{{client.mobile}}</span>
+                            <yd-button type="warning" style="width: 35px" @click.native="client.mobile = ''">变更</yd-button>
+                        </div>
+                        <yd-input slot="right" v-model="mobile" ref="mobile" v-show="!client.mobile" type="number" regex="mobile" required placeholder="请完善11位手机资料" />
                     </yd-cell-item>
-
                     <yd-cell-item>
-                        <span slot="left">备注：</span>
-                        <yd-textarea slot="right" v-model="model.remark" placeholder="请输入备注信息" maxlength="200"></yd-textarea>
+                        <span slot="left">固定电话：</span>
+                        <span slot="right">{{client ? client.phone : ""}}</span>
+                        <yd-input slot="right" v-show="client && !client.phone" type="number" placeholder="请完善固定电话资料，选填" />
                     </yd-cell-item>
-
-                    <yd-cell-item>
-                        <span slot="left">代码信息</span>
-                        <span slot="right">
-                            <yd-switch v-model="model.isInvoice"></yd-switch>
-                        </span>
-                    </yd-cell-item>
-                    <yd-cell-item arrow v-show="model.isInvoice">
-                        <span slot="left">必选：</span>
-                        <select slot="right" v-model="model.ticketType">
-                            <option value="-1">请选择</option>
-                            <option value="0">循</option>
-                            <option value="1">柴</option>
-                        </select>
-                    </yd-cell-item>
-                    <yd-cell-item v-show="model.isInvoice">
-                        <span slot="left">单位：</span>
-                        <yd-input slot="right" v-model="model.billingCompany" placeholder="请输入单位"></yd-input>
-                        <span slot="right" style="width: 1.2rem"><yd-button type="warning" @click.native="getClients">导入</yd-button></span>
-                    </yd-cell-item>
-                    <yd-cell-item v-show="model.isInvoice">
-                        <span slot="left">单价：</span>
-                        <yd-input slot="right" v-model="model.billingPrice" type="number" placeholder="请输入单价，默认同上"></yd-input>
-                    </yd-cell-item>
-                    <yd-cell-item v-show="model.isInvoice">
-                        <span slot="left">数量：</span>
-                        <yd-input slot="right" v-model="model.billingCount" type="number" placeholder="请输入，默认同上"></yd-input>
-                    </yd-cell-item>
+                    <yd-button size="large" @click.native="goStep3" :disabled="step3Prevent">下一步</yd-button>
                 </yd-cell-group>
+                <!--第三步-->
+                <div v-show="showStep3">
+                    <yd-cell-group :title="'单号：' + model.name">
+                        <yd-cell-item v-show="selectedplanNo != '散客'" arrow @click.native="showSalesmansclick">
+                            <span slot="left">销售员：</span>
+                            <span slot="right">{{model.salesman}}</span>
+                        </yd-cell-item>
 
-                <yd-cell-group title="送货单选项" v-show="model.orderType == 1">
-                    <yd-cell-item>
-                        <span slot="left">送货上门</span>
-                        <span slot="right"><yd-switch v-model="model.isDeliver"></yd-switch></span>
-                    </yd-cell-item>
-                    <yd-cell-item v-show="model.isDeliver">
-                        <span slot="left">运费：</span>
-                        <yd-input slot="right" v-model="model.deliverMoney" type="number" placeholder="请输入运费"></yd-input>
-                        <span slot="right">元</span>
-                    </yd-cell-item>
-                    <yd-cell-item v-show="model.isDeliver">
-                        <span slot="left">打印单价</span>
-                        <span slot="right"><yd-switch v-model="model.isPrintPrice"></yd-switch></span>
-                    </yd-cell-item>
-                </yd-cell-group>
+                        <yd-cell-item arrow @click.native="oilshow = true">
+                            <span slot="left">商品：</span>
+                            <span slot="right">{{oilName}}</span>
+                        </yd-cell-item>
 
-                <div>
-                    <yd-button size="large" type="primary" @click.native="buttonclick" :disabled="isPrevent">提交</yd-button>
+                        <yd-cell-item>
+                            <span slot="left">订单单价：</span>
+                            <yd-input slot="right" type="number" v-model="model.price" required :placeholder="strMinPriceTip()"></yd-input>
+                        </yd-cell-item>
+
+                        <yd-cell-item>
+                            <span slot="left">订单数量：</span>
+                            <yd-input slot="right" type="number" v-model="model.count" required placeholder="请输入加油数量"></yd-input>
+                            <span slot="right" style="width:70px">单位：{{model.unit}}</span>
+                        </yd-cell-item>
+
+                        <yd-cell-item>
+                            <span slot="right" style="font-weight: bold">总计：￥{{Math.round(model.totalMoney)}}</span>
+                        </yd-cell-item>
+
+                        <yd-cell-item>
+                            <span slot="left">备注：</span>
+                            <yd-textarea slot="right" v-model="model.remark" placeholder="请输入备注信息" maxlength="200"></yd-textarea>
+                        </yd-cell-item>
+
+                        <yd-cell-item>
+                            <span slot="left">代码信息</span>
+                            <span slot="right">
+                                <yd-switch v-model="model.isInvoice"></yd-switch>
+                            </span>
+                        </yd-cell-item>
+                        <yd-cell-item arrow v-show="model.isInvoice">
+                            <span slot="left">必选：</span>
+                            <select slot="right" v-model="model.ticketType">
+                                <option value="-1">请选择</option>
+                                <option value="0">循</option>
+                                <option value="1">柴</option>
+                            </select>
+                        </yd-cell-item>
+                        <yd-cell-item v-show="model.isInvoice">
+                            <span slot="left">单位：</span>
+                            <yd-input slot="right" v-model="model.billingCompany" placeholder="请输入单位"></yd-input>
+                            <span slot="right" style="width: 1.2rem"><yd-button type="warning" @click.native="getClients">导入</yd-button></span>
+                        </yd-cell-item>
+                        <yd-cell-item v-show="model.isInvoice">
+                            <span slot="left">单价：</span>
+                            <yd-input slot="right" v-model="model.billingPrice" type="number" placeholder="请输入单价，默认同上"></yd-input>
+                        </yd-cell-item>
+                        <yd-cell-item v-show="model.isInvoice">
+                            <span slot="left">数量：</span>
+                            <yd-input slot="right" v-model="model.billingCount" type="number" placeholder="请输入，默认同上"></yd-input>
+                        </yd-cell-item>
+                    </yd-cell-group>
+
+                    <yd-cell-group title="送货单选项" v-show="model.orderType == 1">
+                        <yd-cell-item>
+                            <span slot="left">送货上门</span>
+                            <span slot="right"><yd-switch v-model="model.isDeliver"></yd-switch></span>
+                        </yd-cell-item>
+                        <yd-cell-item v-show="model.isDeliver">
+                            <span slot="left">运费：</span>
+                            <yd-input slot="right" v-model="model.deliverMoney" type="number" placeholder="请输入运费"></yd-input>
+                            <span slot="right">元</span>
+                        </yd-cell-item>
+                        <yd-cell-item v-show="model.isDeliver">
+                            <span slot="left">打印单价</span>
+                            <span slot="right"><yd-switch v-model="model.isPrintPrice"></yd-switch></span>
+                        </yd-cell-item>
+                    </yd-cell-group>
+
+                    <div>
+                        <yd-button size="large" type="primary" @click.native="buttonclick" :disabled="isPrevent">提交</yd-button>
+                    </div>
                 </div>
             </yd-tab-panel>
 

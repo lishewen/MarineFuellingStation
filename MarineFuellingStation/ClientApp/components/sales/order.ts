@@ -18,10 +18,18 @@ export default class OrderComponent extends ComponentBase {
     oilshow: boolean = false;
     orders: server.order[];
     clients: server.client[];
+    client: server.client = null;
     sales: work.userlist[];
     showSalesmans: boolean = false;
 
-    radio2: string = '1';
+    showStep1: boolean = true;
+    showStep2: boolean = false;
+    showStep3: boolean = false;
+    step3Prevent: boolean = true;
+
+    mobile: string;
+    contact: string;
+    radio2: string = '0';
     carNo: string = '';
     strCarOrBoat: string = '船号';
 
@@ -48,7 +56,7 @@ export default class OrderComponent extends ComponentBase {
         this.model = (new Object()) as server.order;
         this.model.isInvoice = false;
         this.model.isDeliver = false;
-        this.model.carNo = '';
+        this.model.carNo = null;
         this.model.price = '';
         this.model.billingPrice = 0;
         this.model.billingCount = 0;
@@ -58,6 +66,7 @@ export default class OrderComponent extends ComponentBase {
         this.model.billingCompany = '';
         this.model.deliverMoney = 0;
 
+        this.client = new Object() as server.client;
         this.clients = new Array<server.client>();
 
         this.orders = new Array();
@@ -65,7 +74,6 @@ export default class OrderComponent extends ComponentBase {
 
         this.getOrderNo();
         this.getOilProducts();
-        this.getSales();
     }
 
     salesplanselect() {
@@ -129,7 +137,7 @@ export default class OrderComponent extends ComponentBase {
         //this.model.clientId = s.cl
         this.oilName = s.oilName;
         this.model.productId = s.productId;
-        this.radio2 = (s.salesPlanType + 1).toString();
+        this.radio2 = s.salesPlanType.toString();
 
         this.hasplan = true;
 
@@ -138,6 +146,7 @@ export default class OrderComponent extends ComponentBase {
 
     emptyclick(): void {
         this.selectedplanNo = "散客";
+        this.model.carNo = null;
         this.model.salesPlanId = null;
 
         this.hasplan = false;
@@ -145,10 +154,34 @@ export default class OrderComponent extends ComponentBase {
         this.salesplanshow = false;
     };
 
+    goStep2() {
+        this.showStep1 = false;
+        this.showStep2 = true;
+        this.getClient();
+    }
+
+    //完善客户资料，第三步
+    goStep3() {
+        console.log(this.$refs.contact["valid"]);
+        if (!this.$refs.contact["valid"]) { this.toastError("请正确填写联系人"); return; };
+        if (!this.$refs.mobile["valid"]) { this.toastError("请正确填写手机"); return; };
+        this.client.mobile = this.mobile;
+        this.client.contact = this.contact;
+        console.log(this.client);
+        this.putUpdateClientInfo();
+    }
+
+    showSalesmansclick() {
+        if (this.radio2 == server.salesPlanType.水上.toString() || this.radio2 == server.salesPlanType.机油.toString())
+            this.getWaterSales();
+        else if (this.radio2 == server.salesPlanType.陆上.toString())
+            this.getLandSales();
+    };
+
     selectsalesclick(s: work.userlist) {
         this.model.salesman = s.name;
         this.showSalesmans = false;
-    }
+    };
 
     buttonclick() {
         //信息验证
@@ -235,19 +268,19 @@ export default class OrderComponent extends ComponentBase {
         //观察者模式
         this.$watch('radio2', (v, ov) => {
             switch (v) {
-                case "1":
+                case "0":
                     this.model.unit = '升';
                     this.strCarOrBoat = "船号";
                     this.show2 = false;
                     this.model.orderType = server.salesPlanType.水上;
                     break;
-                case "2":
+                case "1":
                     this.strCarOrBoat = "车牌号";
                     this.model.unit = '吨';
                     this.show2 = true;
                     this.model.orderType = server.salesPlanType.陆上;
                     break;
-                case "3":
+                case "2":
                     this.strCarOrBoat = "车牌号";
                     this.model.unit = '桶';
                     this.show2 = false;
@@ -283,8 +316,6 @@ export default class OrderComponent extends ComponentBase {
 
     change(label: string, tabkey: string) {
         console.log(label);
-        
-
         (<any>this).$refs.infinitescroll.$emit('ydui.infinitescroll.reInit');
         this.salesplans = null;
         this.page = 1;
@@ -423,12 +454,50 @@ export default class OrderComponent extends ComponentBase {
             });
     }
 
-    //获得销售员
-    getSales() {
-        axios.get('/api/User/Salesman').then((res) => {
+    //获得水上销售员
+    getWaterSales() {
+        axios.get('/api/User/WaterSalesman').then((res) => {
             let jobj = res.data as work.tagMemberResult;
-            if (jobj.errcode == 0)
+            if (jobj.errcode == 0) {
+                this.showSalesmans = true;
                 this.sales = jobj.userlist;
+            }
+        });
+    }
+
+    //获得陆上销售员
+    getLandSales() {
+        axios.get('/api/User/LandSalesman').then((res) => {
+            let jobj = res.data as work.tagMemberResult;
+            if (jobj.errcode == 0) {
+                this.sales = jobj.userlist;
+                this.showSalesmans = true;
+            }
+        });
+    }
+
+    //取得客户，如果没有找到该客户，则新增一个客户
+    getClient() {
+        let carNo = this.model.carNo;
+        if (carNo == "" || carNo == null) {
+            this.toastError("请输入船号或车号");
+            return;
+        }
+        axios.get('/api/client/CreateOrGetClientByCarNo?carno=' + carNo).then((res) => {
+            let jobj = res.data as server.resultJSON<server.client>;
+            if (jobj.code == 0) {
+                this.showStep1 = false;
+                this.showStep2 = true;
+                this.step3Prevent = false;//释放下一步
+                this.client = jobj.data;
+                if (jobj.data != null) {
+                    this.model.billingCompany = this.client.company != null ? this.client.company.name : "";
+                    this.model.ticketType = this.client.company != null ? this.client.company.ticketType : -1;
+
+                    this.mobile = this.client.mobile ? this.client.mobile : "";
+                    this.contact = this.client.contact ? this.client.contact : "";
+                }
+            }
         });
     }
 
@@ -444,5 +513,16 @@ export default class OrderComponent extends ComponentBase {
         });
     }
 
-    
+    putUpdateClientInfo() {
+        axios.put('/api/Client', this.client).then((res) => {
+            let jobj = res.data as server.resultJSON<server.client>;
+            if (jobj.code == 0) {
+                this.showStep2 = false;
+                this.showStep3 = true;
+                console.log("showStep3 = " + this.showStep3);
+                console.log("model.orderType = " + this.model.orderType);
+
+            }
+        })
+    }
 }

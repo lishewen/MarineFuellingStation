@@ -16,6 +16,7 @@ export default class PlanComponent extends ComponentBase {
     showStep1: boolean = true;
     showStep2: boolean = false;
     showStep3: boolean = false;
+    step3Prevent: boolean = true;
     oiloptions: ydui.actionSheetItem[];
     client: server.client;
     mobile: string;
@@ -66,9 +67,7 @@ export default class PlanComponent extends ComponentBase {
         this.client.company = new Object() as server.company;
         this.client.company.name = "";
         this.client.company.ticketType = -1;
-
-
-
+        
         this.pMinPrice = 0;
         this.pMinInvoicePrice = 0;
 
@@ -301,6 +300,7 @@ export default class PlanComponent extends ComponentBase {
             if (jobj.code == 0) {
                 this.showStep1 = false;
                 this.showStep2 = true;
+                this.step3Prevent = false;//释放下一步
                 this.client = jobj.data;
                 if (jobj.data != null) {
                     this.model.billingCompany = this.client.company != null ? this.client.company.name : "";

@@ -36,14 +36,14 @@
                             <span>{{client.mobile}}</span>
                             <yd-button type="warning" style="width: 35px" @click.native="client.mobile = ''">变更</yd-button>
                         </div>
-                        <yd-input slot="right" v-model="mobile" ref="mobile" v-show="!client.mobile" type="number" regex="mobile" required placeholder="请完善手机资料" />
+                        <yd-input slot="right" v-model="mobile" ref="mobile" v-show="!client.mobile" type="number" regex="mobile" required placeholder="请完善11位手机资料" />
                     </yd-cell-item>
                     <yd-cell-item>
                         <span slot="left">固定电话：</span>
                         <span slot="right">{{client ? client.phone : ""}}</span>
                         <yd-input slot="right" v-show="client && !client.phone" type="number" placeholder="请完善固定电话资料，选填" />
                     </yd-cell-item>
-                    <yd-button size="large" @click.native="goStep3">下一步</yd-button>
+                    <yd-button size="large" @click.native="goStep3" :disabled="step3Prevent">下一步</yd-button>
                 </yd-cell-group>
                 <div v-show="showStep3">
                     <yd-cell-group title="请选择">

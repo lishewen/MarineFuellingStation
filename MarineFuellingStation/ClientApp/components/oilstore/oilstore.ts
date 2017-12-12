@@ -110,7 +110,7 @@ export default class OilStoreComponent extends ComponentBase {
             percent = 100;
         return percent
     }
-    
+
 
     getStoreTypes() {
         axios.get('/api/StoreType').then((res) => {

@@ -65,7 +65,7 @@ export default class CashierComponent extends ComponentBase {
 
         this.actItems = new Array<ydui.actionSheetItem>();
         this.menus = new Array<ydui.actionSheetItem>();
-        
+
         this.getOrders();
     }
 
@@ -125,7 +125,7 @@ export default class CashierComponent extends ComponentBase {
                 }
             }
         ];
-        
+
         this.actItems.push({
             label: '【个人账户】预付充值',
             callback: () => {
@@ -134,8 +134,8 @@ export default class CashierComponent extends ComponentBase {
                 this.chargeAccount = this.selectedOrder.client.carNo;
             }
         });
-        
-        let coItem = {
+
+        let coItem: ydui.actionSheetItem = {
             label: '充值【公司账户】预付充值',
             callback: () => {
                 this.showCharge = true;
@@ -148,7 +148,7 @@ export default class CashierComponent extends ComponentBase {
             this.actItems = [...this.actItems, coItem];
 
         this.showAct = true;
-        
+
     }
 
     //已结算中和挂账中显示actionsheet菜单
@@ -257,7 +257,7 @@ export default class CashierComponent extends ComponentBase {
             //let input = (v[6] == null || v[6] == "") ? 0 : v[6];
             if (v != null) {
                 if (balanClient > 0) {
-                    if (v[6] > this.selectedOrder.client.balances){
+                    if (v[6] > this.selectedOrder.client.balances) {
                         this.toastError("超出客户可扣余额")
                         this.orderPayMoneys[6] = this.selectedOrder.client.balances;
                     }
@@ -446,7 +446,7 @@ export default class CashierComponent extends ComponentBase {
                 }
             });
     }
-    
+
 
     //结账
     putPay() {
@@ -508,5 +508,5 @@ export default class CashierComponent extends ComponentBase {
             }
         });
     }
-    
+
 }

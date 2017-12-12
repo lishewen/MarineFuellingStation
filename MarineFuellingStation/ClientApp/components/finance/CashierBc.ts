@@ -47,7 +47,7 @@ export default class CashierBcComponent extends ComponentBase {
         this.payState = server.boatCleanPayState.未结算;
         this.getBoatCleans();
     }
-    
+
     mounted() {
         this.$emit('setTitle', this.$store.state.username + '结算');
         this.$watch("payTypes", (v, ov) => {
@@ -57,7 +57,7 @@ export default class CashierBcComponent extends ComponentBase {
         this.$watch("payMoneys", (v, ov) => {
             this.payInfact = 0;
             for (let m in v) {
-                if(v[m])
+                if (v[m])
                     this.payInfact += parseFloat(v[m]);
             }
         });
@@ -86,7 +86,7 @@ export default class CashierBcComponent extends ComponentBase {
     lastclick() {
         this.showStep1 = true;
     }
-    
+
     loadList() {
         this.getBoatCleans((list: server.boatClean[]) => {
             switch (this.payState) {
@@ -191,7 +191,7 @@ export default class CashierBcComponent extends ComponentBase {
 
     boatclick(b: server.boatClean) {
         this.selectedBc = b;
-        
+
         this.actItems = [
             {
                 label: '结账',
@@ -219,11 +219,11 @@ export default class CashierBcComponent extends ComponentBase {
             if (this.payMoneys[i] == null || this.payMoneys[i] == '0' || this.payMoneys[i] == '') {
                 this.toastError("请输入金额，不能为空或0");
                 return;
-            }   
+            }
         }
         this.putPay();
     }
-    
+
     //根据boatCleanId获取该订单的付款记录
     getPayments(bid: number) {
         if (bid == null) {
@@ -296,7 +296,7 @@ export default class CashierBcComponent extends ComponentBase {
                 return "公司账户扣减"
         }
     }
-    
+
     //结账
     putPay() {
         let model = this.selectedBc;
@@ -337,5 +337,5 @@ export default class CashierBcComponent extends ComponentBase {
         })
     }
 
-    
+
 }

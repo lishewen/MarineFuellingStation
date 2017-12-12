@@ -66,7 +66,7 @@
             </yd-cell-item>
             <yd-cell-item v-show="model.isInvoice">
                 <span slot="left">数量：</span>
-                <span slot="right">{{model.billingCount}}</span>
+                <span slot="right">{{model.billingCount}}{{model.unit}}</span>
             </yd-cell-item>
         </yd-cell-group>
         <yd-cell-group v-show="model.isDeliver" title="送货上门">

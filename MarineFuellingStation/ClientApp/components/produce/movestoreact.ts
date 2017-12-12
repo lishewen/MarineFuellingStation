@@ -48,7 +48,7 @@ export default class MoveStoreActComponent extends ComponentBase {
         this.menus = [
             {
                 label: '打印到【收银台】',
-                method: () => {
+                callback: () => {
                     this.getPrintMoveStore(mid, '收银台')
                 }
             }

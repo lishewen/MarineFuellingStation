@@ -9,7 +9,7 @@
 declare namespace ydui {
     export class actionSheetItem {
         label: string;
-        method: Function;
+        callback: Function;
     }
 }
 

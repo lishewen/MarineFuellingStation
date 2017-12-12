@@ -114,7 +114,7 @@ export default class MyClientComponent extends ComponentBase {
             this.actItems.push(
                 {
                     label: '取消标记',
-                    method: () => {
+                    callback: () => {
                         this.putMark(c, false);
                     }
                 },
@@ -123,7 +123,7 @@ export default class MyClientComponent extends ComponentBase {
             this.actItems.push(
                 {
                     label: '标记',
-                    method: () => {
+                    callback: () => {
                         this.putMark(c, true);
                     }
                 },
@@ -131,19 +131,19 @@ export default class MyClientComponent extends ComponentBase {
         elseActItems = [
             {
                 label: '详细信息',
-                method: () => {
+                callback: () => {
                     this.godetail(c.id);
                 }
             },
             {
                 label: '备注',
-                method: () => {
+                callback: () => {
                     this.showRemark = true;
                 }
             },
             {
                 label: '清空所有标记',
-                method: () => {
+                callback: () => {
                     this.putClearAllMark();
                 }
             }

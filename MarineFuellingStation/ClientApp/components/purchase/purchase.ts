@@ -149,7 +149,7 @@ export default class PurchaseComponent extends ComponentBase {
                 jobj.data.forEach((o, i) => {
                     this.oiloptions.push({
                         label: o.name,
-                        method: () => {
+                        callback: () => {
                             this.oilName = o.name;
                             this.model.productId = o.id;
                             this.model.price = o.lastPrice;

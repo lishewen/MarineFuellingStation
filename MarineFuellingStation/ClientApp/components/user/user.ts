@@ -41,12 +41,12 @@ export default class UserComponent extends ComponentBase {
     userClick(user: work.userlist) {
         this.userItems = [{
             label: '致电' + user.mobile + '？',
-            method: () => {
+            callback: () => {
                 window.location.href = 'tel: ' + user.mobile;
             }
         }, {
             label: '详细资料',
-            method: () => {
+            callback: () => {
                 this.$router.push('/user/user/' + user.userid)
             }
         }];
@@ -69,7 +69,7 @@ export default class UserComponent extends ComponentBase {
                     this.departmentdict[o.id] = o.name;
                     this.departmentoptions.push({
                         label: o.name,
-                        method: () => {
+                        callback: () => {
                             this.selectdepartmentname = o.name;
                         }
                     });

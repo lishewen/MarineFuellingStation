@@ -4,12 +4,12 @@ declare module server {
 		storeId: number;
 		store: store;
 		/** 油温 */
-		temperature: number | string;
+		temperature: number;
 		/** 密度 */
-		density: number | string;
+		density: number;
 		/** 油高 */
-        height: number | string;
+        height: number;
         /** 油高对应的升数 */
-        count: number | string;
+        count: number;
 	}
 }

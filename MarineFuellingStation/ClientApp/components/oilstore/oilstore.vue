@@ -9,7 +9,9 @@
         <yd-cell-group :title="st.name" v-for="st in sts" :key="st.id">
             <yd-cell-item arrow @click.native="storeclick(s)" v-for="s in st.stores" :key="s.id">
                 <div slot="left" style="width: 60px;height: 60px;margin:15px 15px 15px -5px">
-                    <yd-progressbar :progress="getPercent(s.sumInValue, s.sumInValue+s.sumOutValue)" trailWidth="4">{{strInOutDiff(s.sumInValue, s.sumOutValue)}}</yd-progressbar>
+                    <yd-progressbar :progress="getPercent(s.sumInValue, s.sumInValue + s.sumOutValue)" trailWidth="4">
+                        {{strInOutDiff(s.sumInValue, s.sumOutValue)}}
+                    </yd-progressbar>
                 </div>
                 <div slot="left" style="width: 60px;height: 60px;margin:10px 10px 10px -5px">
                     <yd-progressbar :progress="getPercent(s.value,s.volume)"
@@ -17,7 +19,7 @@
                                     strokeWidth="4"
                                     strokeColor="#B2B2B2"
                                     trailColor="#FE5D51"
-                                    fillColor="#EAEAEA">{{s.value}}</yd-progressbar>
+                                    fillColor="#EAEAEA">{{Math.round(s.value)}}</yd-progressbar>
                 </div>
                 <div slot="left">
                     <p class="col-gray font-rem4">{{s.name}}</p>
@@ -57,7 +59,7 @@
                 </yd-cell-item>
             </yd-cell-group>
             <div class="align-center">
-                <yd-button style="width:80%" type="primary" @click.native="postSurveyclick">提交测量记录</yd-button>
+                <yd-button size="large" type="primary" @click.native="postSurveyclick">提交测量记录</yd-button>
             </div>
         </yd-popup>
         <yd-popup v-model="show2" position="right" width="70%">

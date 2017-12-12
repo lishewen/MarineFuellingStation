@@ -56,13 +56,13 @@ export default class AuditingComponent extends ComponentBase {
         this.actItems = [
             {
                 label: '详细信息',
-                method: () => {
+                callback: () => {
                     this.godetail(s.id);
                 }
             },
             {
                 label: '审核',
-                method: () => {
+                callback: () => {
                     this.putAuditingOK(s);
                 }
             }

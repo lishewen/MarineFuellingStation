@@ -55,7 +55,7 @@ export default class UnloadAuditComponent extends ComponentBase {
         this.actItems = [
             {
                 label: '详细信息',
-                method: () => {
+                callback: () => {
                     this.godetail(s.id);
                 }
             }
@@ -64,7 +64,7 @@ export default class UnloadAuditComponent extends ComponentBase {
             this.actItems.push(
                 {
                     label: '重新施工',
-                    method: () => {
+                    callback: () => {
                         this.putRestart(s.id);
                     }
                 }
@@ -72,7 +72,7 @@ export default class UnloadAuditComponent extends ComponentBase {
             this.actItems.push(
                 {
                     label: '审核通过',
-                    method: () => {
+                    callback: () => {
                         this.putAuditingOK(s);
                     }
                 }

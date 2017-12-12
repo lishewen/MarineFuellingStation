@@ -284,7 +284,7 @@ export default class ClientComponent extends ComponentBase {
                 jobj.data.forEach((o, i) => {
                     this.oiloptions.push({
                         label: o.name,
-                        method: () => {
+                        callback: () => {
                             this.oilName = o.name;
                             this.model.defaultProductId = o.id;
                         }

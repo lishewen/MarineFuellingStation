@@ -30,8 +30,8 @@ export default class OilStoreComponent extends ComponentBase {
         this.assays = new Array<server.assay>();
         this.selectStore = new Object() as server.store;
         this.survey = new Object() as server.survey;
-        this.survey.density = '';
-        this.survey.count = '';
+        this.survey.density = null;
+        this.survey.count = null;
         this.litreToTon = 0;
         this.getStoreTypes();
     }
@@ -40,21 +40,17 @@ export default class OilStoreComponent extends ComponentBase {
         this.$emit('setTitle', '所有仓情况');
         console.log(this.survey);
         this.$watch('survey.density', (v, ov) => {
-            console.log(v);
-            console.log(ov);
-            //if (v && v != '') {
-            //    if (this.survey && this.survey.count != "")
-            //        this.litreToTon = Math.round(<number>this.survey.count * v / 1000 * 100) / 100;
-            //}
+            if (v && v != '') {
+                if (this.survey != null)
+                    this.litreToTon = Math.round(<number>this.survey.count * v / 1000 * 100) / 100;
+            }
         });
-        //this.$watch('survey.count', (v, ov) => {
-        //    console.log(v);
-        //    console.log(ov);
-        //    //if (v && v != '') {
-        //    //    if (this.survey && this.survey.density != "")
-        //    //        this.litreToTon = Math.round(v * <number>this.survey.density / 1000 * 100) / 100;
-        //    //}
-        //});
+        this.$watch('survey.count', (v, ov) => {
+            if (v && v != '') {
+                if (this.survey != null)
+                    this.litreToTon = Math.round(v * <number>this.survey.density / 1000 * 100) / 100;
+            }
+        });
     };
 
     /**
@@ -62,12 +58,11 @@ export default class OilStoreComponent extends ComponentBase {
      */
     showAddSurvey(st: server.store) {
         this.show1 = true;
-        this.survey = new Object as server.survey;
-        this.survey.count = '';
-        this.survey.density = '';
+        this.selectStore = st;
+        this.survey.count = null;
+        this.survey.density = null;
         this.survey.storeId = st.id;
         this.survey.name = st.name;
-        this.selectStore = st;
     }
 
     //显示actionsheet
@@ -77,20 +72,20 @@ export default class OilStoreComponent extends ComponentBase {
         this.actItems = [
             {
                 label: '测量',
-                method: () => {
+                callback: () => {
                     that.showAddSurvey(st);
                 }
             },
             {
                 label: '最近十五次测量记录',
-                method: () => {
+                callback: () => {
                     that.getSurveys(st.id);
                     that.show2 = true;
                 }
             },
             {
                 label: '化验记录',
-                method: () => {
+                callback: () => {
                     that.getAssays(st.id);
                     that.showAssays = true;
                 }
@@ -152,7 +147,7 @@ export default class OilStoreComponent extends ComponentBase {
     }
 
     strInOutDiff(sumIn: number, sumOut: number) {
-        let diff = sumIn - sumOut;
+        let diff = Math.round(sumIn - sumOut);
         if (diff > 0)
             return "+" + diff.toString()
         else
@@ -160,19 +155,19 @@ export default class OilStoreComponent extends ComponentBase {
     }
 
     validate() {
-        if (this.survey.temperature == null || this.survey.temperature == '') {
+        if (this.survey.temperature == null) {
             this.toastError('油温不能为空');
             return false;
         }
-        if (this.survey.density == null || this.survey.density == '') {
+        if (this.survey.density == null) {
             this.toastError('密度不能为空');
             return false;
         }
-        if (this.survey.height == null || this.survey.height == '') {
+        if (this.survey.height == null) {
             this.toastError('油高不能为空');
             return false;
         }
-        if (this.survey.count == null || this.survey.count == '') {
+        if (this.survey.count == null) {
             this.toastError('对应升数不能为空');
             return false;
         }

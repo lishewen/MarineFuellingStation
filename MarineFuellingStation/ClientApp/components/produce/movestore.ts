@@ -36,6 +36,7 @@ export default class MoveStoreComponent extends ComponentBase {
     constructor() {
         super();
 
+        this.movestores = new Array<server.moveStore>();
         this.picked = new Array<string>();
         this.model = (new Object()) as server.moveStore;
         this.model.name = '';
@@ -81,13 +82,19 @@ export default class MoveStoreComponent extends ComponentBase {
 
     mounted() {
         this.$emit('setTitle', this.$store.state.username + ' 生产开单');
-        
+        this.$watch('sv', (v: string, ov) => {
+            //2个字符开始才执行请求操作，减少请求次数
+            if (v.length >= 2 || v == "")
+                this.getMoveStores();
+        });
     };
 
     change(label: string, tabkey: string) {
         console.log(label);
+        this.page = 1;
+        this.movestores = null;
+        (<any>this).$refs.infinitescroll.$emit('ydui.infinitescroll.reInit');
         if (label == "记录") {
-            this.page = 1;
             this.getMoveStores();
         }
     }

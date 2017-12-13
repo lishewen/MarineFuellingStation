@@ -5,6 +5,7 @@ import axios from "axios";
 @Component
 export default class MoveStoreComponent extends ComponentBase {
     model: server.moveStore;
+    movestores: server.moveStore[];
     manufacturer: work.userlist[];
     picked: string[];
     outStores: server.store[];
@@ -22,8 +23,10 @@ export default class MoveStoreComponent extends ComponentBase {
     isPrevent: boolean = true;
     isPrevent1: boolean = true;
 
-    filterclick(): void {
-    };
+    sv: string = "";
+    page: number;
+    scrollRef: any;
+    pSize: number = 30;
 
     selectproducerclick(): void {
         this.model.manufacturer = this.picked.join('|');
@@ -47,27 +50,46 @@ export default class MoveStoreComponent extends ComponentBase {
         this.actBtnId1 = -1;
 
         this.getStoreTypes();
-
         this.getMoveStoreNo();
         //this.getManufacturer();
     }
 
+    loadList() {
+        this.getMoveStores((list: server.moveStore[]) => {
+            this.movestores = this.page > 1 ? [...this.movestores, ...list] : this.movestores;
+            this.scrollRef = (<any>this).$refs.infinitescroll;
+            if (list.length < this.pSize) {
+                this.scrollRef.$emit("ydui.infinitescroll.loadedDone");
+                return;
+            }
+
+            //通知加载数据完毕
+            this.scrollRef.$emit("ydui.infinitescroll.finishLoad");
+
+            if (list.length > 0)
+                this.page++;
+            else
+                this.page = 1;
+            console.log("page = " + this.page)
+        });
+    }
+
     buttonclick() {
         //信息验证
-        this.isPrevent = true;
         this.postMoveStore(this.model);
     }
 
     mounted() {
         this.$emit('setTitle', this.$store.state.username + ' 生产开单');
-        this.$watch('radio2', (v, ov) => {
-
-        });
+        
     };
 
     change(label: string, tabkey: string) {
         console.log(label);
-        
+        if (label == "记录") {
+            this.page = 1;
+            this.getMoveStores();
+        }
     }
 
     switchBtn(o: helper.filterBtn, idx: number, group: string) {
@@ -109,18 +131,13 @@ export default class MoveStoreComponent extends ComponentBase {
     }
 
     validate() {
-        if (!this.model.outStoreId) {
-            this.toastError("请指定转出仓")
-            return false;
-        }
-        if (!this.model.inStoreId) {
-            this.toastError("请指定转入仓")
-            return false;
-        }
-        if (this.model.outStoreId == this.model.inStoreId) {
-            this.toastError("转出仓和转入仓不能相同")
-            return false;
-        }
+        if (!this.model.outStoreId) {this.toastError("请指定转出仓");return false;}
+        if (!this.model.inStoreId) { this.toastError("请指定转入仓");return false;}
+        if (this.model.outStoreId == this.model.inStoreId) { this.toastError("转出仓和转入仓不能相同"); return false; }
+        if (this.model.inDensity == null) { this.toastError("请输入进仓密度"); return false; }
+        if (this.model.outDensity == null) { this.toastError("请输入出仓密度"); return false; }
+        if (this.model.inDensity >= 1) { this.toastError("进仓密度应少于1"); return false; }
+        if (this.model.outDensity >= 1) { this.toastError("出仓密度应少于1"); return false; }
         //if (!this.model.manufacturer) {
         //    this.toastError("请指定生产员")
         //    return;
@@ -136,7 +153,6 @@ export default class MoveStoreComponent extends ComponentBase {
                 this.model.name = jobj.data;
                 this.isPrevent = false;
             }
-                
         });
     }
     //** 获得生产员 */
@@ -187,6 +203,27 @@ export default class MoveStoreComponent extends ComponentBase {
         });
     }
 
+    getMoveStores(callback?: Function) {
+        if (this.page == null) this.page = 1;
+        if (this.pSize == null) this.pSize = 30;
+        axios.get('/api/MoveStore/GetByPager?page='
+            + this.page
+            + '&pagesize=' + this.pSize
+            + '&sv=' + this.sv)
+            .then((res) => {
+                let jobj = res.data as server.resultJSON<server.moveStore[]>;
+                if (jobj.code == 0) {
+                    if (callback) {
+                        callback(jobj.data);
+                    }
+                    else {
+                        this.movestores = jobj.data;
+                        this.page++;
+                    }
+                }
+            });
+    }
+
     postMoveStore(model: server.moveStore) {
         model.inStoreId = this.selectedInStore;
         model.outStoreId = <number>this.selectedOutStore;
@@ -194,7 +231,7 @@ export default class MoveStoreComponent extends ComponentBase {
         axios.post('/api/MoveStore', model).then((res) => {
             let jobj = res.data as server.resultJSON<server.moveStore>;
             if (jobj.code == 0) {
-                this.isPrevent = true;
+                //this.isPrevent = true;
                 this.addNextConfirm();
             }
         });

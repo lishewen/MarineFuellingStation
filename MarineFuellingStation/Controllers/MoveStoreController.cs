@@ -52,6 +52,20 @@ namespace MFS.Controllers
                 Data = r.GetForIsFinished(isFinished)
             };
         }
+        [HttpGet("[action]")]
+        public ResultJSON<List<MoveStore>> GetByPager(int page, int pagesize, string sv = "")
+        {
+            List<MoveStore> list;
+            if(string.IsNullOrEmpty(sv))
+                list = r.LoadPageList(page, pagesize, out int rowCount, true).ToList();
+            else
+                list = r.LoadPageList(page, pagesize, out int rowCount, true, m => m.Name.Contains(sv)).ToList();
+            return new ResultJSON<List<MoveStore>>()
+            {
+                Code = 0,
+                Data = list
+            };
+        }
         /// <summary>
         /// 指定目标推送打印指令
         /// </summary>

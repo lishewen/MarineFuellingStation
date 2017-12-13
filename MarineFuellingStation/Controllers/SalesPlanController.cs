@@ -62,6 +62,7 @@ namespace MFS.Controllers
                          , $"<div class=\"gray\">单号：{result.Name}</div>" +
                          $"<div class=\"normal\">开单人：{UserName}</div>" +
                          $"<div class=\"normal\">船号/车号：{result.CarNo}</div>" +
+                         $"<div class=\"normal\">单价：{result.Price}</div>" +
                          $"<div class=\"normal\">油品：{result.OilName}</div>"
                          , $"https://vue.car0774.com/#/sales/plan/{result.Id}/plan", toUser: "@all");
                 //推送到“水上计划审核”

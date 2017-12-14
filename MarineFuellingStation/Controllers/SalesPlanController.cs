@@ -55,7 +55,7 @@ namespace MFS.Controllers
             r.CurrentUser = UserName;
             SalesPlan result = r.Insert(s);
 
-            if(s.SalesPlanType == SalesPlanType.水上 || s.SalesPlanType == SalesPlanType.机油) {
+            if(s.SalesPlanType == SalesPlanType.水上加油 || s.SalesPlanType == SalesPlanType.水上机油) {
                 //推送到“水上计划”
                 this.option.水上计划AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.水上计划Secret);
                 MassApi.SendTextCard(option.水上计划AccessToken, option.水上计划AgentId, $"【水上】{UserName}开出计划单"
@@ -73,7 +73,7 @@ namespace MFS.Controllers
                          $"<div class=\"normal\">油品：{result.OilName}</div>"
                          , $"https://vue.car0774.com/#/sales/auditing/false", toUser: "@all");
             }
-            else if(s.SalesPlanType == SalesPlanType.陆上 || s.SalesPlanType == SalesPlanType.陆上公司车 || s.SalesPlanType == SalesPlanType.陆上外来车) {
+            else if(s.SalesPlanType == SalesPlanType.陆上装车 || s.SalesPlanType == SalesPlanType.陆上公司车 || s.SalesPlanType == SalesPlanType.陆上外来车) {
                 this.option.陆上计划AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.陆上计划Secret);
                 MassApi.SendTextCard(option.陆上计划AccessToken, option.陆上计划AgentId, $"【陆上】{UserName}开出计划单"
                          , $"<div class=\"gray\">单号：{result.Name}</div>" +
@@ -131,12 +131,12 @@ namespace MFS.Controllers
         public ResultJSON<List<SalesPlan>> GetByPager(int page, int pageSize, SalesPlanType type, bool isLeader)
         {
             List<SalesPlan> list;
-            if(type == SalesPlanType.水上)//客户要求“水上部”的人同时可以看到机油类的数据
+            if(type == SalesPlanType.水上加油)//客户要求“水上部”的人同时可以看到机油类的数据
             { 
                 if (isLeader)
-                    list = r.LoadPageList(page, pageSize, out int rCount, true, s => s.SalesPlanType == type || s.SalesPlanType == SalesPlanType.机油).OrderByDescending(s => s.Id).ToList();
+                    list = r.LoadPageList(page, pageSize, out int rCount, true, s => s.SalesPlanType == type || s.SalesPlanType == SalesPlanType.水上机油).OrderByDescending(s => s.Id).ToList();
                 else
-                    list = r.LoadPageList(page, pageSize, out int rCount, true, s => (s.SalesPlanType == type || s.SalesPlanType == SalesPlanType.机油) && s.CreatedBy == UserName).OrderByDescending(s => s.Id).ToList();
+                    list = r.LoadPageList(page, pageSize, out int rCount, true, s => (s.SalesPlanType == type || s.SalesPlanType == SalesPlanType.水上机油) && s.CreatedBy == UserName).OrderByDescending(s => s.Id).ToList();
             }
             else
             { 
@@ -165,11 +165,11 @@ namespace MFS.Controllers
             List<SalesPlan> list;
             if (islandplan)
                 list = r.LoadPageList(page, pageSize, out int rCount, true, s => s.State == sps 
-                    && s.SalesPlanType == SalesPlanType.陆上)
+                    && (s.SalesPlanType == SalesPlanType.陆上装车 || s.SalesPlanType == SalesPlanType.陆上公司车 || s.SalesPlanType == SalesPlanType.陆上外来车))
                     .OrderByDescending(s => s.Id).ToList();
             else
                 list = r.LoadPageList(page, pageSize, out int rCount, true, s => s.State == sps 
-                    && (s.SalesPlanType == SalesPlanType.水上 || s.SalesPlanType == SalesPlanType.机油))
+                    && (s.SalesPlanType == SalesPlanType.水上加油 || s.SalesPlanType == SalesPlanType.水上机油))
                     .OrderByDescending(s => s.Id).ToList();
             return new ResultJSON<List<SalesPlan>>
             {
@@ -194,11 +194,11 @@ namespace MFS.Controllers
             if (islandplan)
                 list = r.LoadPageList(page, pagesize, out int rowCount, true,
                     s => (s.State == SalesPlanState.已审批 || s.State == SalesPlanState.未审批)
-                    && s.SalesPlanType == SalesPlanType.陆上).ToList();
+                    && (s.SalesPlanType == SalesPlanType.陆上装车 || s.SalesPlanType == SalesPlanType.陆上公司车 || s.SalesPlanType == SalesPlanType.陆上外来车)).ToList();
             else
                 list = r.LoadPageList(page, pagesize, out int rowCount, true,
                     s => (s.State == SalesPlanState.已审批 || s.State == SalesPlanState.未审批)
-                    && (s.SalesPlanType == SalesPlanType.水上 || s.SalesPlanType == SalesPlanType.机油)).ToList();
+                    && (s.SalesPlanType == SalesPlanType.水上加油 || s.SalesPlanType == SalesPlanType.水上机油)).ToList();
             return new ResultJSON<List<SalesPlan>>
             {
                 Code = 0,

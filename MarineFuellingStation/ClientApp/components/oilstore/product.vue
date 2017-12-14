@@ -35,12 +35,12 @@
                     </yd-cell-item>
                     <yd-cell-item>
                         <span slot="left">最低单价：</span>
-                        <yd-input slot="right" type="number" v-model="currentproduct.minPrice" placeholder="请输入最低单价"></yd-input>
+                        <yd-input slot="right" type="number" v-model="currentproduct.minPrice" placeholder="请输入最低单价" required></yd-input>
                         <span slot="right" style="width: 60px">元 / 升</span>
                     </yd-cell-item>
                     <yd-cell-item>
                         <span slot="left">最低开票单价：</span>
-                        <yd-input slot="right" type="number" v-model="currentproduct.minInvoicePrice" placeholder="请输入最低开票单价"></yd-input>
+                        <yd-input slot="right" type="number" v-model="currentproduct.minInvoicePrice" placeholder="请输入最低开票单价" required></yd-input>
                         <span slot="right" style="width: 60px">元 / 升</span>
                     </yd-cell-item>
                 </yd-cell-group>
@@ -62,7 +62,7 @@
                 </yd-cell-item>
             </yd-cell-group>
             <div class="align-center">
-                <yd-button style="width:80%" type="primary" @click.native="editProductTypeclick">编辑分类</yd-button>
+                <yd-button size="large" type="primary" @click.native="editProductTypeclick">编辑分类</yd-button>
             </div>
         </yd-popup>
         <!--popup添加编辑分类-->

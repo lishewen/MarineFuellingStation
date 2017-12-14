@@ -32,14 +32,14 @@ export default class PlanDetailComponent extends ComponentBase {
             this.$emit('setTitle', this.model.name + ' 计划明细', from);
         });
     }
-
+    
     getSpType(ot: server.salesPlanType) {
-        if (ot == server.salesPlanType.机油)
-            return "机油"
-        else if (ot == server.salesPlanType.水上)
-            return "水上"
-        else if (ot == server.salesPlanType.陆上)
-            return "陆上"
+        if (ot == server.salesPlanType.水上机油)
+            return "水上机油"
+        else if (ot == server.salesPlanType.水上加油)
+            return "水上加油"
+        else if (ot == server.salesPlanType.陆上装车)
+            return "陆上装车"
     }
 
     getIsInvoice(isInv: boolean) {

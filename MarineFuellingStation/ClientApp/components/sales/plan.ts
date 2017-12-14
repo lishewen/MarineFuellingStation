@@ -28,6 +28,7 @@ export default class PlanComponent extends ComponentBase {
     pMinInvoicePrice: number = 0;
     pMinPrice: number = 0;
     strCarOrBoat: string = '船号/车号';
+    type: number = null;
 
     isWaterDept: boolean = true;//标识水上部和陆上部
 
@@ -60,7 +61,8 @@ export default class PlanComponent extends ComponentBase {
         this.model.isDeliver = false;
         this.model.isPrintPrice = true;
         this.model.deliverMoney = 0;
-        this.model.salesPlanType = server.salesPlanType.水上;
+        this.model.salesPlanType = server.salesPlanType.水上加油;
+        this.type = 0;//默认水上
 
         this.oildate = this.formatDate(this.model.oilDate);
 
@@ -121,7 +123,9 @@ export default class PlanComponent extends ComponentBase {
                 this.searchSalesPlans(v);
         });
 
-        this.model.salesPlanType = this.isWaterDept ? server.salesPlanType.水上 : server.salesPlanType.陆上;
+        //默认值
+        this.type = this.isWaterDept ? 0 : 1;
+        this.model.salesPlanType = this.isWaterDept ? server.salesPlanType.水上加油 : server.salesPlanType.陆上装车;
         this.model.unit = this.isWaterDept ? "升" : "吨";
         this.strCarOrBoat = this.isWaterDept ? "船号" : "车牌号";
 
@@ -277,7 +281,7 @@ export default class PlanComponent extends ComponentBase {
     getSalesPlans(callback?: Function) {
         if (this.page == null) this.page = 1;
         let type: server.salesPlanType;
-        type = this.isWaterDept ? server.salesPlanType.水上 : server.salesPlanType.陆上;
+        type = this.isWaterDept ? server.salesPlanType.水上加油 : server.salesPlanType.陆上装车;
         axios.get('/api/SalesPlan/GetByPager?page='
             + this.page
             + '&pagesize=' + this.pSize

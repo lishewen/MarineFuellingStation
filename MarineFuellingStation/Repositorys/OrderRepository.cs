@@ -258,7 +258,7 @@ namespace MFS.Repositorys
             //更新对应销售仓的数量
             if (order.State == OrderState.已完成)
             {
-                if(order.OrderType == SalesPlanType.陆上)
+                if(order.Unit == "吨")
                     order.OilCount = UnitExchange.ToTon(order.OilCountLitre, order.Density);
                 StoreRepository st_r = new StoreRepository(_dbContext);
                 //更新油仓数量
@@ -270,7 +270,7 @@ namespace MFS.Repositorys
                     InAndOutLogRepository io_r = new InAndOutLogRepository(_dbContext);
                     io_r.Insert(new InAndOutLog
                     {
-                        Name = (order.OrderType == SalesPlanType.水上 || order.OrderType == SalesPlanType.机油) ? "水上加油" : "陆上装车",
+                        Name = Enum.GetName(typeof(SalesPlanType), order.OrderType),
                         StoreId = int.Parse(order.StoreId.ToString()),
                         Value = Math.Round(order.OilCount, 2),
                         ValueLitre = Math.Round(order.OilCountLitre, 2),
@@ -301,8 +301,7 @@ namespace MFS.Repositorys
         {
             StoreRepository st_r = new StoreRepository(_dbContext);
             //更新油仓数量
-            decimal litre = (order.OrderType == SalesPlanType.陆上)? UnitExchange.ToLitre(order.OilCount, order.Density) : order.OilCount;
-            bool isUpdateStore = st_r.UpdateOil(int.Parse(order.StoreId.ToString()), litre , true);
+            bool isUpdateStore = st_r.UpdateOil(int.Parse(order.StoreId.ToString()), order.OilCountLitre , true);
             if (isUpdateStore)
             {
                 //增加入仓记录
@@ -311,8 +310,8 @@ namespace MFS.Repositorys
                 {
                     Name = "重新施工",
                     StoreId = int.Parse(order.StoreId.ToString()),
-                    Value = litre,
-                    ValueLitre = litre,
+                    Value = order.OilCount,
+                    ValueLitre = order.OilCountLitre,
                     Operators = CurrentUser,
                     Unit = "升",
                     Type = LogType.入仓

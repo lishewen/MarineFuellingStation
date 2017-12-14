@@ -82,7 +82,7 @@ export default class LoadComponent extends ComponentBase {
     getOrders(toPage?: number) {
         if (this.page == null) this.page = 1;
         if (toPage != null) this.page = toPage;
-        axios.get('/api/Order/GetByIsFinished/' + server.salesPlanType.水上.toString()
+        axios.get('/api/Order/GetByIsFinished/' + server.salesPlanType.水上加油.toString()
             + '?page=' + this.page.toString()
             +'&isFinished=false')
             .then((res) => {

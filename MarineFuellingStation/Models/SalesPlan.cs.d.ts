@@ -38,9 +38,9 @@ declare module server {
         remark: string;
 	}
 	const enum salesPlanType {
-		水上,
-		陆上,
-        机油,
+		水上加油,
+		陆上装车,
+        水上机油,
         全部,
         陆上公司车,
         陆上外来车

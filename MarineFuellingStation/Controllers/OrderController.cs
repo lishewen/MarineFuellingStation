@@ -87,7 +87,7 @@ namespace MFS.Controllers
                      $"<div class=\"normal\">船号/车号：{result.CarNo}</div>"
                      , $"https://vue.car0774.com/#/sales/order/{result.Id}/order", toUser: "@all");
 
-            if (result.OrderType == SalesPlanType.水上 || result.OrderType == SalesPlanType.机油)
+            if (result.OrderType == SalesPlanType.水上加油 || result.OrderType == SalesPlanType.水上机油)
             {
                 //推送到“销售单”
                 await MassApi.SendTextCardAsync(option.销售单AccessToken, option.销售单AgentId, $"【水上】{UserName}开了销售单"
@@ -427,7 +427,7 @@ namespace MFS.Controllers
                 await MassApi.SendTextCardAsync(option.油仓情况AccessToken, option.油仓情况AgentId, $"{result.CarNo}加油完工，已更新油仓油量"
                          , $"<div class=\"gray\">单号：{result.Name}</div>" +
                          $"<div class=\"normal\">施工人：{result.Worker}</div>" +
-                         $"<div class=\"normal\">数量：{Math.Round(result.OilCount, 2)}{result.Unit}</div>"
+                         $"<div class=\"normal\">数量：{Math.Round(result.OilCountLitre, 2)}升</div>"
                          , $"https://vue.car0774.com/#/sales/order/{result.Id}/order", toUser: "@all");
             }
 

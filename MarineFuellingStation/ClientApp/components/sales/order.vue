@@ -9,19 +9,27 @@
                             <span slot="left">计划单：</span>
                             <span slot="right">{{selectedplanNo}}</span>
                         </yd-cell-item>
-                        <yd-cell-item v-show="selectedplanNo == '无计划或散客'">
-                            <yd-radio-group slot="left" v-model="radio2">
-                                <yd-radio val="0">水上</yd-radio>
-                                <yd-radio val="2">机油</yd-radio>
-                                <yd-radio val="1">陆上</yd-radio>
-                                <yd-radio val="4">陆上公司车</yd-radio>
-                                <yd-radio val="5">陆上外来车</yd-radio>
-                            </yd-radio-group>
-                        </yd-cell-item>
-                        <yd-cell-item v-show="selectedplanNo == '无计划或散客'">
-                            <span slot="left">{{strCarOrBoat}}：</span>
-                            <yd-input slot="right" v-model="model.carNo" required placeholder="请输入"></yd-input>
-                        </yd-cell-item>
+                        <div v-show="selectedplanNo == '无计划或散客'">
+                            <yd-cell-item>
+                                <yd-radio-group slot="left" v-model="type">
+                                    <yd-radio val="0">水上</yd-radio>
+                                    <yd-radio val="1">陆上</yd-radio>
+                                </yd-radio-group>
+                            </yd-cell-item>
+                            <yd-cell-item>
+                                <yd-radio-group slot="left" v-model="model.orderType">
+                                    <yd-radio val="0" v-show="type == 0">水上加油</yd-radio>
+                                    <yd-radio val="2" v-show="type == 0">机油</yd-radio>
+                                    <yd-radio val="1" v-show="type == 1">陆上装车</yd-radio>
+                                    <yd-radio val="4" v-show="type == 1">陆上公司车</yd-radio>
+                                    <yd-radio val="5" v-show="type == 1">陆上外来车</yd-radio>
+                                </yd-radio-group>
+                            </yd-cell-item>
+                            <yd-cell-item>
+                                <span slot="left">{{strCarOrBoat}}：</span>
+                                <yd-input slot="right" v-model="model.carNo" required placeholder="请输入"></yd-input>
+                            </yd-cell-item>
+                        </div>
                     </yd-cell-group>
                     <yd-cell-group title="计划" v-show="hasplan">
                         <yd-cell-item>
@@ -40,7 +48,7 @@
                             <span slot="right" style="font-weight: bold">总价：￥{{Math.round(salesplan.totalMoney)}}</span>
                         </yd-cell-item>
                     </yd-cell-group>
-                    <yd-button size="large" @click.native="goStep2" :disabled="model.carNo == null || model.carNo == ''">下一步</yd-button>
+                    <yd-button size="large" @click.native="goStep2" :disabled="model.carNo == null || model.carNo == '' || (type == null && !hasplan)">下一步</yd-button>
                 </div>
                 <!--第二步-->
                 <yd-cell-group title="客户信息" v-show="showStep2">

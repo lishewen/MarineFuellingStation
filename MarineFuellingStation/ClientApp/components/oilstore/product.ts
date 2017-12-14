@@ -39,7 +39,6 @@ export default class ProductComponent extends ComponentBase {
             this.currentproduct.minPrice = 0;
             this.currentproduct.minInvoicePrice = 0;
             this.selectptname = '请选择分类';
-            this.currentproduct.isForLand = "false"
         }
         if (label == '所有分类')
             this.isAddProduct = true;
@@ -57,12 +56,20 @@ export default class ProductComponent extends ComponentBase {
     }
 
     validate() {
+        if (this.currentproduct.isForLand == null) {
+            this.toastError('请指定水上或陆上');
+            return false;
+        }
         if (this.currentproduct.name == '') {
             this.toastError('商品名称不能为空');
             return false;
         }
-        if (this.currentproduct.minPrice <= 0) {
-            this.toastError('单价不能为0');
+        if (this.currentproduct.minPrice <= 0 || this.currentproduct.minPrice == null) {
+            this.toastError('最低单价必须大于0');
+            return false;
+        }
+        if (this.currentproduct.minInvoicePrice <= 0 || this.currentproduct.minPrice == null) {
+            this.toastError('最低开票单价必须大于0');
             return false;
         }
         if (this.currentproduct.productTypeId == null) {

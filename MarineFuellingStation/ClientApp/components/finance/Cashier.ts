@@ -185,7 +185,7 @@ export default class CashierComponent extends ComponentBase {
             }]
         ];
         //如果为陆上销售，则添加相应打印菜单
-        if (o.orderType == server.salesPlanType.陆上) {
+        if (o.orderType == server.salesPlanType.陆上装车) {
             if (o.isDeliver) {
                 this.menus.push({
                     label: '打印【送货单】到【地磅室】',

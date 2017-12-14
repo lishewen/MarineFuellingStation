@@ -21,6 +21,7 @@ export default class OrderComponent extends ComponentBase {
     client: server.client = null;
     sales: work.userlist[];
     showSalesmans: boolean = false;
+    type: number = null;
 
     showStep1: boolean = true;
     showStep2: boolean = false;
@@ -29,7 +30,6 @@ export default class OrderComponent extends ComponentBase {
 
     mobile: string;
     contact: string;
-    radio2: string = '0';
     carNo: string = '';
     strCarOrBoat: string = '船号';
 
@@ -65,6 +65,7 @@ export default class OrderComponent extends ComponentBase {
         this.model.unit = '升';
         this.model.billingCompany = '';
         this.model.deliverMoney = 0;
+        this.model.orderType = 0;
 
         this.client = new Object() as server.client;
         this.clients = new Array<server.client>();
@@ -137,9 +138,9 @@ export default class OrderComponent extends ComponentBase {
         //this.model.clientId = s.cl
         this.oilName = s.oilName;
         this.model.productId = s.productId;
-        this.radio2 = s.salesPlanType.toString();
-
-        this.hasplan = false;
+        this.model.orderType = s.salesPlanType;
+        
+        this.hasplan = true;
 
         this.salesplanshow = false;
     };
@@ -172,9 +173,12 @@ export default class OrderComponent extends ComponentBase {
     }
 
     showSalesmansclick() {
-        if (this.radio2 == server.salesPlanType.水上.toString() || this.radio2 == server.salesPlanType.机油.toString())
+        if (this.model.orderType == server.salesPlanType.水上加油.toString()
+            || this.model.orderType == server.salesPlanType.水上机油.toString())
             this.getWaterSales();
-        else if (this.radio2 == server.salesPlanType.陆上.toString())
+        else if (this.model.orderType == server.salesPlanType.陆上装车.toString()
+            || this.model.orderType == server.salesPlanType.陆上公司车.toString()
+            || this.model.orderType == server.salesPlanType.陆上外来车.toString())
             this.getLandSales();
     };
 
@@ -234,7 +238,7 @@ export default class OrderComponent extends ComponentBase {
             }
         ];
         //如果为陆上销售，则添加相应打印菜单
-        if (o.orderType == server.salesPlanType.陆上) {
+        if (o.orderType == server.salesPlanType.陆上装车) {
             if (o.isDeliver) {
                 this.menus.push({
                     label: '打印【送货单】到【地磅室】',
@@ -266,38 +270,36 @@ export default class OrderComponent extends ComponentBase {
         this.$emit('setTitle', this.$store.state.username + ' 销售单');
 
         //观察者模式
-        this.$watch('radio2', (v, ov) => {
+        this.$watch('model.orderType', (v, ov) => {
             switch (v) {
                 case "0":
                     this.model.unit = '升';
                     this.strCarOrBoat = "船号";
-                    this.model.orderType = server.salesPlanType.水上;
                     break;
                 case "1":
                     this.strCarOrBoat = "车牌号";
                     this.model.unit = '吨';
-                    this.model.orderType = server.salesPlanType.陆上;
                     break;
                 case "2":
                     this.strCarOrBoat = "车牌号";
                     this.model.unit = '桶';
-                    this.model.orderType = server.salesPlanType.机油;
                     break;
                 case "4":
                     this.strCarOrBoat = "车牌号";
                     this.model.unit = '升';
-                    this.model.orderType = server.salesPlanType.陆上公司车;
                     break;
                 case "5":
                     this.strCarOrBoat = "车牌号";
                     this.model.unit = '升';
-                    this.model.orderType = server.salesPlanType.陆上外来车;
                     break;
             }
         });
 
+        this.$watch('type', (v, ov) => {
+            this.model.orderType = v == 1 ? server.salesPlanType.陆上装车 : server.salesPlanType.水上加油;
+        });
+
         this.$watch('model.price', (v, ov) => {
-            console.log(v);
             this.model.billingPrice = v;
             this.model.totalMoney = <number>this.model.price * this.model.count;
         });

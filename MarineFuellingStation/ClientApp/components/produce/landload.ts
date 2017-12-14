@@ -130,7 +130,7 @@ export default class LandloadComponent extends ComponentBase {
     getOrders(toPage?: number) {
         if (this.page == null) this.page = 1;
         if (toPage != null) this.page = toPage;
-        axios.get('/api/Order/GetByIsFinished/' + server.salesPlanType.陆上.toString()
+        axios.get('/api/Order/GetByIsFinished/' + server.salesPlanType.陆上装车.toString()
             + '?page=' + this.page.toString()
             + '&isFinished=false')
             .then((res) => {
@@ -168,7 +168,7 @@ export default class LandloadComponent extends ComponentBase {
     }
 
     getLastOrder() {
-        axios.get('/api/Order/GetLastOrder/' + server.salesPlanType.陆上).then((res) => {
+        axios.get('/api/Order/GetLastOrder/' + server.salesPlanType.陆上装车).then((res) => {
             let jobj = res.data as server.resultJSON<server.order>;
             if (jobj.code == 0) {
                 this.lastorder = jobj.data;

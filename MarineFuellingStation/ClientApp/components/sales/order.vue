@@ -12,8 +12,10 @@
                         <yd-cell-item v-show="selectedplanNo == '无计划或散客'">
                             <yd-radio-group slot="left" v-model="radio2">
                                 <yd-radio val="0">水上</yd-radio>
-                                <yd-radio val="1">陆上</yd-radio>
                                 <yd-radio val="2">机油</yd-radio>
+                                <yd-radio val="1">陆上</yd-radio>
+                                <yd-radio val="4">陆上公司车</yd-radio>
+                                <yd-radio val="5">陆上外来车</yd-radio>
                             </yd-radio-group>
                         </yd-cell-item>
                         <yd-cell-item v-show="selectedplanNo == '无计划或散客'">

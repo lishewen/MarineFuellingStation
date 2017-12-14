@@ -50,8 +50,10 @@
                         <yd-cell-item>
                             <yd-radio-group slot="left" v-model="model.salesPlanType">
                                 <yd-radio val="0" :disabled="!isWaterDept">水上</yd-radio>
-                                <yd-radio val="1" :disabled="isWaterDept">陆上</yd-radio>
                                 <yd-radio val="2" :disabled="!isWaterDept">机油</yd-radio>
+                                <yd-radio val="1" :disabled="isWaterDept">陆上</yd-radio>
+                                <yd-radio val="4" :disabled="isWaterDept">陆上公司车</yd-radio>
+                                <yd-radio val="5" :disabled="isWaterDept">陆上外来车</yd-radio>
                             </yd-radio-group>
                         </yd-cell-item>
                     </yd-cell-group>

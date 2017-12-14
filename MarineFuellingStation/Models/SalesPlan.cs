@@ -86,7 +86,9 @@ namespace MFS.Models
         水上,
         陆上,
         机油,
-        全部
+        全部,
+        陆上公司车,
+        陆上外来车
     }
 
     public enum SalesPlanState

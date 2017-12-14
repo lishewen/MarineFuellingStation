@@ -271,20 +271,27 @@ export default class OrderComponent extends ComponentBase {
                 case "0":
                     this.model.unit = '升';
                     this.strCarOrBoat = "船号";
-                    this.show2 = false;
                     this.model.orderType = server.salesPlanType.水上;
                     break;
                 case "1":
                     this.strCarOrBoat = "车牌号";
                     this.model.unit = '吨';
-                    this.show2 = true;
                     this.model.orderType = server.salesPlanType.陆上;
                     break;
                 case "2":
                     this.strCarOrBoat = "车牌号";
                     this.model.unit = '桶';
-                    this.show2 = false;
                     this.model.orderType = server.salesPlanType.机油;
+                    break;
+                case "4":
+                    this.strCarOrBoat = "车牌号";
+                    this.model.unit = '升';
+                    this.model.orderType = server.salesPlanType.陆上公司车;
+                    break;
+                case "5":
+                    this.strCarOrBoat = "车牌号";
+                    this.model.unit = '升';
+                    this.model.orderType = server.salesPlanType.陆上外来车;
                     break;
             }
         });

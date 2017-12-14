@@ -103,6 +103,14 @@ export default class PlanComponent extends ComponentBase {
                     this.strCarOrBoat = "车牌号";
                     this.model.unit = '桶';
                     break;
+                case "4":
+                    this.strCarOrBoat = "车牌号";
+                    this.model.unit = '升';
+                    break;
+                case "5":
+                    this.strCarOrBoat = "车牌号";
+                    this.model.unit = '升';
+                    break;
             }
         });
         this.$watch('oildate', (v, ov) => { this.model.oilDate = new Date(this.oildate); });
@@ -115,7 +123,7 @@ export default class PlanComponent extends ComponentBase {
 
         this.model.salesPlanType = this.isWaterDept ? server.salesPlanType.水上 : server.salesPlanType.陆上;
         this.model.unit = this.isWaterDept ? "升" : "吨";
-        this.strCarOrBoat = this.isWaterDept ? "船号" : "车号";
+        this.strCarOrBoat = this.isWaterDept ? "船号" : "车牌号";
 
         this.getSalesPlanNo();
         this.getOilProducts();

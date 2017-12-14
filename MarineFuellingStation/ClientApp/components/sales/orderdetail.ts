@@ -22,6 +22,9 @@ export default class OrderDetailComponent extends ComponentBase {
             case "myorder":
                 from = '/sales/myorder';
                 break;
+            case "orderlist":
+                from = '/finance/orderlist';
+                break;
         }
         this.getOrder(id, () => {
             //设置返回键的连接

@@ -139,13 +139,13 @@ export default class OrderComponent extends ComponentBase {
         this.model.productId = s.productId;
         this.radio2 = s.salesPlanType.toString();
 
-        this.hasplan = true;
+        this.hasplan = false;
 
         this.salesplanshow = false;
     };
 
     emptyclick(): void {
-        this.selectedplanNo = "散客";
+        this.selectedplanNo = "无计划或散客";
         this.model.carNo = null;
         this.model.salesPlanId = null;
 

@@ -2,7 +2,7 @@
     <div id="root">
         <yd-tab :change="change">
             <div class="align-center first-group">
-                <yd-button style="width:90%;height: 38px" type="primary" @click.native="showOrdersclick">销售单{{order.name? '：' + order.name : ''}}</yd-button>
+                <yd-button style="width:90%;height:38px;" type="primary" @click.native="showOrdersclick">销售单{{order.name? '：' + order.name : ''}}</yd-button>
             </div>
             <yd-step :current="currStep" style="margin: .4rem 0 .4rem">
                 <yd-step-item>
@@ -15,8 +15,8 @@
                     <span slot="bottom">完工</span>
                 </yd-step-item>
             </yd-step>
-            <div class="center" v-show="currStep == 1">
-                <yd-button style="width:90%" type="primary" @click.native="showStores = true">选择销售仓</yd-button>
+            <div class="align-center" v-show="currStep == 1">
+                <yd-button style="width:90%;height: 38px" type="primary" @click.native="showStores = true">选择销售仓</yd-button>
             </div>
             <!--明细-->
             <yd-cell-group title="施工明细" v-show="currStep == 2 || currStep == 3">
@@ -37,9 +37,9 @@
                     <span slot="right">{{order.worker}}</span>
                 </yd-cell-item>
             </yd-cell-group>
-            <div class="center" v-show="currStep == 2">
-                <yd-button style="width:90%;margin-top: 30px;" type="primary" @click.native="currStep -= 1">← 上一步：选择销售仓</yd-button>
-                <yd-button style="width:90%;margin-top: 10px;" type="primary" @click.native="changeState(5)">下一步：完工 →</yd-button>
+            <div class="align-center" v-show="currStep == 2">
+                <yd-button style="width:90%;height:38px;margin-top: 30px;" type="primary" @click.native="currStep -= 1">← 上一步：选择销售仓</yd-button>
+                <yd-button style="width:90%;height:38px;margin-top: 10px;" type="primary" @click.native="changeState(5)">下一步：完工 →</yd-button>
             </div>
             <!--popup订单选择-->
             <yd-popup v-model="showOrders" position="right" width="70%">

@@ -8,7 +8,7 @@
     <div id="root">
             <div class="align-center first-group font16">
                 <div class="align-center" style="margin-top: .2rem">
-                    <yd-button style="width:90%" type="primary" @click.native="showSalesmans = true">销售员</yd-button>
+                    <yd-button style="width:90%;height: 38px" type="primary" @click.native="showSalesmans = true">销售员{{selectedsales == '' ? selectedsales : '：' + selectedsales}}</yd-button>
                 </div>
                 <div style="display: flex; line-height: .6rem; margin-top: .2rem">
                     <yd-datetime type="date" v-model="startDate" slot="right"></yd-datetime>

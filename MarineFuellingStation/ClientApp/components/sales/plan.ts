@@ -57,6 +57,7 @@ export default class PlanComponent extends ComponentBase {
         this.model.billingCount = 0;
         this.model.productId = 0;
         this.model.oilName = '请选择油品';
+        this.model.isDeliver = false;
         this.model.isPrintPrice = true;
         this.model.deliverMoney = 0;
         this.model.salesPlanType = server.salesPlanType.水上;

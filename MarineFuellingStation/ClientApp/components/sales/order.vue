@@ -4,21 +4,23 @@
             <yd-tab-panel label="销售开单">
                 <!--第一步-->
                 <div v-show="showStep1">
-                    <yd-cell-item arrow @click.native="salesplanselect">
-                        <span slot="left">计划单：</span>
-                        <span slot="right">{{selectedplanNo}}</span>
-                    </yd-cell-item>
-                    <yd-cell-item v-show="!hasplan">
-                        <yd-radio-group slot="left" v-model="radio2">
-                            <yd-radio val="0">水上</yd-radio>
-                            <yd-radio val="1">陆上</yd-radio>
-                            <yd-radio val="2">机油</yd-radio>
-                        </yd-radio-group>
-                    </yd-cell-item>
-                    <yd-cell-item v-show="!hasplan">
-                        <span slot="left">{{strCarOrBoat}}：</span>
-                        <yd-input slot="right" v-model="model.carNo" required placeholder="请输入"></yd-input>
-                    </yd-cell-item>
+                    <yd-cell-group :title="strCarOrBoat + '：' + model.carNo">
+                        <yd-cell-item arrow @click.native="salesplanselect">
+                            <span slot="left">计划单：</span>
+                            <span slot="right">{{selectedplanNo}}</span>
+                        </yd-cell-item>
+                        <yd-cell-item v-show="selectedplanNo == '无计划或散客'">
+                            <yd-radio-group slot="left" v-model="radio2">
+                                <yd-radio val="0">水上</yd-radio>
+                                <yd-radio val="1">陆上</yd-radio>
+                                <yd-radio val="2">机油</yd-radio>
+                            </yd-radio-group>
+                        </yd-cell-item>
+                        <yd-cell-item v-show="selectedplanNo == '无计划或散客'">
+                            <span slot="left">{{strCarOrBoat}}：</span>
+                            <yd-input slot="right" v-model="model.carNo" required placeholder="请输入"></yd-input>
+                        </yd-cell-item>
+                    </yd-cell-group>
                     <yd-cell-group title="计划" v-show="hasplan">
                         <yd-cell-item>
                             <span slot="left">{{strCarOrBoat}}：</span>
@@ -70,7 +72,7 @@
                 <!--第三步-->
                 <div v-show="showStep3">
                     <yd-cell-group :title="'单号：' + model.name">
-                        <yd-cell-item v-show="selectedplanNo != '散客'" arrow @click.native="showSalesmansclick">
+                        <yd-cell-item v-show="selectedplanNo != '无计划或散客'" arrow @click.native="showSalesmansclick">
                             <span slot="left">销售员：</span>
                             <span slot="right">{{model.salesman}}</span>
                         </yd-cell-item>
@@ -179,7 +181,7 @@
         <yd-popup v-model="salesplanshow" position="right" width="70%">
             <yd-cell-group>
                 <div class="align-center">
-                    <yd-button style="width:80%;margin:10px 0 10px 0" type="primary" @click.native="emptyclick()">散客</yd-button>
+                    <yd-button style="width:80%;margin:10px 0 10px 0" type="primary" @click.native="emptyclick()">无计划或散客</yd-button>
                 </div>
                 <yd-search v-model="sv" />
                 <yd-infinitescroll :callback="loadList_sp" ref="spInfinitescroll">

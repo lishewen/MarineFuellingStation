@@ -103,13 +103,13 @@ export default class OrderListComponent extends ComponentBase {
     getTotalSalesComm() {
         let sum = 0;
         this.orders.forEach((o, idx) => {
-            sum += o.salesCommission;
+            sum += Math.round(o.salesCommission);
         });
         return "总提：￥" + sum;
     }
 
     godetail(id: number) {
-        this.$router.push('/sales/order/' + id + '/myorder');
+        this.$router.push('/sales/order/' + id + '/orderlist');
     }
 
     query() {

@@ -76,7 +76,7 @@
                     <yd-button size="large" type="primary" @click.native="buttonclick" :disabled="isPrevent">提交</yd-button>
                 </div>
             </yd-tab-panel>
-            <yd-tab-panel label="列表">
+            <yd-tab-panel label="单据记录">
 
                 <yd-cell-group>
                     <yd-search v-model="sv" />

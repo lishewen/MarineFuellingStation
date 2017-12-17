@@ -53,9 +53,7 @@
                         <span slot="right">升</span>
                     </yd-cell-item>
                 </yd-cell-group>
-                <div class="align-center">
-                    <yd-button style="width:90%" type="primary" @click.native="overclick()">施工结束提交</yd-button>
-                </div>
+                <yd-button size="large" type="primary" @click.native="overclick()">施工结束提交</yd-button>
             </yd-popup>
         </yd-tab>
         <!--打印菜单-->

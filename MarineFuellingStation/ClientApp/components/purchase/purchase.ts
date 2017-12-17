@@ -94,7 +94,7 @@ export default class PurchaseComponent extends ComponentBase {
     change(label: string, tabkey: string) {
         console.log(label);
         
-        if (label == "列表") {
+        if (label == "单据记录") {
             this.page = 1;
             this.getPurchases();
         }

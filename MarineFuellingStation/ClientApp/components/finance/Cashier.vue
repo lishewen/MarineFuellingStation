@@ -208,9 +208,7 @@
                     <yd-input slot="right" type="number" v-model="chargeLog.money"></yd-input>
                 </yd-cell-item>
             </yd-cell-group>
-            <div class="align-center">
-                <yd-button style="width:80%;margin-top:10px" type="primary" @click.native="postCharge()" :disabled="chargeLog.money <= 0">提交</yd-button>
-            </div>
+            <yd-button size="large" type="primary" @click.native="postCharge()" :disabled="chargeLog.money <= 0">提交</yd-button>
         </yd-popup>
         <!--popup付款金额和方式记录-->
         <yd-popup v-model="showPayments" position="right" width="50%">

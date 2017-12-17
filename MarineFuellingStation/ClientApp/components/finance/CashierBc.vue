@@ -129,15 +129,9 @@
                     <yd-input slot="right" type="number" v-model="payMoneys[idx]" required></yd-input>
                 </yd-cell-item>
             </yd-cell-group>
-            <div class="align-center">
-                <yd-button style="width:80%" type="warning" @click.native="nextclick()" v-show="showStep1">下一步</yd-button>
-            </div>
-            <div class="align-center">
-                <yd-button style="width:80%" type="warning" @click.native="lastclick()" v-show="!showStep1">上一步</yd-button>
-            </div>
-            <div class="align-center">
-                <yd-button style="width:80%;margin-top:10px" type="primary" @click.native="validateMoney" v-show="!showStep1" :disabled="payInfact - selectedBc.money < 0">结账</yd-button>
-            </div>
+                <yd-button size="large" type="warning" @click.native="nextclick()" v-show="showStep1">下一步</yd-button>
+                <yd-button size="large" type="warning" @click.native="lastclick()" v-show="!showStep1">上一步</yd-button>
+                <yd-button size="large" type="primary" @click.native="validateMoney" v-show="!showStep1" :disabled="payInfact - selectedBc.money < 0">结账</yd-button>
         </yd-popup>
         <!--popup付款金额和方式记录-->
         <yd-popup v-model="showPayments" position="right" width="50%">

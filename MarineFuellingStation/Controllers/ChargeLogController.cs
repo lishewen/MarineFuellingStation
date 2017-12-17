@@ -55,7 +55,7 @@ namespace MFS.Controllers
             if (string.IsNullOrEmpty(sv))
                 cl = r.LoadPageList(page, pageSize, out int rCount, true).Include("Client").Include("Company").OrderByDescending(c => c.Id).ToList();
             else
-                cl = r.LoadPageList(page, pageSize, out int rCount, true, c => c.Name.Contains(sv) || c.Company.Name.Contains(sv)).Include("Client").Include("Company").OrderByDescending(c => c.Id).ToList();
+                cl = r.LoadPageList(page, pageSize, out int rCount, true, c => c.Client.CarNo.Contains(sv) || c.Company.Name.Contains(sv)).Include(clog => clog.Client).Include("Company").OrderByDescending(c => c.Id).ToList();
             return new ResultJSON<List<ChargeLog>>
             {
                 Code = 0,

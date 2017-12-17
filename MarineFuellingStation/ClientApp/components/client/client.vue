@@ -76,9 +76,7 @@
 
                 </yd-cell-group>
 
-                <div>
-                    <yd-button size="large" type="primary" @click.native="addclientclick">提交</yd-button>
-                </div>
+                <yd-button size="large" type="primary" @click.native="addclientclick">提交</yd-button>
             </yd-tab-panel>
             <yd-actionsheet :items="oiloptions" v-model="oilshow" cancel="取消"></yd-actionsheet>
             <yd-tab-panel label="客户列表">
@@ -148,7 +146,7 @@
                 </yd-grids-item>
             </yd-grids-group>
             <div style="text-align: center;margin-top: .2rem">
-                <yd-button style="width:90%" type="primary" @click.native="filterclick()">提交</yd-button>
+                <yd-button size="large" type="primary" @click.native="filterclick()">提交</yd-button>
             </div>
         </yd-popup>
         <!--popup新增公司-->
@@ -193,9 +191,7 @@
                     <yd-input slot="right" v-model="modelCompany.phone" regex="mobile" placeholder="请输入"></yd-input>
                 </yd-cell-item>
             </yd-cell-group>
-            <div class="align-center">
-                <yd-button style="width:80%" type="primary" @click.native="addcompanyclick">提交</yd-button>
-            </div>
+            <yd-button size="large" type="primary" @click.native="addcompanyclick">提交</yd-button>
         </yd-popup>
         <!--popup公司选择列表-->
         <yd-popup v-model="showcompany" position="right" class="popup70">

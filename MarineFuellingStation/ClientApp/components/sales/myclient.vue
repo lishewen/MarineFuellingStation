@@ -43,16 +43,14 @@
                 </yd-grids-item>
             </yd-grids-group>
             <yd-grids-group :rows="2" title="单选：周期">
-                <yd-grids-item  v-for="(f, index) in filterCycle" :key="f.id" style="position: static; padding: .2rem">
+                <yd-grids-item v-for="(f, index) in filterCycle" :key="f.id" style="position: static; padding: .2rem">
                     <span slot="text">
                         <yd-button style="box-sizing: inherit" type="warning" v-if="f.actived" @click.native="switchBtn(f, index, '周期')">{{f.name}}</yd-button>
                         <yd-button style="box-sizing: inherit" type="hollow" v-if="!f.actived" @click.native="switchBtn(f, index, '周期')">{{f.name}}</yd-button>
                     </span>
                 </yd-grids-item>
             </yd-grids-group>
-            <div class="align-center first-group">
-                <yd-button style="width:90%" type="primary" @click.native="filterclick()">提交</yd-button>
-            </div>
+            <yd-button size="large" type="primary" @click.native="filterclick()">提交</yd-button>
         </yd-popup>
         <yd-popup v-model="showRemark" position="right" width="75%">
             <yd-cell-group title="备注信息">
@@ -60,9 +58,7 @@
                     <yd-textarea slot="right" v-model="remark" placeholder="请输入客户备注信息" maxlength="200"></yd-textarea>
                 </yd-cell-item>
             </yd-cell-group>
-            <div class="align-center first-group">
-                <yd-button style="width:90%" type="primary" @click.native="putReMark()">保存</yd-button>
-            </div>
+                <yd-button size="large" type="primary" @click.native="putReMark()">保存</yd-button>
         </yd-popup>
         <!--actionsheet-->
         <yd-actionsheet :items="actItems" v-model="showAct" cancel="取消"></yd-actionsheet>

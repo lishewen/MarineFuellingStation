@@ -191,18 +191,19 @@
         <yd-popup v-model="salesplanshow" position="right" width="70%">
             <yd-cell-group>
                 <div class="align-center">
-                    <yd-button style="width:80%;margin:10px 0 10px 0" type="primary" @click.native="emptyclick()">无计划或散客</yd-button>
+                    <yd-button style="width:90%;height: 38px; margin: 5px 0" type="primary" @click.native="emptyclick()">无计划或散客</yd-button>
                 </div>
                 <yd-search v-model="sv" />
                 <yd-infinitescroll :callback="loadList_sp" ref="spInfinitescroll">
                     <yd-cell-item slot="list" arrow @click.native="planitemclick(s)" v-for="s in salesplans" :key="s.id">
-                        <div slot="left">
-                            <p>{{s.carNo}}</p>
-                            <p class="col-gray">{{s.createdBy}}</p>
+                        <div slot="left" style="line-height: 20px">
+                            <p v-if="s.state == 0" class="col-coral">{{s.carNo}}</p>
+                            <p v-if="s.state != 0" class="col-green">{{s.carNo}}</p>
+                            <p class="col-light-gray">{{s.createdBy}}</p>
                         </div>
-                        <div slot="right">
-                            <p :class="s.state == 0 ? 'color_red' : 'color_green'">{{strSalesPlanState(s)}}</p>
+                        <div slot="right" style="line-height: 20px; margin: 5px 0">
                             <p>预约{{formatShortDate(s.oilDate)}}</p>
+                            <p class="col-light-gray">开单{{formatShortDate(s.createdAt)}}</p>
                         </div>
                     </yd-cell-item>
                     <!-- 数据全部加载完毕显示 -->

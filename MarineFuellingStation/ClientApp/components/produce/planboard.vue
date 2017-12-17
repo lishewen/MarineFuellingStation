@@ -11,7 +11,7 @@
                             </div>
                             <div slot="right" class="align-left" style="margin-right: 5px;padding: 0.2rem 0 .2rem">
                                 <p class="col-gray"><span class="col-green font16">{{p.count}}</span> {{p.unit}} / {{p.oilName}}</p>
-                                <p :class="stateClass(p.state)" style="text-align: right">{{strState(p.state)}}</p>
+                                <p :class="stateClass(p.state)" style="text-align: right">{{strSalesPlanState(p.state)}}</p>
                                 <p class="align-right">{{formatDate(p.createdAt)}}</p>
                             </div>
                         </yd-cell-item>
@@ -31,7 +31,7 @@
                         </div>
                         <div slot="right" style="text-align: left;margin-right: 5px;padding: 0.2rem 0 .2rem">
                             <p class="col-gray"><span class="font16 col-green">{{p.count}}</span> {{p.unit}} / {{p.oilName}}</p>
-                            <p :class="stateClass(p.state)" style="text-align: right">{{strState(p.state)}}</p>
+                            <p :class="stateClass(p.state)" style="text-align: right">{{strSalesPlanState(p.state)}}</p>
                             <p class="align-right">{{formatDate(p.createdAt)}}</p>
                         </div>
                     </yd-cell-item>

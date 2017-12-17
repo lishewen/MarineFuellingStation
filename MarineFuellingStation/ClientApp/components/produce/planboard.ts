@@ -72,14 +72,6 @@ export default class PlanBoardComponent extends ComponentBase {
         this.getSalesPlans();
     }
 
-    strState(st: server.salesPlanState) {
-        switch (st) {
-            case server.salesPlanState.未审批:
-                return "未审批";
-            case server.salesPlanState.已审批:
-                return "已审批"
-        }
-    }
     stateClass(st: server.salesPlanState): any{
         if (st == server.salesPlanState.未审批)
             return { color_red: true }

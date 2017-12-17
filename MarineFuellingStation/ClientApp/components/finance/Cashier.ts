@@ -69,27 +69,6 @@ export default class CashierComponent extends ComponentBase {
         this.getOrders();
     }
 
-    strPayType(pt: server.orderPayType) {
-        switch (pt) {
-            case server.orderPayType.现金:
-                return "现金"
-            case server.orderPayType.微信:
-                return "微信"
-            case server.orderPayType.支付宝:
-                return "支付宝"
-            case server.orderPayType.桂行刷卡:
-                return "桂行刷卡"
-            case server.orderPayType.工行刷卡:
-                return "工行刷卡"
-            case server.orderPayType.刷卡三:
-                return "刷卡三"
-            case server.orderPayType.账户扣减:
-                return "账户扣减"
-            case server.orderPayType.公司账户扣减:
-                return "公司账户扣减"
-        }
-    }
-
     strCompanyName(o: server.order) {
         if (o.client != null)
             if (o.client.company != null)

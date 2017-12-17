@@ -166,4 +166,119 @@ export default class ComponentBase extends Vue {
                 }
             });
     }
+    //========================== enum value to key ==============================
+    strSalesPlanState(st: server.salesPlanState) {
+        switch (st) {
+            case server.salesPlanState.未审批:
+                return "未审批";
+            case server.salesPlanState.已审批:
+                return "已审批";
+            case server.salesPlanState.已完成:
+                return "已完成";
+        }
+    }
+    /**
+     * 取得船舶清污状态，已开单|施工中|已完成
+     * @param s
+     */
+    strBoatCleanState(s: server.boatCleanState): string {
+        switch (s) {
+            case server.boatCleanState.已开单:
+                return '已开单';
+            case server.boatCleanState.施工中:
+                return '施工中';
+            case server.boatCleanState.已完成:
+                return '已完成';
+        }
+    }
+    /**
+     * 取得充值或消费类型，充值|消费
+     * @param t
+     */
+    strChargeType(t: server.chargeType) {
+        if (t == server.chargeType.充值) {
+            return "充值"
+        }
+        else if (t == server.chargeType.消费) {
+            return "消费"
+        }
+    }
+    /**
+     * 取得开票类型，循票|柴票
+     * @param tt
+     */
+    strTicketType(tt: server.ticketType) {
+        switch (tt) {
+            //case server.ticketType.普通票:
+            //    return "普通票";
+            //case server.ticketType.专用票:
+            //    return "专用票";
+            case server.ticketType.循票:
+                return "循";
+            case server.ticketType.柴票:
+                return "柴";
+        }
+    }
+    /**
+     * 取得出入仓类型，出仓|入仓
+     * @param t
+     */
+    strLogType(t: server.logType) {
+        if (t == server.logType.入仓)
+            return "入仓"
+        else
+            return "出仓"
+    }
+    /**
+     * 取得订单状态，已完成|装油中|已开单
+     * @param s
+     */
+    strOrderState(s: server.orderState): string {
+        switch (s) {
+            case server.orderState.已完成:
+                return '已完成';
+            case server.orderState.装油中:
+                return '装油中';
+            case server.orderState.已开单:
+                return '已开单';
+        }
+    }
+    /**
+     * 取得付款状态
+     * @param o
+     */
+    strPayState(s: server.payState) {
+        switch (s) {
+            case server.payState.未结算:
+                return "未结算";
+            case server.payState.挂账:
+                return "挂账";
+            case server.payState.已结算:
+                return "已结算"
+        }
+    }
+    /**
+     * 取得订单支付方式，现金|微信|支付宝|桂行刷卡|刷卡三|账户扣减|公司账户扣减
+     * @param pt
+     */
+    strOrderPayType(pt: server.orderPayType) {
+        switch (pt) {
+            case server.orderPayType.现金:
+                return "现金"
+            case server.orderPayType.微信:
+                return "微信"
+            case server.orderPayType.支付宝:
+                return "支付宝"
+            case server.orderPayType.桂行刷卡:
+                return "桂行刷卡"
+            case server.orderPayType.工行刷卡:
+                return "工行刷卡"
+            case server.orderPayType.刷卡三:
+                return "刷卡三"
+            case server.orderPayType.账户扣减:
+                return "账户扣减"
+            case server.orderPayType.公司账户扣减:
+                return "公司账户扣减"
+        }
+    }
 }

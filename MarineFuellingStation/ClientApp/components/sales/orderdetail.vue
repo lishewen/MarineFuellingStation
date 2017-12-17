@@ -54,7 +54,7 @@
                 <span slot="right">{{getIsInvoice(model.isInvoice)}}</span>
             </yd-cell-item>
             <yd-cell-item v-show="model.isInvoice">
-                <span slot="right">{{getTicketType(model.ticketType)}}</span>
+                <span slot="right">{{strTicketType(model.ticketType)}}</span>
             </yd-cell-item>
             <yd-cell-item v-show="model.isInvoice">
                 <span slot="left">单位：</span>
@@ -79,7 +79,7 @@
                 <span slot="right">{{model.isPrintPrice ? "显示" : "不显示"}}</span>
             </yd-cell-item>
         </yd-cell-group>
-        <yd-cell-group :title="strOrderState(model)" v-show="model.state == 5">
+        <yd-cell-group :title="strOrderState1(model)" v-show="model.state == 5">
             <yd-cell-item>
                 <span slot="left">施工人员：</span>
                 <span slot="right">{{model.worker}}</span>
@@ -124,7 +124,7 @@
         </yd-cell-group>-->
         <yd-cell-group title="付款方式与金额" v-show="model.payState == 1">
             <yd-cell-item v-for="p in model.payments" :key="p.id">
-                <span slot="left">{{strPayType(p)}}：</span>
+                <span slot="left">{{strOrderPayType(p.payTypeId)}}：</span>
                 <span slot="right">￥{{p.money}}</span>
             </yd-cell-item>
         </yd-cell-group>

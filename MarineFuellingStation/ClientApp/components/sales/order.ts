@@ -100,23 +100,6 @@ export default class OrderComponent extends ComponentBase {
         }
     }
 
-    strPlanState(s: server.salesPlan) {
-        if (s.state == server.salesPlanState.未审批) { return "未审批" };
-        if (s.state == server.salesPlanState.已审批) { return "已审批" };
-        if (s.state == server.salesPlanState.已完成) { return "已完成" };
-    }
-
-    getStateName(s: server.orderState): string {
-        switch (s) {
-            case server.orderState.已完成:
-                return '已完成';
-            case server.orderState.装油中:
-                return '装油中';
-            case server.orderState.已开单:
-                return '已开单';
-        }
-    }
-
     planitemclick(s: server.salesPlan): void {
         if (s.state == server.salesPlanState.未审批) { this.toastError("该计划未经审核，请通知上级审核通过！"); return; }
         this.salesplan = s;

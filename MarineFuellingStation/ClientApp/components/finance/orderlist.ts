@@ -136,32 +136,6 @@ export default class OrderListComponent extends ComponentBase {
 
     mounted() {
         this.$emit('setTitle', this.$store.state.username + ' 销售单查询');
-    };
-
-    strState(o: server.order) {
-        let sta = o.state;
-        switch (sta) {
-            case server.orderState.已开单:
-                return "已开单";
-            case server.orderState.装油中:
-                return "装油中";
-            case server.orderState.已完成:
-                return "已完成"
-        }
-        return;
-    }
-
-    strPayState(o: server.order) {
-        let sta = o.payState;
-        switch (sta) {
-            case server.payState.未结算:
-                return "未结算";
-            case server.payState.挂账:
-                return "挂账";
-            case server.payState.已结算:
-                return "已结算"
-        }
-        return;
     }
 
     change(label: string, tabkey: string) {

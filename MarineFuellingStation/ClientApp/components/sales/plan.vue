@@ -154,7 +154,7 @@
                                 <p class="color_lightgray">{{s.price}} x {{s.count}}{{s.unit}}</p>
                             </div>
                             <div slot="right">
-                                <p :class="classState(s.state)" style="padding-left:10px">{{getStateName(s.state)}}</p>
+                                <p :class="classState(s.state)" style="padding-left:10px">{{strSalesPlanState(s.state)}}</p>
                                 <p>{{formatDate(s.oilDate)}}</p>
                             </div>
                         </yd-cell-item>

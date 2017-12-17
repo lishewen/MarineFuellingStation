@@ -16,6 +16,6 @@ declare module server {
 	const enum logType {
 		出仓,
 		入仓,
-		全部,
+		全部
 	}
 }

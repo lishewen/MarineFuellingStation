@@ -48,20 +48,7 @@ export default class OrderDetailComponent extends ComponentBase {
             return "代号2";
     }
 
-    getTicketType(tt: server.ticketType) {
-        switch (tt) {
-            //case server.ticketType.普通票:
-            //    return "普通票";
-            //case server.ticketType.专用票:
-            //    return "专用票";
-            case server.ticketType.循票:
-                return "循";
-            case server.ticketType.柴票:
-                return "柴";
-        }
-    }
-
-    strOrderState(o: server.order) {
+    strOrderState1(o: server.order) {
         let str = "当前施工状态：";
         switch (o.state) {
             case server.orderState.已开单:
@@ -76,25 +63,6 @@ export default class OrderDetailComponent extends ComponentBase {
                 return str + "待施工";
             case server.orderState.已完成:
                 return str + "已完成";
-        }
-    }
-
-    strPayType(p: server.payment) {
-        switch (p.payTypeId) {
-            case server.orderPayType.现金:
-                return "现金";
-            case server.orderPayType.微信:
-                return "微信";
-            case server.orderPayType.支付宝:
-                return "支付宝";
-            case server.orderPayType.桂行刷卡:
-                return "桂行刷卡";
-            case server.orderPayType.账户扣减:
-                return "账户扣减";
-            case server.orderPayType.工行刷卡:
-                return "工行刷卡";
-            case server.orderPayType.公司账户扣减:
-                return "公司账户扣减";
         }
     }
 

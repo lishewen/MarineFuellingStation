@@ -26,13 +26,6 @@ export default class InAndOutLogComponent extends ComponentBase {
         this.getInAndOutLogs();
     }
 
-    getType(t: server.logType) {
-        if (t == server.logType.入仓)
-            return "入仓"
-        else
-            return "出仓"
-    }
-
     classState(t: server.logType): any {
         switch (t) {
             case server.logType.出仓:

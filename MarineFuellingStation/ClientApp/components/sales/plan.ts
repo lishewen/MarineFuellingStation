@@ -241,17 +241,6 @@ export default class PlanComponent extends ComponentBase {
         this.$router.push('/sales/plan/' + id + '/plan')
     }
 
-    getStateName(s: server.salesPlanState): string {
-        switch (s) {
-            case server.salesPlanState.未审批:
-                return '未审批';
-            case server.salesPlanState.已审批:
-                return '已审批';
-            case server.salesPlanState.已完成:
-                return '已完成';
-        }
-    }
-
     classState(s: server.salesPlanState): any {
         switch (s) {
             case server.salesPlanState.未审批:

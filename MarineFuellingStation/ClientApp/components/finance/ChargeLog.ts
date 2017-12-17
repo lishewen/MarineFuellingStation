@@ -57,15 +57,6 @@ export default class ChargeLogComponent extends ComponentBase {
         }
     }
 
-    strChargeType(t: server.chargeType) {
-        if (t == server.chargeType.充值) {
-            return "充值"
-        }
-        else if (t == server.chargeType.消费) {
-            return "消费"
-        }
-    }
-
     classMoney(t: server.chargeType) {
         if (t == server.chargeType.充值) {
             return { 'clog-font_green': true }

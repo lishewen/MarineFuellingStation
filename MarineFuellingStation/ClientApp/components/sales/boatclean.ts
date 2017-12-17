@@ -65,17 +65,6 @@ export default class BoatCleanComponent extends ComponentBase {
         });
     }
 
-    getStateName(s: server.boatCleanState): string {
-        switch (s) {
-            case server.boatCleanState.已开单:
-                return '已开单';
-            case server.boatCleanState.施工中:
-                return '施工中';
-            case server.boatCleanState.已完成:
-                return '已完成';
-        }
-    }
-
     classState(s: server.boatCleanState): any {
         switch (s) {
             case server.boatCleanState.已开单:

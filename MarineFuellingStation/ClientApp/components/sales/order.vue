@@ -174,7 +174,7 @@
                                 <p class="col-light-gray">{{o.product.name}} / ￥{{o.price}} x {{o.count}}{{o.unit}}</p>
                             </div>
                             <div slot="right">
-                                <p :class="classState(o.state)" style="padding-left:10px">{{getStateName(o.state)}}</p>
+                                <p :class="classState(o.state)" style="padding-left:10px">{{strOrderState(o.state)}}</p>
                                 <p>{{formatDate(o.oilDate)}}</p>
                             </div>
                         </yd-cell-item>
@@ -201,7 +201,7 @@
                             <p class="col-gray">{{s.createdBy}}</p>
                         </div>
                         <div slot="right">
-                            <p :class="s.state == 0 ? 'color_red' : 'color_green'">{{strPlanState(s)}}</p>
+                            <p :class="s.state == 0 ? 'color_red' : 'color_green'">{{strSalesPlanState(s)}}</p>
                             <p>预约{{formatShortDate(s.oilDate)}}</p>
                         </div>
                     </yd-cell-item>

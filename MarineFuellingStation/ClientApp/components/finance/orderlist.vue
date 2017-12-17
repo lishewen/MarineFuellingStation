@@ -33,8 +33,8 @@
                         </div>
                         <div class="col-coral align-left" slot="right" style="width:80px;">提：￥{{o.salesCommission}}</div>
                         <div slot="right" style="padding-right: .1rem">
-                            <p class="col-green" style="padding-left:10px">{{strState(o)}}</p>
-                            <p class="col-gray" style="margin-top:0.1rem">{{strPayState(o)}}</p>
+                            <p class="col-green" style="padding-left:10px">{{strOrderState(o.state)}}</p>
+                            <p class="col-gray" style="margin-top:0.1rem">{{strPayState(o.payState)}}</p>
                         </div>
                     </yd-cell-item>
                     <!-- 数据全部加载完毕显示 -->

@@ -88,7 +88,7 @@
                             </div>
                             <div slot="right">
                                 <p>{{formatDate(s.oilDate)}}</p>
-                                <p :class="classState(s.state)">{{getStateName(s.state)}}</p>
+                                <p :class="classState(s.state)">{{strBoatCleanState(s.state)}}</p>
                             </div>
                         </yd-cell-item>
                         <!-- 数据全部加载完毕显示 -->

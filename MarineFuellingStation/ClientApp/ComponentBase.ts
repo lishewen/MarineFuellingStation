@@ -42,6 +42,10 @@ export default class ComponentBase extends Vue {
             }
         });
     }
+    /** 取两位小数 */
+    round(val: number) {
+        return Math.round(val * 100) / 100;
+    }
 
     //========================== 打印单据 ==============================
 

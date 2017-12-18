@@ -83,7 +83,7 @@
                 <yd-grids-item>
                     <div slot="text">
                         <p style="color: lightgray;font-size: .3rem">磅秤误差</p>
-                        <p style="margin-top: .2rem;font-size: .2rem">{{(model.scaleWithCar - model.scale) - model.count}}吨</p>
+                        <p style="margin-top: .2rem;font-size: .2rem">{{round(model.scaleWithCar - model.scale - model.count)}}吨</p>
                     </div>
                 </yd-grids-item>
             </yd-grids-group>
@@ -102,13 +102,13 @@
                 </yd-cell-item>
                 <yd-cell-item>
                     <span slot="left">与计划相差：</span>
-                    <span slot="right">{{(model.scaleWithCar - model.scale) - model.count}}吨</span>
+                    <span slot="right">{{round((model.scaleWithCar - model.scale) - model.count)}}吨</span>
                 </yd-cell-item>
                 <yd-cell-item>
                     <span slot="left">卸入油仓：</span>
                     <div slot="right" class="font16">
                         <p v-for="ts in model.toStoresList" :key="ts.id">
-                            {{ts.name}} - {{ts.count}}升
+                            {{ts.name}} - {{round(ts.count)}}升
                         </p>
                     </div>
                 </yd-cell-item>
@@ -122,7 +122,7 @@
                 </yd-cell-item>
                 <yd-cell-item>
                     <span slot="left">换算吨数：</span>
-                    <span slot="right">{{model.oilCount * model.density / 1000}}吨</span>
+                    <span slot="right">{{round(model.oilCount * model.density / 1000)}}吨</span>
                 </yd-cell-item>
                 <yd-cell-item>
                     <span slot="left">施工人：</span>

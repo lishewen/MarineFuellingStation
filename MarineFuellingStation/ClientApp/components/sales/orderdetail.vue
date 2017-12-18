@@ -21,7 +21,7 @@
         <yd-cell-group>
             <yd-cell-item v-show="model.salesPlan != null">
                 <span slot="right" :class="totalMoneyClass()">
-                    {{model.salesPlan != null? "差额：销售单金额 - 计划单金额 = ￥" + Math.round((model.totalMoney - model.salesPlan.totalMoney)* 100)/100 : ""}}
+                    {{model.salesPlan != null? "差额：销售单金额 - 计划单金额 = ￥" + round(model.totalMoney - model.salesPlan.totalMoney) : ""}}
                 </span>
             </yd-cell-item>
             <yd-cell-item v-show="model.salesPlan != null">

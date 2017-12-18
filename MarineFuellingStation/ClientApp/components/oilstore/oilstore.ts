@@ -42,13 +42,13 @@ export default class OilStoreComponent extends ComponentBase {
         this.$watch('survey.density', (v, ov) => {
             if (v && v != '') {
                 if (this.survey != null)
-                    this.litreToTon = Math.round(<number>this.survey.count * v / 1000 * 100) / 100;
+                    this.litreToTon = this.round(<number>this.survey.count * v / 1000);
             }
         });
         this.$watch('survey.count', (v, ov) => {
             if (v && v != '') {
                 if (this.survey != null)
-                    this.litreToTon = Math.round(v * <number>this.survey.density / 1000 * 100) / 100;
+                    this.litreToTon = this.round(v * <number>this.survey.density / 1000);
             }
         });
     };

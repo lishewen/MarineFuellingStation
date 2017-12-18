@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -38,6 +39,11 @@ namespace MFS.Models
         /// 总消费金额
         /// </summary>
         public decimal TotalAmount { get; set; }
+        /// <summary>
+        /// 客户成员
+        /// </summary>
+        [NotMapped]
+        public List<Client> Clients { get; set; }
     }
     public enum TicketType
     {

@@ -115,7 +115,7 @@ export default class CashierComponent extends ComponentBase {
         });
 
         let coItem: ydui.actionSheetItem = {
-            label: '充值【公司账户】预付充值',
+            label: '【公司账户】预付充值',
             callback: () => {
                 this.showCharge = true;
                 this.isCompanyCharge = true;

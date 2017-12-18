@@ -13,7 +13,7 @@
                 </span>
                 <span><yd-button type="hollow" @click.native="show2 = true">筛选</yd-button></span>
             </div>
-            <yd-cell-item arrow v-for="c in clients" :key="c.id" @click.native="clientclick(c)" :class="classMark(c.isMark)" style="padding: .1rem 0">
+            <yd-cell-item arrow v-for="c in clients" :key="c.id" @click.native="clientclick(c)" :class="classMark(c.isMark)">
                 <div slot="left">
                     <p>{{c.carNo}} - {{c.contact}}</p>
                     <p v-if="c.company != null" class="col-light-gray font12">{{c.company.name}}</p>

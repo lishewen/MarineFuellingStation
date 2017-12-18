@@ -33,6 +33,10 @@ namespace MFS.Models
         /// </summary>
         [JsonIgnore, ForeignKey("ProductTypeId")]
         public virtual ProductType ProductType { get; set; }
+        /// <summary>
+        /// 单位
+        /// </summary>
+        public string Unit { get; set; }
     }
 
     public class ProductType : EntityBase

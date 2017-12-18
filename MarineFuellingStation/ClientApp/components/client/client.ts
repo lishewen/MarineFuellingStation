@@ -15,22 +15,27 @@ export default class ClientComponent extends ComponentBase {
     companyName: string;
 
     oiloptions: ydui.actionSheetItem[];
+    menuoptions: ydui.actionSheetItem[];
     oilName: string = '请选择';
 
     radio1: string = "2";
     radio2: string = "1";
     oilshow: boolean = false;
+    menushow: boolean = false;
     nonshow: boolean = false;
+    showMyClients: boolean = false;
     show1: boolean = false;
     show2: boolean = false;
     iswater: boolean = true;
-    showcompany: boolean = false;
-    showaddcompany: boolean = false;
+    isAddAction: boolean = true;
+    showCompanys: boolean = false;
+    showCompanyInput: boolean = false;
     showsales: boolean = false;
     labelBoatOrCar: string = "";
     svCompany: string = "";
     svCompany1: string = "";
     svClient: string = "";
+    selectClientIds: number[];
 
     actBtnId: number; actBtnId1: number; actBtnId2: number; actBtnId3: number;//当前激活状态的条件button
     ctype: server.clientType; ptype: server.salesPlanState; balances: number; cycle: number;
@@ -56,6 +61,8 @@ export default class ClientComponent extends ComponentBase {
         this.model.contact = '';
         this.model.phone = '';
         this.model.mobile = '';
+
+        this.selectClientIds = new Array<number>();
         
         this.labelBoatOrCar = "船号";
         this.getOilProducts();
@@ -140,7 +147,7 @@ export default class ClientComponent extends ComponentBase {
     };
 
     mounted() {
-        this.$emit('setTitle', this.$store.state.username + ' 的客户');
+        this.$emit('setTitle', '客户');
         this.$watch('model.clientType', (v, ov) => {
             switch (parseInt(v)) {
                 case server.clientType.个人:
@@ -178,18 +185,37 @@ export default class ClientComponent extends ComponentBase {
     };
 
     switchaddcompany() {
-        this.showcompany = false;
-        this.showaddcompany = true;
+        this.modelCompany = new Object as server.company;
+        this.showCompanys = false;
+        this.isAddAction = true;
+        this.showCompanyInput = true;
     }
 
     change(label: string, tabkey: string) {
         console.log(label);
     }
 
+    companyclick(c: server.company) {
+        this.modelCompany = c;
+        this.menushow = true;
+        this.menuoptions = [{
+            label: '详细资料',
+            callback: () => {
+                this.isAddAction = false;//切换编辑标识
+                this.showCompanyInput = true;
+            }
+        },{
+            label: '客户成员',
+            callback: () => {
+                this.showMyClients = true;
+            }
+        }];
+    }
+
     selectcompanyclick(company: server.company) {
         this.companyName = company.name;
         this.model.companyId = company.id;
-        this.showcompany = false;
+        this.showCompanys = false;
     }
 
     selectsalesclick(sales: work.userlist) {

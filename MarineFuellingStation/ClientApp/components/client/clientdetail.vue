@@ -76,7 +76,7 @@
         </yd-cell-group>
 
         <div>
-            <yd-button size="large" type="primary" @click.native="saveclientclick">保存</yd-button>
+            <yd-button size="large" type="primary" @click.native="saveclientclick" :disabled="isPrevent">保存</yd-button>
         </div>
         <yd-actionsheet :items="oiloptions" v-model="oilshow" cancel="取消"></yd-actionsheet>
         <!--popup公司选择列表-->

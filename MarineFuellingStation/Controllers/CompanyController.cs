@@ -34,7 +34,7 @@ namespace MFS.Controllers
             return new ResultJSON<List<Company>>
             {
                 Code = 0,
-                Data = r.GetAllList()
+                Data = r.GetWithClients()
             };
         }
         [HttpGet("{sv}")]

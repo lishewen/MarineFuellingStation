@@ -17,7 +17,7 @@
                         </yd-radio-group>
                     </yd-cell-item>
 
-                    <yd-cell-item v-show="show1" arrow @click.native="showcompany = true">
+                    <yd-cell-item v-show="show1" arrow @click.native="showCompanys = true">
                         <span slot="left">所属公司：</span>
                         <span slot="right">{{companyName}}</span>
                     </yd-cell-item>
@@ -104,10 +104,10 @@
             <yd-tab-panel label="公司列表">
                 <yd-cell-group>
                     <div class="align-center">
-                        <yd-button type="primary" @click.native="switchaddcompany" style="width: 90%; margin: .2rem 0">添加公司</yd-button>
+                        <yd-button type="warning" @click.native="switchaddcompany" style="width: 90%; height: 38px; margin: .2rem 0">添加新公司</yd-button>
                     </div>
                     <yd-search v-model="svCompany" />
-                    <yd-cell-item arrow v-for="co in companys" :key="co.id">
+                    <yd-cell-item arrow v-for="co in companys" :key="co.id" @click.native="companyclick(co)">
                         <div slot="left">
                             <p>{{co.name}}</p>
                         </div>
@@ -150,7 +150,7 @@
             </div>
         </yd-popup>
         <!--popup新增公司-->
-        <yd-popup v-model="showaddcompany" position="right" width="70%">
+        <yd-popup v-model="showCompanyInput" position="right" width="70%">
             <yd-cell-group title="必填">
                 <yd-cell-item>
                     <span slot="left">名称：</span>
@@ -158,6 +158,10 @@
                 </yd-cell-item>
             </yd-cell-group>
             <yd-cell-group title="选填">
+                <yd-cell-item>
+                    <span slot="left">电话：</span>
+                    <yd-input slot="right" v-model="modelCompany.phone" regex="mobile" placeholder="请输入"></yd-input>
+                </yd-cell-item>
                 <yd-cell-item arrow>
                     <span slot="left">票类：</span>
                     <select slot="right">
@@ -186,15 +190,12 @@
                     <span slot="left">地址：</span>
                     <yd-input slot="right" v-model="modelCompany.address" regex="" placeholder="请输入"></yd-input>
                 </yd-cell-item>
-                <yd-cell-item>
-                    <span slot="left">电话：</span>
-                    <yd-input slot="right" v-model="modelCompany.phone" regex="mobile" placeholder="请输入"></yd-input>
-                </yd-cell-item>
             </yd-cell-group>
-            <yd-button size="large" type="primary" @click.native="addcompanyclick">提交</yd-button>
+            <yd-button v-show="isAddAction" size="large" type="primary" @click.native="addcompanyclick">提交</yd-button>
+            <yd-button v-show="!isAddAction" size="large" type="primary" @click.native="savecompanyclick">保存</yd-button>
         </yd-popup>
         <!--popup公司选择列表-->
-        <yd-popup v-model="showcompany" position="right" class="popup70">
+        <yd-popup v-model="showCompanys" position="right" width="70%">
             <yd-cell-group>
                 <div class="align-center"><yd-button type="primary" style="width: 90%" @click.native="switchaddcompany">新增</yd-button></div>
                 <yd-search v-model="svCompany1" />
@@ -202,6 +203,16 @@
                     <span slot="left">{{co.name}}</span>
                 </yd-cell-item>
             </yd-cell-group>
+        </yd-popup>
+        <!--popup公司客户成员列表-->
+        <yd-popup v-model="showMyClients" position="right" width="70%">
+            <yd-cell-group :title="modelCompany.name">
+                <yd-cell-item type="checkbox" v-for="c in modelCompany.clients" :key="c.id">
+                    <span slot="left">{{c.carNo}}</span>
+                    <input slot="right" type="checkbox" :value="c.id" v-model="selectClientIds" />
+                </yd-cell-item>
+            </yd-cell-group>
+            <yd-button size="large" :disabled="selectClientIds.length < 1">移除所选成员</yd-button>
         </yd-popup>
         <!--popup销售列表-->
         <yd-popup v-model="showsales" position="right">
@@ -211,6 +222,8 @@
                 </yd-cell-item>
             </yd-cell-group>
         </yd-popup>
+        <!--点击公司action sheet -->
+        <yd-actionsheet :items="menuoptions" v-model="menushow" cancel="取消"></yd-actionsheet>
     </div>
 </template>
 

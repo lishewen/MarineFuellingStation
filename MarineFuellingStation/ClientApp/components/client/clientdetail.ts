@@ -16,6 +16,7 @@ export default class MyClientDetailComponent extends ComponentBase {
     companys: server.company[];
     sales: work.userlist[];
     oiloptions: ydui.actionSheetItem[];
+    isPrevent: boolean = true;
 
     constructor() {
         super();
@@ -38,6 +39,7 @@ export default class MyClientDetailComponent extends ComponentBase {
         this.getClient(id, () => {
             //设置返回键的连接
             this.$emit('setTitle', this.model.carNo + ' 客户明细', '/client/client');
+            this.isPrevent = false;
         });
 
         this.$watch('model.clientType', (v, ov) => {
@@ -155,6 +157,7 @@ export default class MyClientDetailComponent extends ComponentBase {
                     this.oiloptions.push({
                         label: o.name,
                         callback: () => {
+                            this.model.product = new Object as server.product;
                             this.model.product.name = o.name;
                             this.model.defaultProductId = o.id;
                         }

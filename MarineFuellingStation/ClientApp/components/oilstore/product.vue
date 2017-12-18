@@ -29,19 +29,27 @@
                         <yd-input slot="right" v-model="currentproduct.name" required placeholder="请输入名称"></yd-input>
                     </yd-cell-item>
                     <yd-cell-item>
+                        <span slot="left">计量单位：</span>
+                        <yd-radio-group slot="right" v-model="currentproduct.unit">
+                            <yd-radio val="升">升</yd-radio>
+                            <yd-radio val="吨">吨</yd-radio>
+                            <yd-radio val="桶">桶</yd-radio>
+                        </yd-radio-group>
+                    </yd-cell-item>
+                    <yd-cell-item>
                         <span slot="left">最近一次单价：</span>
                         <yd-input slot="right" type="number" v-model="currentproduct.lastPrice" placeholder="请输入最新售价"></yd-input>
-                        <span slot="right" style="width: 60px">元 / 升</span>
+                        <span slot="right" style="width: 60px">元 / {{currentproduct.unit}}</span>
                     </yd-cell-item>
                     <yd-cell-item>
                         <span slot="left">最低单价：</span>
                         <yd-input slot="right" type="number" v-model="currentproduct.minPrice" placeholder="请输入最低单价" required></yd-input>
-                        <span slot="right" style="width: 60px">元 / 升</span>
+                        <span slot="right" style="width: 60px">元 / {{currentproduct.unit}}</span>
                     </yd-cell-item>
                     <yd-cell-item>
                         <span slot="left">最低开票单价：</span>
                         <yd-input slot="right" type="number" v-model="currentproduct.minInvoicePrice" placeholder="请输入最低开票单价" required></yd-input>
-                        <span slot="right" style="width: 60px">元 / 升</span>
+                        <span slot="right" style="width: 60px">元 / {{currentproduct.unit}}</span>
                     </yd-cell-item>
                 </yd-cell-group>
                 <div class="align-center">
@@ -56,8 +64,8 @@
                 <yd-cell-item arrow v-for="p in currentpt.products" :key="p.id" @click.native="editProductclick(p)">
                     <div slot="left">{{p.name}}</div>
                     <div slot="right" style="font-size: 14px">
-                        <p class="col-green">￥{{p.minPrice}} / 升</p>
-                        <p class="col-coral"> 开票￥{{p.minInvoicePrice}} / 升</p>
+                        <p class="col-green">￥{{p.minPrice}} / {{p.unit}}</p>
+                        <p class="col-coral"> 开票￥{{p.minInvoicePrice}} / {{p.unit}}</p>
                     </div>
                 </yd-cell-item>
             </yd-cell-group>

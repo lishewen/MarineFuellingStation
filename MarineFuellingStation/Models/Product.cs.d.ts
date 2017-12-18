@@ -9,6 +9,7 @@ declare module server {
 		isUse: boolean;
         productTypeId: number;
         isForLand: boolean | string;
+        unit: string;
 	}
     interface productType extends entityBase {
         products: product[];

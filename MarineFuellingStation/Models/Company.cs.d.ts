@@ -17,6 +17,8 @@ declare module server {
         balances: number;
         /** 总消费金额 */
         totalAmount: number;
+        /** 客户成员 */
+        clients: client[];
     }
     const enum ticketType {
         //普通票,

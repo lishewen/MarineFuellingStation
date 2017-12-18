@@ -56,26 +56,12 @@ export default class ProductComponent extends ComponentBase {
     }
 
     validate() {
-        if (this.currentproduct.isForLand == null) {
-            this.toastError('请指定水上或陆上');
-            return false;
-        }
-        if (this.currentproduct.name == '') {
-            this.toastError('商品名称不能为空');
-            return false;
-        }
-        if (this.currentproduct.minPrice <= 0 || this.currentproduct.minPrice == null) {
-            this.toastError('最低单价必须大于0');
-            return false;
-        }
-        if (this.currentproduct.minInvoicePrice <= 0 || this.currentproduct.minPrice == null) {
-            this.toastError('最低开票单价必须大于0');
-            return false;
-        }
-        if (this.currentproduct.productTypeId == null) {
-            this.toastError('商品必须选择分类');
-            return false;
-        }
+        if (this.currentproduct.isForLand == null) {this.toastError('请指定水上或陆上');return false;}
+        if (this.currentproduct.name == '') {this.toastError('商品名称不能为空');return false;}
+        if (this.currentproduct.unit == null) {this.toastError('请选择计量单位');return false;}
+        if (this.currentproduct.minPrice <= 0 || this.currentproduct.minPrice == null) {this.toastError('最低单价必须大于0');return false;}
+        if (this.currentproduct.minInvoicePrice <= 0 || this.currentproduct.minPrice == null) {this.toastError('最低开票单价必须大于0');return false;}
+        if (this.currentproduct.productTypeId == null) {this.toastError('商品必须选择分类');return false;}
         return true;
     }
 

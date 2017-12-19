@@ -67,6 +67,8 @@ export default class ChargeComponent extends ComponentBase {
         this.clients = null;
         this.chargeLog.clientId = c.id;
         this.showStep2 = true;
+        //读取挂账金额
+        this.getNoPayMoney(c.id);
         console.log(c);
     }
     companyclick(co: server.company) {
@@ -77,6 +79,8 @@ export default class ChargeComponent extends ComponentBase {
         this.companys = null;
         this.chargeLog.companyId = co.id;
         this.showStep2 = true;
+        //读取挂账金额
+        this.getNoPayMoney(co.id);
     }
     confirmPrint(cl: server.chargeLog) {
         this.$dialog.confirm({
@@ -151,9 +155,13 @@ export default class ChargeComponent extends ComponentBase {
                 else if (this.companys.length == 1) {
                     this.company = this.companys[0];
                     this.accName = this.company.name;
+                    this.balances = this.company.balances;
                     this.showStep2 = true;
+                    //读取挂账金额
+                    this.getNoPayMoney(this.company.id);
                 }
                 else {
+                    this.accName = "找不到" + this.keyword;
                     this.toastError("查询没有相关数据");
                     this.balances = 0;
                 }

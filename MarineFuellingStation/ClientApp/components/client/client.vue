@@ -212,7 +212,8 @@
                     <input slot="right" type="checkbox" :value="c.id" v-model="selectClientIds" />
                 </yd-cell-item>
             </yd-cell-group>
-            <yd-button size="large" :disabled="selectClientIds.length < 1">移除所选成员</yd-button>
+            <yd-button size="large" :disabled="selectClientIds.length < 1" v-show="modelCompany.clients != null && modelCompany.clients.length > 0">移除所选成员</yd-button>
+            <yd-button size="large">添加成员</yd-button>
         </yd-popup>
         <!--popup销售列表-->
         <yd-popup v-model="showsales" position="right">

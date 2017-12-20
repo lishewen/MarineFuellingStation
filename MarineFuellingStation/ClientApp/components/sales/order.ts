@@ -379,26 +379,6 @@ export default class OrderComponent extends ComponentBase {
         });
     }
 
-    getClients() {
-        let carNo = this.model.carNo;
-        if (carNo == "" || carNo == null) {
-            this.toastError("请输入船号或车号");
-            return;
-        }
-        axios.get('/api/Client/' + carNo).then((res) => {
-            let jobj = res.data as server.resultJSON<server.client[]>;
-            if (jobj.code == 0) {
-                this.clients = jobj.data;
-                if (this.clients.length > 0) {
-                    this.model.billingCompany = this.clients[0].company.name;
-                    this.model.ticketType = this.clients[0].company.ticketType;
-                }
-                else
-                    this.toastError('没有找到' + carNo + '相关数据，请手动输入');
-            }
-        });
-    }
-
     getOilProducts() {
         axios.get('/api/Product/OilProducts').then((res) => {
             let jobj = res.data as server.resultJSON<server.product[]>;
@@ -477,8 +457,10 @@ export default class OrderComponent extends ComponentBase {
                 this.step3Prevent = false;//释放下一步
                 this.client = jobj.data;
                 if (jobj.data != null) {
-                    this.model.billingCompany = this.client.company != null ? this.client.company.name : "";
-                    this.model.ticketType = this.client.company != null ? this.client.company.ticketType : -1;
+                    if (this.model.billingCompany == '') {
+                        this.model.billingCompany = this.client.company != null ? this.client.company.name : "";
+                        this.model.ticketType = this.client.company != null ? this.client.company.ticketType : -1;
+                    }
 
                     this.mobile = this.client.mobile ? this.client.mobile : "";
                     this.contact = this.client.contact ? this.client.contact : "";

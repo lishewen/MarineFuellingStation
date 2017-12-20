@@ -318,7 +318,7 @@ namespace MFS.Controllers
         [HttpGet("[action]")]
         public async Task<ResultJSON<Order>> PrintOrder(int id, string to)
         {
-            Order o = r.Get(id);
+            Order o = r.GetWithInclude(id);
             await SendPrintAsync(to, o, "printorder");
             return new ResultJSON<Order>
             {

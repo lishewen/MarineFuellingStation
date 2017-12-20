@@ -73,7 +73,7 @@ namespace MFS.Repositorys
         }
         public Order GetWithInclude(int id)
         {
-            return _dbContext.Orders.Where(od => od.Id == id)
+            return LoadPageList(1, 1, out int rowCount,true, od => od.Id == id)
                 .Include(od => od.Product)
                 .Include(od => od.Store)
                 .Include(od => od.SalesPlan)
@@ -148,7 +148,7 @@ namespace MFS.Repositorys
                 orderwhere = orderwhere.And(o => o.Name.Contains(searchVal) || o.CarNo.Contains(searchVal));
 
             return LoadPageList(startPage, pageSize, out int count, true, orderwhere)
-                .Include(o => o.Product).Include(o => o.Client).Include(o => o.Client.Company).OrderByDescending(o => o.LastUpdatedAt).ToList();
+                .Include(o => o.Product).Include(o => o.Client).Include(o => o.Client.Company).Include(o => o.Payments).OrderByDescending(o => o.LastUpdatedAt).ToList();
         }
         /// <summary>
         /// 结算订单

@@ -4,7 +4,7 @@
             <yd-grids-item v-for="p in list" :key="p.id" @click.native="godetail(p.id)">
                 <div slot="text" style="line-height:25px">
                     <p class="col-coral font14">【{{p.name}}】</p>
-                    <p class="col-green">{{getDiffDate(p.arrivalTime, 'day')}} 到</p>
+                    <p class="col-green">{{getDiffDate(p.arrivalTime, 'hour')}} 到</p>
                     <p class="col-gray font16" style="font-weight:bold;">{{p.product.name}} {{p.count}} 吨</p>
                     <p class="col-light-gray">{{p.carNo}} {{p.driver1}}</p>
                 </div>

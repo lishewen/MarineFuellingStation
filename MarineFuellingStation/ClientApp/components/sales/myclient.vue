@@ -20,7 +20,7 @@
                 </div>
                 <div slot="right" class="align-left" style="margin-right: 5px">
                     <p v-if="c.company != null" class="col-gray">余额：￥{{c.company.balances}}</p>
-                    <p class="col-coral lineheight24">最近：{{getDiffDate(c.lastUpdatedAt, 'day')}}</p>
+                    <p class="col-coral lineheight24">最近：{{getDiffDate(c.lastUpdatedAt, 'hour')}}</p>
                 </div>
             </yd-cell-item>
         </yd-cell-group>

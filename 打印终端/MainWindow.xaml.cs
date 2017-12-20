@@ -403,6 +403,7 @@ namespace 打印终端
             WordReplace(wApp, "#Unit#", order.Unit);
             WordReplace(wApp, "#Price#", order.IsPrintPrice ? order.Price.ToString("0.00") : "");
             WordReplace(wApp, "#TotalMoney#", order.IsPrintPrice? order.TotalMoney.ToString("0.00") : "");
+            WordReplace(wApp, "#Payments#", strPayments(order.Payments.ToList()));
             WordReplace(wApp, "#CNMoney#", ConvertToChinese(order.TotalMoney));
             WordReplace(wApp, "#Remark#", order.Remark);
             WordReplace(wApp, "#LastUpdatedBy#", order.Cashier);
@@ -416,7 +417,7 @@ namespace 打印终端
                 strInvoice += "开票单位：" + order.BillingCompany + "\r";
                 strInvoice += "开票单价：￥" + order.BillingPrice + "\r";
                 strInvoice += "开票数量：" + order.BillingCount + order.Unit + "\r";
-                strInvoice += "类型：" + strTicketType(order.TicketType);
+                //strInvoice += "类型：" + strTicketType(order.TicketType);
             }
             WordReplace(wApp, "#InvoiceContent#", strInvoice);
 
@@ -789,14 +790,25 @@ namespace 打印终端
         {
             if (op == OrderPayType.现金)
                 return "现金";
-            else if (op == OrderPayType.工行刷卡 || op == OrderPayType.桂行刷卡)
-                return "刷卡";
+            else if (op == OrderPayType.工行刷卡)
+                return "工行刷卡";
+            else if (op == OrderPayType.桂行刷卡)
+                return "桂行刷卡";
             else if (op == OrderPayType.微信)
                 return "微信";
             else if (op == OrderPayType.支付宝)
                 return "支付宝";
             else
                 return "";
+        }
+        private string strPayments(List<Payment> payments)
+        {
+            List<string> list = new List<string>();
+            foreach(Payment p in payments)
+            {
+                list.Add( p.Name + "￥" + p.Money);
+            }
+            return "付款方式：" + string.Join(",", list);
         }
         private string strSmellType(SmellType st)
         {

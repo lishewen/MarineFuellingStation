@@ -196,7 +196,12 @@ export default class CashierComponent extends ComponentBase {
     showPaymentsclick(o: server.order) {
         this.selectedOrder = o;
         this.showPayments = true;
-        this.getOrderPayments(o.id);
+        this.orderPayments = o.payments;
+        //计算所有已支付金额
+        this.totalPayMoney = 0;
+        this.orderPayments.forEach((p, idx) => {
+            this.totalPayMoney += p.money;
+        });
     }
 
     getTotalPayMoney() {
@@ -370,25 +375,6 @@ export default class CashierComponent extends ComponentBase {
                 this.getPrintOrder(o.id, "收银台")
             }
         });
-    }
-
-    //根据orderId获取该订单的付款记录
-    getOrderPayments(oid: number) {
-        if (oid == null) {
-            this.toastError("订单数据有误，无法取得付款记录")
-            return;
-        }
-        axios.get('/api/payment/GetByOrderId?oid=' + oid).then((res => {
-            let jobj = res.data as server.resultJSON<server.payment[]>;
-            if (jobj.code == 0) {
-                this.orderPayments = jobj.data;
-                //计算所有已支付金额
-                this.totalPayMoney = 0;
-                this.orderPayments.forEach((p, idx) => {
-                    this.totalPayMoney += p.money;
-                });
-            }
-        }))
     }
 
     //获取订单

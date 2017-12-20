@@ -60,7 +60,7 @@
                             </div>
                             <div slot="right" class="align-right lineheight24" style="margin:10px 5px 10px 0px">
                                 <p class="col-gray font14">￥{{o.totalMoney}}</p>
-                                <p class="col-green font16">{{getDiffDate(o.createdAt, 'day')}}</p>
+                                <p class="col-green font16">{{getDiffDate(o.createdAt, 'hour')}}</p>
                                 <p class="col-light-gray font14">{{o.product.name}} / {{o.count}}{{o.unit}} / {{o.price}}</p>
                             </div>
                         </yd-cell-item>

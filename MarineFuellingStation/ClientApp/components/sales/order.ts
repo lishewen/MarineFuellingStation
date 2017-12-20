@@ -172,25 +172,19 @@ export default class OrderComponent extends ComponentBase {
 
     buttonclick() {
         //信息验证
-        if (this.model.carNo == '') {
-            this.toastError('船号或车牌号不能为空');
-            return;
-        }
-        if (!this.model.productId) {
-            this.toastError('必须选择商品');
-            return;
-        }
-        if (!this.model.count || this.model.count <= 0) {
-            this.toastError('数量必须大于1');
-            return;
-        }
-        if (this.model.salesman == "") {
-            this.toastError('必须指定销售员');
-            return;
-        }
+        if (this.model.carNo == '') {this.toastError('船号或车牌号不能为空');return;}
+        if (!this.model.productId) {this.toastError('必须选择商品');return;}
+        if (!this.model.count || this.model.count <= 0) {this.toastError('数量必须大于1');return;}
+        if (this.model.salesman == "") {this.toastError('必须指定销售员');return;}
         if (this.model.price == '' || this.model.price <= 0) { this.toastError("销售单价输入有误"); return; }
         if (!this.model.isInvoice && this.model.price < this.pMinPrice) { this.toastError("当前最低销售单价是￥" + this.pMinPrice + "/升"); return; }
         if (this.model.isInvoice && this.model.price < this.pMinInvoicePrice) { this.toastError("当前开票最低销售单价是￥" + this.pMinInvoicePrice + "/升"); return; }
+
+        if (this.model.isInvoice) {
+            if (this.model.billingCompany == '' || this.model.billingCompany == null) { this.toastError('请输入开票单位') }
+            if (this.model.billingPrice <= 0 || this.model.billingPrice == null) { this.toastError('请输入开票单价') }
+            if (this.model.billingCount <= 0 || this.model.billingCount == null) { this.toastError('请输入开票数量') }
+        }
         this.postOrder(this.model);
     }
 

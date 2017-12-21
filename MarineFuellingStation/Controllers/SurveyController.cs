@@ -17,6 +17,7 @@ namespace MFS.Controllers
         {
             r = repository;
         }
+        #region POST
         [HttpPost]
         public ResultJSON<Survey> Post([FromBody]Survey model)
         {
@@ -27,6 +28,8 @@ namespace MFS.Controllers
                 Data = r.Insert(model)
             };
         }
+        #endregion
+        #region GET
         [HttpGet]
         public ResultJSON<List<Survey>> Get()
         {
@@ -54,5 +57,6 @@ namespace MFS.Controllers
                 Data = r.Top15(stid)
             };
         }
+        #endregion
     }
 }

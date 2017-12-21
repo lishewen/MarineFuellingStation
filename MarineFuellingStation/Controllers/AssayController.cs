@@ -34,6 +34,7 @@ namespace MFS.Controllers
             }
         }
         #endregion
+        #region GET
         [HttpGet("[action]")]
         public ResultJSON<string> AssayNo()
         {
@@ -41,30 +42,6 @@ namespace MFS.Controllers
             {
                 Code = 0,
                 Data = r.GetSerialNumber(r.GetLastAssayNo())
-            };
-        }
-        [HttpPost]
-        public ResultJSON<Assay> Post([FromBody]Assay a)
-        {
-            //判断是否重复单号
-            if (r.Has(ass => ass.Name == a.Name))
-                return new ResultJSON<Assay> { Code = 502 };
-
-            r.CurrentUser = UserName;
-            a.Assayer = UserName;
-            var result = r.Insert(a);
-
-            if (a.PurchaseId.HasValue)
-            {
-                var purchase = pu_r.Get(int.Parse(a.PurchaseId.ToString()));
-                purchase.AssayId = result.Id;
-                pu_r.Update(purchase);
-            }
-            
-            return new ResultJSON<Assay>
-            {
-                Code = 0,
-                Data = result
             };
         }
         [HttpGet]
@@ -120,5 +97,32 @@ namespace MFS.Controllers
                 Data = a
             };
         }
+        #endregion
+        #region POST
+        [HttpPost]
+        public ResultJSON<Assay> Post([FromBody]Assay a)
+        {
+            //判断是否重复单号
+            if (r.Has(ass => ass.Name == a.Name))
+                return new ResultJSON<Assay> { Code = 502 };
+
+            r.CurrentUser = UserName;
+            a.Assayer = UserName;
+            var result = r.Insert(a);
+
+            if (a.PurchaseId.HasValue)
+            {
+                var purchase = pu_r.Get(int.Parse(a.PurchaseId.ToString()));
+                purchase.AssayId = result.Id;
+                pu_r.Update(purchase);
+            }
+
+            return new ResultJSON<Assay>
+            {
+                Code = 0,
+                Data = result
+            };
+        }
+        #endregion
     }
 }

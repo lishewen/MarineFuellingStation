@@ -29,18 +29,7 @@ namespace MFS.Controllers
             //获取 销售计划 企业微信应用的AccessToken
             this.option = option.Value;
         }
-
-        [HttpGet("SalesPlanNo")]
-        public ResultJSON<string> SalesPlanNo()
-        {
-            //throw new Exception("测试异常");
-
-            return new ResultJSON<string>
-            {
-                Code = 0,
-                Data = r.GetSerialNumber(r.GetLastSalesPlanNo())
-            };
-        }
+        #region POST
         [HttpPost]
         public ResultJSON<SalesPlan> Post([FromBody]SalesPlan s)
         {
@@ -96,6 +85,19 @@ namespace MFS.Controllers
                 Data = result
             };
         }
+        #endregion
+        #region GET
+        [HttpGet("SalesPlanNo")]
+        public ResultJSON<string> SalesPlanNo()
+        {
+            //throw new Exception("测试异常");
+
+            return new ResultJSON<string>
+            {
+                Code = 0,
+                Data = r.GetSerialNumber(r.GetLastSalesPlanNo())
+            };
+        }
         [HttpGet]
         public ResultJSON<List<SalesPlan>> Get()
         {
@@ -110,9 +112,9 @@ namespace MFS.Controllers
         {
             List<SalesPlan> list;
             if(string.IsNullOrEmpty(kw))
-                list = r.LoadPageList(page, pagesize, out int rowCount, true, sp => sp.State != SalesPlanState.已完成).ToList();
+                list = r.LoadPageList(page, pagesize, out int rowCount, true, false, sp => sp.State != SalesPlanState.已完成).ToList();
             else
-                list = r.LoadPageList(page, pagesize, out int rowCount, true, sp => sp.CarNo.Contains(kw) && sp.State != SalesPlanState.已完成).ToList();
+                list = r.LoadPageList(page, pagesize, out int rowCount, true, false, sp => sp.CarNo.Contains(kw) && sp.State != SalesPlanState.已完成).ToList();
             return new ResultJSON<List<SalesPlan>>
             {
                 Code = 0,
@@ -134,16 +136,16 @@ namespace MFS.Controllers
             if(type == SalesPlanType.水上加油)//客户要求“水上部”的人同时可以看到机油类的数据
             { 
                 if (isLeader)
-                    list = r.LoadPageList(page, pageSize, out int rCount, true, s => s.SalesPlanType == type || s.SalesPlanType == SalesPlanType.水上机油).OrderByDescending(s => s.Id).ToList();
+                    list = r.LoadPageList(page, pageSize, out int rCount, true, false, s => s.SalesPlanType == type || s.SalesPlanType == SalesPlanType.水上机油).OrderByDescending(s => s.Id).ToList();
                 else
-                    list = r.LoadPageList(page, pageSize, out int rCount, true, s => (s.SalesPlanType == type || s.SalesPlanType == SalesPlanType.水上机油) && s.CreatedBy == UserName).OrderByDescending(s => s.Id).ToList();
+                    list = r.LoadPageList(page, pageSize, out int rCount, true, false, s => (s.SalesPlanType == type || s.SalesPlanType == SalesPlanType.水上机油) && s.CreatedBy == UserName).OrderByDescending(s => s.Id).ToList();
             }
             else
             { 
                 if(isLeader)
-                    list = r.LoadPageList(page, pageSize, out int rCount, true, s => s.SalesPlanType == type).OrderByDescending(s => s.Id).ToList();
+                    list = r.LoadPageList(page, pageSize, out int rCount, true, false, s => s.SalesPlanType == type).OrderByDescending(s => s.Id).ToList();
                 else
-                    list = r.LoadPageList(page, pageSize, out int rCount, true, s => s.SalesPlanType == type && s.CreatedBy == UserName).OrderByDescending(s => s.Id).ToList();
+                    list = r.LoadPageList(page, pageSize, out int rCount, true, false, s => s.SalesPlanType == type && s.CreatedBy == UserName).OrderByDescending(s => s.Id).ToList();
             }
             return new ResultJSON<List<SalesPlan>>
             {
@@ -164,11 +166,11 @@ namespace MFS.Controllers
         {
             List<SalesPlan> list;
             if (islandplan)
-                list = r.LoadPageList(page, pageSize, out int rCount, true, s => s.State == sps 
+                list = r.LoadPageList(page, pageSize, out int rCount, true, false, s => s.State == sps 
                     && (s.SalesPlanType == SalesPlanType.陆上装车 || s.SalesPlanType == SalesPlanType.陆上公司车 || s.SalesPlanType == SalesPlanType.陆上外来车))
                     .OrderByDescending(s => s.Id).ToList();
             else
-                list = r.LoadPageList(page, pageSize, out int rCount, true, s => s.State == sps 
+                list = r.LoadPageList(page, pageSize, out int rCount, true, false, s => s.State == sps 
                     && (s.SalesPlanType == SalesPlanType.水上加油 || s.SalesPlanType == SalesPlanType.水上机油))
                     .OrderByDescending(s => s.Id).ToList();
             return new ResultJSON<List<SalesPlan>>
@@ -192,11 +194,11 @@ namespace MFS.Controllers
         {
             List<SalesPlan> list;
             if (islandplan)
-                list = r.LoadPageList(page, pagesize, out int rowCount, true,
+                list = r.LoadPageList(page, pagesize, out int rowCount, true, false,
                     s => (s.State == SalesPlanState.已审批 || s.State == SalesPlanState.未审批)
                     && (s.SalesPlanType == SalesPlanType.陆上装车 || s.SalesPlanType == SalesPlanType.陆上公司车 || s.SalesPlanType == SalesPlanType.陆上外来车)).ToList();
             else
-                list = r.LoadPageList(page, pagesize, out int rowCount, true,
+                list = r.LoadPageList(page, pagesize, out int rowCount, true, false,
                     s => (s.State == SalesPlanState.已审批 || s.State == SalesPlanState.未审批)
                     && (s.SalesPlanType == SalesPlanType.水上加油 || s.SalesPlanType == SalesPlanType.水上机油)).ToList();
             return new ResultJSON<List<SalesPlan>>
@@ -214,6 +216,8 @@ namespace MFS.Controllers
                 Data = r.GetAllList(s => s.CarNo.Contains(sv))
             };
         }
+        #endregion
+        #region PUT
         /// <summary>
         /// 审核计划 设置状态State为已审核
         /// </summary>
@@ -229,5 +233,6 @@ namespace MFS.Controllers
                 Data = r.Update(sp)
             };
         }
+        #endregion
     }
 }

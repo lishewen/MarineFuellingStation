@@ -11,7 +11,7 @@ namespace MFS.Repositorys
         public SurveyRepository(EFContext dbContext) : base(dbContext) { }
         public List<Survey> Top15(int stid)
         {
-            return LoadPageList(1, 15, out int rowcount, true, s => s.StoreId == stid, o => o.CreatedAt).ToList();
+            return LoadPageList(1, 15, out int rowcount, true, false, s => s.StoreId == stid, o => o.CreatedAt).ToList();
         }
         /// <summary>
         /// 新增并更新油仓当前密度

@@ -17,6 +17,7 @@ namespace MFS.Controllers
         {
             r = repository;
         }
+        #region POST
         [HttpPost]
         public ResultJSON<Payment> Post([FromBody]Payment model)
         {
@@ -27,6 +28,8 @@ namespace MFS.Controllers
                 Data = r.Insert(model)
             };
         }
+        #endregion
+        #region GET
         [HttpGet]
         public ResultJSON<List<Payment>> Get()
         {
@@ -63,5 +66,6 @@ namespace MFS.Controllers
                 Data = r.GetAllList(s => s.Name.Contains(sv))
             };
         }
+        #endregion
     }
 }

@@ -17,6 +17,7 @@ namespace MFS.Controllers
         {
             r = repository;
         }
+        #region GET
         [HttpGet]
         public ResultJSON<List<ProductType>> Get()
         {
@@ -36,6 +37,8 @@ namespace MFS.Controllers
                 Data = s
             };
         }
+        #endregion
+        #region PUT
         [HttpPut]
         public ResultJSON<ProductType> Put([FromBody]ProductType model)
         {
@@ -46,6 +49,8 @@ namespace MFS.Controllers
                 Data = r.InsertOrUpdate(model)
             };
         }
+        #endregion
+        #region POST
         [HttpPost]
         public ResultJSON<ProductType> Post([FromBody]ProductType model)
         {
@@ -56,5 +61,6 @@ namespace MFS.Controllers
                 Data = r.Insert(new ProductType { Name = model.Name })
             };
         }
+        #endregion
     }
 }

@@ -23,6 +23,7 @@ namespace MFS.Controllers
             //获取 系统设置 企业微信应用的AccessToken
             this.option = option.Value;
         }
+        #region GET
         [HttpGet("[action]")]
         public ResultJSON<List<Product>> OilProducts(string isforland = "")
         {
@@ -57,6 +58,8 @@ namespace MFS.Controllers
                 Data = s
             };
         }
+        #endregion
+        #region PUT
         [HttpPut]
         public ResultJSON<Product> Put([FromBody]Product model)
         {
@@ -73,28 +76,7 @@ namespace MFS.Controllers
                 Data = r.InsertOrUpdate(model)
             };
         }
-        /// <summary>
-        /// 新增POST
-        /// </summary>
-        /// <param name="model">实体</param>
-        /// <returns></returns>
-        [HttpPost]
-        public ResultJSON<Product> Post([FromBody]Product model)
-        {
-            r.CurrentUser = UserName;
 
-            //推送到“系统设置”
-            this.option.系统设置AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.系统设置Secret);
-            MassApi.SendTextCard(option.系统设置AccessToken, option.系统设置AgentId, $"{UserName}新增了商品{model.Name}"
-                     , $"<div class=\"gray\">时间：{DateTime.Now.ToString("yyyy-MM-dd hh:mm")}</div>"
-                     , "https://vue.car0774.com/#/oilstore/product", toUser: "@all");
-            return new ResultJSON<Product>
-            {
-                Code = 0,
-                Data = r.Insert(model)
-            };
-        }
-        
         /// <summary>
         /// 批量修改商品单价
         /// </summary>
@@ -124,7 +106,31 @@ namespace MFS.Controllers
                      , $"<div class=\"gray\">时间：{DateTime.Now.ToString("yyyy-MM-dd hh:mm")}</div>"
                      , "https://", toUser: "@all");
 #endif
-            return new ResultJSON<Product>{Code = 0};
+            return new ResultJSON<Product> { Code = 0 };
         }
+        #endregion
+        #region POST
+        /// <summary>
+        /// 新增POST
+        /// </summary>
+        /// <param name="model">实体</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ResultJSON<Product> Post([FromBody]Product model)
+        {
+            r.CurrentUser = UserName;
+
+            //推送到“系统设置”
+            this.option.系统设置AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.系统设置Secret);
+            MassApi.SendTextCard(option.系统设置AccessToken, option.系统设置AgentId, $"{UserName}新增了商品{model.Name}"
+                     , $"<div class=\"gray\">时间：{DateTime.Now.ToString("yyyy-MM-dd hh:mm")}</div>"
+                     , "https://vue.car0774.com/#/oilstore/product", toUser: "@all");
+            return new ResultJSON<Product>
+            {
+                Code = 0,
+                Data = r.Insert(model)
+            };
+        }
+        #endregion
     }
 }

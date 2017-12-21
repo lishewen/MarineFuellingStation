@@ -32,6 +32,7 @@ namespace MFS.Controllers
             }
         }
         #endregion
+        #region GET
         [HttpGet]
         public ResultJSON<List<ChargeLog>> Get()
         {
@@ -55,7 +56,7 @@ namespace MFS.Controllers
             if (string.IsNullOrEmpty(sv))
                 cl = r.LoadPageList(page, pageSize, out int rCount, true).Include("Client").Include("Company").OrderByDescending(c => c.Id).ToList();
             else
-                cl = r.LoadPageList(page, pageSize, out int rCount, true, c => c.Client.CarNo.Contains(sv) || c.Company.Name.Contains(sv)).Include(clog => clog.Client).Include("Company").OrderByDescending(c => c.Id).ToList();
+                cl = r.LoadPageList(page, pageSize, out int rCount, true, false, c => c.Client.CarNo.Contains(sv) || c.Company.Name.Contains(sv)).Include(clog => clog.Client).Include("Company").OrderByDescending(c => c.Id).ToList();
             return new ResultJSON<List<ChargeLog>>
             {
                 Code = 0,
@@ -72,7 +73,8 @@ namespace MFS.Controllers
                 Data = s
             };
         }
-        
+        #endregion
+        #region PUT
         [HttpPut]
         public ResultJSON<ChargeLog> Put([FromBody]ChargeLog model)
         {
@@ -83,6 +85,8 @@ namespace MFS.Controllers
                 Data = r.InsertOrUpdate(model)
             };
         }
+        #endregion
+        #region POST
         /// <summary>
         /// 充值
         /// </summary>
@@ -139,5 +143,6 @@ namespace MFS.Controllers
                 Data = cl
             };
         }
+        #endregion
     }
 }

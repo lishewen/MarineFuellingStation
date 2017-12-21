@@ -34,6 +34,7 @@ namespace MFS.Controllers
                 await _hub.Clients.Client(connectionId).InvokeAsync("printmovestore", ms);
             }
         }
+        #region GET
         [HttpGet("[action]")]
         public ResultJSON<string> MoveStoreNo()
         {
@@ -59,7 +60,7 @@ namespace MFS.Controllers
             if(string.IsNullOrEmpty(sv))
                 list = r.LoadPageList(page, pagesize, out int rowCount, true).ToList();
             else
-                list = r.LoadPageList(page, pagesize, out int rowCount, true, m => m.Name.Contains(sv)).ToList();
+                list = r.LoadPageList(page, pagesize, out int rowCount, true, false, m => m.Name.Contains(sv)).ToList();
             return new ResultJSON<List<MoveStore>>()
             {
                 Code = 0,
@@ -83,6 +84,8 @@ namespace MFS.Controllers
                 Data = bc
             };
         }
+        #endregion
+        #region PUT
         /// <summary>
         /// 生产过程切换状态
         /// </summary>
@@ -124,6 +127,8 @@ namespace MFS.Controllers
                 Data = result
             };
         }
+        #endregion
+        #region POST
         [HttpPost]
         public ResultJSON<MoveStore> Post([FromBody]MoveStore m)
         {
@@ -140,5 +145,6 @@ namespace MFS.Controllers
                 Data = result
             };
         }
+        #endregion
     }
 }

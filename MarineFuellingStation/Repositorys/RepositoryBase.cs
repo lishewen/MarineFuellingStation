@@ -43,9 +43,9 @@ namespace MFS.Repositorys
         /// 获取实体集合
         /// </summary>
         /// <returns></returns>
-        public List<TEntity> GetAllList()
+        public List<TEntity> GetAllList(bool isDel = false)
         {
-            return _dbContext.Set<TEntity>().OrderByDescending(n => n.Id).ToList();
+            return _dbContext.Set<TEntity>().Where(m => m.IsDel == isDel).OrderByDescending(n => n.Id).ToList();
         }
 
         /// <summary>
@@ -53,9 +53,9 @@ namespace MFS.Repositorys
         /// </summary>
         /// <param name="predicate">lambda表达式条件</param>
         /// <returns></returns>
-        public List<TEntity> GetAllList(Expression<Func<TEntity, bool>> predicate)
+        public List<TEntity> GetAllList(Expression<Func<TEntity, bool>> predicate, bool isDel = false)
         {
-            return _dbContext.Set<TEntity>().Where(predicate).OrderByDescending(n => n.Id).ToList();
+            return _dbContext.Set<TEntity>().Where(predicate.And(m => m.IsDel == isDel)).OrderByDescending(n => n.Id).ToList();
         }
 
         /// <summary>
@@ -63,9 +63,9 @@ namespace MFS.Repositorys
         /// </summary>
         /// <param name="predicate">lambda表达式条件</param>
         /// <returns></returns>
-        public bool Has(Expression<Func<TEntity, bool>> predicate)
+        public bool Has(Expression<Func<TEntity, bool>> predicate, bool isDel = false)
         {
-            return _dbContext.Set<TEntity>().Any(predicate);
+            return _dbContext.Set<TEntity>().Any(predicate.And(m => m.IsDel == isDel));
         }
 
         /// <summary>
@@ -187,12 +187,12 @@ namespace MFS.Repositorys
         /// <param name="where">条件</param>
         /// <param name="order">排序</param>
         /// <returns></returns>
-        public IQueryable<TEntity> LoadPageList(int startPage, int pageSize, out int rowCount, bool desc = false, Expression<Func<TEntity, bool>> where = null, Expression<Func<TEntity, object>> order = null)
+        public IQueryable<TEntity> LoadPageList(int startPage, int pageSize, out int rowCount, bool desc = false, bool isDel = false, Expression<Func<TEntity, bool>> where = null, Expression<Func<TEntity, object>> order = null)
         {
             var result = from p in _dbContext.Set<TEntity>()
                          select p;
             if (where != null)
-                result = result.Where(where);
+                result = result.Where(where.And(m => m.IsDel == isDel));
             if (desc)
             {
                 if (order != null)

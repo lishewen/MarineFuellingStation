@@ -27,6 +27,7 @@ namespace MFS.Controllers
                 Data = r.Insert(model)
             };
         }
+        #region GET
         [HttpGet]
         public ResultJSON<List<Notice>> Get()
         {
@@ -68,6 +69,8 @@ namespace MFS.Controllers
                 Data = r.GetAllList(n => n.ToApps.Contains(app) && n.IsUse == true).OrderByDescending(n => n.LastUpdatedAt).FirstOrDefault()
             };
         }
+        #endregion
+        #region PUT
         /// <summary>
         /// 变更通知是否启用
         /// </summary>
@@ -83,6 +86,6 @@ namespace MFS.Controllers
                 Data = r.Update(model)
             };
         }
-
+        #endregion
     }
 }

@@ -15,9 +15,9 @@ namespace MFS.Repositorys
         {
             List<InAndOutLog> list;
             if (type == LogType.全部)
-                list = LoadPageList(page, 10, out int rowCount, true, i => i.Type == LogType.入仓 || i.Type == LogType.出仓).Include(i => i.Store).ToList();
+                list = LoadPageList(page, 10, out int rowCount, true, false, i => i.Type == LogType.入仓 || i.Type == LogType.出仓).Include(i => i.Store).ToList();
             else
-                list = LoadPageList(page, 10, out int rowCount, true, i => i.Type == type).Include(i => i.Store).ToList();
+                list = LoadPageList(page, 10, out int rowCount, true, false, i => i.Type == type).Include(i => i.Store).ToList();
             foreach(InAndOutLog io in list)
             {
                 Store st = io.Store;

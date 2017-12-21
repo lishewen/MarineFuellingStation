@@ -17,6 +17,7 @@ namespace MFS.Controllers
         {
             r = repository;
         }
+        #region
         [HttpPost]
         public ResultJSON<Company> Post([FromBody]Company model)
         {
@@ -28,6 +29,8 @@ namespace MFS.Controllers
                 Data = r.Insert(model)
             };
         }
+        #endregion
+        #region GET
         [HttpGet]
         public ResultJSON<List<Company>> Get()
         {
@@ -63,5 +66,6 @@ namespace MFS.Controllers
                 Data = ls
             };
         }
+        #endregion
     }
 }

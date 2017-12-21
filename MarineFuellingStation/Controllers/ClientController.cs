@@ -18,6 +18,7 @@ namespace MFS.Controllers
         {
             r = repository;
         }
+        #region POST
         [HttpPost]
         public ResultJSON<Client> Post([FromBody]Client model)
         {
@@ -29,6 +30,8 @@ namespace MFS.Controllers
                 Data = r.Insert(model)
             };
         }
+        #endregion
+        #region GET
         [HttpGet("[action]/{id}")]
         public ResultJSON<Client> GetDetail(int id)
         {
@@ -106,6 +109,8 @@ namespace MFS.Controllers
                 Data = r.GetMyClients(ctype, ptype, balances, cycle, kw, isMy)
             };
         }
+        #endregion
+        #region PUT
         /// <summary>
         /// 标记客户
         /// </summary>
@@ -161,5 +166,6 @@ namespace MFS.Controllers
                 Data = r.Update(c)
             };
         }
+        #endregion
     }
 }

@@ -53,7 +53,7 @@ namespace MFS.Repositorys
             if (!string.IsNullOrEmpty(searchVal))
                 bcwhere = bcwhere.And(b => b.Name.Contains(searchVal) || b.CarNo.Contains(searchVal));
 
-            return LoadPageList(startPage, pageSize, out int count, true, bcwhere)
+            return LoadPageList(startPage, pageSize, out int count, true, false, bcwhere)
                 .OrderByDescending(o => o.LastUpdatedAt).ToList();
         }
         public BoatClean Pay(BoatClean model)

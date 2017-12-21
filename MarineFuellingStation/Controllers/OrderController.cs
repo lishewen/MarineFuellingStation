@@ -195,7 +195,7 @@ namespace MFS.Controllers
             if (string.IsNullOrEmpty(sv))
                 list = r.LoadPageList(page, pageSize, out int rCount, true).Include(o => o.Product).OrderByDescending(s => s.Id).ToList();
             else
-                list = r.LoadPageList(page, pageSize, out int rCount, true, o => o.CarNo.Contains(sv)).Include(o => o.Product).OrderByDescending(s => s.Id).ToList();
+                list = r.LoadPageList(page, pageSize, out int rCount, true, false, o => o.CarNo.Contains(sv)).Include(o => o.Product).OrderByDescending(s => s.Id).ToList();
             return new ResultJSON<List<Order>>
             {
                 Code = 0,
@@ -214,7 +214,7 @@ namespace MFS.Controllers
             return new ResultJSON<List<Order>>
             {
                 Code = 0,
-                Data = r.LoadPageList(page, size, out int cnt, true, o => o.Salesman == UserName && o.CreatedAt >= startDate && o.CreatedAt < endDate).ToList()
+                Data = r.LoadPageList(page, size, out int cnt, true, false, o => o.Salesman == UserName && o.CreatedAt >= startDate && o.CreatedAt < endDate).ToList()
             };
         }
         /// <summary>
@@ -228,9 +228,9 @@ namespace MFS.Controllers
         {
             List<Order> list = new List<Order>();
             if (string.IsNullOrEmpty(sales))
-                list = r.LoadPageList(page, size, out int cnt, true, o => o.CreatedAt >= startDate && o.CreatedAt < endDate).ToList();
+                list = r.LoadPageList(page, size, out int cnt, true, false, o => o.CreatedAt >= startDate && o.CreatedAt < endDate).ToList();
             else
-                list = r.LoadPageList(page, size, out int cnt, true, o => o.Salesman == sales && o.CreatedAt >= startDate && o.CreatedAt < endDate).ToList();
+                list = r.LoadPageList(page, size, out int cnt, true, false, o => o.Salesman == sales && o.CreatedAt >= startDate && o.CreatedAt < endDate).ToList();
             return new ResultJSON<List<Order>>
             {
                 Code = 0,

@@ -19,6 +19,7 @@ namespace MFS.Controllers
             r = repository;
             lr = logRepository;
         }
+        #region GET
         [HttpGet]
         public ResultJSON<List<StoreType>> Get()
         {
@@ -48,6 +49,8 @@ namespace MFS.Controllers
                 Data = s
             };
         }
+        #endregion
+        #region PUT
         [HttpPut]
         public ResultJSON<StoreType> Put([FromBody]StoreType model)
         {
@@ -58,6 +61,8 @@ namespace MFS.Controllers
                 Data = r.InsertOrUpdate(model)
             };
         }
+        #endregion
+        #region POST
         [HttpPost]
         public ResultJSON<StoreType> Post([FromBody]StoreType model)
         {
@@ -69,5 +74,6 @@ namespace MFS.Controllers
                 Data = r.Insert(new StoreType { Name = model.Name })
             };
         }
+        #endregion
     }
 }

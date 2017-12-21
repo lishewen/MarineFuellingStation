@@ -45,6 +45,7 @@ namespace MFS.Controllers
                 await _hub.Clients.Client(connectionId).InvokeAsync("printunload", pu);
             }
         }
+        #region GET
         [HttpGet]
         public ResultJSON<List<Purchase>> Get()
         {
@@ -67,7 +68,7 @@ namespace MFS.Controllers
             if (string.IsNullOrEmpty(sv))
                 list = r.LoadPageList(page, pageSize, out int rCount, true).Include(p => p.Product).OrderByDescending(p => p.Id).ToList();
             else
-                list = r.LoadPageList(page, pageSize, out int rCount, true, p => p.CarNo.Contains(sv)).Include(p => p.Product).OrderByDescending(p => p.Id).ToList();
+                list = r.LoadPageList(page, pageSize, out int rCount, true, false, p => p.CarNo.Contains(sv)).Include(p => p.Product).OrderByDescending(p => p.Id).ToList();
             return new ResultJSON<List<Purchase>>
             {
                 Code = 0,
@@ -208,6 +209,8 @@ namespace MFS.Controllers
                 Data = pu
             };
         }
+        #endregion
+        #region PUT
         [HttpPut("[action]")]
         public ResultJSON<Purchase> ChangeState([FromBody]Purchase p)
         {
@@ -248,6 +251,47 @@ namespace MFS.Controllers
                 Data = purchase
             };
         }
+        /// <summary>
+        /// 审核卸油 设置状态State为已审核
+        /// </summary>
+        /// <param name="sp">model</param>
+        /// <returns></returns>
+        [HttpPut("[action]")]
+        public ResultJSON<Purchase> AuditingOK([FromBody]Purchase pu)
+        {
+            pu.State = Purchase.UnloadState.已审核;
+            decimal infactTotal = r.UpdateStoreOil(pu);
+            string pName = p_r.Get(pu.ProductId).Name;//取得商品名称
+            //更新油仓相关数量，平均单价，出入仓记录
+            if (infactTotal > 0)
+            {
+                //推送到“油仓情况”
+                this.option.油仓情况AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.油仓情况Secret);
+                MassApi.SendTextCard(option.油仓情况AccessToken, option.油仓情况AgentId, "卸油审核成功，已更新油仓油量"
+                         , $"<div class=\"gray\">卸油单号：{pu.Name}</div>" +
+                         $"<div class=\"normal\">审核人：{UserName}</div>" +
+                         $"<div class=\"normal\">商品：{pName}</div>" +
+                         $"<div class=\"normal\">计划：{pu.Count}吨</div>" +
+                         $"<div class=\"normal\">实际：{infactTotal}升</div>" +
+                         $"<div class=\"normal\">密度：{pu.Density}</div>"
+
+                         , $"https://vue.car0774.com/#/purchase/purchase/{pu.Id}/unloadaudit", toUser: "@all");
+
+                return new ResultJSON<Purchase>
+                {
+                    Code = 0,
+                    Data = r.Update(pu)
+                };
+            }
+            else
+                return new ResultJSON<Purchase>
+                {
+                    Code = 500,
+                    Msg = "操作失败"
+                };
+        }
+        #endregion
+        #region POST
         [HttpPost("[action]")]
         public async Task<ResultJSON<string>> UploadFile([FromForm]IFormFile file)
         {
@@ -304,45 +348,7 @@ namespace MFS.Controllers
                 Data = result
             };
         }
-        /// <summary>
-        /// 审核卸油 设置状态State为已审核
-        /// </summary>
-        /// <param name="sp">model</param>
-        /// <returns></returns>
-        [HttpPut("[action]")]
-        public ResultJSON<Purchase> AuditingOK([FromBody]Purchase pu)
-        {
-            pu.State = Purchase.UnloadState.已审核;
-            decimal infactTotal = r.UpdateStoreOil(pu);
-            string pName = p_r.Get(pu.ProductId).Name;//取得商品名称
-            //更新油仓相关数量，平均单价，出入仓记录
-            if (infactTotal > 0)
-            {
-                //推送到“油仓情况”
-                this.option.油仓情况AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.油仓情况Secret);
-                MassApi.SendTextCard(option.油仓情况AccessToken, option.油仓情况AgentId, "卸油审核成功，已更新油仓油量"
-                         , $"<div class=\"gray\">卸油单号：{pu.Name}</div>" +
-                         $"<div class=\"normal\">审核人：{UserName}</div>" +
-                         $"<div class=\"normal\">商品：{pName}</div>" +
-                         $"<div class=\"normal\">计划：{pu.Count}吨</div>" +
-                         $"<div class=\"normal\">实际：{infactTotal}升</div>" +
-                         $"<div class=\"normal\">密度：{pu.Density}</div>" 
-
-                         , $"https://vue.car0774.com/#/purchase/purchase/{pu.Id}/unloadaudit", toUser: "@all");
-
-                return new ResultJSON<Purchase>
-                {
-                    Code = 0,
-                    Data = r.Update(pu)
-                };
-            }
-            else
-                return new ResultJSON<Purchase>
-                {
-                    Code = 500,
-                    Msg = "操作失败"
-                };
-        }
+        #endregion
 
     }
 }

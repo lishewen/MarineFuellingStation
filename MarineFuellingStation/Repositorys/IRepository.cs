@@ -16,22 +16,25 @@ namespace MFS.Repositorys
         /// <summary>
         /// 获取实体集合
         /// </summary>
+        /// <param name="isDel">删除标识</param>
         /// <returns></returns>
-        List<TEntity> GetAllList();
+        List<TEntity> GetAllList(bool isDel);
 
         /// <summary>
         /// 根据lambda表达式条件获取实体集合
         /// </summary>
         /// <param name="predicate">lambda表达式条件</param>
+        /// <param name="isDel">删除标识</param>
         /// <returns></returns>
-        List<TEntity> GetAllList(Expression<Func<TEntity, bool>> predicate);
+        List<TEntity> GetAllList(Expression<Func<TEntity, bool>> predicate, bool isDel);
 
         /// <summary>
         /// 判断时候存在条件的实体
         /// </summary>
         /// <param name="predicate">lambda表达式条件</param>
+        /// <param name="isDel">删除标识</param>
         /// <returns></returns>
-        bool Has(Expression<Func<TEntity, bool>> predicate);
+        bool Has(Expression<Func<TEntity, bool>> predicate, bool isDel);
 
         /// <summary>
         /// 根据主键获取实体
@@ -107,7 +110,7 @@ namespace MFS.Repositorys
         /// <param name="where">查询条件</param>
         /// <param name="order">排序</param>
         /// <returns></returns>
-        IQueryable<TEntity> LoadPageList(int startPage, int pageSize, out int rowCount, bool desc, Expression<Func<TEntity, bool>> where, Expression<Func<TEntity, object>> order);
+        IQueryable<TEntity> LoadPageList(int startPage, int pageSize, out int rowCount, bool desc, bool isDel, Expression<Func<TEntity, bool>> where, Expression<Func<TEntity, object>> order);
 
         void Save();
 

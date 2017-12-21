@@ -73,7 +73,7 @@ namespace MFS.Repositorys
         }
         public Order GetWithInclude(int id)
         {
-            return LoadPageList(1, 1, out int rowCount,true, od => od.Id == id)
+            return LoadPageList(1, 1, out int rowCount,true, false, od => od.Id == id)
                 .Include(od => od.Product)
                 .Include(od => od.Store)
                 .Include(od => od.SalesPlan)
@@ -91,7 +91,7 @@ namespace MFS.Repositorys
         /// <returns></returns>
         public List<Order> GetIncludeProduct(SalesPlanType orderType, int startPage, int pageSize)
         {
-            return LoadPageList(startPage, pageSize, out int count, true, (o => o.OrderType == orderType)).Include(o => o.Product).ToList();
+            return LoadPageList(startPage, pageSize, out int count, true, false, o => o.OrderType == orderType).Include(o => o.Product).ToList();
         }
         /// <summary>
         /// 获取所有订单列表
@@ -116,9 +116,9 @@ namespace MFS.Repositorys
         public List<Order> GetIncludeProduct(int startPage, int pageSize, bool isFinished)
         {
             if (isFinished)
-                return LoadPageList(startPage, pageSize, out int count, true, o => o.State == OrderState.已完成).Include(o => o.Product).Include(o => o.Client).ToList();
+                return LoadPageList(startPage, pageSize, out int count, true, false, o => o.State == OrderState.已完成).Include(o => o.Product).Include(o => o.Client).ToList();
             else
-                return LoadPageList(startPage, pageSize, out int count, true, o => o.State != OrderState.已完成).Include(o => o.Product).Include(o => o.Client).ToList();
+                return LoadPageList(startPage, pageSize, out int count, true, false, o => o.State != OrderState.已完成).Include(o => o.Product).Include(o => o.Client).ToList();
         }
         /// <summary>
         /// 获取是否完工状态的获取水上或陆上订单列表
@@ -130,9 +130,9 @@ namespace MFS.Repositorys
         public List<Order> GetIncludeProduct(SalesPlanType orderType, int startPage, int pageSize, bool isFinished)
         {
             if (isFinished)
-                return LoadPageList(startPage, pageSize, out int count, true, o => o.State == OrderState.已完成 && o.OrderType == orderType).Include(o => o.Product).Include(o => o.Client).ToList();
+                return LoadPageList(startPage, pageSize, out int count, true, false, o => o.State == OrderState.已完成 && o.OrderType == orderType).Include(o => o.Product).Include(o => o.Client).ToList();
             else
-                return LoadPageList(startPage, pageSize, out int count, true, o => o.State != OrderState.已完成 && o.OrderType == orderType).Include(o => o.Product).Include(o => o.Client).ToList();
+                return LoadPageList(startPage, pageSize, out int count, true, false, o => o.State != OrderState.已完成 && o.OrderType == orderType).Include(o => o.Product).Include(o => o.Client).ToList();
         }
         /// <summary>
         /// 根据PayState获取分页数据，并且包含Product、Client、Client.Company对象
@@ -147,8 +147,13 @@ namespace MFS.Repositorys
             if (!string.IsNullOrEmpty(searchVal))
                 orderwhere = orderwhere.And(o => o.Name.Contains(searchVal) || o.CarNo.Contains(searchVal));
 
-            return LoadPageList(startPage, pageSize, out int count, true, orderwhere)
-                .Include(o => o.Product).Include(o => o.Client).Include(o => o.Client.Company).Include(o => o.Payments).OrderByDescending(o => o.LastUpdatedAt).ToList();
+            return LoadPageList(startPage, pageSize, out int count, true, false, orderwhere)
+                .Include(o => o.Product)
+                .Include(o => o.Client)
+                .Include(o => o.Client.Company)
+                .Include(o => o.Payments)
+                .OrderByDescending(o => o.LastUpdatedAt)
+                .ToList();
         }
         /// <summary>
         /// 结算订单

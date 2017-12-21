@@ -135,7 +135,7 @@ namespace MFS.Repositorys
         }
         public List<Purchase> GetByState(int page, int pageSize, Purchase.UnloadState pus)
         {
-            List<Purchase> list = LoadPageList(page, pageSize, out int rCount, true, p => p.State == pus).OrderByDescending(p => p.Id).ToList();
+            List<Purchase> list = LoadPageList(page, pageSize, out int rCount, true, false, p => p.State == pus).OrderByDescending(p => p.Id).ToList();
             //根据ids,names,counts添加入toStoresList
             foreach (var p in list)
             {

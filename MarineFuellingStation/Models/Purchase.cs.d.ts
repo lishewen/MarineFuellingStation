@@ -66,6 +66,8 @@ declare module server {
         totalMoney: number;
         /** 施工人员 */
         worker: string;
+        /** 单据是否删除标识 */
+        isDel: boolean;
 
     }
     /** 选择多个油仓卸油用到的Model **/

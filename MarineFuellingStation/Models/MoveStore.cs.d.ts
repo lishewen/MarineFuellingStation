@@ -30,7 +30,9 @@ declare module server {
 		/** 误差 */
 		state: moveStoreState;
 		/** 误差 */
-		deviation: number;
+        deviation: number;
+        /** 单据是否删除标识 */
+        isDel: boolean;
 	}
 	/** 用于GET的model */
 	interface moveStoreGET {

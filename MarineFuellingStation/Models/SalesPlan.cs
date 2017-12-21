@@ -79,6 +79,10 @@ namespace MFS.Models
          /// 备注
          /// </summary>
         public string Remark { get; set; }
+        /// <summary>
+        /// 单据是否删除标识
+        /// </summary>
+        public bool IsDel { get; set; } = false;
     }
 
     public enum SalesPlanType

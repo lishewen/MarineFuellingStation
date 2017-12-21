@@ -87,6 +87,10 @@ namespace MFS.Models
                 return OutPlan - InFact;
             }
         }
+        /// <summary>
+        /// 单据是否删除标识
+        /// </summary>
+        public bool IsDel { get; set; } = false;
     }
     public enum MoveStoreState
     {

@@ -86,6 +86,8 @@ declare module server {
         remark: string;
         /** 收银员 */
         cashier: string;
+        /** 单据是否删除标识 */
+        isDel: boolean;
 	}
 	const enum orderState {
 		已开单,

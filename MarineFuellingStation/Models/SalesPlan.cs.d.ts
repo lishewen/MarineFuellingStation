@@ -36,6 +36,8 @@ declare module server {
         totalMoney: number;
         /** 备注 */
         remark: string;
+        /** 单据是否删除标识 */
+        isDel: boolean;
 	}
 	const enum salesPlanType {
 		水上加油,

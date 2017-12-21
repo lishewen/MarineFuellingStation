@@ -34,6 +34,8 @@ declare module server {
         payments: payment[];
         /** 施工人员 */
         worker: string;
+        /** 单据是否删除标识 */
+        isDel: boolean;
 	}
 	const enum boatCleanState {
 		已开单,

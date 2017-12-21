@@ -325,7 +325,10 @@ namespace MFS.Models
                 return Price * Count;
             }
         }
-        
+        /// <summary>
+        /// 单据是否删除标识
+        /// </summary>
+        public bool IsDel { get; set; } = false;
     }
     /// <summary>
     /// 选择多个卸油仓卸油用到的Model

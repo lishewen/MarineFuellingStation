@@ -84,10 +84,7 @@ namespace MFS.Models
         /// 施工人员
         /// </summary>
         public string Worker { get; set; }
-        /// <summary>
-        /// 单据是否删除标识
-        /// </summary>
-        public bool IsDel { get; set; } = false;
+        
     }
 
     public enum BoatCleanState

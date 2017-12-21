@@ -199,10 +199,7 @@ namespace MFS.Models
         /// 收银员
         /// </summary>
         public string Cashier { get; set; }
-        /// <summary>
-        /// 单据是否删除标识
-        /// </summary>
-        public bool IsDel { get; set; } = false;
+        
 
     }
     public enum OrderState

@@ -11,5 +11,6 @@ namespace MFS.Models
         string CreatedBy { get; set; }
         DateTime LastUpdatedAt { get; set; }
         string LastUpdatedBy { get; set; }
+        bool IsDel { get; set; }
     }
 }

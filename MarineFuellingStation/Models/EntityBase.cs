@@ -26,5 +26,9 @@ namespace MFS.Models
         public string CreatedBy { get; set; }
         public DateTime LastUpdatedAt { get; set; }
         public string LastUpdatedBy { get; set; }
+        /// <summary>
+        /// 单据是否删除标识
+        /// </summary>
+        public bool IsDel { get; set; } = false;
     }
 }

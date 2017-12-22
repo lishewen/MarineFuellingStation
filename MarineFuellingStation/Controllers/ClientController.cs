@@ -157,6 +157,50 @@ namespace MFS.Controllers
                 Data = r.Update(c)
             };
         }
+        /// <summary>
+        /// 把一个或多个客户归入到公司
+        /// </summary>
+        /// <param name="clientIds"></param>
+        /// <param name="companyId"></param>
+        /// <returns></returns>
+        [HttpPut("[action]")]
+        public ResultJSON<List<Client>> SetClientsToCompany(string clientIds, int companyId)
+        {
+            List<Client> list = r.SetClientsToCompany(clientIds.Split(','), companyId);
+            if(list.Count == 0)
+                return new ResultJSON<List<Client>>
+                {
+                    Code = 503,
+                    Msg = "选择的客户有误或存在该公司"
+                };
+            return new ResultJSON<List<Client>>
+            {
+                Code = 0,
+                Data = list
+            };
+        }
+        /// <summary>
+        /// 移除一个或多个客户
+        /// </summary>
+        /// <param name="clientIds"></param>
+        /// <param name="companyId"></param>
+        /// <returns></returns>
+        [HttpPut("[action]")]
+        public ResultJSON<List<Client>> RemoveCompanyClients(string clientIds, int companyId)
+        {
+            List<Client> list = r.RemoveCompanyClients(clientIds.Split(','), companyId);
+            if (list.Count == 0)
+                return new ResultJSON<List<Client>>
+                {
+                    Code = 503,
+                    Msg = "选择的客户有误或存在该公司"
+                };
+            return new ResultJSON<List<Client>>
+            {
+                Code = 0,
+                Data = list
+            };
+        }
         [HttpPut]
         public ResultJSON<Client> Save([FromBody]Client c)
         {

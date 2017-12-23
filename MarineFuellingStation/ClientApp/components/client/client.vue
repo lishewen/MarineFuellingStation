@@ -212,8 +212,27 @@
                     <input slot="right" type="checkbox" :value="c.id" v-model="selectClientIds" />
                 </yd-cell-item>
             </yd-cell-group>
-            <yd-button size="large" :disabled="selectClientIds.length < 1" v-show="modelCompany.clients != null && modelCompany.clients.length > 0">移除所选成员</yd-button>
-            <yd-button size="large">添加成员</yd-button>
+            <yd-button size="large" :disabled="selectClientIds.length < 1" v-show="modelCompany.clients != null && modelCompany.clients.length > 0" @click.native="putRemoveCompanyClients">移除所选成员</yd-button>
+            <yd-button size="large" @click.native="showSearchInput = true">添加成员</yd-button>
+        </yd-popup>
+        <!--popup添加成员时客户搜索输入-->
+        <yd-popup v-model="showSearchInput" position="right" width="70%">
+            <yd-cell-group title="查询添加">
+                <yd-cell-item>
+                    <yd-input slot="right" placeholder="请输入船号/车号/手机号/联系人" v-model="svClient1"></yd-input>
+                </yd-cell-item>
+            </yd-cell-group>
+            <yd-button size="large" @click.native="getClientsByKw">查询</yd-button>
+        </yd-popup>
+        <!--popup搜索客户列表-->
+        <yd-popup v-model="showSearchResult" position="right" width="70%">
+            <yd-cell-group title="查询结果如下：">
+                <yd-cell-item type="checkbox" v-for="c in searchClients" :key="c.id">
+                    <span slot="left">{{c.carNo}}</span>
+                    <input slot="right" type="checkbox" :value="c.id" v-model="selectClientIds1" />
+                </yd-cell-item>
+            </yd-cell-group>
+            <yd-button size="large":disabled="selectClientIds1 == null || selectClientIds1.length == 0" @click.native="putAddCompanyClients">确认添加</yd-button>
         </yd-popup>
         <!--popup销售列表-->
         <yd-popup v-model="showsales" position="right">

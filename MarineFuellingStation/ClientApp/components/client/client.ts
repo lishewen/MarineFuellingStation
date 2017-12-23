@@ -9,6 +9,7 @@ export default class ClientComponent extends ComponentBase {
     modelCompany: server.company;
     companys: server.company[];
     clients: server.client[];
+    searchClients: server.client[];
     products: server.product[];
 
     sales: work.userlist[];
@@ -24,6 +25,8 @@ export default class ClientComponent extends ComponentBase {
     menushow: boolean = false;
     nonshow: boolean = false;
     showMyClients: boolean = false;
+    showSearchInput: boolean = false;
+    showSearchResult: boolean = false;
     show1: boolean = false;
     show2: boolean = false;
     iswater: boolean = true;
@@ -35,7 +38,9 @@ export default class ClientComponent extends ComponentBase {
     svCompany: string = "";
     svCompany1: string = "";
     svClient: string = "";
+    svClient1: string = "";
     selectClientIds: number[];
+    selectClientIds1: Array<number>;
 
     actBtnId: number; actBtnId1: number; actBtnId2: number; actBtnId3: number;//当前激活状态的条件button
     ctype: server.clientType; ptype: server.salesPlanState; balances: number; cycle: number;
@@ -63,6 +68,7 @@ export default class ClientComponent extends ComponentBase {
         this.model.mobile = '';
 
         this.selectClientIds = new Array<number>();
+        this.selectClientIds1 = new Array<number>();
         
         this.labelBoatOrCar = "船号";
         this.getOilProducts();
@@ -343,6 +349,25 @@ export default class ClientComponent extends ComponentBase {
                 this.toastError('无法获取客户数据，请重试')
         });
     }
+    //搜索船或车 船号|车号|手机|联系人
+    getClientsByKw() {
+        axios.get('/api/Client/GetByClientKeyword?'
+            + 'kw=' + this.svClient1
+        ).then((res) => {
+            let jobj = res.data as server.resultJSON<server.client[]>;
+            if (jobj.code == 0) {
+                if (jobj.data == null || jobj.data.length == 0)
+                    this.toastError("没有找到相关数据")
+                else {
+                    this.searchClients = new Array<server.client>();
+                    this.searchClients = jobj.data;
+                    this.showSearchResult = true;
+                }
+            }
+            else
+                this.toastError('无法获取客户数据，请重试')
+        });
+    }
     //获得销售员
     getSales() {
         axios.get('/api/User/Salesman').then((res) => {
@@ -350,5 +375,46 @@ export default class ClientComponent extends ComponentBase {
             if (jobj.errcode == 0)
                 this.sales = jobj.userlist;
         });
+    }
+    //添加成员
+    putAddCompanyClients() {
+        console.log(this.selectClientIds1);
+        axios.put('/api/Client/SetClientsToCompany'
+            + '?clientIds=' + this.selectClientIds1
+            + '&companyId=' + this.modelCompany.id
+            , null).then((res) => {
+                let jobj = res.data as server.resultJSON<server.client[]>;
+                if (jobj.code == 0) {
+                    this.toastSuccess('操作成功');
+                    jobj.data.forEach((c, idx) => {
+                        this.modelCompany.clients.push(c);
+                        this.selectClientIds.push(c.id);
+                    });
+                    this.showSearchResult = false;
+                    this.showSearchInput = false;
+                }
+                else
+                    this.toastError(jobj.msg);
+            });
+    }
+    //移除成员
+    putRemoveCompanyClients() {
+        console.log(this.selectClientIds1);
+        axios.put('/api/Client/RemoveCompanyClients'
+            + '?clientIds=' + this.selectClientIds
+            + '&companyId=' + this.modelCompany.id
+            , null).then((res) => {
+                let jobj = res.data as server.resultJSON<server.client[]>;
+                if (jobj.code == 0) {
+                    this.toastSuccess('操作成功');
+                    jobj.data.forEach((c, idx) => {
+                        //this.modelCompany.clients.splice(c);
+                        //this.selectClientIds.splice(c.id);
+                    });
+                    this.showMyClients = false;
+                }
+                else
+                    this.toastError(jobj.msg);
+            });
     }
 }

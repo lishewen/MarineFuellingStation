@@ -112,5 +112,52 @@ namespace MFS.Repositorys
                 return false;
             }
         }
+        /// <summary>
+        /// 把一个或多个客户归入到公司
+        /// </summary>
+        /// <param name="aClientIds"></param>
+        /// <param name="companyId"></param>
+        /// <returns></returns>
+        public List<Client> SetClientsToCompany(string[] aClientIds, int companyId)
+        {
+            List<Client> list = new List<Client>();
+            foreach(string cid in aClientIds)
+            {
+                Client c = _dbContext.Clients.Where(cl => cl.Id == int.Parse(cid)).Include("Company").FirstOrDefault();
+                if (c.CompanyId != companyId)
+                {
+                    c.CompanyId = companyId;
+                    Save();
+                    list.Add(c);
+                }
+                else
+                    continue;
+            }
+            return list;
+        }
+        /// <summary>
+        /// 移除一个或多个公司下的成员
+        /// </summary>
+        /// <param name="aClientIds"></param>
+        /// <param name="companyId"></param>
+        /// <returns></returns>
+        public List<Client> RemoveCompanyClients(string[] aClientIds, int companyId)
+        {
+            List<Client> list = new List<Client>();
+            foreach (string cid in aClientIds)
+            {
+                Client c = _dbContext.Clients.Where(cl => cl.Id == int.Parse(cid)).Include("Company").FirstOrDefault();
+                if (c.CompanyId == companyId)
+                {
+                    c.CompanyId = null;
+                    Save();
+                    list.Add(c);
+                }
+                else
+                    continue;
+            }
+            return list;
+        }
+        
     }
 }

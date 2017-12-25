@@ -79,12 +79,12 @@
         <!--4-油车过磅-->
         <yd-cell-group title="第四步：油车过磅" v-show="currStep == 4">
             <yd-cell-item>
-                <span slot="right">皮重：{{order.emptyCarWeight}}吨</span>
+                <span slot="right">皮重：{{order.emptyCarWeight}}KG</span>
             </yd-cell-item>
             <yd-cell-item>
                 <span slot="left">毛重：</span>
                 <yd-input slot="right" v-model="order.oilCarWeight" type="number" required placeholder="请输入磅秤数"></yd-input>
-                <span slot="right">吨</span>
+                <span slot="right">KG</span>
             </yd-cell-item>
             <yd-cell-item>
                 <span slot="left">图片上传：</span>

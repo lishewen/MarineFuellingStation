@@ -41,7 +41,6 @@ export default class AssayComponent extends ComponentBase {
 
         this.getAssayNo();
         this.getStore();
-        this.getAssays();
     }
 
     mounted() {

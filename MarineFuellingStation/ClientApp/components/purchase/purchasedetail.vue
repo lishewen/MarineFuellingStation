@@ -90,19 +90,19 @@
             <yd-cell-group title="卸油明细">
                 <yd-cell-item>
                     <span slot="left">毛重：</span>
-                    <span slot="right">{{model.scaleWithCar}}吨</span>
+                    <span slot="right">{{model.scaleWithCar}}KG</span>
                 </yd-cell-item>
                 <yd-cell-item>
                     <span slot="left">皮重：</span>
-                    <span slot="right">{{model.scale}}吨</span>
+                    <span slot="right">{{model.scale}}KG</span>
                 </yd-cell-item>
                 <yd-cell-item>
                     <span slot="left">净重：</span>
-                    <span slot="right">{{model.scaleWithCar - model.scale}}吨</span>
+                    <span slot="right">{{model.scaleWithCar - model.scale}}KG</span>
                 </yd-cell-item>
                 <yd-cell-item>
                     <span slot="left">与计划相差：</span>
-                    <span slot="right">{{round((model.scaleWithCar - model.scale) - model.count)}}吨</span>
+                    <span slot="right">{{round((model.scaleWithCar - model.scale)/1000 - model.count)}}吨</span>
                 </yd-cell-item>
                 <yd-cell-item>
                     <span slot="left">卸入油仓：</span>

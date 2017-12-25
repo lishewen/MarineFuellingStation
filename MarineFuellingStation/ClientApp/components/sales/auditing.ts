@@ -65,6 +65,12 @@ export default class AuditingComponent extends ComponentBase {
                 callback: () => {
                     this.putAuditingOK(s);
                 }
+            },
+            {
+                label: '作废',
+                callback: () => {
+                    this.putDel(s.id);
+                }
             }
         ];
     }
@@ -133,6 +139,17 @@ export default class AuditingComponent extends ComponentBase {
             if (jobj.code == 0) {
                 this.plan = jobj.data;
                 this.toastSuccess('审核成功')
+                this.page = 1;
+                this.getSalesPlans();
+            }
+        });
+    }
+    //作废单据
+    putDel(id: number) {
+        axios.put('/api/SalesPlan/Del?id=' + id, null).then((res) => {
+            let jobj = res.data as server.resultJSON<server.salesPlan>;
+            if (jobj.code == 0) {
+                this.toastSuccess('作废成功！')
                 this.page = 1;
                 this.getSalesPlans();
             }

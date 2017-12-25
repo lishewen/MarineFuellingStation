@@ -25,7 +25,7 @@
                 <yd-cell-item>
                     <span slot="left">毛重：</span>
                     <yd-input slot="right" v-model="purchase.scaleWithCar" type="number" required placeholder="请输入磅秤数"></yd-input>
-                    <span slot="right">吨</span>
+                    <span slot="right">KG</span>
                 </yd-cell-item>
                 <yd-cell-item>
                     <span slot="left">图片上传：</span>
@@ -59,7 +59,7 @@
                 <yd-cell-item>
                     <span slot="left">皮重：</span>
                     <yd-input slot="right" v-model="purchase.scale" type="number" required placeholder="请输入磅秤数"></yd-input>
-                    <span slot="right">吨</span>
+                    <span slot="right">KG</span>
                 </yd-cell-item>
 
                 <yd-cell-item>
@@ -113,15 +113,15 @@
             </yd-cell-item>
             <yd-cell-item>
                 <span slot="left">毛重（磅秤）：</span>
-                <span slot="right">{{purchase.scaleWithCar}}吨</span>
+                <span slot="right">{{purchase.scaleWithCar}}KG</span>
             </yd-cell-item>
             <yd-cell-item>
                 <span slot="left">皮重（磅秤）：</span>
-                <span slot="right">{{purchase.scale}}吨</span>
+                <span slot="right">{{purchase.scale}}KG</span>
             </yd-cell-item>
             <yd-cell-item>
                 <span slot="left">净重（计算）：</span>
-                <span slot="right">{{purchase.scaleWithCar - purchase.scale}}吨</span>
+                <span slot="right">{{purchase.scaleWithCar - purchase.scale}}KG</span>
             </yd-cell-item>
             <yd-cell-item>
                 <span slot="left">相差：</span>

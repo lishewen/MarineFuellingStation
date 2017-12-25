@@ -59,7 +59,7 @@ namespace MFS.Controllers
             return new ResultJSON<List<Assay>>
             {
                 Code = 0,
-                Data = r.LoadPageList(page, pageSize, out int rowCount).Include(a => a.Store).Include(a => a.Purchase).OrderByDescending(a => a.Id).ToList()
+                Data = r.LoadPageList(page, pageSize, out int rowCount,true).Include(a => a.Store).Include(a => a.Purchase).ToList()
             };
         }
         [HttpGet("[action]/{sId}")]

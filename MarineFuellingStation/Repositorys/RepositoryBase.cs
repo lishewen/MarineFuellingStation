@@ -234,5 +234,12 @@ namespace MFS.Repositorys
 
             return Expression.Lambda<Func<TEntity, bool>>(lambdaBody, lambdaParam);
         }
+        public TEntity SetIsDel(int id)
+        {
+            var o = Get(id);
+            o.IsDel = true;
+            Save();
+            return o;
+        }
     }
 }

@@ -172,19 +172,19 @@
                 <yd-cell-item v-for="p in products" :key="p.id">
                     <span slot="left">{{p.name}}：</span>
                     <yd-input slot="right" v-model="p.minPrice" required></yd-input>
-                    <span slot="right">元</span>
+                    <span slot="right" style="width: 60px">元 / {{p.unit}}</span>
                 </yd-cell-item>
             </yd-cell-group>
             <yd-cell-group title="开票限价">
                 <yd-cell-item v-for="p in products" :key="p.id">
                     <span slot="left">{{p.name}}：</span>
                     <yd-input slot="right" v-model="p.minInvoicePrice" required></yd-input>
-                    <span slot="right">元</span>
+                    <span slot="right" style="width: 60px">元 / {{p.unit}}</span>
                 </yd-cell-item>
             </yd-cell-group>
             
             <div class="align-center">
-                <yd-button type="primary" @click.native="prodsaveclick" style="width: 90%">保存</yd-button>
+                <yd-button size="large" type="primary" @click.native="prodsaveclick">保存</yd-button>
             </div>
         </yd-popup>
         <yd-actionsheet :items="oiloptions" v-model="oilshow" cancel="取消"></yd-actionsheet>

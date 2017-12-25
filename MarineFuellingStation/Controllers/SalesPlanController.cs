@@ -233,6 +233,21 @@ namespace MFS.Controllers
                 Data = r.Update(sp)
             };
         }
+        /// <summary>
+        /// 作废单据
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>所作废的对象</returns>
+        [HttpPut("[action]")]
+        public ResultJSON<SalesPlan> Del(int id)
+        {
+            var sp = r.SetIsDel(id);
+            return new ResultJSON<SalesPlan>
+            {
+                Code = 0,
+                Data = sp
+            };
+        }
         #endregion
     }
 }

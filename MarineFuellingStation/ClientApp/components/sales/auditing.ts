@@ -52,15 +52,14 @@ export default class AuditingComponent extends ComponentBase {
     //显示actionsheet
     planclick(s: server.salesPlan) {
         console.log(s);
-        this.showAct = true;
         this.actItems = [
             {
                 label: '详细信息',
                 callback: () => {
                     this.godetail(s.id);
                 }
-            },
-            {
+            }];
+        let actItems1 = [{
                 label: '审核',
                 callback: () => {
                     this.putAuditingOK(s);
@@ -73,6 +72,10 @@ export default class AuditingComponent extends ComponentBase {
                 }
             }
         ];
+        if (s.state == server.salesPlanState.未审批) 
+            this.actItems = [...this.actItems, ...actItems1];
+
+        this.showAct = true;
     }
 
     mounted() {

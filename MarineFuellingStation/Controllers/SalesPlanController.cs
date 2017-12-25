@@ -227,6 +227,8 @@ namespace MFS.Controllers
         public ResultJSON<SalesPlan> AuditingOK([FromBody]SalesPlan sp)
         {
             sp.State = SalesPlanState.已审批;
+            sp.Auditor = UserName;
+            sp.AuditTime = DateTime.Now;
             return new ResultJSON<SalesPlan>
             {
                 Code = 0,

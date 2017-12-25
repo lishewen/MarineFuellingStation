@@ -388,7 +388,7 @@ export default class ClientComponent extends ComponentBase {
                     this.toastSuccess('操作成功');
                     jobj.data.forEach((c, idx) => {
                         this.modelCompany.clients.push(c);
-                        this.selectClientIds.push(c.id);
+                        this.selectClientIds1 = new Array();
                     });
                     this.showSearchResult = false;
                     this.showSearchInput = false;
@@ -407,10 +407,8 @@ export default class ClientComponent extends ComponentBase {
                 let jobj = res.data as server.resultJSON<server.client[]>;
                 if (jobj.code == 0) {
                     this.toastSuccess('操作成功');
-                    jobj.data.forEach((c, idx) => {
-                        //this.modelCompany.clients.splice(c);
-                        //this.selectClientIds.splice(c.id);
-                    });
+                    this.modelCompany.clients = jobj.data;
+                    this.selectClientIds = new Array();
                     this.showMyClients = false;
                 }
                 else

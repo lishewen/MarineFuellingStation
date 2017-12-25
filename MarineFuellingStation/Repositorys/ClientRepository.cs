@@ -140,10 +140,9 @@ namespace MFS.Repositorys
         /// </summary>
         /// <param name="aClientIds"></param>
         /// <param name="companyId"></param>
-        /// <returns></returns>
+        /// <returns>返回删除指定成员后最新成员list</returns>
         public List<Client> RemoveCompanyClients(string[] aClientIds, int companyId)
         {
-            List<Client> list = new List<Client>();
             foreach (string cid in aClientIds)
             {
                 Client c = _dbContext.Clients.Where(cl => cl.Id == int.Parse(cid)).Include("Company").FirstOrDefault();
@@ -151,12 +150,11 @@ namespace MFS.Repositorys
                 {
                     c.CompanyId = null;
                     Save();
-                    list.Add(c);
                 }
                 else
                     continue;
             }
-            return list;
+            return _dbContext.Clients.Where(cl => cl.CompanyId == companyId && !cl.IsDel).ToList();
         }
         
     }

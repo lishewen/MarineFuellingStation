@@ -14,7 +14,7 @@ namespace MFS.Repositorys
         /// 获取实体集合
         /// </summary>
         /// <returns></returns>
-        public new List<StoreType> GetAllList()
+        public List<StoreType> GetAllList()
         {
             var list = _dbContext.StoreTypes.Include(st => st.Stores).ToList();
             foreach (var item in list)

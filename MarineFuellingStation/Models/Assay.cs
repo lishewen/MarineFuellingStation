@@ -24,8 +24,8 @@ namespace MFS.Models
         /// </summary>
         [ForeignKey("PurchaseId")]
         public virtual Purchase Purchase { get; set; }
-        public decimal 视密 { get; set; }
-        public decimal 标密 { get; set; }
+        public double 视密 { get; set; }
+        public double 标密 { get; set; }
         public string 闭口闪点 { get; set; }
         /// <summary>
         /// 油温

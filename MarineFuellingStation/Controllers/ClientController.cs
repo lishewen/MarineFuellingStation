@@ -184,17 +184,11 @@ namespace MFS.Controllers
         /// </summary>
         /// <param name="clientIds"></param>
         /// <param name="companyId"></param>
-        /// <returns></returns>
+        /// <returns>返回删除指定成员后最新成员list</returns>
         [HttpPut("[action]")]
         public ResultJSON<List<Client>> RemoveCompanyClients(string clientIds, int companyId)
         {
             List<Client> list = r.RemoveCompanyClients(clientIds.Split(','), companyId);
-            if (list.Count == 0)
-                return new ResultJSON<List<Client>>
-                {
-                    Code = 503,
-                    Msg = "选择的客户有误或存在该公司"
-                };
             return new ResultJSON<List<Client>>
             {
                 Code = 0,

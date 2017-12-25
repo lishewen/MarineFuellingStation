@@ -14,7 +14,7 @@ namespace MFS.Repositorys
         /// 获取实体集合
         /// </summary>
         /// <returns></returns>
-        public new List<ProductType> GetAllList()
+        public List<ProductType> GetAllList()
         {
             return _dbContext.ProductTypes.Include(pt => pt.Products).ToList();
         }

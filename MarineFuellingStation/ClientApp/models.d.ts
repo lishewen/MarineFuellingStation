@@ -98,4 +98,21 @@ declare namespace work {
         enable: number;
         wxplugin_status: string;
     }
+    export interface checkinData {
+        userid: string;
+        groupname: string;
+        checkin_type: string;
+        exception_type: string;
+        checkin_time: Date;
+        location_title: string;
+        wifiname: string;
+        notes: string;
+        wifimac: string;
+        mediaids: string[];
+    }
+    export interface checkinDataResult {
+        errcode: number;
+        errmsg: string;
+        checkindata: checkinData[];
+    }
 }

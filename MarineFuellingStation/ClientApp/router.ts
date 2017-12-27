@@ -56,6 +56,8 @@ const routes: RouteConfig[] = [
 
     { path: '/notice', component: require('./components/notice/notice.vue').default },
 
+    { path: '/oa/checkin', component: require('./components/oa/checkin.vue').default },
+
     { path: '/funcmenu', component: require('./components/funcmenu/funcmenu.vue').default },
     { path: '/', component: require('./components/home/home.vue').default },
     {

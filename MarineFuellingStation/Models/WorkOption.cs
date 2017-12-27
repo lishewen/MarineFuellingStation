@@ -55,5 +55,7 @@ namespace MFS.Models
         public string 系统设置AgentId { get; set; }
         public string 系统设置Secret { get; set; }
         public string 系统设置AccessToken { get; set; }
+        public string 打卡Secret { get; set; }
+        public string 打卡AccessToken { get; set; }
     }
 }

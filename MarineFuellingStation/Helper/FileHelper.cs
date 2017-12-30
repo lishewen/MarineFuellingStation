@@ -5,6 +5,8 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Senparc.Weixin.Work.AdvancedAPIs;
+using Senparc.Weixin.Work.Containers;
 
 namespace MFS.Helper
 {
@@ -41,6 +43,31 @@ namespace MFS.Helper
                         tempBitmap.Save(filename);
                     }
                 }
+            }
+        }
+        /// <summary>
+        /// 从微信照片服务器取得图片并保存到本地
+        /// </summary>
+        /// <param name="id">远程图片id</param>
+        /// <param name="filePath">文件夹</param>
+        /// <param name="fileName">文件名</param>
+        /// <param name="corpId">企业微信CorpId</param>
+        /// <param name="secret">企业微信Secret</param>
+        /// <returns></returns>
+        public static bool SaveFileByWeixin(string id, string filePath, string fileName, string corpId, string secret)
+        {
+            try
+            {
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    string AccessToken = AccessTokenContainer.TryGetToken(corpId, secret);
+                    MediaApi.Get(AccessToken, id, fileStream);
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
             }
         }
     }

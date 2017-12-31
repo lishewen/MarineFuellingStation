@@ -2,7 +2,7 @@
     <div id="root">
         <template>
             <yd-grids-group :rows="2" title="考勤记录">
-                <yd-grids-item v-for="c in checkinData">
+                <yd-grids-item v-for="c,idx in checkinData" :key="idx">
                     <div slot="text">
                         <p>{{c.checkin_type}}</p>
                         <p>{{formatDate(new Date(c.checkin_time) * 1000)}}</p>

@@ -9,10 +9,6 @@ using Senparc.Weixin.Work.AdvancedAPIs;
 using Microsoft.Extensions.Options;
 using System.Net;
 using MFS.Repositorys;
-using MFS.Controllers.Attributes;
-using Senparc.Weixin.Work.Helpers;
-using Senparc.Weixin.Helpers;
-using MFS.Helper;
 
 namespace MFS.Controllers
 {
@@ -60,17 +56,6 @@ namespace MFS.Controllers
                 return Redirect($"/#/wxhub/{WebUtility.UrlEncode(userinfo.name)}/{WebUtility.UrlEncode(at.UserId)}/{userinfo.department.Contains(7)}/{userinfo.isleader}/{WebUtility.UrlEncode(id)}");
             }
 #endif
-        }
-        [Route("api/home/GetJSSDKopts")]
-        public JSSDKopts GetJSSDKopts()
-        {
-            JSSDKopts j = new JSSDKopts();
-            j.AppId = option.CorpId;
-            j.Timestamp = JSSDKHelper.GetTimestamp();
-            j.NonceStr = EncryptHelper.GetMD5(Guid.NewGuid().ToString(), "UTF-8");
-            string ticket = JsApiTicketContainer.TryGetTicket(option.CorpId, option.Secret);
-            j.Signature = JSSDKHelper.GetSignature(ticket, j.NonceStr, j.Timestamp, Request.GetAbsoluteUri());
-            return j;
         }
         public IActionResult Error()
         {

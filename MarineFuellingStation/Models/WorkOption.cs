@@ -58,11 +58,4 @@ namespace MFS.Models
         public string 打卡Secret { get; set; }
         public string 打卡AccessToken { get; set; }
     }
-    public class JSSDKopts
-    {
-        public string AppId { get; set; }
-        public long Timestamp { get; set; }
-        public string NonceStr { get; set; }
-        public string Signature { get; set; }
-    }
 }

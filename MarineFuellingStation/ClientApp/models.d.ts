@@ -115,4 +115,10 @@ declare namespace work {
         errmsg: string;
         checkindata: checkinData[];
     }
+    export interface JSSDKopts {
+        appId: string;
+        timestamp: number;
+        nonceStr: string;
+        signature: string;
+    }
 }

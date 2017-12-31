@@ -1,6 +1,7 @@
 ﻿import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
-import store from './store'
+import store from './store';
+import axios from "axios";
 
 Vue.use(VueRouter);
 
@@ -82,6 +83,13 @@ var router = new VueRouter({ mode: 'hash', routes: routes });
 router.beforeEach((to, from, next) => {
     console.log(store.state)
     if (store.state.username != "") {
+        console.log(to.fullPath);
+        if (to.fullPath == '/produce/unload') {
+            axios.get('/api/home/GetJSSDKopts').then((res) => {
+                let jobj = res.data as work.JSSDKopts;
+                console.log(jobj);
+            })
+        }
         console.log("isSuperAdmin = " + store.state.isSuperAdmin);
         console.log("isLeader = " + store.state.isLeader);
         next();

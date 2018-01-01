@@ -51,7 +51,7 @@ namespace MFS.Repositorys
                 || c.CarNo.Contains(kw)
                 || c.Contact == kw).Include("Company").ToList();
         }
-        public List<Client> GetMyClients(ClientType ctype, int ptype, int balances, int cycle, string kw, bool isMy)
+        public List<Client> GetMyClients(ClientType ctype, int ptype, int balances, int cycle, string kw, bool isMy, int page, int pageSize)
         {
             List<Client> list;
 
@@ -82,8 +82,8 @@ namespace MFS.Repositorys
 
             if (!string.IsNullOrEmpty(kw))
                 clientwhere = clientwhere.And(c => c.CarNo.Contains(kw));
-
-            list = _dbContext.Clients.Include("Company").Where(clientwhere).ToList();
+            list = LoadPageList(page, pageSize, out int rowCount, true, false, clientwhere).Include("Company").ToList();
+            //list = _dbContext.Clients.Include("Company").Where(clientwhere).ToList();
 
             return list;
         }

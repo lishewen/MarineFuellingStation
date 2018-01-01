@@ -149,6 +149,7 @@
                             <div slot="right" style="text-align: left;margin-right: 5px">
                                 <p v-show="s.assayType == 0" style="color:darkgreen">{{s.store == null?"":s.store.name}}仓</p>
                                 <p v-show="s.assayType == 1" style="color:lightcoral">{{s.purchase == null?"":s.purchase.carNo}} / {{s.purchase == null?"":s.purchase.count}}吨</p>
+                                <p>{{formatDate(s.createdAt)}}</p>
                             </div>
                         </yd-cell-item>
                         <!-- 数据全部加载完毕显示 -->

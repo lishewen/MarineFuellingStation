@@ -13,16 +13,22 @@
                 </span>
                 <span><yd-button type="hollow" @click.native="show2 = true">筛选</yd-button></span>
             </div>
-            <yd-cell-item arrow v-for="c in clients" :key="c.id" @click.native="clientclick(c)" :class="classMark(c.isMark)">
-                <div slot="left">
-                    <p>{{c.carNo}} - {{c.contact}}</p>
-                    <p v-if="c.company != null" class="col-light-gray font12">{{c.company.name}}</p>
-                </div>
-                <div slot="right" class="align-left" style="margin-right: 5px">
-                    <p v-if="c.company != null" class="col-gray">余额：￥{{c.company.balances}}</p>
-                    <p class="col-coral lineheight24">最近：{{getDiffDate(c.lastUpdatedAt, 'hour')}}</p>
-                </div>
-            </yd-cell-item>
+            <yd-infinitescroll :callback="loadList" ref="infinitescroll">
+                <yd-cell-item slot="list" arrow v-for="c in clients" :key="c.id" @click.native="clientclick(c)" :class="classMark(c.isMark)">
+                    <div slot="left">
+                        <p>{{c.carNo}} - {{c.contact}}</p>
+                        <p v-if="c.company != null" class="col-light-gray font12">{{c.company.name}}</p>
+                    </div>
+                    <div slot="right" class="align-left" style="margin-right: 5px">
+                        <p v-if="c.company != null" class="col-gray">余额：￥{{c.company.balances}}</p>
+                        <p class="col-coral lineheight24">最近：{{getDiffDate(c.lastUpdatedAt, 'hour')}}</p>
+                    </div>
+                </yd-cell-item>
+                <!-- 数据全部加载完毕显示 -->
+                <span slot="doneTip">没有数据啦~~</span>
+                <!-- 加载中提示，不指定，将显示默认加载中图标 -->
+                <img slot="loadingTip" src="http://static.ydcss.com/uploads/ydui/loading/loading10.svg" />
+            </yd-infinitescroll>
         </yd-cell-group>
 
         <yd-popup v-model="show2" position="right" width="75%">

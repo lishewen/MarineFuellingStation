@@ -8,10 +8,12 @@ export default class PlanComponent extends ComponentBase {
     username: string;
     isPrevent: boolean = true;
     showPd: boolean = false;
+    showMyClient: boolean = false;
     model: server.salesPlan;
     oildate: string;
     salesplans: server.salesPlan[];
     products: server.product[];
+    clients: server.client[];
     oilshow: boolean = false;
     showStep1: boolean = true;
     showStep2: boolean = false;
@@ -22,9 +24,13 @@ export default class PlanComponent extends ComponentBase {
     mobile: string;
     contact: string;
     sv: string = "";
+    svClient: string = "";
     page: number;
+    c_page: number;
     scrollRef: any;
-    pSize: number = 10;
+    c_scollRef: any;
+    pSize: number = 30;
+    c_pSize: number = 30;
     pMinInvoicePrice: number = 0;
     pMinPrice: number = 0;
     strCarOrBoat: string = '船号/车号';
@@ -70,6 +76,8 @@ export default class PlanComponent extends ComponentBase {
         this.client.company = new Object() as server.company;
         this.client.company.name = "";
         this.client.company.ticketType = -1;
+
+        this.clients = new Array() as server.client[];
         
         this.pMinPrice = 0;
         this.pMinInvoicePrice = 0;
@@ -118,9 +126,16 @@ export default class PlanComponent extends ComponentBase {
         this.$watch('oildate', (v, ov) => { this.model.oilDate = new Date(this.oildate); });
 
         this.$watch('sv', (v: string, ov) => {
-            //2个字符开始才执行请求操作，减少请求次数
-            if (v.length >= 2 || v == "")
+            if (v.length >= 1 || v == "")
                 this.searchSalesPlans(v);
+        });
+
+        this.$watch('svClient', (v: string, ov) => {
+            if (v.length >= 1 || v == "") {
+                this.c_page = 1;
+                this.svClient = v;
+                this.getMyClients();
+            }
         });
 
         //默认值
@@ -157,6 +172,26 @@ export default class PlanComponent extends ComponentBase {
                 this.page++;
             else
                 this.page = 1;
+            console.log("page = " + this.page)
+        });
+    }
+
+    loadClientList() {
+        this.getMyClients((list: server.client[]) => {
+            this.clients = this.page > 1 ? [...this.clients, ...list] : this.clients;
+            this.c_scollRef = (<any>this).$refs.infinitescroll1;
+            if (list.length < this.pSize) {
+                this.c_scollRef.$emit("ydui.infinitescroll.loadedDone");
+                return;
+            }
+
+            //通知加载数据完毕
+            this.c_scollRef.$emit("ydui.infinitescroll.finishLoad");
+
+            if (list.length > 0)
+                this.c_page++;
+            else
+                this.c_page = 1;
             console.log("page = " + this.page)
         });
     }
@@ -257,6 +292,17 @@ export default class PlanComponent extends ComponentBase {
                 return { color_blue: true }
         }
     }
+
+    showMyClientsclick() {
+        this.showMyClient = true;
+        this.c_page = 1;
+        this.getMyClients();
+    }
+
+    selectClient(carNo: string) {
+        this.model.carNo = carNo;
+        this.showMyClient = false;
+    }
     
     getSalesPlanNo() {
         axios.get('/api/SalesPlan/SalesPlanNo').then((res) => {
@@ -318,6 +364,33 @@ export default class PlanComponent extends ComponentBase {
                     this.contact = this.client.contact ? this.client.contact : "";
                 }
             }
+        });
+    }
+    //获取我的客户
+    getMyClients(callback?: Function) {
+        axios.get('/api/Client/GetClients'
+            + '?ctype=2'
+            + '&ptype=-1'
+            + '&balances=-1'
+            + '&cycle=-1'
+            + '&kw=' + this.svClient
+            + '&isMy=true'
+            + '&page=' + this.c_page
+            + '&pageSize=' + this.c_pSize
+        ).then((res) => {
+            let jobj = res.data as server.resultJSON<server.client[]>;
+            if (jobj.code == 0) {
+                if (callback) {
+                    callback(jobj.data);
+                }
+                else {
+                    this.clients = jobj.data;
+                    console.log(this.clients);
+                    this.c_page++;
+                }
+            }
+            else
+                this.toastError('无法获取客户数据，请重试')
         });
     }
 
@@ -391,6 +464,7 @@ export default class PlanComponent extends ComponentBase {
     }
 
     putUpdateClientInfo() {
+        this.client.placeType = this.isWaterDept ? 0 : 1;
         axios.put('/api/Client', this.client).then((res) => {
             let jobj = res.data as server.resultJSON<server.client>;
             if (jobj.code == 0) {

@@ -99,14 +99,17 @@ namespace MFS.Controllers
         /// <param name="balances">余额条件</param>
         /// <param name="cycle">周期条件</param>
         /// <param name="kw">搜索关键字</param>
+        /// <param name="isMy">是否我的客户</param>
+        /// <param name="page">第几页</param>
+        /// <param name="pageSize">分页记录数</param>
         [HttpGet("[action]")]
-        public ResultJSON<List<Client>> GetClients(ClientType ctype, int ptype, int balances, int cycle, string kw, bool isMy)
+        public ResultJSON<List<Client>> GetClients(ClientType ctype, int ptype, int balances, int cycle, string kw, bool isMy, int page, int pageSize)
         {
             r.CurrentUser = UserName;
             return new ResultJSON<List<Client>>
             {
                 Code = 0,
-                Data = r.GetMyClients(ctype, ptype, balances, cycle, kw, isMy)
+                Data = r.GetMyClients(ctype, ptype, balances, cycle, kw, isMy, page, pageSize)
             };
         }
         #endregion

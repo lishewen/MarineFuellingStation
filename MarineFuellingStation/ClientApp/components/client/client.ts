@@ -48,6 +48,10 @@ export default class ClientComponent extends ComponentBase {
     filterCType: Array<helper.filterBtn>; filterPType: Array<helper.filterBtn>; filterBalances: Array<helper.filterBtn>; filterCycle: Array<helper.filterBtn>;
     activedBtnId: number;
 
+    page: number;
+    scrollRef: any;
+    pSize: number = 30;
+
     constructor() {
         super();
 
@@ -100,7 +104,6 @@ export default class ClientComponent extends ComponentBase {
 
         
         this.actBtnId = 0; this.actBtnId1 = -1; this.actBtnId2 = -1; this.actBtnId3 = -1;
-        this.getClients();
     }
 
     switchBtn(o: helper.filterBtn, idx: number, group: string) {
@@ -144,11 +147,15 @@ export default class ClientComponent extends ComponentBase {
                     this.actBtnId3 = idx;
                 break;
         }
-        if (o.actived) this.getClients();
+        if (o.actived) {
+            this.page = 1;
+            this.getClients();
+        }
     }
 
     filterclick(): void {
         this.show2 = false;
+        this.page = 1;
         this.getClients();
     };
 
@@ -177,8 +184,10 @@ export default class ClientComponent extends ComponentBase {
         });
         this.$watch("svClient", (v: string, ov) => {
             //2个字符开始才执行请求操作，减少请求次数
-            if (v.length >= 2 || v.length == 0)
+            if (v.length >= 2 || v.length == 0) {
+                this.page = 1;
                 this.getClients();
+            }
         });
         this.$watch("svCompany", (v: string, ov) => {
             if (v.length >= 2)
@@ -190,6 +199,26 @@ export default class ClientComponent extends ComponentBase {
         });
     };
 
+    loadList() {
+        this.getClients((list: server.client[]) => {
+            this.clients = this.page > 1 ? [...this.clients, ...list] : this.clients;
+            this.scrollRef = (<any>this).$refs.infinitescroll;
+            if (list.length < this.pSize) {
+                this.scrollRef.$emit("ydui.infinitescroll.loadedDone");
+                return;
+            }
+
+            //通知加载数据完毕
+            this.scrollRef.$emit("ydui.infinitescroll.finishLoad");
+
+            if (list.length > 0)
+                this.page++;
+            else
+                this.page = 1;
+            console.log("page = " + this.page)
+        });
+    }
+
     switchaddcompany() {
         this.modelCompany = new Object as server.company;
         this.showCompanys = false;
@@ -199,6 +228,10 @@ export default class ClientComponent extends ComponentBase {
 
     change(label: string, tabkey: string) {
         console.log(label);
+        if (label == "客户列表") {
+            this.page = 1;
+            this.getClients();
+        }
     }
 
     companyclick(c: server.company) {
@@ -326,12 +359,14 @@ export default class ClientComponent extends ComponentBase {
         });
     }
     //获得我的客户列表
-    getClients() {
+    getClients(callback?: Function) {
         if (this.ctype == null) this.ctype = server.clientType.全部;
         if (this.ptype == null) this.ptype = -1;//-1标识没有选择任何项
         if (this.balances == null) this.balances = -1;
         if (this.cycle == null) this.cycle = -1;
         if (this.svClient == null) this.svClient = "";
+        if (this.page == null) this.page = 1;
+        if (this.pSize == null) this.pSize = 30;
 
         axios.get('/api/Client/GetClients'
             + '?ctype=' + this.ctype.toString()
@@ -339,11 +374,20 @@ export default class ClientComponent extends ComponentBase {
             + '&balances=' + this.balances.toString()
             + '&cycle=' + this.cycle.toString()
             + '&kw=' + this.svClient
-            +'&isMy=false'
+            + '&isMy=false'
+            + '&page=' + this.page
+            + '&pageSize=' + this.pSize
         ).then((res) => {
             let jobj = res.data as server.resultJSON<server.client[]>;
             if (jobj.code == 0) {
-                this.clients = jobj.data;
+                if (callback) {
+                    callback(jobj.data);
+                }
+                else {
+                    this.clients = jobj.data;
+                    console.log(this.clients);
+                    this.page++;
+                }
             }
             else
                 this.toastError('无法获取客户数据，请重试')

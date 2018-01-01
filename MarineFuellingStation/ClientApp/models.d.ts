@@ -24,6 +24,16 @@ declare namespace helper {
 }
 
 declare namespace work {
+    export interface JsSdkUiPackage {
+        appId: string;
+        timestamp: string;
+        nonceStr: string;
+        signature: string;
+    }
+    export interface JsSdkPayUiPackage extends JsSdkUiPackage {
+        package: string;
+    }
+
     export interface department {
         id: number;
         name: string;

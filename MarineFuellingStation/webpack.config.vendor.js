@@ -22,7 +22,8 @@ module.exports = (env) => {
                 'vuex',
                 'vue-echarts',
                 'moment',
-                'fastclick'
+                'fastclick',
+                'wx-sdk-ts'
             ],
         },
         externals: {

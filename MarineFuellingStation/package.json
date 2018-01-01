@@ -18,7 +18,7 @@
     "url-loader": "^0.6.2",
     "vue": "^2.5.13",
     "vue-echarts": "^2.5.1",
-    "vue-loader": "^13.6.1",
+    "vue-loader": "^13.6.2",
     "vue-property-decorator": "^6.0.0",
     "vue-router": "^3.0.1",
     "vue-template-compiler": "^2.5.13",
@@ -26,6 +26,7 @@
     "vuex": "^3.0.1",
     "webpack": "^3.10.0",
     "webpack-hot-middleware": "^2.21.0",
-    "ydui-district": "1.0.0"
+    "ydui-district": "1.0.0",
+    "wx-sdk-ts": "1.2.0-beta.0"
   }
 }

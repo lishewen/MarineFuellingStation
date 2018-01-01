@@ -9,6 +9,8 @@ using Senparc.Weixin.Work.AdvancedAPIs;
 using Microsoft.Extensions.Options;
 using System.Net;
 using MFS.Repositorys;
+using MFS.Controllers.Attributes;
+using Senparc.Weixin.Work.Helpers;
 
 namespace MFS.Controllers
 {
@@ -66,6 +68,20 @@ namespace MFS.Controllers
         {
             //r.Init();
             return Content("OK");
+        }
+        [HttpPost("[controller]/[action]"), Axios]
+        public JsSdkUiPackage GetJSSDKConfig([FromBody]JSSDKPostModel model)
+        {
+            //获取时间戳
+            var timestamp = JSSDKHelper.GetTimestamp();
+            //获取随机码
+            var nonceStr = JSSDKHelper.GetNoncestr();
+            //获取JS票据
+            var JsapiTicket = JsApiTicketContainer.TryGetTicket(option.CorpId, option.Secret);
+            //获取签名
+            var signature = JSSDKHelper.GetSignature(JsapiTicket, nonceStr, timestamp, model.OriginalUrl);
+
+            return new JsSdkUiPackage(option.CorpId, timestamp.ToString(), nonceStr, signature);
         }
     }
 }

@@ -31,6 +31,10 @@
                     <span slot="left">图片上传：</span>
                     <label slot="right" class="input-file"><input title="浏览文件" type="file" accept="image/png,image/gif,image/jpeg" @change="uploadfile" />选择图片…</label>
                 </yd-cell-item>
+                <yd-cell-item>
+                    <span slot="left">图片上传：</span>
+                    <yd-button slot="right" @click.native="uploadByWeixin">上传</yd-button>
+                </yd-cell-item>
             </yd-cell-group>
             <div class="align-center">
                 <yd-button class="mtop20" style="width:90%;height:38px;" type="primary" @click.native="goNext" :disabled="purchase.scaleWithCar <= 0 || !isScaleWithCarUpload">下一步：化验 →</yd-button>

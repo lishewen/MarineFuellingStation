@@ -48,14 +48,15 @@
                     <yd-input slot="right" v-model="order.emptyCarWeight" type="number" required placeholder="请输入磅秤数"></yd-input>
                     <span slot="right">吨</span>
                 </yd-cell-item>
-                <yd-cell-item>
+                <!--<yd-cell-item>
                     <span slot="left">图片上传：</span>
                     <label slot="right" class="input-file"><input title="浏览文件" type="file" accept="image/png,image/gif,image/jpeg" @change="uploadfile" />选择图片…</label>
-                </yd-cell-item>
+                </yd-cell-item>-->
             </yd-cell-group>
             <div class="align-center" v-show="currStep == 2">
+                <yd-button type="warning" class="mtop20" slot="right" style="width: 90%;height:38px" @click.native="uploadByWeixin">磅秤拍照上传</yd-button>
                 <yd-button style="width:90%;height:38px;margin-top: 20px;" type="primary" @click.native="currStep -= 1">← 上一步：选择销售仓</yd-button>
-                <yd-button style="width:90%;height:38px;margin-top: 20px;" type="primary" @click.native="changeState(3)">下一步：加油 →</yd-button>
+                <yd-button style="width:90%;height:38px;margin-top: 20px;" type="primary" @click.native="changeState(3)" :disabled="order.emptyCarWeightPic == '' || order.emptyCarWeightPic == null || order.density <= 0 || order.emptyCarWeight <= 0">下一步：加油 →</yd-button>
             </div>
             <div class="align-center first-group" v-show="currStep == 2">
                 <yd-lightbox class="img-wrap">
@@ -99,14 +100,15 @@
                     <yd-input slot="right" v-model="order.oilCarWeight" type="number" required placeholder="请输入磅秤数"></yd-input>
                     <span slot="right">KG</span>
                 </yd-cell-item>
-                <yd-cell-item>
+                <!--<yd-cell-item>
                     <span slot="left">图片上传：</span>
                     <label slot="right" class="input-file"><input title="浏览文件" type="file" accept="image/png,image/gif,image/jpeg" @change="uploadfile" />选择图片…</label>
-                </yd-cell-item>
+                </yd-cell-item>-->
             </yd-cell-group>
             <div class="align-center" v-show="currStep == 4">
+                <yd-button type="warning" class="mtop20" slot="right" style="width: 90%;height:38px" @click.native="uploadByWeixin">磅秤拍照上传</yd-button>
                 <yd-button style="width:90%;height:38px;margin-top: 20px;" type="primary" @click.native="currStep -= 1">← 上一步：加油</yd-button>
-                <yd-button style="width:90%;height:38px;margin-top: 20px;" type="primary" @click.native="changeState(5)">下一步：完工 →</yd-button>
+                <yd-button style="width:90%;height:38px;margin-top: 20px;" type="primary" @click.native="changeState(5)" :disabled="order.oilCarWeight <= 0 || order.oilCarWeightPic == null || order.oilCarWeightPic == ''">下一步：完工 →</yd-button>
             </div>
             <div class="align-center first-group" v-show="currStep == 4">
                 <yd-lightbox class="img-wrap">

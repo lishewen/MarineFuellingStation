@@ -196,47 +196,47 @@ export default class UnloadComponent extends ComponentBase {
     mounted() {
         this.$emit('setTitle', '陆上卸油');
     };
-    uploadfile(e) {
-        let file = e.target.files[0];
-        if (!file || file.name == '') { this.toastError("请选择文件！"); return; }
-        let param = new FormData(); //创建form对象
-        param.append('file', file, file.name);//通过append向form对象添加数据
+    //uploadfile(e) {
+    //    let file = e.target.files[0];
+    //    if (!file || file.name == '') { this.toastError("请选择文件！"); return; }
+    //    let param = new FormData(); //创建form对象
+    //    param.append('file', file, file.name);//通过append向form对象添加数据
 
-        let config = {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-                'x-username': encodeURIComponent(this.$store.state.username),
-                'x-userid': encodeURIComponent(this.$store.state.userid)
-            }
-        };  //添加请求头
-        this.$dialog.loading.open("正在上传图片");
-        axios.post('/api/Purchase/UploadFile', param, config).then((res) => {
-            let jobj = res.data as server.resultJSON<string>;
-            this.$dialog.loading.close();
-            if (jobj.code == 0) {
-                this.toastSuccess('上传成功！');
-                if (this.currStep == 1) {
-                    this.purchase.scaleWithCarPic = jobj.data;
-                    this.isScaleWithCarUpload = true;
+    //    let config = {
+    //        headers: {
+    //            'Content-Type': 'multipart/form-data',
+    //            'x-username': encodeURIComponent(this.$store.state.username),
+    //            'x-userid': encodeURIComponent(this.$store.state.userid)
+    //        }
+    //    };  //添加请求头
+    //    this.$dialog.loading.open("正在上传图片");
+    //    axios.post('/api/Purchase/UploadFile', param, config).then((res) => {
+    //        let jobj = res.data as server.resultJSON<string>;
+    //        this.$dialog.loading.close();
+    //        if (jobj.code == 0) {
+    //            this.toastSuccess('上传成功！');
+    //            if (this.currStep == 1) {
+    //                this.purchase.scaleWithCarPic = jobj.data;
+    //                this.isScaleWithCarUpload = true;
 
-                }
-                if (this.currStep == 3) {
-                    this.purchase.scalePic = jobj.data;
-                    this.isScaleUpload = true;
-                }
-            }
-            else {
-                this.toastError("无法上传图片，请重试")
-            }
-        });
-    }
+    //            }
+    //            if (this.currStep == 3) {
+    //                this.purchase.scalePic = jobj.data;
+    //                this.isScaleUpload = true;
+    //            }
+    //        }
+    //        else {
+    //            this.toastError("无法上传图片，请重试")
+    //        }
+    //    });
+    //}
     uploadByWeixin() {
         let that = this;
         this.$wechat = wx;
         this.SDKRegister(this, () => {
             this.$wechat.chooseImage({
                 count: 1, // 默认9
-                sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+                sizeType: ['compressed'], // 可以指定是原图还是压缩图，默认二者都有
                 sourceType: ['camera'], // 可以指定来源是相册还是相机，默认二者都有
                 success: function (res) {
                     let localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
@@ -311,13 +311,11 @@ export default class UnloadComponent extends ComponentBase {
                 if (this.currStep == 1) {
                     this.purchase.scaleWithCarPic = jobj.data;
                     this.isScaleWithCarUpload = true;
-
                 }
                 if (this.currStep == 3) {
                     this.purchase.scalePic = jobj.data;
                     this.isScaleUpload = true;
                 }
-                console.log(jobj.data)
             }
             else
                 this.toastError(jobj.msg)

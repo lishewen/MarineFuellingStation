@@ -58,7 +58,7 @@ namespace MFS.Helper
         {
             try
             {
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                using (var fileStream = new FileStream(filePath + fileName, FileMode.Create))
                 {
                     string AccessToken = AccessTokenContainer.TryGetToken(corpId, secret);
                     MediaApi.Get(AccessToken, id, fileStream);

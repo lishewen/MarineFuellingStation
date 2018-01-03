@@ -307,8 +307,18 @@ export default class UnloadComponent extends ComponentBase {
     getUploadFile(id: string) {
         axios.get('/api/Purchase/GetUploadFile?fileId=' + id).then((res) => {
             let jobj = res.data as server.resultJSON<string>;
-            if (jobj.code == 0)
+            if (jobj.code == 0) {
+                if (this.currStep == 1) {
+                    this.purchase.scaleWithCarPic = jobj.data;
+                    this.isScaleWithCarUpload = true;
+
+                }
+                if (this.currStep == 3) {
+                    this.purchase.scalePic = jobj.data;
+                    this.isScaleUpload = true;
+                }
                 console.log(jobj.data)
+            }
             else
                 this.toastError(jobj.msg)
         });

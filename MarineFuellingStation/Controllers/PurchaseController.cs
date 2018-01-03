@@ -215,7 +215,6 @@ namespace MFS.Controllers
         public ResultJSON<Purchase> ChangeState([FromBody]Purchase p)
         {
             r.CurrentUser = UserName;
-            p.Worker = UserName;
             var model = r.Update(p);
             model.LastUpdatedBy = UserName;
             if (p.State == Purchase.UnloadState.完工)

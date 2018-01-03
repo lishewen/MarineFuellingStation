@@ -9,9 +9,12 @@ export default class UnloadComponent extends ComponentBase {
     carNo: string = "";
     showPurchases: boolean = false;
     showStores: boolean = false;
+    showSelectWorker: boolean = true;
     currStep: number = 0;
     isScaleUpload: boolean = false;
     isScaleWithCarUpload: boolean = false;
+    workers: work.userlist[];
+    selectedworker: string;
     store: server.store;
     stores: server.store[];
     selectedStIds: Array<number>;
@@ -29,6 +32,8 @@ export default class UnloadComponent extends ComponentBase {
         //this.lastPurchase = new Object as server.purchase;
         this.store = new Object as server.store;
         this.stores = new Array<server.store>();
+        this.selectedworker = "";
+        this.workers = new Array<work.userlist>();
         this.purchase.toStoresList = new Array<server.toStore>();
         this.selectedStIds = new Array<number>();
         this.notice = new Object as server.notice;
@@ -36,6 +41,7 @@ export default class UnloadComponent extends ComponentBase {
         //this.getLastPurchase();
         this.getStores();
         this.getNotice();
+        this.getWorkers();
     }
 
     purchaseclick(pu: server.purchase) {
@@ -226,7 +232,7 @@ export default class UnloadComponent extends ComponentBase {
             this.$wechat.chooseImage({
                 count: 1, // 默认9
                 sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-                sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+                sourceType: ['camera'], // 可以指定来源是相册还是相机，默认二者都有
                 success: function (res) {
                     let localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
                     this.$wechat.uploadImage({
@@ -282,9 +288,19 @@ export default class UnloadComponent extends ComponentBase {
             }
         });
     }
+    //获取生产员
+    getWorkers() {
+        axios.get('/api/User/Worker').then((res) => {
+            let jobj = res.data as work.tagMemberResult;
+            if (jobj.errcode == 0) {
+                this.workers = jobj.userlist;
+            }
+        });
+    }
 
     putState(state: server.unloadState) {
         this.purchase.state = state;
+        this.purchase.worker = this.selectedworker;
         axios.put('/api/Purchase/ChangeState', this.purchase).then((res) => {
             let jobj = res.data as server.resultJSON<server.purchase>;
             if (jobj.code == 0) {

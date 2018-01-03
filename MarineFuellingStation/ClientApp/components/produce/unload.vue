@@ -46,7 +46,7 @@
                     </yd-cell-item>
                     <yd-cell-item>
                         <span slot="left">图片上传：</span>
-                        <yd-button slot="right" @click.native="uploadByWeixin">上传</yd-button>
+                        <yd-button slot="right" @click.native="uploadByWeixin">拍照上传</yd-button>
                     </yd-cell-item>
                 </yd-cell-group>
                 <div class="align-center">

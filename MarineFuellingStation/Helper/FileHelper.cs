@@ -49,7 +49,7 @@ namespace MFS.Helper
         /// 从微信照片服务器取得图片并保存到本地
         /// </summary>
         /// <param name="id">远程图片id</param>
-        /// <param name="filePath">文件夹</param>
+        /// <param name="filePath">文件路径</param>
         /// <param name="fileName">文件名</param>
         /// <param name="corpId">企业微信CorpId</param>
         /// <param name="secret">企业微信Secret</param>

@@ -231,6 +231,7 @@ export default class UnloadComponent extends ComponentBase {
         });
     }
     uploadByWeixin() {
+        let that = this;
         this.$wechat = wx;
         this.SDKRegister(this, () => {
             this.$wechat.chooseImage({
@@ -239,12 +240,13 @@ export default class UnloadComponent extends ComponentBase {
                 sourceType: ['camera'], // 可以指定来源是相册还是相机，默认二者都有
                 success: function (res) {
                     let localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-                    this.$wechat.uploadImage({
+                    that.$wechat.uploadImage({
                         localId: localIds[0], // 需要上传的图片的本地ID，由chooseImage接口获得
                         isShowProgressTips: 1,// 默认为1，显示进度提示
                         success: res => {
                             var serverId = res.serverId; // 返回图片的服务器端ID
-                            console.log(serverId)
+                            console.log(serverId);
+                            that.getUploadFile(serverId);
                         }
                     });
                 }
@@ -299,6 +301,16 @@ export default class UnloadComponent extends ComponentBase {
             if (jobj.errcode == 0) {
                 this.workers = jobj.userlist;
             }
+        });
+    }
+
+    getUploadFile(id: string) {
+        axios.get('/api/Purchase/GetUploadFile?fileId=' + id).then((res) => {
+            let jobj = res.data as server.resultJSON<string>;
+            if (jobj.code == 0)
+                console.log(jobj.data)
+            else
+                this.toastError(jobj.msg)
         });
     }
 

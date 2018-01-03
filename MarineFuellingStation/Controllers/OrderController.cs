@@ -417,7 +417,6 @@ namespace MFS.Controllers
         public async Task<ResultJSON<Order>> ChangeState([FromBody]Order o)
         {
             r.CurrentUser = UserName;
-            o.Worker = UserName;
             Order result = r.ChangeState(o);
 
             if(o.State == OrderState.已完成)

@@ -9,10 +9,13 @@ export default class LandloadComponent extends ComponentBase {
     store: server.store;
     stores: server.store[];
     lastorder: server.order;
+    workers: work.userlist[];
 
     currStep: number = 0;
     showOrders: boolean = false;
     showStores: boolean = false;
+
+    showSelectWorker: boolean = true;
 
     page: number;
 
@@ -24,9 +27,18 @@ export default class LandloadComponent extends ComponentBase {
         this.orders = new Array<server.order>();
         this.store = new Object as server.store;
         this.stores = new Array<server.store>();
+        this.workers = new Array<work.userlist>();
+
+        this.order.worker = "";
 
         this.getStores();
         this.getLastOrder();
+        this.getWorkers();
+    }
+
+    workerSelectedClick() {
+        this.showSelectWorker = false;
+        this.$emit("setTitle", this.order.worker + ' 陆上装车')
     }
 
     showOrdersclick() {
@@ -85,7 +97,7 @@ export default class LandloadComponent extends ComponentBase {
     }
    
     mounted() {
-        this.$emit('setTitle', this.$store.state.username + ' 陆上装车');
+        this.$emit('setTitle', this.order.worker + ' 陆上装车');
         this.$watch("lastorder.instrument1", (v, ov) => {
             this.order.oilCountLitre = this.order.instrument1 - v;
         });
@@ -173,6 +185,16 @@ export default class LandloadComponent extends ComponentBase {
             if (jobj.code == 0) {
                 this.lastorder = jobj.data;
                 console.log(this.lastorder)
+            }
+        });
+    }
+
+    //获取生产员
+    getWorkers() {
+        axios.get('/api/User/Worker').then((res) => {
+            let jobj = res.data as work.tagMemberResult;
+            if (jobj.errcode == 0) {
+                this.workers = jobj.userlist;
             }
         });
     }

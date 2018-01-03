@@ -1,15 +1,15 @@
 ﻿<template>
     <div id="root">
         <div v-show="showSelectWorker">
-            <div class="font16 align-center" style="font-weight:bold;margin:10px 0">请选择当前施工员：{{selectedworker}}</div>
+            <div class="font16 align-center" style="font-weight:bold;margin:10px 0">请选择当前施工员：{{purchase.worker}}</div>
             <yd-cell-group>
                 <yd-cell-item type="radio" v-for="w,idx in workers" :key="idx">
                     <span slot="left">{{w.name}}</span>
-                    <input slot="right" type="radio" :value="w.name" v-model="selectedworker" />
+                    <input slot="right" type="radio" :value="w.name" v-model="purchase.worker" />
                 </yd-cell-item>
             </yd-cell-group>
             <div class="align-center">
-                <yd-button style="width:90%;height:38px;" @click.native="showSelectWorker = false" class="mtop20" :disabled="selectedworker == null || selectedworker == ''">下一步</yd-button>
+                <yd-button style="width:90%;height:38px;" @click.native="workerSelectedClick" class="mtop20" :disabled="purchase.worker == null || purchase.worker == ''">下一步</yd-button>
             </div>
         </div>
         <div v-show="!showSelectWorker">

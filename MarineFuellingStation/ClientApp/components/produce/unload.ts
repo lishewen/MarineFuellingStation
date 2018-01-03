@@ -14,7 +14,6 @@ export default class UnloadComponent extends ComponentBase {
     isScaleUpload: boolean = false;
     isScaleWithCarUpload: boolean = false;
     workers: work.userlist[];
-    selectedworker: string;
     store: server.store;
     stores: server.store[];
     selectedStIds: Array<number>;
@@ -32,8 +31,8 @@ export default class UnloadComponent extends ComponentBase {
         //this.lastPurchase = new Object as server.purchase;
         this.store = new Object as server.store;
         this.stores = new Array<server.store>();
-        this.selectedworker = "";
         this.workers = new Array<work.userlist>();
+        this.purchase.worker = "";
         this.purchase.toStoresList = new Array<server.toStore>();
         this.selectedStIds = new Array<number>();
         this.notice = new Object as server.notice;
@@ -42,6 +41,11 @@ export default class UnloadComponent extends ComponentBase {
         this.getStores();
         this.getNotice();
         this.getWorkers();
+    }
+
+    workerSelectedClick() {
+        this.showSelectWorker = false;
+        this.$emit("setTitle", this.purchase.worker + ' 陆上卸油')
     }
 
     purchaseclick(pu: server.purchase) {
@@ -190,7 +194,7 @@ export default class UnloadComponent extends ComponentBase {
     }
 
     mounted() {
-        this.$emit('setTitle', this.$store.state.username + ' 陆上卸油');
+        this.$emit('setTitle', '陆上卸油');
     };
     uploadfile(e) {
         let file = e.target.files[0];
@@ -300,7 +304,6 @@ export default class UnloadComponent extends ComponentBase {
 
     putState(state: server.unloadState) {
         this.purchase.state = state;
-        this.purchase.worker = this.selectedworker;
         axios.put('/api/Purchase/ChangeState', this.purchase).then((res) => {
             let jobj = res.data as server.resultJSON<server.purchase>;
             if (jobj.code == 0) {

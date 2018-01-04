@@ -13,6 +13,7 @@ const routes: RouteConfig[] = [
     { path: '/sales/myorder', component: require('./components/sales/myorder.vue').default },
     { path: '/sales/myclient', component: require('./components/sales/myclient.vue').default },
     { path: '/sales/myclient/:id', component: require('./components/sales/myclientdetail.vue').default },
+    { path: '/sales/myclient/:id/:applier', component: require('./components/sales/applytomyclient.vue').default },
     { path: '/sales/boatclean', component: require('./components/sales/boatclean.vue').default },
     { path: '/sales/auditing/:islandplan', component: require('./components/sales/auditing.vue').default },
 

@@ -56,7 +56,7 @@ namespace MFS.Repositorys
             List<Client> list;
 
             Expression<Func<Client, bool>> clientwhere = c => 1 == 1;
-            if(isMy)
+            if(isMy && ctype != ClientType.无销售员)
                 clientwhere = c => c.FollowSalesman == CurrentUser;
 
             if (ptype > 0)//计划状态
@@ -74,9 +74,11 @@ namespace MFS.Repositorys
                 var cylist = _dbContext.SalesPlans.Where(s => (DateTime.Now - s.LastUpdatedAt).Days < cycle && s.CreatedBy == CurrentUser).Select(s => s.CarNo).ToList();
                 clientwhere = clientwhere.And(c => !cylist.Contains(c.CarNo));
             }
-            //客户类型：个人，公司，全部
+            //客户类型：个人，公司，全部，无销售员
             if (ctype == ClientType.全部)
                 clientwhere = clientwhere.And(c => (c.ClientType == ClientType.个人 || c.ClientType == ClientType.公司));
+            else if (ctype == ClientType.无销售员)
+                clientwhere = clientwhere.And(c => string.IsNullOrEmpty(c.FollowSalesman));
             else
                 clientwhere = clientwhere.And(c => c.ClientType == ctype);
 

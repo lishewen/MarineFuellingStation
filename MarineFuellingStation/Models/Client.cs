@@ -68,6 +68,7 @@ namespace MFS.Models
     {
         个人,
         公司,
-        全部
+        全部,
+        无销售员
     }
 }

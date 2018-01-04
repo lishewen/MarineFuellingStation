@@ -18,8 +18,8 @@ export default class MyClientComponent extends ComponentBase {
 
     filterCType: Array<helper.filterBtn>; filterPType: Array<helper.filterBtn>; filterBalances: Array<helper.filterBtn>; filterCycle: Array<helper.filterBtn>;
 
-    actBtnId: number; actBtnId1: number; actBtnId2: number; actBtnId3: number;//当前激活状态的条件button
-    ctype: server.clientType; ptype: server.salesPlanState; balances: number; cycle: number;
+    lastBtnId: number; lastBtnId1: number; lastBtnId2: number; lastBtnId3: number;//最后激活状态的条件button
+    ctype: server.clientType; ptype: server.salesPlanState; balances: number; cycle: number;//筛选条件用到的变量
 
     page: number;
     scrollRef: any;
@@ -32,7 +32,8 @@ export default class MyClientComponent extends ComponentBase {
         this.filterCType = [
             { id: 0, name: '全部', value: server.clientType.全部, actived: true },
             { id: 1, name: '个人', value: server.clientType.个人, actived: false },
-            { id: 2, name: '公司', value: server.clientType.公司, actived: false }
+            { id: 2, name: '公司', value: server.clientType.公司, actived: false },
+            { id: 3, name: '无销售员', value: server.clientType.无销售员, actived: false }
         ];
         this.filterPType = [
             { name: '已计划', value: server.salesPlanState.未审批, actived: false },
@@ -52,7 +53,7 @@ export default class MyClientComponent extends ComponentBase {
 
         this.actItems = new Array();
 
-        this.actBtnId = 0; this.actBtnId1 = -1; this.actBtnId2 = -1; this.actBtnId3 = -1;
+        this.lastBtnId = 0; this.lastBtnId1 = -1; this.lastBtnId2 = -1; this.lastBtnId3 = -1;
         this.page = 1;
         this.getClients();
     }
@@ -77,48 +78,48 @@ export default class MyClientComponent extends ComponentBase {
         });
     }
 
-    switchBtn(o: helper.filterBtn, idx: number, group: string) {
+    switchBtn(currBtn: helper.filterBtn, currBtnIdx: number, group: string) {
         switch (group) {
             case "客户类型":
-                if (idx != this.actBtnId) {
-                    o.actived = true;
-                    this.ctype = <server.clientType>o.value;
-                    this.filterCType[this.actBtnId].actived = false;
-                    this.actBtnId = idx;
+                if (currBtnIdx != this.lastBtnId) {
+                    currBtn.actived = true;
+                    this.ctype = <server.clientType>currBtn.value;
+                    this.filterCType[this.lastBtnId].actived = false;
+                    this.lastBtnId = currBtnIdx;
                 }
                 break;
             case "计划单":
-                o.actived = !o.actived;
-                this.ptype = <server.salesPlanState>o.value;
-                if (idx != this.actBtnId1 && this.actBtnId1 != -1) {
-                    this.filterPType[this.actBtnId1].actived = false;
-                    this.actBtnId1 = idx;
+                currBtn.actived = !currBtn.actived;
+                this.ptype = <server.salesPlanState>currBtn.value;
+                if (currBtnIdx != this.lastBtnId1 && this.lastBtnId1 != -1) {
+                    this.filterPType[this.lastBtnId1].actived = false;
+                    this.lastBtnId1 = currBtnIdx;
                 }
                 else
-                    this.actBtnId1 = idx;
+                    this.lastBtnId1 = currBtnIdx;
                 break;
             case "账户余额":
-                o.actived = !o.actived;
-                this.balances = <number>o.value;
-                if (idx != this.actBtnId2 && this.actBtnId2 != -1) {
-                    this.filterBalances[this.actBtnId2].actived = false;
-                    this.actBtnId2 = idx;
+                currBtn.actived = !currBtn.actived;
+                this.balances = <number>currBtn.value;
+                if (currBtnIdx != this.lastBtnId2 && this.lastBtnId2 != -1) {
+                    this.filterBalances[this.lastBtnId2].actived = false;
+                    this.lastBtnId2 = currBtnIdx;
                 }
                 else
-                    this.actBtnId2 = idx;
+                    this.lastBtnId2 = currBtnIdx;
                 break;
             case "周期":
-                o.actived = !o.actived;
-                this.cycle = <number>o.value;
-                if (idx != this.actBtnId3 && this.actBtnId3 != -1) {
-                    this.filterCycle[this.actBtnId3].actived = false;
-                    this.actBtnId3 = idx;
+                currBtn.actived = !currBtn.actived;
+                this.cycle = <number>currBtn.value;
+                if (currBtnIdx != this.lastBtnId3 && this.lastBtnId3 != -1) {
+                    this.filterCycle[this.lastBtnId3].actived = false;
+                    this.lastBtnId3 = currBtnIdx;
                 }
                 else
-                    this.actBtnId3 = idx;
+                    this.lastBtnId3 = currBtnIdx;
                 break;
         }
-        if (o.actived) {
+        if (currBtn.actived) {
             this.page = 1;
             this.getClients();
         }
@@ -177,6 +178,15 @@ export default class MyClientComponent extends ComponentBase {
                 }
             }
         ];
+        if (!c.followSalesman || c.followSalesman == "")
+            elseActItems.unshift(
+                {
+                    label: '申请成为我的客户',
+                    callback: () => {
+                        this.getApplyBeMyClient(c.carNo, c.id, c.placeType);
+                    }
+                }
+            );
         this.actItems = [...this.actItems, ...elseActItems];
     }
 
@@ -237,6 +247,19 @@ export default class MyClientComponent extends ComponentBase {
             }
             else
                 this.toastError('无法获取客户数据，请重试')
+        });
+    }
+    //申请成为我的客户
+    getApplyBeMyClient(carNo: string, cid: number, placeType: server.placeType) {
+        axios.get('/api/Client/ApplyBeMyClient'
+            + '?carNo=' + carNo
+            + "&id=" + cid
+            + "&placetype=" + placeType
+            ).then((res) => {
+            let jobj = res.data as server.resultJSON<server.client>;
+            if (jobj.code == 0) {
+                this.toastSuccess('已向上级提出申请')
+            }
         });
     }
 

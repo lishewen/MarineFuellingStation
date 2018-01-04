@@ -7,6 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Senparc.Weixin.Work.Containers;
+using Senparc.Weixin.Work.AdvancedAPIs;
 
 namespace MFS.Controllers
 {
@@ -14,9 +17,11 @@ namespace MFS.Controllers
     public class ClientController : ControllerBase
     {
         private readonly ClientRepository r;
-        public ClientController(ClientRepository repository)
+        WorkOption option;
+        public ClientController(ClientRepository repository, IOptionsSnapshot<WorkOption> option)
         {
             r = repository;
+            this.option = option.Value;
         }
         #region POST
         [HttpPost]
@@ -112,6 +117,29 @@ namespace MFS.Controllers
                 Data = r.GetMyClients(ctype, ptype, balances, cycle, kw, isMy, page, pageSize)
             };
         }
+        [HttpGet("[action]")]
+        public ResultJSON<string> ApplyBeMyClient(string carNo, int id, PlaceType placeType)
+        {
+            try {
+                string accessToken;
+                if(placeType == PlaceType.水上)
+                    accessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.水上计划Secret);
+                else
+                    accessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.陆上计划Secret);
+                string agentId = placeType == PlaceType.水上 ? option.水上计划AgentId : option.陆上计划AgentId;
+
+                //推送到“水上或陆上计划”
+                MassApi.SendTextCard(accessToken, agentId, $"{UserName}申请{carNo}成为他的客户"
+                         , $"<div class=\"gray\">客户：{carNo}</div>" 
+                         , $"https://vue.car0774.com/#/sales/myclient/{id.ToString()}/{UserName}", toUser: "@all");
+
+                return new ResultJSON<string> { Code = 0, Msg = "提交申请成功" };
+            }
+            catch
+            {
+                return new ResultJSON<string> { Code = 503, Msg = "推送失败" };
+            }
+        }
         #endregion
         #region PUT
         /// <summary>
@@ -201,11 +229,18 @@ namespace MFS.Controllers
         [HttpPut]
         public ResultJSON<Client> Save([FromBody]Client c)
         {
-            return new ResultJSON<Client>
+            try
+            { 
+                return new ResultJSON<Client>
+                {
+                    Code = 0,
+                    Data = r.Update(c)
+                };
+            }
+            catch
             {
-                Code = 0,
-                Data = r.Update(c)
-            };
+                return new ResultJSON<Client> { Code = 503, Msg = "操作失败" };
+            }
         }
         #endregion
     }

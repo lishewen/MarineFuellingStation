@@ -17,10 +17,12 @@ namespace MFS.Controllers
     public class ClientController : ControllerBase
     {
         private readonly ClientRepository r;
+        private readonly UserRepository user_r;
         WorkOption option;
-        public ClientController(ClientRepository repository, IOptionsSnapshot<WorkOption> option)
+        public ClientController(ClientRepository repository, UserRepository u_repository, IOptionsSnapshot<WorkOption> option)
         {
             r = repository;
+            this.user_r = u_repository;
             this.option = option.Value;
         }
         #region POST
@@ -111,18 +113,34 @@ namespace MFS.Controllers
         public ResultJSON<List<Client>> GetClients(ClientType ctype, int ptype, int balances, int cycle, string kw, bool isMy, int page, int pageSize)
         {
             r.CurrentUser = UserName;
+            PlaceType placeType;
+            if (isMy && ctype == ClientType.无销售员)
+            {
+                user_r.CurrentUser = UserName;
+                placeType = PlaceType.水上;
+                bool isLand, isWater;
+                isLand = user_r.IsInDept("陆上部", this.option);
+                isWater = user_r.IsInDept("水上部", this.option);
+                if (isLand && isWater)
+                    placeType = PlaceType.全部;
+                else if (isLand)
+                    placeType = PlaceType.陆上;
+            }
+            else
+                placeType = PlaceType.全部;
             return new ResultJSON<List<Client>>
             {
                 Code = 0,
-                Data = r.GetMyClients(ctype, ptype, balances, cycle, kw, isMy, page, pageSize)
+                Data = r.GetMyClients(placeType, ctype, ptype, balances, cycle, kw, isMy, page, pageSize)
             };
         }
         [HttpGet("[action]")]
         public ResultJSON<string> ApplyBeMyClient(string carNo, int id, PlaceType placeType)
         {
-            try {
+            try
+            {
                 string accessToken;
-                if(placeType == PlaceType.水上)
+                if (placeType == PlaceType.水上)
                     accessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.水上计划Secret);
                 else
                     accessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.陆上计划Secret);
@@ -130,7 +148,7 @@ namespace MFS.Controllers
 
                 //推送到“水上或陆上计划”
                 MassApi.SendTextCard(accessToken, agentId, $"{UserName}申请{carNo}成为他的客户"
-                         , $"<div class=\"gray\">客户：{carNo}</div>" 
+                         , $"<div class=\"gray\">客户：{carNo}</div>"
                          , $"https://vue.car0774.com/#/sales/myclient/{id.ToString()}/{UserName}", toUser: "@all");
 
                 return new ResultJSON<string> { Code = 0, Msg = "提交申请成功" };
@@ -198,7 +216,7 @@ namespace MFS.Controllers
         public ResultJSON<List<Client>> SetClientsToCompany(string clientIds, int companyId)
         {
             List<Client> list = r.SetClientsToCompany(clientIds.Split(','), companyId);
-            if(list.Count == 0)
+            if (list.Count == 0)
                 return new ResultJSON<List<Client>>
                 {
                     Code = 503,
@@ -230,7 +248,7 @@ namespace MFS.Controllers
         public ResultJSON<Client> Save([FromBody]Client c)
         {
             try
-            { 
+            {
                 return new ResultJSON<Client>
                 {
                     Code = 0,

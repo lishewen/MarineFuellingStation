@@ -77,7 +77,7 @@ namespace MFS.Controllers
         [HttpGet("[action]")]
         public GetTagMemberResult Salesman()
         {
-            return GetTagMember("销售");
+            return r.GetTagMember("销售", this.option);
         }
 
         /// <summary>
@@ -87,19 +87,19 @@ namespace MFS.Controllers
         [HttpGet("[action]")]
         public GetTagMemberResult Worker()
         {
-            return GetTagMember("生产员");
+            return r.GetTagMember("生产员", this.option);
         }
 
         [HttpGet("[action]")]
         public GetTagMemberResult WaterSalesman()
         {
-            return GetTagMember("水上销售");
+            return r.GetTagMember("水上销售", this.option);
         }
 
         [HttpGet("[action]")]
         public GetTagMemberResult LandSalesman()
         {
-            return GetTagMember("陆上销售");
+            return r.GetTagMember("陆上销售", this.option);
         }
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace MFS.Controllers
         [HttpGet("[action]")]
         public bool IsLandSalesman()
         {
-            return IsInDept("陆上部");
+            return r.IsInDept("陆上部", this.option);
         }
 
         /// <summary>
@@ -119,40 +119,16 @@ namespace MFS.Controllers
         [HttpGet("[action]")]
         public bool IsWaterSalesman()
         {
-            return IsInDept("水上部");
+            r.CurrentUser = UserName;
+            return r.IsInDept("水上部", this.option);
         }
-        /// <summary>
-        /// 当前用户是否在指定部门
-        /// </summary>
-        /// <param name="deptName">部门名称，可以是子部门</param>
-        /// <returns>true|false</returns>
-        [NonAction]
-        private bool IsInDept(string deptName)
-        {
-            GetDepartmentMemberInfoResult membersinfo = MailListApi.GetDepartmentMemberInfo(option.AccessToken, 1, 1);
-            GetMemberResult user = membersinfo.userlist.FirstOrDefault(m => m.name == UserName);
-            GetDepartmentListResult depts = MailListApi.GetDepartmentList(option.AccessToken);
-            long landDeptId = depts.department.First(d => d.name == deptName).id;
-            foreach (var deptId in user.department)
-            {
-                if (deptId == landDeptId)
-                    return true;
-            }
-            return false;
-        }
+        
 
         [HttpGet("[action]")]
         public GetTagMemberResult Manufacturer()
         {
-            return GetTagMember("生产员");
+            return r.GetTagMember("生产员", this.option);
         }
-
-        [NonAction]
-        private GetTagMemberResult GetTagMember(string tagname)
-        {
-            var listresult = MailListApi.GetTagList(option.AccessToken);
-            var tagid = listresult.taglist.FirstOrDefault(t => t.tagname == tagname).tagid;
-            return MailListApi.GetTagMember(option.AccessToken, Convert.ToInt32(tagid));
-        }
+        
     }
 }

@@ -62,7 +62,8 @@ namespace MFS.Models
     public enum PlaceType
     {
         陆上,
-        水上
+        水上,
+        全部
     }
     public enum ClientType
     {

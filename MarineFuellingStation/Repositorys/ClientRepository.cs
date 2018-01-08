@@ -51,13 +51,16 @@ namespace MFS.Repositorys
                 || c.CarNo.Contains(kw)
                 || c.Contact == kw).Include("Company").ToList();
         }
-        public List<Client> GetMyClients(ClientType ctype, int ptype, int balances, int cycle, string kw, bool isMy, int page, int pageSize)
+        public List<Client> GetMyClients(PlaceType placeType, ClientType ctype, int ptype, int balances, int cycle, string kw, bool isMy, int page, int pageSize)
         {
             List<Client> list;
 
             Expression<Func<Client, bool>> clientwhere = c => 1 == 1;
+            if (placeType == PlaceType.水上 || placeType == PlaceType.陆上)
+                clientwhere = c => c.PlaceType == placeType;
+
             if(isMy && ctype != ClientType.无销售员)
-                clientwhere = c => c.FollowSalesman == CurrentUser;
+                clientwhere = clientwhere.And(c => c.FollowSalesman == CurrentUser);
 
             if (ptype > 0)//计划状态
             {
@@ -78,7 +81,7 @@ namespace MFS.Repositorys
             if (ctype == ClientType.全部)
                 clientwhere = clientwhere.And(c => (c.ClientType == ClientType.个人 || c.ClientType == ClientType.公司));
             else if (ctype == ClientType.无销售员)
-                clientwhere = clientwhere.And(c => string.IsNullOrEmpty(c.FollowSalesman));
+                clientwhere = clientwhere.And(c => c.FollowSalesman == "" || c.FollowSalesman == null);
             else
                 clientwhere = clientwhere.And(c => c.ClientType == ctype);
 

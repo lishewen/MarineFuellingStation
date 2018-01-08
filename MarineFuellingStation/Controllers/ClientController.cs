@@ -155,7 +155,24 @@ namespace MFS.Controllers
             }
             catch
             {
-                return new ResultJSON<string> { Code = 503, Msg = "推送失败" };
+                return new ResultJSON<string> { Code = 503, Msg = "推送失败请重试" };
+            }
+        }
+        [HttpGet("[action]")]
+        public ResultJSON<string> ApplyClientToCompany(int cid, int coid, string carNo, string companyName)
+        {
+            try
+            {
+                this.option.客户AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.客户Secret);
+                //推送到“客户”
+                MassApi.SendTextCard(this.option.客户AccessToken, this.option.客户AgentId, $"{UserName}申请{carNo}编入{companyName}"
+                         , $"<div class=\"gray\">申请编入公司：{companyName}</div>"
+                         , $"https://vue.car0774.com/#/sales/clienttocompany/{cid.ToString()}/{coid.ToString()}/{companyName}", toUser: "@all");
+                return new ResultJSON<string> { Code = 0, Msg = "提交申请成功" };
+            }
+            catch
+            {
+                return new ResultJSON<string> { Code = 503, Msg = "推送失败请重试" };
             }
         }
         #endregion

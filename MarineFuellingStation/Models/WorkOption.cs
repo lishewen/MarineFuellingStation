@@ -57,5 +57,8 @@ namespace MFS.Models
         public string 系统设置AccessToken { get; set; }
         public string 打卡Secret { get; set; }
         public string 打卡AccessToken { get; set; }
+        public string 客户AgentId { get; set; }
+        public string 客户Secret { get; set; }
+        public string 客户AccessToken { get; set; }
     }
 }

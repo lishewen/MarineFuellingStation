@@ -6,14 +6,18 @@ import { Component } from 'vue-property-decorator';
 @Component
 export default class MyClientComponent extends ComponentBase {
     clients: server.client[];
+    companys: server.company[];
     client: server.client;
     radio2: string = "1";
     show1: boolean = false;
     show2: boolean = false;
     showAct: boolean = false;
     showRemark: boolean = false;
+    showCompanys: boolean = false;
     remark: string = "";
     carNo: string = "";
+    sv: string = "";
+    svCompany: string = "";
     actItems: ydui.actionSheetItem[];
 
     filterCType: Array<helper.filterBtn>; filterPType: Array<helper.filterBtn>; filterBalances: Array<helper.filterBtn>; filterCycle: Array<helper.filterBtn>;
@@ -29,6 +33,7 @@ export default class MyClientComponent extends ComponentBase {
         super();
 
         this.clients = new Array<server.client>();
+        this.companys = new Array<server.company>();
         this.filterCType = [
             { id: 0, name: '全部', value: server.clientType.全部, actived: true },
             { id: 1, name: '个人', value: server.clientType.个人, actived: false },
@@ -187,6 +192,16 @@ export default class MyClientComponent extends ComponentBase {
                     }
                 }
             );
+        if (this.ctype == server.clientType.个人 || this.ctype == server.clientType.全部)
+            elseActItems.unshift(
+                {
+                    label: '申请编入公司成员',
+                    callback: () => {
+                        this.showCompanys = true;
+                        this.getCompanys();
+                    }
+                }
+            )
         this.actItems = [...this.actItems, ...elseActItems];
     }
 
@@ -214,6 +229,18 @@ export default class MyClientComponent extends ComponentBase {
     godetail(id: number) {
         this.$router.push('/sales/myclient/' + id);
     }
+    searchSubmit(value: string) {
+        this.sv = value;
+        this.page = 1;
+        this.getClients();
+    }
+    searchCompanySubmit(value: string) {
+        this.svCompany = value;
+        this.getCompanys();
+    }
+    companyclick(coId: number, coName: string) {
+        this.getApplyClientToCompany(this.client.id, coId, this.client.carNo, coName);
+    }
 
     //获得我的客户列表
     getClients(callback?: Function) {
@@ -223,13 +250,14 @@ export default class MyClientComponent extends ComponentBase {
         if (this.cycle == null) this.cycle = -1;
         if (this.page == null) this.page = 1;
         if (this.pSize == null) this.pSize = 30;
+        if (this.sv == null) this.sv = "";
         
         axios.get('/api/Client/GetClients'
             + '?ctype=' + this.ctype.toString()
             + '&ptype=' + this.ptype.toString()
             + '&balances=' + this.balances.toString()
             + '&cycle=' + this.cycle.toString()
-            + '&kw='
+            + '&kw=' + this.sv
             + '&isMy=true'
             + '&page=' + this.page
             + '&pageSize=' + this.pSize
@@ -249,6 +277,16 @@ export default class MyClientComponent extends ComponentBase {
                 this.toastError('无法获取客户数据，请重试')
         });
     }
+    getCompanys() {
+        if (this.svCompany == null) this.svCompany = "";
+        axios.get('/api/Company/' + this.svCompany).then(res => {
+            let jobj = res.data as server.resultJSON<server.company[]>;
+            if (jobj.code == 0)
+                this.companys = jobj.data;
+            else
+                this.toastError(jobj.msg);
+        })
+    }
     //申请成为我的客户
     getApplyBeMyClient(carNo: string, cid: number, placeType: server.placeType) {
         axios.get('/api/Client/ApplyBeMyClient'
@@ -259,6 +297,21 @@ export default class MyClientComponent extends ComponentBase {
             let jobj = res.data as server.resultJSON<server.client>;
             if (jobj.code == 0) {
                 this.toastSuccess('已向上级提出申请')
+            }
+        });
+    }
+    //申请将客户编入公司成员
+    getApplyClientToCompany(cId: number, coId: number, carNo: string, companyName: string) {
+        axios.get('/api/Client/ApplyClientToCompany'
+            + '?carNo=' + carNo
+            + "&cid=" + cId
+            + "&coid=" + coId
+            + "&companyName=" + companyName
+        ).then((res) => {
+            let jobj = res.data as server.resultJSON<server.client>;
+            if (jobj.code == 0) {
+                this.toastSuccess('已向上级提出申请');
+                this.showCompanys = false;
             }
         });
     }

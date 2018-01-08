@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Linq.Expressions;
+using Z.EntityFramework.Plus;
 
 namespace MFS.Repositorys
 {
@@ -161,6 +162,9 @@ namespace MFS.Repositorys
             }
             return _dbContext.Clients.Where(cl => cl.CompanyId == companyId && !cl.IsDel).ToList();
         }
-        
+        public int ClearMyClientMark()
+        {
+            return _dbContext.Clients.Where(c => c.FollowSalesman == CurrentUser).Update(c => new Client { IsMark = false });
+        }
     }
 }

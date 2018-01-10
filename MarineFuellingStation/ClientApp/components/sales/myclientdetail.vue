@@ -8,7 +8,7 @@
                 </yd-cell-item>
 
                 <yd-cell-item>
-                    <span slot="left">船号/车号</span>
+                    <span slot="left">船号/车号/客户名称：</span>
                     <span slot="right">{{model.carNo}}</span>
                 </yd-cell-item>
 

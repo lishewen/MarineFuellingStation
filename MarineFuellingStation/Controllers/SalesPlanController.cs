@@ -62,7 +62,7 @@ namespace MFS.Controllers
                          $"<div class=\"normal\">油品：{result.OilName}</div>"
                          , $"https://vue.car0774.com/#/sales/auditing/false", toUser: "@all");
             }
-            else if(s.SalesPlanType == SalesPlanType.陆上装车 || s.SalesPlanType == SalesPlanType.陆上公司车 || s.SalesPlanType == SalesPlanType.陆上外来车) {
+            else if(s.SalesPlanType == SalesPlanType.陆上装车 || s.SalesPlanType == SalesPlanType.汇鸿车辆加油 || s.SalesPlanType == SalesPlanType.外来车辆加油) {
                 this.option.陆上计划AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.陆上计划Secret);
                 MassApi.SendTextCard(option.陆上计划AccessToken, option.陆上计划AgentId, $"【陆上】{UserName}开出计划单"
                          , $"<div class=\"gray\">单号：{result.Name}</div>" +
@@ -167,7 +167,7 @@ namespace MFS.Controllers
             List<SalesPlan> list;
             if (islandplan)
                 list = r.LoadPageList(page, pageSize, out int rCount, true, false, s => s.State == sps 
-                    && (s.SalesPlanType == SalesPlanType.陆上装车 || s.SalesPlanType == SalesPlanType.陆上公司车 || s.SalesPlanType == SalesPlanType.陆上外来车))
+                    && (s.SalesPlanType == SalesPlanType.陆上装车 || s.SalesPlanType == SalesPlanType.汇鸿车辆加油 || s.SalesPlanType == SalesPlanType.外来车辆加油))
                     .OrderByDescending(s => s.Id).ToList();
             else
                 list = r.LoadPageList(page, pageSize, out int rCount, true, false, s => s.State == sps 
@@ -196,7 +196,7 @@ namespace MFS.Controllers
             if (islandplan)
                 list = r.LoadPageList(page, pagesize, out int rowCount, true, false,
                     s => (s.State == SalesPlanState.已审批 || s.State == SalesPlanState.未审批)
-                    && (s.SalesPlanType == SalesPlanType.陆上装车 || s.SalesPlanType == SalesPlanType.陆上公司车 || s.SalesPlanType == SalesPlanType.陆上外来车)).ToList();
+                    && (s.SalesPlanType == SalesPlanType.陆上装车 || s.SalesPlanType == SalesPlanType.汇鸿车辆加油 || s.SalesPlanType == SalesPlanType.外来车辆加油)).ToList();
             else
                 list = r.LoadPageList(page, pagesize, out int rowCount, true, false,
                     s => (s.State == SalesPlanState.已审批 || s.State == SalesPlanState.未审批)

@@ -88,8 +88,8 @@ namespace MFS.Models
         陆上装车,
         水上机油,
         全部,
-        陆上公司车,
-        陆上外来车
+        汇鸿车辆加油,
+        外来车辆加油
     }
 
     public enum SalesPlanState

@@ -6,29 +6,39 @@ import { Component } from 'vue-property-decorator';
 @Component
 export default class MyClientComponent extends ComponentBase {
     clients: server.client[];
+    companys: server.company[];
     client: server.client;
     radio2: string = "1";
     show1: boolean = false;
     show2: boolean = false;
     showAct: boolean = false;
     showRemark: boolean = false;
+    showCompanys: boolean = false;
     remark: string = "";
     carNo: string = "";
+    sv: string = "";
+    svCompany: string = "";
     actItems: ydui.actionSheetItem[];
 
     filterCType: Array<helper.filterBtn>; filterPType: Array<helper.filterBtn>; filterBalances: Array<helper.filterBtn>; filterCycle: Array<helper.filterBtn>;
 
-    actBtnId: number; actBtnId1: number; actBtnId2: number; actBtnId3: number;//当前激活状态的条件button
-    ctype: server.clientType; ptype: server.salesPlanState; balances: number; cycle: number;
+    lastBtnId: number; lastBtnId1: number; lastBtnId2: number; lastBtnId3: number;//最后激活状态的条件button
+    ctype: server.clientType; ptype: server.salesPlanState; balances: number; cycle: number;//筛选条件用到的变量
+
+    page: number;
+    scrollRef: any;
+    pSize: number = 30;
 
     constructor() {
         super();
 
         this.clients = new Array<server.client>();
+        this.companys = new Array<server.company>();
         this.filterCType = [
             { id: 0, name: '全部', value: server.clientType.全部, actived: true },
             { id: 1, name: '个人', value: server.clientType.个人, actived: false },
-            { id: 2, name: '公司', value: server.clientType.公司, actived: false }
+            { id: 2, name: '公司', value: server.clientType.公司, actived: false },
+            { id: 3, name: '无销售员', value: server.clientType.无销售员, actived: false }
         ];
         this.filterPType = [
             { name: '已计划', value: server.salesPlanState.未审批, actived: false },
@@ -48,56 +58,81 @@ export default class MyClientComponent extends ComponentBase {
 
         this.actItems = new Array();
 
-        this.actBtnId = 0; this.actBtnId1 = -1; this.actBtnId2 = -1; this.actBtnId3 = -1;
+        this.lastBtnId = 0; this.lastBtnId1 = -1; this.lastBtnId2 = -1; this.lastBtnId3 = -1;
+        this.page = 1;
         this.getClients();
     }
 
-    switchBtn(o: helper.filterBtn, idx: number, group: string) {
+    loadList() {
+        this.getClients((list: server.client[]) => {
+            this.clients = this.page > 1 ? [...this.clients, ...list] : this.clients;
+            this.scrollRef = (<any>this).$refs.infinitescroll;
+            if (list.length < this.pSize) {
+                this.scrollRef.$emit("ydui.infinitescroll.loadedDone");
+                return;
+            }
+
+            //通知加载数据完毕
+            this.scrollRef.$emit("ydui.infinitescroll.finishLoad");
+
+            if (list.length > 0)
+                this.page++;
+            else
+                this.page = 1;
+            console.log("page = " + this.page)
+        });
+    }
+
+    switchBtn(currBtn: helper.filterBtn, currBtnIdx: number, group: string) {
         switch (group) {
             case "客户类型":
-                if (idx != this.actBtnId) {
-                    o.actived = true;
-                    this.ctype = <server.clientType>o.value;
-                    this.filterCType[this.actBtnId].actived = false;
-                    this.actBtnId = idx;
+                if (currBtnIdx != this.lastBtnId) {
+                    currBtn.actived = true;
+                    this.ctype = <server.clientType>currBtn.value;
+                    this.filterCType[this.lastBtnId].actived = false;
+                    this.lastBtnId = currBtnIdx;
                 }
                 break;
             case "计划单":
-                o.actived = !o.actived;
-                this.ptype = <server.salesPlanState>o.value;
-                if (idx != this.actBtnId1 && this.actBtnId1 != -1) {
-                    this.filterPType[this.actBtnId1].actived = false;
-                    this.actBtnId1 = idx;
+                currBtn.actived = !currBtn.actived;
+                this.ptype = <server.salesPlanState>currBtn.value;
+                if (currBtnIdx != this.lastBtnId1 && this.lastBtnId1 != -1) {
+                    this.filterPType[this.lastBtnId1].actived = false;
+                    this.lastBtnId1 = currBtnIdx;
                 }
                 else
-                    this.actBtnId1 = idx;
+                    this.lastBtnId1 = currBtnIdx;
                 break;
             case "账户余额":
-                o.actived = !o.actived;
-                this.balances = <number>o.value;
-                if (idx != this.actBtnId2 && this.actBtnId2 != -1) {
-                    this.filterBalances[this.actBtnId2].actived = false;
-                    this.actBtnId2 = idx;
+                currBtn.actived = !currBtn.actived;
+                this.balances = <number>currBtn.value;
+                if (currBtnIdx != this.lastBtnId2 && this.lastBtnId2 != -1) {
+                    this.filterBalances[this.lastBtnId2].actived = false;
+                    this.lastBtnId2 = currBtnIdx;
                 }
                 else
-                    this.actBtnId2 = idx;
+                    this.lastBtnId2 = currBtnIdx;
                 break;
             case "周期":
-                o.actived = !o.actived;
-                this.cycle = <number>o.value;
-                if (idx != this.actBtnId3 && this.actBtnId3 != -1) {
-                    this.filterCycle[this.actBtnId3].actived = false;
-                    this.actBtnId3 = idx;
+                currBtn.actived = !currBtn.actived;
+                this.cycle = <number>currBtn.value;
+                if (currBtnIdx != this.lastBtnId3 && this.lastBtnId3 != -1) {
+                    this.filterCycle[this.lastBtnId3].actived = false;
+                    this.lastBtnId3 = currBtnIdx;
                 }
                 else
-                    this.actBtnId3 = idx;
+                    this.lastBtnId3 = currBtnIdx;
                 break;
         }
-        if (o.actived) this.getClients();
+        if (currBtn.actived) {
+            this.page = 1;
+            this.getClients();
+        }
     }
 
     filterclick(): void {
         this.show2 = false;
+        this.page = 1;
         this.getClients();
     };
 
@@ -148,6 +183,25 @@ export default class MyClientComponent extends ComponentBase {
                 }
             }
         ];
+        if (!c.followSalesman || c.followSalesman == "")
+            elseActItems.unshift(
+                {
+                    label: '申请成为我的客户',
+                    callback: () => {
+                        this.getApplyBeMyClient(c.carNo, c.id, c.placeType);
+                    }
+                }
+            );
+        if (this.ctype == server.clientType.个人 || this.ctype == server.clientType.全部)
+            elseActItems.unshift(
+                {
+                    label: '申请编入公司成员',
+                    callback: () => {
+                        this.showCompanys = true;
+                        this.getCompanys();
+                    }
+                }
+            )
         this.actItems = [...this.actItems, ...elseActItems];
     }
 
@@ -175,28 +229,90 @@ export default class MyClientComponent extends ComponentBase {
     godetail(id: number) {
         this.$router.push('/sales/myclient/' + id);
     }
+    searchSubmit(value: string) {
+        this.sv = value;
+        this.page = 1;
+        this.getClients();
+    }
+    searchCompanySubmit(value: string) {
+        this.svCompany = value;
+        this.getCompanys();
+    }
+    companyclick(coId: number, coName: string) {
+        this.getApplyClientToCompany(this.client.id, coId, this.client.carNo, coName);
+    }
 
     //获得我的客户列表
-    getClients() {
+    getClients(callback?: Function) {
         if (this.ctype == null) this.ctype = server.clientType.全部;
         if (this.ptype == null) this.ptype = -1;//-1标识没有选择任何项
         if (this.balances == null) this.balances = -1;
         if (this.cycle == null) this.cycle = -1;
+        if (this.page == null) this.page = 1;
+        if (this.pSize == null) this.pSize = 30;
+        if (this.sv == null) this.sv = "";
         
         axios.get('/api/Client/GetClients'
             + '?ctype=' + this.ctype.toString()
             + '&ptype=' + this.ptype.toString()
             + '&balances=' + this.balances.toString()
             + '&cycle=' + this.cycle.toString()
-            + '&kw='
+            + '&kw=' + this.sv
             + '&isMy=true'
+            + '&page=' + this.page
+            + '&pageSize=' + this.pSize
         ).then((res) => {
             let jobj = res.data as server.resultJSON<server.client[]>;
             if (jobj.code == 0) {
-                this.clients = jobj.data;
+                if (callback) {
+                    callback(jobj.data);
+                }
+                else {
+                    this.clients = jobj.data;
+                    console.log(this.clients);
+                    this.page++;
+                }
             }
             else
                 this.toastError('无法获取客户数据，请重试')
+        });
+    }
+    getCompanys() {
+        if (this.svCompany == null) this.svCompany = "";
+        axios.get('/api/Company/' + this.svCompany).then(res => {
+            let jobj = res.data as server.resultJSON<server.company[]>;
+            if (jobj.code == 0)
+                this.companys = jobj.data;
+            else
+                this.toastError(jobj.msg);
+        })
+    }
+    //申请成为我的客户
+    getApplyBeMyClient(carNo: string, cid: number, placeType: server.placeType) {
+        axios.get('/api/Client/ApplyBeMyClient'
+            + '?carNo=' + carNo
+            + "&id=" + cid
+            + "&placetype=" + placeType
+            ).then((res) => {
+            let jobj = res.data as server.resultJSON<server.client>;
+            if (jobj.code == 0) {
+                this.toastSuccess('已向上级提出申请')
+            }
+        });
+    }
+    //申请将客户编入公司成员
+    getApplyClientToCompany(cId: number, coId: number, carNo: string, companyName: string) {
+        axios.get('/api/Client/ApplyClientToCompany'
+            + '?carNo=' + carNo
+            + "&cid=" + cId
+            + "&coid=" + coId
+            + "&companyName=" + companyName
+        ).then((res) => {
+            let jobj = res.data as server.resultJSON<server.client>;
+            if (jobj.code == 0) {
+                this.toastSuccess('已向上级提出申请');
+                this.showCompanys = false;
+            }
         });
     }
 

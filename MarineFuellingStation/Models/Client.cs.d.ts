@@ -31,11 +31,13 @@ declare module server {
 	}
 	const enum placeType {
 		陆上,
-		水上,
+        水上,
+        全部
 	}
 	const enum clientType {
 		个人,
 		公司,
-		全部,
+        全部,
+        无销售员
 	}
 }

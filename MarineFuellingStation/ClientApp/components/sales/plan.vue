@@ -6,6 +6,7 @@
                     <yd-cell-item>
                         <span slot="left">{{strCarOrBoat}}：</span>
                         <yd-input slot="right" v-model="model.carNo" required placeholder="请输入"></yd-input>
+                        <yd-button slot="right" type="warning" @click.native="showMyClientsclick">选择</yd-button>
                     </yd-cell-item>
                     <yd-cell-item arrow>
                         <span slot="left">预计加油时间：</span>
@@ -186,6 +187,26 @@
             <div class="align-center">
                 <yd-button size="large" type="primary" @click.native="prodsaveclick">保存</yd-button>
             </div>
+        </yd-popup>
+        <!--选择我的客户-->
+        <yd-popup v-model="showMyClient" position="right" width="50%">
+            <yd-search v-model="svClient" />
+            <yd-cell-group title="我的客户">
+                <yd-infinitescroll :callback="loadClientList" ref="infinitescroll1">
+                    <yd-cell-item slot="list" arrow v-for="c in clients" :key="c.id" @click.native="selectClient(c.carNo)">
+                        <div slot="left">
+                            <p>{{c.carNo}}</p>
+                        </div>
+                        <div slot="right">
+                            <p>{{c.product?c.product.name:''}}</p>
+                        </div>
+                    </yd-cell-item>
+                    <!-- 数据全部加载完毕显示 -->
+                    <span slot="doneTip">没有数据啦~~</span>
+                    <!-- 加载中提示，不指定，将显示默认加载中图标 -->
+                    <img slot="loadingTip" src="http://static.ydcss.com/uploads/ydui/loading/loading10.svg" />
+                </yd-infinitescroll>
+            </yd-cell-group>
         </yd-popup>
         <yd-actionsheet :items="oiloptions" v-model="oilshow" cancel="取消"></yd-actionsheet>
     </div>

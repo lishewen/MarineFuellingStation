@@ -3,6 +3,33 @@ import moment from "moment";
 import axios from "axios";
 
 export default class ComponentBase extends Vue {
+    $wechat: any;
+
+    SDKRegister(that: ComponentBase, callback: Function) {
+        let model = new Object as server.jSSDKPostModel;
+        model.originalUrl = 'https://vue.car0774.com/#' + that.$route.path;
+        axios.post('/home/GetJSSDKConfig', model).then(res => {
+            let data = res.data as work.JsSdkUiPackage;
+            that.$wechat.config({
+                debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                appId: data.appId, // 必填，公众号的唯一标识
+                timestamp: data.timestamp, // 必填，生成签名的时间戳
+                nonceStr: data.nonceStr, // 必填，生成签名的随机串
+                signature: data.signature, // 必填，签名，见附录1
+                jsApiList: [
+                    'chooseImage',
+                    'uploadImage'
+                ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+            })
+        });
+        that.$wechat.ready((res) => {
+            // 如果需要定制ready回调方法
+            if (callback) {
+                callback.call(that)
+            }
+        });
+    }
+
     /** 日期时间格式处理 2017-12-12 08:00 */
     formatDate(d: Date, f: string = 'YYYY-MM-DD HH:mm'): string {
         return moment(d).format(f);

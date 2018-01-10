@@ -1,6 +1,7 @@
 ﻿import ComponentBase from "../../componentbase";
 import { Component } from 'vue-property-decorator';
 import axios from "axios";
+import wx from 'wx-sdk-ts';
 
 @Component
 export default class UnloadComponent extends ComponentBase {
@@ -8,9 +9,11 @@ export default class UnloadComponent extends ComponentBase {
     carNo: string = "";
     showPurchases: boolean = false;
     showStores: boolean = false;
+    showSelectWorker: boolean = true;
     currStep: number = 0;
     isScaleUpload: boolean = false;
     isScaleWithCarUpload: boolean = false;
+    workers: work.userlist[];
     store: server.store;
     stores: server.store[];
     selectedStIds: Array<number>;
@@ -28,6 +31,8 @@ export default class UnloadComponent extends ComponentBase {
         //this.lastPurchase = new Object as server.purchase;
         this.store = new Object as server.store;
         this.stores = new Array<server.store>();
+        this.workers = new Array<work.userlist>();
+        this.purchase.worker = "";
         this.purchase.toStoresList = new Array<server.toStore>();
         this.selectedStIds = new Array<number>();
         this.notice = new Object as server.notice;
@@ -35,6 +40,12 @@ export default class UnloadComponent extends ComponentBase {
         //this.getLastPurchase();
         this.getStores();
         this.getNotice();
+        this.getWorkers();
+    }
+
+    workerSelectedClick() {
+        this.showSelectWorker = false;
+        this.$emit("setTitle", this.purchase.worker + ' 陆上卸油')
     }
 
     purchaseclick(pu: server.purchase) {
@@ -183,40 +194,63 @@ export default class UnloadComponent extends ComponentBase {
     }
 
     mounted() {
-        this.$emit('setTitle', this.$store.state.username + ' 陆上卸油');
+        this.$emit('setTitle', '陆上卸油');
     };
-    uploadfile(e) {
-        let file = e.target.files[0];
-        if (!file || file.name == '') { this.toastError("请选择文件！"); return; }
-        let param = new FormData(); //创建form对象
-        param.append('file', file, file.name);//通过append向form对象添加数据
+    //uploadfile(e) {
+    //    let file = e.target.files[0];
+    //    if (!file || file.name == '') { this.toastError("请选择文件！"); return; }
+    //    let param = new FormData(); //创建form对象
+    //    param.append('file', file, file.name);//通过append向form对象添加数据
 
-        let config = {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-                'x-username': encodeURIComponent(this.$store.state.username),
-                'x-userid': encodeURIComponent(this.$store.state.userid)
-            }
-        };  //添加请求头
-        this.$dialog.loading.open("正在上传图片");
-        axios.post('/api/Purchase/UploadFile', param, config).then((res) => {
-            let jobj = res.data as server.resultJSON<string>;
-            this.$dialog.loading.close();
-            if (jobj.code == 0) {
-                this.toastSuccess('上传成功！');
-                if (this.currStep == 1) {
-                    this.purchase.scaleWithCarPic = jobj.data;
-                    this.isScaleWithCarUpload = true;
+    //    let config = {
+    //        headers: {
+    //            'Content-Type': 'multipart/form-data',
+    //            'x-username': encodeURIComponent(this.$store.state.username),
+    //            'x-userid': encodeURIComponent(this.$store.state.userid)
+    //        }
+    //    };  //添加请求头
+    //    this.$dialog.loading.open("正在上传图片");
+    //    axios.post('/api/Purchase/UploadFile', param, config).then((res) => {
+    //        let jobj = res.data as server.resultJSON<string>;
+    //        this.$dialog.loading.close();
+    //        if (jobj.code == 0) {
+    //            this.toastSuccess('上传成功！');
+    //            if (this.currStep == 1) {
+    //                this.purchase.scaleWithCarPic = jobj.data;
+    //                this.isScaleWithCarUpload = true;
 
+    //            }
+    //            if (this.currStep == 3) {
+    //                this.purchase.scalePic = jobj.data;
+    //                this.isScaleUpload = true;
+    //            }
+    //        }
+    //        else {
+    //            this.toastError("无法上传图片，请重试")
+    //        }
+    //    });
+    //}
+    uploadByWeixin() {
+        let that = this;
+        this.$wechat = wx;
+        this.SDKRegister(this, () => {
+            this.$wechat.chooseImage({
+                count: 1, // 默认9
+                sizeType: ['compressed'], // 可以指定是原图还是压缩图，默认二者都有
+                sourceType: ['camera'], // 可以指定来源是相册还是相机，默认二者都有
+                success: function (res) {
+                    let localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                    that.$wechat.uploadImage({
+                        localId: localIds[0], // 需要上传的图片的本地ID，由chooseImage接口获得
+                        isShowProgressTips: 1,// 默认为1，显示进度提示
+                        success: res => {
+                            var serverId = res.serverId; // 返回图片的服务器端ID
+                            console.log(serverId);
+                            that.getUploadFile(serverId);
+                        }
+                    });
                 }
-                if (this.currStep == 3) {
-                    this.purchase.scalePic = jobj.data;
-                    this.isScaleUpload = true;
-                }
-            }
-            else {
-                this.toastError("无法上传图片，请重试")
-            }
+            });
         });
     }
     change(label: string, tabkey: string) {
@@ -258,6 +292,33 @@ export default class UnloadComponent extends ComponentBase {
                 if (jobj.data)
                     this.$dialog.alert({ mes: jobj.data.content });
             }
+        });
+    }
+    //获取生产员
+    getWorkers() {
+        axios.get('/api/User/Worker').then((res) => {
+            let jobj = res.data as work.tagMemberResult;
+            if (jobj.errcode == 0) {
+                this.workers = jobj.userlist;
+            }
+        });
+    }
+
+    getUploadFile(id: string) {
+        axios.get('/api/Purchase/GetUploadFile?fileId=' + id).then((res) => {
+            let jobj = res.data as server.resultJSON<string>;
+            if (jobj.code == 0) {
+                if (this.currStep == 1) {
+                    this.purchase.scaleWithCarPic = jobj.data;
+                    this.isScaleWithCarUpload = true;
+                }
+                if (this.currStep == 3) {
+                    this.purchase.scalePic = jobj.data;
+                    this.isScaleUpload = true;
+                }
+            }
+            else
+                this.toastError(jobj.msg)
         });
     }
 

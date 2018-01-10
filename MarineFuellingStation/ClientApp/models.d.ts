@@ -24,6 +24,16 @@ declare namespace helper {
 }
 
 declare namespace work {
+    export interface JsSdkUiPackage {
+        appId: string;
+        timestamp: string;
+        nonceStr: string;
+        signature: string;
+    }
+    export interface JsSdkPayUiPackage extends JsSdkUiPackage {
+        package: string;
+    }
+
     export interface department {
         id: number;
         name: string;
@@ -97,5 +107,22 @@ declare namespace work {
         };
         enable: number;
         wxplugin_status: string;
+    }
+    export interface checkinData {
+        userid: string;
+        groupname: string;
+        checkin_type: string;
+        exception_type: string;
+        checkin_time: Date;
+        location_title: string;
+        wifiname: string;
+        notes: string;
+        wifimac: string;
+        mediaids: string[];
+    }
+    export interface checkinDataResult {
+        errcode: number;
+        errmsg: string;
+        checkindata: checkinData[];
     }
 }

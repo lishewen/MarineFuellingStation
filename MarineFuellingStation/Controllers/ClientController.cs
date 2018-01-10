@@ -7,6 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Senparc.Weixin.Work.Containers;
+using Senparc.Weixin.Work.AdvancedAPIs;
 
 namespace MFS.Controllers
 {
@@ -14,9 +17,13 @@ namespace MFS.Controllers
     public class ClientController : ControllerBase
     {
         private readonly ClientRepository r;
-        public ClientController(ClientRepository repository)
+        private readonly UserRepository user_r;
+        WorkOption option;
+        public ClientController(ClientRepository repository, UserRepository u_repository, IOptionsSnapshot<WorkOption> option)
         {
             r = repository;
+            this.user_r = u_repository;
+            this.option = option.Value;
         }
         #region POST
         [HttpPost]
@@ -99,15 +106,74 @@ namespace MFS.Controllers
         /// <param name="balances">余额条件</param>
         /// <param name="cycle">周期条件</param>
         /// <param name="kw">搜索关键字</param>
+        /// <param name="isMy">是否我的客户</param>
+        /// <param name="page">第几页</param>
+        /// <param name="pageSize">分页记录数</param>
         [HttpGet("[action]")]
-        public ResultJSON<List<Client>> GetClients(ClientType ctype, int ptype, int balances, int cycle, string kw, bool isMy)
+        public ResultJSON<List<Client>> GetClients(ClientType ctype, int ptype, int balances, int cycle, string kw, bool isMy, int page, int pageSize)
         {
             r.CurrentUser = UserName;
+            PlaceType placeType;
+            if (isMy && ctype == ClientType.无销售员)
+            {
+                user_r.CurrentUser = UserName;
+                placeType = PlaceType.水上;
+                bool isLand, isWater;
+                isLand = user_r.IsInDept("陆上部", this.option);
+                isWater = user_r.IsInDept("水上部", this.option);
+                if (isLand && isWater)
+                    placeType = PlaceType.全部;
+                else if (isLand)
+                    placeType = PlaceType.陆上;
+            }
+            else
+                placeType = PlaceType.全部;
             return new ResultJSON<List<Client>>
             {
                 Code = 0,
-                Data = r.GetMyClients(ctype, ptype, balances, cycle, kw, isMy)
+                Data = r.GetMyClients(placeType, ctype, ptype, balances, cycle, kw, isMy, page, pageSize)
             };
+        }
+        [HttpGet("[action]")]
+        public ResultJSON<string> ApplyBeMyClient(string carNo, int id, PlaceType placeType)
+        {
+            try
+            {
+                string accessToken;
+                if (placeType == PlaceType.水上)
+                    accessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.水上计划Secret);
+                else
+                    accessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.陆上计划Secret);
+                string agentId = placeType == PlaceType.水上 ? option.水上计划AgentId : option.陆上计划AgentId;
+
+                //推送到“水上或陆上计划”
+                MassApi.SendTextCard(accessToken, agentId, $"{UserName}申请{carNo}成为他的客户"
+                         , $"<div class=\"gray\">客户：{carNo}</div>"
+                         , $"https://vue.car0774.com/#/sales/myclient/{id.ToString()}/{UserName}", toUser: "@all");
+
+                return new ResultJSON<string> { Code = 0, Msg = "提交申请成功" };
+            }
+            catch
+            {
+                return new ResultJSON<string> { Code = 503, Msg = "推送失败请重试" };
+            }
+        }
+        [HttpGet("[action]")]
+        public ResultJSON<string> ApplyClientToCompany(int cid, int coid, string carNo, string companyName)
+        {
+            try
+            {
+                this.option.客户AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.客户Secret);
+                //推送到“客户”
+                MassApi.SendTextCard(this.option.客户AccessToken, this.option.客户AgentId, $"{UserName}申请{carNo}编入{companyName}"
+                         , $"<div class=\"gray\">申请编入公司：{companyName}</div>"
+                         , $"https://vue.car0774.com/#/sales/clienttocompany/{cid.ToString()}/{coid.ToString()}/{companyName}", toUser: "@all");
+                return new ResultJSON<string> { Code = 0, Msg = "提交申请成功" };
+            }
+            catch
+            {
+                return new ResultJSON<string> { Code = 503, Msg = "推送失败请重试" };
+            }
         }
         #endregion
         #region PUT
@@ -133,14 +199,11 @@ namespace MFS.Controllers
         public ResultJSON<Client> ClearMyClientMark()
         {
             r.CurrentUser = UserName;
+            int count = r.ClearMyClientMark();
             return new ResultJSON<Client>
             {
                 Code = 0,
-                Msg = "成功更新了" + r.Update(c => c.FollowSalesman == UserName,
-                new Client()
-                {
-                    IsMark = false
-                }).ToString() + "条信息"
+                Msg = "成功更新了" + count.ToString() + "条信息"
             };
         }
         /// <summary>
@@ -167,7 +230,7 @@ namespace MFS.Controllers
         public ResultJSON<List<Client>> SetClientsToCompany(string clientIds, int companyId)
         {
             List<Client> list = r.SetClientsToCompany(clientIds.Split(','), companyId);
-            if(list.Count == 0)
+            if (list.Count == 0)
                 return new ResultJSON<List<Client>>
                 {
                     Code = 503,
@@ -198,11 +261,18 @@ namespace MFS.Controllers
         [HttpPut]
         public ResultJSON<Client> Save([FromBody]Client c)
         {
-            return new ResultJSON<Client>
+            try
             {
-                Code = 0,
-                Data = r.Update(c)
-            };
+                return new ResultJSON<Client>
+                {
+                    Code = 0,
+                    Data = r.Update(c)
+                };
+            }
+            catch
+            {
+                return new ResultJSON<Client> { Code = 503, Msg = "操作失败" };
+            }
         }
         #endregion
     }

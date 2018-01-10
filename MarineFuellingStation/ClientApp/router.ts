@@ -1,6 +1,6 @@
 ﻿import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
-import store from './store'
+import store from './store';
 
 Vue.use(VueRouter);
 
@@ -13,6 +13,8 @@ const routes: RouteConfig[] = [
     { path: '/sales/myorder', component: require('./components/sales/myorder.vue').default },
     { path: '/sales/myclient', component: require('./components/sales/myclient.vue').default },
     { path: '/sales/myclient/:id', component: require('./components/sales/myclientdetail.vue').default },
+    { path: '/sales/myclient/:id/:applier', component: require('./components/sales/applytomyclient.vue').default },
+    { path: '/sales/clienttocompany/:cid/:coid/:coname', component: require('./components/sales/clienttocompany.vue').default },
     { path: '/sales/boatclean', component: require('./components/sales/boatclean.vue').default },
     { path: '/sales/auditing/:islandplan', component: require('./components/sales/auditing.vue').default },
 
@@ -55,6 +57,8 @@ const routes: RouteConfig[] = [
     { path: '/wages', component: require('./components/report/wages.vue').default },
 
     { path: '/notice', component: require('./components/notice/notice.vue').default },
+
+    { path: '/oa/checkin', component: require('./components/oa/checkin.vue').default },
 
     { path: '/funcmenu', component: require('./components/funcmenu/funcmenu.vue').default },
     { path: '/', component: require('./components/home/home.vue').default },

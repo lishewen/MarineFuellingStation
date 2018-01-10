@@ -9,6 +9,8 @@ using Senparc.Weixin.Work.AdvancedAPIs;
 using Microsoft.Extensions.Options;
 using System.Net;
 using MFS.Repositorys;
+using MFS.Controllers.Attributes;
+using Senparc.Weixin.Work.Helpers;
 
 namespace MFS.Controllers
 {
@@ -19,7 +21,6 @@ namespace MFS.Controllers
         public HomeController(IOptionsSnapshot<WorkOption> option, ProductRepository productRepository)
         {
             this.option = option.Value;
-            this.option.AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.Secret);
             r = productRepository;
         }
 
@@ -32,7 +33,7 @@ namespace MFS.Controllers
             if (string.IsNullOrWhiteSpace(id))
                 id = "/";
 #if DEBUG
-            return Redirect($"/#/wxhub/{WebUtility.UrlEncode("黄继业")}/{WebUtility.UrlEncode("13907741118")}/{true}/{1}/{WebUtility.UrlEncode(id)}");
+            return Redirect($"/#/wxhub/{WebUtility.UrlEncode("黄继业")}/{WebUtility.UrlEncode("13907741118")}/{false}/{0}/{WebUtility.UrlEncode(id)}");
 #else
             if (!string.IsNullOrWhiteSpace(UserName) 
                 && !string.IsNullOrWhiteSpace(UserId) 
@@ -45,6 +46,7 @@ namespace MFS.Controllers
                 return Redirect(OAuth2Api.GetCode(option.CorpId, "https://" + Request.Host + Request.Path + Request.QueryString, "car0774",""));
             else
             {
+                option.AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.Secret);
                 var code = Request.Query["code"];
                 var at = OAuth2Api.GetUserId(option.AccessToken, code);
                 var userinfo = MailListApi.GetMember(option.AccessToken, at.UserId);
@@ -57,7 +59,6 @@ namespace MFS.Controllers
             }
 #endif
         }
-
         public IActionResult Error()
         {
             return View();
@@ -67,6 +68,20 @@ namespace MFS.Controllers
         {
             //r.Init();
             return Content("OK");
+        }
+        [HttpPost("[controller]/[action]"), Axios]
+        public JsSdkUiPackage GetJSSDKConfig([FromBody]JSSDKPostModel model)
+        {
+            //获取时间戳
+            var timestamp = JSSDKHelper.GetTimestamp();
+            //获取随机码
+            var nonceStr = JSSDKHelper.GetNoncestr();
+            //获取JS票据
+            var JsapiTicket = JsApiTicketContainer.TryGetTicket(option.CorpId, option.Secret);
+            //获取签名
+            var signature = JSSDKHelper.GetSignature(JsapiTicket, nonceStr, timestamp, model.OriginalUrl);
+
+            return new JsSdkUiPackage(option.CorpId, timestamp.ToString(), nonceStr, signature);
         }
     }
 }

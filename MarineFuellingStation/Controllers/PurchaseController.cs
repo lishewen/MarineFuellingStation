@@ -209,13 +209,28 @@ namespace MFS.Controllers
                 Data = pu
             };
         }
+        /// <summary>
+        /// 从微信服务端远程取得并保存本地
+        /// </summary>
+        /// <param name="fileId">微信服务端返回的文件Id</param>
+        /// <returns></returns>
+        [HttpGet("[action]")]
+        public ResultJSON<string> GetUploadFile(string fileId)
+        {
+            string fileName = Guid.NewGuid() + ".jpg";
+            var filePath = _hostingEnvironment.WebRootPath + @"\upload\";
+            bool isSave = FileHelper.SaveFileByWeixin(fileId, filePath, fileName, option.CorpId, option.Secret);
+            if (isSave)
+                return new ResultJSON<string> { Code = 0, Data = $"/upload/{fileName}" };
+            else
+                return new ResultJSON<string> { Code = 503, Msg = "上传失败" };
+        }
         #endregion
         #region PUT
         [HttpPut("[action]")]
         public ResultJSON<Purchase> ChangeState([FromBody]Purchase p)
         {
             r.CurrentUser = UserName;
-            p.Worker = UserName;
             var model = r.Update(p);
             model.LastUpdatedBy = UserName;
             if (p.State == Purchase.UnloadState.完工)

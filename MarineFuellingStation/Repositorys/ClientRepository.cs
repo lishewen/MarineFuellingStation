@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Linq.Expressions;
+using Z.EntityFramework.Plus;
 
 namespace MFS.Repositorys
 {
@@ -51,13 +52,16 @@ namespace MFS.Repositorys
                 || c.CarNo.Contains(kw)
                 || c.Contact == kw).Include("Company").ToList();
         }
-        public List<Client> GetMyClients(ClientType ctype, int ptype, int balances, int cycle, string kw, bool isMy)
+        public List<Client> GetMyClients(PlaceType placeType, ClientType ctype, int ptype, int balances, int cycle, string kw, bool isMy, int page, int pageSize)
         {
             List<Client> list;
 
             Expression<Func<Client, bool>> clientwhere = c => 1 == 1;
-            if(isMy)
-                clientwhere = c => c.FollowSalesman == CurrentUser;
+            if (placeType == PlaceType.水上 || placeType == PlaceType.陆上)
+                clientwhere = c => c.PlaceType == placeType;
+
+            if(isMy && ctype != ClientType.无销售员)
+                clientwhere = clientwhere.And(c => c.FollowSalesman == CurrentUser);
 
             if (ptype > 0)//计划状态
             {
@@ -74,16 +78,18 @@ namespace MFS.Repositorys
                 var cylist = _dbContext.SalesPlans.Where(s => (DateTime.Now - s.LastUpdatedAt).Days < cycle && s.CreatedBy == CurrentUser).Select(s => s.CarNo).ToList();
                 clientwhere = clientwhere.And(c => !cylist.Contains(c.CarNo));
             }
-            //客户类型：个人，公司，全部
+            //客户类型：个人，公司，全部，无销售员
             if (ctype == ClientType.全部)
                 clientwhere = clientwhere.And(c => (c.ClientType == ClientType.个人 || c.ClientType == ClientType.公司));
+            else if (ctype == ClientType.无销售员)
+                clientwhere = clientwhere.And(c => c.FollowSalesman == "" || c.FollowSalesman == null);
             else
                 clientwhere = clientwhere.And(c => c.ClientType == ctype);
 
             if (!string.IsNullOrEmpty(kw))
                 clientwhere = clientwhere.And(c => c.CarNo.Contains(kw));
-
-            list = _dbContext.Clients.Include("Company").Where(clientwhere).ToList();
+            list = LoadPageList(page, pageSize, out int rowCount, true, false, clientwhere).Include("Company").ToList();
+            //list = _dbContext.Clients.Include("Company").Where(clientwhere).ToList();
 
             return list;
         }
@@ -156,6 +162,9 @@ namespace MFS.Repositorys
             }
             return _dbContext.Clients.Where(cl => cl.CompanyId == companyId && !cl.IsDel).ToList();
         }
-        
+        public int ClearMyClientMark()
+        {
+            return _dbContext.Clients.Where(c => c.FollowSalesman == CurrentUser).Update(c => new Client { IsMark = false });
+        }
     }
 }

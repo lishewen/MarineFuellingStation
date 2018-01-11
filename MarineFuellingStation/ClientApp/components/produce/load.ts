@@ -16,6 +16,10 @@ export default class LoadComponent extends ComponentBase {
     showOrders: boolean = false;
     showStores: boolean = false;
 
+    carOrBoat: string = "船号";
+
+    orderType: server.salesPlanType;
+
     constructor() {
         super();
 
@@ -26,10 +30,29 @@ export default class LoadComponent extends ComponentBase {
         this.stores = new Array<server.store>();
         this.getStores();
     }
-    
+
     mounted() {
+        //默认的施工人员为操作人
+        this.order.worker = this.$store.state.username;
+
         let oid = this.$route.params.oid;
-        this.$emit('setTitle', this.$store.state.username + ' 水上装油');
+        this.orderType = parseInt(this.$route.params.ordertype) as server.salesPlanType;
+        let title;
+        switch (this.orderType) {
+            case server.salesPlanType.水上加油:
+                title = "水上加油";
+                this.carOrBoat = "船号";
+                break;
+            case server.salesPlanType.汇鸿车辆加油:
+                title = "汇鸿车辆加油"
+                this.carOrBoat = "车牌号"
+                break;
+            case server.salesPlanType.外来车辆加油:
+                title = "外来车辆加油"
+                this.carOrBoat = "车牌号"
+                break;
+        }
+        this.$emit('setTitle', this.$store.state.username + " " + title);
         if (oid) {
             this.getOrder(oid);
         }
@@ -45,7 +68,7 @@ export default class LoadComponent extends ComponentBase {
         this.showOrders = false;
         //console.log(this.order);
         this.matchCurrStep();
-        
+
     }
     matchCurrStep() {
         if (this.order.state == server.orderState.已开单) this.currStep = 1;
@@ -76,15 +99,15 @@ export default class LoadComponent extends ComponentBase {
 
     change(label: string, tabkey: string) {
         console.log(label);
-        
+
     }
 
     getOrders(toPage?: number) {
         if (this.page == null) this.page = 1;
         if (toPage != null) this.page = toPage;
-        axios.get('/api/Order/GetByIsFinished/' + server.salesPlanType.水上加油.toString()
+        axios.get('/api/Order/GetByIsFinished/' + this.orderType.toString()
             + '?page=' + this.page.toString()
-            +'&isFinished=false')
+            + '&isFinished=false')
             .then((res) => {
                 let jobj = res.data as server.resultJSON<server.order[]>;
                 if (jobj.code == 0 && jobj.data.length > 0) {

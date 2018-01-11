@@ -25,7 +25,7 @@
                     <span slot="right">{{order.count}}</span>
                 </yd-cell-item>
                 <yd-cell-item>
-                    <span slot="left">船号：</span>
+                    <span slot="left">{{carOrBoat}}：</span>
                     <span slot="right">{{order.carNo}}</span>
                 </yd-cell-item>
                 <yd-cell-item>

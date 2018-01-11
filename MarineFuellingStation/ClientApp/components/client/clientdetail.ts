@@ -57,7 +57,7 @@ export default class MyClientDetailComponent extends ComponentBase {
         this.$watch('model.placeType', (v, ov) => {
             switch (parseInt(v)) {
                 case server.placeType.陆上:
-                    this.labelBoatOrCar = "车牌号"
+                    this.labelBoatOrCar = "车牌号/客户名称"
                     break;
                 case server.placeType.水上:
                     this.labelBoatOrCar = "船号"

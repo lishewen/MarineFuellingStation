@@ -25,6 +25,8 @@ export default class AssayComponent extends ComponentBase {
     scrollRef: any;
     pSize: number = 30;
 
+    isLeader: boolean = false;
+
     filterclick(): void {
     };
 
@@ -44,6 +46,8 @@ export default class AssayComponent extends ComponentBase {
     }
 
     mounted() {
+        //是否上级标识
+        this.isLeader = this.$store.state.isLeader == 1 ? true : false;
         this.$emit('setTitle', this.$store.state.username + ' 化验');
         this.$watch('radio2', (v, ov) => {
             if (v == "2") {
@@ -144,11 +148,8 @@ export default class AssayComponent extends ComponentBase {
         });
     }
 
-    initlist(ls: server.assay[]) {
-        this.assays = ls;
-    }
-
     getAssays(callback?: Function) {
+        if (!this.isLeader) { this.toastError("没有权限"); return; }
         if (this.page == null) this.page = 1;
         if (this.pSize == null) this.pSize = 30;
         axios.get('/api/Assay/GetByPager?'
@@ -169,6 +170,7 @@ export default class AssayComponent extends ComponentBase {
     }
 
     searchAssays(sv: string) {
+        if (!this.isLeader) { this.toastError("没有权限"); return; }
         axios.get('/api/Assay/' + sv).then((res) => {
             let jobj = res.data as server.resultJSON<server.assay[]>;
             if (jobj.code == 0)
@@ -188,11 +190,11 @@ export default class AssayComponent extends ComponentBase {
                 this.toastSuccess(jobj.msg);
                 this.isPrevent = true;
                 (<any>this).$dialog.confirm({
-                    title: '提示',
-                    mes: '继续化验？',
+                    title: '打印',
+                    mes: '是否需要打印到地磅室和收银台？',
                     opts: () => {
-                        this.isPrevent = false;
-                        this.getAssayNo();
+                        this.getPrintAssay(jobj.data.id, '地磅室');
+                        this.getPrintAssay(jobj.data.id, '收银台');
                     }
                 })
             }

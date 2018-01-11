@@ -46,7 +46,7 @@
                 <yd-cell-item>
                     <span slot="left">皮重：</span>
                     <yd-input slot="right" v-model="order.emptyCarWeight" type="number" required placeholder="请输入磅秤数"></yd-input>
-                    <span slot="right">吨</span>
+                    <span slot="right">KG</span>
                 </yd-cell-item>
                 <!--<yd-cell-item>
                     <span slot="left">图片上传：</span>
@@ -128,15 +128,15 @@
                     </yd-cell-item>
                     <yd-cell-item>
                         <span slot="left">毛重：</span>
-                        <span slot="right">{{order.oilCarWeight}}{{order.unit}}</span>
+                        <span slot="right">{{order.oilCarWeight}}KG</span>
                     </yd-cell-item>
                     <yd-cell-item>
                         <span slot="left">皮重：</span>
-                        <span slot="right">{{order.emptyCarWeight}}{{order.unit}}</span>
+                        <span slot="right">{{order.emptyCarWeight}}KG</span>
                     </yd-cell-item>
                     <yd-cell-item>
                         <span slot="left">净重：</span>
-                        <span slot="right">{{order.diffWeight}}{{order.unit}}</span>
+                        <span slot="right">{{order.diffWeight}}KG</span>
                     </yd-cell-item>
                 </yd-cell-group>
                 <yd-cell-group title="油表明细">
@@ -189,7 +189,7 @@
                         </div>
                         <div slot="right" style="text-align: left;margin-right: 5px">
                             <p class="col-gray">{{o.product.name}}</p>
-                            <p class="col-gray">{{o.count}}吨</p>
+                            <p class="col-gray">{{o.count}}{{o.unit}}}</p>
                         </div>
                     </yd-cell-item>
                 </yd-cell-group>

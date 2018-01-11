@@ -23,9 +23,11 @@ export default class PurchaseComponent extends ComponentBase {
     scrollRef: any;
     pSize: number = 30;
 
-    filterclick(): void {
-        this.show2 = false;
-    };
+    strShowAll: string;
+    actBtnId: number;
+
+    filterCType: Array<helper.filterBtn>; filterPType;
+
     constructor() {
         super();
 
@@ -40,6 +42,12 @@ export default class PurchaseComponent extends ComponentBase {
         this.model.carNo = '';
         this.model.startTime = this.formatDate(new Date(), 'YYYY-MM-DD hh:mm');
         this.model.arrivalTime = this.formatDate(new Date(), 'YYYY-MM-DD hh:mm');
+
+        this.filterCType = [
+            { id: 0, name: '全部', value: '全部', actived: false },
+            { id: 1, name: '未卸油入库', value: '未卸油入库', actived: true }
+        ];
+        this.actBtnId = 1;
 
         this.getPurchaseNo();
         this.getOilProducts();
@@ -113,6 +121,22 @@ export default class PurchaseComponent extends ComponentBase {
         this.postPurchase(this.model);
     }
 
+    switchBtn(o: helper.filterBtn, idx: number, group: string) {
+        if (group == "筛选") {
+            if (idx != this.actBtnId) {
+                o.actived = true;
+                this.strShowAll = o.value.toString();
+                this.filterCType[this.actBtnId].actived = false;
+                this.actBtnId = idx;
+            }
+        }
+        if (o.actived) {
+            this.scrollRef.$emit("ydui.infinitescroll.reInit");
+            this.page = 1;
+            this.getPurchases();
+        }
+    }
+
     getPurchaseNo() {
         axios.get('/api/Purchase/PurchaseNo').then((res) => {
             let jobj = res.data as server.resultJSON<string>;
@@ -125,10 +149,13 @@ export default class PurchaseComponent extends ComponentBase {
 
     getPurchases(callback?: Function) {
         if (!this.page) this.page = 1;
-        axios.get('/api/Purchase/GetByPager?page='
-            + this.page
+        let isShowAll = this.strShowAll == "全部" ? true : false;
+        axios.get('/api/Purchase/GetByPager'
+            + '?page='+ this.page
             + '&pagesize=' + this.pSize
-            + '&sv=' + this.sv).then((res) => {
+            + '&sv=' + this.sv
+            + '&isShowAll=' + isShowAll
+            ).then((res) => {
                 let jobj = res.data as server.resultJSON<server.purchase[]>;
                 if (jobj.code == 0) {
                     if (callback) {

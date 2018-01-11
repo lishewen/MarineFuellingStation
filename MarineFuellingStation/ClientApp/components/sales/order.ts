@@ -160,8 +160,8 @@ export default class OrderComponent extends ComponentBase {
             || this.model.orderType == server.salesPlanType.水上机油.toString())
             this.getWaterSales();
         else if (this.model.orderType == server.salesPlanType.陆上装车.toString()
-            || this.model.orderType == server.salesPlanType.陆上公司车.toString()
-            || this.model.orderType == server.salesPlanType.陆上外来车.toString())
+            || this.model.orderType == server.salesPlanType.汇鸿车辆加油.toString()
+            || this.model.orderType == server.salesPlanType.外来车辆加油.toString())
             this.getLandSales();
     };
 
@@ -273,7 +273,16 @@ export default class OrderComponent extends ComponentBase {
         });
 
         this.$watch('type', (v, ov) => {
-            this.model.orderType = v == 1 ? server.salesPlanType.陆上装车 : server.salesPlanType.水上加油;
+            if (v == 1) {
+                this.model.orderType = server.salesPlanType.陆上装车;
+                this.model.unit = "吨";
+                this.strCarOrBoat = "车牌号";
+            }
+            else {
+                this.model.orderType = server.salesPlanType.水上加油;
+                this.model.unit = "升";
+                this.strCarOrBoat = "船号";
+            }
         });
 
         this.$watch('model.price', (v, ov) => {

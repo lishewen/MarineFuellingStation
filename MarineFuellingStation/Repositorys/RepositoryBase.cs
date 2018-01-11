@@ -115,15 +115,6 @@ namespace MFS.Repositorys
                 Save();
             return entity;
         }
-        /// <summary>
-        /// 批量更新实体的部分属性(返回成功更新条数)
-        /// </summary>
-        /// <param name="predicate">where表达式</param>
-        /// <param name="entity">实体</param>
-        public int Update(Expression<Func<TEntity, bool>> predicate, TEntity entity)
-        {
-            return _dbContext.Set<TEntity>().Where(predicate).Update(e => entity);
-        }
         private void EntityToEntity<T>(T pTargetObjSrc, T pTargetObjDest)
         {
             foreach (var mItem in typeof(T).GetProperties())

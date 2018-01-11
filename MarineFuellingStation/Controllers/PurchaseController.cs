@@ -16,6 +16,7 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace MFS.Controllers
 {
@@ -60,15 +61,18 @@ namespace MFS.Controllers
         /// </summary>
         /// <param name="page">第N页</param>
         /// <param name="pageSize">页记录数</param>
+        /// <param name="isShowAll">显示全部true|只显示状态为‘未审核’的单</param>
         /// <returns></returns>
         [HttpGet("[action]")]
-        public ResultJSON<List<Purchase>> GetByPager(int page, int pageSize, string sv)
+        public ResultJSON<List<Purchase>> GetByPager(int page, int pageSize, string sv, bool isShowAll)
         {
+            Expression<Func<Purchase, bool>> where = o => 1 == 1;
+            if (!isShowAll)
+                where = where.And(p => p.State != Purchase.UnloadState.已审核);
+            if (!string.IsNullOrEmpty(sv))
+                where = where.And(p => p.CarNo.Contains(sv));
             List<Purchase> list;
-            if (string.IsNullOrEmpty(sv))
-                list = r.LoadPageList(page, pageSize, out int rCount, true).Include(p => p.Product).OrderByDescending(p => p.Id).ToList();
-            else
-                list = r.LoadPageList(page, pageSize, out int rCount, true, false, p => p.CarNo.Contains(sv)).Include(p => p.Product).OrderByDescending(p => p.Id).ToList();
+            list = r.LoadPageList(page, pageSize, out int rCount, true, false, where).Include(p => p.Product).OrderByDescending(p => p.Id).ToList();
             return new ResultJSON<List<Purchase>>
             {
                 Code = 0,

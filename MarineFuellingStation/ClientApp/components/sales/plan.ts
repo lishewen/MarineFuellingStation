@@ -106,19 +106,15 @@ export default class PlanComponent extends ComponentBase {
                     this.strCarOrBoat = "船号";
                     break;
                 case "1":
-                    this.strCarOrBoat = "车牌号";
                     this.model.unit = '吨';
                     break;
                 case "2":
-                    this.strCarOrBoat = "车牌号";
                     this.model.unit = '桶';
                     break;
                 case "4":
-                    this.strCarOrBoat = "车牌号";
                     this.model.unit = '升';
                     break;
                 case "5":
-                    this.strCarOrBoat = "车牌号";
                     this.model.unit = '升';
                     break;
             }
@@ -142,7 +138,7 @@ export default class PlanComponent extends ComponentBase {
         this.type = this.isWaterDept ? 0 : 1;
         this.model.salesPlanType = this.isWaterDept ? server.salesPlanType.水上加油 : server.salesPlanType.陆上装车;
         this.model.unit = this.isWaterDept ? "升" : "吨";
-        this.strCarOrBoat = this.isWaterDept ? "船号" : "车牌号";
+        this.strCarOrBoat = this.isWaterDept ? "船号" : "客户";
 
         this.getSalesPlanNo();
         this.getOilProducts();

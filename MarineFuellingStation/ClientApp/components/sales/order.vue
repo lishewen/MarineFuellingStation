@@ -21,8 +21,8 @@
                                     <yd-radio val="0" v-show="type == 0">水上加油</yd-radio>
                                     <yd-radio val="2" v-show="type == 0">机油</yd-radio>
                                     <yd-radio val="1" v-show="type == 1">陆上装车</yd-radio>
-                                    <yd-radio val="4" v-show="type == 1">陆上公司车</yd-radio>
-                                    <yd-radio val="5" v-show="type == 1">陆上外来车</yd-radio>
+                                    <yd-radio val="4" v-show="type == 1">汇鸿车辆加油</yd-radio>
+                                    <yd-radio val="5" v-show="type == 1">外来车辆加油</yd-radio>
                                 </yd-radio-group>
                             </yd-cell-item>
                             <yd-cell-item>

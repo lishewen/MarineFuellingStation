@@ -80,11 +80,17 @@
 
                 <yd-cell-group>
                     <yd-search v-model="sv" />
+                    <div class="align-center cell-padding">
+                        <span v-for="(f, index) in filterCType">
+                            <yd-button type="warning" v-if="f.actived" @click.native="switchBtn(f, index, '筛选')">{{f.name}}</yd-button>
+                            <yd-button type="hollow" v-if="!f.actived" @click.native="switchBtn(f, index, '筛选')">{{f.name}}</yd-button>
+                        </span>
+                    </div>
                     <yd-infinitescroll :callback="loadList" ref="infinitescroll">
                         <yd-cell-item slot="list" arrow v-for="s in purchases" :key="s.id" @click.native="godetail(s.id)">
                             <div slot="left">
                                 <p>{{s.name}}</p>
-                                <p>{{s.origin}}</p>
+                                <p class="font14">{{s.origin}}</p>
                                 <p class="col-light-gray font12">{{s.carNo}} {{s.trailerNo}}</p>
                             </div>
                             <div slot="right" class="align-right" style="margin-right: .2rem;padding: .2rem 0 .2rem">
@@ -92,8 +98,8 @@
                                     <span class="col-green">{{s.product == null ? "" : s.product.name}}</span>
                                     <span class="col-gray font16">{{s.count}}吨</span>
                                 </p>
-                                <p class="col-coral">预计到达：{{formatDate(s.arrivalTime, 'MM-DD hh:mm')}}</p>
-                                <p class="col-gray" v-show="s.state != 0">实际到达：{{formatDate(s.updateAt)}}</p>
+                                <p class="col-coral">预计到达：{{getDiffDate(s.arrivalTime, 'hour')}}</p>
+                                <p class="col-gray" v-show="s.state != 0">实际到达：{{formatDate(s.updateAt, 'MM-DD hh:mm')}}</p>
                             </div>
                         </yd-cell-item>
                         <!-- 数据全部加载完毕显示 -->

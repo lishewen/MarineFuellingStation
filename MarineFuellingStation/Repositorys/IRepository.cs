@@ -64,14 +64,7 @@ namespace MFS.Repositorys
         /// <param name="entity">实体</param>
         /// <param name="autoSave">是否立即执行保存</param>
         TEntity Update(TEntity entity, bool autoSave = true);
-
-        /// <summary>
-        /// 批量更新实体的部分属性(返回成功更新条数)
-        /// </summary>
-        /// <param name="predicate">where表达式</param>
-        /// <param name="entity">实体</param>
-        int Update(Expression<Func<TEntity, bool>> predicate, TEntity entity);
-
+        
         /// <summary>
         /// 新增或更新实体
         /// </summary>

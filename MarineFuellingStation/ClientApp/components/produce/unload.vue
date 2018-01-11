@@ -41,9 +41,9 @@
                         <span slot="right">KG</span>
                     </yd-cell-item>
                     <!--<yd-cell-item>
-                        <span slot="left">图片上传：</span>
-                        <label slot="right" class="input-file"><input title="浏览文件" type="file" accept="image/png,image/gif,image/jpeg" @change="uploadfile" />选择图片…</label>
-                    </yd-cell-item>-->
+                    <span slot="left">图片上传：</span>
+                    <label slot="right" class="input-file"><input title="浏览文件" type="file" accept="image/png,image/gif,image/jpeg" @change="uploadfile" />选择图片…</label>
+                </yd-cell-item>-->
                 </yd-cell-group>
                 <div class="align-center">
                     <yd-button type="warning" class="mtop20" slot="right" style="width: 90%;height:38px" @click.native="uploadByWeixin">磅秤拍照上传</yd-button>
@@ -77,9 +77,9 @@
                     </yd-cell-item>
 
                     <!--<yd-cell-item>
-                        <span slot="left">图片上传：</span>
-                        <label slot="right" class="input-file"><input title="浏览文件" type="file" accept="image/png,image/gif,image/jpeg" @change="uploadfile" />选择图片…</label>
-                    </yd-cell-item>-->
+                    <span slot="left">图片上传：</span>
+                    <label slot="right" class="input-file"><input title="浏览文件" type="file" accept="image/png,image/gif,image/jpeg" @change="uploadfile" />选择图片…</label>
+                </yd-cell-item>-->
                 </yd-cell-group>
                 <div class="align-center">
                     <yd-button type="warning" class="mtop20" slot="right" style="width: 90%;height:38px" @click.native="uploadByWeixin">磅秤拍照上传</yd-button>
@@ -167,6 +167,7 @@
                 <yd-button style="width:90%;height:38px" type="primary" @click.native="putRestart">重新施工</yd-button>
             </div>
         </div>
+        <!--popup进油计划选择-->
         <yd-popup v-model="showPurchases" position="right" width="70%">
             <yd-cell-group>
                 <yd-cell-item v-for="p in purchases" :key="p.id" @click.native="purchaseclick(p)" arrow style="padding: 10px 0 10px">

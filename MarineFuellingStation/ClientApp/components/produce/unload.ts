@@ -50,6 +50,9 @@ export default class UnloadComponent extends ComponentBase {
 
     purchaseclick(pu: server.purchase) {
         this.purchase = pu;
+        //重新选择生产员
+        if (this.purchase.worker != this.worker)
+            this.showSelectWorker = true;
         this.showPurchases = false;
         if (pu.state != server.unloadState.已开单 && pu.state != server.unloadState.已到达) {
             switch (pu.state) {

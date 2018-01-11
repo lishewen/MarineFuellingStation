@@ -50,6 +50,9 @@ export default class LandloadComponent extends ComponentBase {
 
     orderclick(o: server.order) {
         this.order = o;
+        //重新选择生产员
+        if (this.order.worker != this.worker)
+            this.showSelectWorker = true;
         this.showOrders = false;
         this.matchCurrStep();
 

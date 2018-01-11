@@ -12,6 +12,7 @@ export default class LandloadComponent extends ComponentBase {
     lastorder: server.order;
     workers: work.userlist[];
 
+    worker: string;
     currStep: number = 0;
     showOrders: boolean = false;
     showStores: boolean = false;
@@ -39,7 +40,7 @@ export default class LandloadComponent extends ComponentBase {
 
     workerSelectedClick() {
         this.showSelectWorker = false;
-        this.$emit("setTitle", this.order.worker + ' 陆上装车')
+        this.$emit("setTitle", this.worker + ' 陆上装车')
     }
 
     showOrdersclick() {
@@ -192,15 +193,17 @@ export default class LandloadComponent extends ComponentBase {
     
     putState(state: server.orderState) {
         this.order.state = state;
-        axios.put('/api/Order/ChangeState', this.order).then((res) => {
-            let jobj = res.data as server.resultJSON<server.order>;
-            if (jobj.code == 0) {
-                this.order = jobj.data;
-                this.currStep++;
-            }
-            else
-                this.toastError(jobj.msg);
-        });
+        this.order.worker = this.worker;
+        console.log(this.order);
+        //axios.put('/api/Order/ChangeState', this.order).then((res) => {
+        //    let jobj = res.data as server.resultJSON<server.order>;
+        //    if (jobj.code == 0) {
+        //        this.order = jobj.data;
+        //        this.currStep++;
+        //    }
+        //    else
+        //        this.toastError(jobj.msg);
+        //});
     }
 
     getLastOrder() {

@@ -7,6 +7,7 @@ import wx from 'wx-sdk-ts';
 export default class UnloadComponent extends ComponentBase {
     radio2: string = "1";
     carNo: string = "";
+    worker: string = "";
     showPurchases: boolean = false;
     showStores: boolean = false;
     showSelectWorker: boolean = true;
@@ -32,7 +33,6 @@ export default class UnloadComponent extends ComponentBase {
         this.store = new Object as server.store;
         this.stores = new Array<server.store>();
         this.workers = new Array<work.userlist>();
-        this.purchase.worker = "";
         this.purchase.toStoresList = new Array<server.toStore>();
         this.selectedStIds = new Array<number>();
         this.notice = new Object as server.notice;
@@ -45,7 +45,7 @@ export default class UnloadComponent extends ComponentBase {
 
     workerSelectedClick() {
         this.showSelectWorker = false;
-        this.$emit("setTitle", this.purchase.worker + ' 陆上卸油')
+        this.$emit("setTitle", this.worker + ' 陆上卸油')
     }
 
     purchaseclick(pu: server.purchase) {
@@ -324,6 +324,7 @@ export default class UnloadComponent extends ComponentBase {
 
     putState(state: server.unloadState) {
         this.purchase.state = state;
+        this.purchase.worker = this.worker;
         axios.put('/api/Purchase/ChangeState', this.purchase).then((res) => {
             let jobj = res.data as server.resultJSON<server.purchase>;
             if (jobj.code == 0) {

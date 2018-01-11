@@ -5,11 +5,11 @@
             <yd-cell-group>
                 <yd-cell-item type="radio" v-for="w,idx in workers" :key="idx">
                     <span slot="left">{{w.name}}</span>
-                    <input slot="right" type="radio" :value="w.name" v-model="order.worker" />
+                    <input slot="right" type="radio" :value="w.name" v-model="worker" />
                 </yd-cell-item>
             </yd-cell-group>
             <div class="align-center">
-                <yd-button style="width:90%;height:38px;" @click.native="workerSelectedClick" class="mtop20" :disabled="order.worker == null || order.worker == ''">下一步</yd-button>
+                <yd-button style="width:90%;height:38px;" @click.native="workerSelectedClick" class="mtop20" :disabled="worker == null || worker == ''">下一步</yd-button>
             </div>
         </div>
         <div v-show="!showSelectWorker">

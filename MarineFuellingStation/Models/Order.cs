@@ -152,7 +152,7 @@ namespace MFS.Models
             }
         }
         /// <summary>
-        /// 销售提成
+        /// 销售超额提成：高于商品最低限价，按 差值（升） * 数量 * 0.2 / 1200 或 差值（吨） * 数量 * 0.2
         /// </summary>
         public decimal SalesCommission { get; set; }
         public int? TransportOrderId { get; set; }
@@ -188,7 +188,7 @@ namespace MFS.Models
         public virtual Store Store { get; set; }
         public virtual ICollection<Payment> Payments { get; set; }
         /// <summary>
-        /// 底价
+        /// 最低限价
         /// </summary>
         public decimal MinPrice { get; set; }
         /// <summary>

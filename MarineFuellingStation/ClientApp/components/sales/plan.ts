@@ -33,6 +33,7 @@ export default class PlanComponent extends ComponentBase {
     c_pSize: number = 30;
     pMinInvoicePrice: number = 0;
     pMinPrice: number = 0;
+    pUnit: string;
     strCarOrBoat: string = '船号/车号';
     type: number = null;
 
@@ -262,16 +263,49 @@ export default class PlanComponent extends ComponentBase {
             return;
         }
         if (this.model.price == '' || this.model.price <= 0) { this.toastError("计划单价输入有误"); return; }
-        if (!this.model.isInvoice && this.model.price < this.pMinPrice) { this.toastError("当前最低销售单价是￥" + this.pMinPrice + "/升"); return; }
-        if (this.model.isInvoice && this.model.price < this.pMinInvoicePrice) { this.toastError("当前开票最低销售单价是￥" + this.pMinInvoicePrice + "/升"); return; }
+        
         //开票信息验证
         if (this.model.isInvoice) {
             if (this.model.billingCompany == '' || this.model.billingCompany == null) { this.toastError('请输入开票单位') }
             if (this.model.billingPrice <= 0 || this.model.billingPrice == null) { this.toastError('请输入开票单价') }
             if (this.model.billingCount <= 0 || this.model.billingCount == null) { this.toastError('请输入开票数量') }
         }
+        //检查单价，并提示
+        if (!this.model.isInvoice && this.model.price < this.pMinPrice) {
+            this.checkPrice(
+                <number>this.model.price,
+                this.pMinPrice,
+                this.model.count,
+                this.pUnit, "", () => { this.postSalesPlan(this.model); })
+        }
+        else if (this.model.isInvoice && this.model.price < this.pMinInvoicePrice) {
+            this.checkPrice(
+                <number>this.model.price,
+                this.pMinInvoicePrice,
+                this.model.count,
+                this.pUnit, "开票", () => { this.postSalesPlan(this.model); })
+        }
+        else
+            this.postSalesPlan(this.model);
         console.log(this.model);
-        this.postSalesPlan(this.model);
+    }
+    //检查单价，并提示
+    checkPrice(price: number, minPrice: number, count: number, unit: string, strInvoice: string, funcOK: Function) {
+        let commision = (minPrice - price) * count * 0.2;
+        commision = (unit == "升") ? commision / 1200 : commision;
+        this.$dialog.confirm({
+            title: "提醒",
+            mes: "当前销售单价已低于最低" + strInvoice + "限价￥" + minPrice + "/" + unit + ",将会扣减提成：￥" + commision,
+            opts: [
+                {
+                    txt: "取消", color: false, callback: () => { return; }
+                }, {
+                    txt: "确定", color: true, callback: () => {
+                        funcOK.call(this);
+                    }
+                }
+            ]
+        })
     }
 
     godetail(id) {
@@ -415,6 +449,7 @@ export default class PlanComponent extends ComponentBase {
                             this.model.price = o.lastPrice;
                             this.pMinInvoicePrice = o.minInvoicePrice;
                             this.pMinPrice = o.minPrice;
+                            this.pUnit = o.unit;
                         }
                     });
                 });
@@ -433,6 +468,7 @@ export default class PlanComponent extends ComponentBase {
 
     postSalesPlan(model: server.salesPlan) {
         this.isPrevent = true;
+        this.model.minPrice = this.model.isInvoice ? this.pMinInvoicePrice : this.pMinPrice;
         axios.post('/api/SalesPlan', model).then((res) => {
             let jobj = res.data as server.resultJSON<server.salesPlan>;
             if (jobj.code == 0) {

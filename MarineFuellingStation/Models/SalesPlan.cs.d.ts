@@ -6,7 +6,10 @@ declare module server {
 		productId: number;
 		/** 油品名 */
 		oilName: string;
-		price: number | string;
+        price: number | string;
+        /** 最低限价 */
+        minPrice: number;
+        /** 订单数量 */
 		count: number;
 		/** 单位 */
 		unit: string;

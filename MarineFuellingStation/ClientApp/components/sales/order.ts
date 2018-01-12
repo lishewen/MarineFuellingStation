@@ -7,6 +7,7 @@ import moment from "moment";
 export default class OrderComponent extends ComponentBase {
     salesplans: server.salesPlan[];
     salesplan: server.salesPlan;
+    selectProduct: server.product;
     salesplanshow: boolean = false;
     isPrevent: boolean = true;
     showMenus: boolean = false;
@@ -107,7 +108,9 @@ export default class OrderComponent extends ComponentBase {
         this.model.salesPlanId = s.id;
         this.model.carNo = s.carNo;
         this.model.price = s.price;
+        this.model.minPrice = s.minPrice;
         this.model.count = s.count;
+        this.model.unit = s.unit;
         this.model.isInvoice = s.isInvoice;
         this.model.ticketType = s.ticketType;
         this.model.billingCompany = s.billingCompany;
@@ -401,6 +404,10 @@ export default class OrderComponent extends ComponentBase {
                             this.model.price = o.minPrice;
                             this.pMinInvoicePrice = o.minInvoicePrice;
                             this.pMinPrice = o.minPrice;
+                            if (!this.selectProduct) {
+                                this.selectProduct = new Object as server.product;
+                            }
+                            this.selectProduct = o;
                         }
                     });
                 });
@@ -479,6 +486,9 @@ export default class OrderComponent extends ComponentBase {
     }
 
     postOrder(model: server.order) {
+        if (this.selectProduct)
+            model.minPrice = model.isInvoice ? this.selectProduct.minInvoicePrice : this.selectProduct.minPrice;
+        console.log(model.minPrice);
         axios.post('/api/Order', model).then((res) => {
             let jobj = res.data as server.resultJSON<server.order>;
             if (jobj.code == 0) {

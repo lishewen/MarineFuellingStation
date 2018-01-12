@@ -27,10 +27,9 @@
                         <p>{{o.carNo}}</p>
                         <p class="col-light-gray font12">{{o.name}}</p>
                     </div>
-                    <div slot="right" class="col-coral align-left" style="width:80px;">提：￥{{o.salesCommission}}</div>
+                    <div slot="right" class="col-coral align-left" style="width:80px;">{{strCommission(o.salesCommission, o.payState)}}</div>
                     <div slot="right" style="padding-right: .1rem">
                         <p class="col-green" style="padding-left:10px">{{strOrderState(o.state)}}</p>
-                        <p class="col-gray" style="margin-top:0.1rem">{{strPayState(o.payState)}}</p>
                     </div>
                 </yd-cell-item>
                 <!-- 数据全部加载完毕显示 -->

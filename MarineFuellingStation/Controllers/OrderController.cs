@@ -100,7 +100,7 @@ namespace MFS.Controllers
                          , $"<div class=\"gray\">单号：{result.Name}</div>" +
                          $"<div class=\"normal\">开单人：{UserName}</div>" +
                          $"<div class=\"normal\">船号：{result.CarNo}</div>"
-                         , $"https://vue.car0774.com/#/produce/load/{result.Id}", toUser: "@all");
+                         , $"https://vue.car0774.com/#/produce/load/{result.Id}/0", toUser: "@all");
             }
             else
             {

@@ -19,6 +19,10 @@ namespace MFS.Models
         /// </summary>
         public string OilName { get; set; }
         public decimal Price { get; set; }
+        /// <summary>
+        /// 最低限价
+        /// </summary>
+        public decimal MinPrice { get; set; }
         public decimal Count { get; set; }
         /// <summary>
         /// 单位

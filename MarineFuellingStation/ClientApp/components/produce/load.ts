@@ -10,7 +10,9 @@ export default class LoadComponent extends ComponentBase {
     orders: server.order[];
     store: server.store;
     stores: server.store[];
-
+    workers: work.userlist[];
+    worker: string = "";
+    title: string = "";
     currStep: number = 0;
     page: number = 1;
     showOrders: boolean = false;
@@ -20,6 +22,10 @@ export default class LoadComponent extends ComponentBase {
 
     orderType: server.salesPlanType;
 
+    oid: string;//路由传值oid
+
+    showSelectWorker: boolean = true;
+
     constructor() {
         super();
 
@@ -28,35 +34,51 @@ export default class LoadComponent extends ComponentBase {
         this.orders = new Array<server.order>();
         this.store = new Object as server.store;
         this.stores = new Array<server.store>();
-        this.getStores();
+        this.workers = new Array<work.userlist>();
+        this.worker = "";
     }
 
     mounted() {
         //默认的施工人员为操作人
         this.order.worker = this.$store.state.username;
 
-        let oid = this.$route.params.oid;
+        this.oid = this.$route.params.oid;
         this.orderType = parseInt(this.$route.params.ordertype) as server.salesPlanType;
-        let title;
         switch (this.orderType) {
             case server.salesPlanType.水上加油:
-                title = "水上加油";
+                this.title = "水上加油";
                 this.carOrBoat = "船号";
                 break;
             case server.salesPlanType.汇鸿车辆加油:
-                title = "汇鸿车辆加油"
+                this.title = "汇鸿车辆加油"
                 this.carOrBoat = "车牌号"
                 break;
             case server.salesPlanType.外来车辆加油:
-                title = "外来车辆加油"
+                this.title = "外来车辆加油"
                 this.carOrBoat = "车牌号"
                 break;
         }
-        this.$emit('setTitle', this.$store.state.username + " " + title);
-        if (oid) {
-            this.getOrder(oid);
+        if (this.oid) {
+            let that = this;
+            this.getOrder(this.oid, () => {
+                that.initData();
+            });
+        }
+        else {
+            this.getStores();
+            this.getWorkers();
         }
     };
+
+    initData() {
+        this.getStores();
+        this.getWorkers();
+    }
+
+    workerSelectedClick() {
+        this.showSelectWorker = false;
+        this.$emit("setTitle", this.worker + ' ' + this.title)
+    }
 
     showOrdersclick() {
         this.showOrders = true;
@@ -121,14 +143,17 @@ export default class LoadComponent extends ComponentBase {
             });
     }
 
-    getOrder(oid: string) {
+    getOrder(oid: string, callback: Function) {
         this.$dialog.loading.open("正在加载...请稍后");
         axios.get('/api/Order/' + oid).then((res) => {
             let jobj = res.data as server.resultJSON<server.order>;
             if (jobj.code == 0) {
+                if (jobj.data.state == server.orderState.已完成)
+                    window.location.href = '/#/sales/order/' + oid + "/load";
                 this.$dialog.loading.close();
                 this.order = jobj.data;
                 this.matchCurrStep();
+                callback();
             }
         });
     }
@@ -138,6 +163,16 @@ export default class LoadComponent extends ComponentBase {
             let jobj = res.data as server.resultJSON<server.store[]>;
             if (jobj.code == 0)
                 this.stores = jobj.data;
+        });
+    }
+
+    //获取生产员
+    getWorkers() {
+        axios.get('/api/User/Worker').then((res) => {
+            let jobj = res.data as work.tagMemberResult;
+            if (jobj.errcode == 0) {
+                this.workers = jobj.userlist;
+            }
         });
     }
 

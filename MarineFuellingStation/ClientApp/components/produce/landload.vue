@@ -14,7 +14,7 @@
         </div>
         <div v-show="!showSelectWorker">
             <div class="align-center first-group">
-                <yd-button style="width:90%;height:38px" type="primary" @click.native="showOrdersclick">销售单{{order.name? '：' + order.name + ' / ' + order.count + order.unit : ''}}</yd-button>
+                <yd-button style="width:90%;height:38px" type="primary" @click.native="showOrdersclick" :disabled="oid != null && oid != ''">销售单{{order.name? '：' + order.name + ' / ' + order.count + order.unit : ''}}</yd-button>
             </div>
             <yd-step :current="currStep" style="margin: .4rem 0 .4rem">
                 <yd-step-item>

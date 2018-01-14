@@ -84,38 +84,55 @@ namespace MFS.Controllers
             await MassApi.SendTextCardAsync(option.收银AccessToken, option.收银AgentId, "已开单"
                      , $"<div class=\"gray\">单号：{result.Name}</div>" +
                      $"<div class=\"normal\">开单人：{UserName}</div>" +
-                     $"<div class=\"normal\">船号/车号：{result.CarNo}</div>"
+                     $"<div class=\"normal\">船号/车号/客户名称：{result.CarNo}</div>"
                      , $"https://vue.car0774.com/#/sales/order/{result.Id}/order", toUser: "@all");
 
-            if (result.OrderType == SalesPlanType.水上加油 || result.OrderType == SalesPlanType.水上机油)
+            string strType = "",
+                orderUrl = "",
+                produceUrl = "",
+                carOrBoat = "";
+            switch (result.OrderType)
             {
-                //推送到“销售单”
-                await MassApi.SendTextCardAsync(option.销售单AccessToken, option.销售单AgentId, $"【水上】{UserName}开了销售单"
-                         , $"<div class=\"gray\">单号：{result.Name}</div>" +
-                         $"<div class=\"normal\">船号：{result.CarNo}</div>"
-                         , $"https://vue.car0774.com/#/sales/order/{result.Id}/order", toUser: "@all");
-
-                //推送到“加油”
-                await MassApi.SendTextCardAsync(option.加油AccessToken, option.加油AgentId, "水上加油，请施工"
-                         , $"<div class=\"gray\">单号：{result.Name}</div>" +
-                         $"<div class=\"normal\">开单人：{UserName}</div>" +
-                         $"<div class=\"normal\">船号：{result.CarNo}</div>"
-                         , $"https://vue.car0774.com/#/produce/load/{result.Id}/0", toUser: "@all");
+                case SalesPlanType.水上加油:
+                    strType = "水上加油";
+                    orderUrl = $"https://vue.car0774.com/#/sales/order/{result.Id}/order";
+                    produceUrl = $"https://vue.car0774.com/#/produce/load/{result.Id}/0";
+                    carOrBoat = "船号";
+                    break;
+                case SalesPlanType.陆上装车:
+                    strType = "陆上装车";
+                    orderUrl = $"https://vue.car0774.com/#/sales/order/{result.Id}/order";
+                    produceUrl = $"https://vue.car0774.com/#/produce/landload/{result.Id}/landload";
+                    carOrBoat = "车号/客户名";
+                    break;
+                case SalesPlanType.汇鸿车辆加油:
+                    strType = "汇鸿车辆加油";
+                    orderUrl = $"https://vue.car0774.com/#/sales/order/{result.Id}/order";
+                    produceUrl = $"https://vue.car0774.com/#/produce/load/{result.Id}/4";
+                    carOrBoat = "车号/客户名";
+                    break;
+                case SalesPlanType.外来车辆加油:
+                    strType = "外来车加油";
+                    orderUrl = $"https://vue.car0774.com/#/sales/order/{result.Id}/order";
+                    produceUrl = $"https://vue.car0774.com/#/produce/load/{result.Id}/5";
+                    carOrBoat = "车号/客户名";
+                    break;
             }
-            else
-            {
-                //推送到“销售单”
-                await MassApi.SendTextCardAsync(option.销售单AccessToken, option.销售单AgentId, $"【陆上】{UserName}开了销售单"
-                         , $"<div class=\"gray\">单号：{result.Name}</div>" +
-                         $"<div class=\"normal\">车号：{result.CarNo}</div>"
-                         , $"https://vue.car0774.com/#/sales/order/{result.Id}/order", toUser: "@all");
 
-                //推送到“加油”
-                await MassApi.SendTextCardAsync(option.加油AccessToken, option.加油AgentId, "陆上装车，请施工"
+            //推送到“销售单”
+            await MassApi.SendTextCardAsync(option.销售单AccessToken, option.销售单AgentId, $"【{strType}】{UserName}开了销售单"
+                     , $"<div class=\"gray\">单号：{result.Name}</div>" +
+                     $"<div class=\"normal\">{carOrBoat}：{result.CarNo}</div>"
+                     , orderUrl, toUser: "@all");
+
+            if (result.OrderType != SalesPlanType.水上机油)
+            {
+                //推送到“加油”施工
+                await MassApi.SendTextCardAsync(option.加油AccessToken, option.加油AgentId, $"{strType}，请施工"
                          , $"<div class=\"gray\">单号：{result.Name}</div>" +
                          $"<div class=\"normal\">开单人：{UserName}</div>" +
-                         $"<div class=\"normal\">车号：{result.CarNo}</div>"
-                         , $"https://vue.car0774.com/#/sales/order/{result.Id}/order", toUser: "@all");
+                         $"<div class=\"normal\">{carOrBoat}：{result.CarNo}</div>"
+                         , produceUrl, toUser: "@all");
             }
             //#endif
             return new ResultJSON<Order>

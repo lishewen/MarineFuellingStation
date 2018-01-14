@@ -21,6 +21,8 @@ export default class LandloadComponent extends ComponentBase {
 
     page: number;
 
+    oid: string;//路由传值oid
+
     constructor() {
         super();
 
@@ -33,9 +35,6 @@ export default class LandloadComponent extends ComponentBase {
 
         this.order.worker = "";
 
-        this.getStores();
-        this.getLastOrder();
-        this.getWorkers();
     }
 
     workerSelectedClick() {
@@ -50,9 +49,6 @@ export default class LandloadComponent extends ComponentBase {
 
     orderclick(o: server.order) {
         this.order = o;
-        //重新选择生产员
-        if (this.order.worker != this.worker)
-            this.showSelectWorker = true;
         this.showOrders = false;
         this.matchCurrStep();
 
@@ -102,6 +98,8 @@ export default class LandloadComponent extends ComponentBase {
     }
    
     mounted() {
+        this.oid = this.$route.params.oid;
+
         this.$emit('setTitle', this.order.worker + ' 陆上装车');
         this.$watch("lastorder.instrument1", (v, ov) => {
             this.order.oilCountLitre = this.order.instrument1 - v;
@@ -109,7 +107,22 @@ export default class LandloadComponent extends ComponentBase {
         this.$watch("order.instrument1", (v, ov) => {
             this.order.oilCountLitre = v - this.lastorder.instrument1;
         });
+
+        if (this.oid) {
+            let that = this;
+            this.getOrder(this.oid, () => {
+                that.initData();
+            });
+        }
+        else
+            this.initData();
     };
+
+    initData() {
+        this.getStores();
+        this.getLastOrder();
+        this.getWorkers();
+    }
 
     uploadfile(e) {
         let file = e.target.files[0];
@@ -186,6 +199,23 @@ export default class LandloadComponent extends ComponentBase {
             });
     }
 
+    getOrder(oid: string, callback: Function) {
+        this.$dialog.loading.open("正在加载...请稍后");
+        axios.get('/api/Order/' + oid).then((res) => {
+            let jobj = res.data as server.resultJSON<server.order>;
+            if (jobj.code == 0) {
+                if (jobj.data.state == server.orderState.已完成)
+                    this.$router.push('/sales/order/' + oid + "/landload");
+                this.$dialog.loading.close();
+                this.order = jobj.data;
+                this.matchCurrStep();
+                callback();
+            }
+            else
+                this.toastError(jobj.msg)
+        });
+    }
+
     getStores() {
         axios.get('/api/Store/GetByClass?sc=' + server.storeClass.销售仓.toString()).then((res) => {
             let jobj = res.data as server.resultJSON<server.store[]>;
@@ -198,15 +228,15 @@ export default class LandloadComponent extends ComponentBase {
         this.order.state = state;
         this.order.worker = this.worker;
         console.log(this.order);
-        //axios.put('/api/Order/ChangeState', this.order).then((res) => {
-        //    let jobj = res.data as server.resultJSON<server.order>;
-        //    if (jobj.code == 0) {
-        //        this.order = jobj.data;
-        //        this.currStep++;
-        //    }
-        //    else
-        //        this.toastError(jobj.msg);
-        //});
+        axios.put('/api/Order/ChangeState', this.order).then((res) => {
+            let jobj = res.data as server.resultJSON<server.order>;
+            if (jobj.code == 0) {
+                this.order = jobj.data;
+                this.currStep++;
+            }
+            else
+                this.toastError(jobj.msg);
+        });
     }
 
     getLastOrder() {

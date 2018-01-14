@@ -189,7 +189,7 @@
                         </div>
                         <div slot="right" style="text-align: left;margin-right: 5px">
                             <p class="col-gray">{{o.product.name}}</p>
-                            <p class="col-gray">{{o.count}}{{o.unit}}}</p>
+                            <p class="col-gray">{{o.count}}{{o.unit}}</p>
                         </div>
                     </yd-cell-item>
                 </yd-cell-group>

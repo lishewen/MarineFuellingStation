@@ -100,6 +100,17 @@ export default class OrderListComponent extends ComponentBase {
         this.refresh();
     }
 
+    strCommission(commission: number, state: server.payState) {
+        if (commission == 0) {
+            if (state == server.payState.挂账) return "挂账";
+            if (state == server.payState.未结算) return "未结算";
+        }
+        else if (commission < 0)
+            return "业务费：￥" + commission
+        else if (commission > 0)
+            return "提成：￥" + commission
+    }
+
     getTotalSalesComm() {
         let sum = 0;
         this.orders.forEach((o, idx) => {

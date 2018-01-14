@@ -170,17 +170,7 @@ namespace MFS.Repositorys
             //计算订单销售提成
             if (o.PayState == PayState.已结算)
             {
-                switch (o.Unit)
-                {
-                    case "升":
-                        o.SalesCommission = (o.Price - o.MinPrice) * o.Count * 0.2M / 1200;
-                        break;
-                    case "吨":
-                        o.SalesCommission = (o.Price - o.MinPrice) * o.Count * 0.2M;
-                        break;
-                    default:
-                        break;
-                }
+                o.SalesCommission = (o.Price - o.MinPrice) * o.Count * 0.2M;
             }
             //新增付款记录Payment
             foreach (Payment p in model.Payments)

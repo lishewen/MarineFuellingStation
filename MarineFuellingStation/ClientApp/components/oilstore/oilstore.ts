@@ -80,14 +80,12 @@ export default class OilStoreComponent extends ComponentBase {
                 label: '最近十五次测量记录',
                 callback: () => {
                     that.getSurveys(st.id);
-                    that.show2 = true;
                 }
             },
             {
                 label: '化验记录',
                 callback: () => {
                     that.getAssays(st.id);
-                    that.showAssays = true;
                 }
             }
         ];
@@ -133,6 +131,10 @@ export default class OilStoreComponent extends ComponentBase {
             let jobj = res.data as server.resultJSON<server.survey[]>;
             if (jobj.code == 0) {
                 this.surveys = jobj.data;
+                if (this.surveys && this.surveys.length > 0)
+                    this.show2 = true;
+                else
+                    this.toastError("没有记录")
             }
         });
     }
@@ -142,6 +144,10 @@ export default class OilStoreComponent extends ComponentBase {
             let jobj = res.data as server.resultJSON<server.assay[]>;
             if (jobj.code == 0) {
                 this.assays = jobj.data;
+                if (this.assays && this.assays.length > 0)
+                    this.showAssays = true;
+                else
+                    this.toastError("没有记录")
             }
         });
     }

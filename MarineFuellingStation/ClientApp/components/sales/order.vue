@@ -38,7 +38,7 @@
                         </yd-cell-item>
                         <yd-cell-item>
                             <span slot="left">计划单价：</span>
-                            <span slot="right">{{salesplan.price}}</span>
+                            <span slot="right">￥{{salesplan.price}} / {{salesplan.unit}}</span>
                         </yd-cell-item>
                         <yd-cell-item>
                             <span slot="left">计划数量：</span>

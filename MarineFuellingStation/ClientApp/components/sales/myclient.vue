@@ -7,6 +7,9 @@
     <div id="root">
         <yd-cell-group>
             <yd-search v-model="sv" :on-submit="searchSubmit"></yd-search>
+            <div class="align-center">
+                <yd-button type="warning" @click.native="showAddCompanyclick" style="width: 90%; height: 38px; margin: .2rem 0">添加新公司</yd-button>
+            </div>
             <div class="align-center" style="padding: 10px 0 10px">
                 <span v-for="(f, index) in filterCType">
                     <yd-button type="warning" v-if="f.actived" @click.native="switchBtn(f, index, '客户类型')">{{f.name}}</yd-button>
@@ -58,6 +61,50 @@
                 </yd-grids-item>
             </yd-grids-group>
             <yd-button size="large" type="primary" @click.native="filterclick()">提交</yd-button>
+        </yd-popup>
+        <!--popup新增公司-->
+        <yd-popup v-model="showCompanyInput" position="right" width="70%">
+            <yd-cell-group title="必填">
+                <yd-cell-item>
+                    <span slot="left">名称：</span>
+                    <yd-input slot="right" v-model="modelCompany.name" required placeholder="请输入"></yd-input>
+                </yd-cell-item>
+            </yd-cell-group>
+            <yd-cell-group title="选填">
+                <yd-cell-item>
+                    <span slot="left">电话：</span>
+                    <yd-input slot="right" v-model="modelCompany.phone" regex="mobile" placeholder="请输入"></yd-input>
+                </yd-cell-item>
+                <yd-cell-item arrow>
+                    <span slot="left">票类：</span>
+                    <select slot="right">
+                        <option value="">请选择票类</option>
+                        <option value="0">循票</option>
+                        <option value="1">柴票</option>
+                    </select>
+                </yd-cell-item>
+                <yd-cell-item>
+                    <span slot="left">抬头：</span>
+                    <yd-input slot="right" v-model="modelCompany.invoiceTitle" regex="" placeholder="开票抬头"></yd-input>
+                </yd-cell-item>
+                <yd-cell-item>
+                    <span slot="left">税号：</span>
+                    <yd-input slot="right" v-model="modelCompany.taxFileNumber" regex="" type="number" placeholder="请输入"></yd-input>
+                </yd-cell-item>
+                <yd-cell-item>
+                    <span slot="left">账户：</span>
+                    <yd-input slot="right" v-model="modelCompany.businessAccount" type="number" placeholder="对公账户"></yd-input>
+                </yd-cell-item>
+                <yd-cell-item>
+                    <span slot="left">银行：</span>
+                    <yd-input slot="right" v-model="modelCompany.bank" regex="" placeholder="开户银行"></yd-input>
+                </yd-cell-item>
+                <yd-cell-item>
+                    <span slot="left">地址：</span>
+                    <yd-input slot="right" v-model="modelCompany.address" regex="" placeholder="请输入"></yd-input>
+                </yd-cell-item>
+            </yd-cell-group>
+            <yd-button size="large" type="primary" @click.native="addcompanyclick">提交</yd-button>
         </yd-popup>
         <!--备注信息popup-->
         <yd-popup v-model="showRemark" position="right" width="75%">

@@ -7,6 +7,7 @@ import { Component } from 'vue-property-decorator';
 export default class MyClientComponent extends ComponentBase {
     clients: server.client[];
     companys: server.company[];
+    modelCompany: server.company;
     client: server.client;
     radio2: string = "1";
     show1: boolean = false;
@@ -14,6 +15,7 @@ export default class MyClientComponent extends ComponentBase {
     showAct: boolean = false;
     showRemark: boolean = false;
     showCompanys: boolean = false;
+    showCompanyInput: boolean = false;
     remark: string = "";
     carNo: string = "";
     sv: string = "";
@@ -34,6 +36,8 @@ export default class MyClientComponent extends ComponentBase {
 
         this.clients = new Array<server.client>();
         this.companys = new Array<server.company>();
+        this.modelCompany = (new Object()) as server.company;
+
         this.filterCType = [
             { id: 0, name: '全部', value: server.clientType.全部, actived: true },
             { id: 1, name: '个人', value: server.clientType.个人, actived: false },
@@ -241,6 +245,19 @@ export default class MyClientComponent extends ComponentBase {
     companyclick(coId: number, coName: string) {
         this.getApplyClientToCompany(this.client.id, coId, this.client.carNo, coName);
     }
+    showAddCompanyclick() {
+        this.modelCompany = new Object as server.company;
+        this.showCompanyInput = true;
+    }
+    //提交新增公司
+    addcompanyclick() {
+        if (this.modelCompany.name == '' || this.modelCompany.name == null) {
+            this.toastError("名称不能为空");
+            return;
+        }
+
+        this.postCompany(this.modelCompany);
+    }
 
     //获得我的客户列表
     getClients(callback?: Function) {
@@ -313,6 +330,19 @@ export default class MyClientComponent extends ComponentBase {
                 this.toastSuccess('已向上级提出申请');
                 this.showCompanys = false;
             }
+        });
+    }
+    //新增公司
+    postCompany(model: server.company) {
+        axios.post('/api/Company', model).then((res) => {
+            let jobj = res.data as server.resultJSON<server.company>;
+            if (jobj.code == 0) {
+                this.modelCompany.name = '';
+                this.toastSuccess('操作成功');
+                this.modelCompany = new Object as server.company;
+            }
+            else
+                this.toastError(jobj.msg);
         });
     }
 

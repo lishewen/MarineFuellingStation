@@ -80,7 +80,7 @@
         </yd-popup>
         <yd-popup v-model="showAssays" position="right" width="70%">
             <yd-cell-group title="化验记录">
-                <yd-cell-item v-for="a in assays" :key="a.id">
+                <yd-cell-item v-for="a in assays" :key="a.id" class="mtop10">
                     <div slot="left" class="lineheight24">
                         <p>时间：</p>
                         <p>化验员：</p>

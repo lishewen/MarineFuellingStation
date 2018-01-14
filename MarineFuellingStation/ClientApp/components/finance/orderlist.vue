@@ -31,10 +31,9 @@
                             <p class="col-gray" style="margin-top: .2rem">{{formatDate(o.createAt)}}</p>
                             <p class="col-light-gray font12">{{o.name}}</p>
                         </div>
-                        <div class="col-coral align-left" slot="right" style="width:80px;">提：￥{{o.salesCommission}}</div>
+                        <div slot="right" class="col-coral align-left" style="width:80px;">{{strCommission(o.salesCommission, o.payState)}}</div>
                         <div slot="right" style="padding-right: .1rem">
                             <p class="col-green" style="padding-left:10px">{{strOrderState(o.state)}}</p>
-                            <p class="col-gray" style="margin-top:0.1rem">{{strPayState(o.payState)}}</p>
                         </div>
                     </yd-cell-item>
                     <!-- 数据全部加载完毕显示 -->
@@ -44,7 +43,7 @@
                 </yd-infinitescroll>
             </yd-cell-group>
         <!--popup销售列表-->
-        <yd-popup v-model="showSalesmans" position="right">
+        <yd-popup v-model="showSalesmans" position="right" width="50%">
             <yd-cell-group title="必填">
                 <yd-cell-item arrow type="radio" v-for="s in sales" :key="s.userid" @click.native="selectsalesclick(s)">
                     <span slot="left">{{s.name}}</span>

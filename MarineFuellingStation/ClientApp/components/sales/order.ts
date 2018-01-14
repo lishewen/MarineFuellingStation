@@ -129,6 +129,8 @@ export default class OrderComponent extends ComponentBase {
         this.hasplan = true;
 
         this.salesplanshow = false;
+
+        this.strCarOrBoat = s.salesPlanType == server.salesPlanType.水上加油 || s.salesPlanType == server.salesPlanType.水上机油 ? "船号" : "车号/客户名称";
     };
 
     emptyclick(): void {

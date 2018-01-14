@@ -12,7 +12,7 @@ export default class LandloadComponent extends ComponentBase {
     lastorder: server.order;
     workers: work.userlist[];
 
-    worker: string;
+    worker: string = "";
     currStep: number = 0;
     showOrders: boolean = false;
     showStores: boolean = false;

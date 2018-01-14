@@ -1,7 +1,7 @@
 ﻿<template>
     <div id="root">
         <div v-show="showSelectWorker">
-            <div class="font16 align-center" style="font-weight:bold;margin:10px 0">请选择当前施工员：{{purchase.worker}}</div>
+            <div class="font16 align-center" style="font-weight:bold;margin:10px 0">请选择当前施工员：{{worker}}</div>
             <yd-cell-group>
                 <yd-cell-item type="radio" v-for="w,idx in workers" :key="idx">
                     <span slot="left">{{w.name}}</span>

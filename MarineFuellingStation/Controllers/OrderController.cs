@@ -102,7 +102,7 @@ namespace MFS.Controllers
                 case SalesPlanType.陆上装车:
                     strType = "陆上装车";
                     orderUrl = $"https://vue.car0774.com/#/sales/order/{result.Id}/order";
-                    produceUrl = $"https://vue.car0774.com/#/produce/landload/{result.Id}/landload";
+                    produceUrl = $"https://vue.car0774.com/#/produce/landload/{result.Id}";
                     carOrBoat = "车号/客户名";
                     break;
                 case SalesPlanType.汇鸿车辆加油:

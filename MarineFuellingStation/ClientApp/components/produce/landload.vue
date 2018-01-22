@@ -44,6 +44,10 @@
                     <yd-input slot="right" v-model="order.density" type="number" required placeholder="请输入测量密度"></yd-input>
                 </yd-cell-item>
                 <yd-cell-item>
+                    <span slot="left">油温：</span>
+                    <yd-input slot="right" v-model="order.oilTemperature" type="number" required placeholder="请输入油温"></yd-input>
+                </yd-cell-item>
+                <yd-cell-item>
                     <span slot="left">皮重：</span>
                     <yd-input slot="right" v-model="order.emptyCarWeight" type="number" required placeholder="请输入磅秤数"></yd-input>
                     <span slot="right">KG</span>

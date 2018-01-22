@@ -77,6 +77,10 @@ namespace MFS.Models
         /// </summary>
         public MoveStoreState State { get; set; } = MoveStoreState.已开单;
         /// <summary>
+        /// 生产员 以'|'区分多个
+        /// </summary>
+        public string Worker { get; set; }
+        /// <summary>
         /// 误差
         /// </summary>
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]

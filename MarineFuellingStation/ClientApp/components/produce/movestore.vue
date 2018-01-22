@@ -98,7 +98,7 @@
                             </div>
                             <div slot="right" style="margin-right: 5px">
                                 <p class="col-gray font16">{{m.outPlan}}升</p>
-                                <p class="col-light-gray">{{formatDate(m.lastUpdateAt, 'MM-DD HH:mm')}}</p>
+                                <p class="col-light-gray">{{formatDate(m.lastUpdatedAt, 'MM-DD HH:mm')}}</p>
                             </div>
                         </yd-cell-item>
                         <!-- 数据全部加载完毕显示 -->

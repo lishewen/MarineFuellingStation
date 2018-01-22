@@ -31,6 +31,8 @@ declare module server {
 		state: moveStoreState;
 		/** 误差 */
         deviation: number;
+        /** 生产人员 */
+        work: string;
         /** 单据是否删除标识 */
         isDel: boolean;
 	}

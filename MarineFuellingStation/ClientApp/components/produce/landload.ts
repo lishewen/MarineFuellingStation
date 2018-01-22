@@ -73,12 +73,13 @@ export default class LandloadComponent extends ComponentBase {
         console.log(this.currStep);
         switch (this.currStep) {
             case 2:
-                if (this.order.emptyCarWeight == 0 || this.order.emptyCarWeight == null) { this.toastError("磅秤数据不能为空或0"); return;}
-                if (!this.order.emptyCarWeightPic) { this.toastError("请上传空车过磅数据图片"); return;}
+                if (this.order.oilTemperature == null || this.order.oilTemperature <= 0) { this.toastError("请输入油温"); return; }
+                if (this.order.emptyCarWeight == 0 || this.order.emptyCarWeight == null) { this.toastError("磅秤数据不能为空或0"); return; }
+                if (!this.order.emptyCarWeightPic) { this.toastError("请上传空车过磅数据图片"); return; }
                 break;
             case 3:
-                if (this.lastorder.instrument1 == null || this.lastorder.instrument1 <= 0) { this.toastError("请填写加油前表数"); return;}
-                if (this.order.instrument1 == null || this.order.instrument1 <= 0) { this.toastError("请填写加油后表数"); return;}
+                if (this.lastorder.instrument1 == null || this.lastorder.instrument1 <= 0) { this.toastError("请填写加油前表数"); return; }
+                if (this.order.instrument1 == null || this.order.instrument1 <= 0) { this.toastError("请填写加油后表数"); return; }
                 if (this.order.oilCountLitre <= 0) { this.toastError("加油后表数应大于加油前表数"); return;}
                 break;
             case 4:

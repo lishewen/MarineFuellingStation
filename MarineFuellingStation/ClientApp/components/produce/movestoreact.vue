@@ -1,8 +1,8 @@
 ﻿<template>
     <div id="root">
-        <yd-tab :change="change">
+        <yd-tab :callback="change">
 
-            <yd-tab-panel label="施工">
+            <yd-tab-panel label="待施工">
                 <yd-cell-group>
                     <yd-cell-item arrow @click.native="changeState(m)" v-for="m in movestores" :key="m.id">
                         <div slot="left" style="line-height: 22px;margin: 10px 0 10px 0">
@@ -16,7 +16,7 @@
                         </div>
                         <div slot="right" style="text-align: left;margin-right: 5px">
                             <p class="col-gray font16">{{m.outPlan}}升</p>
-                            <p class="col-red font14">{{m.stateName}}</p>
+                            <p class="col-light-gray font14">{{m.createdBy}}</p>
                         </div>
                     </yd-cell-item>
                 </yd-cell-group>
@@ -31,10 +31,12 @@
                             <p>
                                 <span class="col-red">入：</span><span>【{{f.inStoreTypeName}}】 - {{f.inStoreName}}</span>
                             </p>
-                            <p class="col-light-gray font12">{{f.name}} - {{formatDate(f.lastUpdateAt)}}</p>
+                            <p class="col-light-gray font12">{{f.name}} - {{formatDate(f.lastUpdatedAt)}}</p>
                         </div>
                         <div slot="right" class="align-left" style="margin-right: 5px">
                             <p class="col-gray font16">{{f.outPlan}}升</p>
+                            <p>开：{{f.createdBy}}</p>
+                            <p>施：{{f.worker}}</p>
                         </div>
                     </yd-cell-item>
                 </yd-cell-group>
@@ -51,6 +53,13 @@
                         <span slot="left">实际转入：</span>
                         <yd-input slot="right" v-model="model.inFact" required placeholder="" type="number"></yd-input>
                         <span slot="right">升</span>
+                    </yd-cell-item>
+                    <yd-cell-item>
+                        <span slot="left">施工人员：</span>
+                        <select slot="right" v-model="model.worker">
+                            <option value="">请选择</option>
+                            <option v-for="w,idx in workers" :key="idx" :value="w.name">{{w.name}}</option>
+                        </select>
                     </yd-cell-item>
                 </yd-cell-group>
                 <yd-button size="large" type="primary" @click.native="overclick()">施工结束提交</yd-button>

@@ -19,5 +19,8 @@ namespace MFS.Models.GET
         public decimal OutPlan { get; set; }
         public string Name { get; set; }
         public DateTime LastUpdatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public string Worker { get; set; }
+        public string CreatedBy { get; set; }
     }
 }

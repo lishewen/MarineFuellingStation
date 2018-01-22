@@ -8,6 +8,7 @@ export default class MoveStoreActComponent extends ComponentBase {
     show2: boolean = false;
     movestores: server.moveStoreGET[];
     fnmovestores: server.moveStoreGET[];
+    workers: work.userlist[];
     model: server.moveStore;
     menus: ydui.actionSheetItem[];
     showMenus: boolean = false;
@@ -18,9 +19,10 @@ export default class MoveStoreActComponent extends ComponentBase {
         this.movestores = new Array<server.moveStoreGET>();
         this.fnmovestores = new Array<server.moveStoreGET>();
         this.model = new Object() as server.moveStore;
+        this.workers = new Array<work.userlist>();
         
         this.getMoveStores();
-        this.getFnMoveStores();
+        this.getWorkers();
     }
 
     changeState(m: server.moveStoreGET) {
@@ -39,6 +41,7 @@ export default class MoveStoreActComponent extends ComponentBase {
             this.toastError("实际转入数量不能为空或小于等于0")
             return;
         }
+        if (!this.model.work) { this.toastError("请选择施工人员"); return; }
         this.putInOutFact()
     }
 
@@ -62,7 +65,9 @@ export default class MoveStoreActComponent extends ComponentBase {
 
     change(label: string, tabkey: string) {
         console.log(label);
-        
+        if (label == "完工单") {
+            this.getFnMoveStores();
+        }
     }
 
     getMoveStores() {
@@ -78,6 +83,16 @@ export default class MoveStoreActComponent extends ComponentBase {
             let jobj = res.data as server.resultJSON<server.moveStoreGET[]>;
             if (jobj.code == 0)
                 this.fnmovestores = jobj.data;
+        });
+    }
+
+    //获取生产员
+    getWorkers() {
+        axios.get('/api/User/Worker').then((res) => {
+            let jobj = res.data as work.tagMemberResult;
+            if (jobj.errcode == 0) {
+                this.workers = jobj.userlist;
+            }
         });
     }
 

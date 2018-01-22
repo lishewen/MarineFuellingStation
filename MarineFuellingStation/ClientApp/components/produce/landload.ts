@@ -69,11 +69,6 @@ export default class LandloadComponent extends ComponentBase {
         console.log(st.id);
     }
 
-    //打印到地磅室
-    printToDBclick() {
-        this.getPrintLandload(this.order.id, "地磅室");
-    }
-
     changeState(nextState: server.orderState) {
         console.log(this.currStep);
         switch (this.currStep) {
@@ -82,8 +77,8 @@ export default class LandloadComponent extends ComponentBase {
                 if (!this.order.emptyCarWeightPic) { this.toastError("请上传空车过磅数据图片"); return;}
                 break;
             case 3:
-                if (this.lastorder.instrument1 <= 0) { this.toastError("请填写加油前表数"); return;}
-                if (this.order.instrument1 <= 0) { this.toastError("请填写加油后表数1"); return;}
+                if (this.lastorder.instrument1 == null || this.lastorder.instrument1 <= 0) { this.toastError("请填写加油前表数"); return;}
+                if (this.order.instrument1 == null || this.order.instrument1 <= 0) { this.toastError("请填写加油后表数"); return;}
                 if (this.order.oilCountLitre <= 0) { this.toastError("加油后表数应大于加油前表数"); return;}
                 break;
             case 4:
@@ -120,7 +115,8 @@ export default class LandloadComponent extends ComponentBase {
 
     initData() {
         this.getStores();
-        this.getLastOrder();
+        //应客户要求，不需要显示上次加油油表值
+        //this.getLastOrder();
         this.getWorkers();
     }
 

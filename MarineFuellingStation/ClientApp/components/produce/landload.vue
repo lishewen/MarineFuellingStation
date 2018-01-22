@@ -93,12 +93,12 @@
             <!--4-油车过磅-->
             <yd-cell-group title="第四步：油车过磅" v-show="currStep == 4">
                 <yd-cell-item>
-                    <span slot="right">皮重：{{order.emptyCarWeight}}KG</span>
+                    <span slot="right">皮重：{{order.emptyCarWeight}} KG</span>
                 </yd-cell-item>
                 <yd-cell-item>
                     <span slot="left">毛重：</span>
                     <yd-input slot="right" v-model="order.oilCarWeight" type="number" required placeholder="请输入磅秤数"></yd-input>
-                    <span slot="right">KG</span>
+                    <span slot="right"> KG</span>
                 </yd-cell-item>
                 <!--<yd-cell-item>
                     <span slot="left">图片上传：</span>
@@ -106,7 +106,7 @@
                 </yd-cell-item>-->
             </yd-cell-group>
             <div class="align-center" v-show="currStep == 4">
-                <yd-button type="warning" class="mtop20" slot="right" style="width: 90%;height:38px" @click.native="uploadByWeixin">磅秤拍照上传</yd-button>
+                <yd-button type="warning" class="mtop20" slot="right" style="width: 90%;height:38px;margin-top: 20px;" @click.native="uploadByWeixin">磅秤拍照上传</yd-button>
                 <yd-button style="width:90%;height:38px;margin-top: 20px;" type="primary" @click.native="currStep -= 1">← 上一步：加油</yd-button>
                 <yd-button style="width:90%;height:38px;margin-top: 20px;" type="primary" @click.native="changeState(5)" :disabled="order.oilCarWeight <= 0 || order.oilCarWeightPic == null || order.oilCarWeightPic == ''">下一步：完工 →</yd-button>
             </div>
@@ -117,26 +117,28 @@
             </div>
             <!--打印-->
             <div class="align-center" v-show="currStep == 5">
-                <yd-button style="width:90%" type="hollow" @click.native="printToDBclick()">打印到【地磅室】</yd-button>
+                <yd-button style="width:90%;height:38px;" type="hollow" @click.native="getPrintPonderation(order.id, '地磅室')">打印【过磅单】到【地磅室】</yd-button>
+                <yd-button style="width:90%;height:38px;margin-top:20px;" type="hollow" @click.native="getPrintDeliver(order.id, '地磅室')">打印【陆上送货单】到【地磅室】</yd-button>
+                <yd-button style="width:90%;height:38px;margin-top:20px;" type="hollow" @click.native="getPrintLandload(order.id, '地磅室');">打印【陆上装车单】到【地磅室】</yd-button>
             </div>
             <!--施工明细-->
             <div v-show="currStep == 5" class="mtop20">
                 <div style="background-color: yellowgreen;padding: 10px; text-align: center; color: white; font-size: .3rem">实际加：{{order.oilCount}}{{order.unit}} | 应加：{{order.count}}{{order.unit}} | 相差{{order.diffOil}}{{order.unit}}</div>
                 <yd-cell-group title="过磅明细" class="mtop20">
                     <yd-cell-item>
-                        <span slot="right" style="font-weight: bold">{{order.product? order.product.name : ""}} - {{order.count}}吨</span>
+                        <span slot="right" style="font-weight: bold">{{order.product? order.product.name : ""}} - {{order.count}}{{order.unit}}</span>
                     </yd-cell-item>
                     <yd-cell-item>
                         <span slot="left">毛重：</span>
-                        <span slot="right">{{order.oilCarWeight}}KG</span>
+                        <span slot="right">{{order.oilCarWeight}} KG</span>
                     </yd-cell-item>
                     <yd-cell-item>
                         <span slot="left">皮重：</span>
-                        <span slot="right">{{order.emptyCarWeight}}KG</span>
+                        <span slot="right">{{order.emptyCarWeight}} KG</span>
                     </yd-cell-item>
                     <yd-cell-item>
                         <span slot="left">净重：</span>
-                        <span slot="right">{{order.diffWeight}}KG</span>
+                        <span slot="right">{{order.diffWeight}} KG</span>
                     </yd-cell-item>
                 </yd-cell-group>
                 <yd-cell-group title="油表明细">
@@ -157,8 +159,8 @@
                         <span slot="right">{{order.density}}</span>
                     </yd-cell-item>
                     <yd-cell-item>
-                        <span slot="left">换算“吨”：</span>
-                        <span slot="right">{{order.oilCount}}</span>
+                        <span slot="left">实际加油数量 × 密度 ÷ 1000 = </span>
+                        <span slot="right">{{order.oilCount}}{{order.unit}}</span>
                     </yd-cell-item>
                     <yd-cell-item>
                         <span slot="left">施工人：</span>

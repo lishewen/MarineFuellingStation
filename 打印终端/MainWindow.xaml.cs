@@ -542,7 +542,7 @@ namespace 打印终端
             WordReplace(wApp, "#CarNo#", p.CarNo);
             WordReplace(wApp, "#ScaleWithCar#", p.ScaleWithCar.ToString());
             WordReplace(wApp, "#Scale#", p.Scale.ToString());
-            WordReplace(wApp, "#DiffWeight#", p.DiffWeight.ToString("0.00"));
+            WordReplace(wApp, "#DiffWeight#", p.DiffWeight.ToString());
             WordReplace(wApp, "#Worker#", p.Worker);
             WordReplace(wApp, "#StartTime#", p.StartTime.HasValue ? DateTime.Parse(p.StartTime.ToString()).ToString("yyyy-MM-dd HH:mm"): "");
 

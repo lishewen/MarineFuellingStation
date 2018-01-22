@@ -68,12 +68,12 @@
             <div v-show="currStep == 3">
                 <yd-cell-group title="第三步：空车过磅 称皮重">
                     <yd-cell-item>
-                        <span slot="right">毛重：{{purchase.scaleWithCar}}吨</span>
+                        <span slot="right">毛重：{{purchase.scaleWithCar}} KG</span>
                     </yd-cell-item>
                     <yd-cell-item>
                         <span slot="left">皮重：</span>
                         <yd-input slot="right" v-model="purchase.scale" type="number" required placeholder="请输入磅秤数"></yd-input>
-                        <span slot="right">KG</span>
+                        <span slot="right"> KG</span>
                     </yd-cell-item>
 
                     <!--<yd-cell-item>
@@ -114,8 +114,8 @@
             </div>
             <!--打印-->
             <div class="align-center" v-show="currStep == 5">
-                <yd-button style="width:90%;height:38px" type="hollow" @click.native="getPrintUnload(purchase.id, '收银台');">打印到【收银台】</yd-button>
-                <yd-button class="mtop10" style="width:90%;height:38px" type="hollow" @click.native="getPrintUnload(purchase.id, '地磅室')">打印到【地磅室】</yd-button>
+                <yd-button style="width:90%;height:38px" type="hollow" @click.native="getPrintUnload(purchase.id, '收银台');">打印【陆上卸油单】到【收银台】</yd-button>
+                <yd-button class="mtop10" style="width:90%;height:38px" type="hollow" @click.native="getPrintUnload(purchase.id, '地磅室')">打印【陆上卸油单】到【地磅室】</yd-button>
             </div>
             <!--施工明细-->
             <yd-cell-group title="施工明细" v-show="currStep == 5" class="mtop20">

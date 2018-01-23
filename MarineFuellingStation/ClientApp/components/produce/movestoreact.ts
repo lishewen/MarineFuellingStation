@@ -41,7 +41,7 @@ export default class MoveStoreActComponent extends ComponentBase {
             this.toastError("实际转入数量不能为空或小于等于0")
             return;
         }
-        if (!this.model.work) { this.toastError("请选择施工人员"); return; }
+        if (!this.model.worker) { this.toastError("请选择施工人员"); return; }
         this.putInOutFact()
     }
 

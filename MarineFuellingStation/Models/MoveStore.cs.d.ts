@@ -32,7 +32,7 @@ declare module server {
 		/** 误差 */
         deviation: number;
         /** 生产人员 */
-        work: string;
+        worker: string;
         /** 单据是否删除标识 */
         isDel: boolean;
 	}

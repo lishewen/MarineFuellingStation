@@ -65,8 +65,8 @@ export default class LandloadComponent extends ComponentBase {
         this.order.storeId = st.id;
         this.order.store = st;
         this.showStores = false;
+        console.log(st);
         this.changeState(server.orderState.空车过磅);
-        console.log(st.id);
     }
 
     changeState(nextState: server.orderState) {
@@ -118,6 +118,7 @@ export default class LandloadComponent extends ComponentBase {
         this.getStores();
         //应客户要求，不需要显示上次加油油表值
         //this.getLastOrder();
+        this.lastorder.instrument1 = 0;
         this.getWorkers();
     }
 

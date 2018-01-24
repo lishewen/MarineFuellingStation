@@ -124,6 +124,9 @@
                 <yd-button style="width:90%;height:38px;" type="hollow" @click.native="getPrintPonderation(order.id, '地磅室')">打印【过磅单】到【地磅室】</yd-button>
                 <yd-button style="width:90%;height:38px;margin-top:20px;" type="hollow" @click.native="getPrintDeliver(order.id, '地磅室')">打印【陆上送货单】到【地磅室】</yd-button>
                 <yd-button style="width:90%;height:38px;margin-top:20px;" type="hollow" @click.native="getPrintLandload(order.id, '地磅室');">打印【陆上装车单】到【地磅室】</yd-button>
+                <yd-button style="width:90%;height:38px;margin-top:20px;" type="hollow" @click.native="getPrintPonderation(order.id, '收银台')">打印【过磅单】到【地磅室】</yd-button>
+                <yd-button style="width:90%;height:38px;margin-top:20px;" type="hollow" @click.native="getPrintDeliver(order.id, '收银台')">打印【陆上送货单】到【地磅室】</yd-button>
+                <yd-button style="width:90%;height:38px;margin-top:20px;" type="hollow" @click.native="getPrintLandload(order.id, '收银台');">打印【陆上装车单】到【地磅室】</yd-button>
             </div>
             <!--施工明细-->
             <div v-show="currStep == 5" class="mtop20">

@@ -493,6 +493,8 @@ namespace 打印终端
             WordReplace(wApp, "#Count#", p.Count.ToString());
             WordReplace(wApp, "#OilCount#", p.OilCount.ToString("0.00"));
             WordReplace(wApp, "#Density#", p.Density.ToString("0.000"));
+            WordReplace(wApp, "#ScaleWithCar#", p.ScaleWithCar.ToString());
+            WordReplace(wApp, "#Scale#", p.Scale.ToString());
 
             string strToStore = "";
             foreach(var st in p.ToStoresList)

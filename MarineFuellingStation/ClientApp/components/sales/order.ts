@@ -8,14 +8,20 @@ export default class OrderComponent extends ComponentBase {
     salesplans: server.salesPlan[];
     salesplan: server.salesPlan;
     selectProduct: server.product;
+    stores: server.store[];
+    workers: work.userlist[];
     salesplanshow: boolean = false;
     isPrevent: boolean = true;
     showMenus: boolean = false;
+    showStores: boolean = false; 
+    showWorkers: boolean = false; 
     model: server.order;
     selectedplanNo: string = "请选择";
     oiloptions: ydui.actionSheetItem[];
     menus: ydui.actionSheetItem[];
     oilName: string = '请选择';
+    selectStoreText: string = "请选择销售仓";
+    selectWorkerText: string = "请选择施工人员";
     oilshow: boolean = false;
     orders: server.order[];
     clients: server.client[];
@@ -76,6 +82,8 @@ export default class OrderComponent extends ComponentBase {
 
         this.getOrderNo();
         this.getOilProducts();
+        this.stores = new Array<server.store>();
+        this.workers = new Array<work.userlist>();
     }
 
     salesplanselect() {
@@ -175,6 +183,30 @@ export default class OrderComponent extends ComponentBase {
         this.showSalesmans = false;
     };
 
+    //显示选择销售仓
+    selectStoreclick() {
+        this.showStores = true;
+        this.getStores();
+    }
+
+    storeclick(s: server.store) {
+        this.model.storeId = s.id;
+        this.selectStoreText = s.name;
+        this.showStores = false;
+    }
+
+    //显示选择生产工
+    selectWorkerclick() {
+        this.showWorkers = true;
+        this.getWorkers();
+    }
+
+    workerclick(w: work.userlist) {
+        this.model.worker = w.name;
+        this.selectWorkerText = w.name;
+        this.showWorkers = false;
+    }
+
     buttonclick() {
         //信息验证
         if (this.model.carNo == '') {this.toastError('船号或车牌号不能为空');return;}
@@ -190,6 +222,10 @@ export default class OrderComponent extends ComponentBase {
             if (this.model.billingPrice <= 0 || this.model.billingPrice == null) { this.toastError('请输入开票单价') }
             if (this.model.billingCount <= 0 || this.model.billingCount == null) { this.toastError('请输入开票数量') }
         }
+
+        if (this.model.orderType == server.salesPlanType.水上加油 && (this.model.storeId == null)) { this.toastError("请选择销售仓"); return; }
+        if (this.model.orderType == server.salesPlanType.水上加油 && (this.model.worker == null)) { this.toastError("请选择施工人员"); return; }
+        console.log(this.model);
         this.postOrder(this.model);
     }
 
@@ -460,6 +496,16 @@ export default class OrderComponent extends ComponentBase {
         });
     }
 
+    //获取生产员
+    getWorkers() {
+        axios.get('/api/User/Worker').then((res) => {
+            let jobj = res.data as work.tagMemberResult;
+            if (jobj.errcode == 0) {
+                this.workers = jobj.userlist;
+            }
+        });
+    }
+
     //取得客户，如果没有找到该客户，则新增一个客户
     getClient() {
         let carNo = this.model.carNo;
@@ -484,6 +530,17 @@ export default class OrderComponent extends ComponentBase {
                     this.contact = this.client.contact ? this.client.contact : "";
                 }
             }
+        });
+    }
+
+    //取得所有销售仓
+    getStores() {
+        axios.get('/api/Store/GetByClass?sc=' + server.storeClass.销售仓.toString()).then((res) => {
+            let jobj = res.data as server.resultJSON<server.store[]>;
+            if (jobj.code == 0)
+                this.stores = jobj.data;
+            else
+                this.toastError(jobj.msg)
         });
     }
 

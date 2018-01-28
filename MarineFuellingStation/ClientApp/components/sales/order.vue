@@ -156,6 +156,15 @@
                         </yd-cell-item>
                     </yd-cell-group>
 
+                    <yd-cell-group title="水上施工信息" v-show="model.orderType == 0">
+                        <yd-cell-item arrow @click.native="selectStoreclick">
+                            <span slot="right">{{selectStoreText}}</span>
+                        </yd-cell-item>
+                        <yd-cell-item arrow @click.native="selectWorkerclick">
+                            <span slot="right">{{selectWorkerText}}</span>
+                        </yd-cell-item>
+                    </yd-cell-group>
+
                     <div>
                         <yd-button size="large" type="primary" @click.native="buttonclick" :disabled="isPrevent">提交</yd-button>
                     </div>
@@ -217,6 +226,29 @@
             <yd-cell-group title="必填">
                 <yd-cell-item arrow type="radio" v-for="s in sales" :key="s.userid" @click.native="selectsalesclick(s)">
                     <span slot="left">{{s.name}}</span>
+                </yd-cell-item>
+            </yd-cell-group>
+        </yd-popup>
+        <!--popup销售仓选择-->
+        <yd-popup v-model="showStores" position="right">
+            <yd-cell-group title="请选择销售仓">
+                <yd-cell-item v-for="s in stores" :key="s.id" @click.native="storeclick(s)">
+                    <div slot="left">
+                        <p>{{s.name}}</p>
+                    </div>
+                    <div slot="right">
+                        <p class="col-light-gray">{{s.value}}</p>
+                    </div>
+                </yd-cell-item>
+            </yd-cell-group>
+        </yd-popup>
+        <!--popup生产人员选择-->
+        <yd-popup v-model="showWorkers" position="right">
+            <yd-cell-group title="请选择生产人员">
+                <yd-cell-item v-for="w,idx in workers" :key="idx" @click.native="workerclick(w)">
+                    <div slot="left">
+                        <p>{{w.name}}</p>
+                    </div>
                 </yd-cell-item>
             </yd-cell-group>
         </yd-popup>

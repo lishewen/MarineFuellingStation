@@ -70,6 +70,19 @@ namespace MFS.Controllers
 
             var result = r.Insert(o);
 
+            //"水上加油"不再独立施工流程，跳过施工过程直接“完工”状态
+            if(o.OrderType == SalesPlanType.水上加油) {
+                o.State = OrderState.已完成;
+                var res  = r.ChangeState(o);
+                //推送到“油仓情况”
+                this.option.油仓情况AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.油仓情况Secret);
+                await MassApi.SendTextCardAsync(option.油仓情况AccessToken, option.油仓情况AgentId, $"{result.CarNo}加油完工，已更新油仓油量"
+                         , $"<div class=\"gray\">单号：{result.Name}</div>" +
+                         $"<div class=\"normal\">施工人：{result.Worker}</div>" +
+                         $"<div class=\"normal\">数量：{Math.Round(result.OilCountLitre, 2)}升</div>"
+                         , $"https://vue.car0774.com/#/sales/order/{result.Id}/order", toUser: "@all");
+            }
+
             //推送打印指令
             //await _hub.Clients.All.InvokeAsync("printorder", result);
             
@@ -125,7 +138,8 @@ namespace MFS.Controllers
                      $"<div class=\"normal\">{carOrBoat}：{result.CarNo}</div>"
                      , orderUrl, toUser: "@all");
 
-            if (result.OrderType != SalesPlanType.水上机油)
+            if (result.OrderType != SalesPlanType.水上机油
+                && result.OrderType != SalesPlanType.水上加油)
             {
                 //推送到“加油”施工
                 await MassApi.SendTextCardAsync(option.加油AccessToken, option.加油AgentId, $"{strType}，请施工"

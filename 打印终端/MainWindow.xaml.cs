@@ -267,6 +267,8 @@ namespace 打印终端
             wDoc.Activate(); //当前文档置前
 
             decimal DiffWeightToLitre = order.DiffWeight / (decimal)order.Density * 1000;
+            decimal OilCountTon = order.OilCountLitre * (decimal)order.Density / 1000;
+            decimal DiffPondLitre = order.OilCountLitre - DiffWeightToLitre;
             //填充数据
             WordReplace(wApp, "#Name#", order.Name);
             WordReplace(wApp, "#ClientName#", order.Client.CarNo);
@@ -278,8 +280,12 @@ namespace 打印终端
             WordReplace(wApp, "#Price#", order.IsPrintPrice? order.Price.ToString() : "0.00");
             WordReplace(wApp, "#TotalMoney#", order.TotalMoney.ToString());
             WordReplace(wApp, "#OilCount#", order.OilCountLitre.ToString());
+            WordReplace(wApp, "#OilCountTon#", OilCountTon.ToString("0.0"));
+            WordReplace(wApp, "#DiffWeight#", (order.OilCarWeight - order.EmptyCarWeight).ToString("0.0"));
+            WordReplace(wApp, "#DiffWeightTon#", ((order.OilCarWeight - order.EmptyCarWeight)/1000).ToString("0.0"));
             WordReplace(wApp, "#DiffWeightToLitre#", DiffWeightToLitre.ToString("0.00"));
-            WordReplace(wApp, "#DiffLitre#", (order.OilCountLitre - DiffWeightToLitre).ToString("0.00"));
+            WordReplace(wApp, "#DiffPondLitre#", DiffPondLitre.ToString("0.0"));
+            WordReplace(wApp, "#DiffPondTon#", (DiffPondLitre * (decimal)order.Density / 1000).ToString("0.0"));
             WordReplace(wApp, "#Instrument_bf#", (order.Instrument1 - order.OilCountLitre).ToString());
             WordReplace(wApp, "#Instrument_af#", order.Instrument1.ToString());
             WordReplace(wApp, "#Density#", order.Density.ToString("0.000"));

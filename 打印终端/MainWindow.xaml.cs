@@ -283,7 +283,7 @@ namespace 打印终端
             WordReplace(wApp, "#Instrument_bf#", (order.Instrument1 - order.OilCountLitre).ToString());
             WordReplace(wApp, "#Instrument_af#", order.Instrument1.ToString());
             WordReplace(wApp, "#Density#", order.Density.ToString("0.000"));
-            //WordReplace(wApp, "#OilTemperature#", order.OilTemperature.ToString());
+            WordReplace(wApp, "#OilTemperature#", order.OilTemperature.ToString());
             WordReplace(wApp, "#Worker#", order.Worker);
             WordReplace(wApp, "#LastUpdatedAt#", order.LastUpdatedAt.ToString());
             WordReplace(wApp, "#Salesman#", order.Salesman);

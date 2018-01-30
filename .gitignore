@@ -260,3 +260,4 @@ paket-files/
 __pycache__/
 *.pyc
 MarineFuellingStation/package-lock.json
+/打印终端/pos/pos.rar

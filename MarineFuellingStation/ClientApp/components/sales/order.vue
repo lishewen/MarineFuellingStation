@@ -252,6 +252,15 @@
                 </yd-cell-item>
             </yd-cell-group>
         </yd-popup>
+        <!--popup生产人员选择-->
+        <yd-popup v-model="showAddDelReason" position="right">
+            <yd-cell-group title="请输入作废单据原因">
+                <yd-cell-item>
+                    <yd-textarea slot="right" v-model="delReason" placeholder="请输入本次作废单据原因" maxlength="100"></yd-textarea>
+                </yd-cell-item>
+            </yd-cell-group>
+            <yd-button size="large" type="primary" @click.native="delOrderclick" :disabled="delReason == null || delReason == ''">提交</yd-button>
+        </yd-popup>
         <!--右滑菜单 end-->
         <!--打印菜单-->
         <yd-actionsheet :items="menus" v-model="showMenus" cancel="取消"></yd-actionsheet>

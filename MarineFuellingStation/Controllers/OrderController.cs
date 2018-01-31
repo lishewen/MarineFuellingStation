@@ -512,5 +512,20 @@ namespace MFS.Controllers
             };
         }
         #endregion
+        #region Delete
+        [HttpDelete]
+        public ResultJSON<Order> Del(int id, string delreason)
+        {
+            try
+            {
+                Order order = r.SetIsDel(id, delreason);
+                return new ResultJSON<Order> { Code = 0, Data = order };
+            }
+            catch(Exception e)
+            {
+                return new ResultJSON<Order> { Code = 503, Msg = e.Message };
+            }
+        }
+        #endregion
     }
 }

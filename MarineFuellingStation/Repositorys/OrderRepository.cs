@@ -308,7 +308,7 @@ namespace MFS.Repositorys
                     Value = order.OilCount,
                     ValueLitre = order.OilCountLitre,
                     Operators = CurrentUser,
-                    Unit = "升",
+                    Unit = order.Unit,
                     Type = LogType.入仓
                 });
             }
@@ -325,6 +325,41 @@ namespace MFS.Repositorys
             int[] cids = _dbContext.Clients.Where(c => c.CompanyId == coId).Select(c => c.Id).ToArray();
             sum = _dbContext.Orders.Where(o => cids.Contains(o.ClientId.Value)).Sum(o => o.TotalMoney);
             return sum;
+        }
+
+        /// <summary>
+        /// 作废单据
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="delReason"></param>
+        /// <returns></returns>
+        public Order SetIsDel(int id, string delReason)
+        {
+            var order = FirstOrDefault(o => o.Id == id);
+            if (order == null)
+                throw new Exception("所选择的单据不存在");
+            //如果单据施工状态为已完成，则往仓库入库相应油量
+            if (order.State == OrderState.已完成)
+            {
+                StoreRepository st_r = new StoreRepository(_dbContext);
+                bool isUpdateOil = st_r.UpdateOil(int.Parse(order.StoreId.ToString()), order.OilCountLitre, true);
+                //增加入仓记录
+                InAndOutLogRepository io_r = new InAndOutLogRepository(_dbContext);
+                io_r.Insert(new InAndOutLog
+                {
+                    Name = "作废单据",
+                    StoreId = int.Parse(order.StoreId.ToString()),
+                    Value = order.OilCount,
+                    ValueLitre = order.OilCountLitre,
+                    Operators = CurrentUser,
+                    Unit = order.Unit,
+                    Type = LogType.入仓
+                });
+            }
+            order.IsDel = true;
+            order.DelReason = delReason;
+            Save();
+            return order;
         }
     }
 }

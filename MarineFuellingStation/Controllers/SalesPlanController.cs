@@ -110,11 +110,16 @@ namespace MFS.Controllers
         [HttpGet("[action]")]
         public ResultJSON<List<SalesPlan>> Unfinish(string kw, int page, int pagesize)
         {
+            DateTime endTime = DateTime.Now;
+            DateTime beginTime = DateTime.Now.AddDays(-31);
             List<SalesPlan> list;
             if(string.IsNullOrEmpty(kw))
-                list = r.LoadPageList(page, pagesize, out int rowCount, true, false, sp => sp.State != SalesPlanState.已完成).ToList();
+                list = r.LoadPageList(page, pagesize, out int rowCount, true, false, sp => sp.State != SalesPlanState.已完成 
+                && sp.CreatedAt >= beginTime && sp.CreatedAt <= endTime).ToList();
             else
-                list = r.LoadPageList(page, pagesize, out int rowCount, true, false, sp => sp.CarNo.Contains(kw) && sp.State != SalesPlanState.已完成).ToList();
+                list = r.LoadPageList(page, pagesize, out int rowCount, true, false, sp => sp.CarNo.Contains(kw) 
+                && sp.State != SalesPlanState.已完成 
+                && sp.CreatedAt >= beginTime && sp.CreatedAt <= endTime).ToList();
             return new ResultJSON<List<SalesPlan>>
             {
                 Code = 0,

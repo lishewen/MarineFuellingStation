@@ -195,7 +195,7 @@
             </yd-tab-panel>
         </yd-tab>
         <yd-actionsheet :items="oiloptions" v-model="oilshow" cancel="取消"></yd-actionsheet>
-        <!--选择计划单-->
+        <!--popup选择计划单-->
         <yd-popup v-model="salesplanshow" position="right" width="70%">
             <yd-cell-group>
                 <div class="align-center">

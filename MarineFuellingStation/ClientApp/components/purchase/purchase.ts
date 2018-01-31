@@ -180,6 +180,7 @@ export default class PurchaseComponent extends ComponentBase {
                             this.oilName = o.name;
                             this.model.productId = o.id;
                             this.model.price = o.lastPrice;
+                            this.model.product = o;
                         }
                     });
                 });

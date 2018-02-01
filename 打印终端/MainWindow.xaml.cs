@@ -639,7 +639,7 @@ namespace 打印终端
             WordReplace(wApp, "#InDensity#", m.InDensity.ToString("0.000"));
             WordReplace(wApp, "#InTemperature#", m.InTemperature.ToString());
             WordReplace(wApp, "#InFact#", m.InFact.ToString("0.00"));
-            WordReplace(wApp, "#Manufacturer#", m.Manufacturer);
+            WordReplace(wApp, "#Manufacturer#", m.Worker);
             WordReplace(wApp, "#LastUpdatedAt#", m.LastUpdatedAt.ToString("yyyy-MM-dd HH:mm"));
             PrintTime(wApp);
 

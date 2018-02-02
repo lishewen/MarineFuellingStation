@@ -1,4 +1,4 @@
-﻿import ComponentBase from "../../componentbase";
+﻿import ComponentBase from "../../ComponentBase";
 import axios from "axios";
 import moment from "moment";
 import { Component } from 'vue-property-decorator';

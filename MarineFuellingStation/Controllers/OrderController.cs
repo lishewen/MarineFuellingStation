@@ -74,6 +74,7 @@ namespace MFS.Controllers
             if(o.OrderType == SalesPlanType.水上加油) {
                 o.State = OrderState.已完成;
                 o.OilCountLitre = o.Count;
+                o.OilCount = o.Count;
                 var res  = r.ChangeState(o);
                 //推送到“油仓情况”
                 this.option.油仓情况AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.油仓情况Secret);

@@ -61,7 +61,7 @@ declare module server {
 		oilCarWeight: number;
 		/** 油重 陆上 */
 		diffWeight: number;
-		/** 销售超额提成：高于商品最低限价，按 差值（升） * 数量 * 0.2 / 1200 或 差值（吨） * 数量 * 0.2 */
+		/** 销售超额提成：高于商品最低限价，按 差值（升） * 数量 * 0.2 或 差值（吨） * 数量 * 0.2 */
 		salesCommission: number;
 		transportOrderId?: number;
 		/** 订单状态 */

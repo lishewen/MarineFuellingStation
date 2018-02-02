@@ -199,6 +199,10 @@ namespace MFS.Models
         /// 收银员
         /// </summary>
         public string Cashier { get; set; }
+        /// <summary>
+        /// 删单原因
+        /// </summary>
+        public string DelReason { get; set; }
         
 
     }

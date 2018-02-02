@@ -88,6 +88,8 @@ declare module server {
         cashier: string;
         /** 单据是否删除标识 */
         isDel: boolean;
+        /** 删单原因 */
+        delReason: string;
 	}
 	const enum orderState {
 		已开单,

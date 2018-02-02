@@ -1,4 +1,4 @@
-﻿import ComponentBase from "../../componentbase";
+﻿import ComponentBase from "../../ComponentBase";
 import { Component } from 'vue-property-decorator';
 import axios from "axios";
 import moment from "moment";
@@ -180,6 +180,7 @@ export default class PurchaseComponent extends ComponentBase {
                             this.oilName = o.name;
                             this.model.productId = o.id;
                             this.model.price = o.lastPrice;
+                            this.model.product = o;
                         }
                     });
                 });

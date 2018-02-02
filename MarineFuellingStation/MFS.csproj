@@ -14,7 +14,7 @@
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.0.0-alpha2-final" />
-    <PackageReference Include="Senparc.Weixin" Version="4.18.12" />
+    <PackageReference Include="Senparc.Weixin" Version="4.18.14" />
     <PackageReference Include="Senparc.Weixin.Work" Version="1.2.13" />
     <PackageReference Include="System.Security.Permissions" Version="4.4.1" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="4.4.0" />
@@ -25,10 +25,6 @@
   </ItemGroup>
   <ItemGroup>
     <!-- Files not to show in IDE -->
-    <None Remove="ClientApp\ComponentBase.ts" />
-    <None Remove="ClientApp\components\produce\buyboard.ts" />
-    <None Remove="ClientApp\components\produce\planboard.ts" />
-    <None Remove="ClientApp\ydui.d..ts" />
     <None Remove="yarn.lock" />
   </ItemGroup>
   <ItemGroup>
@@ -37,9 +33,7 @@
     <Folder Include="wwwroot\js\" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="ClientApp\componentbase.ts" />
-    <TypeScriptCompile Include="ClientApp\components\produce\buyboard.ts" />
-    <TypeScriptCompile Include="ClientApp\components\produce\planboard.ts" />
+    <TypeScriptCompile Include="ClientApp\ComponentBase.ts" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Models\Assay.cs.d.ts">

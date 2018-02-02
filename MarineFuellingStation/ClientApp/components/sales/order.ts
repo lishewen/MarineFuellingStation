@@ -1,4 +1,4 @@
-﻿import ComponentBase from "../../componentbase";
+﻿import ComponentBase from "../../ComponentBase";
 import { Component } from 'vue-property-decorator';
 import axios from "axios";
 import moment from "moment";
@@ -8,6 +8,7 @@ export default class OrderComponent extends ComponentBase {
     salesplans: server.salesPlan[];
     salesplan: server.salesPlan;
     selectProduct: server.product;
+    selectOrder: server.order;
     stores: server.store[];
     workers: work.userlist[];
     salesplanshow: boolean = false;
@@ -55,6 +56,9 @@ export default class OrderComponent extends ComponentBase {
     scrollRef_sp: any;//salesplans引用使用的下拉刷新对象
     pSize: number = 20;
 
+    showAddDelReason: boolean = false;
+    delReason: string = "";//删单原因
+
     constructor() {
         super();
 
@@ -79,6 +83,8 @@ export default class OrderComponent extends ComponentBase {
 
         this.orders = new Array();
         this.oiloptions = new Array();
+
+        this.selectOrder = new Object() as server.order;
 
         this.getOrderNo();
         this.getOilProducts();
@@ -281,7 +287,32 @@ export default class OrderComponent extends ComponentBase {
                 });
             }
         }
+
+        //删单
+        this.menus.push({
+            label: '作废单据',
+            callback: () => {
+                this.selectOrder = o;
+                this.showAddDelReason = true;
+            }
+        })
         this.showMenus = true;
+    }
+
+    //删除单据
+    delOrderclick() {
+        if (this.delReason == null || this.delReason == "") { this.toastError("请填写作废原因"); return; }
+        if (this.selectOrder.state == server.orderState.已完成) {
+            this.$dialog.confirm({
+                title: '提示',
+                mes: '当前单据施工状态为已完成，作废单据将恢复油量' + this.selectOrder.oilCountLitre + "升到油仓，是否确认？",
+                opts: () => {
+                    this.deleteOrder();
+                }
+            })
+        }
+        else
+            this.deleteOrder()
     }
 
     mounted() {
@@ -569,6 +600,19 @@ export default class OrderComponent extends ComponentBase {
                 console.log("model.orderType = " + this.model.orderType);
 
             }
+        })
+    }
+
+    deleteOrder() {
+        axios.delete('/api/Order?id=' + this.selectOrder.id + "&delreason=" + this.delReason).then((res) => {
+            let jobj = res.data as server.resultJSON<server.client>;
+            if (jobj.code == 0) {
+                this.toastSuccess("作废成功！");
+                this.showAddDelReason = false;
+                this.delReason = "";
+            }
+            else
+                this.toastError(jobj.msg);
         })
     }
 }

@@ -184,6 +184,8 @@ namespace MFS.Repositorys
                          select p;
             if (where != null)
                 result = result.Where(where.And(m => m.IsDel == isDel));
+            else
+                result = result.Where(m => m.IsDel == isDel);
             if (desc)
             {
                 if (order != null)

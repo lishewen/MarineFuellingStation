@@ -343,13 +343,17 @@ namespace MFS.Controllers
             if (r.Has(pu => pu.Name == p.Name))
                 return new ResultJSON<Purchase> { Code = 502 };
 
+            var product = p.Product;
+            p.Product = null;
             r.CurrentUser = UserName;
             var result = r.Insert(p);
+            
             
             //推送到“进油看板”
             this.option.进油看板AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.进油看板Secret);
             MassApi.SendTextCard(option.进油看板AccessToken, option.进油看板AgentId, $"{UserName}开出了进油计划单"
                      , $"<div class=\"gray\">单号：{result.Name}</div>" +
+                     $"<div class=\"normal\">商品：{product.Name}</div>" +
                      $"<div class=\"normal\">运输车号：{result.CarNo}{result.TrailerNo}</div>" +
                      $"<div class=\"normal\">预计到达：{result.ArrivalTime}</div>"
                      , $"https://vue.car0774.com/#/produce/buyboard", toUser: "@all");
@@ -357,6 +361,7 @@ namespace MFS.Controllers
             this.option.陆上卸油AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.陆上卸油Secret);
             MassApi.SendTextCard(option.陆上卸油AccessToken, option.陆上卸油AgentId, $"{UserName}开出了进油计划单"
                      , $"<div class=\"gray\">单号：{result.Name}</div>" +
+                     $"<div class=\"normal\">商品：{product.Name}</div>" +
                      $"<div class=\"normal\">运输车号：{result.CarNo}{result.TrailerNo}</div>" +
                      $"<div class=\"normal\">预计到达：{result.ArrivalTime}</div>"
                      , $"https://vue.car0774.com/#/produce/buyboard", toUser: "@all");

@@ -113,7 +113,9 @@
             </yd-cell-item>
             <yd-cell-item v-show="model.orderType == 1">
                 <div slot="left">皮重图片：</div>
-                <div slot="right"><div class="img-wrap"><img :src="this.model.emptyCarWeightPic" /></div></div>
+                <yd-lightbox class="img-wrap">
+                    <yd-lightbox-img :src="model.emptyCarWeightPic"></yd-lightbox-img>
+                </yd-lightbox>
             </yd-cell-item>
         </yd-cell-group>
         <!--<yd-cell-group title="运输">

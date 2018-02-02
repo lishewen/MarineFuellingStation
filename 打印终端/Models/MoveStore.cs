@@ -86,6 +86,7 @@ namespace MFS.Models
                 return OutPlan - InFact;
             }
         }
+        public string Worker { get; set; }
     }
     public enum MoveStoreState
     {

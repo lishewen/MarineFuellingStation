@@ -90,6 +90,8 @@ declare module server {
         isDel: boolean;
         /** 删单原因 */
         delReason: string;
+        /** 水上| 陆上 标识 */
+        isWater: boolean;
 	}
 	const enum orderState {
 		已开单,

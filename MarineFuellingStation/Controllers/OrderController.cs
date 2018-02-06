@@ -68,6 +68,9 @@ namespace MFS.Controllers
             if(!o.SalesPlanId.HasValue)
                 o.Salesman = "";
 
+            //标识“陆上”和“水上”的单
+            o.IsWater = o.OrderType == SalesPlanType.水上加油 || o.OrderType == SalesPlanType.水上机油 ? true : false;
+
             var result = r.Insert(o);
 
             //"水上加油"不再独立施工流程，跳过施工过程直接“完工”状态

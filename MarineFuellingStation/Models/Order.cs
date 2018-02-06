@@ -203,7 +203,10 @@ namespace MFS.Models
         /// 删单原因
         /// </summary>
         public string DelReason { get; set; }
-        
+        /// <summary>
+        /// 水上| 陆上 标识
+        /// </summary>
+        public bool IsWater { get; set; } = true;
 
     }
     public enum OrderState

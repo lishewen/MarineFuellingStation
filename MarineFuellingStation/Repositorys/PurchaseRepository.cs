@@ -46,7 +46,7 @@ namespace MFS.Repositorys
         /// <returns></returns>
         public List<Purchase> GetIncludeProduct()
         {
-            return _dbContext.Purchases.Include(p => p.Product).ToList();
+            return _dbContext.Purchases.Include(p => p.Product).Where(p => !p.IsDel).ToList();
         }
         /// <summary>
         /// 获取实体，并关联所有外键的model
@@ -55,7 +55,7 @@ namespace MFS.Repositorys
         /// <returns></returns>
         public Purchase GetWithInclude(int id)
         {
-            return _dbContext.Purchases.Where(p => p.Id == id)
+            return _dbContext.Purchases.Where(p => p.Id == id && !p.IsDel)
                 .Include(p => p.Assay)
                 .Include(p => p.Product)
                 .FirstOrDefault();
@@ -67,7 +67,7 @@ namespace MFS.Repositorys
         /// <returns></returns>
         public List<Purchase> GetReadyUnload()
         {
-            List<Purchase> purchases = _dbContext.Purchases.Where(p => p.State != Purchase.UnloadState.已审核).Include(p => p.Product).OrderByDescending(p => p.Id).ToList();
+            List<Purchase> purchases = _dbContext.Purchases.Where(p => p.State != Purchase.UnloadState.已审核 && !p.IsDel).Include(p => p.Product).OrderByDescending(p => p.Id).ToList();
             foreach(var p in purchases)
             {
                 if (!string.IsNullOrEmpty(p.ToStoreIds))

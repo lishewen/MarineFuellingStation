@@ -202,6 +202,12 @@
                     <yd-button style="width:90%;height: 38px; margin: 5px 0" type="primary" @click.native="emptyclick()">无计划或散客</yd-button>
                 </div>
                 <yd-search v-model="sv" />
+                <div style="text-align: center;padding: 10px 0 10px">
+                    <span v-for="(f, index) in filterCType">
+                        <yd-button type="warning" v-if="f.actived" @click.native="switchBtn(f, index)">{{f.name}}</yd-button>
+                        <yd-button type="hollow" v-if="!f.actived" @click.native="switchBtn(f, index)">{{f.name}}</yd-button>
+                    </span>
+                </div>
                 <yd-infinitescroll :callback="loadList_sp" ref="spInfinitescroll">
                     <yd-cell-item slot="list" arrow @click.native="planitemclick(s)" v-for="s in salesplans" :key="s.id">
                         <div slot="left" style="line-height: 20px">

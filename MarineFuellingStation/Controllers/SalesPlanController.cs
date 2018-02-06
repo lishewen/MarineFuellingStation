@@ -118,11 +118,14 @@ namespace MFS.Controllers
             List<SalesPlan> list;
             if(string.IsNullOrEmpty(kw))
                 list = r.LoadPageList(page, pagesize, out int rowCount, true, false, sp => sp.State != SalesPlanState.已完成 
-                && sp.CreatedAt >= beginTime && sp.CreatedAt <= endTime).ToList();
+                && sp.CreatedAt >= beginTime 
+                && sp.CreatedAt <= endTime 
+                && sp.IsWater == isWater).ToList();
             else
                 list = r.LoadPageList(page, pagesize, out int rowCount, true, false, sp => sp.CarNo.Contains(kw) 
                 && sp.State != SalesPlanState.已完成 
-                && sp.CreatedAt >= beginTime && sp.CreatedAt <= endTime).ToList();
+                && sp.CreatedAt >= beginTime && sp.CreatedAt <= endTime
+                && sp.IsWater == isWater).ToList();
             return new ResultJSON<List<SalesPlan>>
             {
                 Code = 0,

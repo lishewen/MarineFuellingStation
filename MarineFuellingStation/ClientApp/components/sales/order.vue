@@ -173,6 +173,12 @@
 
             <yd-tab-panel label="单据记录">
                 <yd-search v-model="ordersv" />
+                <div style="text-align: center;padding: 10px 0 10px">
+                    <span v-for="(f, index) in filterOrderType">
+                        <yd-button type="warning" v-if="f.actived" @click.native="switchOrderTypeBtn(f, index)">{{f.name}}</yd-button>
+                        <yd-button type="hollow" v-if="!f.actived" @click.native="switchOrderTypeBtn(f, index)">{{f.name}}</yd-button>
+                    </span>
+                </div>
                 <yd-cell-group>
                     <yd-infinitescroll :callback="loadList" ref="infinitescroll">
                         <yd-cell-item slot="list" arrow v-for="o in orders" :key="o.id" @click.native="showMenuclick(o)">

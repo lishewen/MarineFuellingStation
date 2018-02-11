@@ -167,11 +167,9 @@ namespace MFS.Repositorys
             o.PayState = model.PayState;
             o.Cashier = CurrentUser;
 
-            //计算订单销售提成
-            if (o.PayState == PayState.已结算)
-            {
-                o.SalesCommission = (o.Price - o.MinPrice) * o.Count * 0.2M;
-            }
+            //计算订单销售提成，未结算、挂账、已结算都计算提成
+            o.SalesCommission = (o.Price - o.MinPrice) * o.Count * 0.2M;
+
             //新增付款记录Payment
             foreach (Payment p in model.Payments)
             {

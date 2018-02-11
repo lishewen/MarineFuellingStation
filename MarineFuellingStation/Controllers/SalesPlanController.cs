@@ -41,6 +41,9 @@ namespace MFS.Controllers
             if (!cr.SaveDefaultProduct(s.CarNo, s.ProductId))
                 return new ResultJSON<SalesPlan> { Code = 501, Msg = "无法更新客户默认商品，请联系开发人员" };
 
+            //标识“陆上”和“水上”的单
+            s.IsWater = s.SalesPlanType == SalesPlanType.水上加油 || s.SalesPlanType == SalesPlanType.水上机油 ? true : false;
+
             r.CurrentUser = UserName;
             SalesPlan result = r.Insert(s);
 
@@ -108,18 +111,21 @@ namespace MFS.Controllers
             };
         }
         [HttpGet("[action]")]
-        public ResultJSON<List<SalesPlan>> Unfinish(string kw, int page, int pagesize)
+        public ResultJSON<List<SalesPlan>> Unfinish(string kw, bool isWater, int page, int pagesize)
         {
             DateTime endTime = DateTime.Now;
             DateTime beginTime = DateTime.Now.AddDays(-31);
             List<SalesPlan> list;
             if(string.IsNullOrEmpty(kw))
                 list = r.LoadPageList(page, pagesize, out int rowCount, true, false, sp => sp.State != SalesPlanState.已完成 
-                && sp.CreatedAt >= beginTime && sp.CreatedAt <= endTime).ToList();
+                && sp.CreatedAt >= beginTime 
+                && sp.CreatedAt <= endTime 
+                && sp.IsWater == isWater).ToList();
             else
                 list = r.LoadPageList(page, pagesize, out int rowCount, true, false, sp => sp.CarNo.Contains(kw) 
                 && sp.State != SalesPlanState.已完成 
-                && sp.CreatedAt >= beginTime && sp.CreatedAt <= endTime).ToList();
+                && sp.CreatedAt >= beginTime && sp.CreatedAt <= endTime
+                && sp.IsWater == isWater).ToList();
             return new ResultJSON<List<SalesPlan>>
             {
                 Code = 0,

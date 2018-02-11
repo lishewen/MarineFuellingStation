@@ -59,8 +59,24 @@ export default class OrderComponent extends ComponentBase {
     showAddDelReason: boolean = false;
     delReason: string = "";//删单原因
 
+    filterCType: Array<helper.filterBtn>;
+    filterOrderType: Array<helper.filterBtn>;
+    actBtnId: number; //当前激活状态的button
+    actBtnId1: number;
+
     constructor() {
         super();
+
+        this.filterCType = [
+            { id: 0, name: '水上', value: true, actived: true },
+            { id: 1, name: '陆上', value: false, actived: false }
+        ];
+        this.filterOrderType = [
+            { id: 0, name: '水上', value: true, actived: true },
+            { id: 1, name: '陆上', value: false, actived: false }
+        ];
+        this.actBtnId = 0;
+        this.actBtnId1 = 0;
 
         this.salesplans = new Array();
         this.salesplan = new Object() as server.salesPlan;
@@ -112,6 +128,26 @@ export default class OrderComponent extends ComponentBase {
                 return { color_green: true }
             case server.orderState.已开单:
                 return { color_darkorange: true }
+        }
+    }
+    switchBtn(o: helper.filterBtn, idx: number) {
+        o.actived = true;
+        if (idx != this.actBtnId) {
+            this.filterCType[this.actBtnId].actived = false;
+            this.actBtnId = idx;
+            
+            this.sp_page = 1;
+            this.getSalesPlans();
+        }
+    }
+    switchOrderTypeBtn(o: helper.filterBtn, idx: number) {
+        o.actived = true;
+        if (idx != this.actBtnId1) {
+            this.filterOrderType[this.actBtnId1].actived = false;
+            this.actBtnId1 = idx;
+
+            this.page = 1;
+            this.getOrders();
         }
     }
 
@@ -435,6 +471,7 @@ export default class OrderComponent extends ComponentBase {
         if (this.sv == null) this.sv = "";
         if (this.sp_page == null) this.sp_page = 1;
         axios.get('/api/SalesPlan/Unfinish?kw=' + this.sv +
+            "&iswater=" + this.filterCType[this.actBtnId].value +
             "&page=" + this.sp_page +
             "&pagesize=" + this.pSize).then((res) => {
             let jobj = res.data as server.resultJSON<server.salesPlan[]>;
@@ -490,6 +527,7 @@ export default class OrderComponent extends ComponentBase {
         axios.get('/api/Order/GetByPager?page='
             + this.page
             + '&pagesize=' + this.pSize
+            + '&iswater=' + this.filterOrderType[this.actBtnId1].value
             + '&sv=' + this.ordersv
             ).then((res) => {
                 let jobj = res.data as server.resultJSON<server.order[]>;

@@ -61,7 +61,7 @@ declare module server {
 		oilCarWeight: number;
 		/** 油重 陆上 */
 		diffWeight: number;
-		/** 销售超额提成：高于商品最低限价，按 差值（升） * 数量 * 0.2 / 1200 或 差值（吨） * 数量 * 0.2 */
+		/** 销售超额提成：高于商品最低限价，按 差值（升） * 数量 * 0.2 或 差值（吨） * 数量 * 0.2 */
 		salesCommission: number;
 		transportOrderId?: number;
 		/** 订单状态 */
@@ -90,6 +90,8 @@ declare module server {
         isDel: boolean;
         /** 删单原因 */
         delReason: string;
+        /** 水上| 陆上 标识 */
+        isWater: boolean;
 	}
 	const enum orderState {
 		已开单,

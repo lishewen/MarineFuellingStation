@@ -113,10 +113,13 @@ export default class OrderListComponent extends ComponentBase {
 
     getTotalSalesComm() {
         let sum = 0;
+        let sum1 = 0;
         this.orders.forEach((o, idx) => {
             sum += Math.round(o.salesCommission);
+            if (o.payState == server.payState.挂账 || o.payState == server.payState.未结算)
+                sum1 += Math.round(o.salesCommission);
         });
-        return "总提：￥" + sum;
+        return "应提：￥" + sum + " 未提：￥" + sum1;
     }
 
     godetail(id: number) {

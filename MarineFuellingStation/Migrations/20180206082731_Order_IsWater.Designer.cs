@@ -11,9 +11,10 @@ using System;
 namespace MFS.Migrations
 {
     [DbContext(typeof(EFContext))]
-    partial class EFContextModelSnapshot : ModelSnapshot
+    [Migration("20180206082731_Order_IsWater")]
+    partial class Order_IsWater
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -757,8 +758,6 @@ namespace MFS.Migrations
                     b.Property<bool>("IsInvoice");
 
                     b.Property<bool>("IsPrintPrice");
-
-                    b.Property<bool>("IsWater");
 
                     b.Property<DateTime>("LastUpdatedAt");
 

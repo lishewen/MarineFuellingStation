@@ -41,6 +41,8 @@ declare module server {
         remark: string;
         /** 单据是否删除标识 */
         isDel: boolean;
+        /** 水上| 陆上 标识 */
+        isWater: boolean;
 	}
 	const enum salesPlanType {
 		水上加油,

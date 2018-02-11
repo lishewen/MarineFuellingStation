@@ -68,12 +68,16 @@ namespace MFS.Controllers
             if(!o.SalesPlanId.HasValue)
                 o.Salesman = "";
 
+            //标识“陆上”和“水上”的单
+            o.IsWater = o.OrderType == SalesPlanType.水上加油 || o.OrderType == SalesPlanType.水上机油 ? true : false;
+
             var result = r.Insert(o);
 
             //"水上加油"不再独立施工流程，跳过施工过程直接“完工”状态
             if(o.OrderType == SalesPlanType.水上加油) {
                 o.State = OrderState.已完成;
                 o.OilCountLitre = o.Count;
+                o.OilCount = o.Count;
                 var res  = r.ChangeState(o);
                 //推送到“油仓情况”
                 this.option.油仓情况AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.油仓情况Secret);
@@ -221,13 +225,13 @@ namespace MFS.Controllers
         /// <param name="pageSize">页记录数</param>
         /// <returns></returns>
         [HttpGet("[action]")]
-        public ResultJSON<List<Order>> GetByPager(int page, int pageSize, string sv = "")
+        public ResultJSON<List<Order>> GetByPager(int page, int pageSize, bool isWater, string sv = "")
         {
             List<Order> list;
             if (string.IsNullOrEmpty(sv))
-                list = r.LoadPageList(page, pageSize, out int rCount, true).Include(o => o.Product).OrderByDescending(s => s.Id).ToList();
+                list = r.LoadPageList(page, pageSize, out int rCount, true, false, o => o.IsWater == isWater).Include(o => o.Product).OrderByDescending(s => s.Id).ToList();
             else
-                list = r.LoadPageList(page, pageSize, out int rCount, true, false, o => o.CarNo.Contains(sv)).Include(o => o.Product).OrderByDescending(s => s.Id).ToList();
+                list = r.LoadPageList(page, pageSize, out int rCount, true, false, o => o.CarNo.Contains(sv) && o.IsWater == isWater).Include(o => o.Product).OrderByDescending(s => s.Id).ToList();
             return new ResultJSON<List<Order>>
             {
                 Code = 0,

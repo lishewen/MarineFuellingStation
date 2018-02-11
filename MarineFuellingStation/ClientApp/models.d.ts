@@ -18,7 +18,7 @@ declare namespace helper {
     export class filterBtn {
         id?: number;
         name: string;
-        value?: number | string;
+        value?: any;
         actived: boolean;
     }
 }

@@ -45,6 +45,11 @@
             </yd-cell-item>
 
             <yd-cell-item>
+                <span slot="left">当时最低限价：</span>
+                <span slot="right">￥{{model.minPrice}} / {{model.unit}}</span>
+            </yd-cell-item>
+
+            <yd-cell-item>
                 <span slot="left">备注：</span>
                 <span slot="right">{{model.remark}}</span>
             </yd-cell-item>

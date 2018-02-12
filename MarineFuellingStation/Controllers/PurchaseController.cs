@@ -373,6 +373,34 @@ namespace MFS.Controllers
             };
         }
         #endregion
+        /// <summary>
+        /// 作废单据
+        /// </summary>
+        /// <param name="id">单据id</param>
+        /// <param name="delreason">作废原因</param>
+        /// <returns></returns>
+        #region Delete
+        [HttpDelete]
+        public ResultJSON<Purchase> Del(int id, string delreason)
+        {
+            try
+            {
+                Purchase purchase = r.SetIsDel(id, delreason);
 
+                //推送到“进油看板”
+                this.option.进油看板AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.进油看板Secret);
+                MassApi.SendTextCard(option.进油看板AccessToken, option.进油看板AgentId, $"{UserName}作废了进油计划单"
+                         , $"<div class=\"gray\">单号：{purchase.Name}</div>" +
+                         $"<div class=\"normal\">原因：{purchase.DelReason}</div>"
+                         , $"https://vue.car0774.com/#/purchase/purchase/" + purchase.Id + "/buyboard", toUser: "@all");
+
+                return new ResultJSON<Purchase> { Code = 0, Data = purchase };
+            }
+            catch (Exception e)
+            {
+                return new ResultJSON<Purchase> { Code = 503, Msg = e.Message };
+            }
+        }
+        #endregion
     }
 }

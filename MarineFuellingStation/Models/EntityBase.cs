@@ -33,6 +33,6 @@ namespace MFS.Models
         /// <summary>
         /// 删单原因
         /// </summary>
-        public string DelReason { get; set; }
+        public string DelReason { get; set; } = string.Empty;
     }
 }

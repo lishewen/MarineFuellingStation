@@ -22,7 +22,7 @@
 
                     <yd-cell-item arrow>
                         <span slot="left">始发地：</span>
-                        <input slot="right" type="text" @click.stop="originshow = true" v-model="model.origin" readonly placeholder="请选择始发地"/>
+                        <input slot="right" type="text" @click.stop="originshow = true" v-model="model.origin" readonly placeholder="请选择始发地" />
                     </yd-cell-item>
 
                     <yd-cell-item arrow>
@@ -87,7 +87,7 @@
                         </span>
                     </div>
                     <yd-infinitescroll :callback="loadList" ref="infinitescroll">
-                        <yd-cell-item slot="list" arrow v-for="s in purchases" :key="s.id" @click.native="godetail(s.id)">
+                        <yd-cell-item slot="list" arrow v-for="s in purchases" :key="s.id" @click.native="showMenuclick(s)">
                             <div slot="left">
                                 <p>{{s.name}}</p>
                                 <p class="font14">{{s.origin}}</p>
@@ -110,7 +110,17 @@
                 </yd-cell-group>
             </yd-tab-panel>
         </yd-tab>
+        <!--popup作废原因输入-->
+        <yd-popup v-model="showAddDelReason" position="right">
+            <yd-cell-group title="请输入作废单据原因">
+                <yd-cell-item>
+                    <yd-textarea slot="right" v-model="selectPurchase.delReason" placeholder="请输入本次作废单据原因" maxlength="100"></yd-textarea>
+                </yd-cell-item>
+            </yd-cell-group>
+            <yd-button size="large" type="primary" @click.native="delPurchaseclick" :disabled="selectPurchase.delReason == null || selectPurchase.delReason == ''">提交</yd-button>
+        </yd-popup>
         <yd-actionsheet :items="oiloptions" v-model="oilshow" cancel="取消"></yd-actionsheet>
+        <yd-actionsheet :items="menus" v-model="showMenus" cancel="取消"></yd-actionsheet>
         <yd-cityselect v-model="originshow" :callback="origincallback" :items="district"></yd-cityselect>
     </div>
 </template>

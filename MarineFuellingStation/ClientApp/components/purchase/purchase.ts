@@ -8,8 +8,12 @@ import District from 'ydui-district/dist/gov_province_city_area_id';
 export default class PurchaseComponent extends ComponentBase {
     model: server.purchase;
     purchases: server.purchase[];
+    selectPurchase: server.purchase;
     oilshow: boolean = false;
+    showMenus: boolean = false;
+    showAddDelReason: boolean = false;
     oiloptions: ydui.actionSheetItem[];
+    menus: ydui.actionSheetItem[];
     oilName: string = '';
     originshow: boolean = false;
     district: District = District;
@@ -28,11 +32,15 @@ export default class PurchaseComponent extends ComponentBase {
 
     filterCType: Array<helper.filterBtn>; filterPType;
 
+    isLeader: boolean = false;
+
     constructor() {
         super();
 
         this.oiloptions = (new Array()) as ydui.actionSheetItem[];
+        this.menus = new Array() as ydui.actionSheetItem[];
         this.purchases = new Array<server.purchase>();
+        this.selectPurchase = new Object as server.purchase;
 
         this.model = (new Object()) as server.purchase;
         this.model.name = '';
@@ -54,6 +62,8 @@ export default class PurchaseComponent extends ComponentBase {
     }
 
     mounted() {
+        this.isLeader = this.$store.state.isLeader;
+
         this.$emit('setTitle', this.$store.state.username + ' 的进油计划');
         this.$watch('radio1', (v, ov) => {
             switch (v) {
@@ -110,6 +120,46 @@ export default class PurchaseComponent extends ComponentBase {
 
     godetail(id: number) {
         this.$router.push('/purchase/purchase/' + id + '/purchase');
+    }
+
+    showMenuclick(p: server.purchase) {
+        this.menus = [
+            {
+                label: '单据明细',
+                callback: () => {
+                    this.godetail(p.id)
+                }
+            }, {
+                label: '作废单据',
+                callback: () => {
+                    this.selectPurchase = p;
+                    if (this.selectPurchase.delReason == null) this.selectPurchase.delReason = "";
+                    this.showAddDelReason = true;
+                }
+            }
+        ];
+        this.showMenus = true;
+    }
+
+    //删除单据
+    delPurchaseclick() {
+        if (this.selectPurchase.delReason == null || this.selectPurchase.delReason == "") { this.toastError("请填写作废原因"); return; }
+        if (this.selectPurchase.state == server.unloadState.完工) {
+            //如果为上级领导，则可以当状态为已完成时，还原油仓油量。否则不可以作废单据
+            if (this.isLeader) {
+                this.$dialog.confirm({
+                    title: '提示',
+                    mes: '当前单据施工状态为【已完成】，作废单据将恢复油量' + this.selectPurchase.oilCount + "升到油仓，是否确认？",
+                    opts: () => {
+                        this.deletePurchase();
+                    }
+                })
+            }
+            else 
+                this.$dialog.alert({ mes: "只有上级领导才可以作废施工状态为【已完成】的单据!" });
+        }
+        else
+            this.deletePurchase()
     }
 
     buttonclick() {
@@ -196,5 +246,20 @@ export default class PurchaseComponent extends ComponentBase {
                 this.addNextConfirm();
             }
         });
+    }
+
+    //作废计划单据
+    deletePurchase() {
+        axios.delete('/api/Purchase?id=' + this.selectPurchase.id + "&delreason=" + this.selectPurchase.delReason).then((res) => {
+            let jobj = res.data as server.resultJSON<server.purchase>;
+            if (jobj.code == 0) {
+                this.toastSuccess("作废成功！");
+                this.showAddDelReason = false;
+                this.page = 1;
+                this.getPurchases();
+            }
+            else
+                this.toastError(jobj.msg);
+        })
     }
 }

@@ -265,7 +265,7 @@
                 </yd-cell-item>
             </yd-cell-group>
         </yd-popup>
-        <!--popup生产人员选择-->
+        <!--popup作废原因输入-->
         <yd-popup v-model="showAddDelReason" position="right">
             <yd-cell-group title="请输入作废单据原因">
                 <yd-cell-item>

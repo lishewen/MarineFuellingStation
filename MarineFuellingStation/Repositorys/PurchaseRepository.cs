@@ -171,5 +171,43 @@ namespace MFS.Repositorys
             }
             return ToStoresList;
         }
+        /// <summary>
+        /// 作废单据
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="delReason"></param>
+        /// <returns></returns>
+        public Purchase SetIsDel(int id, string delReason)
+        {
+            var purchase = FirstOrDefault(p => p.Id == id);
+            if (purchase == null)
+                throw new Exception("所选择的单据不存在");
+            //如果单据施工状态为已完成，则往仓库入库相应油量
+            if (purchase.State == Purchase.UnloadState.完工)
+            {
+                StoreRepository st_r = new StoreRepository(_dbContext);
+                bool isUpdateOil = false;
+                foreach(var item in purchase.ToStoresList)
+                {
+                    isUpdateOil = st_r.UpdateOil(item.Id, item.Count, false);
+                    //增加出仓记录
+                    InAndOutLogRepository io_r = new InAndOutLogRepository(_dbContext);
+                    io_r.Insert(new InAndOutLog
+                    {
+                        Name = "作废单据",
+                        StoreId = item.Id,
+                        Value = item.Count,
+                        ValueLitre = item.Count,
+                        Operators = CurrentUser,
+                        Unit = "升",
+                        Type = LogType.出仓
+                    });
+                }
+            }
+            purchase.IsDel = true;
+            purchase.DelReason = delReason;
+            Save();
+            return purchase;
+        }
     }
 }

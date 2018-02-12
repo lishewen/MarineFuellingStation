@@ -516,6 +516,12 @@ namespace MFS.Controllers
             };
         }
         #endregion
+        /// <summary>
+        /// 作废单据
+        /// </summary>
+        /// <param name="id">单据id</param>
+        /// <param name="delreason">作废原因</param>
+        /// <returns></returns>
         #region Delete
         [HttpDelete]
         public ResultJSON<Order> Del(int id, string delreason)

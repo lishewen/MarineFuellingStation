@@ -646,11 +646,13 @@ export default class OrderComponent extends ComponentBase {
 
     deleteOrder() {
         axios.delete('/api/Order?id=' + this.selectOrder.id + "&delreason=" + this.delReason).then((res) => {
-            let jobj = res.data as server.resultJSON<server.client>;
+            let jobj = res.data as server.resultJSON<server.order>;
             if (jobj.code == 0) {
                 this.toastSuccess("作废成功！");
                 this.showAddDelReason = false;
                 this.delReason = "";
+                this.page = 1;
+                this.getOrders();
             }
             else
                 this.toastError(jobj.msg);

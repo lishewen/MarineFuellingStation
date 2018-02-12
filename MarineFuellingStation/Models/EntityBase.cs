@@ -30,5 +30,9 @@ namespace MFS.Models
         /// 单据是否删除标识
         /// </summary>
         public bool IsDel { get; set; } = false;
+        /// <summary>
+        /// 删单原因
+        /// </summary>
+        public string DelReason { get; set; }
     }
 }

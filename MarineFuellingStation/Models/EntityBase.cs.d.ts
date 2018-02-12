@@ -8,6 +8,10 @@ declare module server {
 		createdAt: Date;
 		createdBy: string;
 		lastUpdatedAt: Date;
-		lastUpdatedBy: string;
+        lastUpdatedBy: string;
+        /** 单据是否删除标识 */
+        isDel: boolean;
+        /** 删单原因 */
+        delReason: string;
 	}
 }

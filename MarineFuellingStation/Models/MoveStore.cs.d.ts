@@ -33,8 +33,6 @@ declare module server {
         deviation: number;
         /** 生产人员 */
         worker: string;
-        /** 单据是否删除标识 */
-        isDel: boolean;
 	}
 	/** 用于GET的model */
 	interface moveStoreGET {

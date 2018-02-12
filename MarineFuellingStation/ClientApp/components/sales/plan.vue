@@ -132,10 +132,11 @@
                             <yd-input slot="right" v-model="model.deliverMoney" type="number" placeholder="请输入运费"></yd-input>
                             <span slot="right">元</span>
                         </yd-cell-item>
-                        <yd-cell-item v-show="model.isDeliver">
+                        <!--应客户要求，暂时取消这个选择-->
+                        <!--<yd-cell-item v-show="model.isDeliver">
                             <span slot="left">打印单价</span>
                             <span slot="right"><yd-switch v-model="model.isPrintPrice"></yd-switch></span>
-                        </yd-cell-item>
+                        </yd-cell-item>-->
                     </yd-cell-group>
 
                     <div>

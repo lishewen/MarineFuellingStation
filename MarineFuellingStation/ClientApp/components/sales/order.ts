@@ -85,6 +85,7 @@ export default class OrderComponent extends ComponentBase {
         this.model.isDeliver = false;
         this.model.carNo = null;
         this.model.price = '';
+        this.model.count = 0;
         this.model.billingPrice = 0;
         this.model.billingCount = 0;
         this.model.totalMoney = 0;
@@ -397,9 +398,11 @@ export default class OrderComponent extends ComponentBase {
             this.model.billingPrice = v;
             this.model.totalMoney = <number>this.model.price * this.model.count;
         });
+
         this.$watch('model.count', (v, ov) => {
             this.model.billingCount = v;
             this.model.totalMoney = <number>this.model.price * v;
+            console.log(this.model.totalMoney)
         });
         //搜索计划单
         this.$watch('sv', (v, ov) => {

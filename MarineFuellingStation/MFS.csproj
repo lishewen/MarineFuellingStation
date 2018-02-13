@@ -10,7 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.2.2" />
-    <PackageReference Include="CoreCompat.System.Drawing.v2" Version="5.2.0-preview1-r131" />
+    <PackageReference Include="EPPlus.Core" Version="1.5.4" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.0.0-alpha2-final" />
@@ -28,6 +28,7 @@
     <None Remove="yarn.lock" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="ClientApp\components\excel\" />
     <Folder Include="ClientApp\components\oa\" />
     <Folder Include="wwwroot\dist\" />
     <Folder Include="wwwroot\js\" />

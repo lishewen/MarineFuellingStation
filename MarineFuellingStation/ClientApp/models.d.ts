@@ -23,6 +23,14 @@ declare namespace helper {
     }
 }
 
+declare namespace excel {
+    const enum dataType {
+        未指定,
+        客户,
+        销售单
+    }
+}
+
 declare namespace work {
     export interface JsSdkUiPackage {
         appId: string;

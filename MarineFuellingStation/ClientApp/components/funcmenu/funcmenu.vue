@@ -80,6 +80,11 @@
                 <p slot="text">账户</p>
             </yd-grids-item>
         </yd-grids-group>
+        <yd-grids-group :rows="3" title="导入导出">
+            <yd-grids-item link="./excel/export" style="background-color:lightcyan">
+                <p slot="text">导出</p>
+            </yd-grids-item>
+        </yd-grids-group>
         <yd-grids-group :rows="3" title="商品采购">
             <yd-grids-item link="./purchase/purchase" style="background-color:lightcyan">
                 <p slot="text">进油计划</p>

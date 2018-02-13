@@ -10,6 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Senparc.Weixin.Work.Containers;
 using Senparc.Weixin.Work.AdvancedAPIs;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace MFS.Controllers
 {
@@ -18,12 +20,14 @@ namespace MFS.Controllers
     {
         private readonly ClientRepository r;
         private readonly UserRepository user_r;
+        private readonly IHostingEnvironment _hostingEnvironment;
         WorkOption option;
-        public ClientController(ClientRepository repository, UserRepository u_repository, IOptionsSnapshot<WorkOption> option)
+        public ClientController(ClientRepository repository, UserRepository u_repository, IOptionsSnapshot<WorkOption> option, IHostingEnvironment env)
         {
             r = repository;
             this.user_r = u_repository;
             this.option = option.Value;
+            _hostingEnvironment = env;
         }
         #region POST
         [HttpPost]
@@ -173,6 +177,21 @@ namespace MFS.Controllers
             catch
             {
                 return new ResultJSON<string> { Code = 503, Msg = "推送失败请重试" };
+            }
+        }
+        [HttpGet("[action]")]
+        public ResultJSON<string> ExportExcel(DateTime start, DateTime end)
+        {
+            try
+            {
+                List<Client> list = r.GetAllList(c => c.CreatedAt >= start && c.CreatedAt <= end);
+                string filePath = Path.Combine(_hostingEnvironment.WebRootPath, @"excel\test.xlsx");
+                Helper.FileHelper.ExportExcelByEPPlus(list, new string[] { "Name","CarNo", "FollowSalesman" } ,filePath);
+                return new ResultJSON<string> { Code = 0, Data = filePath };
+            }
+            catch(Exception e)
+            {
+                return new ResultJSON<string> { Code = 503, Msg = e.Message };
             }
         }
         #endregion

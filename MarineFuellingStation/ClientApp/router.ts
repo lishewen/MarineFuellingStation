@@ -61,6 +61,8 @@ const routes: RouteConfig[] = [
 
     { path: '/oa/checkin', component: require('./components/oa/checkin.vue').default },
 
+    { path: '/excel/export', component: require('./components/excel/export.vue').default },
+
     { path: '/funcmenu', component: require('./components/funcmenu/funcmenu.vue').default },
     { path: '/', component: require('./components/home/home.vue').default },
     {

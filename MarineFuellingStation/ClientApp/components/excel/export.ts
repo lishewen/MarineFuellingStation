@@ -36,19 +36,27 @@ export default class CheckinComponent extends ComponentBase {
     }
 
     isPreventSubmmit() {
-        let start = moment(this.startDate);
-        let end = moment(this.endDate);
-        return end.dayOfYear() < start.dayOfYear();
+        let start = parseInt(moment(this.startDate).format("YYYYMMDD"));
+        let end = parseInt(moment(this.endDate).format("YYYYMMDD"));
+        return end < start;
     }
 
     getExportClients() {
         axios.get('/api/Client/ExportExcel'
-            + "?start=" + this.startDate + " 00:00"
-            + "&end=" + this.endDate + " 23:59"
+            + "?start=" + this.startDate + " 00:00:00"
+            + "&end=" + this.endDate + " 23:59:59"
         ).then((res) => {
             let jobj = res.data as server.resultJSON<string>;
-            if (jobj.code == 0)
-                console.log(jobj.data)
+            if (jobj.code == 0) {
+                console.log(jobj.data);
+                this.$dialog.confirm({
+                    title: '下载',
+                    mes: '是否需要下载该文件？',
+                    opts: () => {
+                        window.location.href = jobj.data;
+                    }
+                })
+            }   
             else
                 this.toastError(jobj.msg)
         });

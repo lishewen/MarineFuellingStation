@@ -27,6 +27,14 @@ namespace MFS.Repositorys
         {
             return _dbContext.Clients.Include("Company").Include("Product").FirstOrDefault(c => c.Id == id);
         }
+        public List<Client> GetClientsForExportExcel(DateTime start, DateTime end)
+        {
+            return _dbContext.Clients.Where(c => 
+                c.CreatedAt >= start 
+                && c.CreatedAt <= end 
+                && !c.IsDel
+                ).Include("Company").ToList();
+        }
         /// <summary>
         /// 根据车号/船号获得客户
         /// </summary>

@@ -183,11 +183,36 @@ namespace MFS.Controllers
         public ResultJSON<string> ExportExcel(DateTime start, DateTime end)
         {
             try
-            {
-                List<Client> list = r.GetAllList(c => c.CreatedAt >= start && c.CreatedAt <= end);
-                string filePath = Path.Combine(_hostingEnvironment.WebRootPath, @"excel\test.xlsx");
-                Helper.FileHelper.ExportExcelByEPPlus(list, new string[] { "Name","CarNo", "FollowSalesman" } ,filePath);
-                return new ResultJSON<string> { Code = 0, Data = filePath };
+            {                
+                List<Client> list = r.GetClientsForExportExcel(start, end);
+                if (list == null || list.Count == 0)
+                    return new ResultJSON<string> { Code = 503, Msg = "没有相关数据" };
+
+                var excellist = new List<ClientExcel>();
+                ClientExcel ce;
+                foreach(var item in list)
+                {
+                    ce = new ClientExcel
+                    {
+                        个人或公司 = item.Name,
+                        船号或车号 = item.CarNo,
+                        跟进销售 = item.FollowSalesman,
+                        联系人 = item.Contact,
+                        电话 = item.Mobile,
+                        个人账户余额 = item.Balances,
+                        所属公司 = item.Company == null ? "" : item.Company.Name,
+                        陆上或水上 = item.PlaceType == PlaceType.水上 ? "水上" : "陆上",
+                        创建时间 = item.CreatedAt,
+                        备注 = item.Remark
+                    };
+                    excellist.Add(ce);
+                }
+
+                string filePath = Path.Combine(_hostingEnvironment.WebRootPath, @"excel\");
+                string fileName = DateTime.Now.ToString("yyyyMMddHHmmss") + "_Clients.xlsx";
+                Helper.FileHelper.ExportExcelByEPPlus(excellist, filePath + fileName);
+                string filePathURL = string.Format("{0}://{1}/{2}", Request.Scheme, Request.Host, @"excel/" + fileName);
+                return new ResultJSON<string> { Code = 0, Data = filePathURL };
             }
             catch(Exception e)
             {

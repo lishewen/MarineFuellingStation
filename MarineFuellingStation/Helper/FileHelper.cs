@@ -82,13 +82,12 @@ namespace MFS.Helper
         /// </summary>
         /// <param name="sourceTable">数据源</param>
         /// <param name="strFileName">xlsx文件名(含路径、不含后缀名)</param>
-        public static string ExportExcelByEPPlus<T>(IEnumerable<T> list, string[] columns, string strFileName)
+        public static string ExportExcelByEPPlus<T>(IEnumerable<T> list, string strFileName)
         {
             var sourceTable = new DataTable();
             foreach (PropertyDescriptor pd in TypeDescriptor.GetProperties(typeof(T)))
             {
-                if(columns.Contains(pd.Name))
-                    sourceTable.Columns.Add(pd.Name, pd.PropertyType);
+                sourceTable.Columns.Add(pd.Name, pd.PropertyType);
             }
             foreach (T item in list)
             {
@@ -96,17 +95,21 @@ namespace MFS.Helper
 
                 foreach (PropertyDescriptor pd in TypeDescriptor.GetProperties(typeof(T)))
                 {
-                    if (columns.Contains(pd.Name))
-                        Row[pd.Name] = pd.GetValue(item);
+                    Row[pd.Name] = pd.GetValue(item);
                 }
                 sourceTable.Rows.Add(Row);
             }
 
             FileInfo file = new FileInfo(strFileName);
+            if (file.Exists)
+            {
+                file.Delete();
+                file = new FileInfo(strFileName);
+            }
             using (ExcelPackage pck = new ExcelPackage(file))
             {
                 //Create the worksheet
-                string sheetName = string.IsNullOrEmpty(sourceTable.TableName) ? "Test1" : sourceTable.TableName;
+                string sheetName = string.IsNullOrEmpty(sourceTable.TableName) ? "导出数据" : sourceTable.TableName;
                 ExcelWorksheet ws = pck.Workbook.Worksheets.Add(sheetName);
 
                 //Load the datatable into the sheet, starting from cell A1. Print the column names on row 1

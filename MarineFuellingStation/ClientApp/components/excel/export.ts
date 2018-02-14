@@ -26,13 +26,17 @@ export default class CheckinComponent extends ComponentBase {
         this.type = excel.dataType.客户;
         this.showSelectTime = true;
     }
+    exportOrdersclick() {
+        this.type = excel.dataType.销售单;
+        this.showSelectTime = true;
+    }
+    exportStoresclick() {
+        this.type = excel.dataType.油仓;
+        this.showSelectTime = true;
+    }
 
     submitclick() {
-        switch (this.type) {
-            case excel.dataType.客户:
-                this.getExportClients();
-                break;
-        }
+        this.getExport();
     }
 
     isPreventSubmmit() {
@@ -41,14 +45,25 @@ export default class CheckinComponent extends ComponentBase {
         return end < start;
     }
 
-    getExportClients() {
-        axios.get('/api/Client/ExportExcel'
+    getExport() {
+        let url;
+        switch (this.type) {
+            case excel.dataType.客户:
+                url = "/api/Client/ExportExcel";
+                break;
+            case excel.dataType.销售单:
+                url = "/api/Order/ExportExcel";
+                break;
+            case excel.dataType.油仓:
+                url = "/api/Store/ExportExcel";
+                break;
+        }
+        axios.get(url
             + "?start=" + this.startDate + " 00:00:00"
             + "&end=" + this.endDate + " 23:59:59"
         ).then((res) => {
             let jobj = res.data as server.resultJSON<string>;
             if (jobj.code == 0) {
-                console.log(jobj.data);
                 this.$dialog.confirm({
                     title: '下载',
                     mes: '是否需要下载该文件？',
@@ -61,4 +76,5 @@ export default class CheckinComponent extends ComponentBase {
                 this.toastError(jobj.msg)
         });
     }
+    
 }

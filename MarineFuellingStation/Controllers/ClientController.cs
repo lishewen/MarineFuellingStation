@@ -179,8 +179,14 @@ namespace MFS.Controllers
                 return new ResultJSON<string> { Code = 503, Msg = "推送失败请重试" };
             }
         }
+        /// <summary>
+        /// 导出Excel
+        /// </summary>
+        /// <param name="start">开始时间</param>
+        /// <param name="end">结束时间</param>
+        /// <returns></returns>
         [HttpGet("[action]")]
-        public ResultJSON<string> ExportExcel(DateTime start, DateTime end)
+        public async Task<ResultJSON<string>> ExportExcel(DateTime start, DateTime end)
         {
             try
             {                
@@ -212,6 +218,14 @@ namespace MFS.Controllers
                 string fileName = DateTime.Now.ToString("yyyyMMddHHmmss") + "_Clients.xlsx";
                 Helper.FileHelper.ExportExcelByEPPlus(excellist, filePath + fileName);
                 string filePathURL = string.Format("{0}://{1}/{2}", Request.Scheme, Request.Host, @"excel/" + fileName);
+
+                //推送到“导出数据”
+                this.option.导出数据AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.导出数据Secret);
+                await MassApi.SendTextCardAsync(option.导出数据AccessToken, option.导出数据AgentId, $"{UserName}导出客户数据到Excel"
+                         , $"<div class=\"gray\">操作时间：{DateTime.Now.ToString()}</div>"
+                          + $"<div class=\"gray\">导出时间段：{start.ToString()} - {end.ToString()}</div>"
+                         , filePathURL, toUser: "@all");
+
                 return new ResultJSON<string> { Code = 0, Data = filePathURL };
             }
             catch(Exception e)

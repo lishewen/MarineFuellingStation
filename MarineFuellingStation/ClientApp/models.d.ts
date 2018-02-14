@@ -27,7 +27,8 @@ declare namespace excel {
     const enum dataType {
         未指定,
         客户,
-        销售单
+        销售单,
+        油仓
     }
 }
 

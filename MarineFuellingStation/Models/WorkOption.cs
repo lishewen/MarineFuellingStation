@@ -60,5 +60,8 @@ namespace MFS.Models
         public string 客户AgentId { get; set; }
         public string 客户Secret { get; set; }
         public string 客户AccessToken { get; set; }
+        public string 导出数据AgentId { get; set; }
+        public string 导出数据Secret { get; set; }
+        public string 导出数据AccessToken { get; set; }
     }
 }

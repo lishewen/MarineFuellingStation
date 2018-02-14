@@ -164,6 +164,9 @@ namespace MFS.Models
         /// 订单支付状态
         /// </summary>
         public PayState PayState { get; set; } = PayState.未结算;
+        /// <summary>
+        /// 开票类型
+        /// </summary>
         public TicketType TicketType { get; set; }
         /// <summary>
         /// 是否运输

@@ -16,6 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Senparc.Weixin.Work.Containers;
 using Senparc.Weixin.Work.AdvancedAPIs;
+using System.IO;
 
 namespace MFS.Controllers
 {
@@ -442,6 +443,81 @@ namespace MFS.Controllers
                 Code = 0,
                 Data = sumNopay
             };
+        }
+        /// <summary>
+        /// 导出Excel
+        /// </summary>
+        /// <param name="start">开始时间</param>
+        /// <param name="end">结束时间</param>
+        /// <returns></returns>
+        [HttpGet("[action]")]
+        public async Task<ResultJSON<string>> ExportExcel(DateTime start, DateTime end)
+        {
+            try
+            {
+                List<Order> list = r.GetOrdersForExportExcel(start, end);
+                if (list == null || list.Count == 0)
+                    return new ResultJSON<string> { Code = 503, Msg = "没有相关数据" };
+
+                var excellist = new List<OrderExcel>();
+                OrderExcel oe;
+                #region 赋值到excel model
+                foreach (var item in list)
+                {
+                    oe = new OrderExcel
+                    {
+                        陆上或水上 = item.IsWater? "水上" : "陆上",
+                        单号 = item.Name,
+                        船号或车号 = item.CarNo,
+                        计划单号 = item.Name,
+                        客户 = item.Client == null ? "" : item.Client.CarNo,
+                        销售员 = item.Salesman,
+                        商品 = item.Product == null ? "" : item.Product.Name,
+                        当时最低单价 = item.MinPrice,
+                        单价 = item.Price,
+                        数量 = item.Count,
+                        金额 = item.TotalMoney,
+                        是否开票 = item.IsInvoice ? "开票" : "",
+                        运费 = item.DeliverMoney,
+                        开票公司 = item.BillingCompany,
+                        开票类型 = Enum.GetName(typeof(TicketType), item.TicketType),
+                        开票单价 = item.BillingPrice,
+                        开票数量 = item.BillingCount,
+                        销售仓 = item.Store == null ? "" : item.Store.Name,
+                        实际加油数量 = item.OilCountLitre,
+                        生产员 = item.Worker,
+                        密度 = item.Density,
+                        油温 = item.OilTemperature,
+                        毛重 = item.OilCarWeight,
+                        皮重 = item.EmptyCarWeight,
+                        销售超额提成 = item.SalesCommission,
+                        支付状态 = Enum.GetName(typeof(PayState), item.PayState),
+                        收银员 = item.Cashier,
+
+                        创建时间 = item.CreatedAt,
+                        备注 = item.Remark
+                    };
+                    excellist.Add(oe);
+                }
+                #endregion
+                string filePath = Path.Combine(_hostingEnvironment.WebRootPath, @"excel\");
+                string fileName = DateTime.Now.ToString("yyyyMMddHHmmss") + "_Orders.xlsx";
+                Helper.FileHelper.ExportExcelByEPPlus(excellist, filePath + fileName);
+                string filePathURL = string.Format("{0}://{1}/{2}", Request.Scheme, Request.Host, @"excel/" + fileName);
+
+                //推送到“导出数据”
+                this.option.导出数据AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.导出数据Secret);
+                await MassApi.SendTextCardAsync(option.导出数据AccessToken, option.导出数据AgentId, $"{UserName}导出销售单数据到Excel"
+                         , $"<div class=\"gray\">操作时间：{DateTime.Now.ToString()}</div>"
+                          + $"<div class=\"gray\">导出时间段：{start.ToString()} - {end.ToString()}</div>"
+                         , filePathURL, toUser: "@all");
+
+                return new ResultJSON<string> { Code = 0, Data = filePathURL };
+            }
+            catch (Exception e)
+            {
+                return new ResultJSON<string> { Code = 503, Msg = e.Message };
+            }
         }
         #endregion
         #region Put方法

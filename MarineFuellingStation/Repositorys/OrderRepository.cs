@@ -359,5 +359,19 @@ namespace MFS.Repositorys
             Save();
             return order;
         }
+        /// <summary>
+        /// 取得指定时间内记录
+        /// </summary>
+        /// <param name="start">开始时间</param>
+        /// <param name="end">结束时间</param>
+        /// <returns></returns>
+        public List<Order> GetOrdersForExportExcel(DateTime start, DateTime end)
+        {
+            return _dbContext.Orders.Where(c =>
+                c.CreatedAt >= start
+                && c.CreatedAt <= end
+                && !c.IsDel
+                ).Include("SalesPlan").Include("Product").Include("Client").Include("Store").ToList();
+        }
     }
 }

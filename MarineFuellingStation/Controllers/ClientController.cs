@@ -215,7 +215,7 @@ namespace MFS.Controllers
                 }
 
                 string filePath = Path.Combine(_hostingEnvironment.WebRootPath, @"excel\");
-                string fileName = DateTime.Now.ToString("yyyyMMddHHmmss") + "_Clients.xlsx";
+                string fileName = DateTime.Now.ToString("yyyyMMddHHmmss") + "_客户.xlsx";
                 Helper.FileHelper.ExportExcelByEPPlus(excellist, filePath + fileName);
                 string filePathURL = string.Format("{0}://{1}/{2}", Request.Scheme, Request.Host, @"excel/" + fileName);
 

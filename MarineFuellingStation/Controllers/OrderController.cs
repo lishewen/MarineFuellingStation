@@ -398,7 +398,7 @@ namespace MFS.Controllers
             };
         }
         /// <summary>
-        /// 向指定打印机推送陆上【送货单】打印指令
+        /// 向指定打印机推送陆上【预收款单】打印指令
         /// </summary>
         /// <param name="id">Order id</param>
         /// <param name="to"></param>
@@ -501,7 +501,7 @@ namespace MFS.Controllers
                 }
                 #endregion
                 string filePath = Path.Combine(_hostingEnvironment.WebRootPath, @"excel\");
-                string fileName = DateTime.Now.ToString("yyyyMMddHHmmss") + "_Orders.xlsx";
+                string fileName = DateTime.Now.ToString("yyyyMMddHHmmss") + "_销售单.xlsx";
                 Helper.FileHelper.ExportExcelByEPPlus(excellist, filePath + fileName);
                 string filePathURL = string.Format("{0}://{1}/{2}", Request.Scheme, Request.Host, @"excel/" + fileName);
 

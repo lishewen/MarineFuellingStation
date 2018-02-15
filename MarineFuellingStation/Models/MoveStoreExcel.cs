@@ -18,6 +18,6 @@ namespace MFS.Models
         public string 转入仓 { get; set; }
         public decimal 转入油温 { get; set; }
         public double 转入密度 { get; set; }
-        public DateTime 创建时间 { get; set; }
+        public string 创建时间 { get; set; }
     }
 }

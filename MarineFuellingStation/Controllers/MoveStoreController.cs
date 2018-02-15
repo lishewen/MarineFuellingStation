@@ -121,7 +121,7 @@ namespace MFS.Controllers
                         转入仓 = item.InStoreName,
                         转入油温 = item.InTemperature,
                         转入密度 = item.InDensity,
-                        创建时间 = item.CreatedAt,
+                        创建时间 = item.CreatedAt.ToString("yyyy-MM-dd hh:mm")
                     };
                     excellist.Add(me);
                 }

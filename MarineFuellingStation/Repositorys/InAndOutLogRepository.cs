@@ -34,5 +34,19 @@ namespace MFS.Repositorys
             decimal sumValue = GetAllList(i => i.Type == type && i.StoreId == id && i.LastUpdatedAt >= startdate && i.LastUpdatedAt <= enddate).Sum(i => i.ValueLitre);
             return Math.Round(sumValue, 2);
         }
+        /// <summary>
+        /// 取得指定时间内记录
+        /// </summary>
+        /// <param name="start">开始时间</param>
+        /// <param name="end">结束时间</param>
+        /// <returns></returns>
+        public List<InAndOutLog> GetSurveysForExportExcel(DateTime start, DateTime end)
+        {
+            return _dbContext.InAndOutLogs.Where(c =>
+                c.CreatedAt >= start
+                && c.CreatedAt <= end
+                && !c.IsDel
+                ).Include("Store").ToList();
+        }
     }
 }

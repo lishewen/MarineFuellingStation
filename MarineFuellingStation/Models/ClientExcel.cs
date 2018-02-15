@@ -23,7 +23,7 @@ namespace MFS.Models
 
         public string 陆上或水上 { get; set; }
 
-        public DateTime 创建时间 { get; set; }
+        public string 创建时间 { get; set; }
         public string 备注 { get; set; }
     }
 }

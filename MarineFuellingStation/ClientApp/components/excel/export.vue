@@ -1,13 +1,28 @@
 ﻿<template>
     <div id="root">
         <div class="align-center">
-            <yd-button @click.native="exportClientsclick" style="width: 90%; height: 38px; margin: .2rem 0">导出客户数据</yd-button>
+            <yd-button @click.native="exportClientsclick" style="width: 90%; height: 38px; margin: .2rem 0">客户数据</yd-button>
         </div>
         <div class="align-center">
-            <yd-button @click.native="exportOrdersclick" style="width: 90%; height: 38px; margin: .2rem 0">导出订单数据</yd-button>
+            <yd-button @click.native="exportOrdersclick" style="width: 90%; height: 38px; margin: .2rem 0">销售单数据</yd-button>
         </div>
         <div class="align-center">
-            <yd-button @click.native="exportStoresclick" style="width: 90%; height: 38px; margin: .2rem 0">导出油仓数据</yd-button>
+            <yd-button @click.native="exportStoresclick" style="width: 90%; height: 38px; margin: .2rem 0">油仓数据</yd-button>
+        </div>
+        <div class="align-center">
+            <yd-button @click.native="exportMoveStoresclick" style="width: 90%; height: 38px; margin: .2rem 0">转仓单数据</yd-button>
+        </div>
+        <div class="align-center">
+            <yd-button @click.native="exportInAndOutLogsclick" style="width: 90%; height: 38px; margin: .2rem 0">出入仓数据</yd-button>
+        </div>
+        <div class="align-center">
+            <yd-button @click.native="exportSurveysclick" style="width: 90%; height: 38px; margin: .2rem 0">油仓测量数据</yd-button>
+        </div>
+        <div class="align-center">
+            <yd-button @click.native="exportBoatCleansclick" style="width: 90%; height: 38px; margin: .2rem 0">船舶清污数据</yd-button>
+        </div>
+        <div class="align-center">
+            <yd-button @click.native="exportAssaysclick" style="width: 90%; height: 38px; margin: .2rem 0">化验单数据</yd-button>
         </div>
 
         <!--popup时间段选择-->

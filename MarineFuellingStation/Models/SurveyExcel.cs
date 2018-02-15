@@ -12,6 +12,7 @@ namespace MFS.Models
         public double 密度 { get; set; }
         public decimal 油高 { get; set; }
         public decimal 油高对应升数 { get; set; }
+        public string 测量时间 { get; set; }
 
     }
 }

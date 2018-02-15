@@ -2,10 +2,15 @@
 using MFS.Hubs;
 using MFS.Models;
 using MFS.Repositorys;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Options;
+using Senparc.Weixin.Work.AdvancedAPIs;
+using Senparc.Weixin.Work.Containers;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,10 +21,14 @@ namespace MFS.Controllers
     {
         private readonly BoatCleanRepository r;
         private readonly IHubContext<PrintHub> _hub;
-        public BoatCleanController(BoatCleanRepository repository, IHubContext<PrintHub> hub)
+        private readonly IHostingEnvironment _hostingEnvironment;
+        WorkOption option;
+        public BoatCleanController(BoatCleanRepository repository, IOptionsSnapshot<WorkOption> option, IHubContext<PrintHub> hub, IHostingEnvironment env)
         {
             r = repository;
             _hub = hub;
+            _hostingEnvironment = env;
+            this.option = option.Value;
         }
         #region 推送打印指令到指定打印机端
         [NonAction]
@@ -124,6 +133,68 @@ namespace MFS.Controllers
                 Code = 0,
                 Data = b
             };
+        }
+        /// <summary>
+        /// 导出Excel
+        /// </summary>
+        /// <param name="start">开始时间</param>
+        /// <param name="end">结束时间</param>
+        /// <returns></returns>
+        [HttpGet("[action]")]
+        public async Task<ResultJSON<string>> ExportExcel(DateTime start, DateTime end)
+        {
+            try
+            {
+                List<BoatClean> list = r.GetAllList(b => b.CreatedAt >= start && b.CreatedAt <= end);
+                if (list == null || list.Count == 0)
+                    return new ResultJSON<string> { Code = 503, Msg = "没有相关数据" };
+
+                var excellist = new List<BoatCleanExcel>();
+                BoatCleanExcel be;
+                #region 赋值到excel model
+                foreach (var item in list)
+                {
+                    be = new BoatCleanExcel
+                    {
+                        单号 = item.Name,
+                        船号 = item.CarNo,
+                        金额 = item.Money,
+                        航次 = item.Voyage,
+                        吨位 = item.Tonnage,
+                        批文号 = item.ResponseId,
+                        作业地点 = item.Address,
+                        作业单位 = item.Company,
+                        联系电话 = item.Phone,
+                        是否开票 = item.IsInvoice ? "开票" : "",
+                        开票单位 = item.BillingCompany,
+                        开票单价 = item.BillingPrice,
+                        开票数量 = item.BillingCount,
+                        支付状态 = Enum.GetName(typeof(BoatCleanPayState),item.PayState),
+                        支付金额和方式 = "",
+                        施工人员 = item.Worker,
+                        开单时间 = item.CreatedAt.ToString("yyyy-MM-dd hh:mm")
+                    };
+                    excellist.Add(be);
+                }
+                #endregion
+                string filePath = Path.Combine(_hostingEnvironment.WebRootPath, @"excel\");
+                string fileName = DateTime.Now.ToString("yyyyMMddHHmmss") + "_船舶清污单.xlsx";
+                Helper.FileHelper.ExportExcelByEPPlus(excellist, filePath + fileName);
+                string filePathURL = string.Format("{0}://{1}/{2}", Request.Scheme, Request.Host, @"excel/" + fileName);
+
+                //推送到“导出数据”
+                this.option.导出数据AccessToken = AccessTokenContainer.TryGetToken(this.option.CorpId, this.option.导出数据Secret);
+                await MassApi.SendTextCardAsync(option.导出数据AccessToken, option.导出数据AgentId, $"{UserName}导出船舶清污单数据到Excel"
+                         , $"<div class=\"gray\">操作时间：{DateTime.Now.ToString()}</div>"
+                          + $"<div class=\"gray\">导出时间段：{start.ToString()} - {end.ToString()}</div>"
+                         , filePathURL, toUser: "@all");
+
+                return new ResultJSON<string> { Code = 0, Data = filePathURL };
+            }
+            catch (Exception e)
+            {
+                return new ResultJSON<string> { Code = 503, Msg = e.Message };
+            }
         }
         #endregion
         #region POST

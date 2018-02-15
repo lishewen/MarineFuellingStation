@@ -1,4 +1,5 @@
 ﻿using MFS.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,19 @@ namespace MFS.Repositorys
             st.LastSurveyAt = DateTime.Now;
             return base.Insert(model, autoSave);
         }
-
+        /// <summary>
+        /// 取得指定时间内记录
+        /// </summary>
+        /// <param name="start">开始时间</param>
+        /// <param name="end">结束时间</param>
+        /// <returns></returns>
+        public List<Survey> GetSurveysForExportExcel(DateTime start, DateTime end)
+        {
+            return _dbContext.Surveys.Where(c =>
+                c.CreatedAt >= start
+                && c.CreatedAt <= end
+                && !c.IsDel
+                ).Include("Store").ToList();
+        }
     }
 }

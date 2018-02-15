@@ -63,5 +63,19 @@ namespace MFS.Repositorys
         {
             return _dbContext.Assays.Where(a => a.Name.Contains(sv)).Include(a => a.Store).Include(a => a.Purchase).ToList();
         }
+        /// <summary>
+        /// 取得指定时间内记录
+        /// </summary>
+        /// <param name="start">开始时间</param>
+        /// <param name="end">结束时间</param>
+        /// <returns></returns>
+        public List<Assay> GetAssaysForExportExcel(DateTime start, DateTime end)
+        {
+            return _dbContext.Assays.Where(c =>
+                c.CreatedAt >= start
+                && c.CreatedAt <= end
+                && !c.IsDel
+                ).Include("Store").Include("Purchase").ToList();
+        }
     }
 }

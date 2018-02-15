@@ -18,10 +18,11 @@ namespace MFS.Models
         public string 联系电话 { get; set; }
         public string 是否开票 { get; set; }
         public string 开票单位 { get; set; }
-        public string 开票单价 { get; set; }
+        public decimal 开票单价 { get; set; }
         public int 开票数量 { get; set; }
         public string 支付状态 { get; set; }
         public string 支付金额和方式 { get; set; }
         public string 施工人员 { get; set; }
+        public string 开单时间 { get; set; }
     }
 }

@@ -494,7 +494,7 @@ namespace MFS.Controllers
                         支付状态 = Enum.GetName(typeof(PayState), item.PayState),
                         收银员 = item.Cashier,
 
-                        创建时间 = item.CreatedAt,
+                        创建时间 = item.CreatedAt.ToString("yyyy-MM-dd hh:mm"),
                         备注 = item.Remark
                     };
                     excellist.Add(oe);

@@ -34,6 +34,26 @@ export default class CheckinComponent extends ComponentBase {
         this.type = excel.dataType.油仓;
         this.showSelectTime = true;
     }
+    exportMoveStoresclick() {
+        this.type = excel.dataType.转仓单;
+        this.showSelectTime = true;
+    }
+    exportInAndOutLogsclick() {
+        this.type = excel.dataType.出入仓记录;
+        this.showSelectTime = true;
+    }
+    exportSurveysclick() {
+        this.type = excel.dataType.油仓测量;
+        this.showSelectTime = true;
+    }
+    exportBoatCleansclick() {
+        this.type = excel.dataType.船舶清污;
+        this.showSelectTime = true;
+    }
+    exportAssaysclick() {
+        this.type = excel.dataType.化验单;
+        this.showSelectTime = true;
+    }
 
     submitclick() {
         this.getExport();
@@ -56,6 +76,21 @@ export default class CheckinComponent extends ComponentBase {
                 break;
             case excel.dataType.油仓:
                 url = "/api/Store/ExportExcel";
+                break;
+            case excel.dataType.转仓单:
+                url = "/api/MoveStore/ExportExcel";
+                break;
+            case excel.dataType.出入仓记录:
+                url = "/api/InAndOutLog/ExportExcel";
+                break;
+            case excel.dataType.油仓测量:
+                url = "/api/Survey/ExportExcel";
+                break;
+            case excel.dataType.船舶清污:
+                url = "/api/BoatClean/ExportExcel";
+                break;
+            case excel.dataType.化验单:
+                url = "/api/Assay/ExportExcel";
                 break;
         }
         axios.get(url

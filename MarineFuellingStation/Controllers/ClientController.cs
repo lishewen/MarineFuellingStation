@@ -208,7 +208,7 @@ namespace MFS.Controllers
                         个人账户余额 = item.Balances,
                         所属公司 = item.Company == null ? "" : item.Company.Name,
                         陆上或水上 = item.PlaceType == PlaceType.水上 ? "水上" : "陆上",
-                        创建时间 = item.CreatedAt,
+                        创建时间 = item.CreatedAt.ToString("yyyy-MM-dd hh:mm"),
                         备注 = item.Remark
                     };
                     excellist.Add(ce);

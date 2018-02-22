@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using Senparc.Weixin.Work.AdvancedAPIs;
 using Senparc.Weixin.Work.Containers;
@@ -10,10 +9,7 @@ using System.Drawing;
 using System.Data;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
-using System.Text;
-using System.Web;
 using System.ComponentModel;
-using System.Collections.Generic;
 
 namespace MFS.Helper
 {

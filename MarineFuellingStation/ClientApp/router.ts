@@ -64,7 +64,7 @@ const routes: RouteConfig[] = [
     { path: '/excel/export', component: require('./components/excel/export.vue').default },
 
     { path: '/funcmenu', component: require('./components/funcmenu/funcmenu.vue').default },
-    { path: '/', component: require('./components/home/home.vue').default },
+    { path: '/', component: resolve => require(['./components/home/home.vue'], resolve) },
     {
         //服务端一律跳转到这个URL上
         path: '/wxhub/:id/:userid/:isSuperAdmin/:isLeader/:redirectUrl', redirect: to => {

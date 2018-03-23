@@ -63,7 +63,7 @@ const routes: RouteConfig[] = [
 
     { path: '/excel/export', component: require('./components/excel/export.vue').default },
 
-    { path: '/funcmenu', component: require('./components/funcmenu/funcmenu.vue').default },
+    { path: '/funcmenu', component: resolve => require(['./components/funcmenu/funcmenu.vue'], resolve) },
     { path: '/', component: resolve => require(['./components/home/home.vue'], resolve) },
     {
         //服务端一律跳转到这个URL上

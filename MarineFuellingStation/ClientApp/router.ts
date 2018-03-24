@@ -55,11 +55,11 @@ const routes: RouteConfig[] = [
     { path: '/finance/account', component: require('./components/finance/account.vue').default },
 
     { path: '/report', component: require('./components/report/report.vue').default },
-    { path: '/wages', component: require('./components/report/wages.vue').default },
+    { path: '/wages', component: resolve => require(['./components/report/wages.vue'], resolve) },
 
-    { path: '/notice', component: require('./components/notice/notice.vue').default },
+    { path: '/notice', component: resolve => require(['./components/notice/notice.vue'], resolve) },
 
-    { path: '/oa/checkin', component: require('./components/oa/checkin.vue').default },
+    { path: '/oa/checkin', component: resolve => require(['./components/oa/checkin.vue'], resolve) },
 
     { path: '/excel/export', component: resolve => require(['./components/excel/export.vue'], resolve) },
 

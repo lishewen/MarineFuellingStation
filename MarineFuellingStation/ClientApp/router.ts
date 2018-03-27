@@ -52,9 +52,9 @@ const routes: RouteConfig[] = [
     { path: '/finance/orderlist', component: require('./components/finance/orderlist.vue').default },
     { path: '/finance/charge', component: require('./components/finance/charge.vue').default },
     { path: '/finance/chargelog', component: require('./components/finance/chargelog.vue').default },
-    { path: '/finance/account', component: require('./components/finance/account.vue').default },
+    { path: '/finance/account', component: resolve => require(['./components/finance/account.vue'], resolve) },
 
-    { path: '/report', component: require('./components/report/report.vue').default },
+    { path: '/report', component: resolve => require(['./components/report/report.vue'], resolve) },
     { path: '/wages', component: resolve => require(['./components/report/wages.vue'], resolve) },
 
     { path: '/notice', component: resolve => require(['./components/notice/notice.vue'], resolve) },

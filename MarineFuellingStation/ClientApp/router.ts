@@ -50,7 +50,7 @@ const routes: RouteConfig[] = [
     { path: '/finance/cashier', component: require('./components/finance/cashier.vue').default },
     { path: '/finance/cashierbc', component: require('./components/finance/cashierbc.vue').default },
     { path: '/finance/orderlist', component: require('./components/finance/orderlist.vue').default },
-    { path: '/finance/charge', component: require('./components/finance/charge.vue').default },
+    { path: '/finance/charge', component: resolve => require(['./components/finance/charge.vue'], resolve) },
     { path: '/finance/chargelog', component: resolve => require(['./components/finance/chargelog.vue'], resolve) },
     { path: '/finance/account', component: resolve => require(['./components/finance/account.vue'], resolve) },
 

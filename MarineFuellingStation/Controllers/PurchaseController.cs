@@ -43,7 +43,7 @@ namespace MFS.Controllers
         {
             foreach (var connectionId in PrintHub.connections.GetConnections(who))
             {
-                await _hub.Clients.Client(connectionId).InvokeAsync("printunload", pu);
+                await _hub.Clients.Client(connectionId).SendAsync("printunload", pu);
             }
         }
         #region GET
@@ -205,7 +205,7 @@ namespace MFS.Controllers
             Purchase pu = r.GetWithInclude(id);
             foreach (var connectionId in PrintHub.connections.GetConnections(to))
             {
-                await _hub.Clients.Client(connectionId).InvokeAsync("printunloadpond", pu);
+                await _hub.Clients.Client(connectionId).SendAsync("printunloadpond", pu);
             }
             return new ResultJSON<Purchase>
             {

@@ -47,8 +47,8 @@ const routes: RouteConfig[] = [
     { path: '/user/user', component: require('./components/user/user.vue').default },
     { path: '/user/user/:id', component: require('./components/user/userdetail.vue').default },
 
-    { path: '/finance/cashier', component: require('./components/finance/cashier.vue').default },
-    { path: '/finance/cashierbc', component: require('./components/finance/cashierbc.vue').default },
+    { path: '/finance/cashier', component: resolve => require(['./components/finance/cashier.vue'], resolve) },
+    { path: '/finance/cashierbc', component: resolve => require(['./components/finance/cashierbc.vue'], resolve) },
     { path: '/finance/orderlist', component: resolve => require(['./components/finance/orderlist.vue'], resolve) },
     { path: '/finance/charge', component: resolve => require(['./components/finance/charge.vue'], resolve) },
     { path: '/finance/chargelog', component: resolve => require(['./components/finance/chargelog.vue'], resolve) },

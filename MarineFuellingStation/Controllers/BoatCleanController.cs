@@ -36,7 +36,7 @@ namespace MFS.Controllers
         {
             foreach (var connectionId in PrintHub.connections.GetConnections(who))
             {
-                await _hub.Clients.Client(connectionId).InvokeAsync(actionName, bc);
+                await _hub.Clients.Client(connectionId).SendAsync(actionName, bc);
             }
         }
         #endregion

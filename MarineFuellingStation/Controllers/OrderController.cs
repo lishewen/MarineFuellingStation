@@ -43,7 +43,7 @@ namespace MFS.Controllers
         {
             foreach (var connectionId in PrintHub.connections.GetConnections(who))
             {
-                await _hub.Clients.Client(connectionId).InvokeAsync(actionName, order);
+                await _hub.Clients.Client(connectionId).SendAsync(actionName, order);
             }
         }
         #endregion
@@ -193,7 +193,7 @@ namespace MFS.Controllers
         [HttpGet("[action]")]
         public async Task<ResultJSON<string>> OrderNo()
         {
-            await _hub.Clients.All.InvokeAsync("login", UserName);
+            await _hub.Clients.All.SendAsync("login", UserName);
 
             return new ResultJSON<string>
             {

@@ -41,11 +41,11 @@ const routes: RouteConfig[] = [
     { path: '/purchase/purchase', component: require('./components/purchase/purchase.vue').default },
     { path: '/purchase/purchase/:id/:from', component: require('./components/purchase/purchasedetail.vue').default },
 
-    { path: '/client/client', component: require('./components/client/client.vue').default },
-    { path: '/client/client/:id', component: require('./components/client/clientdetail.vue').default },
+    { path: '/client/client', component: resolve => require(['./components/client/client.vue'], resolve) },
+    { path: '/client/client/:id', component: resolve => require(['./components/client/clientdetail.vue'], resolve) },
 
-    { path: '/user/user', component: require('./components/user/user.vue').default },
-    { path: '/user/user/:id', component: require('./components/user/userdetail.vue').default },
+    { path: '/user/user', component: resolve => require(['./components/user/user.vue'], resolve) },
+    { path: '/user/user/:id', component: resolve => require(['./components/user/userdetail.vue'], resolve) },
 
     { path: '/finance/cashier', component: resolve => require(['./components/finance/cashier.vue'], resolve) },
     { path: '/finance/cashierbc', component: resolve => require(['./components/finance/cashierbc.vue'], resolve) },

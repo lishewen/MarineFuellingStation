@@ -14,7 +14,7 @@
     "isomorphic-fetch": "^2.2.1",
     "moment": "^2.22.1",
     "style-loader": "^0.19.1",
-    "typescript": "^2.8.1",
+    "typescript": "^2.8.3",
     "url-loader": "^0.6.2",
     "vue": "^2.5.16",
     "vue-echarts": "^2.5.1",
@@ -24,8 +24,8 @@
     "vue-template-compiler": "^2.5.16",
     "vue-ydui": "^1.2.2",
     "vuex": "^3.0.1",
-    "webpack": "^3.11.0",
-    "webpack-hot-middleware": "^2.22.0",
+    "webpack": "^3.12.0",
+    "webpack-hot-middleware": "^2.22.2",
     "wx-sdk-ts": "1.2.0-beta.0",
     "ydui-district": "^1.1.0"
   }

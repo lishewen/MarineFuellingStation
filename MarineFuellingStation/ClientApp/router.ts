@@ -38,8 +38,8 @@ const routes: RouteConfig[] = [
     { path: '/oilstore', component: require('./components/oilstore/oilstore.vue').default },
     { path: '/oilstore/setting', component: require('./components/oilstore/setting.vue').default },
 
-    { path: '/purchase/purchase', component: require('./components/purchase/purchase.vue').default },
-    { path: '/purchase/purchase/:id/:from', component: require('./components/purchase/purchasedetail.vue').default },
+    { path: '/purchase/purchase', component: resolve => require(['./components/purchase/purchase.vue'], resolve) },
+    { path: '/purchase/purchase/:id/:from', component: resolve => require(['./components/purchase/purchasedetail.vue'], resolve) },
 
     { path: '/client/client', component: resolve => require(['./components/client/client.vue'], resolve) },
     { path: '/client/client/:id', component: resolve => require(['./components/client/clientdetail.vue'], resolve) },

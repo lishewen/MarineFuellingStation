@@ -32,8 +32,8 @@ const routes: RouteConfig[] = [
     { path: '/produce/movestore', component: require('./components/produce/movestore.vue').default },
     { path: '/produce/movestoreact', component: require('./components/produce/movestoreact.vue').default },
 
-    { path: '/oilstore/inout', component: require('./components/oilstore/inout.vue').default },
-    { path: '/oilstore/store', component: require('./components/oilstore/store.vue').default },
+    { path: '/oilstore/inout', component: resolve => require(['./components/oilstore/inout.vue'], resolve) },
+    { path: '/oilstore/store', component: resolve => require(['./components/oilstore/store.vue'], resolve) },
     { path: '/oilstore/product', component: resolve => require(['./components/oilstore/product.vue'], resolve) },
     { path: '/oilstore', component: resolve => require(['./components/oilstore/oilstore.vue'], resolve) },
     { path: '/oilstore/setting', component: resolve => require(['./components/oilstore/setting.vue'], resolve) },
@@ -64,6 +64,7 @@ const routes: RouteConfig[] = [
     { path: '/excel/export', component: resolve => require(['./components/excel/export.vue'], resolve) },
 
     { path: '/funcmenu', component: resolve => require(['./components/funcmenu/funcmenu.vue'], resolve) },
+    { path: '/ydui', component: resolve => require(['./components/ydui/ydui.vue'], resolve) },
     { path: '/', component: resolve => require(['./components/home/home.vue'], resolve) },
     {
         //服务端一律跳转到这个URL上

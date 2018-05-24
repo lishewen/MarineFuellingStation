@@ -11,6 +11,7 @@ module.exports = (env) => {
 
     const bundleOutputDir = './wwwroot/dist';
     return [{
+        mode: isDevBuild ? 'development' : 'production',
         optimization: {
             minimizer: [
                 // we specify a custom UglifyJsPlugin here to get source maps in production

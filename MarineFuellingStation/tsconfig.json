@@ -7,10 +7,10 @@
     "target": "es5",
     "sourceMap": true,
     "skipDefaultLibCheck": true,
-    "types": ["requirejs"]
+    "types": [ "requirejs" ]
   },
   "exclude": [
-      "bin",
-      "node_modules"
+    "bin",
+    "node_modules"
   ]
 }

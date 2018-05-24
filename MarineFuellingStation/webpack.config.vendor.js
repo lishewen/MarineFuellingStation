@@ -8,6 +8,7 @@ module.exports = (env) => {
     const extractCSS = new ExtractTextPlugin('vendor.css');
 
     return [{
+        mode: isDevBuild ? 'development' : 'production',
         optimization: {
             minimizer: [
                 // we specify a custom UglifyJsPlugin here to get source maps in production

@@ -1,12 +1,19 @@
 const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = (env) => {
     const isDevBuild = !(env && env.prod);
     const extractCSS = new ExtractTextPlugin('vendor.css');
 
     return [{
+        optimization: {
+            minimizer: [
+                // we specify a custom UglifyJsPlugin here to get source maps in production
+                new UglifyJsPlugin()
+            ]
+        },
         stats: { modules: false },
         resolve: { extensions: ['.js'] },
         entry: {
@@ -56,8 +63,8 @@ module.exports = (env) => {
                 path: path.join(__dirname, 'wwwroot', 'dist', '[name]-manifest.json'),
                 name: '[name]_[hash]'
             })
-        ].concat(isDevBuild ? [] : [
-            new webpack.optimize.UglifyJsPlugin()
-        ])
+        ]//.concat(isDevBuild ? [] : [
+        //new webpack.optimize.UglifyJsPlugin()
+        //])
     }];
 };

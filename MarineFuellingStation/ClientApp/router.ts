@@ -34,7 +34,7 @@ const routes: RouteConfig[] = [
 
     { path: '/oilstore/inout', component: require('./components/oilstore/inout.vue').default },
     { path: '/oilstore/store', component: require('./components/oilstore/store.vue').default },
-    { path: '/oilstore/product', component: require('./components/oilstore/product.vue').default },
+    { path: '/oilstore/product', component: resolve => require(['./components/oilstore/product.vue'], resolve) },
     { path: '/oilstore', component: resolve => require(['./components/oilstore/oilstore.vue'], resolve) },
     { path: '/oilstore/setting', component: resolve => require(['./components/oilstore/setting.vue'], resolve) },
 

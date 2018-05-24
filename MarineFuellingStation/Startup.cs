@@ -128,7 +128,7 @@ namespace MFS
             app.UseWebSockets();
             app.UseSignalR(routes =>
             {
-                routes.MapHub<PrintHub>("hubs/print");
+                routes.MapHub<PrintHub>("/hubs/print");
             });
 
             app.UseMvc(routes =>

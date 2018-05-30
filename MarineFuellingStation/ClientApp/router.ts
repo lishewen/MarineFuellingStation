@@ -30,7 +30,7 @@ const routes: RouteConfig[] = [
     { path: '/produce/landload', component: require('./components/produce/landload.vue').default },
     { path: '/produce/landload/:oid', component: require('./components/produce/landload.vue').default },
     { path: '/produce/movestore', component: require('./components/produce/movestore.vue').default },
-    { path: '/produce/movestoreact', component: require('./components/produce/movestoreact.vue').default },
+    { path: '/produce/movestoreact', component: resolve => require(['./components/produce/movestoreact.vue'], resolve) },
 
     { path: '/oilstore/inout', component: resolve => require(['./components/oilstore/inout.vue'], resolve) },
     { path: '/oilstore/store', component: resolve => require(['./components/oilstore/store.vue'], resolve) },

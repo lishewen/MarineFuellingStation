@@ -771,7 +771,7 @@ namespace 打印终端
             {
                 var connection = new HubConnectionBuilder()
                                 .WithUrl(baseUrl)
-                                .WithConsoleLogger(LogLevel.Trace)
+                                //.WithConsoleLogger(LogLevel.Trace)
                                 .Build();
                 try
                 {

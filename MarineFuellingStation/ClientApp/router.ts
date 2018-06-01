@@ -29,7 +29,7 @@ const routes: RouteConfig[] = [
     { path: '/produce/loadoil', component: require('./components/produce/loadoil.vue').default },
     { path: '/produce/landload', component: require('./components/produce/landload.vue').default },
     { path: '/produce/landload/:oid', component: require('./components/produce/landload.vue').default },
-    { path: '/produce/movestore', component: require('./components/produce/movestore.vue').default },
+    { path: '/produce/movestore', component: resolve => require(['./components/produce/movestore.vue'], resolve) },
     { path: '/produce/movestoreact', component: resolve => require(['./components/produce/movestoreact.vue'], resolve) },
 
     { path: '/oilstore/inout', component: resolve => require(['./components/oilstore/inout.vue'], resolve) },

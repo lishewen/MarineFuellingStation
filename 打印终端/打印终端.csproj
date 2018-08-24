@@ -45,29 +45,29 @@
     <Reference Include="Hardcodet.Wpf.TaskbarNotification, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Hardcodet.NotifyIcon.Wpf.1.0.8\lib\net451\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AspNetCore.Connections.Abstractions, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNetCore.Connections.Abstractions.2.1.1\lib\netstandard2.0\Microsoft.AspNetCore.Connections.Abstractions.dll</HintPath>
+    <Reference Include="Microsoft.AspNetCore.Connections.Abstractions, Version=2.1.3.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Connections.Abstractions.2.1.3\lib\netstandard2.0\Microsoft.AspNetCore.Connections.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AspNetCore.Http.Connections.Client, Version=1.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNetCore.Http.Connections.Client.1.0.1\lib\netstandard2.0\Microsoft.AspNetCore.Http.Connections.Client.dll</HintPath>
+    <Reference Include="Microsoft.AspNetCore.Http.Connections.Client, Version=1.0.3.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Http.Connections.Client.1.0.3\lib\netstandard2.0\Microsoft.AspNetCore.Http.Connections.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AspNetCore.Http.Connections.Common, Version=1.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNetCore.Http.Connections.Common.1.0.1\lib\netstandard2.0\Microsoft.AspNetCore.Http.Connections.Common.dll</HintPath>
+    <Reference Include="Microsoft.AspNetCore.Http.Connections.Common, Version=1.0.3.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Http.Connections.Common.1.0.3\lib\netstandard2.0\Microsoft.AspNetCore.Http.Connections.Common.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNetCore.Http.Features, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNetCore.Http.Features.2.1.1\lib\netstandard2.0\Microsoft.AspNetCore.Http.Features.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AspNetCore.SignalR.Client, Version=1.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNetCore.SignalR.Client.1.0.1\lib\netstandard2.0\Microsoft.AspNetCore.SignalR.Client.dll</HintPath>
+    <Reference Include="Microsoft.AspNetCore.SignalR.Client, Version=1.0.3.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.SignalR.Client.1.0.3\lib\netstandard2.0\Microsoft.AspNetCore.SignalR.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AspNetCore.SignalR.Client.Core, Version=1.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNetCore.SignalR.Client.Core.1.0.1\lib\netstandard2.0\Microsoft.AspNetCore.SignalR.Client.Core.dll</HintPath>
+    <Reference Include="Microsoft.AspNetCore.SignalR.Client.Core, Version=1.0.3.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.SignalR.Client.Core.1.0.3\lib\netstandard2.0\Microsoft.AspNetCore.SignalR.Client.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AspNetCore.SignalR.Common, Version=1.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNetCore.SignalR.Common.1.0.1\lib\netstandard2.0\Microsoft.AspNetCore.SignalR.Common.dll</HintPath>
+    <Reference Include="Microsoft.AspNetCore.SignalR.Common, Version=1.0.3.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.SignalR.Common.1.0.3\lib\netstandard2.0\Microsoft.AspNetCore.SignalR.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AspNetCore.SignalR.Protocols.Json, Version=1.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNetCore.SignalR.Protocols.Json.1.0.1\lib\netstandard2.0\Microsoft.AspNetCore.SignalR.Protocols.Json.dll</HintPath>
+    <Reference Include="Microsoft.AspNetCore.SignalR.Protocols.Json, Version=1.0.3.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.SignalR.Protocols.Json.1.0.3\lib\netstandard2.0\Microsoft.AspNetCore.SignalR.Protocols.Json.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNetCore.Sockets.Abstractions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNetCore.Sockets.Abstractions.1.0.0-preview1-final\lib\netstandard2.0\Microsoft.AspNetCore.Sockets.Abstractions.dll</HintPath>
